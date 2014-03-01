@@ -1,0 +1,8 @@
+## Interface: 50400
+## Author: Kesava
+## Title: |cff9900ffKui|r Nameplates: |cffffffffCore|r
+## Notes: The base layout of Kui Nameplates.
+## Dependencies: Kui_Nameplates_2
+## SavedVariables: KuiNameplatesGDB
+
+create.lua
