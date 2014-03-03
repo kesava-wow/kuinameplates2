@@ -26,8 +26,8 @@ kui.m = {
 		empty = media..'t\\empty',
 	},
 	f = {
-		yanone	   = media..'f\\yanone.ttf',
-        expressway = media..'f\\express.ttf',
+		yanone	 = media..'f\\yanone.ttf',
+     	francois = media..'f\\francois.ttf',
 	},
 }
 ------------------------------------------------------------------ var tables --
