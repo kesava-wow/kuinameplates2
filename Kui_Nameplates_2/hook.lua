@@ -50,8 +50,9 @@ local function OnFrameUpdate(frame)
 		floor(x / addon.uiscale), floor(y / addon.uiscale))
 
 	if frame.kui.DoShow then
-		-- show the frame after its been moved
+		-- show the frame after it's been moved
 		frame.kui:Show()
+		-- TODO should this have DoShow=nil
 	end
 end
 ---------------------------------------------------- Hide default UI elements --
@@ -69,6 +70,8 @@ local function GetDefaultFrameElements(frame, f)
 
 	-- store default elements
 	f.default = {
+		overlayChild = overlayChild,
+
 		healthbar = healthbar,
 		nameText  = nameText,
 		levelText = levelText,

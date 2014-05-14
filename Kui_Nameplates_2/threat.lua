@@ -3,7 +3,7 @@
 -- By Kesava at curse.com
 -- All rights reserved
 --------------------------------------------------------------------------------
--- Determine threat status and implement tank mode
+-- Override default health bar colour with custom settings when tanking
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
 local threat = {}

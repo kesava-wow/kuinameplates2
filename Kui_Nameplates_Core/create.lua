@@ -4,28 +4,30 @@ local test = {}
 
 local sizes = {
 	width = 142,
-	height = 12
+	height = 10,
+	trivial_width = 72,
+	trivial_height = 6
 }
 local x,y
 
 test.Create = function(f)
-	local bg = f:CreateTexture(nil, 'ARTWORK')
-	bg:SetTexture(kui.m.t.solid)
-	bg:SetVertexColor(0,0,0,.8)
+	local glow,healthbar
+	do
+		local bg = f:CreateTexture(nil, 'ARTWORK')
+		bg:SetTexture(kui.m.t.solid)
+		bg:SetVertexColor(0,0,0,.8)
 
-	local glow = f:CreateTexture(nil, 'ARTWORK')
-	glow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\FrameGlow')
-	glow:SetTexCoord(0, .469, 0, .625)
-	glow:SetPoint('BOTTOMLEFT', bg, -6, -6)
-	glow:SetPoint('TOPRIGHT', bg, 6, 6)
+		glow = f:CreateTexture(nil, 'BACKGROUND')
+		glow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\FrameGlow')
+		glow:SetTexCoord(0, .469, 0, .625)
 
-	local healthbar = CreateFrame('StatusBar', nil, f)
-	healthbar:SetStatusBarTexture(kui.m.t.bar)
-	healthbar:SetPoint('BOTTOMLEFT', x, y)
-	healthbar:SetSize(sizes.width, sizes.height)
+		healthbar = CreateFrame('StatusBar', nil, f)
+		healthbar:SetStatusBarTexture(kui.m.t.bar)
 
-	bg:SetPoint('TOPLEFT', healthbar, -1, 1)
-	bg:SetPoint('BOTTOMRIGHT', healthbar, 1, -1)
+		bg:SetPoint('TOPLEFT', healthbar, -1, 1)
+		bg:SetPoint('BOTTOMRIGHT', healthbar, 1, -1)
+		healthbar.bg = bg
+	end
 
 	local overlay = CreateFrame('Frame', nil, f)
 	overlay:SetAllPoints(healthbar)
@@ -40,21 +42,101 @@ test.Create = function(f)
 	highlight:Hide()
 
 	local name = overlay:CreateFontString(nil, 'OVERLAY')
-	name:SetFont(kui.m.f.expressway, 11, 'OUTLINE')
+	name:SetFont(kui.m.f.francois, 11, 'OUTLINE')
 	name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3)
 
-	local castbar = CreateFrame('StatusBar', nil, f)
-	castbar:SetStatusBarTexture(kui.m.t.bar)
-	castbar:SetHeight(4)
-	castbar:SetPoint('TOPLEFT', healthbar, 'BOTTOMLEFT', 0, -2)
-	castbar:SetPoint('TOPRIGHT', healthbar, 'BOTTOMRIGHT', 0, 0)
-	castbar:Hide()
+	-- castbar
+	local castbar, spellname, spellicon, spellshield
+	do
+		local bg = f:CreateTexture(nil, 'ARTWORK')
+		bg:SetTexture(kui.m.t.solid)
+		bg:SetVertexColor(0,0,0,.8)
+		bg:SetHeight(4)
+		bg:SetPoint('TOPLEFT', healthbar, 'BOTTOMLEFT', -1, -2)
+		bg:SetPoint('TOPRIGHT', healthbar, 'BOTTOMRIGHT', 1, 0)
+
+		castbar = CreateFrame('StatusBar', nil, f)
+		castbar:SetStatusBarTexture(kui.m.t.bar)
+		castbar:SetStatusBarColor(.6, .6, .75)
+		castbar:SetHeight(2)
+		castbar:SetPoint('TOPLEFT', bg, 1, -1)
+		castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
+
+		spellname = overlay:CreateFontString(nil, 'OVERLAY')
+		spellname:SetFont(kui.m.f.francois, 9, 'OUTLINE')
+		spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3)
+
+		-- spell icon
+		local spelliconbg = f:CreateTexture(nil, 'ARTWORK')
+		spelliconbg:SetTexture(kui.m.t.solid)
+		spelliconbg:SetVertexColor(0,0,0,.8)
+		spelliconbg:SetPoint('BOTTOMRIGHT', bg, 'BOTTOMLEFT', -1, 0)
+		spelliconbg:SetPoint('TOPRIGHT', healthbar.bg, 'TOPLEFT', -1, 0)
+		spelliconbg:SetWidth(9)
+
+		spellicon = castbar:CreateTexture(nil, 'ARTWORK')
+		spellicon:SetTexCoord(.1, .9, .25, .75)
+		spellicon:SetPoint('TOPLEFT', spelliconbg, 1, -1)
+		spellicon:SetPoint('BOTTOMRIGHT', spelliconbg, -1, 1)
+
+		-- cast shield
+		spellshield = overlay:CreateTexture(nil, 'ARTWORK')
+		spellshield:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\Shield')
+		spellshield:SetTexCoord(0, .46875, 0, .5625)
+		spellshield:SetSize(10, 12)
+		spellshield:SetPoint('LEFT', bg, -5, 0)
+		spellshield:SetVertexColor(.8, .1, .1)
+
+		-- spark
+		local spark = castbar:CreateTexture(nil, 'ARTWORK')
+		spark:SetDrawLayer('ARTWORK', 7)
+		spark:SetVertexColor(1,1,.8)
+		spark:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\spark')
+		spark:SetPoint('CENTER', castbar:GetRegions(), 'RIGHT', 1, 0)
+		spark:SetSize(6, 2 + 6)
+
+		-- hide elements by default
+		bg:Hide()
+		castbar:Hide()
+		spelliconbg:Hide()
+		spellshield:Hide()
+
+		castbar.bg = bg
+		spellicon.bg = spelliconbg
+	end
 
 	f.handler:RegisterElement('Healthbar', healthbar)
-	f.handler:RegisterElement('Castbar', castbar)
 	f.handler:RegisterElement('Name', name)
 	f.handler:RegisterElement('ThreatGlow', glow)
 	f.handler:RegisterElement('Highlight', highlight)
+
+	f.handler:RegisterElement('Castbar', castbar)
+	f.handler:RegisterElement('SpellName', spellname)
+	f.handler:RegisterElement('SpellIcon', spellicon)
+	f.handler:RegisterElement('SpellShield', spellshield)
+end
+
+test.Show = function(f)
+	if f.state.micro then
+		-- set elements to micro sizes
+		f.Healthbar:SetSize(sizes.trivial_width, sizes.trivial_height)
+
+		f.ThreatGlow:SetPoint('BOTTOMLEFT', f.Healthbar.bg, -3, -3)
+		f.ThreatGlow:SetPoint('TOPRIGHT', f.Healthbar.bg, 3, 3)
+	else
+		-- set elements to normal sizes
+		f.Healthbar:SetSize(sizes.width, sizes.height)
+
+		f.ThreatGlow:SetPoint('BOTTOMLEFT', f.Healthbar.bg, -6, -6)
+		f.ThreatGlow:SetPoint('TOPRIGHT', f.Healthbar.bg, 6, 6)
+	end
+
+	-- calculate where the health bar needs to go to be visually centred
+	-- while remaining pixel-perfect ('CENTER' does not)
+	x = floor((addon.width / 2) - (f.Healthbar:GetWidth() / 2))
+	y = floor((addon.height / 2) - (f.Healthbar:GetHeight() / 2))
+
+	f.Healthbar:SetPoint('BOTTOMLEFT', x, y)
 end
 
 test.GlowColourChange = function(f)
@@ -64,11 +146,22 @@ test.GlowColourChange = function(f)
 	end
 end
 
+test.CastbarShow = function(f)
+	f.Castbar.bg:Show()
+	f.SpellIcon.bg:Show()
+	f.SpellName:Show()
+
+	local icon_width = f.SpellIcon.bg:GetHeight()
+	f.SpellIcon.bg:SetWidth(floor(icon_width*1.5))
+end
+
+test.CastbarHide = function(f)
+	f.Castbar.bg:Hide()
+	f.SpellIcon.bg:Hide()
+	f.SpellName:Hide()
+end
+
 function test:Initialise()
-	-- calculate where the health bar needs to go to be visually centred
-	-- while remaining pixel-perfect ('CENTER' does not)
-	x = floor((addon.width / 2) - (sizes.width / 2))
-	y = floor((addon.height / 2) - (sizes.height / 2))
 end
 
 addon:RegisterLayout(test)

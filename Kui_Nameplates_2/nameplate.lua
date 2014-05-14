@@ -13,27 +13,27 @@ local wipe = wipe
 addon.Nameplate = {}
 addon.Nameplate.__index = addon.Nameplate
 
--- list of valid elements
-local elements = {
-	['Castbar']     = true,
-	['Healthbar']   = true,
-	['Name']        = true,
-	['Level']       = true,
-	['SpellName']   = true,
-	['SpellIcon']   = true,
-	['SpellShield'] = true,
-	['RaidIcon']    = true,
-	['BossIcon']    = true,
-	['Highlight']   = true,
-	['ThreatGlow']  = true,
-}
+-- valid elements by default are:
+-- Castbar, Healthbar, Name, Level, SpellName, SpellIcon, SpellShield, RaidIcon,
+-- BossIcon, Highlight, ThreatGlow
+-- others will either do nothing or are added by external modules
 function addon.Nameplate.RegisterElement(frame, element, element_frame)
-	if not elements[element] then return end
 	frame = frame.parent
 	if frame[element] then return end
-
 	frame.elements[element] = true
 	frame[element] = element_frame
+end
+function addon.Nameplate.DisableElement(frame, element)
+	frame = frame.parent
+	if frame.elements[element] then
+		frame.elements[element] = false
+	end
+end
+function addon.Nameplate.EnableElement(frame, element)
+	frame = frame.parent
+	if frame.elements[element] == false then
+		frame.elements[element] = true
+	end
 end
 
 ------------------------------------------------------- Frame script handlers --
@@ -41,6 +41,7 @@ function addon.Nameplate.OnShow(f)
 	f = f.parent
 	f.state.name = f.default.nameText:GetText()
 	f.state.level = f.default.levelText:GetText()
+	f.state.micro = f.default.overlayChild:GetScale() < 1
 
 	if f.default.eliteIcon:IsVisible() then
 		if f.default.eliteIcon:GetTexture() == [[Interface\Tooltips\EliteNameplateIcon]]
