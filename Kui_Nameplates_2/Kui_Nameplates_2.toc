@@ -1,6 +1,6 @@
 ## Interface: 50400
 ## Author: Kesava
-## Title: |cff9900ffKui|r Nameplates: |cffffffffBase|r
+## Title: Kui |cff9966ffNameplates|r: |cffffffffBase|r
 ## Notes: Kesava's nameplate framework. Remember to enable Kui Nameplates Core (or a compatible layout), too!
 ## SavedVariables: KuiNameplatesGDB
 

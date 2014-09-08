@@ -3,10 +3,10 @@ local kui = LibStub('Kui-1.0')
 local test = {}
 
 local sizes = {
-	width = 142,
-	height = 10,
-	trivial_width = 72,
-	trivial_height = 6
+	width = 130,
+	height = 11,
+	trivial_width = 70,
+	trivial_height = 7
 }
 local x,y
 
@@ -82,8 +82,8 @@ test.Create = function(f)
 		-- cast shield
 		spellshield = overlay:CreateTexture(nil, 'ARTWORK')
 		spellshield:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\Shield')
-		spellshield:SetTexCoord(0, .46875, 0, .5625)
-		spellshield:SetSize(10, 12)
+		spellshield:SetTexCoord(0, .53125, 0, .625)
+		spellshield:SetSize(12, 14)
 		spellshield:SetPoint('LEFT', bg, -5, 0)
 		spellshield:SetVertexColor(.8, .1, .1)
 

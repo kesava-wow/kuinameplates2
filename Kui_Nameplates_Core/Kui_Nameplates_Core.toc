@@ -1,7 +1,7 @@
 ## Interface: 50400
 ## Author: Kesava
-## Title: |cff9900ffKui|r Nameplates: |cffffffffCore|r
-## Notes: The base layout of Kui Nameplates.
+## Title: Kui |cff9966ffNameplates|r: |cffffffffCore|r
+## Notes: The base layout for Kui Nameplates.
 ## Dependencies: Kui_Nameplates_2
 ## SavedVariables: KuiNameplatesGDB
 
