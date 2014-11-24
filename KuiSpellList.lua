@@ -243,6 +243,7 @@ local whitelist = {
 		
 		[589] = true,    -- shadow word: pain
 		[2944] = true,   -- devouring plague
+		[158831] = true, -- devouring plague
 		[14914] = true,  -- holy fire
 		[34914] = true,  -- vampiric touch
 		
