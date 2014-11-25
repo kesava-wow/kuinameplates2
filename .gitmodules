@@ -1,9 +1,0 @@
-[submodule "Kui_Nameplates_2/lib/kuilib"]
-	path = Kui_Nameplates_2/lib/kuilib
-	url = git@bitbucket:rbtwrrr/kuilib.git
-[submodule "Kui_Nameplates_2/lib/Kui"]
-	path = Kui_Nameplates_2/lib/Kui
-	url = git@bitbucket:rbtwrrr/kuilib.git
-[submodule "Kui_Media"]
-	path = Kui_Media
-	url = git@bitbucket:rbtwrrr/kui-media.git
