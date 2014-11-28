@@ -176,16 +176,18 @@ local whitelist = {
 		[114916] = true, -- execution sentence dot
 		[114917] = true, -- stay of execution hot
 	},
-	WARLOCK = { -- 5.2 COMPLETE
+	WARLOCK = {
 		[5697]  = true,  -- unending breath
 		[20707]  = true, -- soulstone
 		[109773] = true, -- dark intent
 	
-		[172] = true,    -- corruption, demo. version
+		[172] = true,    -- corruption (demo version)
 		[146739] = true, -- corruption
-		[114790] = true,  -- Soulburn: Seed of Corruption
+		[114790] = true, -- Soulburn: Seed of Corruption
 		[348] = true,    -- immolate
 		[108686] = true, -- immolate (aoe)
+		[157736] = true, -- immolate (green?)
+
 		[980] = true,    -- agony
 		[27243] = true,  -- seed of corruption
 		[30108] = true,  -- unstable affliction
@@ -196,6 +198,8 @@ local whitelist = {
 		[710] = true,    -- banish
 		[1098] = true,   -- enslave demon
 		[5782] = true,   -- fear
+		[118619] = true, -- fear (again)
+		[171018] = true, -- meteor strike (abyssal stun)
 
 		                 -- metamorphosis:
 		[603] = true,    -- doom
