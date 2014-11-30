@@ -255,6 +255,7 @@ local whitelist = {
 		[605] = true,    -- dominate mind
 		[114404] = true, -- void tendril root
 		[129250] = true, -- power word: solace
+		[155361] = true, -- void entropy
 	},
 	ROGUE = { -- 5.2 COMPLETE
 		[703] = true,    -- garrote
