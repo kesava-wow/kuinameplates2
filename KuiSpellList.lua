@@ -24,9 +24,11 @@ local whitelist = {
 		[1822] = true, -- rake
 		[155722] = true, -- rake 6.0
 		[8921] = true, -- moonfire
+		[164812] = true,
 		[77758] = true, -- bear thrash; td ma
 		[106830] = true, -- cat thrash
 		[93402] = true, -- sunfire
+		[164815] = true,
 		[33745] = true, -- lacerate
 		
 		[339] = true, -- entangling roots
