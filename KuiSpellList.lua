@@ -30,7 +30,7 @@ local whitelist = {
 		[93402] = true, -- sunfire
 		[164815] = true,
 		[33745] = true, -- lacerate
-		
+
 		[339] = true, -- entangling roots
 		[6795] = true, -- growl
 		[16914] = true, -- hurricane
@@ -86,7 +86,7 @@ local whitelist = {
 		[12654] = true, -- ignite
 		[31589] = true, -- slow
 		[83853] = true, -- combustion
-		
+
 		[118] = true, -- polymorph
 		[28271] = true, -- polymorph: turtle
 		[28272] = true, -- polymorph: pig
@@ -94,9 +94,9 @@ local whitelist = {
 		[61721] = true, -- polymorph: rabbit
 		[61780] = true, -- polymorph: turkey
 		[44572] = true, -- deep freeze
-	
+
 		[1459] = true, -- arcane brilliance
-		
+
 		-- talents
 		[111264] = true, -- ice ward
 		[114923] = true, -- nether tempest
@@ -112,9 +112,9 @@ local whitelist = {
 		[45524] = true, -- chains of ice
 		[49560] = true, -- death grip taunt
 		[50435] = true, -- chillblains
-		[56222] = true, -- dark command		
+		[56222] = true, -- dark command
 		[108194] = true, -- asphyxiate stun
-		
+
 		[3714] = true, -- path of frost
 		[57330] = true, -- horn of winter
 
@@ -134,11 +134,11 @@ local whitelist = {
 		[18498] = true,  -- gag order
 		[64382] = true,  -- shattering throw
 		[115767] = true, -- deep wounds; td
-		
+
 		[469] = true,    -- commanding shout
 		[3411] = true,   -- intervene
 		[6673] = true,   -- battle shout
-		
+
 		                 -- talents
 		[12323] = true,  -- piercing howl
 		[107566] = true, -- staggering shout
@@ -152,20 +152,20 @@ local whitelist = {
 		[114163] = true, -- eternal flame
 		[53563] = { colour = {1,.5,0} },  -- beacon of light
 		[20925] = { colour = {1,1,.3} },  -- sacred shield
-		
+
 		[19740] = { colour = {.2,.2,1} }, -- blessing of might
 		[20217] = { colour = {1,.3,.3} }, -- blessing of kings
-		
+
 		[26573] = true,  -- consecration; td
 		[31803] = true,  -- censure; td
-		
+
 		                 -- hand of...
 		[114039] = true, -- purity
 		[6940] = true,   -- sacrifice
 		[1044] = true,   -- freedom
 		[1038] = true,   -- salvation
 		[1022] = true,   -- protection
-		
+
 		[853] = true,    -- hammer of justice
 		[2812] = true,   -- denounce
 		[10326] = true,  -- turn evil
@@ -183,7 +183,7 @@ local whitelist = {
 		[5697]  = true,  -- unending breath
 		[20707]  = true, -- soulstone
 		[109773] = true, -- dark intent
-	
+
 		[172] = true,    -- corruption (demo version)
 		[146739] = true, -- corruption
 		[114790] = true, -- Soulburn: Seed of Corruption
@@ -197,17 +197,17 @@ local whitelist = {
 		[47960] = true,  -- shadowflame
 		[48181] = true,  -- haunt
 		[80240] = true,  -- havoc
-		
+
 		[710] = true,    -- banish
 		[1098] = true,   -- enslave demon
 		[5782] = true,   -- fear
-		[118619] = true, -- fear (again)
+		[118699] = true, -- fear (again)
 		[171018] = true, -- meteor strike (abyssal stun)
 
 		                 -- metamorphosis:
 		[603] = true,    -- doom
 		[124915] = true, -- chaos wave
-		
+
 		                 -- talents:
 		[5484] = true,   -- howl of terror
 		[111397] = true, -- blood fear
@@ -219,7 +219,7 @@ local whitelist = {
 		[51490] = true,  -- thunderstorm slow
 		[17364] = true,  -- stormstrike
 		[61882] = true,  -- earthquake
-		
+
 		[3600] = true,   -- earthbind totem passive
 		[64695] = true,   -- earthgrap totem root
 		[116947] = true,   -- earthgrap totem slow
@@ -227,7 +227,7 @@ local whitelist = {
 		[546] = true,    -- water walking
 		[974] = true,    -- earth shield
 		[61295] = true,  -- riptide
-		
+
 		[51514] = true,  -- hex
 	},
 	PRIEST = { -- 5.2 COMPLETE
@@ -238,22 +238,23 @@ local whitelist = {
 		[47753] = true,  -- divine aegis
 		[47788] = true,  -- guardian spirit
 		[114908] = true, -- spirit shell shield
-		
+        [152118] = true, -- clarity of will
+
 		[17] = true,     -- power word: shield
 		[21562] = true,  -- power word: fortitude
-	
+
 		[2096] = true,   -- mind vision
 		[8122] = true,   -- psychic scream
 		[9484] = true,   -- shackle undead
 		[64044] = true,  -- psychic horror
 		[111759] = true, -- levitate
-		
+
 		[589] = true,    -- shadow word: pain
 		[2944] = true,   -- devouring plague
 		[158831] = true, -- devouring plague
 		[14914] = true,  -- holy fire
 		[34914] = true,  -- vampiric touch
-		
+
 		                 -- talents:
 		[605] = true,    -- dominate mind
 		[114404] = true, -- void tendril root
@@ -301,14 +302,15 @@ local whitelist = {
 
 		[116781] = true, -- legacy of the white tiger
 		[116844] = true, -- ring of peace
-		
+
 		[116849] = true, -- life cocoon
 		[132120] = true, -- enveloping mist
 		[119611] = true, -- renewing mist
-		
+        [157681] = true, -- chi explosion hot
+
 		[116095] = true, -- disable
 		[115078] = true, -- paralysis
-	
+
 		                 -- talents:
 		[116841] = true, -- tiger's lust
 		[124081] = true, -- zen sphere
@@ -323,7 +325,7 @@ local whitelist = {
 		[69179] = true,
 		[80483] = true,
 		[129597] = true,
-		--[155145] = true, -- seems to not be implemented 
+		--[155145] = true, -- seems to not be implemented
 		[20549] = true, -- war stomp
 		[107079] = true, -- quaking palm
 	},
