@@ -272,7 +272,6 @@ local whitelist = {
         [1943] = true,   -- rupture
         [79140] = true,  -- vendetta
         [84617] = true,  -- revealing strike
-        [89775] = true,  -- hemorrhage
         [122233] = true, -- crimson tempest
 
         [2818] = true,   -- deadly poison
@@ -291,7 +290,6 @@ local whitelist = {
         [57934] = true,  -- tricks of the trade
 
         -- talents:
-        [112961] = true, -- leeching poison
         [137619] = true, -- marked for death
     },
     MONK = { -- 5.2 COMPLETE
