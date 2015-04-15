@@ -30,6 +30,7 @@ local whitelist = {
         [93402] = true, -- sunfire
         [164815] = true,
         [33745] = true, -- lacerate
+        [152221] = true, -- stellar flare
 
         [339] = true, -- entangling roots
         [6795] = true, -- growl
@@ -45,9 +46,11 @@ local whitelist = {
         [33763] = true, -- lifebloom
         [48438] = true, -- wild growth
         [102342] = true, -- ironbark
+        [155777] = true, -- rejuvenation (germination)
 
         -- talents
         [102351] = true, -- cenarion ward
+        [102352] = true, -- cenarion ward proc
         [102355] = true, -- faerie swarm
         [102359] = true, -- mass entanglement
         [61391] = true, -- typhoon daze
