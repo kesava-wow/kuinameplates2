@@ -83,12 +83,22 @@ local whitelist = {
         [120761] = true, -- glaive toss slow
         [121414] = true, -- glaive toss slow 2
     },
-    MAGE = { -- 5.2 COMPLETE
+    MAGE = {
         [116] = true, -- frostbolt debuff
         [11366] = true, -- pyroblast
         [12654] = true, -- ignite
         [31589] = true, -- slow
         [83853] = true, -- combustion
+        [44457] = true, -- living bomb
+        [157997] = true, -- ice nova
+        [112948] = true, -- frost bomb
+        [157981] = true, -- blast wave
+        [114923] = true, -- nether tempest
+        [31661] = true, -- dragon's breath
+        [120] = true, -- cone of cold
+
+        [2120] = true, -- flamestrike
+        [10] = true, -- blizzard
 
         [118] = true, -- polymorph
         [28271] = true, -- polymorph: turtle
@@ -96,20 +106,23 @@ local whitelist = {
         [61305] = true, -- polymorph: cat
         [61721] = true, -- polymorph: rabbit
         [61780] = true, -- polymorph: turkey
+        [126819] = true, -- polymorph: pig
+        [161353] = true, -- polymorph: bear cub
+        [161354] = true, -- polymorph: monkey
+        [161355] = true, -- polymorph: penguin
+        [161372] = true, -- polymorph: turtle
         [44572] = true, -- deep freeze
+        [82691] = true, -- ring of frost
 
-        [1459] = true, -- arcane brilliance
-
-        -- talents
         [111264] = true, -- ice ward
-        [114923] = true, -- nether tempest
-        [44457] = true, -- living bomb
-        [112948] = true, -- frost bomb
+        [1459] = true, -- arcane brilliance
+        [130] = true, -- slow fall
     },
     DEATHKNIGHT = { -- 5.2 COMPLETE
         [55095] = true, -- frost fever
         [55078] = true, -- blood plague
         [114866] = true, -- soul reaper
+        [155159] = true, -- necrotic plague
 
         [43265] = true, -- death and decay
         [45524] = true, -- chains of ice
