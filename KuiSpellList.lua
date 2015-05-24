@@ -381,6 +381,7 @@ local auras = {
             [69179] = true,
             [80483] = true,
             [129597] = true,
+            [155145] = true,
             [20549] = true, -- war stomp
             [107079] = true, -- quaking palm
         }
