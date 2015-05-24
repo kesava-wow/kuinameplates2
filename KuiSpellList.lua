@@ -340,7 +340,7 @@ local auras = {
     },
 
     MONK = {
-        -- TODO breath of fire disorient? ring of peace incapacitate
+        -- TODO ring of peace incapacitate
         HELPFUL = {
             [116781] = true, -- legacy of the white tiger
             [116841] = true, -- tiger's lust
@@ -366,8 +366,9 @@ local auras = {
             [119392] = true, -- charging ox wave
             [119381] = true, -- leg sweep
             [120086] = true, -- fists of fury stun
+            [121253] = true, -- keg smash slow
             [122470] = true, -- touch of karma
-            [146222] = true, -- breath of fire disorient
+            [123393] = true, -- breath of fire disorient
         },
     },
 
