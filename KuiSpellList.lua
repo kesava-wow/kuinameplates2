@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 9
+local MAJOR, MINOR = 'KuiSpellList-1.0', 10
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -286,6 +286,7 @@ local whitelist = {
     ROGUE = { -- 5.2 COMPLETE
         [703] = true,    -- garrote
         [1943] = true,   -- rupture
+        [16511] = true,  -- hemorrhage
         [79140] = true,  -- vendetta
         [84617] = true,  -- revealing strike
         [122233] = true, -- crimson tempest
