@@ -280,6 +280,7 @@ local auras = {
         HELPFUL = {
             [17] = true,     -- power word: shield
             [21562] = true,  -- power word: fortitude
+            [81782] = true,  -- power word: barrier
             [139] = true,    -- renew
             [6346] = true,   -- fear ward
             [33206] = true,  -- pain suppression
