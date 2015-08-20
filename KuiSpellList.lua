@@ -289,7 +289,7 @@ local auras = {
             [47753] = true,  -- divine aegis
             [47788] = true,  -- guardian spirit
             [114908] = true, -- spirit shell shield
-            [1[152118] = true, -- clarity of will
+            [152118] = true, -- clarity of will
             [111759] = true, -- levitate
         },
         HARMFUL = {
