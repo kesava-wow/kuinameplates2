@@ -62,8 +62,7 @@ local auras = {
             [13159] = true, -- aspect of the pack
         },
         HARMFUL = {
-            [1130] = true, -- hunter's mark
-            [3674] = true, -- black arrow
+            [1130] = truelack arrow
             [53301] = true, -- explosive shot
             [118253] = true, -- serpent sting
             [131894] = true, -- murder by way of crow
@@ -134,7 +133,8 @@ local auras = {
             [43265] = true, -- death and decay
             [55095] = true, -- frost fever
             [55078] = true, -- blood plague
-            [114866] = true, -- soul reaper
+            [114866] = true, -- soul reaper (blood)
+            [130735] = true, -- soul reaper (frost)
             [155159] = true, -- necrotic plague
         },
         CONTROL = {
@@ -231,6 +231,7 @@ local auras = {
             [348] = true,    -- immolate
             [108686] = true, -- immolate (aoe)
             [157736] = true, -- immolate (green?)
+            [27243] = true,  -- immolate (green?)
             [27243] = true,  -- seed of corruption
             [114790] = true, -- seed of corruption (soulburn)
             [30108] = true,  -- unstable affliction
@@ -287,7 +288,7 @@ local auras = {
             [47753] = true,  -- divine aegis
             [47788] = true,  -- guardian spirit
             [114908] = true, -- spirit shell shield
-            [152118] = true, -- clarity of will
+            [1[152118] = true, -- clarity of will
             [111759] = true, -- levitate
         },
         HARMFUL = {
@@ -461,4 +462,3 @@ KuiSpellList.GetImportantSpells = function(class)
 
     return list
 end
-
