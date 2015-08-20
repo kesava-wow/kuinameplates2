@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 13
+local MAJOR, MINOR = 'KuiSpellList-1.0', 15
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -62,7 +62,8 @@ local auras = {
             [13159] = true, -- aspect of the pack
         },
         HARMFUL = {
-            [1130] = truelack arrow
+            [1130] = true, -- hunter's arrow
+            [3674] = true, -- black arrow
             [53301] = true, -- explosive shot
             [118253] = true, -- serpent sting
             [131894] = true, -- murder by way of crow
