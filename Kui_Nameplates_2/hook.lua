@@ -52,21 +52,35 @@ local function OnFrameUpdate(frame)
     if frame.kui.DoShow then
         -- show the frame after it's been moved
         frame.kui:Show()
-        -- TODO should this have DoShow=nil
+        frame.kui.DoShow = nil
     end
 end
 ---------------------------------------------------- Hide default UI elements --
 local function GetDefaultFrameElements(frame, f)
-    local overlayChild, nameTextChild = frame:GetChildren()
-    local healthbar, castbar = overlayChild:GetChildren()
+    local overlayChild, nameTextChild = frame.ArtContainer, frame.NameContainer
 
-    local _, castbarBorder, castbarShield,
-          spellIcon, spellNameText, spellNameShadow
-        = castbar:GetRegions()
+    local healthbar, absorbbar, castbar =
+        overlayChild.HealthBar,
+        overlayChild.AbsorbBar,
+        overlayChild.CastBar
 
-    local nameText = nameTextChild:GetRegions()
-    local glow, border, highlight, levelText, bossIcon, raidIcon, eliteIcon
-        = overlayChild:GetRegions()
+    local castbarBorder, castbarShield,
+          spellIcon, spellNameText, spellNameShadow =
+        overlayChild.CastBarBorder,
+        overlayChild.CastBarFrameShield,
+        overlayChild.CastBarSpellIcon,
+        overlayChild.CastBarText,
+        overlayChild.CastBarTextBG
+
+    local nameText = nameTextChild.NameText
+    local glow, border, highlight, levelText, bossIcon, raidIcon, eliteIcon =
+        overlayChild.AggroWarningTexture,
+        overlayChild.Border,
+        overlayChild.Highlight,
+        overlayChild.LevelText,
+        overlayChild.HighLevelIcon,
+        overlayChild.RaidTargetIcon,
+        overlayChild.EliteIcon
 
     -- store default elements
     f.default = {
@@ -114,9 +128,15 @@ local function GetDefaultFrameElements(frame, f)
     spellIcon:SetTexCoord(0,0,0,0)
     spellIcon:SetWidth(.01)
 
-    spellNameShadow:SetTexture(kui.m.t.empty)
+    absorbbar:SetStatusBarTexture(nil)
+    spellNameShadow:SetTexture(nil)
 
-    -- this seems to be the only sane way to hide these
+    -- actually hide some elements for performance
+    healthbar:Hide()
+    absorbbar:Hide()
+    border:Hide()
+    castbarBorder:Hide()
+    nameTextChild:Hide()
     spellNameShadow:Hide()
     spellNameText:Hide()
 end

@@ -23,7 +23,7 @@ local function IsNameplate(frame)
     if not frame or not frame.GetName then return end
     local name = frame:GetName()
     if name and strfind(name, '^NamePlate%d') then
-        return true
+        return frame.ArtContainer and true or false
     end
 end
 local function FindNameplates()
