@@ -11,5 +11,5 @@ messages.lua
 nameplate.lua
 hook.lua
 
-reactioncolours.lua
-threat.lua
+modules/reactioncolours.lua
+modules/threat.lua
