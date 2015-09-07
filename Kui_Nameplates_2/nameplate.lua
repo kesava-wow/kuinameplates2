@@ -13,10 +13,10 @@ local wipe = wipe
 addon.Nameplate = {}
 addon.Nameplate.__index = addon.Nameplate
 
--- valid elements by default are:
+-- Element registrar
+-- elements used by the default scripts (below) are:
 -- Castbar, Healthbar, Name, Level, SpellName, SpellIcon, SpellShield, RaidIcon,
 -- BossIcon, Highlight, ThreatGlow
--- others will either do nothing or are added by external modules
 function addon.Nameplate.RegisterElement(frame, element, element_frame)
     frame = frame.parent
     if frame[element] then return end
@@ -35,7 +35,6 @@ function addon.Nameplate.EnableElement(frame, element)
         frame.elements[element] = true
     end
 end
-
 ------------------------------------------------------- Frame script handlers --
 function addon.Nameplate.OnShow(f)
     f = f.parent
