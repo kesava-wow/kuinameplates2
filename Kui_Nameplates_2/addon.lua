@@ -90,11 +90,11 @@ local function OnEvent(self,event,...)
 
     if not self.layout then
         -- throw missing layout
-        print('|cff9900ffKui Namemplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
-    end
-
-    if self.layout.Initialise then
-        self.layout:Initialise()
+        print('|cff9966ffKui Namemplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
+    else
+        if self.layout.Initialise then
+            self.layout:Initialise()
+        end
     end
 
     -- begin searching for nameplates

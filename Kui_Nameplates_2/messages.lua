@@ -18,8 +18,8 @@ function addon:DispatchMessage(message, ...)
         end
     end
 
-    if addon.layout[message] then
-        -- and the layout's listener
+    if addon.layout and addon.layout[message] then
+        -- ... and the layout's listener
         addon.layout[message](...)
     end
 end
