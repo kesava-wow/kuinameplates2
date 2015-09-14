@@ -6,7 +6,7 @@
 -- Override default health bar colour with custom settings when tanking
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
-local threat = {}
+local threat = addon:NewPlugin()
 
 -- again, placeholder values
 local colours = {
@@ -48,5 +48,3 @@ end
 function threat:Initialise()
     self:RegisterMessage('GlowColourChange')
 end
-
-addon:RegisterPlugin(threat)

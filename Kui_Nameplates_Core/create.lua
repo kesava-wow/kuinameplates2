@@ -1,6 +1,11 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local test = {}
+local test = addon:Layout()
+
+if not test then
+    -- a layout is already registered
+    return
+end
 
 local sizes = {
 	width = 130,
@@ -160,8 +165,3 @@ test.CastbarHide = function(f)
 	f.SpellIcon.bg:Hide()
 	f.SpellName:Hide()
 end
-
-function test:Initialise()
-end
-
-addon:RegisterLayout(test)

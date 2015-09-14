@@ -11,6 +11,13 @@ local addon = KuiNameplates
 local frameList = {}
 addon.debug = false
 
+-- plugin vars
+addon.plugins = {}
+local sort, tinsert = table.sort, tinsert
+local function PluginSort(a,b)
+    return a.priority > b.priority
+end
+
 local numFrames = 0
 local PLATE_UPDATE_PERIOD = .1
 local last_plate_update = PLATE_UPDATE_PERIOD
@@ -73,12 +80,21 @@ local function OnEvent(self,event,...)
     -- get the pixel-perfect width/height of the default, non-trivial frames
     self.width, self.height = floor(width / self.uiscale), floor(height / self.uiscale)
 
-    if self.layout then
-        -- initialise the registered layout
-        self.layout:Initialise()
-    else
+    -- initialise plugins
+    if #self.plugins > 0 then
+        sort(self.plugins, PluginSort)
+        for k,plugin in ipairs(self.plugins) do
+            plugin:Initialise()
+        end
+    end
+
+    if not self.layout then
         -- throw missing layout
         print('|cff9900ffKui Namemplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
+    end
+
+    if self.layout.Initialise then
+        self.layout:Initialise()
     end
 
     -- begin searching for nameplates

@@ -56,16 +56,20 @@ end
 -- priority = any number. Defines the load order. Default of 5.
 -- plugins with a higher priority are executed later (i.e. they override the
 -- settings of any previous plugin)
-function addon:RegisterPlugin(pluginTable, priority)
-    pluginTable.plugin = true
-    pluginTable.priority = priority or 5
+function addon:NewPlugin(priority)
+    local pluginTable = {
+        plugin = true,
+        priority = priority or 5
+    }
     setmetatable(pluginTable, message)
-    pluginTable:Initialise()
+    tinsert(addon.plugins, pluginTable)
+    return pluginTable
 end
 ------------------------------------------------------------ layout registrar --
 -- the layout is always executed last
-function addon:RegisterLayout(layoutTable)
+function addon:Layout()
     if addon.layout then return end
-    addon.layout = layoutTable
+    addon.layout = {}
     setmetatable(addon.layout, message)
+    return addon.layout
 end

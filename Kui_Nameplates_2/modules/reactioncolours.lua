@@ -6,7 +6,7 @@
 -- Replaces default reaction colours
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
-local reaction = {}
+local reaction = addon:NewPlugin()
 
 -- replacement reaction colours
 -- (should be configurable, so this is placeholder)
@@ -55,5 +55,3 @@ end
 function reaction:Initialise()
     self:RegisterMessage('HealthColourChange')
 end
-
-addon:RegisterPlugin(reaction)
