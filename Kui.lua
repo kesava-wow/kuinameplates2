@@ -13,11 +13,11 @@ kui.m = {
 		-- borders
 		shadow	= media .. 't\\shadowBorder',
 		rounded	= media .. 't\\solidRoundedBorder',
-	
+
 		-- textures
 		solid		= media .. 't\\solid',
 		innerShade	= media .. 't\\innerShade',
-		
+
 		-- progress bars
 		bar		= media .. 't\\bar',
 		oldbar  = media .. 't\\bar-old',
@@ -39,6 +39,15 @@ local ct = { -- classification table
 }
 
 ------------------------------------------------------------------- functions --
+kui.print = function(...)
+    local vals = {...}
+    local msg = ''
+    for k,v in ipairs(vals) do
+        msg = tostring(v)..', '
+    end
+    print(GetTime()..': '..msg:gsub(", $",""))
+end
+
 kui.GetClassColour = function(class, str)
 	if not class then
 		class = select(2, UnitClass('player'))
@@ -46,13 +55,13 @@ kui.GetClassColour = function(class, str)
 		-- assume class is a unit
 		class = select(2, UnitClass(class))
 	end
-	
+
 	if CUSTOM_CLASS_COLORS then
 		class = CUSTOM_CLASS_COLORS[class]
 	else
 		class = RAID_CLASS_COLORS[class]
 	end
-	
+
 	if str then
 		return string.format("%02x%02x%02x", class.r*255, class.g*255, class.b*255)
 	else
@@ -68,7 +77,7 @@ kui.GetUnitColour = function(unit, str)
 	-- class colour for players or pets
 	-- faction colour for NPCs
 	local ret, r, g, b
-	
+
 	if (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit))
 		or UnitIsDeadOrGhost(unit)
 		or not UnitIsConnected(unit)
@@ -82,7 +91,7 @@ kui.GetUnitColour = function(unit, str)
 			ret = { r = r, g = g, b = b }
 		end
 	end
-	
+
 	if str then
 		return string.format("%02x%02x%02x", ret.r*255, ret.g*255, ret.b*255)
 	else
@@ -94,17 +103,17 @@ kui.UnitLevel = function(unit, long)
 	local level, classification =
 		UnitLevel(unit), UnitClassification(unit)
 	local diff = GetQuestDifficultyColor(level <= 0 and 999 or level)
-	
+
 	if ct[classification] then
 		classification = long and ct[classification][2] or ct[classification][1]
 	else
 		classification = ''
 	end
-	
+
 	if level == -1 then
 		level = '??'
 	end
-	
+
 	return level, classification, diff
 end
 
@@ -143,7 +152,7 @@ kui.CreateFontString = function(parent, args)
 
 	ob:SetFont(font, size, (outline and 'OUTLINE' or '')..(mono and ' MONOCHROME' or ''))
 	ob:SetAlpha(alpha)
-	
+
 	if shadow then
 		ob:SetShadowColor(0, 0, 0, 1)
 		ob:SetShadowOffset(type(shadow) == 'table' and unpack(shadow) or 1, -1)
@@ -151,7 +160,7 @@ kui.CreateFontString = function(parent, args)
 		-- remove the shadow
 		ob:SetShadowColor(0, 0, 0, 0)
 	end
-	
+
 	return ob
 end
 
@@ -180,7 +189,7 @@ kui.FormatTime = function(s)
 	elseif s <= 10 then
 		return ceil(s), s - format("%.1f", s)
 	end
-	
+
 	return floor(s), s - floor(s)
 end
 
@@ -253,12 +262,12 @@ kui.frameFadeOnUpdate = function(self, elapsed)
 	local frame, info
 	for index, value in pairs(kui.FADEFRAMES) do
 		frame, info = value, value.fadeInfo
-		
+
 		if info.startDelay and info.startDelay > 0 then
 			info.startDelay = info.startDelay - elapsed
 		else
 			info.fadeTimer = (info.fadeTimer and info.fadeTimer + elapsed) or 0
-			
+
 			if info.fadeTimer < info.timeToFade then
 				-- perform animation in either direction
 				if info.mode == 'IN' then
@@ -276,12 +285,12 @@ kui.frameFadeOnUpdate = function(self, elapsed)
 			else
 				-- animation has ended
 				frame:SetAlpha(info.endAlpha)
-				
+
 				if info.fadeHoldTime and info.fadeHoldTime > 0 then
 					info.fadeHoldTime = info.fadeHoldTime - elapsed
 				else
 					kui.frameFadeRemoveFrame(frame)
-					
+
 					if info.finishedFunc then
 						info.finishedFunc(frame)
 						info.finishedFunc = nil
@@ -290,7 +299,7 @@ kui.frameFadeOnUpdate = function(self, elapsed)
 			end
 		end
 	end
-	
+
 	if #kui.FADEFRAMES == 0 then
 		self:SetScript('OnUpdate', nil)
 	end
@@ -312,7 +321,7 @@ end
 ]]
 kui.frameFade = function(frame, info)
     if not frame then return end
-    if kui.frameIsFading(frame) then 
+    if kui.frameIsFading(frame) then
     	-- cancel the current operation
     	-- the code calling this should make sure not to interrupt a
     	-- necessary finishedFunc. This will entirely skip it.
@@ -321,7 +330,7 @@ kui.frameFade = function(frame, info)
 
     info		= info or {}
     info.mode	= info.mode or 'IN'
-	
+
     if info.mode == 'IN' then
 		info.startAlpha	= info.startAlpha or 0
 		info.endAlpha	= info.endAlpha or 1
@@ -329,7 +338,7 @@ kui.frameFade = function(frame, info)
 		info.startAlpha	= info.startAlpha or 1
 		info.endAlpha	= info.endAlpha or 0
 	end
-	
+
 	frame:SetAlpha(info.startAlpha)
 	frame.fadeInfo = info
 
