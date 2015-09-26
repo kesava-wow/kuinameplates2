@@ -56,7 +56,6 @@ local auras = {
             [61391] = true, -- typhoon daze
         }
     },
-
     HUNTER = {
         HELPFUL = {
             [34477] = true, -- misdirection
@@ -85,7 +84,6 @@ local auras = {
             [121414] = true, -- glaive toss slow 2
         }
     },
-
     MAGE = {
         HELPFUL = {
             [1459] = true, -- arcane brilliance
@@ -125,7 +123,6 @@ local auras = {
             [161372] = true, -- polymorph: turtle
         }
     },
-
     DEATHKNIGHT = {
         HELPFUL = {
             [3714] = true, -- path of frost
@@ -149,7 +146,6 @@ local auras = {
             [115001] = true, -- remorseless winter stun
         }
     },
-
     WARRIOR = {
         HELPFUL = {
             [469] = true,    -- commanding shout
@@ -178,7 +174,6 @@ local auras = {
             [132169] = true, -- storm bolt stun
         }
     },
-
     PALADIN = {
         HELPFUL = {
             [114163] = true, -- eternal flame
@@ -218,7 +213,6 @@ local auras = {
             [119072] = true, -- holy wrath stun
         },
     },
-
     WARLOCK = {
         HELPFUL = {
             [5697]  = true,  -- unending breath
@@ -253,9 +247,7 @@ local auras = {
             [171018] = true, -- meteor strike (abyssal stun)
         },
     },
-
     SHAMAN = {
-        -- TODO earthquake stun
         HELPFUL = {
             [546] = true,    -- water walking
             [974] = true,    -- earth shield
@@ -277,7 +269,6 @@ local auras = {
             [51490] = true,  -- thunderstorm slow
         },
     },
-
     PRIEST = {
         HELPFUL = {
             [17] = true,     -- power word: shield
@@ -312,7 +303,6 @@ local auras = {
             [114404] = true, -- void tendril root
         },
     },
-
     ROGUE = {
         HELPFUL = {
             [57934] = true,  -- tricks of the trade
@@ -341,7 +331,6 @@ local auras = {
             [115196] = true, -- debilitating poison
         },
     },
-
     MONK = {
         HELPFUL = {
             [115921] = true, -- legacy of the emperor
@@ -375,7 +364,6 @@ local auras = {
             [123393] = true, -- breath of fire disorient
         },
     },
-
     GLOBAL = {
         HELPFUL = {
         },
