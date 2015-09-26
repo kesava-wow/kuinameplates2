@@ -343,8 +343,8 @@ local auras = {
     },
 
     MONK = {
-        -- TODO ring of peace incapacitate
         HELPFUL = {
+            [115921] = true, -- legacy of the emperor
             [116781] = true, -- legacy of the white tiger
             [116841] = true, -- tiger's lust
             [116844] = true, -- ring of peace
@@ -358,6 +358,7 @@ local auras = {
             [123725] = true, -- breath of fire dot
             [128531] = true, -- blackout kick debuff
             [130320] = true, -- rising sun kick debuff
+            [137460] = true, -- ring of peace incapacitate
             [138130] = true, -- storm, earth and fire 1
             [138131] = true, -- storm, earth and fire 2
         },
