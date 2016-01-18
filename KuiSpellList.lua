@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 17
+local MAJOR, MINOR = 'KuiSpellList-1.0', 18
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -156,6 +156,7 @@ local auras = {
         },
         HARMFUL = {
             [86346] = true,  -- colossus smash
+            [167105] = true, -- colossus smash again
             [1160] = true,   -- demoralizing shout
             [772] = true,    -- rend
             [64382] = true,  -- shattering throw
