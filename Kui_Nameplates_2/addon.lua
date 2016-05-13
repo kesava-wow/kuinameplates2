@@ -9,7 +9,7 @@
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
 local frameList = {}
-addon.debug = true
+--addon.debug = true
 
 -- plugin vars
 addon.plugins = {}
