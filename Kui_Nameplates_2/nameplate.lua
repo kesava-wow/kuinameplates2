@@ -223,7 +223,12 @@ end
 -------------------------------------------------------- frame update handler --
 function addon.Nameplate.Update(f)
     f = f.parent
-    UpdateHealthColour(f)
-    UpdateGlowColour(f)
-    UpdateMouseover(f)
+    if f.parent.namePlateUnitToken then
+        UpdateHealthColour(f)
+        UpdateGlowColour(f)
+        UpdateMouseover(f)
+    else
+        -- hide if unit is lost for some reason
+        f.kui.handler:OnHide()
+    end
 end

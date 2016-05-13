@@ -52,6 +52,7 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
         end
     end
 end
+--------------------------------------------------------------------------------
 local function OnEvent(self,event,...)
     if event ~= 'PLAYER_LOGIN' then
         if self[event] then

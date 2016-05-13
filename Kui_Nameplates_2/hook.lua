@@ -21,26 +21,8 @@ local function OnUnitAdded(frame)
     frame.handler:OnHealthUpdate()
     frame.handler:OnShow()
 end
-local function OnUnitRemoved(frame)
-    frame.handler:OnHide()
-end
--- health bar
-local function OnHealthUpdate(bar)
-    if bar.kuiParent:IsShown() then
-        bar.kuiParent.handler:OnHealthUpdate()
-    end
-end
--- cast bar
-local function OnCastbarShow(bar)
-    bar.kuiParent.handler:OnCastbarShow()
-end
-local function OnCastbarHide(bar)
-    bar.kuiParent.handler:OnCastbarHide()
-end
-local function OnCastbarUpdate(bar)
-    if bar.kuiParent:IsShown() then
-        bar.kuiParent.handler:OnCastbarUpdate()
-    end
+local function OnFrameHide(frame)
+    frame.kui.handler:OnHide()
 end
 ------------------------------------------------------- Core OnUpdate handler --
 -- sets position of the base frame
@@ -87,8 +69,8 @@ function addon.HookNameplate(frame)
 
     -- base frame
     frame:HookScript('OnUpdate', OnFrameUpdate)
+    frame:HookScript('OnHide', OnFrameHide)
     frame.kui.OnUnitAdded = OnUnitAdded
-    frame.kui.OnUnitRemoved = OnUnitRemoved
 
     frame.kui.handler:Create()
 
