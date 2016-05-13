@@ -73,10 +73,7 @@ kui.GetUnitColour = function(unit, str)
     -- faction colour for NPCs
     local ret, r, g, b
 
-    if (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit))
-        or UnitIsDeadOrGhost(unit)
-        or not UnitIsConnected(unit)
-    then
+    if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
         ret = { r = .5, g = .5, b = .5 }
     else
         if UnitIsPlayer(unit) or kui.UnitIsPet(unit) then
