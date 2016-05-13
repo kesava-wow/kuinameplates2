@@ -13,7 +13,6 @@ local select, strfind, setmetatable, floor
     = select, strfind, setmetatable, floor
 --------------------------------------------------------------------------------
 -------------------------------------------------------- Core script handlers --
--- base frame
 local function OnUnitAdded(frame)
     frame.unit = frame.parent.namePlateUnitToken
 
@@ -27,11 +26,12 @@ end
 ------------------------------------------------------- Core OnUpdate handler --
 -- sets position of the base frame
 local function OnFrameUpdate(frame)
-    local x,y = frame:GetCenter()
+    local x,y = frame.UnitFrame:GetCenter()
+    local scale = frame:GetScale()
 
     -- align to pixel-perfect centre of the real nameplate frame
     frame.kui:SetPoint('CENTER', WorldFrame, 'BOTTOMLEFT',
-        floor(x / addon.uiscale), floor(y / addon.uiscale))
+        floor(x * scale / addon.uiscale), floor(y * scale / addon.uiscale))
 
     if frame.kui.DoShow then
         -- show the frame after it's been moved
@@ -50,6 +50,8 @@ function addon.HookNameplate(frame)
     frame.kui.parent = frame
 
     -- hide blizzard's nameplate TODO obviously
+    frame.UnitFrame.healthBar:SetAlpha(0)
+    frame.UnitFrame.castBar:SetAlpha(0)
     frame.UnitFrame:SetAlpha(0)
     frame.UnitFrame:Hide()
 
@@ -74,7 +76,7 @@ function addon.HookNameplate(frame)
 
     frame.kui.handler:Create()
 
-    if frame.UnitFrame.unit and frame:IsShown() then
+    if frame.namePlateUnitToken and frame:IsShown() then
         -- force the first OnShow
         OnFrameShow(frame)
     end
