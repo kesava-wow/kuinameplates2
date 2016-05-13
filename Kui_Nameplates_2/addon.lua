@@ -9,7 +9,7 @@
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
 local frameList = {}
-addon.debug = false
+addon.debug = true
 
 -- plugin vars
 addon.plugins = {}
@@ -18,42 +18,15 @@ local function PluginSort(a,b)
     return a.priority > b.priority
 end
 
-local numFrames = 0
 local PLATE_UPDATE_PERIOD = .1
 local last_plate_update = PLATE_UPDATE_PERIOD
 
 -- this is the size of the container, not the visible frame
 -- changing it will cause positioning problems
 local width, height = 142, 40
-------------------------------------------------------------- find nameplates --
-local function IsNameplate(frame)
-    if not frame or not frame.GetName then return end
-    local name = frame:GetName()
-    if name and strfind(name, '^NamePlate%d') then
-        return frame.ArtContainer and true or false
-    end
-end
-local function FindNameplates()
-    local frames = WorldFrame:GetNumChildren()
-
-    if frames ~= numFrames then
-        numFrames = frames
-
-        local i,f
-        local children = { WorldFrame:GetChildren() }
-
-        for i = 1, frames do
-            f = select(i, WorldFrame:GetChildren())
-
-            if f and not f.kui and IsNameplate(f) then
-                addon.HookNameplate(f)
-                frameList[f] = true
-            end
-        end
-    end
-end
--- call plate update script every PLATE_UPDATE_PERIOD
-local function IteratePlates(elap)
+--------------------------------------------------------------------------------
+local function OnUpdate(self,elap)
+    -- call plate update script every PLATE_UPDATE_PERIOD
     last_plate_update = last_plate_update + elap
 
     if last_plate_update > PLATE_UPDATE_PERIOD then
@@ -68,13 +41,24 @@ local function IteratePlates(elap)
     end
 end
 --------------------------------------------------------------------------------
-local function OnUpdate(self,elap)
-    FindNameplates()
-    IteratePlates(elap)
+function addon:NAME_PLATE_CREATED(frame)
+    self.HookNameplate(frame)
+    frameList[frame] = true
 end
---------------------------------------------------------------------------------
+function addon:NAME_PLATE_UNIT_ADDED(unit)
+    for f,_ in pairs(frameList) do
+        if f.namePlateUnitToken == unit then
+            f.kui:OnUnitAdded()
+        end
+    end
+end
 local function OnEvent(self,event,...)
-    if event ~= 'PLAYER_LOGIN' then return end
+    if event ~= 'PLAYER_LOGIN' then
+        if self[event] then
+            self[event](self,...)
+        end
+        return
+    end
     self.uiscale = UIParent:GetEffectiveScale()
 
     -- get the pixel-perfect width/height of the default, non-trivial frames
@@ -103,3 +87,5 @@ end
 ------------------------------------------- initialise addon scripts & events --
 addon:SetScript('OnEvent',OnEvent)
 addon:RegisterEvent('PLAYER_LOGIN')
+addon:RegisterEvent('NAME_PLATE_CREATED')
+addon:RegisterEvent('NAME_PLATE_UNIT_ADDED')
