@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 13
+local MAJOR, MINOR = 'Kui-1.0', 14
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -59,7 +59,9 @@ kui.GetClassColour = function(class, str)
         class = RAID_CLASS_COLORS[class]
     end
 
-    if str then
+    if str == 2 then
+        return class.r,class.g,class.b
+    elseif str then
         return string.format("%02x%02x%02x", class.r*255, class.g*255, class.b*255)
     else
         return class
@@ -71,23 +73,24 @@ end
 kui.GetUnitColour = function(unit, str)
     -- class colour for players or pets
     -- faction colour for NPCs
-    local ret, r, g, b
+    local r,g,b
 
     if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
-        ret = { r = .5, g = .5, b = .5 }
+        r,g,b = .5,.5,.5
     else
         if UnitIsPlayer(unit) or kui.UnitIsPet(unit) then
             return kui.GetClassColour(unit, str)
         else
             r, g, b = UnitSelectionColor(unit)
-            ret = { r = r, g = g, b = b }
         end
     end
 
-    if str then
-        return string.format("%02x%02x%02x", ret.r*255, ret.g*255, ret.b*255)
+    if str == 2 then
+        return r,g,b
+    elseif str then
+        return string.format("%02x%02x%02x", r*255, g*255, b*255)
     else
-        return ret
+        return {r=r,g=g,b=b}
     end
 end
 kui.UnitLevel = function(unit, long)
