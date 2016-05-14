@@ -11,6 +11,7 @@ messages.lua
 nameplate.lua
 hook.lua
 
+elements/healthbar.lua
 elements/castbar.lua
 
 modules/reactioncolours.lua

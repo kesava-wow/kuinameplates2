@@ -66,7 +66,6 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
     for f,_ in pairs(frameList) do
         if f.namePlateUnitToken == unit then
             if unit_to_frame[unit] and unit_to_frame[unit] ~= f then
-                -- TODO DEBUG
                 self:print('|cffff0000unit overwritten|r: '..unit)
                 f.kui.handler:OnHide()
             end
@@ -85,20 +84,6 @@ function addon:NAME_PLATE_UNIT_REMOVED(unit)
         self:print('unit lost: '..unit..' ('..f.kui.state.name..')')
         f.kui.handler:OnHide()
     end
-end
----------------------------------------------------------- unit event handler --
--- TODO should put this stuff in another file since there will be a lot
-local ue = CreateFrame('Frame')
-ue:SetScript('OnEvent', function(self,event,unit,...)
-    if addon[event] then
-        if not addon:UnitHasNameplate(unit) then return end
-        addon[event](addon,addon:GetNameplateByUnit(unit),unit,...)
-    end
-end)
-ue:RegisterEvent('UNIT_HEALTH')
------------------------------------------------------------------ unit events --
-function addon:UNIT_HEALTH(f,unit)
-    f.handler:OnHealthUpdate()
 end
 --------------------------------------------------------------------------------
 local function OnEvent(self,event,...)

@@ -41,15 +41,16 @@ function addon.Nameplate.OnUnitAdded(f,unit)
     f = f.parent
     f.unit = unit
 
+    addon:DispatchMessage('PreShow', f)
+
     f.handler:Update()
-    f.handler:OnHealthUpdate()
     f.handler:OnShow()
 end
 ------------------------------------------------------- Frame script handlers --
 function addon.Nameplate.OnShow(f)
     f = f.parent
-    f.state.name = f.unit and UnitName(f.unit) or 'lol'
-    f.state.level = f.unit and UnitLevel(f.unit) or 'wut'
+    f.state.name = f.unit and UnitName(f.unit)
+    f.state.level = f.unit and UnitLevel(f.unit)
     f.state.micro = nil
 
     --[[ TODO
@@ -94,34 +95,7 @@ function addon.Nameplate.Create(f)
     f = f.parent
     addon:DispatchMessage('Create', f)
 end
-function addon.Nameplate.OnHealthUpdate(f)
-    f = f.parent
-
-    if f.elements.Healthbar then
-        f.Healthbar:SetMinMaxValues(0,UnitHealthMax(f.unit))
-        f.Healthbar:SetValue(UnitHealth(f.unit))
-    end
-
-    addon:DispatchMessage('HealthUpdate', f)
-end
 ------------------------------------------------------------ update functions --
--- watch for health colour changes
-local function UpdateHealthColour(f)
-    local r,g,b = kui.GetUnitColour(f.unit,2)
-    if not f.state.healthColour or
-       f.state.healthColour[1] ~= r or
-       f.state.healthColour[2] ~= g or
-       f.state.healthColour[3] ~= b
-    then
-        f.state.healthColour = { r,g,b }
-
-        if f.elements.Healthbar then
-            f.Healthbar:SetStatusBarColor(unpack(f.state.healthColour))
-        end
-
-        addon:DispatchMessage('HealthColourChange', f)
-    end
-end
 -- watch for glow colour changes
 local function UpdateGlowColour(f)
     --[[ TODO
@@ -177,9 +151,11 @@ end
 function addon.Nameplate.Update(f)
     f = f.parent
     if f.parent.namePlateUnitToken then
-        UpdateHealthColour(f)
+        -- TODO legacy
         UpdateGlowColour(f)
         UpdateMouseover(f)
+
+        addon:DispatchMessage('Update', f)
     else
         -- hide if unit is lost for some reason
         self:print('unit lost |cffff0000in update|r: '..unit..' ('..f.kui.state.name..')')
