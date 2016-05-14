@@ -1,6 +1,7 @@
 -- listen for castbar events and dispatch to nameplates
 local addon = KuiNameplates
 local ele = addon:NewElement('castbar')
+local _
 -- local functions #############################################################
 local function OnCastbarUpdate(f,elapsed)
     f = f.parent
@@ -57,7 +58,9 @@ function addon.Nameplate.CastbarShow(f)
 end
 function addon.Nameplate.CastbarHide(f)
     f = f.parent
+
     f.state.casting = false
+    wipe(f.cast_state)
 
     if f.elements.Castbar then
         f.Castbar:Hide()
@@ -82,7 +85,7 @@ function ele.Create(f)
 end
 -- events ######################################################################
 function ele:CastStart(event,f,unit)
-    local _,name,text,texture,startTime,endTime,notInterruptible
+    local name,text,texture,startTime,endTime,notInterruptible
     if event == 'UNIT_SPELLCAST_CHANNEL_START' then
         name,_,text,texture,startTime,endTime,_,_,notInterruptible = UnitChannelInfo(unit)
     else
@@ -107,9 +110,26 @@ function ele:CastStart(event,f,unit)
     f.handler:CastbarShow()
 end
 function ele:CastStop(event,f,unit)
-    wipe(f.cast_state)
-    f.state.casting = nil
     f.handler:CastbarHide()
+end
+function ele:CastUpdate(event,f,unit)
+    local startTime,endTime
+    if f.cast_state.channel then
+        _,_,_,_,startTime,endTime = UnitChannelInfo(unit)
+    else
+        _,_,_,_,startTime,endTime = UnitCastingInfo(unit)
+    end
+
+    if not startTime or not endTime then
+        f.handler:CastbarHide()
+        return
+    end
+
+    startTime = startTime / 1000
+    endTime = endTime / 1000
+
+    f.cast_state.duration = GetTime() - startTime
+    f.cast_state.max = endTime - startTime
 end
 -- register ####################################################################
 ele:RegisterMessage('Create')
@@ -119,8 +139,8 @@ ele:RegisterEvent('UNIT_SPELLCAST_FAILED')
 ele:RegisterEvent('UNIT_SPELLCAST_STOP','CastStop')
 ele:RegisterEvent('UNIT_SPELLCAST_CHANNEL_START','CastStart')
 ele:RegisterEvent('UNIT_SPELLCAST_CHANNEL_STOP','CastStop')
-ele:RegisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE')
+ele:RegisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE','CastUpdate')
 ele:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED','CastStop')
 ele:RegisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE')
 ele:RegisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE')
-ele:RegisterEvent('UNIT_SPELLCAST_DELAYED')
+ele:RegisterEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
