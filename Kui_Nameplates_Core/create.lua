@@ -87,16 +87,16 @@ test.Create = function(f)
         -- cast shield
         spellshield = overlay:CreateTexture(nil, 'ARTWORK')
         spellshield:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\Shield')
-        spellshield:SetTexCoord(0, .53125, 0, .625)
-        spellshield:SetSize(12, 14)
+        spellshield:SetTexCoord(0, .84375, 0, 1)
+        spellshield:SetSize(16 * .84375, 16)
         spellshield:SetPoint('LEFT', bg, -5, 0)
-        spellshield:SetVertexColor(.8, .1, .1)
+        spellshield:SetVertexColor(.5, .5, .7)
 
         -- spark
         local spark = castbar:CreateTexture(nil, 'ARTWORK')
         spark:SetDrawLayer('ARTWORK', 7)
         spark:SetVertexColor(1,1,.8)
-        spark:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\spark')
+        spark:SetTexture('Interface\\AddOns\\Kui_Media\\t\\spark')
         spark:SetPoint('CENTER', castbar:GetRegions(), 'RIGHT', 1, 0)
         spark:SetSize(6, 2 + 6)
 
