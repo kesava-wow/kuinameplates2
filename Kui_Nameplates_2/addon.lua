@@ -88,7 +88,7 @@ function addon:UNIT_HEALTH(unit)
     if not self:UnitHasNameplate(unit) then return end
     self:GetNameplateByUnit(unit).handler:OnHealthUpdate()
 end
-addon:RegisterEvent('UNIT_HEALTH',UnitEvent)
+addon:RegisterEvent('UNIT_HEALTH')
 --------------------------------------------------------------------------------
 local function OnEvent(self,event,...)
     if event ~= 'PLAYER_LOGIN' then
