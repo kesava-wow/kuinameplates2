@@ -37,21 +37,20 @@ local function event_frame_OnEvent(self,event,...)
         return
     end
 
-    for _,t in ipairs(event_listeners[event]) do
-        local f
-        if t[2] and t[1][t[2]] then
-            f = t[1][t[2]]
-        else
-            f = t[1][event]
+    for table,func in ipairs(event_listeners[event]) do
+        if type(func) == 'string' and type(table[func]) == 'function' then
+            func = table[func]
+        elseif type(t[event]) == 'function' then
+            func = table[event]
         end
 
-        if f then
+        if func then
             if event:sub(1,4) == 'UNIT' then
                 local unit = ...
                 if not addon:UnitHasNameplate(unit) then return end
-                f(t[1], addon:GetNameplateByUnit(unit), unit, ...)
+                func(table, addon:GetNameplateByUnit(unit), unit, ...)
             else
-                f(t[1], ...)
+                func(table, ...)
             end
         end
     end
@@ -87,14 +86,29 @@ function message.RegisterMessage(table, message)
         tinsert(listeners[message], table)
     end
 end
+------------------------------------------------------------- event registrar --
 function message.RegisterEvent(table,event,func)
     if not event_listeners[event] then
         event_listeners[event] = {}
     end
 
-    tinsert(event_listeners[event], {table,func})
+    event_listeners[event][table] = func or true
 
     event_frame:RegisterEvent(event)
+end
+function message.UnregisterEvent(table,event)
+    if not event_listeners[event] then return end
+
+    if event_listeners[event][table] then
+        event_listeners[event][table] = nil
+    end
+end
+function message.UnregisterAllEvents(table)
+    for event,t in pairs(event_listeners) do
+        if t[table] then
+            t[table] = nil
+        end
+    end
 end
 ------------------------------------------------------------ plugin registrar --
 -- priority = any number. Defines the load order. Default of 5.
