@@ -23,7 +23,7 @@ function addon:DispatchMessage(message, ...)
         addon.layout[message](...)
     end
 
-    if addon.debug then
+    if addon.debug_messages then
         addon:print('dispatched message: '..message)
     end
 end
@@ -37,6 +37,13 @@ local function event_frame_OnEvent(self,event,...)
         return
     end
 
+    local unit_frame,unit
+    if event:sub(1,4) == 'UNIT' then
+        unit = ...
+        unit_frame = addon:GetNameplateByUnit(unit)
+        if not unit_frame then return end
+    end
+
     for table,func in pairs(event_listeners[event]) do
         if type(func) == 'string' and type(table[func]) == 'function' then
             func = table[func]
@@ -44,14 +51,14 @@ local function event_frame_OnEvent(self,event,...)
             func = table[event]
         end
 
-        if func then
-            if event:sub(1,4) == 'UNIT' then
-                local unit = ...
-                if not addon:UnitHasNameplate(unit) then return end
-                func(table, event, addon:GetNameplateByUnit(unit), unit, ...)
+        if type(func) == 'function' then
+            if unit_frame then
+                func(table, event, unit_frame, unit, ...)
             else
                 func(table, event, ...)
             end
+        else
+            addon:print('|cffff0000no event listener for '..event..' in '..(table.name or 'nil'))
         end
     end
 end
