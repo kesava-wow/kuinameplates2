@@ -160,9 +160,7 @@ end
 ------------------------------------------------------------ update functions --
 -- watch for health colour changes
 local function UpdateHealthColour(f)
-    -- TODO I'm not sure why I did this
-    local c = kui.GetUnitColour(f.unit)
-    local r,g,b = c.r, c.g, c.b
+    local r,g,b = kui.GetUnitColour(f.unit,2)
     if not f.state.healthColour or
        f.state.healthColour[1] ~= r or
        f.state.healthColour[2] ~= g or

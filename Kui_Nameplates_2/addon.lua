@@ -31,7 +31,7 @@ function addon:print(msg)
     print('|cff666666KNP2 '..GetTime()..':|r '..(msg and msg or nil))
 end
 function addon:GetNameplateByUnit(unit)
-    return unit_to_frame[unit]
+    return unit_to_frame[unit].kui
 end
 --------------------------------------------------------------------------------
 local function OnUpdate(self,elap)
@@ -78,6 +78,12 @@ function addon:NAME_PLATE_UNIT_REMOVED(unit)
         f.kui.handler:OnHide()
     end
 end
+----------------------------------------------------------------- unit events --
+-- TODO should put this stuff in another file since there will be a lot
+function addon:UNIT_HEALTH(unit)
+    self:GetNameplateByUnit(unit).handler:OnHealthUpdate()
+end
+addon:RegisterEvent('UNIT_HEALTH')
 --------------------------------------------------------------------------------
 local function OnEvent(self,event,...)
     if event ~= 'PLAYER_LOGIN' then
