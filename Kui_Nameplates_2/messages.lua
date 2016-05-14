@@ -37,10 +37,10 @@ local function event_frame_OnEvent(self,event,...)
         return
     end
 
-    for table,func in ipairs(event_listeners[event]) do
+    for table,func in pairs(event_listeners[event]) do
         if type(func) == 'string' and type(table[func]) == 'function' then
             func = table[func]
-        elseif type(t[event]) == 'function' then
+        elseif type(table[event]) == 'function' then
             func = table[event]
         end
 
@@ -48,9 +48,9 @@ local function event_frame_OnEvent(self,event,...)
             if event:sub(1,4) == 'UNIT' then
                 local unit = ...
                 if not addon:UnitHasNameplate(unit) then return end
-                func(table, addon:GetNameplateByUnit(unit), unit, ...)
+                func(table, event, addon:GetNameplateByUnit(unit), unit, ...)
             else
-                func(table, ...)
+                func(table, event, ...)
             end
         end
     end
@@ -102,11 +102,19 @@ function message.UnregisterEvent(table,event)
     if event_listeners[event][table] then
         event_listeners[event][table] = nil
     end
+
+    if #event_listeners[event] == 0 then
+        event_listeners[event] = nil
+    end
 end
 function message.UnregisterAllEvents(table)
     for event,t in pairs(event_listeners) do
         if t[table] then
             t[table] = nil
+        end
+
+        if #t == 0 then
+            event_listeners[event] = nil
         end
     end
 end
