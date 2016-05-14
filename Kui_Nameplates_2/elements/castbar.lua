@@ -2,7 +2,7 @@
 local addon = KuiNameplates
 local ele = addon:NewElement('castbar')
 -- local functions #############################################################
-local function OnCastbarUpdate(f)
+local function OnCastbarUpdate(f,elapsed)
     f = f.parent
     if not f.state.casting then return end
 
