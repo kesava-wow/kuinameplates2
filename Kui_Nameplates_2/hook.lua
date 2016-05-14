@@ -46,7 +46,7 @@ function addon.HookNameplate(frame)
     frame.kui:SetScale(addon.uiscale)
     frame.kui:SetSize(addon.width, addon.height)
 
-    if addon.debug then
+    if addon.draw_frames then
         -- debug; visible frame sizes
         frame:SetBackdrop({ bgFile = kui.m.t.solid })
         frame:SetBackdropColor(0,0,0,.5)

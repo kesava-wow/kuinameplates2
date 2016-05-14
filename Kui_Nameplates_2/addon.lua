@@ -11,6 +11,7 @@ local addon = KuiNameplates
 local frameList = {}
 local unit_to_frame = {}
 addon.debug = true
+--addon.draw_frames = true
 
 -- plugin vars
 addon.plugins = {}
@@ -30,8 +31,11 @@ function addon:print(msg)
     if not addon.debug then return end
     print('|cff666666KNP2 '..GetTime()..':|r '..(msg and msg or nil))
 end
+function addon:UnitHasNameplate(unit)
+    return unit_to_frame[unit] and true or nil
+end
 function addon:GetNameplateByUnit(unit)
-    return unit_to_frame[unit].kui
+    return unit_to_frame[unit] and unit_to_frame[unit].kui or nil
 end
 --------------------------------------------------------------------------------
 local function OnUpdate(self,elap)
@@ -81,9 +85,10 @@ end
 ----------------------------------------------------------------- unit events --
 -- TODO should put this stuff in another file since there will be a lot
 function addon:UNIT_HEALTH(unit)
+    if not self:UnitHasNameplate(unit) then return end
     self:GetNameplateByUnit(unit).handler:OnHealthUpdate()
 end
-addon:RegisterEvent('UNIT_HEALTH')
+addon:RegisterEvent('UNIT_HEALTH',UnitEvent)
 --------------------------------------------------------------------------------
 local function OnEvent(self,event,...)
     if event ~= 'PLAYER_LOGIN' then
