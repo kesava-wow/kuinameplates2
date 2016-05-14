@@ -9,7 +9,8 @@
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
 local frameList = {}
---addon.debug = true
+local unit_to_frame = {}
+addon.debug = true
 
 -- plugin vars
 addon.plugins = {}
@@ -24,6 +25,14 @@ local last_plate_update = PLATE_UPDATE_PERIOD
 -- this is the size of the container, not the visible frame
 -- changing it will cause positioning problems
 local width, height = 142, 40
+--------------------------------------------------------------------------------
+function addon:print(msg)
+    if not addon.debug then return end
+    print('|cff666666KNP2 '..GetTime()..':|r '..(msg and msg or nil))
+end
+function addon:GetNameplateByUnit(unit)
+    return unit_to_frame[unit]
+end
 --------------------------------------------------------------------------------
 local function OnUpdate(self,elap)
     -- call plate update script every PLATE_UPDATE_PERIOD
@@ -48,8 +57,19 @@ end
 function addon:NAME_PLATE_UNIT_ADDED(unit)
     for f,_ in pairs(frameList) do
         if f.namePlateUnitToken == unit then
+            unit_to_frame[unit] = f
             f.kui:OnUnitAdded()
         end
+    end
+end
+function addon:NAME_PLATE_UNIT_REMOVED(unit)
+    local f = unit_to_frame[unit]
+    if not f then return end
+    unit_to_frame[unit] = nil
+
+    if f.kui:IsShown() then
+        self:print('unit lost: '..unit..' ('..f.kui.state.name..')')
+        f.kui.handler:OnHide()
     end
 end
 --------------------------------------------------------------------------------
@@ -90,3 +110,4 @@ addon:SetScript('OnEvent',OnEvent)
 addon:RegisterEvent('PLAYER_LOGIN')
 addon:RegisterEvent('NAME_PLATE_CREATED')
 addon:RegisterEvent('NAME_PLATE_UNIT_ADDED')
+addon:RegisterEvent('NAME_PLATE_UNIT_REMOVED')
