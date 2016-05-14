@@ -82,13 +82,20 @@ function addon:NAME_PLATE_UNIT_REMOVED(unit)
         f.kui.handler:OnHide()
     end
 end
------------------------------------------------------------------ unit events --
+---------------------------------------------------------- unit event handler --
 -- TODO should put this stuff in another file since there will be a lot
+local ue = CreateFrame('Frame')
+ue:SetScript('OnEvent', function(self,event,...)
+    if addon[event] then
+        if not addon:UnitHasNameplate(unit) then return end
+        addon[event](addon,...)
+    end
+end)
+ue:RegisterEvent('UNIT_HEALTH')
+----------------------------------------------------------------- unit events --
 function addon:UNIT_HEALTH(unit)
-    if not self:UnitHasNameplate(unit) then return end
     self:GetNameplateByUnit(unit).handler:OnHealthUpdate()
 end
-addon:RegisterEvent('UNIT_HEALTH')
 --------------------------------------------------------------------------------
 local function OnEvent(self,event,...)
     if event ~= 'PLAYER_LOGIN' then
