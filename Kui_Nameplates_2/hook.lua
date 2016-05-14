@@ -13,13 +13,6 @@ local select, strfind, setmetatable, floor
     = select, strfind, setmetatable, floor
 --------------------------------------------------------------------------------
 -------------------------------------------------------- Core script handlers --
-local function OnUnitAdded(frame)
-    frame.unit = frame.parent.namePlateUnitToken
-
-    frame.handler:Update()
-    frame.handler:OnHealthUpdate()
-    frame.handler:OnShow()
-end
 local function OnFrameHide(frame)
     frame.kui.handler:OnHide()
 end
@@ -72,7 +65,6 @@ function addon.HookNameplate(frame)
     -- base frame
     frame:HookScript('OnUpdate', OnFrameUpdate)
     frame:HookScript('OnHide', OnFrameHide)
-    frame.kui.OnUnitAdded = OnUnitAdded
 
     frame.kui.handler:Create()
 

@@ -57,8 +57,14 @@ end
 function addon:NAME_PLATE_UNIT_ADDED(unit)
     for f,_ in pairs(frameList) do
         if f.namePlateUnitToken == unit then
+            if unit_to_frame[unit] and unit_to_frame[unit] ~= f then
+                -- TODO DEBUG
+                self:print('|cffff0000unit overwritten|r: '..unit)
+                f.kui.handler:OnHide()
+            end
+
             unit_to_frame[unit] = f
-            f.kui:OnUnitAdded()
+            f.kui.handler:OnUnitAdded(unit)
         end
     end
 end

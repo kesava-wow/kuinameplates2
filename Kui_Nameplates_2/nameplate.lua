@@ -36,6 +36,15 @@ function addon.Nameplate.EnableElement(frame, element)
         frame.elements[element] = true
     end
 end
+-------------------------------------------------------- Frame event handlers --
+function addon.Nameplate.OnUnitAdded(f,unit)
+    f = f.parent
+    f.unit = unit
+
+    f.handler:Update()
+    f.handler:OnHealthUpdate()
+    f.handler:OnShow()
+end
 ------------------------------------------------------- Frame script handlers --
 function addon.Nameplate.OnShow(f)
     f = f.parent
