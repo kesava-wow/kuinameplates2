@@ -86,11 +86,6 @@ function addon.Nameplate.OnHide(f)
     f:Hide()
     addon:DispatchMessage('Hide', f)
 
-    -- reset highlight
-    if f.elements.Highlight then
-        f.Highlight:Hide()
-    end
-
     wipe(f.state)
 end
 function addon.Nameplate.Create(f)
@@ -125,37 +120,12 @@ local function UpdateGlowColour(f)
     end
     ]]
 end
--- check for mouseover highlight
-local function UpdateMouseover(f)
-    if f.parent.UnitFrame:IsMouseOver() then
-        if not f.state.highlight then
-            f.state.highlight = true
-
-            if f.elements.Highlight then
-                f.Highlight:Show()
-            end
-
-            addon:DispatchMessage('OnEnter', f)
-        end
-    else
-        if f.state.highlight then
-            f.state.highlight = false
-
-            if f.elements.Highlight then
-                f.Highlight:Hide()
-            end
-
-            addon:DispatchMessage('OnLeave', f)
-        end
-    end
-end
 -------------------------------------------------------- frame update handler --
 function addon.Nameplate.Update(f)
     f = f.parent
     if f.parent.namePlateUnitToken then
         -- TODO legacy
         UpdateGlowColour(f)
-        UpdateMouseover(f)
     else
         -- hide if unit is lost for some reason
         self:print('unit lost |cffff0000in update|r: '..unit..' ('..f.kui.state.name..')')
