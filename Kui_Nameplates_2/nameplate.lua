@@ -76,11 +76,10 @@ function addon.Nameplate.OnShow(f)
     end
 
     addon:DispatchMessage('Show', f)
-    f.DoShow = true
+    f:Show()
 end
 function addon.Nameplate.OnHide(f)
     f = f.parent
-    f.DoShow = nil
     f:Hide()
     addon:DispatchMessage('Hide', f)
 

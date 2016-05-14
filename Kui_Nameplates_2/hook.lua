@@ -16,21 +16,9 @@ local select, strfind, setmetatable, floor
 local function OnFrameHide(frame)
     frame.kui.handler:OnHide()
 end
-------------------------------------------------------- Core OnUpdate handler --
--- sets position of the base frame
-local function OnFrameUpdate(frame)
-    local x,y = frame.UnitFrame:GetCenter()
-    local scale = frame:GetScale()
-
-    -- align to pixel-perfect centre of the real nameplate frame
-    frame.kui:SetPoint('CENTER', WorldFrame, 'BOTTOMLEFT',
-        floor(x * scale / addon.uiscale), floor(y * scale / addon.uiscale))
-
-    if frame.kui.DoShow then
-        -- show the frame after it's been moved
-        frame.kui:Show()
-        frame.kui.DoShow = nil
-    end
+----------------------------------------------------------------------- Sizer --
+local function SizerOnSizeChanged(self,x,y)
+    self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
 end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts
@@ -41,6 +29,13 @@ function addon.HookNameplate(frame)
     frame.kui.state = {}
     frame.kui.elements = {}
     frame.kui.parent = frame
+
+    -- semlar's non-laggy positioning
+    local sizer = CreateFrame('Frame',nil,frame.kui)
+    sizer:SetPoint('BOTTOMLEFT',WorldFrame)
+    sizer:SetPoint('TOPRIGHT',frame,'CENTER')
+    sizer:SetScript('OnSizeChanged',SizerOnSizeChanged)
+    sizer.f = frame.kui
 
     -- hide blizzard's nameplate TODO obviously
     frame.UnitFrame.healthBar:SetAlpha(0)
@@ -63,7 +58,6 @@ function addon.HookNameplate(frame)
     setmetatable(frame.kui.handler, addon.Nameplate)
 
     -- base frame
-    frame:HookScript('OnUpdate', OnFrameUpdate)
     frame:HookScript('OnHide', OnFrameHide)
 
     frame.kui.handler:Create()
