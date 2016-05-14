@@ -59,7 +59,7 @@ end
 function addon.Nameplate.CastbarHide(f)
     f = f.parent
 
-    f.state.casting = false
+    f.state.casting = nil
     wipe(f.cast_state)
 
     if f.elements.Castbar then
@@ -82,6 +82,9 @@ function ele.Create(f)
     f.CastbarUpdateFrame:Hide()
     f.CastbarUpdateFrame.parent = f
     f.cast_state = {}
+end
+function ele.Hide(f)
+    f.handler:CastbarHide()
 end
 -- events ######################################################################
 function ele:CastStart(event,f,unit)
@@ -133,6 +136,7 @@ function ele:CastUpdate(event,f,unit)
 end
 -- register ####################################################################
 ele:RegisterMessage('Create')
+ele:RegisterMessage('Hide')
 
 ele:RegisterEvent('UNIT_SPELLCAST_START','CastStart')
 ele:RegisterEvent('UNIT_SPELLCAST_FAILED')
