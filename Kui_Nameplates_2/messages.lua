@@ -7,7 +7,7 @@
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
 
-local k,listener,plugin
+local k,listener,plugin,_
 local listeners = {}
 
 function addon:DispatchMessage(message, ...)
@@ -27,6 +27,37 @@ function addon:DispatchMessage(message, ...)
         addon:print('dispatched message: '..message)
     end
 end
+----------------------------------------------------------------- event frame --
+local event_frame = CreateFrame('Frame')
+local event_listeners = {}
+
+local function event_frame_OnEvent(self,event,...)
+    if not event_listeners[event] then
+        self:UnregisterEvent(event)
+        return
+    end
+
+    for _,t in ipairs(event_listeners[event]) do
+        local f
+        if t[2] and t[1][t[2]] then
+            f = t[1][t[2]]
+        else
+            f = t[1][event]
+        end
+
+        if f then
+            if event:sub(1,4) == 'UNIT' then
+                local unit = ...
+                if not addon:UnitHasNameplate(unit) then return end
+                f(t[1], addon:GetNameplateByUnit(unit), unit, ...)
+            else
+                f(t[1], ...)
+            end
+        end
+    end
+end
+
+event_frame:SetScript('OnEvent',event_frame_OnEvent)
 ----------------------------------------------------------- message registrar --
 local message = {}
 message.__index = message
@@ -56,6 +87,15 @@ function message.RegisterMessage(table, message)
         tinsert(listeners[message], table)
     end
 end
+function message.RegisterEvent(table,event,func)
+    if not event_listeners[event] then
+        event_listeners[event] = {}
+    end
+
+    tinsert(event_listeners[event], {table,func})
+
+    event_frame:RegisterEvent(event)
+end
 ------------------------------------------------------------ plugin registrar --
 -- priority = any number. Defines the load order. Default of 5.
 -- plugins with a higher priority are executed later (i.e. they override the
@@ -71,24 +111,13 @@ function addon:NewPlugin(priority)
 end
 -------------------------------------------------- external element registrar --
 function addon:NewElement(name)
-    local ele = CreateFrame('Frame')
-    ele.name = name
-    ele.plugin = true
-    ele.priority = 0
+    local ele = {
+        name = name,
+        plugin = true,
+        priority = 0
+    }
 
     setmetatable(ele, message)
-
-    ele:SetScript('OnEvent', function(self,event,...)
-        if not self[event] then return end
-        if event:sub(1,4) == 'UNIT' then
-            local unit = ...
-            if not addon:UnitHasNameplate(unit) then return end
-            self[event](self, addon:GetNameplateByUnit(unit), unit, ...)
-        else
-            self[event](self,...)
-        end
-    end)
-
     addon.elements[name] = ele
 
     return ele
