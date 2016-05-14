@@ -2,8 +2,9 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('healthbar')
--- local functions #############################################################
-local function UpdateHealthColour(f)
+-- prototype additions #########################################################
+function addon.Nameplate.UpdateHealthColour(f)
+    f = f.parent
     local r,g,b = kui.GetUnitColour(f.unit,2)
     if not f.state.healthColour or
        f.state.healthColour[1] ~= r or
@@ -19,7 +20,8 @@ local function UpdateHealthColour(f)
         addon:DispatchMessage('HealthColourChange', f)
     end
 end
-local function UpdateHealth(f)
+function addon.Nameplate.UpdateHealth(f)
+    f = f.parent
     if f.elements.Healthbar then
         f.Healthbar:SetMinMaxValues(0,UnitHealthMax(f.unit))
         f.Healthbar:SetValue(UnitHealth(f.unit))
@@ -29,14 +31,14 @@ local function UpdateHealth(f)
 end
 -- messages ####################################################################
 function ele.Update(f)
-    UpdateHealthColour(f)
+    f.handler:UpdateHealthColour(f)
 end
 function ele.PreShow(f)
-    UpdateHealth(f)
+    f.handler:UpdateHealth(f)
 end
 -- events ######################################################################
 function ele:UNIT_HEALTH(event,f,unit)
-    UpdateHealth(f)
+    f.handler:UpdateHealth(f)
 end
 -- register ####################################################################
 ele:RegisterMessage('Update')
