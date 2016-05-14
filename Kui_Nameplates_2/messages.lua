@@ -22,6 +22,10 @@ function addon:DispatchMessage(message, ...)
         -- ... and the layout's listener
         addon.layout[message](...)
     end
+
+    if addon.debug then
+        addon:print('disatched message: '..message)
+    end
 end
 ----------------------------------------------------------- message registrar --
 local message = {}

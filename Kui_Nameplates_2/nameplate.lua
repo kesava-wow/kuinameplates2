@@ -108,29 +108,28 @@ end
 
 function addon.Nameplate.OnCastbarShow(f)
     f = f.parent
-    --[[ TODO
-    f.state.casting = true
 
     if f.elements.Castbar then
-        f.Castbar:SetMinMaxValues(f.default.castbar:GetMinMaxValues())
-        f.Castbar:SetValue(f.default.castbar:GetValue())
+        f.Castbar:SetMinMaxValues(0,f.state.cast_max)
+        f.Castbar:SetValue(0)
         f.Castbar:Show()
+
+        f.Castbar:SetScript('OnUpdate',addon.Nameplate.OnCastbarUpdate)
     end
 
     if f.elements.SpellName then
-        f.SpellName:SetText(f.default.spellNameText:GetText())
+        f.SpellName:SetText(f.state.cast_name)
     end
 
     if f.elements.SpellIcon then
-        f.SpellIcon:SetTexture(f.default.spellIcon:GetTexture())
+        f.SpellIcon:SetTexture(f.state.cast_icon)
     end
 
-    if f.elements.SpellShield then
+    if f.elements.SpellShield and not f.state.cast_interruptible then
         f.SpellShield:Show()
     end
 
     addon:DispatchMessage('CastbarShow', f)
-    ]]
 end
 function addon.Nameplate.OnCastbarHide(f)
     f = f.parent
@@ -138,6 +137,7 @@ function addon.Nameplate.OnCastbarHide(f)
 
     if f.elements.Castbar then
         f.Castbar:Hide()
+        f.Castbar:SetScript('OnUpdate',nil)
     end
 
     if f.elements.SpellShield then
@@ -146,16 +146,16 @@ function addon.Nameplate.OnCastbarHide(f)
 
     addon:DispatchMessage('CastbarHide', f)
 end
-function addon.Nameplate.OnCastbarUpdate(f)
-    if not f.parent.state.casting then return end
-    f = f.parent
+function addon.Nameplate.OnCastbarUpdate(castbar,elapsed)
+    local f = castbar:GetParent().parent.kui
+    if not f.state.casting then return end
 
-    --[[ TODO
-    if f.elements.Castbar then
-        f.Castbar:SetMinMaxValues(f.default.castbar:GetMinMaxValues())
-        f.Castbar:SetValue(f.default.castbar:GetValue())
+    f.state.cast_duration = f.state.cast_duration + elapsed
+    f.Castbar:SetValue(f.state.cast_duration)
+
+    if f.state.cast_duration >= f.state.cast_max then
+        f.handler:OnCastbarHide()
     end
-    ]]
 end
 ------------------------------------------------------------ update functions --
 -- watch for health colour changes
