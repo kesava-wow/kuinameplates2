@@ -5,7 +5,10 @@ local ele = addon:NewElement('highlight')
 -- hightlight checker frame ####################################################
 local HighlightUpdateFrame = CreateFrame('Frame')
 local function HighlightUpdate(self)
-    if self.current and not UnitExists('mouseover') then
+    if  self.current and
+        (not UnitExists('mouseover') or
+         not UnitIsUnit('mouseover',self.current.unit))
+    then
         self.current.handler:HighlightHide()
         self.current = nil
         self:SetScript('OnUpdate',nil)
