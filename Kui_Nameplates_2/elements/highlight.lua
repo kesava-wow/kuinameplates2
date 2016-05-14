@@ -2,45 +2,53 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('highlight')
--- local functions #############################################################
+-- hightlight checker frame ####################################################
 local HighlightUpdateFrame = CreateFrame('Frame')
 local function HighlightUpdate(self)
-    if not UnitExists('mouseover') then
+    if self.current and not UnitExists('mouseover') then
+        self.current.handler:HighlightHide()
+        self.current = nil
+        self:SetScript('OnUpdate',nil)
+    elseif not self.current then
+        self:SetScript('OnUpdate',nil)
+    end
+end
+function HighlightUpdateFrame:Highlight(f)
+    if self.current then
         self.current.handler:HighlightHide()
     end
+
+    self.current = f
+    self:SetScript('OnUpdate',HighlightUpdate)
 end
 -- prototype additions #########################################################
 function addon.Nameplate.HighlightShow(f)
     f = f.parent
+    if f.state.highlight then return end
     f.state.highlight = true
 
     if f.elements.Highlight then
         f.Highlight:Show()
     end
 
-    HighlightUpdateFrame.current = f
-    HighlightUpdateFrame:SetScript('Onupdate',HighlightUpdate)
+    HighlightUpdateFrame:Highlight(f)
 
     addon:DispatchMessage('OnEnter', f)
 end
 function addon.Nameplate.HighlightHide(f)
     f = f.parent
+    if not f.state.highlight then return end
     f.state.highlight = nil
 
     if f.elements.Highlight then
         f.Highlight:Hide()
     end
 
-    HighlightUpdateFrame.current = nil
-    HighlightUpdateFrame:SetScript('OnUpdate',nil)
-
     addon:DispatchMessage('OnLeave', f)
 end
 -- messages ####################################################################
 function ele.Hide(f)
-    if f.elements.Highlight then
-        f.Highlight:Hide()
-    end
+    f.handler:HighlightHide()
 end
 -- events ######################################################################
 function ele:UPDATE_MOUSEOVER_UNIT(event)
