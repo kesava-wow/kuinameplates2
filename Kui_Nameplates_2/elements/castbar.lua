@@ -83,6 +83,19 @@ function ele.Create(f)
     f.CastbarUpdateFrame.parent = f
     f.cast_state = {}
 end
+function ele.Show(f)
+    local name = UnitCastingInfo(f.unit)
+    if name then
+        ele:CastStart('UNIT_SPELLCAST_START',f,f.unit)
+        return
+    end
+
+    name = UnitChannelInfo(f.unit)
+    if name then
+        ele:CastStart('UNIT_SPELLCAST_CHANNEL_START',f,f.unit)
+        return
+    end
+end
 function ele.Hide(f)
     f.handler:CastbarHide()
 end
@@ -136,6 +149,7 @@ function ele:CastUpdate(event,f,unit)
 end
 -- register ####################################################################
 ele:RegisterMessage('Create')
+ele:RegisterMessage('Show')
 ele:RegisterMessage('Hide')
 
 ele:RegisterEvent('UNIT_SPELLCAST_START','CastStart')
