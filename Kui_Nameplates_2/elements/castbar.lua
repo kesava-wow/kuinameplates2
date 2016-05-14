@@ -8,14 +8,18 @@ local function OnCastbarUpdate(f,elapsed)
 
     f.cast_state.duration = f.cast_state.duration + elapsed
 
-    if f.cast_state.channelling then
+    if f.cast_state.channel then
         f.Castbar:SetValue(f.cast_state.max - f.cast_state.duration)
+
+        if f.cast_state.duration > f.cast_state.max then
+            f.handler:CastbarHide()
+        end
     else
         f.Castbar:SetValue(f.cast_state.duration)
-    end
 
-    if f.cast_state.duration >= f.cast_state.max then
-        f.handler:CastbarHide()
+        if f.cast_state.duration >= f.cast_state.max then
+            f.handler:CastbarHide()
+        end
     end
 end
 -- prototype additions #########################################################
@@ -25,7 +29,7 @@ function addon.Nameplate.CastbarShow(f)
     if f.elements.Castbar then
         f.Castbar:SetMinMaxValues(0,f.cast_state.max)
 
-        if f.cast_state.channelling then
+        if f.cast_state.channel then
             f.Castbar:SetValue(f.cast_state.max)
         else
             f.Castbar:SetValue(0)
@@ -77,8 +81,14 @@ function ele.Create(f)
     f.cast_state = {}
 end
 -- events ######################################################################
-local function CastStart(event,f,unit)
-    local name,_,text,texture,startTime,endTime,_,_,notInterruptible = UnitCastingInfo(unit)
+function ele:CastStart(event,f,unit)
+    local _,name,text,texture,startTime,endTime,notInterruptible
+    if event == 'UNIT_SPELLCAST_CHANNEL_START' then
+        name,_,text,texture,startTime,endTime,_,_,notInterruptible = UnitChannelInfo(unit)
+    else
+        name,_,text,texture,startTime,endTime,_,_,notInterruptible = UnitCastingInfo(unit)
+    end
+    if not name then return end
 
     startTime = startTime / 1000
     endTime   = endTime / 1000
@@ -86,19 +96,17 @@ local function CastStart(event,f,unit)
     f.state.casting            = true
     f.cast_state.name          = text
     f.cast_state.icon          = texture
+    f.cast_state.duration      = GetTime() - startTime
     f.cast_state.max           = endTime - startTime
     f.cast_state.interruptible = not notInterruptible
 
     if event == 'UNIT_SPELLCAST_CHANNEL_START' then
-        f.cast_state.duration = endTime - GetTime()
-        f.cast_state.channelling = true
-    else
-        f.cast_state.duration = GetTime() - startTime
+        f.cast_state.channel = true
     end
 
     f.handler:CastbarShow()
 end
-function ele:UNIT_SPELLCAST_STOP(event,f,unit)
+function ele:CastStop(event,f,unit)
     wipe(f.cast_state)
     f.state.casting = nil
     f.handler:CastbarHide()
@@ -108,11 +116,11 @@ ele:RegisterMessage('Create')
 
 ele:RegisterEvent('UNIT_SPELLCAST_START','CastStart')
 ele:RegisterEvent('UNIT_SPELLCAST_FAILED')
-ele:RegisterEvent('UNIT_SPELLCAST_STOP')
+ele:RegisterEvent('UNIT_SPELLCAST_STOP','CastStop')
 ele:RegisterEvent('UNIT_SPELLCAST_CHANNEL_START','CastStart')
-ele:RegisterEvent('UNIT_SPELLCAST_CHANNEL_STOP')
+ele:RegisterEvent('UNIT_SPELLCAST_CHANNEL_STOP','CastStop')
 ele:RegisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE')
-ele:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED')
+ele:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED','CastStop')
 ele:RegisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE')
 ele:RegisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE')
 ele:RegisterEvent('UNIT_SPELLCAST_DELAYED')
