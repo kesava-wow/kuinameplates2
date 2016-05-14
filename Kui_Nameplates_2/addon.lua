@@ -11,7 +11,7 @@ local addon = KuiNameplates
 local frameList = {}
 local unit_to_frame = {}
 addon.debug = true
---addon.debug_messages = true
+addon.debug_messages = true
 --addon.draw_frames = true
 
 -- plugin vars
@@ -24,7 +24,7 @@ end
 -- element vars
 addon.elements = {}
 
-local PLATE_UPDATE_PERIOD = .1
+local PLATE_UPDATE_PERIOD = 1
 local last_plate_update = PLATE_UPDATE_PERIOD
 
 -- this is the size of the container, not the visible frame

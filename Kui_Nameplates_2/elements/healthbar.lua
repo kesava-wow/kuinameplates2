@@ -30,18 +30,18 @@ function addon.Nameplate.UpdateHealth(f)
     addon:DispatchMessage('HealthUpdate', f)
 end
 -- messages ####################################################################
-function ele.Update(f)
-    f.handler:UpdateHealthColour(f)
-end
 function ele.PreShow(f)
     f.handler:UpdateHealth(f)
 end
 -- events ######################################################################
-function ele:UNIT_HEALTH(event,f,unit)
+function ele:UNIT_FACTION(event,f)
+    f.handler:UpdateHealthColour(f)
+end
+function ele:UNIT_HEALTH(event,f)
     f.handler:UpdateHealth(f)
 end
 -- register ####################################################################
-ele:RegisterMessage('Update')
 ele:RegisterMessage('PreShow')
 
 ele:RegisterEvent('UNIT_HEALTH')
+ele:RegisterEvent('UNIT_FACTION')

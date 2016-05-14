@@ -154,8 +154,6 @@ function addon.Nameplate.Update(f)
         -- TODO legacy
         UpdateGlowColour(f)
         UpdateMouseover(f)
-
-        addon:DispatchMessage('Update', f)
     else
         -- hide if unit is lost for some reason
         self:print('unit lost |cffff0000in update|r: '..unit..' ('..f.kui.state.name..')')
