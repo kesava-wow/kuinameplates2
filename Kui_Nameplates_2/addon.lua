@@ -20,6 +20,9 @@ local function PluginSort(a,b)
     return a.priority > b.priority
 end
 
+-- element vars
+addon.elements = {}
+
 local PLATE_UPDATE_PERIOD = .1
 local last_plate_update = PLATE_UPDATE_PERIOD
 
@@ -92,37 +95,9 @@ ue:SetScript('OnEvent', function(self,event,unit,...)
     end
 end)
 ue:RegisterEvent('UNIT_HEALTH')
-ue:RegisterEvent('UNIT_SPELLCAST_START')
-ue:RegisterEvent('UNIT_SPELLCAST_FAILED')
-ue:RegisterEvent('UNIT_SPELLCAST_STOP')
-ue:RegisterEvent('UNIT_SPELLCAST_CHANNEL_START')
-ue:RegisterEvent('UNIT_SPELLCAST_CHANNEL_STOP')
-ue:RegisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE')
-ue:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED')
-ue:RegisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE')
-ue:RegisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE')
-ue:RegisterEvent('UNIT_SPELLCAST_DELAYED')
 ----------------------------------------------------------------- unit events --
 function addon:UNIT_HEALTH(f,unit)
     f.handler:OnHealthUpdate()
-end
-function addon:UNIT_SPELLCAST_START(f,unit)
-    local name,_,text,texture,startTime,endTime,_,_,notInterruptible = UnitCastingInfo(unit)
-    startTime = startTime / 1000
-    endTime = endTime / 1000
-
-    f.state.casting            = true
-    f.state.cast_name          = text
-    f.state.cast_icon          = texture
-    f.state.cast_duration      = GetTime() - startTime
-    f.state.cast_max           = endTime - startTime
-    f.state.cast_interruptible = not notInterruptible
-
-    f.handler:OnCastbarShow()
-end
-function addon:UNIT_SPELLCAST_STOP(f,unit)
-    f.state.casting = nil
-    f.handler:OnCastbarHide()
 end
 --------------------------------------------------------------------------------
 local function OnEvent(self,event,...)

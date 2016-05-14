@@ -3,7 +3,7 @@
 -- By Kesava at curse.com
 -- All rights reserved
 --------------------------------------------------------------------------------
--- Handle frame event listeners
+-- Handle frame event listeners, dispatch messages, init plugins/elements/layout
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
 
@@ -24,7 +24,7 @@ function addon:DispatchMessage(message, ...)
     end
 
     if addon.debug then
-        addon:print('disatched message: '..message)
+        addon:print('dispatched message: '..message)
     end
 end
 ----------------------------------------------------------- message registrar --
@@ -68,6 +68,30 @@ function addon:NewPlugin(priority)
     setmetatable(pluginTable, message)
     tinsert(addon.plugins, pluginTable)
     return pluginTable
+end
+-------------------------------------------------- external element registrar --
+function addon:NewElement(name)
+    local ele = CreateFrame('Frame')
+    ele.name = name
+    ele.plugin = true
+    ele.priority = 0
+
+    setmetatable(ele, message)
+
+    ele:SetScript('OnEvent', function(self,event,...)
+        if not self[event] then return end
+        if event:sub(1,4) == 'UNIT' then
+            local unit = ...
+            if not addon:UnitHasNameplate(unit) then return end
+            self[event](self, addon:GetNameplateByUnit(unit), unit, ...)
+        else
+            self[event](self,...)
+        end
+    end)
+
+    addon.elements[name] = ele
+
+    return ele
 end
 ------------------------------------------------------------ layout registrar --
 -- the layout is always executed last

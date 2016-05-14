@@ -94,7 +94,6 @@ function addon.Nameplate.Create(f)
     f = f.parent
     addon:DispatchMessage('Create', f)
 end
-
 function addon.Nameplate.OnHealthUpdate(f)
     f = f.parent
 
@@ -104,58 +103,6 @@ function addon.Nameplate.OnHealthUpdate(f)
     end
 
     addon:DispatchMessage('HealthUpdate', f)
-end
-
-function addon.Nameplate.OnCastbarShow(f)
-    f = f.parent
-
-    if f.elements.Castbar then
-        f.Castbar:SetMinMaxValues(0,f.state.cast_max)
-        f.Castbar:SetValue(0)
-        f.Castbar:Show()
-
-        f.Castbar:SetScript('OnUpdate',addon.Nameplate.OnCastbarUpdate)
-    end
-
-    if f.elements.SpellName then
-        f.SpellName:SetText(f.state.cast_name)
-    end
-
-    if f.elements.SpellIcon then
-        f.SpellIcon:SetTexture(f.state.cast_icon)
-    end
-
-    if f.elements.SpellShield and not f.state.cast_interruptible then
-        f.SpellShield:Show()
-    end
-
-    addon:DispatchMessage('CastbarShow', f)
-end
-function addon.Nameplate.OnCastbarHide(f)
-    f = f.parent
-    f.state.casting = false
-
-    if f.elements.Castbar then
-        f.Castbar:Hide()
-        f.Castbar:SetScript('OnUpdate',nil)
-    end
-
-    if f.elements.SpellShield then
-        f.SpellShield:Hide()
-    end
-
-    addon:DispatchMessage('CastbarHide', f)
-end
-function addon.Nameplate.OnCastbarUpdate(castbar,elapsed)
-    local f = castbar:GetParent().parent.kui
-    if not f.state.casting then return end
-
-    f.state.cast_duration = f.state.cast_duration + elapsed
-    f.Castbar:SetValue(f.state.cast_duration)
-
-    if f.state.cast_duration >= f.state.cast_max then
-        f.handler:OnCastbarHide()
-    end
 end
 ------------------------------------------------------------ update functions --
 -- watch for health colour changes

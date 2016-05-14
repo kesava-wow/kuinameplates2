@@ -1,7 +1,7 @@
 ## Interface: 70000
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates:|r |cffffffffBase|r
-## Notes: Kesava's nameplate framework.\nRemember to enable Kui Nameplates Core (or a compatible layout), too!
+## Notes: Kesava's nameplate framework.|nRemember to enable Kui Nameplates Core (or a compatible layout), too!
 ## SavedVariables: KuiNameplatesGDB
 
 lib\embeds.xml
@@ -10,6 +10,8 @@ addon.lua
 messages.lua
 nameplate.lua
 hook.lua
+
+elements/castbar.lua
 
 modules/reactioncolours.lua
 modules/threat.lua
