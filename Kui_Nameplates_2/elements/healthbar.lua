@@ -32,6 +32,7 @@ end
 -- messages ####################################################################
 function ele.PreShow(f)
     f.handler:UpdateHealth(f)
+    f.handler:UpdateHealthColour(f)
 end
 -- events ######################################################################
 function ele:UNIT_FACTION(event,f)

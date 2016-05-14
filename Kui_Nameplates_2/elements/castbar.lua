@@ -58,6 +58,7 @@ function addon.Nameplate.CastbarShow(f)
 end
 function addon.Nameplate.CastbarHide(f)
     f = f.parent
+    if not f.state.casting then return end
 
     f.state.casting = nil
     wipe(f.cast_state)

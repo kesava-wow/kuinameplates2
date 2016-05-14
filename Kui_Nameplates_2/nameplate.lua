@@ -81,6 +81,8 @@ function addon.Nameplate.OnShow(f)
 end
 function addon.Nameplate.OnHide(f)
     f = f.parent
+    if not f:IsShown() then return end
+
     f:Hide()
     addon:DispatchMessage('Hide', f)
 
