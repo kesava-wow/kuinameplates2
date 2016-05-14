@@ -26,6 +26,9 @@ test.Create = function(f)
         glow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\FrameGlow')
         glow:SetTexCoord(0, .469, 0, .625)
 
+        -- TODO temp while threat detection doesn't exist
+        glow:SetVertexColor(0, 0, 0, .8)
+
         healthbar = CreateFrame('StatusBar', nil, f)
         healthbar:SetStatusBarTexture(kui.m.t.bar)
 
