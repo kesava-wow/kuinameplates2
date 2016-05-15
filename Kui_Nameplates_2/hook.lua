@@ -3,7 +3,7 @@
 -- By Kesava at curse.com
 -- All rights reserved
 --------------------------------------------------------------------------------
--- Find nameplates and hook the base frame scripts
+-- Create base frame and hook scripts
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
@@ -37,7 +37,7 @@ function addon.HookNameplate(frame)
     sizer:SetScript('OnSizeChanged',SizerOnSizeChanged)
     sizer.f = frame.kui
 
-    -- hide blizzard's nameplate TODO obviously
+    -- hide blizzard's nameplate
     frame.UnitFrame:Hide()
     frame.UnitFrame:HookScript('OnShow',function(self)
         self:Hide()

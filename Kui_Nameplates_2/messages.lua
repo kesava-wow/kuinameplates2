@@ -11,9 +11,13 @@ local k,listener,plugin,_
 local listeners = {}
 
 function addon:DispatchMessage(message, ...)
+    if addon.debug_messages then
+        addon:print('dispatch message: '..message)
+    end
+
     if listeners[message] then
         -- call plugin listeners...
-        for k,listener in ipairs(listeners[message]) do
+        for _,listener in ipairs(listeners[message]) do
             listener[message](...)
         end
     end
@@ -22,14 +26,11 @@ function addon:DispatchMessage(message, ...)
         -- ... and the layout's listener
         addon.layout[message](...)
     end
-
-    if addon.debug_messages then
-        addon:print('dispatched message: '..message)
-    end
 end
 ----------------------------------------------------------------- event frame --
 local event_frame = CreateFrame('Frame')
 local event_listeners = {}
+local event_index = {}
 
 local function event_frame_OnEvent(self,event,...)
     if not event_listeners[event] then
@@ -44,7 +45,9 @@ local function event_frame_OnEvent(self,event,...)
         if not unit_frame then return end
     end
 
-    for table,func in pairs(event_listeners[event]) do
+    for _,table in ipairs(event_index[event]) do
+        local func = event_listeners[event][table]
+
         if type(func) == 'string' and type(table[func]) == 'function' then
             func = table[func]
         elseif type(table[event]) == 'function' then
@@ -56,6 +59,10 @@ local function event_frame_OnEvent(self,event,...)
                 func(table, event, unit_frame, unit, ...)
             else
                 func(table, event, ...)
+            end
+
+            if addon.debug_messages then
+                addon:print('event '..event..' > '..(table.name or 'nil'))
             end
         else
             addon:print('|cffff0000no event listener for '..event..' in '..(table.name or 'nil'))
@@ -70,6 +77,7 @@ message.__index = message
 function message.RegisterMessage(table, message)
     if not table or not message then return end
     if not table.plugin then return end
+    if not type(table[message]) == 'function' then return end
     if not listeners[message] then
         listeners[message] = {}
     end
@@ -78,7 +86,7 @@ function message.RegisterMessage(table, message)
     if #listeners[message] > 0 then
         local inserted
         for k,plugin in ipairs(listeners[message]) do
-            if plugin.priority > table.priority then
+            if not inserted and plugin.priority > table.priority then
                 -- insert before a higher priority plugin
                 tinsert(listeners[message], k, table)
                 inserted = true
@@ -97,9 +105,27 @@ end
 function message.RegisterEvent(table,event,func)
     if not event_listeners[event] then
         event_listeners[event] = {}
+        event_index[event] = {}
     end
 
     event_listeners[event][table] = func or true
+
+    -- also insert into index by priority
+    if #event_index[event] > 0 then
+        local inserted
+        for k,plugin in ipairs(event_index[event]) do
+            if not inserted and plugin.priority > table.priority then
+                tinsert(event_index[event], k, table)
+                inserted = true
+            end
+        end
+
+        if not inserted then
+            tinsert(event_index[event], table)
+        end
+    end
+
+    tinsert(event_index[event], table)
 
     event_frame:RegisterEvent(event)
 end
@@ -113,16 +139,17 @@ function message.UnregisterEvent(table,event)
     if #event_listeners[event] == 0 then
         event_listeners[event] = nil
     end
+
+    -- also remove from index
+    for k,v in event_index[event] do
+        if v == table then
+            tremove(event_index,k)
+        end
+    end
 end
 function message.UnregisterAllEvents(table)
-    for event,t in pairs(event_listeners) do
-        if t[table] then
-            t[table] = nil
-        end
-
-        if #t == 0 then
-            event_listeners[event] = nil
-        end
+    for event,_ in pairs(event_listeners) do
+        message.UnregisterEvent(table,event)
     end
 end
 ------------------------------------------------------------ plugin registrar --

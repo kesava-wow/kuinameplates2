@@ -25,6 +25,9 @@ local function eq(t,v)
     end
 end
 
+reaction.Show = function(f)
+    reaction.HealthColourChange(f)
+end
 reaction.HealthColourChange = function(f)
     local r,g,b = unpack(f.state.healthColour)
 
@@ -53,5 +56,6 @@ reaction.HealthColourChange = function(f)
 end
 
 function reaction:Initialise()
+    self:RegisterMessage('Show')
     self:RegisterMessage('HealthColourChange')
 end
