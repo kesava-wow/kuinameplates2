@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 14
+local MAJOR, MINOR = 'Kui-1.0', 15
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -75,7 +75,10 @@ kui.GetUnitColour = function(unit, str)
     -- faction colour for NPCs
     local r,g,b
 
-    if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
+    if UnitIsTapDenied(unit) or
+       UnitIsDeadOrGhost(unit) or
+       not UnitIsConnected(unit)
+    then
         r,g,b = .5,.5,.5
     else
         if UnitIsPlayer(unit) or kui.UnitIsPet(unit) then
