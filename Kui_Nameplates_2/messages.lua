@@ -62,7 +62,7 @@ local function event_frame_OnEvent(self,event,...)
             end
 
             if addon.debug_messages then
-                addon:print('event '..event..' > '..(table.name or 'nil'))
+                addon:print('event '..event..(unit and ' ['..unit..']' or '')..' > '..(table.name or 'nil'))
             end
         else
             addon:print('|cffff0000no event listener for '..event..' in '..(table.name or 'nil'))
