@@ -18,9 +18,12 @@ local function OnFrameHide(frame)
 end
 ----------------------------------------------------------------------- Sizer --
 local function SizerOnSizeChanged(self,x,y)
-    --self.f:Hide() TODO external textures flash with this
+    -- TODO
+    -- SetCVar('releaseUITextures',0)
+    -- is necessary to have textures not flash when moving with this
+    self.f:Hide()
     self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
-    --self.f:Show()
+    self.f:Show()
 end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts
