@@ -37,13 +37,16 @@ end
 function addon:NAME_PLATE_UNIT_ADDED(unit)
     local f = C_NamePlate.GetNamePlateForUnit(unit)
     if not f then return end
+
+    self:print('unit added: '..unit..' ('..UnitName(unit)..')')
     f.kui.handler:OnUnitAdded(unit)
 end
 function addon:NAME_PLATE_UNIT_REMOVED(unit)
     local f = C_NamePlate.GetNamePlateForUnit(unit)
     if not f then return end
+
     if f.kui:IsShown() then
-        self:print('unit lost: '..unit..' ('..f.kui.state.name..')')
+        self:print('unit removed: '..unit..' ('..f.kui.state.name..')')
         f.kui.handler:OnHide()
     end
 end
