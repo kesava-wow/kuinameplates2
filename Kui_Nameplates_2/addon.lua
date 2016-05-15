@@ -65,7 +65,9 @@ local function OnEvent(self,event,...)
 
     -- initialise plugins
     if #self.plugins > 0 then
+        -- sort to be initialised by order of priority
         sort(self.plugins, PluginSort)
+
         for k,plugin in ipairs(self.plugins) do
             plugin:Initialise()
         end
