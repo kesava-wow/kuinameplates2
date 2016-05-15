@@ -39,10 +39,13 @@ local function event_frame_OnEvent(self,event,...)
     end
 
     local unit_frame,unit
-    if event:sub(1,4) == 'UNIT' then
+    if event:find('UNIT') == 1 then
         unit = ...
+        if unit:find('nameplate') ~= 1 then return end
+
         unit_frame = C_NamePlate.GetNamePlateForUnit(unit)
         if not unit_frame then return end
+
         unit_frame = unit_frame.kui
     end
 
