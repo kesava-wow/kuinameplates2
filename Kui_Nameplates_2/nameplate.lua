@@ -40,10 +40,6 @@ end
 function addon.Nameplate.OnUnitAdded(f,unit)
     f = f.parent
     f.unit = unit
-
-    addon:DispatchMessage('PreShow', f)
-
-    f.handler:Update()
     f.handler:OnShow()
 end
 ------------------------------------------------------- Frame script handlers --
@@ -94,8 +90,8 @@ function addon.Nameplate.Create(f)
 end
 ------------------------------------------------------------ update functions --
 -- watch for glow colour changes
+--[[
 local function UpdateGlowColour(f)
-    --[[ TODO
     if f.default.glow:IsShown() then
         f.state.glowing = true
         local r,g,b,a = f.default.glow:GetVertexColor()
@@ -118,17 +114,5 @@ local function UpdateGlowColour(f)
         f.state.glowColour = { 0, 0, 0, 0 }
         addon:DispatchMessage('GlowColourChange', f)
     end
-    ]]
 end
--------------------------------------------------------- frame update handler --
-function addon.Nameplate.Update(f)
-    f = f.parent
-    if f.parent.namePlateUnitToken then
-        -- TODO legacy
-        UpdateGlowColour(f)
-    else
-        -- hide if unit is lost for some reason
-        self:print('unit lost |cffff0000in update|r: '..unit..' ('..f.kui.state.name..')')
-        f.kui.handler:OnHide()
-    end
-end
+]]

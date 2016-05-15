@@ -24,9 +24,6 @@ end
 -- element vars
 addon.elements = {}
 
-local PLATE_UPDATE_PERIOD = 1
-local last_plate_update = PLATE_UPDATE_PERIOD
-
 -- this is the size of the container, not the visible frame
 -- changing it will cause positioning problems
 local width, height = 142, 40
@@ -40,22 +37,6 @@ function addon:UnitHasNameplate(unit)
 end
 function addon:GetNameplateByUnit(unit)
     return unit_to_frame[unit] and unit_to_frame[unit].kui or nil
-end
---------------------------------------------------------------------------------
-local function OnUpdate(self,elap)
-    -- call plate update script every PLATE_UPDATE_PERIOD
-    last_plate_update = last_plate_update + elap
-
-    if last_plate_update > PLATE_UPDATE_PERIOD then
-        last_plate_update = 0
-
-        local f,_
-        for f,_ in pairs(frameList) do
-            if f.kui:IsShown() then
-                f.kui.handler:Update()
-            end
-        end
-    end
 end
 --------------------------------------------------------------------------------
 function addon:NAME_PLATE_CREATED(frame)
@@ -114,9 +95,6 @@ local function OnEvent(self,event,...)
             self.layout:Initialise()
         end
     end
-
-    -- begin searching for nameplates
-    self:SetScript('OnUpdate',OnUpdate)
 end
 ------------------------------------------- initialise addon scripts & events --
 addon:SetScript('OnEvent',OnEvent)

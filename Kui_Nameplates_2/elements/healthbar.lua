@@ -3,7 +3,7 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('healthbar')
 -- prototype additions #########################################################
-function addon.Nameplate.UpdateHealthColour(f)
+function addon.Nameplate.UpdateHealthColour(f,show)
     f = f.parent
     local r,g,b = kui.GetUnitColour(f.unit,2)
     if not f.state.healthColour or
@@ -17,22 +17,26 @@ function addon.Nameplate.UpdateHealthColour(f)
             f.Healthbar:SetStatusBarColor(unpack(f.state.healthColour))
         end
 
-        addon:DispatchMessage('HealthColourChange', f)
+        if not show then
+            addon:DispatchMessage('HealthColourChange', f)
+        end
     end
 end
-function addon.Nameplate.UpdateHealth(f)
+function addon.Nameplate.UpdateHealth(f,show)
     f = f.parent
     if f.elements.Healthbar then
         f.Healthbar:SetMinMaxValues(0,UnitHealthMax(f.unit))
         f.Healthbar:SetValue(UnitHealth(f.unit))
     end
 
-    addon:DispatchMessage('HealthUpdate', f)
+    if not show then
+        addon:DispatchMessage('HealthUpdate', f)
+    end
 end
 -- messages ####################################################################
-function ele.PreShow(f)
-    f.handler:UpdateHealth(f)
-    f.handler:UpdateHealthColour(f)
+function ele.Show(f)
+    f.handler:UpdateHealth(f,true)
+    f.handler:UpdateHealthColour(f,true)
 end
 -- events ######################################################################
 function ele:UNIT_FACTION(event,f)
@@ -42,7 +46,7 @@ function ele:UNIT_HEALTH(event,f)
     f.handler:UpdateHealth(f)
 end
 -- register ####################################################################
-ele:RegisterMessage('PreShow')
+ele:RegisterMessage('Show')
 
 ele:RegisterEvent('UNIT_HEALTH')
 ele:RegisterEvent('UNIT_FACTION')
