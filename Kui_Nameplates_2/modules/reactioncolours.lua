@@ -5,6 +5,7 @@
 --------------------------------------------------------------------------------
 -- Replaces default reaction colours
 --------------------------------------------------------------------------------
+-- TODO this is obsolete and should probably just be moved into healthbar
 local addon = KuiNameplates
 local reaction = addon:NewPlugin()
 
