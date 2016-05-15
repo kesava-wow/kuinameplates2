@@ -18,7 +18,9 @@ local function OnFrameHide(frame)
 end
 ----------------------------------------------------------------------- Sizer --
 local function SizerOnSizeChanged(self,x,y)
+    --self.f:Hide() TODO external textures flash with this
     self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
+    --self.f:Show()
 end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts
