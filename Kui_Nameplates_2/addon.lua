@@ -8,8 +8,6 @@
 -- initalise addon global
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
-local frameList = {}
-local unit_to_frame = {}
 addon.debug = true
 addon.debug_messages = true
 --addon.draw_frames = true
@@ -32,35 +30,18 @@ function addon:print(msg)
     if not addon.debug then return end
     print('|cff666666KNP2 '..GetTime()..':|r '..(msg and msg or nil))
 end
-function addon:UnitHasNameplate(unit)
-    return unit_to_frame[unit] and true or nil
-end
-function addon:GetNameplateByUnit(unit)
-    return unit_to_frame[unit] and unit_to_frame[unit].kui or nil
-end
 --------------------------------------------------------------------------------
 function addon:NAME_PLATE_CREATED(frame)
     self.HookNameplate(frame)
-    frameList[frame] = true
 end
 function addon:NAME_PLATE_UNIT_ADDED(unit)
-    for f,_ in pairs(frameList) do
-        if f.namePlateUnitToken == unit then
-            if unit_to_frame[unit] and unit_to_frame[unit] ~= f then
-                self:print('|cffff0000unit overwritten|r: '..unit)
-                f.kui.handler:OnHide()
-            end
-
-            unit_to_frame[unit] = f
-            f.kui.handler:OnUnitAdded(unit)
-        end
-    end
+    local f = C_NamePlate.GetNamePlateForUnit(unit)
+    if not f then return end
+    f.kui.handler:OnUnitAdded(unit)
 end
 function addon:NAME_PLATE_UNIT_REMOVED(unit)
-    local f = unit_to_frame[unit]
+    local f = C_NamePlate.GetNamePlateForUnit(unit)
     if not f then return end
-    unit_to_frame[unit] = nil
-
     if f.kui:IsShown() then
         self:print('unit lost: '..unit..' ('..f.kui.state.name..')')
         f.kui.handler:OnHide()

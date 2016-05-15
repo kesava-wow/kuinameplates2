@@ -41,8 +41,9 @@ local function event_frame_OnEvent(self,event,...)
     local unit_frame,unit
     if event:sub(1,4) == 'UNIT' then
         unit = ...
-        unit_frame = addon:GetNameplateByUnit(unit)
+        unit_frame = C_NamePlate.GetNamePlateForUnit(unit)
         if not unit_frame then return end
+        unit_frame = unit_frame.kui
     end
 
     for _,table in ipairs(event_index[event]) do

@@ -48,6 +48,5 @@ end
 -- register ####################################################################
 ele:RegisterMessage('Show')
 
-ele:RegisterEvent('UNIT_HEALTH')
 ele:RegisterEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
 ele:RegisterEvent('UNIT_FACTION')
