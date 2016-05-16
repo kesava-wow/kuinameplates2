@@ -12,15 +12,12 @@ addon.debug = true
 addon.debug_messages = true
 --addon.draw_frames = true
 
--- plugin vars
-addon.plugins = {}
+-- plugin & element vars
 local sort, tinsert = table.sort, tinsert
 local function PluginSort(a,b)
     return a.priority > b.priority
 end
-
--- element vars
-addon.elements = {}
+addon.plugins = {}
 
 -- this is the size of the container, not the visible frame
 -- changing it will cause positioning problems
@@ -63,13 +60,15 @@ local function OnEvent(self,event,...)
     -- get the pixel-perfect width/height of the default, non-trivial frames
     self.width, self.height = floor(width / self.uiscale), floor(height / self.uiscale)
 
-    -- initialise plugins
+    -- initialise plugins & elements
     if #self.plugins > 0 then
         -- sort to be initialised by order of priority
         sort(self.plugins, PluginSort)
 
         for k,plugin in ipairs(self.plugins) do
-            plugin:Initialise()
+            if type(plugin.Initialise) == 'function' then
+                plugin:Initialise()
+            end
         end
     end
 

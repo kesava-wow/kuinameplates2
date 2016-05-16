@@ -160,27 +160,21 @@ end
 -- priority = any number. Defines the load order. Default of 5.
 -- plugins with a higher priority are executed later (i.e. they override the
 -- settings of any previous plugin)
-function addon:NewPlugin(priority)
+function addon:NewPlugin(priority,name)
     local pluginTable = {
+        name = name,
         plugin = true,
         priority = priority or 5
     }
+
     setmetatable(pluginTable, message)
     tinsert(addon.plugins, pluginTable)
+
     return pluginTable
 end
 -------------------------------------------------- external element registrar --
 function addon:NewElement(name)
-    local ele = {
-        name = name,
-        plugin = true,
-        priority = 0
-    }
-
-    setmetatable(ele, message)
-    addon.elements[name] = ele
-
-    return ele
+    return self:NewPlugin(0,name)
 end
 ------------------------------------------------------------ layout registrar --
 -- the layout is always executed last
