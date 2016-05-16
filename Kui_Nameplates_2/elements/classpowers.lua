@@ -134,7 +134,7 @@ function ele:PLAYER_ENTERING_WORLD()
 end
 function ele:PowerInit()
     if type(powers[class]) == 'table' then
-        local spec = GetSpecilization()
+        local spec = GetSpecialization()
         power_type = powers[class][spec]
     else
         power_type = powers[class]
