@@ -23,7 +23,7 @@ local power_tags = {
     [SPELL_POWER_SOUL_SHARDS]    = 'SOUL_SHARDS'
 
 }
--- TODO etc
+-- TODO configurable by the layout
 local ICON_SIZE = 10
 local ICON_TEXTURE = 'interface/addons/kui_nameplates/media/combopoint-round'
 local CD_TEXTURE = 'interface/playerframe/classoverlay-runecooldown'
@@ -46,6 +46,7 @@ local function PositionIcons()
     end
 end
 local function CreateIcon()
+    -- create individual icon
     local icon = cpf:CreateTexture(nil,'BACKGROUND')
     icon:SetTexture(ICON_TEXTURE)
     icon:SetSize(ICON_SIZE,ICON_SIZE)
@@ -70,7 +71,7 @@ local function CreateIcon()
     return icon
 end
 local function CreateIcons()
-    -- create icons in ClassPowers frame
+    -- create/destroy icons based on player_power_max
     local powermax = UnitPowerMax('player',power_type)
 
     if cpf.icons then
@@ -101,6 +102,7 @@ local function CreateIcons()
     addon:DispatchMessage('ClassPowersIconsCreated')
 end
 local function PowerUpdate()
+    -- toggle icons based on current power
     local cur = UnitPower('player',power_type)
     for i,icon in ipairs(cpf.icons) do
         if cur > i then
@@ -110,7 +112,6 @@ local function PowerUpdate()
         end
     end
 end
--- prototype additions #########################################################
 -- messages ####################################################################
 function ele.Initialised()
     -- icon frame container TODO floats on the target nameplate
@@ -119,21 +120,20 @@ function ele.Initialised()
     cpf:SetPoint('CENTER')
     cpf:Hide()
 
-    -- get power type, register events
+    ele:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
     ele:PowerInit()
 
-    -- create icon textures
     CreateIcons()
-
-    ele:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
 
     addon.ClassPowersFrame = cpf
 end
 -- events ######################################################################
 function ele:PLAYER_ENTERING_WORLD()
+    -- update icons upon zoning. just in case.
     PowerUpdate()
 end
 function ele:PowerInit()
+    -- get current power type, register events
     if type(powers[class]) == 'table' then
         local spec = GetSpecialization()
         power_type = powers[class][spec]
@@ -163,6 +163,7 @@ function ele:PowerInit()
     end
 end
 function ele:RuneUpdate(event,rune_id)
+    -- set cooldown on rune icons
     local startTime, duration, charged = GetRuneCooldown(rune_id)
     local cd = cpf.icons[rune_id].cd
 
@@ -170,6 +171,7 @@ function ele:RuneUpdate(event,rune_id)
     cd:Show()
 end
 function ele:PowerEvent(event,f,unit,power_type_rcv)
+    -- validate power events + passthrough to PowerUpdate
     if unit ~= 'player' then return end
     if power_type_rcv ~= power_type_tag then return end
 
