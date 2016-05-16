@@ -113,18 +113,19 @@ end
 -- prototype additions #########################################################
 -- messages ####################################################################
 function ele.Initialised()
-    ele:PowerInit()
-
     -- icon frame container TODO floats on the target nameplate
     cpf = CreateFrame('Frame')
     cpf:SetSize(100,100)
     cpf:SetPoint('CENTER')
+    cpf:Hide()
+
+    -- get power type, register events
+    ele:PowerInit()
 
     -- create icon textures
     CreateIcons()
 
     ele:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
-    ele:RegisterEvent('PLAYER_TARGET_CHANGED','TargetUpdate')
 
     addon.ClassPowersFrame = cpf
 end
@@ -150,9 +151,15 @@ function ele:PowerInit()
             ele:RegisterEvent('UNIT_MAXPOWER','PowerEvent')
             ele:RegisterEvent('UNIT_POWER','PowerEvent')
         end
+
+        ele:RegisterEvent('PLAYER_TARGET_CHANGED','TargetUpdate')
+        cpf:Show()
     else
+        ele:UnregisterEvent('PLAYER_TARGET_CHANGED')
+        ele:UnregisterEvent('PLAYER_ENTERING_WORLD')
         ele:UnregisterEvent('UNIT_MAXPOWER')
         ele:UnregisterEvent('UNIT_POWER')
+        cpf:Hide()
     end
 end
 function ele:RuneUpdate(event,rune_id)
