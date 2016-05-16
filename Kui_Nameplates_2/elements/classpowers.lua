@@ -123,10 +123,6 @@ function ele.Initialised()
     ele:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
     ele:PowerInit()
 
-    if power_type ~= nil then
-        CreateIcons()
-    end
-
     addon.ClassPowersFrame = cpf
 end
 -- events ######################################################################
@@ -155,6 +151,8 @@ function ele:PowerInit()
         end
 
         ele:RegisterEvent('PLAYER_TARGET_CHANGED','TargetUpdate')
+
+        CreateIcons()
         cpf:Show()
     else
         ele:UnregisterEvent('PLAYER_TARGET_CHANGED')
@@ -178,7 +176,6 @@ function ele:PowerEvent(event,f,unit,power_type_rcv)
     if power_type_rcv ~= power_type_tag then return end
 
     if event == 'UNIT_MAXPOWER' then
-        -- create/destroy icons as needed
         CreateIcons()
     end
 
