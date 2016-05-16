@@ -59,9 +59,9 @@ local function event_frame_OnEvent(self,event,...)
 
         if type(func) == 'function' then
             if unit and unit_frame then
-                func(table, event, unit_frame, unit, ...)
+                func(table, event, unit_frame, unit, select(2,...))
             elseif unit then
-                func(table, event, nil, unit, ...)
+                func(table, event, nil, unit, select(2,...))
             else
                 func(table, event, ...)
             end
