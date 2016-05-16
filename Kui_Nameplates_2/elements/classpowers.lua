@@ -28,7 +28,7 @@ function ele.Initialised()
     if class == 'DEATHKNIGHT' then
         -- add a cooldown frame to the icons
         for i,icon in ipairs(addon.layout.ClassPowers) do
-            local cd = CreateFrame('Cooldown',nil,icon,)
+            local cd = CreateFrame('Cooldown',nil,icon,'CooldownFrameTemplate')
             -- TODO etc
         end
     end
@@ -63,7 +63,6 @@ function ele:PowerInit()
 end
 function ele:RuneUpdate(event,rune_id)
     local startTime, duration, charged = GetRuneCooldown(rune_id)
-    local
 end
 function ele:PowerUpdate(event,f,unit,power_type_rcv)
     if unit ~= 'player' then return end
