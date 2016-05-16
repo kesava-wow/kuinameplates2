@@ -11,23 +11,53 @@ local sizes = {
     width = 130,
     height = 11,
     trivial_width = 70,
-    trivial_height = 7
+    trivial_height = 7,
+    glow = 8
 }
 local x,y
 
+-- texture coords for the frame glow
+local glow_coords = {
+    { .05, .95,  0,  .24 }, -- top
+    { .05, .95, .76,  1 },  -- bottom
+    {  0,  .04,  0,   1 },  -- left
+    { .96,  1,   0,   1 }   -- right
+}
+-- frame glow functions
+local glow_prototype = {}
+glow_prototype.__index = glow_prototype
+
+function glow_prototype:SetVertexColor(...)
+    for _,side in ipairs(self.sides) do
+        side:SetVertexColor(...)
+    end
+end
+function glow_prototype:Show(...)
+    for _,side in ipairs(self.sides) do
+        side:Show(...)
+    end
+end
+function glow_prototype:Hide(...)
+    for _,side in ipairs(self.sides) do
+        side:Hide(...)
+    end
+end
+function glow_prototype:SetSize(...)
+    for i,side in ipairs(self.sides) do
+        if i > 2 then
+            side:SetWidth(...)
+        else
+            side:SetHeight(...)
+        end
+    end
+end
+--##############################################################################
 test.Create = function(f)
-    local glow,healthbar
+    local healthbar
     do
         local bg = f:CreateTexture(nil, 'ARTWORK')
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-
-        glow = f:CreateTexture(nil, 'BACKGROUND')
-        glow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\FrameGlow')
-        glow:SetTexCoord(0, .469, 0, .625)
-
-        -- TODO temp while threat detection doesn't exist
-        glow:SetVertexColor(0, 0, 0, .8)
 
         healthbar = CreateFrame('StatusBar', nil, f)
         healthbar:SetStatusBarTexture(kui.m.t.bar)
@@ -35,6 +65,39 @@ test.Create = function(f)
         bg:SetPoint('TOPLEFT', healthbar, -1, 1)
         bg:SetPoint('BOTTOMRIGHT', healthbar, 1, -1)
         healthbar.bg = bg
+
+        local glow = { sides = {} }
+        setmetatable(glow,glow_prototype)
+
+        for side,coords in ipairs(glow_coords) do
+            side = f:CreateTexture(nil,'BACKGROUND',nil,0)
+            side:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\FrameGlow')
+            side:SetTexCoord(unpack(coords))
+
+            tinsert(glow.sides, side)
+        end
+
+        glow.sides[1]:SetPoint('BOTTOMLEFT', bg, 'TOPLEFT', 1, -1)
+        glow.sides[1]:SetPoint('BOTTOMRIGHT', bg, 'TOPRIGHT', -1, -1)
+        glow.sides[1]:SetHeight(sizes.glow)
+
+        glow.sides[2]:SetPoint('TOPLEFT', bg, 'BOTTOMLEFT', 1, 1)
+        glow.sides[2]:SetPoint('TOPRIGHT', bg, 'BOTTOMRIGHT', -1, 1)
+        glow.sides[2]:SetHeight(sizes.glow)
+
+        glow.sides[3]:SetPoint('TOPRIGHT', glow.sides[1], 'TOPLEFT')
+        glow.sides[3]:SetPoint('BOTTOMRIGHT', glow.sides[2], 'BOTTOMLEFT')
+        glow.sides[3]:SetWidth(sizes.glow)
+
+        glow.sides[4]:SetPoint('TOPLEFT', glow.sides[1], 'TOPRIGHT')
+        glow.sides[4]:SetPoint('BOTTOMLEFT', glow.sides[2], 'BOTTOMRIGHT')
+        glow.sides[4]:SetWidth(sizes.glow)
+
+        -- TODO temp while threat detection doesn't exist
+        glow:SetVertexColor(0, 0, 0, .8)
+
+        f.handler:RegisterElement('Healthbar', healthbar)
+        f.handler:RegisterElement('ThreatGlow', glow)
     end
 
     local overlay = CreateFrame('Frame', nil, f)
@@ -54,7 +117,6 @@ test.Create = function(f)
     name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3)
 
     -- castbar
-    local castbar, spellname, spellicon, spellshield
     do
         local bg = f:CreateTexture(nil, 'ARTWORK')
         bg:SetTexture(kui.m.t.solid)
@@ -63,14 +125,14 @@ test.Create = function(f)
         bg:SetPoint('TOPLEFT', healthbar, 'BOTTOMLEFT', -1, -2)
         bg:SetPoint('TOPRIGHT', healthbar, 'BOTTOMRIGHT', 1, 0)
 
-        castbar = CreateFrame('StatusBar', nil, f)
+        local castbar = CreateFrame('StatusBar', nil, f)
         castbar:SetStatusBarTexture(kui.m.t.bar)
         castbar:SetStatusBarColor(.6, .6, .75)
         castbar:SetHeight(2)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
-        spellname = overlay:CreateFontString(nil, 'OVERLAY')
+        local spellname = overlay:CreateFontString(nil, 'OVERLAY')
         spellname:SetFont(kui.m.f.francois, 9, 'OUTLINE')
         spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3)
 
@@ -82,13 +144,13 @@ test.Create = function(f)
         spelliconbg:SetPoint('TOPRIGHT', healthbar.bg, 'TOPLEFT', -1, 0)
         spelliconbg:SetWidth(9)
 
-        spellicon = castbar:CreateTexture(nil, 'ARTWORK')
+        local spellicon = castbar:CreateTexture(nil, 'ARTWORK')
         spellicon:SetTexCoord(.1, .9, .25, .75)
         spellicon:SetPoint('TOPLEFT', spelliconbg, 1, -1)
         spellicon:SetPoint('BOTTOMRIGHT', spelliconbg, -1, 1)
 
         -- cast shield
-        spellshield = overlay:CreateTexture(nil, 'ARTWORK')
+        local spellshield = overlay:CreateTexture(nil, 'ARTWORK')
         spellshield:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\Shield')
         spellshield:SetTexCoord(0, .84375, 0, 1)
         spellshield:SetSize(16 * .84375, 16)
@@ -111,32 +173,24 @@ test.Create = function(f)
 
         castbar.bg = bg
         spellicon.bg = spelliconbg
+
+        f.handler:RegisterElement('Castbar', castbar)
+        f.handler:RegisterElement('SpellName', spellname)
+        f.handler:RegisterElement('SpellIcon', spellicon)
+        f.handler:RegisterElement('SpellShield', spellshield)
     end
 
-    f.handler:RegisterElement('Healthbar', healthbar)
     f.handler:RegisterElement('Name', name)
-    f.handler:RegisterElement('ThreatGlow', glow)
     f.handler:RegisterElement('Highlight', highlight)
-
-    f.handler:RegisterElement('Castbar', castbar)
-    f.handler:RegisterElement('SpellName', spellname)
-    f.handler:RegisterElement('SpellIcon', spellicon)
-    f.handler:RegisterElement('SpellShield', spellshield)
 end
 
 test.Show = function(f)
     if f.state.micro then
         -- set elements to micro sizes
         f.Healthbar:SetSize(sizes.trivial_width, sizes.trivial_height)
-
-        f.ThreatGlow:SetPoint('BOTTOMLEFT', f.Healthbar.bg, -3, -3)
-        f.ThreatGlow:SetPoint('TOPRIGHT', f.Healthbar.bg, 3, 3)
     else
         -- set elements to normal sizes
         f.Healthbar:SetSize(sizes.width, sizes.height)
-
-        f.ThreatGlow:SetPoint('BOTTOMLEFT', f.Healthbar.bg, -6, -6)
-        f.ThreatGlow:SetPoint('TOPRIGHT', f.Healthbar.bg, 6, 6)
     end
 
     -- calculate where the health bar needs to go to be visually centred
