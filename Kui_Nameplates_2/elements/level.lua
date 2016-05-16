@@ -15,6 +15,7 @@ function ele.Show(f)
 end
 -- events ######################################################################
 function ele:UNIT_LEVEL(event,f)
+    if not f then return end
     f.handler:UpdateLevel()
 end
 -- register ####################################################################

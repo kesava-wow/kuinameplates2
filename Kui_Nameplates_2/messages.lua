@@ -29,11 +29,10 @@ function addon:DispatchMessage(message, ...)
 end
 ----------------------------------------------------------------- event frame --
 local event_frame = CreateFrame('Frame')
-local event_listeners = {}
 local event_index = {}
 
 local function event_frame_OnEvent(self,event,...)
-    if not event_listeners[event] then
+    if not event_index[event] then
         self:UnregisterEvent(event)
         return
     end
@@ -41,16 +40,16 @@ local function event_frame_OnEvent(self,event,...)
     local unit_frame,unit
     if event:find('UNIT') == 1 then
         unit = ...
-        if unit:find('nameplate') ~= 1 then return end
-
         unit_frame = C_NamePlate.GetNamePlateForUnit(unit)
-        if not unit_frame then return end
-
-        unit_frame = unit_frame.kui
+        if unit_frame then
+            unit_frame = unit_frame.kui
+        else
+            unit_frame = nil
+        end
     end
 
-    for _,table in ipairs(event_index[event]) do
-        local func = event_listeners[event][table]
+    for i,table_tbl in ipairs(event_index[event]) do
+        local table,func = unpack(table_tbl)
 
         if type(func) == 'string' and type(table[func]) == 'function' then
             func = table[func]
@@ -59,8 +58,10 @@ local function event_frame_OnEvent(self,event,...)
         end
 
         if type(func) == 'function' then
-            if unit_frame then
+            if unit and unit_frame then
                 func(table, event, unit_frame, unit, ...)
+            elseif unit then
+                func(table, event, nil, unit, ...)
             else
                 func(table, event, ...)
             end
@@ -106,54 +107,57 @@ function message.RegisterMessage(table, message)
     end
 end
 ------------------------------------------------------------- event registrar --
+local function pluginHasEvent(table,event)
+    -- true if plugin is registered for given event
+    return (type(table.__EVENTS) == 'table' and table.__EVENTS[event])
+end
 function message.RegisterEvent(table,event,func)
-    if not event_listeners[event] then
-        event_listeners[event] = {}
+    if not event_index[event] then
         event_index[event] = {}
     end
 
-    event_listeners[event][table] = func or true
+    if pluginHasEvent(table,event) then return end
 
-    -- also insert into index by priority
+    -- insert by priority
     if #event_index[event] > 0 then
         local inserted
         for k,plugin in ipairs(event_index[event]) do
             if not inserted and plugin.priority > table.priority then
-                tinsert(event_index[event], k, table)
+                tinsert(event_index[event], k, { table, func })
                 inserted = true
             end
         end
 
         if not inserted then
-            tinsert(event_index[event], table)
+            tinsert(event_index[event], { table, func })
         end
     else
-        tinsert(event_index[event], table)
+        tinsert(event_index[event], { table, func })
     end
+
+    if not table.__EVENTS then
+        table.__EVENTS = {}
+    end
+    table.__EVENTS[event] = true
 
     event_frame:RegisterEvent(event)
 end
 function message.UnregisterEvent(table,event)
-    if not event_listeners[event] then return end
-
-    if event_listeners[event][table] then
-        event_listeners[event][table] = nil
-    end
-
-    if #event_listeners[event] == 0 then
-        event_listeners[event] = nil
-    end
-
-    -- also remove from index
-    for k,v in event_index[event] do
-        if v == table then
-            tremove(event_index,k)
+    if not pluginHasEvent(table,event) then return end
+    if type(event_index[event]) == 'table' then
+        for i,r_table in pairs(event_index[event]) do
+            if r_table[1] == table then
+                tremove(event_index[event],i)
+                table.__EVENTS[event] = nil
+                return
+            end
         end
     end
 end
 function message.UnregisterAllEvents(table)
-    for event,_ in pairs(event_listeners) do
-        message.UnregisterEvent(table,event)
+    if type(table.__EVENTS) ~= 'table' or #table.__EVENTS == 0 then return end
+    for event,_ in pairs(table.__EVENTS) do
+        table:UnregisterEvent(event)
     end
 end
 ------------------------------------------------------------ plugin registrar --

@@ -102,6 +102,8 @@ function ele.Hide(f)
 end
 -- events ######################################################################
 function ele:CastStart(event,f,unit)
+    if not f then return end
+
     local name,text,texture,startTime,endTime,notInterruptible
     if event == 'UNIT_SPELLCAST_CHANNEL_START' then
         name,_,text,texture,startTime,endTime,_,_,notInterruptible = UnitChannelInfo(unit)
@@ -127,9 +129,13 @@ function ele:CastStart(event,f,unit)
     f.handler:CastbarShow()
 end
 function ele:CastStop(event,f,unit)
+    if not f then return end
+
     f.handler:CastbarHide()
 end
 function ele:CastUpdate(event,f,unit)
+    if not f then return end
+
     local startTime,endTime
     if f.cast_state.channel then
         _,_,_,_,startTime,endTime = UnitChannelInfo(unit)

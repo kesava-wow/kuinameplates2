@@ -15,7 +15,8 @@ local powers = {
 -- prototype additions #########################################################
 -- messages ####################################################################
 -- events ######################################################################
-function ele:Update()
+function ele:Update(event,f,unit)
+    if event == 'UNIT_MAXPOWER' and unit ~= 'player' then return end
 end
 -- register ####################################################################
 function ele:Initialise()
