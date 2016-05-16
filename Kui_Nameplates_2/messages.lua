@@ -173,6 +173,7 @@ function addon:NewPlugin(priority,name)
     return pluginTable
 end
 -------------------------------------------------- external element registrar --
+-- elements are just plugins with a lower priority
 function addon:NewElement(name)
     return self:NewPlugin(0,name)
 end
