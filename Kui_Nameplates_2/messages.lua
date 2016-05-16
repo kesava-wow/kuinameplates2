@@ -127,9 +127,9 @@ function message.RegisterEvent(table,event,func)
         if not inserted then
             tinsert(event_index[event], table)
         end
+    else
+        tinsert(event_index[event], table)
     end
-
-    tinsert(event_index[event], table)
 
     event_frame:RegisterEvent(event)
 end
