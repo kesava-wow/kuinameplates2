@@ -55,6 +55,7 @@ local function OnEvent(self,event,...)
         end
         return
     end
+
     self.uiscale = UIParent:GetEffectiveScale()
 
     -- get the pixel-perfect width/height of the default, non-trivial frames
