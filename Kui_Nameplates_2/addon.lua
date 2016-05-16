@@ -81,6 +81,8 @@ local function OnEvent(self,event,...)
             self.layout:Initialise()
         end
     end
+
+    addon:DispatchMessage('Initialised')
 end
 ------------------------------------------- initialise addon scripts & events --
 addon:SetScript('OnEvent',OnEvent)
