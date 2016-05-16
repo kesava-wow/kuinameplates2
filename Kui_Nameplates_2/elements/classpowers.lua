@@ -123,7 +123,9 @@ function ele.Initialised()
     ele:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
     ele:PowerInit()
 
-    CreateIcons()
+    if power_type ~= nil then
+        CreateIcons()
+    end
 
     addon.ClassPowersFrame = cpf
 end
@@ -141,9 +143,9 @@ function ele:PowerInit()
         power_type = powers[class]
     end
 
-    power_type_tag = power_tags[power_type]
-
     if power_type then
+        power_type_tag = power_tags[power_type]
+
         if class == 'DEATHKNIGHT' then
             ele:RegisterEvent('RUNE_POWER_UPDATE','RuneUpdate')
         else
