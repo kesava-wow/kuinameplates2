@@ -45,9 +45,6 @@ end
 ------------------------------------------------------- Frame script handlers --
 function addon.Nameplate.OnShow(f)
     f = f.parent
-    f.state.name = f.unit and UnitName(f.unit)
-    f.state.level = f.unit and UnitLevel(f.unit)
-    f.state.micro = nil
 
     --[[ TODO
     if f.default.eliteIcon:IsVisible() then
@@ -59,14 +56,6 @@ function addon.Nameplate.OnShow(f)
         end
     end
     ]]
-
-    if f.elements.Name then
-        f.Name:SetText(f.state.name)
-    end
-
-    if f.elements.Level then
-        f.Level:SetText(f.state.level)
-    end
 
     if f.elements.BossIcon then
         f.BossIcon:Show()

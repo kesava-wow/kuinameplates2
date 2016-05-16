@@ -1,6 +1,5 @@
 -- check mouseover
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('highlight')
 -- hightlight checker frame ####################################################
 local HighlightUpdateFrame = CreateFrame('Frame')

@@ -14,6 +14,8 @@ hook.lua
 elements/healthbar.lua
 elements/castbar.lua
 elements/highlight.lua
+elements/name.lua
+elements/level.lua
 elements/glow.lua
 
 modules/reactioncolours.lua
