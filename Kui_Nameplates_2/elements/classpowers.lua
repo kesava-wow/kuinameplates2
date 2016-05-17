@@ -133,7 +133,7 @@ local function PowerUpdate()
     -- toggle icons based on current power
     local cur = UnitPower('player',power_type)
     for i,icon in ipairs(cpf.icons) do
-        if cur > i then
+        if i <= cur then
             icon:Active()
         else
             icon:Inactive()
