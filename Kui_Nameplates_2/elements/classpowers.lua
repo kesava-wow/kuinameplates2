@@ -1,4 +1,28 @@
--- class powers on nameplates (combo points, shards, etc)
+--[[
+--  Provides class power icons on nameplates for combo points, shards, etc.
+
+    Icon container is created as addon.ClassPowersFrame after layout
+    initialisation.
+
+    Messages
+    ========
+
+    ClassPowers_IconsCreated
+        After icons are created.
+
+    ClassPowers_PowerUpdate
+        After icons are set to active or inactive.
+
+    ClassPowers_RuneUpdate
+        After updating rune icon cooldown frames for death knights.
+
+    Callbacks
+    =========
+
+    layout.ClassPowers_PositionIcons
+        Can be used to replace the built in icon positioning function.
+
+]]
 local addon = KuiNameplates
 local ele = addon:NewElement('classpowers')
 local class, power_type, power_type_tag, cpf

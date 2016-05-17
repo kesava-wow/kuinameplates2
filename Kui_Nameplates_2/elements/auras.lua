@@ -31,11 +31,6 @@
     num_per_row = number of icons per row;
                   if left nil, calculates as max / rows
 
-    Messages
-    ========
-
-    None
-
 ]]
 local addon = KuiNameplates
 local ele = addon:NewElement('auras')
