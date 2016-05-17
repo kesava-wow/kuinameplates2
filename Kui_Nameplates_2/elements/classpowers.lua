@@ -160,6 +160,9 @@ function ele:PLAYER_ENTERING_WORLD()
     -- update icons upon zoning. just in case.
     PowerUpdate()
 end
+function ele:TargetUpdate()
+    -- TODO
+end
 function ele:PowerInit()
     -- get current power type, register events
     if type(powers[class]) == 'table' then
