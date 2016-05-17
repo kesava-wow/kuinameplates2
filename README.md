@@ -1,3 +1,6 @@
-This is an **EXTREMELY** early version of the complete rewrite of Kui Nameplates. At some point in the future, it will look exactly the same as the current version, but will hopefully be faster, lighter and easier to maintain.
+This is a complete rewrite a Kui Nameplates which will replace the current version when the Legion pre-patch is released.
 
-I have this here only to prevent horrible mistakes. It's not ready yet. Progress is slow, on a when-I-feel-like-it basis.
+The rewrite separates nameplate frame creation, event handling, and visible frame creation such that each of these components is easier to maintain. It also supports third-party layouts.
+
+Progress is on-going under the [legion branch](https://github.com/kesava-wow/kuinameplates2/tree/legion).
+
