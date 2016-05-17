@@ -14,6 +14,38 @@ local row_growth_points = {
     UP = {'BOTTOM','TOP'},
     DOWN = {'TOP','BOTTOM'}
 }
+-- aura sorting functions ######################################################
+local index_sort = function(a,b)
+    -- sort by aura index
+    return a.index < b.index
+end
+local time_sort = function(a,b)
+    -- sort by time remaining ( shorter > longer > timeless )
+    if a.expiration and b.expiration then
+        if a.expiration == b.expiration then
+            return index_sort(a,b)
+        else
+            return a.expiration < b.expiration
+        end
+    elseif not a.expiration and not b.expiration then
+        return index_sort(a,b)
+    else
+        return a.expiration and not b.expiration
+    end
+end
+local auras_sort = function(a,b)
+    -- sort template; sort unused buttons
+    if not a.index and not b.index then
+        return
+    elseif a.index and not b.index then
+        return true
+    elseif not a.index and b.index then
+        return
+    end
+
+    -- and call the frame's desired sort function
+    return a.parent.sort(a,b)
+end
 -- aura button functions #######################################################
 local function button_OnUpdate(self,elapsed)
     self.cd_elap = (self.cd_elap or 1) + elapsed
@@ -157,6 +189,8 @@ local function AuraFrame_HideButton(self,button)
     button:Hide()
 end
 local function AuraFrame_ArrangeButtons(self)
+    table.sort(self.buttons, auras_sort)
+
     local prev,prev_row
     self.visible = 0
 
@@ -197,18 +231,19 @@ local function AuraFrame_ArrangeButtons(self)
 end
 -- aura frame metatable
 local aura_meta = {
-    size = 25,
+    size       = 25,
     squareness = .7,
-    x_spacing = 0,
-    y_spacing = 0,
-    x_offset = 0,
-    y_offset = 0,
+    x_spacing  = 0,
+    y_spacing  = 0,
+    x_offset   = 0,
+    y_offset   = 0,
+    sort       = time_sort,
 
-    Update = AuraFrame_Update,
-    GetAuras = AuraFrame_GetAuras,
-    GetButton = AuraFrame_GetButton,
-    DisplayButton = AuraFrame_DisplayButton,
-    HideButton = AuraFrame_HideButton,
+    Update         = AuraFrame_Update,
+    GetAuras       = AuraFrame_GetAuras,
+    GetButton      = AuraFrame_GetButton,
+    DisplayButton  = AuraFrame_DisplayButton,
+    HideButton     = AuraFrame_HideButton,
     ArrangeButtons = AuraFrame_ArrangeButtons
 }
 aura_meta.__index = aura_meta
