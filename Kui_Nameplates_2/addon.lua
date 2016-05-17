@@ -9,7 +9,8 @@
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
 addon.debug = true
-addon.debug_messages = true
+--addon.debug_units = true
+--addon.debug_messages = true
 --addon.draw_frames = true
 
 -- plugin & element vars
@@ -35,7 +36,10 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
     local f = C_NamePlate.GetNamePlateForUnit(unit)
     if not f then return end
 
-    self:print('unit |cff88ff88added|r: '..unit..' ('..UnitName(unit)..')')
+    if addon.debug_units then
+        self:print('unit |cff88ff88added|r: '..unit..' ('..UnitName(unit)..')')
+    end
+
     f.kui.handler:OnUnitAdded(unit)
 end
 function addon:NAME_PLATE_UNIT_REMOVED(unit)
@@ -43,7 +47,10 @@ function addon:NAME_PLATE_UNIT_REMOVED(unit)
     if not f then return end
 
     if f.kui:IsShown() then
-        self:print('unit |cffff8888removed|r: '..unit..' ('..f.kui.state.name..')')
+        if addon.debug_units then
+            self:print('unit |cffff8888removed|r: '..unit..' ('..f.kui.state.name..')')
+        end
+
         f.kui.handler:OnHide()
     end
 end
