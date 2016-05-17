@@ -180,6 +180,14 @@ test.Create = function(f)
         f.handler:RegisterElement('SpellShield', spellshield)
     end
 
+    -- auras
+    for i,frame in ipairs(f.Auras.frames) do
+        frame:SetBackdrop({bgFile='interface/buttons/white8x8'})
+        frame:SetWidth(132)
+        frame:SetHeight(30)
+        frame:SetPoint('BOTTOMLEFT',healthbar.bg,'TOPLEFT',0,1)
+    end
+
     f.handler:RegisterElement('Name', name)
     f.handler:RegisterElement('Highlight', highlight)
 end
@@ -220,6 +228,15 @@ test.CastbarHide = function(f)
 end
 -- #############################################################################
 function test:Initialise()
-    test.Auras = {}
     test.ClassPowers = {} -- TODO
+
+    test.Auras = {
+        {
+            max = 10,
+            point = {'BOTTOMLEFT','LEFT','RIGHT'},
+            x_spacing = 1,
+            y_spacing = 1,
+            rows = 2
+        }
+    }
 end
