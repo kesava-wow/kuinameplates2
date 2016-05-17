@@ -97,9 +97,13 @@ local function CreateIcons()
         end
     end
 
-    PositionIcons()
+    if type(addon.layout.ClassPowers_PositionIcons) == 'function' then
+        addon.layout.ClassPowers_PositionIcons()
+    else
+        PositionIcons()
+    end
 
-    addon:DispatchMessage('ClassPowersIconsCreated')
+    addon:DispatchMessage('ClassPowers_IconsCreated')
 end
 local function PowerUpdate()
     -- toggle icons based on current power
@@ -111,6 +115,8 @@ local function PowerUpdate()
             icon:Inactive()
         end
     end
+
+    addon:DispatchMessage('ClassPowers_PowerUpdate')
 end
 -- messages ####################################################################
 function ele.Initialised()
@@ -169,6 +175,8 @@ function ele:RuneUpdate(event,rune_id)
 
     cd:SetCooldown(startTime, duration)
     cd:Show()
+
+    addon:DispatchMessage('ClassPowers_RuneUpdate')
 end
 function ele:PowerEvent(event,f,unit,power_type_rcv)
     -- validate power events + passthrough to PowerUpdate
