@@ -183,7 +183,6 @@ test.Create = function(f)
     f.handler:RegisterElement('Name', name)
     f.handler:RegisterElement('Highlight', highlight)
 end
-
 test.Show = function(f)
     if f.state.micro then
         -- set elements to micro sizes
@@ -200,14 +199,12 @@ test.Show = function(f)
 
     f.Healthbar:SetPoint('BOTTOMLEFT', x, y)
 end
-
 test.GlowColourChange = function(f)
     if not f.state.glowing then
         -- we want a shadow when there's no threat state
         f.ThreatGlow:SetVertexColor(0, 0, 0, .5)
     end
 end
-
 test.CastbarShow = function(f)
     f.Castbar.bg:Show()
     f.SpellIcon.bg:Show()
@@ -216,9 +213,13 @@ test.CastbarShow = function(f)
     local icon_width = f.SpellIcon.bg:GetHeight()
     f.SpellIcon.bg:SetWidth(floor(icon_width*1.5))
 end
-
 test.CastbarHide = function(f)
     f.Castbar.bg:Hide()
     f.SpellIcon.bg:Hide()
     f.SpellName:Hide()
+end
+-- #############################################################################
+function test:Initialise()
+    test.Auras = {}
+    test.ClassPowers = {} -- TODO
 end

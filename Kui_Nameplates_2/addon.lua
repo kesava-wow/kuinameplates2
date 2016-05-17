@@ -84,7 +84,7 @@ local function OnEvent(self,event,...)
         -- throw missing layout
         print('|cff9966ffKui Namemplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
     else
-        if self.layout.Initialise then
+        if type(self.layout.Initialise) == 'function' then
             self.layout:Initialise()
         end
     end
