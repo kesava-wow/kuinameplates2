@@ -180,12 +180,12 @@ test.Create = function(f)
         f.handler:RegisterElement('SpellShield', spellshield)
     end
 
-    -- auras
+    -- position auras container frame
     for i,frame in ipairs(f.Auras.frames) do
         --frame:SetBackdrop({bgFile='interface/buttons/white8x8'})
-        frame:SetWidth(132)
+        frame:SetWidth(124)
         frame:SetHeight(10)
-        frame:SetPoint('BOTTOMLEFT',healthbar.bg,'TOPLEFT',0,15)
+        frame:SetPoint('BOTTOMLEFT',healthbar.bg,'TOPLEFT',4,15)
     end
 
     f.handler:RegisterElement('Name', name)

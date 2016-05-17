@@ -241,7 +241,7 @@ local function AuraFrame_OnHide(self)
 end
 -- aura frame metatable
 local aura_meta = {
-    size       = 25,
+    size       = 24,
     squareness = .7,
     x_spacing  = 0,
     y_spacing  = 0,
