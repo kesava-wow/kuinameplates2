@@ -16,19 +16,29 @@ local row_growth_points = {
 }
 -- aura button functions #######################################################
 local function button_OnUpdate(self,elapsed)
-    self.__elap = (self.__elap or 0) + elapsed
-    if self.__elap > (self.__period or .1) then
+    self.cd_elap = (self.cd_elap or 1) + elapsed
+    if self.cd_elap > .1 then
         local remaining = self.expiration - GetTime()
 
         if remaining > 20 then
-            self.__period = 1
-        elseif remaining > 2 then
-            self.__period = .5
+            self.cd:SetText('')
+            return
+        end
+
+        if remaining <= 5 then
+            self.cd:SetTextColor(1,0,0)
         else
-            self.__period = .1
+            self.cd:SetTextColor(1,1,0)
+        end
+
+        if remaining <= 1 then
+            remaining = format("%.1f", remaining)
+        else
+            remaining = format("%.f", remaining)
         end
 
         self.cd:SetText(remaining)
+        self.cd_elap = 0
     end
 end
 local function button_UpdateCooldown(self,duration,expiration)
@@ -139,8 +149,7 @@ local function AuraFrame_HideButton(self,button)
 
     button.duration = nil
     button.expiration = nil
-    button.__period = nil
-    button.__elap = nil
+    button.cd_elap = nil
 
     button.spellid = nil
     button.index = nil
