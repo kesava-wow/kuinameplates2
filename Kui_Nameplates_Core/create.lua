@@ -182,10 +182,10 @@ test.Create = function(f)
 
     -- auras
     for i,frame in ipairs(f.Auras.frames) do
-        frame:SetBackdrop({bgFile='interface/buttons/white8x8'})
+        --frame:SetBackdrop({bgFile='interface/buttons/white8x8'})
         frame:SetWidth(132)
-        frame:SetHeight(30)
-        frame:SetPoint('BOTTOMLEFT',healthbar.bg,'TOPLEFT',0,1)
+        frame:SetHeight(10)
+        frame:SetPoint('BOTTOMLEFT',healthbar.bg,'TOPLEFT',0,15)
     end
 
     f.handler:RegisterElement('Name', name)
@@ -236,7 +236,8 @@ function test:Initialise()
             point = {'BOTTOMLEFT','LEFT','RIGHT'},
             x_spacing = 1,
             y_spacing = 1,
-            rows = 2
+            rows = 2,
+            filter = 'HARMFUL'
         }
     }
 end

@@ -15,14 +15,30 @@ local row_growth_points = {
     DOWN = {'TOP','BOTTOM'}
 }
 -- aura button functions #######################################################
+local function button_OnUpdate(self,elapsed)
+    self.__elap = (self.__elap or 0) + elapsed
+    if self.__elap > (self.__period or .1) then
+        local remaining = self.expiration - GetTime()
+
+        if remaining > 20 then
+            self.__period = 1
+        elseif remaining > 2 then
+            self.__period = .5
+        else
+            self.__period = .1
+        end
+
+        self.cd:SetText(remaining)
+    end
+end
 local function button_UpdateCooldown(self,duration,expiration)
     if expiration and expiration > 0 then
         self.expiration = expiration
-        self.cd:SetCooldown(expiration - duration, duration)
+        self:SetScript('OnUpdate',button_OnUpdate)
         self.cd:Show()
     else
         self.expiration = nil
-        self.cd:SetCooldown(0,0)
+        self:SetScript('OnUpdate',nil)
         self.cd:Hide()
     end
 end
@@ -52,8 +68,8 @@ end
 local function AuraFrame_GetAuras(self)
     for i=1,40 do
         local name,_,icon,count,_,duration,expiration,_,_,_,spellid =
---            UnitAura(self.parent.unit, i, self.filter)
-            'test',nil,'interface/icons/inv_dhmount',0,0,0,0,nil,nil,nil,math.random(1,100000)
+            UnitAura(self.parent.unit, i, self.filter)
+--            'test',nil,'interface/icons/inv_dhmount',0,0,100,GetTime()+100,nil,nil,nil,math.random(1,100000)
         if not name then break end
 
         self:DisplayButton(name,icon,spellid,count,duration,expiration,i)
@@ -88,11 +104,9 @@ local function AuraFrame_GetButton(self)
     icon:SetPoint('TOPLEFT',bg,'TOPLEFT',1,-1)
     icon:SetPoint('BOTTOMRIGHT',bg,'BOTTOMRIGHT',-1,1)
 
-    local cd = CreateFrame('Cooldown', nil, button, 'CooldownFrameTemplate')
-    cd:SetAllPoints(button)
-    cd:SetDrawEdge(false)
-    cd:SetReverse(true)
-    cd:SetHideCountdownNumbers(true)
+    local cd = button:CreateFontString(nil,'OVERLAY')
+    cd:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
+    cd:SetPoint('CENTER')
 
     button.parent = self
     button.icon   = icon
@@ -125,6 +139,9 @@ local function AuraFrame_HideButton(self,button)
 
     button.duration = nil
     button.expiration = nil
+    button.__period = nil
+    button.__elap = nil
+
     button.spellid = nil
     button.index = nil
 
