@@ -236,8 +236,7 @@ function test:Initialise()
             point = {'BOTTOMLEFT','LEFT','RIGHT'},
             x_spacing = 1,
             y_spacing = 1,
-            rows = 2,
-            dynamic = true
+            rows = 2
         }
     }
 end

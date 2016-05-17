@@ -1,14 +1,35 @@
-local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
-local ele = addon:NewElement('auras')
 --[[
-TODO
-layout aura frame configuration:
-layout:SetAuras({
-    filter, point, max, size, x_spacing, y_spacing, x_offset, y_offset,
-    rows, sort
-})
---]]
+    Provides aura frames to the layout based on table configuration.
+
+    In layout initialise
+    ====================
+
+    self.Auras = {}
+        Table of frame definitions. Must have numeric index.
+        Element will not run if this is missing or empty.
+
+    Frame definition values
+    =======================
+
+    size = icon size
+    squareness = icon width/height ratio
+    point = {
+        [1] = point to place first aura icon in aura icon
+        [2] = point of icon to attach to previous icon in a row
+        [3] = point of previous icon on to which the next will be attached
+    }
+    x_spacing = horizontal spacing between icons
+    y_spacing = vertical spacing between icons
+    max = maximum number of auras to display
+    rows = maximum number of rows
+    row_growth = direction in which rows will grow ('UP' or 'DOWN')
+    sort = aura sorting function
+    filter = filter used in UnitAura calls
+    num_per_row = number of icons per row;
+                  if left nil, calculates as max / rows
+]]
+local addon = KuiNameplates
+local ele = addon:NewElement('auras')
 -- row growth lookup table
 local row_growth_points = {
     UP = {'BOTTOM','TOP'},
@@ -245,8 +266,6 @@ local aura_meta = {
     squareness = .7,
     x_spacing  = 0,
     y_spacing  = 0,
-    x_offset   = 0,
-    y_offset   = 0,
     sort       = time_sort,
 
     Update         = AuraFrame_Update,
