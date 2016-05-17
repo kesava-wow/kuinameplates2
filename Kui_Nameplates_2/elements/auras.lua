@@ -1,6 +1,9 @@
 --[[
     Provides aura frames to the layout based on table configuration.
 
+    Aura frames are created on each nameplate when the Create message is
+    dispatched. They are listed in the table: frame.Auras.frames
+
     In layout initialise
     ====================
 
@@ -27,6 +30,12 @@
     filter = filter used in UnitAura calls
     num_per_row = number of icons per row;
                   if left nil, calculates as max / rows
+
+    Messages
+    ========
+
+    None
+
 ]]
 local addon = KuiNameplates
 local ele = addon:NewElement('auras')
