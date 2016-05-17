@@ -177,16 +177,21 @@ local function AuraFrame_HideButton(self,button)
         self.spellids[button.spellid] = nil
     end
 
+    -- hide cooldown
     button:UpdateCooldown()
 
-    button.duration = nil
+    button.duration   = nil
     button.expiration = nil
-    button.cd_elap = nil
-
-    button.spellid = nil
-    button.index = nil
+    button.cd_elap    = nil
+    button.spellid    = nil
+    button.index      = nil
 
     button:Hide()
+end
+local function AuraFrame_HideAllButtons(self)
+    for _,button in ipairs(self.buttons) do
+        self:HideButton(button)
+    end
 end
 local function AuraFrame_ArrangeButtons(self)
     table.sort(self.buttons, auras_sort)
@@ -229,6 +234,11 @@ local function AuraFrame_ArrangeButtons(self)
         end
     end
 end
+local function AuraFrame_OnHide(self)
+    if self.parent.MOVING then return end
+    -- hide all buttons
+    self:HideAllButtons()
+end
 -- aura frame metatable
 local aura_meta = {
     size       = 25,
@@ -244,7 +254,8 @@ local aura_meta = {
     GetButton      = AuraFrame_GetButton,
     DisplayButton  = AuraFrame_DisplayButton,
     HideButton     = AuraFrame_HideButton,
-    ArrangeButtons = AuraFrame_ArrangeButtons
+    HideAllButtons = AuraFrame_HideAllButtons,
+    ArrangeButtons = AuraFrame_ArrangeButtons,
 }
 aura_meta.__index = aura_meta
 -- local functions #############################################################
@@ -255,6 +266,11 @@ local function CreateAuraFrame(parent)
     for k,v in pairs(aura_meta) do
         auraframe[k] = v
     end
+
+    auraframe:SetScript('OnHide', AuraFrame_OnHide)
+
+    -- dynamic: buffs on friends, debuffs on enemies, player-cast only
+    auraframe.dynamic = not auraframe.filter
 
     auraframe.parent = parent
     auraframe.buttons = {}
@@ -293,18 +309,15 @@ function ele.Create(f)
             new_frame.row_point = row_growth_points[new_frame.row_growth]
         end
 
-        -- TODO custom sorting stuff
-
         f.Auras.frames[i] = new_frame
     end
 end
 function ele.Show(f)
-    ele:AurasUpdate(nil,f)
+    ele:UNIT_FACTION(nil,f)
 end
 function ele.Hide(f)
     for i,frame in ipairs(f.Auras.frames) do
         frame:Hide()
-        -- TODO OnHide recycles buttons etc
     end
 end
 function ele.Initialised()
@@ -317,10 +330,25 @@ function ele.Initialised()
     ele:RegisterMessage('Show')
     ele:RegisterMessage('Hide')
 
-    ele:RegisterEvent('UNIT_AURA','AurasUpdate')
+    ele:RegisterEvent('UNIT_AURA')
+    ele:RegisterEvent('UNIT_FACTION')
 end
 -- events ######################################################################
-function ele:AurasUpdate(event,f)
+function ele:UNIT_FACTION(event,f)
+    if not f then return end
+    for _,auras_frame in ipairs(f.Auras.frames) do
+        if auras_frame.dynamic then
+            if UnitIsFriend('player',f.unit) then
+                auras_frame.filter = 'PLAYER HELPFUL'
+            else
+                auras_frame.filter = 'PLAYER HARMFUL'
+            end
+        end
+
+        auras_frame:Update()
+    end
+end
+function ele:UNIT_AURA(event,f)
     if not f then return end
     for _,auras_frame in ipairs(f.Auras.frames) do
         auras_frame:Update()

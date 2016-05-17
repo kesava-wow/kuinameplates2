@@ -21,9 +21,11 @@ local function SizerOnSizeChanged(self,x,y)
     -- TODO
     -- SetCVar('releaseUITextures',0)
     -- is necessary to have textures not flash when moving with this
+    self.f.MOVING = true
     self.f:Hide()
     self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
     self.f:Show()
+    self.f.MOVING = nil
 end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts

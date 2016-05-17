@@ -122,7 +122,7 @@ function message.RegisterEvent(table,event,func)
     if #event_index[event] > 0 then
         local inserted
         for k,plugin in ipairs(event_index[event]) do
-            if not inserted and plugin.priority > table.priority then
+            if not inserted and (plugin.priority or 0) > (table.priority or 0) then
                 tinsert(event_index[event], k, { table, func })
                 inserted = true
             end

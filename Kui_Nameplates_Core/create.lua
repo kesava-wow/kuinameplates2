@@ -237,7 +237,7 @@ function test:Initialise()
             x_spacing = 1,
             y_spacing = 1,
             rows = 2,
-            filter = 'PLAYER HARMFUL'
+            dynamic = true
         }
     }
 end
