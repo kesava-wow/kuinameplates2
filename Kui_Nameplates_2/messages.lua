@@ -91,10 +91,11 @@ function message.RegisterMessage(table, message)
     if #listeners[message] > 0 then
         local inserted
         for k,plugin in ipairs(listeners[message]) do
-            if not inserted and plugin.priority > table.priority then
+            if plugin.priority > table.priority then
                 -- insert before a higher priority plugin
                 tinsert(listeners[message], k, table)
                 inserted = true
+                break
             end
         end
 
@@ -121,10 +122,12 @@ function message.RegisterEvent(table,event,func)
     -- insert by priority
     if #event_index[event] > 0 then
         local inserted
-        for k,plugin in ipairs(event_index[event]) do
-            if not inserted and (plugin.priority or 0) > (table.priority or 0) then
+        for k,listener in ipairs(event_index[event]) do
+            listener = listener[1]
+            if listener.priority > table.priority then
                 tinsert(event_index[event], k, { table, func })
                 inserted = true
+                break
             end
         end
 
@@ -164,11 +167,16 @@ end
 -- priority = any number. Defines the load order. Default of 5.
 -- plugins with a higher priority are executed later (i.e. they override the
 -- settings of any previous plugin)
-function addon:NewPlugin(priority,name)
+function addon:NewPlugin(name,priority)
+    if not name then
+        addon:print('|cffff0000plugin with no name ignored')
+        return
+    end
+
     local pluginTable = {
         name = name,
         plugin = true,
-        priority = priority or 5
+        priority = type(priority)=='number' and priority or 5
     }
 
     setmetatable(pluginTable, message)
@@ -179,7 +187,7 @@ end
 -------------------------------------------------- external element registrar --
 -- elements are just plugins with a lower priority
 function addon:NewElement(name)
-    return self:NewPlugin(0,name)
+    return self:NewPlugin(name,0)
 end
 ------------------------------------------------------------ layout registrar --
 -- the layout is always executed last
