@@ -233,9 +233,15 @@ local function CreateAuraButton(parent)
     cd:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
     cd:SetPoint('CENTER')
 
+    local count = button:CreateFontString(nil,'OVERLAY')
+    count:SetFont('Fonts\\FRIZQT__.TTF', 9, 'OUTLINE')
+    count:SetPoint('BOTTOMRIGHT', 2, -2)
+    count:Hide()
+
     button.parent = parent
     button.icon   = icon
     button.cd     = cd
+    button.count  = count
 
     -- mixin prototype
     for k,v in pairs(button_meta) do
@@ -304,6 +310,13 @@ local function AuraFrame_DisplayButton(self,name,icon,spellid,count,duration,exp
     button.used = true
     button.spellid = spellid
     button.index = index
+
+    if count > 1 then
+        button.count:SetText(count)
+        button.count:Show()
+    else
+        button.count:Hide()
+    end
 
     button:UpdateCooldown(duration,expiration)
 
