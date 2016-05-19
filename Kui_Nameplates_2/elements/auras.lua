@@ -35,12 +35,13 @@
     =========
 
     layout.Auras_ArrangeButtons(auraframe)
-        Used to replace the built in auraframe:ArrangeButtons function which
-        arranges the aura buttons whenever they are updated.
+        Used to replace the built in ArrangeButtons function which arranges the
+        aura buttons in the aura frame whenever they are updated.
 
     layout.Auras_CreateAuraButton(auraframe)
-        Used to replace the built in CreateAuraButton function. Should return
-        a 100% compatible frame.
+        Used to replace the built in CreateAuraButton function. Button functions
+        will be mixed-in to the returned frame which can then be edited via the
+        PostCreateAuraButton callback.
 
     layout.Auras_PostCreateAuraButton(button)
         Called after a button is created by the built in CreateAuraButton
@@ -209,39 +210,42 @@ local button_meta = {
     StopPulsate = button_StopPulsate
 }
 local function CreateAuraButton(parent)
+    local button
+
     if cb_CreateAuraButton then
-        return cb_CreateAuraButton(parent)
+        button = cb_CreateAuraButton(parent)
+    else
+        button = CreateFrame('Frame',nil,parent)
+        button:SetWidth(parent.size)
+        button:SetHeight(parent.icon_height)
+
+        local icon = button:CreateTexture(nil, 'ARTWORK', nil, 1)
+        icon:SetTexCoord(.1,.9,.1+parent.icon_ratio,.9-parent.icon_ratio)
+
+        local bg = button:CreateTexture(nil, 'ARTWORK', nil, 0)
+        bg:SetTexture('interface/buttons/white8x8')
+        bg:SetVertexColor(0,0,0,1)
+        bg:SetAllPoints(button)
+
+        icon:SetPoint('TOPLEFT',bg,'TOPLEFT',1,-1)
+        icon:SetPoint('BOTTOMRIGHT',bg,'BOTTOMRIGHT',-1,1)
+
+        -- TODO CooldownFrames don't like being moved ?
+        local cd = button:CreateFontString(nil,'OVERLAY')
+        cd:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
+        cd:SetPoint('CENTER')
+
+        local count = button:CreateFontString(il,'OVERLAY')
+        count:SetFont('Fonts\\FRIZQT__.TTF', 10, 'OUTLINE')
+        count:SetPoint('BOTTOMRIGHT', 2, -2)
+        count:Hide()
+
+        button.icon   = icon
+        button.cd     = cd
+        button.count  = count
     end
 
-    local button = CreateFrame('Frame',nil,parent)
-    button:SetWidth(parent.size)
-    button:SetHeight(parent.icon_height)
-
-    local icon = button:CreateTexture(nil, 'ARTWORK', nil, 1)
-    icon:SetTexCoord(.1,.9,.1+parent.icon_ratio,.9-parent.icon_ratio)
-
-    local bg = button:CreateTexture(nil, 'ARTWORK', nil, 0)
-    bg:SetTexture('interface/buttons/white8x8')
-    bg:SetVertexColor(0,0,0,1)
-    bg:SetAllPoints(button)
-
-    icon:SetPoint('TOPLEFT',bg,'TOPLEFT',1,-1)
-    icon:SetPoint('BOTTOMRIGHT',bg,'BOTTOMRIGHT',-1,1)
-
-    -- TODO CooldownFrames don't like being moved ?
-    local cd = button:CreateFontString(nil,'OVERLAY')
-    cd:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
-    cd:SetPoint('CENTER')
-
-    local count = button:CreateFontString(nil,'OVERLAY')
-    count:SetFont('Fonts\\FRIZQT__.TTF', 10, 'OUTLINE')
-    count:SetPoint('BOTTOMRIGHT', 2, -2)
-    count:Hide()
-
     button.parent = parent
-    button.icon   = icon
-    button.cd     = cd
-    button.count  = count
 
     -- mixin prototype
     for k,v in pairs(button_meta) do
