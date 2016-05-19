@@ -37,16 +37,18 @@ local function event_frame_OnEvent(self,event,...)
         return
     end
 
-    local unit,unit_frame
+    local unit,unit_frame,unit_not_found
     for i,table_tbl in ipairs(event_index[event]) do
         local table,func,unit_only = unpack(table_tbl)
 
-        if unit_only and not unit then
+        if unit_only and not unit and not unit_not_found then
             -- first unit_only listener; find nameplate
             unit = ...
             if unit then
                 unit_frame = C_NamePlate.GetNamePlateForUnit(unit)
                 unit_frame = unit_frame and unit_frame.kui
+            else
+                unit_not_found = true
             end
         end
 
@@ -59,7 +61,7 @@ local function event_frame_OnEvent(self,event,...)
 
             if type(func) == 'function' then
                 if unit_only then
-                    func(table, event, unit_frame, unit, select(2,...))
+                    func(table, event, unit_frame, ...)
                 else
                     func(table, event, ...)
                 end

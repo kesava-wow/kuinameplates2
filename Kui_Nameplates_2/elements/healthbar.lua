@@ -40,15 +40,13 @@ function ele.Show(f)
 end
 -- events ######################################################################
 function ele:UNIT_FACTION(event,f)
-    if not f then return end
     f.handler:UpdateHealthColour(f)
 end
 function ele:UNIT_HEALTH(event,f)
-    if not f then return end
     f.handler:UpdateHealth(f)
 end
 -- register ####################################################################
 ele:RegisterMessage('Show')
 
-ele:RegisterEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
-ele:RegisterEvent('UNIT_FACTION')
+ele:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
+ele:RegisterUnitEvent('UNIT_FACTION')

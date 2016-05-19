@@ -353,12 +353,11 @@ function ele.Initialised()
     ele:RegisterMessage('Show')
     ele:RegisterMessage('Hide')
 
-    ele:RegisterEvent('UNIT_AURA')
-    ele:RegisterEvent('UNIT_FACTION')
+    ele:RegisterUnitEvent('UNIT_AURA')
+    ele:RegisterUnitEvent('UNIT_FACTION')
 end
 -- events ######################################################################
 function ele:UNIT_FACTION(event,f)
-    if not f then return end
     for _,auras_frame in ipairs(f.Auras.frames) do
         if auras_frame.dynamic then
             if UnitIsFriend('player',f.unit) then
@@ -372,7 +371,6 @@ function ele:UNIT_FACTION(event,f)
     end
 end
 function ele:UNIT_AURA(event,f)
-    if not f then return end
     for _,auras_frame in ipairs(f.Auras.frames) do
         auras_frame:Update()
     end

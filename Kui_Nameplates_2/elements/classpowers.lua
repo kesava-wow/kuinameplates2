@@ -205,7 +205,7 @@ function ele:RuneUpdate(event,rune_id)
 
     addon:DispatchMessage('ClassPowers_RuneUpdate')
 end
-function ele:PowerEvent(event,f,unit,power_type_rcv)
+function ele:PowerEvent(event,unit,power_type_rcv)
     -- validate power events + passthrough to PowerUpdate
     if unit ~= 'player' then return end
     if power_type_rcv ~= power_type_tag then return end
