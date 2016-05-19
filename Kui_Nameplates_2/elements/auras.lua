@@ -189,17 +189,19 @@ do
     end
 
     function button_StartPulsate(self)
+        if self.pulsating then return end
+
         self.pulsating = true
         DoPulsateButton(self)
     end
     function button_StopPulsate(self)
-        if self.pulsating then
-            kui.frameFadeRemoveFrame(self)
-            self.pulsating = nil
-            self.fading = nil
-            self.faded = nil
-            self:SetAlpha(1)
-        end
+        if not self.pulsating then return end
+
+        kui.frameFadeRemoveFrame(self)
+        self.pulsating = nil
+        self.fading = nil
+        self.faded = nil
+        self:SetAlpha(1)
     end
 end
 -- button creation #############################################################
@@ -288,7 +290,7 @@ local function AuraFrame_GetAuras(self)
         self:DisplayButton(name,icon,spellid,count,duration,expiration,i)
     end
 end
-local function AuraFrame_GetButton(self)
+local function AuraFrame_GetButton(self,spellid)
     if self.spellids[spellid] then
         -- use existing button with this spellid
         return self.spellids[spellid]
