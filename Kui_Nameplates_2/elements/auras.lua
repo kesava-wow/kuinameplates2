@@ -115,8 +115,10 @@ local function button_OnUpdate(self,elapsed)
 
         if remaining <= 5 then
             self.cd:SetTextColor(1,0,0)
+            self:StartPulsate()
         else
             self.cd:SetTextColor(1,1,0)
+            self:StopPulsate()
         end
 
         if remaining <= 1 then
@@ -144,6 +146,12 @@ local function button_SetTexture(self,texture)
     self.icon:SetTexture(texture)
 end
 -- button creation #############################################################
+local button_meta = {
+    UpdateCooldown = button_UpdateCooldown,
+    SetTexture = button_SetTexture,
+    StartPulsate = button_StartPulsate,
+    StopPulsate = button_StopPulsate
+}
 local function CreateAuraButton(parent)
     if cb_CreateAuraButton then
         return cb_CreateAuraButton(parent)
@@ -165,7 +173,6 @@ local function CreateAuraButton(parent)
     icon:SetPoint('BOTTOMRIGHT',bg,'BOTTOMRIGHT',-1,1)
 
     -- TODO CooldownFrames don't like being moved ?
-
     local cd = button:CreateFontString(nil,'OVERLAY')
     cd:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
     cd:SetPoint('CENTER')
@@ -174,8 +181,10 @@ local function CreateAuraButton(parent)
     button.icon   = icon
     button.cd     = cd
 
-    button.UpdateCooldown = button_UpdateCooldown
-    button.SetTexture     = button_SetTexture
+    -- mixin prototype
+    for k,v in pairs(button_meta) do
+        button[k] = v
+    end
 
     if cb_PostCreateAuraButton then
         cb_PostCreateAuraButton(button)
