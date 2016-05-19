@@ -113,6 +113,25 @@ local function button_SetTexture(self,texture)
     self.icon:SetTexture(texture)
 end
 -- aura frame functions ########################################################
+local function CreateAuraFrame(parent)
+    local auraframe = CreateFrame('Frame',nil,parent)
+
+    -- mixin prototype (can't actually setmeta on a frame)
+    for k,v in pairs(aura_meta) do
+        auraframe[k] = v
+    end
+
+    auraframe:SetScript('OnHide', AuraFrame_OnHide)
+
+    -- dynamic: buffs on friends, debuffs on enemies, player-cast only
+    auraframe.dynamic = not auraframe.filter
+
+    auraframe.parent = parent
+    auraframe.buttons = {}
+    auraframe.spellids = {}
+
+    return auraframe
+end
 local function AuraFrame_Update(self)
     self:GetAuras()
 
@@ -281,27 +300,6 @@ local aura_meta = {
     ArrangeButtons = AuraFrame_ArrangeButtons,
 }
 aura_meta.__index = aura_meta
--- local functions #############################################################
-local function CreateAuraFrame(parent)
-    local auraframe = CreateFrame('Frame',nil,parent)
-
-    -- mixin prototype (can't actually setmeta on a frame)
-    for k,v in pairs(aura_meta) do
-        auraframe[k] = v
-    end
-
-    auraframe:SetScript('OnHide', AuraFrame_OnHide)
-
-    -- dynamic: buffs on friends, debuffs on enemies, player-cast only
-    auraframe.dynamic = not auraframe.filter
-
-    auraframe.parent = parent
-    auraframe.buttons = {}
-    auraframe.spellids = {}
-
-    return auraframe
-end
--- prototype additions #########################################################
 -- messages ####################################################################
 function ele.Create(f)
     f.Auras = { frames = {} }
