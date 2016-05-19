@@ -112,6 +112,38 @@ end
 local function button_SetTexture(self,texture)
     self.icon:SetTexture(texture)
 end
+-- button creation #############################################################
+local function CreateAuraButton(parent)
+    local button = CreateFrame('Frame',nil,parent)
+    button:SetWidth(parent.size)
+    button:SetHeight(parent.icon_height)
+
+    local icon = button:CreateTexture(nil, 'ARTWORK', nil, 1)
+    icon:SetTexCoord(.1,.9,.1+parent.icon_ratio,.9-parent.icon_ratio)
+
+    local bg = button:CreateTexture(nil, 'ARTWORK', nil, 0)
+    bg:SetTexture('interface/buttons/white8x8')
+    bg:SetVertexColor(0,0,0,1)
+    bg:SetAllPoints(button)
+
+    icon:SetPoint('TOPLEFT',bg,'TOPLEFT',1,-1)
+    icon:SetPoint('BOTTOMRIGHT',bg,'BOTTOMRIGHT',-1,1)
+
+    -- TODO CooldownFrames don't like being moved ?
+
+    local cd = button:CreateFontString(nil,'OVERLAY')
+    cd:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
+    cd:SetPoint('CENTER')
+
+    button.parent = parent
+    button.icon   = icon
+    button.cd     = cd
+
+    button.UpdateCooldown = button_UpdateCooldown
+    button.SetTexture     = button_SetTexture
+
+    return button
+end
 -- aura frame functions ########################################################
 local function CreateAuraFrame(parent)
     local auraframe = CreateFrame('Frame',nil,parent)
@@ -175,31 +207,7 @@ local function AuraFrame_GetButton(self)
     end
 
     -- create new button
-    local button = CreateFrame('Frame',nil,self)
-    button:SetWidth(self.size)
-    button:SetHeight(self.icon_height)
-
-    local icon = button:CreateTexture(nil, 'ARTWORK', nil, 1)
-    icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
-
-    local bg = button:CreateTexture(nil, 'ARTWORK', nil, 0)
-    bg:SetTexture('interface/buttons/white8x8')
-    bg:SetVertexColor(0,0,0,1)
-    bg:SetAllPoints(button)
-
-    icon:SetPoint('TOPLEFT',bg,'TOPLEFT',1,-1)
-    icon:SetPoint('BOTTOMRIGHT',bg,'BOTTOMRIGHT',-1,1)
-
-    local cd = button:CreateFontString(nil,'OVERLAY')
-    cd:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
-    cd:SetPoint('CENTER')
-
-    button.parent = self
-    button.icon   = icon
-    button.cd     = cd
-
-    button.UpdateCooldown = button_UpdateCooldown
-    button.SetTexture     = button_SetTexture
+    local button = CreateAuraButton(self)
 
     tinsert(self.buttons, button)
     return button
