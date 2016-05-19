@@ -316,6 +316,7 @@ local function AuraFrame_OnHide(self)
     -- hide all buttons
     self:HideAllButtons()
 end
+-- aura frame creation #########################################################
 -- aura frame metatable
 local aura_meta = {
     size       = 24,
@@ -332,7 +333,6 @@ local aura_meta = {
     HideAllButtons = AuraFrame_HideAllButtons,
     ArrangeButtons = AuraFrame_ArrangeButtons,
 }
--- aura frame creation #########################################################
 local function CreateAuraFrame(parent)
     local auraframe = CreateFrame('Frame',nil,parent)
 
