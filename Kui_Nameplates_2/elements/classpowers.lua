@@ -22,6 +22,14 @@
     layout.ClassPowers_PositionIcons
         Can be used to replace the built in icon positioning function.
 
+    layout.ClassPowers_CreateIcon
+        Can be used to replace the built in function which creates each
+        individual power icon.
+
+    layout.ClassPowers_PostCreateIcon(icon)
+        Called after a power icon is created by the built in CreateIcon
+        function.
+
 ]]
 local addon = KuiNameplates
 local ele = addon:NewElement('classpowers')
@@ -47,6 +55,8 @@ local power_tags = {
     [SPELL_POWER_SOUL_SHARDS]    = 'SOUL_SHARDS'
 
 }
+-- callback functions
+local cb_PositionIcons, cb_CreateIcon, cb_PostCreateIcon
 -- TODO configurable by the layout
 local ICON_SIZE = 10
 local ICON_TEXTURE = 'interface/addons/kui_nameplates/media/combopoint-round'
@@ -54,6 +64,11 @@ local CD_TEXTURE = 'interface/playerframe/classoverlay-runecooldown'
 -- local functions #############################################################
 local function PositionIcons()
     -- position icons in the powers container frame
+    if cb_PositionIcons then
+        cb_PositionIcons()
+        return
+    end
+
     local pv
     local full_size = (ICON_SIZE * #cpf.icons) + (1 * (#cpf.icons - 1))
 
@@ -71,6 +86,10 @@ local function PositionIcons()
 end
 local function CreateIcon()
     -- create individual icon
+    if cb_CreateIcon then
+        return cb_CreateIcon()
+    end
+
     local icon = cpf:CreateTexture(nil,'BACKGROUND')
     icon:SetTexture(ICON_TEXTURE)
     icon:SetSize(ICON_SIZE,ICON_SIZE)
@@ -90,6 +109,10 @@ local function CreateIcon()
         icon.Inactive = function(self)
             self:SetAlpha(.3)
         end
+    end
+
+    if cb_PostCreateIcon then
+        cb_PostCreateIcon(icon)
     end
 
     return icon
@@ -121,11 +144,7 @@ local function CreateIcons()
         end
     end
 
-    if type(addon.layout.ClassPowers_PositionIcons) == 'function' then
-        addon.layout.ClassPowers_PositionIcons()
-    else
-        PositionIcons()
-    end
+    PositionIcons()
 
     addon:DispatchMessage('ClassPowers_IconsCreated')
 end
@@ -220,6 +239,17 @@ end
 function ele:Initialise()
     class = select(2,UnitClass('player'))
     if not powers[class] then return end
+
+    -- populate callbacks
+    if type(addon.layout.ClassPowers_PositionIcons) == 'function' then
+        cb_PositionIcons = addon.layout.ClassPowers_PositionIcons
+    end
+    if type(addon.layout.ClassPowers_CreateIcon) == 'function' then
+        cb_CreateIcon = addon.layout.ClassPowers_CreateIcon
+    end
+    if type(addon.layout.ClassPowers_PostCreateIcon) == 'function' then
+        cb_PostCreateIcon = addon.layout.ClassPowers_PostCreateIcon
+    end
 
     self:RegisterMessage('Initialised')
 end
