@@ -90,20 +90,20 @@ local auras_sort = function(a,b)
 end
 -- aura button functions #######################################################
 local function button_OnUpdate(self,elapsed)
-    self.cd_elap = (self.cd_elap or 1) + elapsed
-    if self.cd_elap > (self.cd_period or .1) then
+    self.cd_elap = (self.cd_elap or 0) - elapsed
+    if self.cd_elap <= 0 then
         local remaining = self.expiration - GetTime()
 
         if remaining > 20 then
-            self.cd_period = 1
+            self.cd_elap = 1
             self.cd:SetText('')
             return
         end
 
         if remaining <= 2 then
-            self.cd_period = .05
+            self.cd_elap = .05
         else
-            self.cd_period = .5
+            self.cd_elap = .5
         end
 
         if remaining <= 5 then
@@ -121,7 +121,6 @@ local function button_OnUpdate(self,elapsed)
         end
 
         self.cd:SetText(remaining)
-        self.cd_elap = 0
     end
 end
 local function button_UpdateCooldown(self,duration,expiration)
@@ -250,7 +249,6 @@ local function AuraFrame_HideButton(self,button)
     button.duration   = nil
     button.expiration = nil
     button.cd_elap    = nil
-    button.cd_period  = nil
     button.spellid    = nil
     button.index      = nil
 
