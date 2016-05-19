@@ -170,25 +170,6 @@ local function CreateAuraButton(parent)
     return button
 end
 -- aura frame functions ########################################################
-local function CreateAuraFrame(parent)
-    local auraframe = CreateFrame('Frame',nil,parent)
-
-    -- mixin prototype (can't actually setmeta on a frame)
-    for k,v in pairs(aura_meta) do
-        auraframe[k] = v
-    end
-
-    auraframe:SetScript('OnHide', AuraFrame_OnHide)
-
-    -- dynamic: buffs on friends, debuffs on enemies, player-cast only
-    auraframe.dynamic = not auraframe.filter
-
-    auraframe.parent = parent
-    auraframe.buttons = {}
-    auraframe.spellids = {}
-
-    return auraframe
-end
 local function AuraFrame_Update(self)
     self:GetAuras()
 
@@ -337,7 +318,26 @@ local aura_meta = {
     HideAllButtons = AuraFrame_HideAllButtons,
     ArrangeButtons = AuraFrame_ArrangeButtons,
 }
-aura_meta.__index = aura_meta
+-- aura frame creation #########################################################
+local function CreateAuraFrame(parent)
+    local auraframe = CreateFrame('Frame',nil,parent)
+
+    -- mixin prototype (can't actually setmeta on a frame)
+    for k,v in pairs(aura_meta) do
+        auraframe[k] = v
+    end
+
+    auraframe:SetScript('OnHide', AuraFrame_OnHide)
+
+    -- dynamic: buffs on friends, debuffs on enemies, player-cast only
+    auraframe.dynamic = not auraframe.filter
+
+    auraframe.parent = parent
+    auraframe.buttons = {}
+    auraframe.spellids = {}
+
+    return auraframe
+end
 -- messages ####################################################################
 function ele.Create(f)
     f.Auras = { frames = {} }
@@ -386,13 +386,13 @@ function ele.Initialised()
     end
 
     -- populate callbacks
-    if type(addon.layout.Auras_ArrangeButtons) == 'function' do
+    if type(addon.layout.Auras_ArrangeButtons) == 'function' then
         cb_ArrangeButtons = addon.layout.Auras_ArrangeButtons
     end
-    if type(addon.layout.Auras_CreateAuraButton) == 'function' do
+    if type(addon.layout.Auras_CreateAuraButton) == 'function' then
         cb_CreateAuraButton = addon.layout.Auras_CreateAuraButton
     end
-    if type(addon.layout.Auras_PostCreateAuraButton) == 'function' do
+    if type(addon.layout.Auras_PostCreateAuraButton) == 'function' then
         cb_PostCreateAuraButton = addon.layout.Auras_PostCreateAuraButton
     end
 
