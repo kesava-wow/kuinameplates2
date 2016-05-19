@@ -48,6 +48,7 @@
 
 ]]
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('auras')
 -- row growth lookup table
 local row_growth_points = {
@@ -94,6 +95,12 @@ local function button_OnUpdate(self,elapsed)
     if self.cd_elap <= 0 then
         local remaining = self.expiration - GetTime()
 
+        if remaining > 0 and remaining <= 5 then
+            self:StartPulsate()
+        else
+            self:StopPulsate()
+        end
+
         if remaining <= 0 then
             -- timers can get below 0 due to latency
             self.cd:SetText(0)
@@ -115,10 +122,8 @@ local function button_OnUpdate(self,elapsed)
 
         if remaining <= 5 then
             self.cd:SetTextColor(1,0,0)
-            self:StartPulsate()
         else
             self.cd:SetTextColor(1,1,0)
-            self:StopPulsate()
         end
 
         if remaining <= 1 then
@@ -144,6 +149,57 @@ local function button_UpdateCooldown(self,duration,expiration)
 end
 local function button_SetTexture(self,texture)
     self.icon:SetTexture(texture)
+end
+local button_StartPulsate, button_StopPulsate
+do
+    -- button pulsate functions
+    local DoPulsateButton
+    local function OnFadeOutFinished(button)
+        button.fading = nil
+        button.faded = true
+        DoPulsateButton(button)
+    end
+    local function OnFadeInFinished(button)
+        button.fading = nil
+        button.faded = nil
+        DoPulsateButton(button)
+    end
+
+    function DoPulsateButton(button)
+        if button.fading or not button.pulsating then return end
+        button.fading = true
+
+        if button.faded then
+            -- fade in
+            kui.frameFade(button, {
+                startAlpha = .5,
+                timeToFade = .5,
+                finishedFunc = OnFadeInFinished
+            })
+        else
+            -- fade out
+            kui.frameFade(button, {
+                mode = 'OUT',
+                endAlpha = .5,
+                timeToFade = .5,
+                finishedFunc = OnFadeOutFinished
+            })
+        end
+    end
+
+    function button_StartPulsate(self)
+        self.pulsating = true
+        DoPulsateButton(self)
+    end
+    function button_StopPulsate(self)
+        if self.pulsating then
+            kui.frameFadeRemoveFrame(self)
+            self.pulsating = nil
+            self.fading = nil
+            self.faded = nil
+            self:SetAlpha(1)
+        end
+    end
 end
 -- button creation #############################################################
 local button_meta = {
@@ -260,6 +316,9 @@ local function AuraFrame_HideButton(self,button)
 
     -- hide cooldown
     button:UpdateCooldown()
+
+    -- reset pulsating
+    button:StopPulsate()
 
     button.duration   = nil
     button.expiration = nil
