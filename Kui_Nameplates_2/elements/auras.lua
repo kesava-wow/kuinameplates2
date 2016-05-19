@@ -17,7 +17,7 @@
     size = icon size
     squareness = icon width/height ratio
     point = {
-        [1] = point to place first aura icon in aura icon
+        [1] = point to place first aura icon in auras frame
         [2] = point of icon to attach to previous icon in a row
         [3] = point of previous icon on to which the next will be attached
     }
