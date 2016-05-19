@@ -82,7 +82,7 @@ local message = {}
 message.__index = message
 function message.RegisterMessage(table, message)
     if not table or not message then return end
-    if not table.plugin then return end
+    if table.layout then return end
     if not type(table[message]) == 'function' then return end
     if not listeners[message] then
         listeners[message] = {}
@@ -186,6 +186,18 @@ function message.UnregisterAllEvents(table)
         table:UnregisterEvent(event)
     end
 end
+--------------------------------------------------------------------------------
+function message.Enable(table)
+    if type(table.OnEnable) == 'function' then
+        table:OnEnable()
+    end
+end
+function message.Disable(table)
+    -- TODO unregister events, messages, remove elements from elements table
+    if type(table.OnDisable) == 'function' then
+        table:OnDisable()
+    end
+end
 ------------------------------------------------------------ plugin registrar --
 -- priority = any number. Defines the load order. Default of 5.
 -- plugins with a higher priority are executed later (i.e. they override the
@@ -210,13 +222,18 @@ end
 -------------------------------------------------- external element registrar --
 -- elements are just plugins with a lower priority
 function addon:NewElement(name)
-    return self:NewPlugin(name,0)
+    local ele = self:NewPlugin(name,0)
+    ele.plugin = nil
+    ele.element = true
+    return ele
 end
 ------------------------------------------------------------ layout registrar --
 -- the layout is always executed last
 function addon:Layout()
+    -- TODO multiple layouts
     if addon.layout then return end
     addon.layout = {}
     setmetatable(addon.layout, message)
+    addon.layout.layout = true
     return addon.layout
 end
