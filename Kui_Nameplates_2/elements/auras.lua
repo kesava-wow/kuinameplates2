@@ -94,13 +94,20 @@ local function button_OnUpdate(self,elapsed)
     if self.cd_elap <= 0 then
         local remaining = self.expiration - GetTime()
 
-        if remaining > 20 then
+        if remaining <= 0 then
+            -- timers can get below 0 due to latency
+            self.cd:SetText(0)
+            self:SetScript('OnUpdate',nil)
+            return
+        elseif remaining > 20 then
+            -- don't show a timer above 20 seconds
             self.cd_elap = 1
             self.cd:SetText('')
             return
         end
 
         if remaining <= 2 then
+            -- faster updates in the last 2 seconds
             self.cd_elap = .05
         else
             self.cd_elap = .5
@@ -112,9 +119,8 @@ local function button_OnUpdate(self,elapsed)
             self.cd:SetTextColor(1,1,0)
         end
 
-        if remaining <= 0 then
-            remaining = 0
-        elseif remaining <= 1 then
+        if remaining <= 1 then
+            -- decimal places in the last second
             remaining = format("%.1f", remaining)
         else
             remaining = format("%.f", remaining)
