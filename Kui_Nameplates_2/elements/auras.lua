@@ -43,7 +43,7 @@
         a 100% compatible frame.
 
     layout.Auras_PostCreateAuraButton(button)
-        Called after a button is created by the default CreateAuraButton
+        Called after a button is created by the built in CreateAuraButton
         function.
 
 ]]
