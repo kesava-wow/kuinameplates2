@@ -115,6 +115,14 @@ local function pluginHasEvent(table,event)
 end
 function message.RegisterEvent(table,event,func,unit_only)
     -- unit_only: only fire callback if a valid nameplate exists for event unit
+    if func and type(func) ~= 'string' and type(func) ~= 'function' then
+        addon:print('|cffff0000invalid function passed to RegisterEvent by '..(table.name or 'nil'))
+        return
+    end
+    if not event or type(event) ~= 'string' then
+        addon:print('|cffff0000invalid event passed to RegisterEvent by '..(table.name or 'nil'))
+        return
+    end
     if unit_only and event:find('UNIT') ~= 1 then
         addon:print('|cffff0000unit_only doesn\'t make sense for '..event)
         return
@@ -124,6 +132,7 @@ function message.RegisterEvent(table,event,func,unit_only)
         event_index[event] = {}
     end
 
+    -- TODO maybe allow overwrites possibly
     if pluginHasEvent(table,event) then return end
 
     local insert_tbl = { table, func, unit_only }
