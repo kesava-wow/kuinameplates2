@@ -95,7 +95,7 @@ local function button_OnUpdate(self,elapsed)
         local remaining = self.expiration - GetTime()
 
         if remaining > 20 then
-            seld.cd_period = 1
+            self.cd_period = 1
             self.cd:SetText('')
             return
         end
