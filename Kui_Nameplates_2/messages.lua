@@ -88,6 +88,8 @@ function message.RegisterMessage(table, message)
         listeners[message] = {}
     end
 
+    -- TODO make this consistent with events
+
     -- higher priority plugins are called later
     if #listeners[message] > 0 then
         local inserted
