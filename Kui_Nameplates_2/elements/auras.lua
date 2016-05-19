@@ -31,6 +31,21 @@
     num_per_row = number of icons per row;
                   if left nil, calculates as max / rows
 
+    Callbacks
+    =========
+
+    layout.Auras_ArrangeButtons(auraframe)
+        Used to replace the built in auraframe:ArrangeButtons function which
+        arranges the aura buttons whenever they are updated.
+
+    layout.Auras_CreateAuraButton(auraframe)
+        Used to replace the built in CreateAuraButton function. Should return
+        a 100% compatible frame.
+
+    layout.Auras_PostCreateAuraButton(button)
+        Called after a button is created by the default CreateAuraButton
+        function.
+
 ]]
 local addon = KuiNameplates
 local ele = addon:NewElement('auras')
@@ -39,6 +54,8 @@ local row_growth_points = {
     UP = {'BOTTOM','TOP'},
     DOWN = {'TOP','BOTTOM'}
 }
+-- callback functions
+local cb_CreateAuraButton, cb_PostCreateAuraButton, cb_ArrangeButtons
 -- aura sorting functions ######################################################
 local index_sort = function(a,b)
     -- sort by aura index
@@ -114,6 +131,10 @@ local function button_SetTexture(self,texture)
 end
 -- button creation #############################################################
 local function CreateAuraButton(parent)
+    if cb_CreateAuraButton then
+        return cb_CreateAuraButton(parent)
+    end
+
     local button = CreateFrame('Frame',nil,parent)
     button:SetWidth(parent.size)
     button:SetHeight(parent.icon_height)
@@ -141,6 +162,10 @@ local function CreateAuraButton(parent)
 
     button.UpdateCooldown = button_UpdateCooldown
     button.SetTexture     = button_SetTexture
+
+    if cb_PostCreateAuraButton then
+        cb_PostCreateAuraButton(button)
+    end
 
     return button
 end
@@ -246,6 +271,11 @@ local function AuraFrame_HideAllButtons(self)
     end
 end
 local function AuraFrame_ArrangeButtons(self)
+    if cb_ArrangeButtons then
+        cb_ArrangeButtons(self)
+        return
+    end
+
     table.sort(self.buttons, auras_sort)
 
     local prev,prev_row
@@ -353,6 +383,17 @@ function ele.Initialised()
     if type(addon.layout.Auras) ~= 'table' or #addon.layout.Auras == 0 then
         -- no frame definitions
         return
+    end
+
+    -- populate callbacks
+    if type(addon.layout.Auras_ArrangeButtons) == 'function' do
+        cb_ArrangeButtons = addon.layout.Auras_ArrangeButtons
+    end
+    if type(addon.layout.Auras_CreateAuraButton) == 'function' do
+        cb_CreateAuraButton = addon.layout.Auras_CreateAuraButton
+    end
+    if type(addon.layout.Auras_PostCreateAuraButton) == 'function' do
+        cb_PostCreateAuraButton = addon.layout.Auras_PostCreateAuraButton
     end
 
     ele:RegisterMessage('Create')
