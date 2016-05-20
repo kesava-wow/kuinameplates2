@@ -197,6 +197,8 @@ function message.Disable(table)
     if type(table.OnDisable) == 'function' then
         table:OnDisable()
     end
+
+    table:UnregisterAllEvents()
 end
 ------------------------------------------------------------ plugin registrar --
 -- priority = any number. Defines the load order. Default of 5.

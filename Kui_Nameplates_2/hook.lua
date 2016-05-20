@@ -29,7 +29,7 @@ local function SizerOnSizeChanged(self,x,y)
 end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts
-function addon.HookNameplate(frame)
+function addon:HookNameplate(frame)
     frame.kui = CreateFrame('Frame', nil, WorldFrame)
     frame.kui:Hide()
     frame.kui:SetFrameLevel(0)
@@ -50,10 +50,10 @@ function addon.HookNameplate(frame)
         self:Hide()
     end)
 
-    frame.kui:SetScale(addon.uiscale)
-    frame.kui:SetSize(addon.width, addon.height)
+    frame.kui:SetScale(self.uiscale)
+    frame.kui:SetSize(self.width, self.height)
 
-    if addon.draw_frames then
+    if self.draw_frames then
         -- debug; visible frame sizes
         frame:SetBackdrop({ bgFile = kui.m.t.solid })
         frame:SetBackdropColor(0,0,0,.5)
@@ -62,7 +62,7 @@ function addon.HookNameplate(frame)
     end
 
     frame.kui.handler = { parent = frame.kui }
-    setmetatable(frame.kui.handler, addon.Nameplate)
+    setmetatable(frame.kui.handler, self.Nameplate)
 
     -- base frame
     frame:HookScript('OnHide', OnFrameHide)
