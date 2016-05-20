@@ -5,8 +5,8 @@ function addon.Nameplate.UpdateName(f)
     f = f.parent
     f.state.name = f.unit and UnitName(f.unit)
 
-    if f.elements.Name then
-        f.Name:SetText(f.state.name)
+    if f.elements.NameText then
+        f.NameText:SetText(f.state.name)
     end
 end
 -- messages ####################################################################

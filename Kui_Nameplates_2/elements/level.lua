@@ -5,8 +5,8 @@ function addon.Nameplate.UpdateLevel(f)
     f = f.parent
     f.state.level = f.unit and UnitLevel(f.unit)
 
-    if f.elements.level then
-        f.Level:SetText(f.state.level)
+    if f.elements.LevelText then
+        f.LevelText:SetText(f.state.level)
     end
 end
 -- messages ####################################################################

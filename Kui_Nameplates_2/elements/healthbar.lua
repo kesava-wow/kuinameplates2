@@ -13,8 +13,8 @@ function addon.Nameplate.UpdateHealthColour(f,show)
     then
         f.state.healthColour = { r,g,b }
 
-        if f.elements.Healthbar then
-            f.Healthbar:SetStatusBarColor(unpack(f.state.healthColour))
+        if f.elements.HealthBar then
+            f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
         end
 
         if not show then
@@ -24,9 +24,9 @@ function addon.Nameplate.UpdateHealthColour(f,show)
 end
 function addon.Nameplate.UpdateHealth(f,show)
     f = f.parent
-    if f.elements.Healthbar then
-        f.Healthbar:SetMinMaxValues(0,UnitHealthMax(f.unit))
-        f.Healthbar:SetValue(UnitHealth(f.unit))
+    if f.elements.HealthBar then
+        f.HealthBar:SetMinMaxValues(0,UnitHealthMax(f.unit))
+        f.HealthBar:SetValue(UnitHealth(f.unit))
     end
 
     if not show then

@@ -96,7 +96,7 @@ test.Create = function(f)
         -- TODO temp while threat detection doesn't exist
         glow:SetVertexColor(0, 0, 0, .8)
 
-        f.handler:RegisterElement('Healthbar', healthbar)
+        f.handler:RegisterElement('HealthBar', healthbar)
         f.handler:RegisterElement('ThreatGlow', glow)
     end
 
@@ -174,7 +174,7 @@ test.Create = function(f)
         castbar.bg = bg
         spellicon.bg = spelliconbg
 
-        f.handler:RegisterElement('Castbar', castbar)
+        f.handler:RegisterElement('CastBar', castbar)
         f.handler:RegisterElement('SpellName', spellname)
         f.handler:RegisterElement('SpellIcon', spellicon)
         f.handler:RegisterElement('SpellShield', spellshield)
@@ -188,24 +188,24 @@ test.Create = function(f)
         frame:SetPoint('BOTTOMLEFT',healthbar.bg,'TOPLEFT',4,15)
     end
 
-    f.handler:RegisterElement('Name', name)
+    f.handler:RegisterElement('NameText', name)
     f.handler:RegisterElement('Highlight', highlight)
 end
 test.Show = function(f)
     if f.state.micro then
         -- set elements to micro sizes
-        f.Healthbar:SetSize(sizes.trivial_width, sizes.trivial_height)
+        f.HealthBar:SetSize(sizes.trivial_width, sizes.trivial_height)
     else
         -- set elements to normal sizes
-        f.Healthbar:SetSize(sizes.width, sizes.height)
+        f.HealthBar:SetSize(sizes.width, sizes.height)
     end
 
     -- calculate where the health bar needs to go to be visually centred
     -- while remaining pixel-perfect ('CENTER' does not)
-    x = floor((addon.width / 2) - (f.Healthbar:GetWidth() / 2))
-    y = floor((addon.height / 2) - (f.Healthbar:GetHeight() / 2))
+    x = floor((addon.width / 2) - (f.HealthBar:GetWidth() / 2))
+    y = floor((addon.height / 2) - (f.HealthBar:GetHeight() / 2))
 
-    f.Healthbar:SetPoint('BOTTOMLEFT', x, y)
+    f.HealthBar:SetPoint('BOTTOMLEFT', x, y)
 end
 test.GlowColourChange = function(f)
     if not f.state.glowing then
@@ -213,16 +213,16 @@ test.GlowColourChange = function(f)
         f.ThreatGlow:SetVertexColor(0, 0, 0, .5)
     end
 end
-test.CastbarShow = function(f)
-    f.Castbar.bg:Show()
+test.CastBarShow = function(f)
+    f.CastBar.bg:Show()
     f.SpellIcon.bg:Show()
     f.SpellName:Show()
 
     local icon_width = f.SpellIcon.bg:GetHeight()
     f.SpellIcon.bg:SetWidth(floor(icon_width*1.5))
 end
-test.CastbarHide = function(f)
-    f.Castbar.bg:Hide()
+test.CastBarHide = function(f)
+    f.CastBar.bg:Hide()
     f.SpellIcon.bg:Hide()
     f.SpellName:Hide()
 end

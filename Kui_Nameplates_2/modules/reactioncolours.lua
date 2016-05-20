@@ -7,7 +7,7 @@
 --------------------------------------------------------------------------------
 -- TODO this is obsolete and should probably just be moved into healthbar
 local addon = KuiNameplates
-local reaction = addon:NewPlugin('reactioncolours')
+local reaction = addon:NewPlugin('ReactionColours')
 
 -- replacement reaction colours
 -- (should be configurable, so this is placeholder)
@@ -51,8 +51,8 @@ reaction.HealthColourChange = function(f)
 
     f.state.reactionColour = { r, g, b }
 
-    if f.elements.Healthbar then
-        f.Healthbar:SetStatusBarColor(unpack(f.state.reactionColour))
+    if f.elements.HealthBar then
+        f.HealthBar:SetStatusBarColor(unpack(f.state.reactionColour))
     end
 end
 

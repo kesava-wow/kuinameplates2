@@ -6,7 +6,7 @@
 -- Override default health bar colour with custom settings when tanking
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
-local threat = addon:NewPlugin('threat')
+local threat = addon:NewPlugin('Threat')
 
 -- again, placeholder values
 local colours = {
@@ -31,13 +31,13 @@ threat.GlowColourChange = function(f)
     --print(f.state)
     --print(f.state.name.. ' has: '..f.state.threat)
 
-    if f.elements.Healthbar then
+    if f.elements.HealthBar then
         if f.state.threat > 0 then
-            f.Healthbar:SetStatusBarColor(unpack(colours[f.state.threat]))
+            f.HealthBar:SetStatusBarColor(unpack(colours[f.state.threat]))
             f.state.threatColoured = true
         elseif f.state.threatColoured then
             -- no threat status; set colour to default
-            f.Healthbar:SetStatusBarColor(unpack(f.state.healthColour))
+            f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
             f.state.threatColoured = nil
 
             addon:DispatchMessage('HealthColourChange', f)

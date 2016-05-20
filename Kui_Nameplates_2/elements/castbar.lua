@@ -3,40 +3,40 @@ local addon = KuiNameplates
 local ele = addon:NewElement('CastBar')
 local _
 -- local functions #############################################################
-local function OnCastbarUpdate(f,elapsed)
+local function OnCastBarUpdate(f,elapsed)
     f = f.parent
     if not f.state.casting then return end
 
     f.cast_state.duration = f.cast_state.duration + elapsed
 
     if f.cast_state.channel then
-        f.Castbar:SetValue(f.cast_state.max - f.cast_state.duration)
+        f.CastBar:SetValue(f.cast_state.max - f.cast_state.duration)
 
         if f.cast_state.duration > f.cast_state.max then
-            f.handler:CastbarHide()
+            f.handler:CastBarHide()
         end
     else
-        f.Castbar:SetValue(f.cast_state.duration)
+        f.CastBar:SetValue(f.cast_state.duration)
 
         if f.cast_state.duration >= f.cast_state.max then
-            f.handler:CastbarHide()
+            f.handler:CastBarHide()
         end
     end
 end
 -- prototype additions #########################################################
-function addon.Nameplate.CastbarShow(f)
+function addon.Nameplate.CastBarShow(f)
     f = f.parent
 
-    if f.elements.Castbar then
-        f.Castbar:SetMinMaxValues(0,f.cast_state.max)
+    if f.elements.CastBar then
+        f.CastBar:SetMinMaxValues(0,f.cast_state.max)
 
         if f.cast_state.channel then
-            f.Castbar:SetValue(f.cast_state.max)
+            f.CastBar:SetValue(f.cast_state.max)
         else
-            f.Castbar:SetValue(0)
+            f.CastBar:SetValue(0)
         end
 
-        f.Castbar:Show()
+        f.CastBar:Show()
     end
 
     if f.elements.SpellName then
@@ -51,37 +51,37 @@ function addon.Nameplate.CastbarShow(f)
         f.SpellShield:Show()
     end
 
-    addon:DispatchMessage('CastbarShow', f)
+    addon:DispatchMessage('CastBarShow', f)
 
-    f.CastbarUpdateFrame:Show()
-    f.CastbarUpdateFrame:SetScript('OnUpdate', OnCastbarUpdate)
+    f.CastBarUpdateFrame:Show()
+    f.CastBarUpdateFrame:SetScript('OnUpdate', OnCastBarUpdate)
 end
-function addon.Nameplate.CastbarHide(f)
+function addon.Nameplate.CastBarHide(f)
     f = f.parent
     if not f.state.casting then return end
 
     f.state.casting = nil
     wipe(f.cast_state)
 
-    if f.elements.Castbar then
-        f.Castbar:Hide()
-        f.Castbar:SetScript('OnUpdate',nil)
+    if f.elements.CastBar then
+        f.CastBar:Hide()
+        f.CastBar:SetScript('OnUpdate',nil)
     end
 
     if f.elements.SpellShield then
         f.SpellShield:Hide()
     end
 
-    addon:DispatchMessage('CastbarHide', f)
+    addon:DispatchMessage('CastBarHide', f)
 
-    f.CastbarUpdateFrame:Hide()
-    f.CastbarUpdateFrame:SetScript('OnUpdate',nil)
+    f.CastBarUpdateFrame:Hide()
+    f.CastBarUpdateFrame:SetScript('OnUpdate',nil)
 end
 -- messages ####################################################################
 function ele.Create(f)
-    f.CastbarUpdateFrame = CreateFrame('Frame')
-    f.CastbarUpdateFrame:Hide()
-    f.CastbarUpdateFrame.parent = f
+    f.CastBarUpdateFrame = CreateFrame('Frame')
+    f.CastBarUpdateFrame:Hide()
+    f.CastBarUpdateFrame.parent = f
     f.cast_state = {}
 end
 function ele.Show(f)
@@ -98,7 +98,7 @@ function ele.Show(f)
     end
 end
 function ele.Hide(f)
-    f.handler:CastbarHide()
+    f.handler:CastBarHide()
 end
 -- events ######################################################################
 function ele:CastStart(event,f,unit)
@@ -124,10 +124,10 @@ function ele:CastStart(event,f,unit)
         f.cast_state.channel = true
     end
 
-    f.handler:CastbarShow()
+    f.handler:CastBarShow()
 end
 function ele:CastStop(event,f,unit)
-    f.handler:CastbarHide()
+    f.handler:CastBarHide()
 end
 function ele:CastUpdate(event,f,unit)
     local startTime,endTime
@@ -138,7 +138,7 @@ function ele:CastUpdate(event,f,unit)
     end
 
     if not startTime or not endTime then
-        f.handler:CastbarHide()
+        f.handler:CastBarHide()
         return
     end
 
