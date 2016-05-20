@@ -295,11 +295,36 @@ local auras = {
         },
     },
     DEMONHUNTER = {
+        SELF = {
+            [218256] = true, -- empower wards
+            [203819] = true, -- demon spikes
+            [187827] = true, -- metamorphosis
+            [212800] = true, -- blur
+            [196555] = true, -- netherwalk
+        },
         HELPFUL = {
+            [209426] = true, -- darkness
         },
         HARMFUL = {
+            [207744] = true, -- fiery brand
+            [204598] = true, -- sigil of flame
+            [204490] = true, -- sigil of silence
+            [207407] = true, -- soul carver
+
+            -- TODO
+            -- bloodlet
+            -- nemesis
+            -- master of the glaive snare
+            -- chaos blades
         },
         CONTROL = {
+            [185245] = true, -- torment taunt
+            [204843] = true, -- sigil of chains
+            [179057] = true, -- chaos nova
+            [211881] = true, -- fel eruption
+            [200166] = true, -- metamorphosis stun
+            [198813] = true, -- vengeful retreat
+            [217932] = true, -- imprison
         },
     },
     GLOBAL = {
@@ -353,7 +378,7 @@ KuiSpellList.GetDefaultSpells = function(class,onlyClass)
     -- get spell list, ignoring KuiSpellListCustom
     local list = KuiSpellList.GetSingleList(class)
 
-    -- apend global spell list (i.e. racials)
+    -- append global spell list (i.e. racials)
     if not onlyClass then
         local global = KuiSpellList.GetSingleList('GLOBAL')
 
