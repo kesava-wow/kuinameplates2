@@ -458,7 +458,7 @@ function ele:WhitelistChanged()
     whitelist = spelllist.GetImportantSpells(class)
 end
 -- messages ####################################################################
-function ele.Create(f)
+function ele:Create(f)
     f.Auras = { frames = {} }
 
     for i,frame_def in ipairs(addon.layout.Auras) do
@@ -490,22 +490,22 @@ function ele.Create(f)
         if new_frame.kui_whitelist and not whitelist then
             -- initialise KuiSpellList whitelist
             spelllist = LibStub('KuiSpellList-1.0')
-            spelllist.RegisterChanged(ele,'WhitelistChanged')
-            ele:WhitelistChanged()
+            spelllist.RegisterChanged(self,'WhitelistChanged')
+            self:WhitelistChanged()
         end
 
         f.Auras.frames[i] = new_frame
     end
 end
-function ele.Show(f)
-    ele:UNIT_FACTION(nil,f)
+function ele:Show(f)
+    self:UNIT_FACTION(nil,f)
 end
-function ele.Hide(f)
+function ele:Hide(f)
     for i,frame in ipairs(f.Auras.frames) do
         frame:Hide()
     end
 end
-function ele.Initialised()
+function ele:Initialised()
     if type(addon.layout.Auras) ~= 'table' or #addon.layout.Auras == 0 then
         -- no frame definitions
         return
@@ -524,12 +524,12 @@ function ele.Initialised()
         cb_PostCreateAuraButton = addon.layout.Auras_PostCreateAuraButton
     end
 
-    ele:RegisterMessage('Create')
-    ele:RegisterMessage('Show')
-    ele:RegisterMessage('Hide')
+    self:RegisterMessage('Create')
+    self:RegisterMessage('Show')
+    self:RegisterMessage('Hide')
 
-    ele:RegisterUnitEvent('UNIT_AURA')
-    ele:RegisterUnitEvent('UNIT_FACTION')
+    self:RegisterUnitEvent('UNIT_AURA')
+    self:RegisterUnitEvent('UNIT_FACTION')
 end
 -- events ######################################################################
 function ele:UNIT_FACTION(event,f)

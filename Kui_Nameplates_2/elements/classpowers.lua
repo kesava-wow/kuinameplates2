@@ -162,15 +162,15 @@ local function PowerUpdate()
     addon:DispatchMessage('ClassPowers_PowerUpdate')
 end
 -- messages ####################################################################
-function ele.Initialised()
+function ele:Initialised()
     -- icon frame container TODO floats on the target nameplate
     cpf = CreateFrame('Frame')
     cpf:SetSize(100,100)
     cpf:SetPoint('CENTER')
     cpf:Hide()
 
-    ele:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
-    ele:PowerInit()
+    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
+    self:PowerInit()
 
     addon.ClassPowersFrame = cpf
 end

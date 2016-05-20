@@ -26,10 +26,10 @@ local function eq(t,v)
     end
 end
 
-reaction.Show = function(f)
-    reaction.HealthColourChange(f)
+function reaction:Show(f)
+    self:HealthColourChange(f)
 end
-reaction.HealthColourChange = function(f)
+function reaction:HealthColourChange(f)
     if not f.state.healthColour then return end
     local r,g,b = unpack(f.state.healthColour)
 

@@ -49,7 +49,7 @@ function addon.Nameplate.HighlightHide(f)
     addon:DispatchMessage('OnLeave', f)
 end
 -- messages ####################################################################
-function ele.Hide(f)
+function ele:Hide(f)
     f.handler:HighlightHide()
 end
 -- events ######################################################################

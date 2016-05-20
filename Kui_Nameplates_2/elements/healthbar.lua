@@ -34,7 +34,7 @@ function addon.Nameplate.UpdateHealth(f,show)
     end
 end
 -- messages ####################################################################
-function ele.Show(f)
+function ele:Show(f)
     f.handler:UpdateHealth(f,true)
     f.handler:UpdateHealthColour(f,true)
 end

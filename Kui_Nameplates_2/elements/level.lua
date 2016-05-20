@@ -10,7 +10,7 @@ function addon.Nameplate.UpdateLevel(f)
     end
 end
 -- messages ####################################################################
-function ele.Show(f)
+function ele:Show(f)
     f.handler:UpdateLevel()
 end
 -- events ######################################################################

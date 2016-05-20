@@ -10,7 +10,7 @@ function addon.Nameplate.UpdateName(f)
     end
 end
 -- messages ####################################################################
-function ele.Show(f)
+function ele:Show(f)
     f.handler:UpdateName()
 end
 -- events ######################################################################

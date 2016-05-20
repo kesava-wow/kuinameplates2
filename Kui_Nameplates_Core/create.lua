@@ -52,7 +52,7 @@ function glow_prototype:SetSize(...)
     end
 end
 --##############################################################################
-test.Create = function(f)
+function test:Create(f)
     local healthbar
     do
         local bg = f:CreateTexture(nil, 'ARTWORK')
@@ -192,7 +192,7 @@ test.Create = function(f)
     f.handler:RegisterElement('NameText', name)
     f.handler:RegisterElement('Highlight', highlight)
 end
-test.Show = function(f)
+function test:Show(f)
     if f.state.micro then
         -- set elements to micro sizes
         f.HealthBar:SetSize(sizes.trivial_width, sizes.trivial_height)
@@ -208,13 +208,13 @@ test.Show = function(f)
 
     f.HealthBar:SetPoint('BOTTOMLEFT', x, y)
 end
-test.GlowColourChange = function(f)
+function test:GlowColourChange(f)
     if not f.state.glowing then
         -- we want a shadow when there's no threat state
         f.ThreatGlow:SetVertexColor(0, 0, 0, .5)
     end
 end
-test.CastBarShow = function(f)
+function test:CastBarShow(f)
     f.CastBar.bg:Show()
     f.SpellIcon.bg:Show()
     f.SpellName:Show()
@@ -222,7 +222,7 @@ test.CastBarShow = function(f)
     local icon_width = f.SpellIcon.bg:GetHeight()
     f.SpellIcon.bg:SetWidth(floor(icon_width*1.5))
 end
-test.CastBarHide = function(f)
+function test:CastBarHide(f)
     f.CastBar.bg:Hide()
     f.SpellIcon.bg:Hide()
     f.SpellName:Hide()
@@ -241,4 +241,10 @@ function test:Initialise()
             rows = 2
         }
     }
+
+    self:RegisterMessage('Create')
+    self:RegisterMessage('Show')
+    self:RegisterMessage('GlowColourChange')
+    self:RegisterMessage('CastBarShow')
+    self:RegisterMessage('CastBarHide')
 end

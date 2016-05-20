@@ -23,7 +23,7 @@ function addon:DispatchMessage(message, ...)
             end
 
             if type(func) == 'function' then
-                func(listener,message,...)
+                func(listener,...)
 
                 if addon.debug_messages then
                     addon:print('m:'..message..' > '..(listener.name or 'nil'))

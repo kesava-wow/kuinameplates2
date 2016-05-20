@@ -78,26 +78,26 @@ function addon.Nameplate.CastBarHide(f)
     f.CastBarUpdateFrame:SetScript('OnUpdate',nil)
 end
 -- messages ####################################################################
-function ele.Create(f)
+function ele:Create(f)
     f.CastBarUpdateFrame = CreateFrame('Frame')
     f.CastBarUpdateFrame:Hide()
     f.CastBarUpdateFrame.parent = f
     f.cast_state = {}
 end
-function ele.Show(f)
+function ele:Show(f)
     local name = UnitCastingInfo(f.unit)
     if name then
-        ele:CastStart('UNIT_SPELLCAST_START',f,f.unit)
+        self:CastStart('UNIT_SPELLCAST_START',f,f.unit)
         return
     end
 
     name = UnitChannelInfo(f.unit)
     if name then
-        ele:CastStart('UNIT_SPELLCAST_CHANNEL_START',f,f.unit)
+        self:CastStart('UNIT_SPELLCAST_CHANNEL_START',f,f.unit)
         return
     end
 end
-function ele.Hide(f)
+function ele:Hide(f)
     f.handler:CastBarHide()
 end
 -- events ######################################################################

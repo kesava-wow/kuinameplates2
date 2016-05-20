@@ -21,7 +21,7 @@ local function eq(t,v)
     end
 end
 
-threat.GlowColourChange = function(f)
+function threat:GlowColourChange(f)
     local r,g,b = unpack(f.state.glowColour)
     local holding = eq(r,1) and eq(g+b,0)
     local losing = f.state.glowing and not holding
