@@ -31,13 +31,7 @@ function addon:print(msg)
     print('|cff666666KNP2 '..GetTime()..':|r '..(msg and msg or nil))
 end
 function addon:Frames()
-    local i = 0
-    return function()
-        i = i + 1
-        if i <= #framelist then
-            return framelist[i]
-        end
-    end
+    return ipairs(framelist)
 end
 --------------------------------------------------------------------------------
 function addon:NAME_PLATE_CREATED(frame)

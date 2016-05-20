@@ -181,10 +181,11 @@ function message.UnregisterEvent(table,event)
     end
 end
 function message.UnregisterAllEvents(table)
-    if type(table.__EVENTS) ~= 'table' or #table.__EVENTS == 0 then return end
+    if type(table.__EVENTS) ~= 'table' then return end
     for event,_ in pairs(table.__EVENTS) do
         table:UnregisterEvent(event)
     end
+    table.__EVENTS = nil
 end
 --------------------------------------------------------------------------------
 function message.Enable(table)
@@ -194,7 +195,7 @@ function message.Enable(table)
 
     if table.element then
         for i,frame in addon:Frames() do
-            frame:EnableElement()
+            frame.handler:EnableElement(table.name)
         end
     end
 end
@@ -208,7 +209,7 @@ function message.Disable(table)
 
     if table.element then
         for i,frame in addon:Frames() do
-            frame:DisableElement(table.name)
+            frame.handler:DisableElement(table.name)
         end
     end
 end
