@@ -212,6 +212,10 @@ function message.Enable(table)
     if type(table.OnEnable) == 'function' then
         table:OnEnable()
     end
+    -- TODO
+    -- OnInitialise should always be called first
+    -- then call OnEnable if the element is enabled
+    -- OnEnable is where plugins register their messages/events/etc
 
     if table.element then
         for i,frame in addon:Frames() do
