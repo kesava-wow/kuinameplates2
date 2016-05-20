@@ -11,20 +11,27 @@ local k,listener,plugin,_
 local listeners = {}
 
 function addon:DispatchMessage(message, ...)
-    if addon.debug_messages then
-        addon:print('dispatch message: '..message)
-    end
-
     if listeners[message] then
-        -- call plugin listeners...
-        for _,listener in ipairs(listeners[message]) do
-            listener[message](...)
-        end
-    end
 
-    if addon.layout and addon.layout[message] then
-        -- ... and the layout's listener
-        addon.layout[message](...)
+        for i,listener_tbl in ipairs(listeners[message]) do
+            local listener,func = unpack(listener_tbl)
+
+            if type(func) == 'string' and type(listener[func]) == 'function' then
+                func = listener[func]
+            elseif type(listener[message]) == 'function' then
+                func = listener[message]
+            end
+
+            if type(func) == 'function' then
+                func(listener,message,...)
+
+                if addon.debug_messages then
+                    addon:print('m:'..message..' > '..(listener.name or 'nil'))
+                end
+            else
+                addon:print('|cffff0000no listener for m:'..message..' in '..(listener.name or 'nil'))
+            end
+        end
     end
 end
 ----------------------------------------------------------------- event frame --
@@ -67,36 +74,50 @@ local function event_frame_OnEvent(self,event,...)
                 end
 
                 if addon.debug_messages then
-                    addon:print('event '..event..(unit and ' ['..unit..']' or '')..' > '..(table.name or 'nil'))
+                    addon:print('e:'..event..(unit and ' ['..unit..']' or '')..' > '..(table.name or 'nil'))
                 end
             else
-                addon:print('|cffff0000no event listener for '..event..' in '..(table.name or 'nil'))
+                addon:print('|cffff0000no listener for e:'..event..' in '..(table.name or 'nil'))
             end
         end
     end
 end
 
 event_frame:SetScript('OnEvent',event_frame_OnEvent)
------------------------------------------------------------ message registrar --
+--------------------------------------------------------------------------------
 local message = {}
 message.__index = message
-function message.RegisterMessage(table, message)
-    if not table or not message then return end
-    if table.layout then return end
-    if not type(table[message]) == 'function' then return end
+----------------------------------------------------------- message registrar --
+local function pluginHasMessage(table,message)
+    return (type(table.__MESSAGES) == 'table' and table.__MESSAGES[message])
+end
+function message.RegisterMessage(table,message,func)
+    if not table then return end
+    if not message or type(message) ~= 'string' then
+        addon:print('|cffff0000invalid message passed to RegisterMessage by '..(table.name or 'nil'))
+        return
+    end
+    if func and type(func) ~= 'string' and type(func) ~= 'function' then
+        addon:print('|cffff0000invalid function passed to RegisterMessage by '..(table.name or 'nil'))
+        return
+    end
+
+    if pluginHasMessage(table,message) then return end
+
     if not listeners[message] then
         listeners[message] = {}
     end
 
-    -- TODO make this consistent with events
+    local insert_tbl = { table, func }
 
-    -- higher priority plugins are called later
+    -- insert by priority
     if #listeners[message] > 0 then
         local inserted
-        for k,plugin in ipairs(listeners[message]) do
-            if plugin.priority > table.priority then
+        for k,listener in ipairs(listeners[message]) do
+            listener = listener[1]
+            if listener.priority > table.priority then
                 -- insert before a higher priority plugin
-                tinsert(listeners[message], k, table)
+                tinsert(listeners[message], k, insert_tbl)
                 inserted = true
                 break
             end
@@ -104,11 +125,17 @@ function message.RegisterMessage(table, message)
 
         if not inserted then
             -- no higher priority plugin was found; insert at the end
-            tinsert(listeners[message], table)
+            tinsert(listeners[message], insert_tbl)
         end
     else
-        tinsert(listeners[message], table)
+        -- no current listeners
+        tinsert(listeners[message], insert_tbl)
     end
+
+    if not table.__MESSAGES then
+        table.__MESSAGES = {}
+    end
+    table.__MESSAGES[message] = true
 end
 function message.UnregisterMessage(table,message)
     if not table or not message then return end
@@ -150,12 +177,12 @@ function message.RegisterEvent(table,event,func,unit_only)
         return
     end
 
+    -- TODO maybe allow overwrites possibly
+    if pluginHasEvent(table,event) then return end
+
     if not event_index[event] then
         event_index[event] = {}
     end
-
-    -- TODO maybe allow overwrites possibly
-    if pluginHasEvent(table,event) then return end
 
     local insert_tbl = { table, func, unit_only }
 
@@ -207,8 +234,8 @@ function message.UnregisterAllEvents(table)
     end
     table.__EVENTS = nil
 end
---------------------------------------------------------------------------------
-function message.Enable(table)
+------------------------------------------------------- plugin-only functions --
+local function plugin_Enable(table)
     if type(table.OnEnable) == 'function' then
         table:OnEnable()
     end
@@ -223,7 +250,7 @@ function message.Enable(table)
         end
     end
 end
-function message.Disable(table)
+local function plugin_Disable(table)
     if type(table.OnDisable) == 'function' then
         table:OnDisable()
     end
@@ -252,6 +279,8 @@ function addon:NewPlugin(name,priority)
         plugin = true,
         priority = type(priority)=='number' and priority or 5
     }
+    pluginTable.Enable = plugin_Enable
+    pluginTable.Disable = plugin_Disable
 
     setmetatable(pluginTable, message)
     tinsert(addon.plugins, pluginTable)
@@ -271,8 +300,12 @@ end
 function addon:Layout()
     -- TODO multiple layouts
     if addon.layout then return end
-    addon.layout = {}
+
+    addon.layout = {
+        layout = true,
+        priority = 100
+    }
     setmetatable(addon.layout, message)
-    addon.layout.layout = true
+
     return addon.layout
 end
