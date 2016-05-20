@@ -2,6 +2,7 @@
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates:|r |cffffffffBase|r
 ## Notes: Kesava's nameplate framework.|nRemember to enable Kui Nameplates Core (or a compatible layout), too!
+## OptionalDeps: Kui_SpellList_Config
 ## SavedVariables: KuiNameplatesGDB
 
 lib\embeds.xml

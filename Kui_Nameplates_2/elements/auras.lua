@@ -50,7 +50,10 @@
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
+local spelllist = LibStub('KuiSpellList-1.0')
 local ele = addon:NewElement('Auras')
+
+local class
 -- row growth lookup table
 local row_growth_points = {
     UP = {'BOTTOM','TOP'},
@@ -310,6 +313,16 @@ local function AuraFrame_GetButton(self,spellid)
     return button
 end
 local function AuraFrame_DisplayButton(self,name,icon,spellid,count,duration,expiration,index)
+    if  self.kui_whitelist and whitelist and
+        not whitelist[spellid] and not whitelist[strlower(name)]
+    then
+        return
+    elseif self.whitelist and
+           not self.whitelist[spellid] and not self.whitelist[strlower(name)]
+    then
+        return
+    end
+
     local button = self:GetButton(spellid)
 
     button:SetTexture(icon)
@@ -439,6 +452,10 @@ local function CreateAuraFrame(parent)
 
     return auraframe
 end
+-- whitelist ###################################################################
+function ele:WhitelistChanged()
+    whitelist = spelllist.GetImportantSpells(class)
+end
 -- messages ####################################################################
 function ele.Create(f)
     f.Auras = { frames = {} }
@@ -469,6 +486,12 @@ function ele.Create(f)
             new_frame.row_point = row_growth_points[new_frame.row_growth]
         end
 
+        if new_frame.kui_whitelist and not whitelist then
+            -- initialise KuiSpellList whitelist
+            ele:WhiteListChanged()
+            spelllist.RegisterChanged(ele,'WhitelistChanged')
+        end
+
         f.Auras.frames[i] = new_frame
     end
 end
@@ -485,6 +508,8 @@ function ele.Initialised()
         -- no frame definitions
         return
     end
+
+    class = select(2,UnitClass('player'))
 
     -- populate callbacks
     if type(addon.layout.Auras_ArrangeButtons) == 'function' then
