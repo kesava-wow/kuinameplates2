@@ -233,6 +233,7 @@ function test:Initialise()
 
     test.Auras = {
         {
+            kui_whitelist = true,
             max = 10,
             point = {'BOTTOMLEFT','LEFT','RIGHT'},
             x_spacing = 1,

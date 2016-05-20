@@ -488,7 +488,7 @@ function ele.Create(f)
 
         if new_frame.kui_whitelist and not whitelist then
             -- initialise KuiSpellList whitelist
-            ele:WhiteListChanged()
+            ele:WhitelistChanged()
             spelllist.RegisterChanged(ele,'WhitelistChanged')
         end
 
