@@ -274,7 +274,6 @@ local auras = {
     },
     MONK = {
         HELPFUL = {
-            [115921] = true, -- legacy of the emperor
             [116841] = true, -- tiger's lust
             [116844] = true, -- ring of peace
             [116849] = true, -- life cocoon
@@ -283,7 +282,6 @@ local auras = {
         },
         HARMFUL = {
             [123725] = true, -- breath of fire dot
-            [137460] = true, -- ring of peace incapacitate
             [138130] = true, -- storm, earth and fire 1
         },
         CONTROL = {
