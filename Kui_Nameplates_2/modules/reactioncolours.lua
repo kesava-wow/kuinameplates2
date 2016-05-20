@@ -30,6 +30,7 @@ reaction.Show = function(f)
     reaction.HealthColourChange(f)
 end
 reaction.HealthColourChange = function(f)
+    if not f.state.healthColour then return end
     local r,g,b = unpack(f.state.healthColour)
 
     if eq(g, 1) and r == 0 and b == 0 then

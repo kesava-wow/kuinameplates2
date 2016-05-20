@@ -181,6 +181,7 @@ test.Create = function(f)
     end
 
     -- position auras container frame
+    -- TODO should be in a post-create-auras message to work correct with onenable/disable
     for i,frame in ipairs(f.Auras.frames) do
         --frame:SetBackdrop({bgFile='interface/buttons/white8x8'})
         frame:SetWidth(124)

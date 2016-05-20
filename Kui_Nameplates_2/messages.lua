@@ -110,6 +110,26 @@ function message.RegisterMessage(table, message)
         tinsert(listeners[message], table)
     end
 end
+function message.UnregisterMessage(table,message)
+    if not table or not message then return end
+    if table.layout then return end
+    if not listeners[message] then return end
+
+    for k,listener in ipairs(listeners[message]) do
+        if listener == table then
+            tremove(listeners[message],k)
+            break
+        end
+    end
+end
+function message.UnregisterAllMessages(table)
+    if not table then return end
+    if table.layout then return end
+
+    for message,_ in pairs(listeners) do
+        table:UnregisterMessage(message)
+    end
+end
 ------------------------------------------------------------- event registrar --
 local function pluginHasEvent(table,event)
     -- true if plugin is registered for given event
@@ -204,8 +224,8 @@ function message.Disable(table)
         table:OnDisable()
     end
 
+    table:UnregisterAllMessages()
     table:UnregisterAllEvents()
-    -- TODO also unregister messages
 
     if table.element then
         for i,frame in addon:Frames() do
