@@ -12,6 +12,9 @@ local listeners = {}
 
 function addon:DispatchMessage(message, ...)
     if listeners[message] then
+        if addon.debug_messages then
+            addon:print('dispatch m:'..message)
+        end
 
         for i,listener_tbl in ipairs(listeners[message]) do
             local listener,func = unpack(listener_tbl)
@@ -24,10 +27,6 @@ function addon:DispatchMessage(message, ...)
 
             if type(func) == 'function' then
                 func(listener,...)
-
-                if addon.debug_messages then
-                    addon:print('m:'..message..' > '..(listener.name or 'nil'))
-                end
             else
                 addon:print('|cffff0000no listener for m:'..message..' in '..(listener.name or 'nil'))
             end
@@ -138,24 +137,23 @@ function message.RegisterMessage(table,message,func)
     table.__MESSAGES[message] = true
 end
 function message.UnregisterMessage(table,message)
-    if not table or not message then return end
-    if table.layout then return end
-    if not listeners[message] then return end
-
-    for k,listener in ipairs(listeners[message]) do
-        if listener == table then
-            tremove(listeners[message],k)
-            break
+    if not pluginHasMessage(table,message) then return end
+    if type(listeners[message]) == 'table' then
+        for i,listener_tbl in ipairs(listeners[message]) do
+            if listener_tbl[1] == table then
+                tremove(listeners[message],i)
+                table.__MESSAGES[message] = nil
+                return
+            end
         end
     end
 end
 function message.UnregisterAllMessages(table)
-    if not table then return end
-    if table.layout then return end
-
-    for message,_ in pairs(listeners) do
+    if type(table.__MESSAGES) ~= 'table' then return end
+    for message,_ in pairs(table.__MESSAGES) do
         table:UnregisterMessage(message)
     end
+    table.__MESSAGES = nil
 end
 ------------------------------------------------------------- event registrar --
 local function pluginHasEvent(table,event)
@@ -218,7 +216,7 @@ end
 function message.UnregisterEvent(table,event)
     if not pluginHasEvent(table,event) then return end
     if type(event_index[event]) == 'table' then
-        for i,r_table in pairs(event_index[event]) do
+        for i,r_table in ipairs(event_index[event]) do
             if r_table[1] == table then
                 tremove(event_index[event],i)
                 table.__EVENTS[event] = nil
