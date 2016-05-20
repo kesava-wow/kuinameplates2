@@ -50,8 +50,9 @@
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local spelllist = LibStub('KuiSpellList-1.0')
 local ele = addon:NewElement('Auras')
+
+local spelllist,whitelist
 
 local class
 -- row growth lookup table
@@ -488,8 +489,9 @@ function ele.Create(f)
 
         if new_frame.kui_whitelist and not whitelist then
             -- initialise KuiSpellList whitelist
-            ele:WhitelistChanged()
+            spelllist = LibStub('KuiSpellList-1.0')
             spelllist.RegisterChanged(ele,'WhitelistChanged')
+            ele:WhitelistChanged()
         end
 
         f.Auras.frames[i] = new_frame
