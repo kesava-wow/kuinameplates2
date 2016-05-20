@@ -1,5 +1,5 @@
 local addon = KuiNameplates
-local ele = addon:NewElement('leveltext')
+local ele = addon:NewElement('LevelText')
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateLevel(f)
     f = f.parent

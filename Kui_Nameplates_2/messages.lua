@@ -191,14 +191,26 @@ function message.Enable(table)
     if type(table.OnEnable) == 'function' then
         table:OnEnable()
     end
+
+    if table.element then
+        for i,frame in addon:Frames() do
+            frame:EnableElement()
+        end
+    end
 end
 function message.Disable(table)
-    -- TODO unregister events, messages, remove elements from elements table
     if type(table.OnDisable) == 'function' then
         table:OnDisable()
     end
 
     table:UnregisterAllEvents()
+    -- TODO also unregister messages
+
+    if table.element then
+        for i,frame in addon:Frames() do
+            frame:DisableElement(table.name)
+        end
+    end
 end
 ------------------------------------------------------------ plugin registrar --
 -- priority = any number. Defines the load order. Default of 5.

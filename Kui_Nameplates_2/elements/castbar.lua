@@ -1,6 +1,6 @@
 -- listen for castbar events and dispatch to nameplates
 local addon = KuiNameplates
-local ele = addon:NewElement('castbar')
+local ele = addon:NewElement('CastBar')
 local _
 -- local functions #############################################################
 local function OnCastbarUpdate(f,elapsed)

@@ -50,7 +50,7 @@
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local ele = addon:NewElement('auras')
+local ele = addon:NewElement('Auras')
 -- row growth lookup table
 local row_growth_points = {
     UP = {'BOTTOM','TOP'},

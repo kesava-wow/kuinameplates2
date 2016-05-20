@@ -42,7 +42,10 @@ end
 --------------------------------------------------------------------------------
 function addon:NAME_PLATE_CREATED(frame)
     self:HookNameplate(frame)
-    tinsert(framelist,frame)
+
+    if frame.kui then
+        tinsert(framelist,frame.kui)
+    end
 end
 function addon:NAME_PLATE_UNIT_ADDED(unit)
     local f = C_NamePlate.GetNamePlateForUnit(unit)

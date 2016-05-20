@@ -1,5 +1,5 @@
 local addon = KuiNameplates
-local ele = addon:NewElement('nametext')
+local ele = addon:NewElement('NameText')
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateName(f)
     f = f.parent

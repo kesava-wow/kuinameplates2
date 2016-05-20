@@ -18,22 +18,22 @@ addon.Nameplate.__index = addon.Nameplate
 -- elements used by the default scripts (below) are:
 -- Castbar, Healthbar, Name, Level, SpellName, SpellIcon, SpellShield, RaidIcon,
 -- BossIcon, Highlight, ThreatGlow
-function addon.Nameplate.RegisterElement(frame, element, element_frame)
+function addon.Nameplate.RegisterElement(frame, element_name, element_frame)
     frame = frame.parent
-    if frame[element] then return end
-    frame.elements[element] = true
-    frame[element] = element_frame
+    if frame[element_name] then return end
+    frame.elements[element_name] = true
+    frame[element_name] = element_frame
 end
-function addon.Nameplate.DisableElement(frame, element)
+function addon.Nameplate.DisableElement(frame, element_name)
     frame = frame.parent
-    if frame.elements[element] then
-        frame.elements[element] = false
+    if frame.elements[element_name] then
+        frame.elements[element_name] = false
     end
 end
-function addon.Nameplate.EnableElement(frame, element)
+function addon.Nameplate.EnableElement(frame, element_name)
     frame = frame.parent
-    if frame.elements[element] == false then
-        frame.elements[element] = true
+    if frame.elements[element_name] == false then
+        frame.elements[element_name] = true
     end
 end
 -------------------------------------------------------- Frame event handlers --

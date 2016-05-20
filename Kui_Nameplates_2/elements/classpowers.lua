@@ -32,7 +32,7 @@
 
 ]]
 local addon = KuiNameplates
-local ele = addon:NewElement('classpowers')
+local ele = addon:NewElement('ClassPowers')
 local class, power_type, power_type_tag, cpf
 -- power types by class/spec
 local powers = {

@@ -1,7 +1,7 @@
 -- listen for health events and dispatch to nameplates
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local ele = addon:NewElement('healthbar')
+local ele = addon:NewElement('HealthBar')
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateHealthColour(f,show)
     f = f.parent
