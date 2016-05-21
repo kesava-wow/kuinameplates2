@@ -240,6 +240,28 @@ function test:CastBarHide(f)
     f.SpellName:Hide()
 end
 -- #############################################################################
+local target
+function test:PLAYER_TARGET_CHANGED()
+    -- TODO obviously target state, messages and target glow should be handled
+    -- by an element
+    if UnitExists('target') then
+        if target and not UnitShouldDisplayName(target.unit) then
+            target.NameText:Hide()
+        end
+
+        target = C_NamePlate.GetNamePlateForUnit('target')
+
+        if target then
+            target = target.kui
+            target.NameText:Show()
+        end
+    else
+        if target and not UnitShouldDisplayName(target.unit) then
+            target.NameText:Hide()
+        end
+    end
+end
+-- #############################################################################
 function test:Initialise()
     test.ClassPowers = {} -- TODO
     test.Auras = true
@@ -249,4 +271,6 @@ function test:Initialise()
     self:RegisterMessage('GlowColourChange')
     self:RegisterMessage('CastBarShow')
     self:RegisterMessage('CastBarHide')
+
+    self:RegisterEvent('PLAYER_TARGET_CHANGED')
 end
