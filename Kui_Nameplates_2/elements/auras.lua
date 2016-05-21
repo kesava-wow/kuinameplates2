@@ -463,6 +463,10 @@ local function CreateAuraFrame(parent)
 
     return auraframe
 end
+-- whitelist ###################################################################
+function ele:WhitelistChanged()
+    whitelist = spelllist.GetImportantSpells(class)
+end
 -- prototype additions #########################################################
 function addon.Nameplate.CreateAuraFrame(f,frame_def)
     -- TODO update documentation to reflect this change
@@ -506,10 +510,6 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
     tinsert(f.Auras.frames,new_frame)
 
     return new_frame
-end
--- whitelist ###################################################################
-function ele:WhitelistChanged()
-    whitelist = spelllist.GetImportantSpells(class)
 end
 -- messages ####################################################################
 function ele:Show(f)
