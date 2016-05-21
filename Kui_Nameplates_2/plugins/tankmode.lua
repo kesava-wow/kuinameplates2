@@ -19,7 +19,8 @@ function mod:GlowColourChange(f)
         if f.elements.HealthBar then
             f.HealthBar:SetStatusBarColor(unpack(colours[f.state.threat]))
         end
-    elseif f.state.threatColoured then
+        f.state.tank_mode_coloured = true
+    elseif f.state.tank_mode_coloured then
         if f.elements.HealthBar then
             -- return to colour provided by HealthBar element
             f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
