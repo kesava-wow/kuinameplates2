@@ -12,7 +12,8 @@ local sizes = {
     height = 11,
     trivial_width = 70,
     trivial_height = 7,
-    glow = 8
+    glow = 8,
+    no_name = 7
 }
 local x,y
 
@@ -206,7 +207,7 @@ function test:Show(f)
         f.NameText:Show()
     else
         f.NameText:Hide()
-        f.HealthBar:SetHeight(5)
+        f.HealthBar:SetHeight(sizes.no_name)
     end
 
     -- calculate where the health bar needs to go to be visually centred

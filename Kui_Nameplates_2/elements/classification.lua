@@ -1,6 +1,6 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local ele = addon:NewElement('Classification')
+local ele = addon:NewElement('Classification',1)
 -- prototype additions #########################################################
 -- messages ####################################################################
 function ele:Show(f)
