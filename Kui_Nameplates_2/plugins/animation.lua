@@ -6,6 +6,12 @@ local anims = {}
 -- local functions #############################################################
 -- cutaway #####################################################################
 local function SetValueCutaway(self,value)
+    if not self:IsVisible() then
+        -- passthrough initial calls
+        self:orig_anim_SetValue(value)
+        return
+    end
+
     if value < self:GetValue() then
         if not kui.frameIsFading(self.KuiFader) then
             self.KuiFader:SetPoint(
@@ -61,6 +67,7 @@ function addon.Nameplate.SetBarAnimation(f,bar,anim)
 end
 -- messages ####################################################################
 function mod:Hide(f)
+    -- reset animations
     if f.KuiFader then
         kui.frameFadeRemoveFrame(f.KuiFader)
         f.KuiFader:SetAlpha(0)
