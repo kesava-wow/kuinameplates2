@@ -177,14 +177,18 @@ function test:Create(f)
         f.handler:RegisterElement('SpellShield', spellshield)
     end
 
-    -- position auras container frame
-    -- TODO should be in a post-create-auras message to work correct with onenable/disable
-    for i,frame in ipairs(f.Auras.frames) do
-        --frame:SetBackdrop({bgFile='interface/buttons/white8x8'})
-        frame:SetWidth(124)
-        frame:SetHeight(10)
-        frame:SetPoint('BOTTOMLEFT',healthbar.bg,'TOPLEFT',4,15)
-    end
+    -- auras
+    local auras = f.handler:CreateAuraFrame({
+        kui_whitelist = true,
+        max = 10,
+        point = {'BOTTOMLEFT','LEFT','RIGHT'},
+        x_spacing = 1,
+        y_spacing = 1,
+        rows = 2
+    })
+    auras:SetWidth(124)
+    auras:SetHeight(10)
+    auras:SetPoint('BOTTOMLEFT',healthbar.bg,'TOPLEFT',4,15)
 
     f.handler:RegisterElement('NameText', name)
     f.handler:RegisterElement('Highlight', highlight)
@@ -230,17 +234,7 @@ end
 -- #############################################################################
 function test:Initialise()
     test.ClassPowers = {} -- TODO
-
-    test.Auras = {
-        {
-            kui_whitelist = true,
-            max = 10,
-            point = {'BOTTOMLEFT','LEFT','RIGHT'},
-            x_spacing = 1,
-            y_spacing = 1,
-            rows = 2
-        }
-    }
+    test.Auras = true
 
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')

@@ -463,50 +463,55 @@ local function CreateAuraFrame(parent)
 
     return auraframe
 end
+-- prototype additions #########################################################
+function addon.Nameplate.CreateAuraFrame(f,frame_def)
+    -- TODO update documentation to reflect this change
+    f = f.parent
+    local new_frame = CreateAuraFrame(f)
+
+    -- mixin configuration
+    for k,v in pairs(frame_def) do
+        new_frame[k] = v
+    end
+
+    new_frame.max = new_frame.max or 12
+
+    new_frame.icon_height = new_frame.size * new_frame.squareness
+    new_frame.icon_ratio = (1 - (new_frame.icon_height / new_frame.size)) / 2
+
+    -- positioning stuff
+    if new_frame.rows then
+        if not new_frame.num_per_row then
+            new_frame.num_per_row = floor(new_frame.max / new_frame.rows)
+        end
+
+        if not new_frame.row_growth then
+            new_frame.row_growth = 'UP'
+        end
+
+        new_frame.row_point = row_growth_points[new_frame.row_growth]
+    end
+
+    if new_frame.kui_whitelist and not whitelist then
+        -- initialise KuiSpellList whitelist
+        spelllist = LibStub('KuiSpellList-1.0')
+        spelllist.RegisterChanged(ele,'WhitelistChanged')
+        ele:WhitelistChanged()
+    end
+
+    -- insert into frame list
+    if not f.Auras or not f.Auras.frames then
+        f.Auras = { frames = {} }
+    end
+    tinsert(f.Auras.frames,new_frame)
+
+    return new_frame
+end
 -- whitelist ###################################################################
 function ele:WhitelistChanged()
     whitelist = spelllist.GetImportantSpells(class)
 end
 -- messages ####################################################################
-function ele:Create(f)
-    f.Auras = { frames = {} }
-
-    for i,frame_def in ipairs(addon.layout.Auras) do
-        local new_frame = CreateAuraFrame(f)
-
-        -- mixin configuration
-        for k,v in pairs(frame_def) do
-            new_frame[k] = v
-        end
-
-        new_frame.max = new_frame.max or 12
-
-        new_frame.icon_height = new_frame.size * new_frame.squareness
-        new_frame.icon_ratio = (1 - (new_frame.icon_height / new_frame.size)) / 2
-
-        -- positioning stuff
-        if new_frame.rows then
-            if not new_frame.num_per_row then
-                new_frame.num_per_row = floor(new_frame.max / new_frame.rows)
-            end
-
-            if not new_frame.row_growth then
-                new_frame.row_growth = 'UP'
-            end
-
-            new_frame.row_point = row_growth_points[new_frame.row_growth]
-        end
-
-        if new_frame.kui_whitelist and not whitelist then
-            -- initialise KuiSpellList whitelist
-            spelllist = LibStub('KuiSpellList-1.0')
-            spelllist.RegisterChanged(self,'WhitelistChanged')
-            self:WhitelistChanged()
-        end
-
-        f.Auras.frames[i] = new_frame
-    end
-end
 function ele:Show(f)
     self:UNIT_FACTION(nil,f)
 end
@@ -516,10 +521,7 @@ function ele:Hide(f)
     end
 end
 function ele:Initialised()
-    if type(addon.layout.Auras) ~= 'table' or #addon.layout.Auras == 0 then
-        -- no frame definitions
-        return
-    end
+    if not addon.layout.Auras then return end
 
     class = select(2,UnitClass('player'))
 
@@ -537,7 +539,6 @@ function ele:Initialised()
         cb_PostCreateAuraFrame = addon.layout.Auras_PostCreateAuraFrame
     end
 
-    self:RegisterMessage('Create')
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
 
@@ -546,6 +547,7 @@ function ele:Initialised()
 end
 -- events ######################################################################
 function ele:UNIT_FACTION(event,f)
+    if not f.Auras then return end
     for _,auras_frame in ipairs(f.Auras.frames) do
         if auras_frame.dynamic then
             if UnitIsFriend('player',f.unit) then
@@ -559,6 +561,7 @@ function ele:UNIT_FACTION(event,f)
     end
 end
 function ele:UNIT_AURA(event,f)
+    if not f.Auras then return end
     for _,auras_frame in ipairs(f.Auras.frames) do
         auras_frame:Update()
     end
