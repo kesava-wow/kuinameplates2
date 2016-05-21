@@ -30,6 +30,8 @@
     filter = filter used in UnitAura calls
     num_per_row = number of icons per row;
                   if left nil, calculates as max / rows
+    whitelist = a table of spellids to to show in the aura frame
+    kui_whitelist = use the whitelist provided by KuiSpellList
 
     Callbacks
     =========
