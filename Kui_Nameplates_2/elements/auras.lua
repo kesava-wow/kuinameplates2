@@ -46,8 +46,10 @@
         PostCreateAuraButton callback.
 
     layout.Auras_PostCreateAuraButton(button)
-        Called after a button is created by the built in CreateAuraButton
-        function.
+        Called after an aura button is created.
+
+    layout.Auras_PostCreateAuraFrame(auraframe)
+        Called after an aura frame is created.
 
 ]]
 local addon = KuiNameplates
@@ -63,7 +65,9 @@ local row_growth_points = {
     DOWN = {'TOP','BOTTOM'}
 }
 -- callback functions
-local cb_CreateAuraButton, cb_PostCreateAuraButton, cb_ArrangeButtons
+-- TODO should probably make a helper for this really.
+local cb_CreateAuraButton, cb_PostCreateAuraButton, cb_ArrangeButtons,
+      cb_PostCreateAuraFrame
 -- aura sorting functions ######################################################
 local index_sort = function(a,b)
     -- sort by aura index
@@ -453,6 +457,10 @@ local function CreateAuraFrame(parent)
     auraframe.buttons = {}
     auraframe.spellids = {}
 
+    if cb_PostCreateAuraFrame then
+        cb_PostCreateAuraFrame(auraframe)
+    end
+
     return auraframe
 end
 -- whitelist ###################################################################
@@ -524,6 +532,9 @@ function ele:Initialised()
     end
     if type(addon.layout.Auras_PostCreateAuraButton) == 'function' then
         cb_PostCreateAuraButton = addon.layout.Auras_PostCreateAuraButton
+    end
+    if type(addon.layout.Auras_PostCreateAuraFrame) == 'function' then
+        cb_PostCreateAuraFrame = addon.layout.Auras_PostCreateAuraFrame
     end
 
     self:RegisterMessage('Create')
