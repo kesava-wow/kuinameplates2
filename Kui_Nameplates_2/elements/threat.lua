@@ -1,5 +1,5 @@
 local addon = KuiNameplates
-local ele = addon:NewElement('Threat')
+local ele = addon:NewElement('Threat',1)
 
 local threat_colours = {
     { 1, 0, 0 },

@@ -2,28 +2,46 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('HealthBar')
+
+local colours = {
+    hated    = { .7, .2, .1 },
+    neutral  = {  1, .8,  0 },
+    friendly = { .2, .6, .1 },
+    tapped   = { .5, .5, .5 },
+    player   = { .2, .5, .9 }
+}
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateHealthColour(f,show)
     f = f.parent
-    local r,g,b = kui.GetUnitColour(f.unit,2)
-    if not f.state.healthColour or
-       f.state.healthColour[1] ~= r or
-       f.state.healthColour[2] ~= g or
-       f.state.healthColour[3] ~= b
-    then
-        f.state.healthColour = { r,g,b }
 
-        if f.elements.HealthBar then
-            f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
+    local r,g,b
+    if UnitIsTapDenied(f.unit) then
+        r,g,b = unpack(colours.tapped)
+    elseif UnitIsPlayer(f.unit) then
+        r,g,b = kui.GetClassColour(nil,2)
+    else
+        if UnitIsFriend('player',f.unit) then
+            r,g,b = unpack(colours.friendly)
+        elseif UnitIsEnemy('player',f.unit) then
+            r,g,b = unpack(colours.hated)
+        else
+            r,g,b = unpack(colours.neutral)
         end
+    end
 
-        if not show then
-            addon:DispatchMessage('HealthColourChange', f)
-        end
+    f.state.healthColour = { r,g,b }
+
+    if f.elements.HealthBar then
+        f.HealthBar:SetStatusBarColor(r,g,b)
+    end
+
+    if not show then
+        addon:DispatchMessage('HealthColourChange', f)
     end
 end
 function addon.Nameplate.UpdateHealth(f,show)
     f = f.parent
+
     if f.elements.HealthBar then
         f.HealthBar:SetMinMaxValues(0,UnitHealthMax(f.unit))
         f.HealthBar:SetValue(UnitHealth(f.unit))
@@ -46,6 +64,10 @@ function ele:UNIT_HEALTH(event,f)
     f.handler:UpdateHealth(f)
 end
 -- register ####################################################################
+function ele:Initialise()
+    -- TODO get colours from layout
+end
+-- #############################################################################
 ele:RegisterMessage('Show')
 
 ele:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')

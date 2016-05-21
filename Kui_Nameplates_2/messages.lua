@@ -286,9 +286,9 @@ function addon:NewPlugin(name,priority)
     return pluginTable
 end
 -------------------------------------------------- external element registrar --
--- elements are just plugins with a lower priority
-function addon:NewElement(name)
-    local ele = self:NewPlugin(name,0)
+-- elements are just plugins with a lower default priority
+function addon:NewElement(name,priority)
+    local ele = self:NewPlugin(name,priority or 0)
     ele.plugin = nil
     ele.element = true
     return ele
