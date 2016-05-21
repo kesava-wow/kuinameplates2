@@ -52,11 +52,20 @@ function glow_prototype:SetSize(...)
         end
     end
 end
+-- healthbar background fill
+local function HealthBar_SetStatusBarColor(self,...)
+    self:orig_SetStatusBarColor(...)
+    self.fill:SetVertexColor(...)
+end
 --##############################################################################
 function test:Create(f)
     local healthbar
     do
-        local bg = f:CreateTexture(nil, 'ARTWORK')
+        local fill = f:CreateTexture(nil,'ARTWORK',nil,1)
+        fill:SetTexture(kui.m.t.bar)
+        fill:SetAlpha(.2)
+
+        local bg = f:CreateTexture(nil,'ARTWORK',nil,0)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
 
@@ -65,7 +74,14 @@ function test:Create(f)
 
         bg:SetPoint('TOPLEFT', healthbar, -1, 1)
         bg:SetPoint('BOTTOMRIGHT', healthbar, 1, -1)
+
+        fill:SetAllPoints(healthbar)
+
         healthbar.bg = bg
+        healthbar.fill = fill
+
+        healthbar.orig_SetStatusBarColor = healthbar.SetStatusBarColor
+        healthbar.SetStatusBarColor = HealthBar_SetStatusBarColor
 
         local glow = { sides = {} }
         setmetatable(glow,glow_prototype)
