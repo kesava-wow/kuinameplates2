@@ -247,6 +247,7 @@ function test:PLAYER_TARGET_CHANGED()
     if UnitExists('target') then
         if target and not UnitShouldDisplayName(target.unit) then
             target.NameText:Hide()
+            target.HealthBar:SetHeight(sizes.no_name)
         end
 
         target = C_NamePlate.GetNamePlateForUnit('target')
@@ -254,10 +255,17 @@ function test:PLAYER_TARGET_CHANGED()
         if target then
             target = target.kui
             target.NameText:Show()
+
+            if target.state.minus then
+                target.HealthBar:SetHeight(sizes.trivial_height)
+            else
+                target.HealthBar:SetHeight(sizes.height)
+            end
         end
     else
         if target and not UnitShouldDisplayName(target.unit) then
             target.NameText:Hide()
+            target.HealthBar:SetHeight(sizes.no_name)
         end
     end
 end
