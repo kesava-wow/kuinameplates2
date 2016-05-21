@@ -22,10 +22,10 @@ function addon.Nameplate.UpdateHealthColour(f,show)
     elseif UnitIsPlayer(f.unit) then
         r,g,b = kui.GetClassColour(f.unit,2)
     else
-        if react == 4 then
-            r,g,b = unpack(colours.neutral)
-        elseif react > 4 then
+        if react > 4 then
             r,g,b = unpack(colours.friendly)
+        elseif react > 1 then
+            r,g,b = unpack(colours.neutral)
         else
             r,g,b = unpack(colours.hated)
         end
