@@ -83,7 +83,7 @@ function test:Create(f)
         healthbar.orig_SetStatusBarColor = healthbar.SetStatusBarColor
         healthbar.SetStatusBarColor = HealthBar_SetStatusBarColor
 
-        f.handler:SetBarAnimation(healthbar,'cutaway')
+        f.handler:SetBarAnimation(healthbar,'smooth')
 
         local glow = { sides = {} }
         setmetatable(glow,glow_prototype)
