@@ -4,6 +4,7 @@ local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Animation')
 local anims = {}
 -- local functions #############################################################
+-- cutaway #####################################################################
 local function SetValueCutaway(self,value)
     if value < self:GetValue() then
         if not kui.frameIsFading(self.KuiFader) then
@@ -58,3 +59,12 @@ function addon.Nameplate.SetBarAnimation(f,bar,anim)
         anims[anim](bar)
     end
 end
+-- messages ####################################################################
+function mod:Hide(f)
+    if f.KuiFader then
+        kui.frameFadeRemoveFrame(f.KuiFader)
+        f.KuiFader:SetAlpha(0)
+    end
+end
+-- register ####################################################################
+mod:RegisterMessage('Hide')

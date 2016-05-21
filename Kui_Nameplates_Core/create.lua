@@ -241,7 +241,7 @@ end
 function test:GlowColourChange(f)
     if not f.state.glowing then
         -- we want a shadow when there's no threat state
-        f.ThreatGlow:SetVertexColor(0, 0, 0, .8)
+        f.ThreatGlow:SetVertexColor(0, 0, 0, .6)
     end
 end
 function test:CastBarShow(f)
