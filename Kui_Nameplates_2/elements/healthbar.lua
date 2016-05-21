@@ -15,21 +15,24 @@ function addon.Nameplate.UpdateHealthColour(f,show)
     f = f.parent
 
     local r,g,b
+    local react = UnitReaction('player',f.unit)
+
     if UnitIsTapDenied(f.unit) then
         r,g,b = unpack(colours.tapped)
     elseif UnitIsPlayer(f.unit) then
         r,g,b = kui.GetClassColour(nil,2)
     else
-        if UnitIsFriend('player',f.unit) then
-            r,g,b = unpack(colours.friendly)
-        elseif UnitIsEnemy('player',f.unit) then
-            r,g,b = unpack(colours.hated)
-        else
+        if react == 4 then
             r,g,b = unpack(colours.neutral)
+        elseif react > 4 then
+            r,g,b = unpack(colours.friendly)
+        else
+            r,g,b = unpack(colours.hated)
         end
     end
 
     f.state.healthColour = { r,g,b }
+    f.state.reaction = react
 
     if f.elements.HealthBar then
         f.HealthBar:SetStatusBarColor(r,g,b)
