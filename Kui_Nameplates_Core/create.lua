@@ -93,9 +93,6 @@ function test:Create(f)
         glow.sides[4]:SetPoint('BOTTOMLEFT', glow.sides[2], 'BOTTOMRIGHT')
         glow.sides[4]:SetWidth(sizes.glow)
 
-        -- TODO temp while threat detection doesn't exist
-        glow:SetVertexColor(0, 0, 0, .8)
-
         f.handler:RegisterElement('HealthBar', healthbar)
         f.handler:RegisterElement('ThreatGlow', glow)
     end
@@ -207,11 +204,14 @@ function test:Show(f)
     y = floor((addon.height / 2) - (f.HealthBar:GetHeight() / 2))
 
     f.HealthBar:SetPoint('BOTTOMLEFT', x, y)
+
+    -- set initial glow colour
+    self:GlowColourChange(f)
 end
 function test:GlowColourChange(f)
     if not f.state.glowing then
         -- we want a shadow when there's no threat state
-        f.ThreatGlow:SetVertexColor(0, 0, 0, .5)
+        f.ThreatGlow:SetVertexColor(0, 0, 0, .8)
     end
 end
 function test:CastBarShow(f)

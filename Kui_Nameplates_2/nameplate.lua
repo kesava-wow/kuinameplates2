@@ -77,31 +77,3 @@ function addon.Nameplate.Create(f)
     f = f.parent
     addon:DispatchMessage('Create', f)
 end
------------------------------------------------------------- update functions --
--- watch for glow colour changes
---[[
-local function UpdateGlowColour(f)
-    if f.default.glow:IsShown() then
-        f.state.glowing = true
-        local r,g,b,a = f.default.glow:GetVertexColor()
-        if not f.state.glowColour or
-           f.state.glowColour[1] ~= r or
-           f.state.glowColour[2] ~= g or
-           f.state.glowColour[3] ~= b or
-           f.state.glowColour[4] ~= a
-        then
-            f.state.glowColour = { r,g,b,a }
-
-            if f.elements.ThreatGlow then
-                f.ThreatGlow:SetVertexColor(unpack(f.state.glowColour))
-            end
-
-            addon:DispatchMessage('GlowColourChange', f)
-        end
-    elseif f.state.glowing or not f.state.glowColour then
-        f.state.glowing = false
-        f.state.glowColour = { 0, 0, 0, 0 }
-        addon:DispatchMessage('GlowColourChange', f)
-    end
-end
-]]
