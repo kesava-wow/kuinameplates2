@@ -22,4 +22,4 @@ elements/threat.lua
 elements/glow.lua
 elements/auras.lua
 
-modules/reactioncolours.lua
+plugins/tankmode.lua

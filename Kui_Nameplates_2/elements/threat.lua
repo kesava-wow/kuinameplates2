@@ -1,3 +1,4 @@
+-- fetch threat state and colour the frame glow element
 local addon = KuiNameplates
 local ele = addon:NewElement('Threat',1)
 
@@ -5,15 +6,11 @@ local threat_colours = {
     { 1, 0, 0 },
     { 1, .6, 0 }
 }
-local tank_colours = {
-    { 0, 1, 0 },
-    { 1, 1, 0 }
-}
-
+-- messages ####################################################################
 function ele:Show(f)
     self:UNIT_THREAT_LIST_UPDATE(nil,f,f.unit)
 end
-
+-- events ######################################################################
 function ele:UNIT_THREAT_LIST_UPDATE(event,f,unit)
     if unit == 'player' or UnitIsUnit('player',unit) then return end
 
@@ -24,34 +21,21 @@ function ele:UNIT_THREAT_LIST_UPDATE(event,f,unit)
     f.state.threat = threat_state
     f.state.glowColour = threat_colour
 
-    if f.elements.HealthBar then
-        -- TODO tank mode should be a separate plugin
-        -- tank mode health bar colours
-        if threat_state > 0 then
-            f.HealthBar:SetStatusBarColor(unpack(tank_colours[threat_state]))
-            f.state.threatColoured = true
-        elseif f.state.threatColoured then
-            f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
-            f.state.threatColoured = nil
+    if threat_state > 0 then
+        f.state.glowing = true
 
-            addon:DispatchMessage('HealthColourChange', f)
-        end
-    end
-
-    if f.elements.ThreatGlow then
-        if threat_state > 0 then
-            f.state.glowing = true
+        if f.elements.ThreatGlow then
             f.ThreatGlow:SetVertexColor(unpack(threat_colour))
-
-            addon:DispatchMessage('GlowColourChange', f)
-        elseif f.state.glowing then
-            f.state.glowing = nil
-
-            addon:DispatchMessage('GlowColourChange', f)
         end
+
+        addon:DispatchMessage('GlowColourChange', f)
+    elseif f.state.glowing then
+        f.state.glowing = nil
+
+        addon:DispatchMessage('GlowColourChange', f)
     end
 end
-
+-- register ####################################################################
 function ele:Initialise()
     ele:RegisterMessage('Show')
     ele:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
