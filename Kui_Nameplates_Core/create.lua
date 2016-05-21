@@ -194,12 +194,19 @@ function test:Create(f)
     f.handler:RegisterElement('Highlight', highlight)
 end
 function test:Show(f)
-    if f.state.micro then
+    if f.state.minus then
         -- set elements to micro sizes
         f.HealthBar:SetSize(sizes.trivial_width, sizes.trivial_height)
     else
         -- set elements to normal sizes
         f.HealthBar:SetSize(sizes.width, sizes.height)
+    end
+
+    if UnitShouldDisplayName(f.unit) then
+        f.NameText:Show()
+    else
+        f.NameText:Hide()
+        f.HealthBar:SetHeight(5)
     end
 
     -- calculate where the health bar needs to go to be visually centred

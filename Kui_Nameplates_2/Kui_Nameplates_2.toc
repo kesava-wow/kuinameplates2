@@ -15,6 +15,7 @@ elements/healthbar.lua
 elements/castbar.lua
 elements/highlight.lua
 elements/classpowers.lua
+elements/classification.lua
 elements/name.lua
 elements/level.lua
 elements/threat.lua
