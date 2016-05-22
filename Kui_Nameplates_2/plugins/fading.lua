@@ -2,12 +2,18 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Fading')
 
-local function fadeFrame(frame,to)
+local abs = math.abs
+local target_exists
+
+-- local functions #############################################################
+local function ResetFrameFade(frame)
+    kui.frameFadeRemoveFrame(frame)
+    frame.fading_to = nil
+end
+local function FrameFade(frame,to)
     if frame.fading_to and to == frame.fading_to then return end
 
-    if kui.frameIsFading(frame) then
-        kui.frameFadeRemoveFrame(frame)
-    end
+    ResetFrameFade(frame)
 
     local cur_alpha = frame:GetAlpha()
     if to == cur_alpha then return end
@@ -20,28 +26,31 @@ local function fadeFrame(frame,to)
         timeToFade = abs(alpha_change) * .5,
         startAlpha = cur_alpha,
         endAlpha = to,
-        finishedFunc = function()
-            frame.fading_to = nil
-        end,
+        finishedFunc = ResetFrameFade
     })
+end
+local function GetDesiredAlpha(frame)
+    if not target_exists or frame.handler:IsTarget() then
+        return 1
+    else
+        return .5
+    end
 end
 -- messages ####################################################################
 function mod:TargetUpdate()
-    local target_exists = UnitExists('target')
+    target_exists = UnitExists('target')
     for _,frame in addon:Frames() do
-        if not target_exists or frame.handler:IsTarget() then
-            fadeFrame(frame,1)
-        else
-            fadeFrame(frame,.5)
+        if frame:IsVisible() then
+            FrameFade(frame,GetDesiredAlpha(frame))
         end
     end
 end
 function mod:Show(f)
     f:SetAlpha(0)
-    self:TargetUpdate()
+    FrameFade(f,GetDesiredAlpha(f))
 end
 function mod:Hide(f)
-    f:SetAlpha(0)
+    ResetFrameFade(f)
 end
 -- register ####################################################################
 mod:RegisterEvent('PLAYER_TARGET_CHANGED','TargetUpdate')
