@@ -252,6 +252,7 @@ function test:Show(f)
     -- set initial glow colour
     self:GlowColourChange(f)
 end
+-- messages ####################################################################
 function test:Hide(f)
     f.targetglow:Hide()
 end
@@ -280,24 +281,13 @@ function test:CastBarHide(f)
     f.SpellName:Hide()
 end
 function test:GainedTarget(f)
-    f.NameText:Show()
     f.targetglow:Show()
-
     f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
 
-    if f.state.minus then
-        f.HealthBar:SetHeight(sizes.trivial_height)
-    else
-        f.HealthBar:SetHeight(sizes.height)
-    end
+    self:ShowNameUpdate(f)
 end
 function test:LostTarget(f)
     f.targetglow:Hide()
-
-    if not UnitShouldDisplayName(f.unit) then
-        f.NameText:Hide()
-        f.HealthBar:SetHeight(sizes.no_name)
-    end
 
     if f.state.glowing then
         -- revert glow to threat colour
@@ -306,8 +296,32 @@ function test:LostTarget(f)
         -- or to shadow
         self:GlowColourChange(f)
     end
+
+    self:ShowNameUpdate(f)
 end
--- #############################################################################
+-- events ######################################################################
+function test:ShowNameUpdate(f)
+    if f.handler:IsTarget() or UnitShouldDisplayName(f.unit) then
+        f.NameText:Show()
+
+        if f.state.minus then
+            f.HealthBar:SetHeight(sizes.trivial_height)
+        else
+            f.HealthBar:SetHeight(sizes.height)
+        end
+    elseif not UnitShouldDisplayName(f.unit) then
+        f.NameText:Hide()
+        f.HealthBar:SetHeight(sizes.no_name)
+    end
+end
+function test:QUESTLINE_UPDATE()
+    for _,frame in addon:Frames() do
+        if frame:IsShown() then
+            self:ShowNameUpdate(frame)
+        end
+    end
+end
+-- register ####################################################################
 function test:Initialise()
     test.ClassPowers = {} -- TODO
     test.Auras = true
@@ -320,4 +334,6 @@ function test:Initialise()
     self:RegisterMessage('CastBarHide')
     self:RegisterMessage('GainedTarget')
     self:RegisterMessage('LostTarget')
+
+    self:RegisterEvent('QUESTLINE_UPDATE')
 end
