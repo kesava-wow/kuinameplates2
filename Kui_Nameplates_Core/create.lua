@@ -17,6 +17,8 @@ local sizes = {
 }
 local x,y
 
+local target_glow_colour = { .3, .7, 1, 1 }
+
 -- texture coords for the frame glow
 local glow_coords = {
     { .05, .95,  0,  .24 }, -- top
@@ -24,6 +26,7 @@ local glow_coords = {
     {  0,  .04,  0,   1 },  -- left
     { .96,  1,   0,   1 }   -- right
 }
+
 -- frame glow functions
 local glow_prototype = {}
 glow_prototype.__index = glow_prototype
@@ -132,6 +135,17 @@ function test:Create(f)
     name:SetFont(kui.m.f.francois, 11, 'OUTLINE')
     name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3)
 
+    local targetglow = overlay:CreateTexture(nil, 'ARTWORK')
+    targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
+    targetglow:SetTexCoord(0,.593,0,.875)
+    targetglow:SetHeight(7)
+    targetglow:SetPoint('TOPLEFT',overlay,'BOTTOMLEFT',0,1)
+    targetglow:SetPoint('TOPRIGHT',overlay,'BOTTOMRIGHT',0,1)
+    targetglow:SetVertexColor(unpack(target_glow_colour))
+    targetglow:Hide()
+
+    f.targetglow = targetglow
+
     -- castbar
     do
         local bg = f:CreateTexture(nil, 'ARTWORK')
@@ -238,7 +252,15 @@ function test:Show(f)
     -- set initial glow colour
     self:GlowColourChange(f)
 end
+function test:Hide(f)
+    f.targetglow:Hide()
+end
 function test:GlowColourChange(f)
+    if f.handler:IsTarget() then
+        f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
+        return
+    end
+
     if not f.state.glowing then
         -- we want a shadow when there's no threat state
         f.ThreatGlow:SetVertexColor(0, 0, 0, .6)
@@ -257,34 +279,32 @@ function test:CastBarHide(f)
     f.SpellIcon.bg:Hide()
     f.SpellName:Hide()
 end
--- #############################################################################
-local target
-function test:PLAYER_TARGET_CHANGED()
-    -- TODO obviously target state, messages and target glow should be handled
-    -- by an element
-    if UnitExists('target') then
-        if target and not UnitShouldDisplayName(target.unit) then
-            target.NameText:Hide()
-            target.HealthBar:SetHeight(sizes.no_name)
-        end
+function test:GainedTarget(f)
+    f.NameText:Show()
+    f.targetglow:Show()
 
-        target = C_NamePlate.GetNamePlateForUnit('target')
+    f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
 
-        if target then
-            target = target.kui
-            target.NameText:Show()
-
-            if target.state.minus then
-                target.HealthBar:SetHeight(sizes.trivial_height)
-            else
-                target.HealthBar:SetHeight(sizes.height)
-            end
-        end
+    if f.state.minus then
+        f.HealthBar:SetHeight(sizes.trivial_height)
     else
-        if target and not UnitShouldDisplayName(target.unit) then
-            target.NameText:Hide()
-            target.HealthBar:SetHeight(sizes.no_name)
-        end
+        f.HealthBar:SetHeight(sizes.height)
+    end
+end
+function test:LostTarget(f)
+    f.targetglow:Hide()
+
+    if not UnitShouldDisplayName(f.unit) then
+        f.NameText:Hide()
+        f.HealthBar:SetHeight(sizes.no_name)
+    end
+
+    if f.state.glowing then
+        -- revert glow to threat colour
+        f.ThreatGlow:SetVertexColor(unpack(f.state.glowColour))
+    else
+        -- or to shadow
+        self:GlowColourChange(f)
     end
 end
 -- #############################################################################
@@ -294,9 +314,10 @@ function test:Initialise()
 
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')
+    self:RegisterMessage('Hide')
     self:RegisterMessage('GlowColourChange')
     self:RegisterMessage('CastBarShow')
     self:RegisterMessage('CastBarHide')
-
-    self:RegisterEvent('PLAYER_TARGET_CHANGED')
+    self:RegisterMessage('GainedTarget')
+    self:RegisterMessage('LostTarget')
 end

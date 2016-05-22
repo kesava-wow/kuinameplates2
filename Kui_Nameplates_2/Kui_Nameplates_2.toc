@@ -18,6 +18,7 @@ elements/classpowers.lua
 elements/classification.lua
 elements/name.lua
 elements/level.lua
+elements/target.lua
 elements/threat.lua
 elements/glow.lua
 elements/auras.lua
