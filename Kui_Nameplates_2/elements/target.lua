@@ -1,34 +1,42 @@
 local addon = KuiNameplates
 local ele = addon:NewElement('Target')
 
-local cur_target,prev_target
+local prev_target
+-- local functions #############################################################
+local function GainedTarget(f)
+    addon:DispatchMessage('GainedTarget',f)
+end
+local function LostTarget(f)
+    addon:DispatchMessage('LostTarget',f)
+end
 -- prototype additions #########################################################
 function addon.Nameplate.IsTarget(f)
-    f = f.parent
-    return cur_target and f == cur_target
+    return UnitIsUnit('target',f.parent.unit)
 end
 -- events ######################################################################
 function ele:PLAYER_TARGET_CHANGED(event)
-    cur_target = nil
-
     if prev_target then
-        addon:DispatchMessage('LostTarget',prev_target)
+        -- clear existing target
+        LostTarget(prev_target)
     end
 
     prev_target = nil
 
     if UnitExists('target') then
-        cur_target = C_NamePlate.GetNamePlateForUnit('target')
+        local new_target = C_NamePlate.GetNamePlateForUnit('target')
 
-        if cur_target and cur_target.kui then
-            cur_target = cur_target.kui
-            addon:DispatchMessage('GainedTarget',cur_target)
-
-            prev_target = cur_target
-        else
-            cur_target = nil
+        if new_target and new_target.kui then
+            prev_target = new_target.kui
+            GainedTarget(prev_target)
         end
+    end
+end
+-- messages ####################################################################
+function ele:Show(f)
+    if f.handler:IsTarget() then
+        GainedTarget(f)
     end
 end
 -- register ####################################################################
 ele:RegisterEvent('PLAYER_TARGET_CHANGED')
+ele:RegisterMessage('Show')
