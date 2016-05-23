@@ -119,7 +119,7 @@ local function CreateIcon()
             self.glow:Show()
         end
         icon.Inactive = function(self)
-            self:SetAlpha(.3)
+            self:SetAlpha(.5)
             self.glow:Hide()
         end
     end
