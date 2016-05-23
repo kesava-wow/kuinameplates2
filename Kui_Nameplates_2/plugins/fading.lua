@@ -3,11 +3,13 @@ local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Fading')
 
 local abs = math.abs
+local UnitIsUnit = UnitIsUnit
+local kff,kffr = kui.frameFade, kui.frameFadeRemoveFrame
 local target_exists
 
 -- local functions #############################################################
 local function ResetFrameFade(frame)
-    kui.frameFadeRemoveFrame(frame)
+    kffr(frame)
     frame.fading_to = nil
 end
 local function FrameFade(frame,to)
@@ -21,7 +23,7 @@ local function FrameFade(frame,to)
     local alpha_change = to - cur_alpha
     frame.fading_to = to
 
-    kui.frameFade(frame, {
+    kff(frame, {
         mode = alpha_change < 0 and 'OUT' or 'IN',
         timeToFade = abs(alpha_change) * .5,
         startAlpha = cur_alpha,
@@ -30,7 +32,10 @@ local function FrameFade(frame,to)
     })
 end
 local function GetDesiredAlpha(frame)
-    if not target_exists or frame.handler:IsTarget() then
+    if  UnitIsUnit(frame.unit,'player') or
+        not target_exists or
+        frame.handler:IsTarget()
+    then
         return 1
     else
         return .5
