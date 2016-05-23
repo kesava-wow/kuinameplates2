@@ -44,17 +44,6 @@ local powers = {
     MONK        = { [3] = SPELL_POWER_CHI },
     WARLOCK     = SPELL_POWER_SOUL_SHARDS,
 }
--- TODO layout etc etc
--- TODO also glow should probably just be a layout thing
-local colours = {
-    DEATHKNIGHT = { 1, .2, .3 },
-    DRUID       = { 1, 1, .1 },
-    PALADIN     = { 1, 1, .1 },
-    ROGUE       = { 1, 1, .1 },
-    MAGE        = { .5, .5, 1 },
-    MONK        = { 0, 0, 1 },
-    WARLOCK     = { 1, .5, 1 },
-}
 -- tags returned by the UNIT_POWER and UNIT_MAXPOWER events
 local power_tags = {
     [SPELL_POWER_RUNES]          = 'RUNES',
@@ -66,7 +55,16 @@ local power_tags = {
 }
 -- callback functions
 local cb_PositionIcons, cb_CreateIcon, cb_PostCreateIcon
--- TODO configurable by the layout
+-- icon config
+local colours = {
+    DEATHKNIGHT = { 1, .2, .3 },
+    DRUID       = { 1, 1, .1 },
+    PALADIN     = { 1, 1, .1 },
+    ROGUE       = { 1, 1, .1 },
+    MAGE        = { .5, .5, 1 },
+    MONK        = { 0, 0, 1 },
+    WARLOCK     = { 1, .5, 1 },
+}
 local ICON_SIZE = 10
 local ICON_TEXTURE = 'interface/addons/kui_nameplates/media/combopoint-round'
 local ICON_GLOW_TEXTURE = 'interface/addons/kui_nameplates/media/combopoint-glow'
@@ -105,6 +103,7 @@ local function CreateIcon()
     icon:SetTexture(ICON_TEXTURE)
     icon:SetSize(ICON_SIZE,ICON_SIZE)
 
+    -- TODO glow should probably just be a layout thing
     local ig = cpf:CreateTexture(nil,'BACKGROUND',nil,0)
     ig:SetTexture(ICON_GLOW_TEXTURE)
     ig:SetSize(ICON_SIZE+10,ICON_SIZE+10)
