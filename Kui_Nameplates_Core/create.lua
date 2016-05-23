@@ -64,11 +64,11 @@ end
 function test:Create(f)
     local healthbar
     do
-        local fill = f:CreateTexture(nil,'ARTWORK',nil,1)
+        local fill = f:CreateTexture(nil,'ARTWORK',nil,2)
         fill:SetTexture(kui.m.t.bar)
         fill:SetAlpha(.2)
 
-        local bg = f:CreateTexture(nil,'ARTWORK',nil,0)
+        local bg = f:CreateTexture(nil,'ARTWORK',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
 
@@ -119,9 +119,9 @@ function test:Create(f)
         f.handler:RegisterElement('ThreatGlow', glow)
     end
 
-    local overlay = CreateFrame('Frame', nil, f)
+    local overlay = CreateFrame('Frame', nil, healthbar)
     overlay:SetAllPoints(healthbar)
-    overlay:SetFrameLevel(healthbar:GetFrameLevel() + 1)
+    --overlay:SetFrameLevel(healthbar:GetFrameLevel() + 1)
 
     local highlight = overlay:CreateTexture(nil, 'ARTWORK')
     highlight:SetTexture(kui.m.t.bar)
@@ -131,7 +131,7 @@ function test:Create(f)
     highlight:SetAlpha(.4)
     highlight:Hide()
 
-    local name = overlay:CreateFontString(nil, 'OVERLAY')
+    local name = overlay:CreateFontString(nil, 'ARTWORK')
     name:SetFont(kui.m.f.francois, 11, 'OUTLINE')
     name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3)
 
@@ -162,7 +162,7 @@ function test:Create(f)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
-        local spellname = overlay:CreateFontString(nil, 'OVERLAY')
+        local spellname = overlay:CreateFontString(nil, 'ARTWORK')
         spellname:SetFont(kui.m.f.francois, 9, 'OUTLINE')
         spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3)
 
