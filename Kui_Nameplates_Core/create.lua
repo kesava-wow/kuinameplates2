@@ -147,6 +147,7 @@ function test:Create(f)
     targetglow:SetVertexColor(unpack(target_glow_colour))
     targetglow:Hide()
 
+    f.overlay = overlay
     f.targetglow = targetglow
 
     -- castbar

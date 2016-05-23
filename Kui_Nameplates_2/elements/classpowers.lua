@@ -60,6 +60,7 @@ local cb_PositionIcons, cb_CreateIcon, cb_PostCreateIcon
 -- TODO configurable by the layout
 local ICON_SIZE = 10
 local ICON_TEXTURE = 'interface/addons/kui_nameplates/media/combopoint-round'
+local ICON_GLOW_TEXTURE = 'interface/addons/kui_nameplates/media/combopoint-glow'
 local CD_TEXTURE = 'interface/playerframe/classoverlay-runecooldown'
 -- local functions #############################################################
 local function PositionIcons()
@@ -71,12 +72,13 @@ local function PositionIcons()
 
     local pv
     local full_size = (ICON_SIZE * #cpf.icons) + (1 * (#cpf.icons - 1))
+    cpf:SetWidth(full_size)
 
     for i,icon in ipairs(cpf.icons) do
         icon:ClearAllPoints()
 
         if i == 1 then
-            icon:SetPoint('CENTER',-(full_size / 2),0)
+            icon:SetPoint('LEFT')
         elseif i > 1 then
             icon:SetPoint('LEFT',pv,'RIGHT',1,0)
         end
@@ -165,7 +167,7 @@ end
 function ele:Initialised()
     -- icon frame container TODO floats on the target nameplate
     cpf = CreateFrame('Frame')
-    cpf:SetSize(100,100)
+    cpf:SetHeight(ICON_SIZE)
     cpf:SetPoint('CENTER')
     cpf:Hide()
 
@@ -174,13 +176,24 @@ function ele:Initialised()
 
     addon.ClassPowersFrame = cpf
 end
+function ele:TargetUpdate(f)
+    if f.handler:IsTarget() then
+        if f.HealthBar then
+            cpf:ClearAllPoints()
+            cpf:SetParent(f)
+            -- TODO set by the layout obviously
+            cpf:SetFrameLevel(f.overlay:GetFrameLevel()+1)
+            cpf:SetPoint('TOP',f.HealthBar,'BOTTOM',0,3)
+            cpf:Show()
+        end
+    else
+        cpf:Hide()
+    end
+end
 -- events ######################################################################
 function ele:PLAYER_ENTERING_WORLD()
     -- update icons upon zoning. just in case.
     PowerUpdate()
-end
-function ele:TargetUpdate()
-    -- TODO
 end
 function ele:PowerInit()
     -- get current power type, register events
@@ -195,23 +208,24 @@ function ele:PowerInit()
         power_type_tag = power_tags[power_type]
 
         if class == 'DEATHKNIGHT' then
-            ele:RegisterEvent('RUNE_POWER_UPDATE','RuneUpdate')
+            self:RegisterEvent('RUNE_POWER_UPDATE','RuneUpdate')
         else
-            ele:RegisterEvent('PLAYER_ENTERING_WORLD')
-            ele:RegisterEvent('UNIT_MAXPOWER','PowerEvent')
-            ele:RegisterEvent('UNIT_POWER','PowerEvent')
+            self:RegisterEvent('PLAYER_ENTERING_WORLD')
+            self:RegisterEvent('UNIT_MAXPOWER','PowerEvent')
+            self:RegisterEvent('UNIT_POWER','PowerEvent')
         end
 
-        ele:RegisterEvent('PLAYER_TARGET_CHANGED','TargetUpdate')
+        self:RegisterMessage('GainedTarget','TargetUpdate')
+        self:RegisterMessage('LostTarget','TargetUpdate')
 
         CreateIcons()
-        cpf:Show()
     else
-        ele:UnregisterEvent('PLAYER_TARGET_CHANGED')
-        ele:UnregisterEvent('PLAYER_ENTERING_WORLD')
-        ele:UnregisterEvent('UNIT_MAXPOWER')
-        ele:UnregisterEvent('UNIT_POWER')
-        cpf:Hide()
+        self:UnregisterEvent('PLAYER_ENTERING_WORLD')
+        self:UnregisterEvent('UNIT_MAXPOWER')
+        self:UnregisterEvent('UNIT_POWER')
+
+        self:UnregisterMessage('TargetGained')
+        self:UnregisterMessage('TargetLost')
     end
 end
 function ele:RuneUpdate(event,rune_id)
@@ -250,6 +264,8 @@ function ele:Initialise()
     if type(addon.layout.ClassPowers_PostCreateIcon) == 'function' then
         cb_PostCreateIcon = addon.layout.ClassPowers_PostCreateIcon
     end
+
+    ICON_SIZE = ICON_SIZE * addon.uiscale
 
     self:RegisterMessage('Initialised')
 end
