@@ -254,6 +254,7 @@ function ele:RuneUpdate(event,rune_id)
     local startTime, duration, charged = GetRuneCooldown(rune_id)
     local icon = cpf.icons[rune_id]
 
+    -- TODO sometimes runes become active but the glow doesn't show
     if charged then
         icon.cd:Hide()
         icon.glow:Show()
