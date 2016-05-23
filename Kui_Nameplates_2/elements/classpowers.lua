@@ -47,7 +47,7 @@ local powers = {
 -- TODO layout etc etc
 -- TODO also glow should probably just be a layout thing
 local colours = {
-    DEATHKNIGHT = { .5, .7, 1 },
+    DEATHKNIGHT = { 1, .2, .3 },
     DRUID       = { 1, 1, .1 },
     PALADIN     = { 1, 1, .1 },
     ROGUE       = { 1, 1, .1 },
@@ -109,7 +109,7 @@ local function CreateIcon()
     ig:SetTexture(ICON_GLOW_TEXTURE)
     ig:SetSize(ICON_SIZE+10,ICON_SIZE+10)
     ig:SetPoint('CENTER',icon)
-    ig:SetAlpha(.6)
+    ig:SetAlpha(.8)
 
     icon.glow = ig
 
