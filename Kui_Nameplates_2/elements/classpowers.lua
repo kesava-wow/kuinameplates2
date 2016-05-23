@@ -45,8 +45,9 @@ local powers = {
     WARLOCK     = SPELL_POWER_SOUL_SHARDS,
 }
 -- TODO layout etc etc
+-- TODO also glow should probably just be a layout thing
 local colours = {
-    DEATHKNIGHT = { .7, .7, 1 },
+    DEATHKNIGHT = { .5, .7, 1 },
     DRUID       = { 1, 1, .1 },
     PALADIN     = { 1, 1, .1 },
     ROGUE       = { 1, 1, .1 },
@@ -251,13 +252,12 @@ function ele:PowerInit()
         self:UnregisterMessage('TargetLost')
     end
 end
-function ele:RuneUpdate(event,rune_id)
+function ele:RuneUpdate(event,rune_id,energise)
     -- set cooldown on rune icons
     local startTime, duration, charged = GetRuneCooldown(rune_id)
     local icon = cpf.icons[rune_id]
 
-    -- TODO sometimes runes become active but the glow doesn't show
-    if charged then
+    if charged or energise then
         icon.cd:Hide()
         icon.glow:Show()
     else
