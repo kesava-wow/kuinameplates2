@@ -92,9 +92,18 @@ local function CreateIcon()
         return cb_CreateIcon()
     end
 
-    local icon = cpf:CreateTexture(nil,'BACKGROUND')
+    -- TODO colours etc
+    local icon = cpf:CreateTexture(nil,'BACKGROUND',nil,1)
     icon:SetTexture(ICON_TEXTURE)
     icon:SetSize(ICON_SIZE,ICON_SIZE)
+
+    local ig = cpf:CreateTexture(nil,'BACKGROUND',nil,0)
+    ig:SetTexture(ICON_GLOW_TEXTURE)
+    ig:SetSize(ICON_SIZE+10,ICON_SIZE+10)
+    ig:SetPoint('CENTER',icon)
+    ig:SetVertexColor(1,1,1,1)
+
+    icon.glow = ig
 
     if class == 'DEATHKNIGHT' then
         -- also create a cooldown frame for runes
@@ -107,9 +116,11 @@ local function CreateIcon()
     else
         icon.Active = function(self)
             self:SetAlpha(1)
+            self.glow:Show()
         end
         icon.Inactive = function(self)
             self:SetAlpha(.3)
+            self.glow:Hide()
         end
     end
 
@@ -231,10 +242,17 @@ end
 function ele:RuneUpdate(event,rune_id)
     -- set cooldown on rune icons
     local startTime, duration, charged = GetRuneCooldown(rune_id)
-    local cd = cpf.icons[rune_id].cd
+    local icon = cpf.icons[rune_id]
 
-    cd:SetCooldown(startTime, duration)
-    cd:Show()
+    if charged then
+        icon.cd:SetCooldown()
+        icon.cd:Hide()
+        icon.glow:Show()
+    else
+        icon.cd:SetCooldown(startTime, duration)
+        icon.cd:Show()
+        icon.glow:Hide()
+    end
 
     addon:DispatchMessage('ClassPowers_RuneUpdate')
 end
