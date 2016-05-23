@@ -32,6 +32,7 @@ end
 function addon:HookNameplate(frame)
     frame.kui = CreateFrame('Frame', nil, WorldFrame)
     frame.kui:Hide()
+    frame.kui:SetFrameStrata('WORLD')
     frame.kui:SetFrameLevel(0)
     frame.kui.state = {}
     frame.kui.elements = {}
