@@ -186,18 +186,6 @@ local function PowerUpdate()
     addon:DispatchMessage('ClassPowers_PowerUpdate')
 end
 -- messages ####################################################################
-function ele:Initialised()
-    -- icon frame container
-    cpf = CreateFrame('Frame')
-    cpf:SetHeight(ICON_SIZE)
-    cpf:SetPoint('CENTER')
-    cpf:Hide()
-
-    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
-    self:PowerInit()
-
-    addon.ClassPowersFrame = cpf
-end
 function ele:TargetUpdate(f)
     if f.handler:IsTarget() then
         if f.HealthBar then
@@ -280,7 +268,9 @@ function ele:PowerEvent(event,unit,power_type_rcv)
     PowerUpdate()
 end
 -- register ####################################################################
-function ele:Initialise()
+function ele:Initialised()
+    if not addon.layout.ClassPowers then return end
+
     class = select(2,UnitClass('player'))
     if not powers[class] then return end
 
@@ -295,7 +285,33 @@ function ele:Initialise()
         cb_PostCreateIcon = addon.layout.ClassPowers_PostCreateIcon
     end
 
+    -- TODO add to documentation
+    if type(addon.layout.ClassPowers) == 'table' then
+        -- get config from layout
+        ICON_SIZE         = addon.layout.ClassPowers.icon_size or ICON_SIZE
+        ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture or ICON_TEXTURE
+        ICON_GLOW_TEXTURE = addon.layout.ClassPowers.icon_glow_texture or ICON_GLOW_TEXTURE
+        CD_TEXTURE        = addon.layout.ClassPowers.cd_texture or CD_TEXTURE
+
+        if type(addon.layout.ClassPowers.colours) == 'table' and
+           addon.layout.ClassPowers.colours[class]
+        then
+            colours[class] = addon.layout.ClassPowers.colours[class]
+        end
+    end
+
     ICON_SIZE = ICON_SIZE * addon.uiscale
 
-    self:RegisterMessage('Initialised')
+    -- icon frame container
+    cpf = CreateFrame('Frame')
+    cpf:SetHeight(ICON_SIZE)
+    cpf:SetPoint('CENTER')
+    cpf:Hide()
+
+    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
+    self:PowerInit()
+
+    addon.ClassPowersFrame = cpf
 end
+
+ele:RegisterMessage('Initialised')

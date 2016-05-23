@@ -327,7 +327,7 @@ function test:QUESTLINE_UPDATE()
 end
 -- register ####################################################################
 function test:Initialise()
-    test.ClassPowers = {} -- TODO
+    test.ClassPowers = true
     test.Auras = true
 
     self:RegisterMessage('Create')
