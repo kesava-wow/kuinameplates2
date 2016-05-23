@@ -520,6 +520,28 @@ function ele:Hide(f)
         frame:Hide()
     end
 end
+-- events ######################################################################
+function ele:UNIT_FACTION(event,f)
+    if not f.Auras then return end
+    for _,auras_frame in ipairs(f.Auras.frames) do
+        if auras_frame.dynamic then
+            if UnitIsFriend('player',f.unit) then
+                auras_frame.filter = 'PLAYER HELPFUL'
+            else
+                auras_frame.filter = 'PLAYER HARMFUL'
+            end
+        end
+
+        auras_frame:Update()
+    end
+end
+function ele:UNIT_AURA(event,f)
+    if not f.Auras then return end
+    for _,auras_frame in ipairs(f.Auras.frames) do
+        auras_frame:Update()
+    end
+end
+-- register ####################################################################
 function ele:Initialised()
     if not addon.layout.Auras then return end
 
@@ -545,26 +567,5 @@ function ele:Initialised()
     self:RegisterUnitEvent('UNIT_AURA')
     self:RegisterUnitEvent('UNIT_FACTION')
 end
--- events ######################################################################
-function ele:UNIT_FACTION(event,f)
-    if not f.Auras then return end
-    for _,auras_frame in ipairs(f.Auras.frames) do
-        if auras_frame.dynamic then
-            if UnitIsFriend('player',f.unit) then
-                auras_frame.filter = 'PLAYER HELPFUL'
-            else
-                auras_frame.filter = 'PLAYER HARMFUL'
-            end
-        end
 
-        auras_frame:Update()
-    end
-end
-function ele:UNIT_AURA(event,f)
-    if not f.Auras then return end
-    for _,auras_frame in ipairs(f.Auras.frames) do
-        auras_frame:Update()
-    end
-end
--- register ####################################################################
 ele:RegisterMessage('Initialised')
