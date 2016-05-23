@@ -186,7 +186,7 @@ local function PowerUpdate()
 end
 -- messages ####################################################################
 function ele:Initialised()
-    -- icon frame container TODO floats on the target nameplate
+    -- icon frame container
     cpf = CreateFrame('Frame')
     cpf:SetHeight(ICON_SIZE)
     cpf:SetPoint('CENTER')
@@ -201,10 +201,12 @@ function ele:TargetUpdate(f)
     if f.handler:IsTarget() then
         if f.HealthBar then
             cpf:ClearAllPoints()
-            cpf:SetParent(f)
+
             -- TODO set by the layout obviously
+            cpf:SetParent(f)
             cpf:SetFrameLevel(f.overlay:GetFrameLevel()+1)
             cpf:SetPoint('TOP',f.HealthBar,'BOTTOM',0,3)
+
             cpf:Show()
         end
     else
