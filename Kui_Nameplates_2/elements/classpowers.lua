@@ -44,8 +44,17 @@ local powers = {
     MONK        = { [3] = SPELL_POWER_CHI },
     WARLOCK     = SPELL_POWER_SOUL_SHARDS,
 }
+-- TODO layout etc etc
+local colours = {
+    DEATHKNIGHT = { .7, .7, 1 },
+    DRUID       = { 1, 1, .1 },
+    PALADIN     = { 1, 1, .1 },
+    ROGUE       = { 1, 1, .1 },
+    MAGE        = { .5, .5, 1 },
+    MONK        = { 0, 0, 1 },
+    WARLOCK     = { 1, .5, 1 },
+}
 -- tags returned by the UNIT_POWER and UNIT_MAXPOWER events
--- i think i see a pattern
 local power_tags = {
     [SPELL_POWER_RUNES]          = 'RUNES',
     [SPELL_POWER_COMBO_POINTS]   = 'COMBO_POINTS',
@@ -53,7 +62,6 @@ local power_tags = {
     [SPELL_POWER_ARCANE_CHARGES] = 'ARCANE_CHARGES',
     [SPELL_POWER_CHI]            = 'CHI',
     [SPELL_POWER_SOUL_SHARDS]    = 'SOUL_SHARDS'
-
 }
 -- callback functions
 local cb_PositionIcons, cb_CreateIcon, cb_PostCreateIcon
@@ -92,7 +100,6 @@ local function CreateIcon()
         return cb_CreateIcon()
     end
 
-    -- TODO colours etc
     local icon = cpf:CreateTexture(nil,'BACKGROUND',nil,1)
     icon:SetTexture(ICON_TEXTURE)
     icon:SetSize(ICON_SIZE,ICON_SIZE)
@@ -101,9 +108,12 @@ local function CreateIcon()
     ig:SetTexture(ICON_GLOW_TEXTURE)
     ig:SetSize(ICON_SIZE+10,ICON_SIZE+10)
     ig:SetPoint('CENTER',icon)
-    ig:SetVertexColor(1,1,1,1)
+    ig:SetAlpha(.6)
 
     icon.glow = ig
+
+    icon:SetVertexColor(unpack(colours[class]))
+    ig:SetVertexColor(unpack(colours[class]))
 
     if class == 'DEATHKNIGHT' then
         -- also create a cooldown frame for runes
@@ -245,7 +255,6 @@ function ele:RuneUpdate(event,rune_id)
     local icon = cpf.icons[rune_id]
 
     if charged then
-        icon.cd:SetCooldown()
         icon.cd:Hide()
         icon.glow:Show()
     else
