@@ -2,6 +2,9 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local test = addon:Layout()
 
+-- TODO still have problems with the name/things in overlay overlapping
+-- higher framelevel nameplates
+
 if not test then
     -- a layout is already registered
     return
