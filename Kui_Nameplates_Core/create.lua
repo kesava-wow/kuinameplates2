@@ -38,10 +38,10 @@ local TB_HEIGHT = 18
 local TB_WIDTH = TB_HEIGHT * TB_RATIO
 local TB_X_OFFSET = TB_WIDTH * TB_PIXEL_LEFTMOST
 local TB_POINTS = {
-    { 'BOTTOMLEFT', nil,'TOPLEFT',      TB_X_OFFSET-1, -2   },
-    { 'BOTTOMRIGHT',nil,'TOPRIGHT',    -TB_X_OFFSET,   -2   },
-    { 'TOPLEFT',    nil,'BOTTOMLEFT',   TB_X_OFFSET-1, -2.5 },
-    { 'TOPRIGHT',   nil,'BOTTOMRIGHT', -TB_X_OFFSET,   -2.5 }
+    { 'BOTTOMLEFT', nil,'TOPLEFT',     -TB_X_OFFSET,    2   },
+    { 'BOTTOMRIGHT',nil,'TOPRIGHT',     TB_X_OFFSET-1,  2   },
+    { 'TOPLEFT',    nil,'BOTTOMLEFT',  -TB_X_OFFSET,   -2.5 },
+    { 'TOPRIGHT',   nil,'BOTTOMRIGHT',  TB_X_OFFSET-1, -2.5 }
 }
 
 -- frame glow functions
