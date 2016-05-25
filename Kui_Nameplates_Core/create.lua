@@ -30,6 +30,21 @@ local glow_coords = {
     { .96,  1,   0,   1 }   -- right
 }
 
+-- threat brackets
+local TB_TEXTURE = 'interface/addons/kui_nameplates/media/threat-bracket'
+local TB_PIXEL_LEFTMOST = .28125
+local TB_PIXEL_BOTTOMMOST = 0
+local TB_SIZE = 18
+local TB_RATIO = 2
+local TB_POINTS = {
+    { 'BOTTOMLEFT',  nil, 'TOPLEFT' },
+    { 'BOTTOMRIGHT', nil, 'TOPRIGHT' },
+    { 'TOPLEFT',     nil, 'BOTTOMLEFT' },
+    { 'TOPRIGHT',    nil, 'BOTTOMRIGHT' }
+}
+local TB_X_OFFSET = (TB_SIZE * TB_RATIO) * TB_PIXEL_LEFTMOST
+local TB_Y_OFFSET = floor((TB_SIZE * TB_PIXEL_BOTTOMMOST) - 2)
+
 -- frame glow functions
 local glow_prototype = {}
 glow_prototype.__index = glow_prototype
@@ -62,6 +77,12 @@ end
 local function HealthBar_SetStatusBarColor(self,...)
     self:orig_SetStatusBarColor(...)
     self.fill:SetVertexColor(...)
+end
+-- threat brackets texture colours
+local function TB_SetVertexColor(self,...)
+    for k,v in ipairs(self.textures) do
+        v:SetVertexColor(...)
+    end
 end
 --##############################################################################
 function test:Create(f)
@@ -117,6 +138,46 @@ function test:Create(f)
         glow.sides[4]:SetPoint('TOPLEFT', glow.sides[1], 'TOPRIGHT')
         glow.sides[4]:SetPoint('BOTTOMLEFT', glow.sides[2], 'BOTTOMRIGHT')
         glow.sides[4]:SetWidth(sizes.glow)
+
+        -- threat brackets
+        local tb = CreateFrame('Frame',nil,healthbar)
+        tb:Hide()
+
+        tb.textures = {}
+        tb.SetVertexColor = TB_SetVertexColor
+
+        for k,v in ipairs(TB_POINTS) do
+            local b = tb:CreateTexture(nil,'ARTWORK',nil,-1)
+            b:SetTexture(TB_TEXTURE)
+            b:SetSize(TB_SIZE * TB_RATIO, TB_SIZE)
+
+            if k % 2 == 0 then
+                v[4] = TB_X_OFFSET - 1
+            else
+                v[4] = -TB_X_OFFSET
+            end
+
+            if k <= 2 then
+                v[5] = -TB_Y_OFFSET
+            else
+                v[5] = TB_Y_OFFSET - .5
+            end
+
+            if k == 2 then
+                b:SetTexCoord(1,0,0,1)
+            elseif k == 3 then
+                b:SetTexCoord(0,1,1,0)
+            elseif k == 4 then
+                b:SetTexCoord(1,0,1,0)
+            end
+
+            v[2] = healthbar
+            b:SetPoint(unpack(v))
+
+            tinsert(tb.textures,b)
+        end
+
+        f.ThreatBrackets = tb
 
         f.handler:RegisterElement('HealthBar', healthbar)
         f.handler:RegisterElement('ThreatGlow', glow)
@@ -261,6 +322,13 @@ function test:Hide(f)
     f.targetglow:Hide()
 end
 function test:GlowColourChange(f)
+    if f.state.glowing then
+        f.ThreatBrackets:Show()
+        f.ThreatBrackets:SetVertexColor(unpack(f.state.glowColour))
+    else
+        f.ThreatBrackets:Hide()
+    end
+
     if f.handler:IsTarget() then
         f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
         return
