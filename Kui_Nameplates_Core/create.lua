@@ -33,17 +33,16 @@ local glow_coords = {
 -- threat brackets
 local TB_TEXTURE = 'interface/addons/kui_nameplates/media/threat-bracket'
 local TB_PIXEL_LEFTMOST = .28125
-local TB_PIXEL_BOTTOMMOST = 0
-local TB_SIZE = 18
 local TB_RATIO = 2
+local TB_HEIGHT = 18
+local TB_WIDTH = TB_HEIGHT * TB_RATIO
+local TB_X_OFFSET = TB_WIDTH * TB_PIXEL_LEFTMOST
 local TB_POINTS = {
-    { 'BOTTOMLEFT',  nil, 'TOPLEFT' },
-    { 'BOTTOMRIGHT', nil, 'TOPRIGHT' },
-    { 'TOPLEFT',     nil, 'BOTTOMLEFT' },
-    { 'TOPRIGHT',    nil, 'BOTTOMRIGHT' }
+    { 'BOTTOMLEFT', nil,'TOPLEFT',      TB_X_OFFSET-1, -2   },
+    { 'BOTTOMRIGHT',nil,'TOPRIGHT',    -TB_X_OFFSET,   -2   },
+    { 'TOPLEFT',    nil,'BOTTOMLEFT',   TB_X_OFFSET-1, -2.5 },
+    { 'TOPRIGHT',   nil,'BOTTOMRIGHT', -TB_X_OFFSET,   -2.5 }
 }
-local TB_X_OFFSET = (TB_SIZE * TB_RATIO) * TB_PIXEL_LEFTMOST
-local TB_Y_OFFSET = floor((TB_SIZE * TB_PIXEL_BOTTOMMOST) - 2)
 
 -- frame glow functions
 local glow_prototype = {}
@@ -149,19 +148,7 @@ function test:Create(f)
         for k,v in ipairs(TB_POINTS) do
             local b = tb:CreateTexture(nil,'ARTWORK',nil,-1)
             b:SetTexture(TB_TEXTURE)
-            b:SetSize(TB_SIZE * TB_RATIO, TB_SIZE)
-
-            if k % 2 == 0 then
-                v[4] = TB_X_OFFSET - 1
-            else
-                v[4] = -TB_X_OFFSET
-            end
-
-            if k <= 2 then
-                v[5] = -TB_Y_OFFSET
-            else
-                v[5] = TB_Y_OFFSET - .5
-            end
+            b:SetSize(TB_WIDTH, TB_HEIGHT)
 
             if k == 2 then
                 b:SetTexCoord(1,0,0,1)
