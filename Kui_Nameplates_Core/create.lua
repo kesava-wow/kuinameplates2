@@ -38,10 +38,10 @@ local TB_HEIGHT = 18
 local TB_WIDTH = TB_HEIGHT * TB_RATIO
 local TB_X_OFFSET = TB_WIDTH * TB_PIXEL_LEFTMOST
 local TB_POINTS = {
-    { 'BOTTOMLEFT', nil,'TOPLEFT',     -TB_X_OFFSET,    2   },
-    { 'BOTTOMRIGHT',nil,'TOPRIGHT',     TB_X_OFFSET-1,  2   },
-    { 'TOPLEFT',    nil,'BOTTOMLEFT',  -TB_X_OFFSET,   -2.5 },
-    { 'TOPRIGHT',   nil,'BOTTOMRIGHT',  TB_X_OFFSET-1, -2.5 }
+    { 'BOTTOMLEFT', 'TOPLEFT',    -TB_X_OFFSET,    2   },
+    { 'BOTTOMRIGHT','TOPRIGHT',    TB_X_OFFSET-1,  2   },
+    { 'TOPLEFT',    'BOTTOMLEFT', -TB_X_OFFSET,   -2.5 },
+    { 'TOPRIGHT',   'BOTTOMRIGHT', TB_X_OFFSET-1, -2.5 }
 }
 
 -- frame glow functions
@@ -145,21 +145,19 @@ function test:Create(f)
         tb.textures = {}
         tb.SetVertexColor = TB_SetVertexColor
 
-        for k,v in ipairs(TB_POINTS) do
+        for i,p in ipairs(TB_POINTS) do
             local b = tb:CreateTexture(nil,'ARTWORK',nil,-1)
             b:SetTexture(TB_TEXTURE)
             b:SetSize(TB_WIDTH, TB_HEIGHT)
+            b:SetPoint(p[1], healthbar, p[2], p[3], p[4])
 
-            if k == 2 then
+            if i == 2 then
                 b:SetTexCoord(1,0,0,1)
-            elseif k == 3 then
+            elseif i == 3 then
                 b:SetTexCoord(0,1,1,0)
-            elseif k == 4 then
+            elseif i == 4 then
                 b:SetTexCoord(1,0,1,0)
             end
-
-            v[2] = healthbar
-            b:SetPoint(unpack(v))
 
             tinsert(tb.textures,b)
         end
