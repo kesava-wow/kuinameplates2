@@ -407,8 +407,15 @@ function test:QUESTLINE_UPDATE()
 end
 -- register ####################################################################
 function test:Initialise()
-    test.ClassPowers = true
     test.Auras = true
+
+    test.ClassPowers = {
+        icon_size = 10,
+        icon_texture = 'interface/addons/kui_nameplates/media/combopoint-round',
+        glow_texture = 'interface/addons/kui_nameplates/media/combopoint-glow',
+        cd_texture = 'interface/playerframe/classoverlay-runecooldown',
+        point = {'TOP','HealthBar','BOTTOM',0,3 }
+    }
 
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')

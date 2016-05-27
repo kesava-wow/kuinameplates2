@@ -65,10 +65,11 @@ local colours = {
     MONK        = { 0, 0, 1 },
     WARLOCK     = { 1, .5, 1 },
 }
-local ICON_SIZE = 10
-local ICON_TEXTURE = 'interface/addons/kui_nameplates/media/combopoint-round'
-local ICON_GLOW_TEXTURE = 'interface/addons/kui_nameplates/media/combopoint-glow'
-local CD_TEXTURE = 'interface/playerframe/classoverlay-runecooldown'
+local ICON_SIZE
+local ICON_TEXTURE
+local ICON_GLOW_TEXTURE
+local CD_TEXTURE
+local FRAME_POINT
 -- local functions #############################################################
 local function PositionIcons()
     -- position icons in the powers container frame
@@ -99,12 +100,12 @@ local function CreateIcon()
         return cb_CreateIcon()
     end
 
-    local icon = cpf:CreateTexture(nil,'BACKGROUND',nil,1)
+    local icon = cpf:CreateTexture(nil,'ARTWORK',nil,1)
     icon:SetTexture(ICON_TEXTURE)
     icon:SetSize(ICON_SIZE,ICON_SIZE)
 
     -- TODO glow should probably just be a layout thing
-    local ig = cpf:CreateTexture(nil,'BACKGROUND',nil,0)
+    local ig = cpf:CreateTexture(nil,'ARTWORK',nil,0)
     ig:SetTexture(ICON_GLOW_TEXTURE)
     ig:SetSize(ICON_SIZE+10,ICON_SIZE+10)
     ig:SetPoint('CENTER',icon)
@@ -187,13 +188,20 @@ end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
     if f.handler:IsTarget() then
-        if f.HealthBar then
-            cpf:ClearAllPoints()
+        local parent = f[FRAME_POINT[2]]
 
-            -- TODO set by the layout obviously
-            cpf:SetParent(f)
-            cpf:SetFrameLevel(f.overlay:GetFrameLevel()+1)
-            cpf:SetPoint('TOP',f.HealthBar,'BOTTOM',0,3)
+        if parent then
+            cpf:ClearAllPoints()
+            cpf:SetParent(parent)
+            cpf:SetFrameLevel(parent:GetFrameLevel()+1)
+
+            cpf:SetPoint(
+                FRAME_POINT[1],
+                parent,
+                FRAME_POINT[3],
+                FRAME_POINT[4],
+                FRAME_POINT[5]
+            )
 
             cpf:Show()
         end
@@ -287,10 +295,11 @@ function ele:Initialised()
     -- TODO add to documentation
     if type(addon.layout.ClassPowers) == 'table' then
         -- get config from layout
-        ICON_SIZE         = addon.layout.ClassPowers.icon_size or ICON_SIZE
-        ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture or ICON_TEXTURE
-        ICON_GLOW_TEXTURE = addon.layout.ClassPowers.icon_glow_texture or ICON_GLOW_TEXTURE
-        CD_TEXTURE        = addon.layout.ClassPowers.cd_texture or CD_TEXTURE
+        ICON_SIZE         = addon.layout.ClassPowers.icon_size
+        ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
+        ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
+        CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
+        FRAME_POINT       = addon.layout.ClassPowers.point
 
         if type(addon.layout.ClassPowers.colours) == 'table' and
            addon.layout.ClassPowers.colours[class]
