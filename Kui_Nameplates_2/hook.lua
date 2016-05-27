@@ -22,7 +22,7 @@ local function FrameOnUpdate(self)
 end
 ----------------------------------------------------------------------- Sizer --
 local function SizerOnSizeChanged(self,x,y)
-    -- TODO
+    -- TODO probably just a beta thing:
     -- SetCVar('releaseUITextures',0)
     -- is necessary to have textures not flash when moving with this
     self.f.MOVING = true
