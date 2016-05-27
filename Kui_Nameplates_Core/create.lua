@@ -302,6 +302,7 @@ function test:Create(f)
     f.handler:RegisterElement('NameText', name)
     f.handler:RegisterElement('Highlight', highlight)
 end
+-- messages ####################################################################
 function test:Show(f)
     if f.state.minus then
         -- set elements to micro sizes
@@ -328,7 +329,6 @@ function test:Show(f)
     -- set initial glow colour
     self:GlowColourChange(f)
 end
--- messages ####################################################################
 function test:Hide(f)
     f.targetglow:Hide()
 end
@@ -337,7 +337,7 @@ function test:GlowColourChange(f)
         f.ThreatBrackets:Show()
         f.ThreatBrackets:SetVertexColor(unpack(f.state.glowColour))
     else
-        --f.ThreatBrackets:Hide()
+        f.ThreatBrackets:Hide()
     end
 
     if f.handler:IsTarget() then
