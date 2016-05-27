@@ -30,16 +30,18 @@ end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts
 function addon:HookNameplate(frame)
-    frame.kui = CreateFrame('Frame', nil, WorldFrame)
+    local name = 'Kui'..frame:GetName()
+
+    frame.kui = CreateFrame('Frame',name,WorldFrame)
     frame.kui:Hide()
-    frame.kui:SetFrameStrata('WORLD')
+    frame.kui:SetFrameStrata('BACKGROUND')
     frame.kui:SetFrameLevel(0)
     frame.kui.state = {}
     frame.kui.elements = {}
     frame.kui.parent = frame
 
     -- semlar's non-laggy positioning
-    local sizer = CreateFrame('Frame',nil,frame.kui)
+    local sizer = CreateFrame('Frame',name..'PositionHelper',frame.kui)
     sizer:SetPoint('BOTTOMLEFT',WorldFrame)
     sizer:SetPoint('TOPRIGHT',frame,'CENTER')
     sizer:SetScript('OnSizeChanged',SizerOnSizeChanged)
