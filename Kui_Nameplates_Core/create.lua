@@ -2,9 +2,6 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local test = addon:Layout()
 
--- TODO still have problems with the name/things in overlay overlapping
--- higher framelevel nameplates
-
 if not test then
     -- a layout is already registered
     return
@@ -87,16 +84,17 @@ end
 function test:Create(f)
     local healthbar
     do
-        local fill = f:CreateTexture(nil,'ARTWORK',nil,2)
+        local fill = f:CreateTexture(nil,'BACKGROUND',nil,2)
         fill:SetTexture(kui.m.t.bar)
         fill:SetAlpha(.2)
 
-        local bg = f:CreateTexture(nil,'ARTWORK',nil,1)
+        local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
 
         healthbar = CreateFrame('StatusBar', nil, f)
         healthbar:SetStatusBarTexture(kui.m.t.bar)
+        healthbar:SetFrameLevel(0)
 
         bg:SetPoint('TOPLEFT', healthbar, -1, 1)
         bg:SetPoint('BOTTOMRIGHT', healthbar, 1, -1)
@@ -168,11 +166,7 @@ function test:Create(f)
         f.handler:RegisterElement('ThreatGlow', glow)
     end
 
-    local overlay = CreateFrame('Frame', nil, healthbar)
-    overlay:SetAllPoints(healthbar)
-    --overlay:SetFrameLevel(healthbar:GetFrameLevel() + 1)
-
-    local highlight = overlay:CreateTexture(nil, 'ARTWORK')
+    local highlight = healthbar:CreateTexture(nil, 'ARTWORK')
     highlight:SetTexture(kui.m.t.bar)
     highlight:SetAllPoints(healthbar)
     highlight:SetVertexColor(1,1,1)
@@ -180,25 +174,24 @@ function test:Create(f)
     highlight:SetAlpha(.4)
     highlight:Hide()
 
-    local name = overlay:CreateFontString(nil, 'ARTWORK')
+    local name = healthbar:CreateFontString(nil, 'OVERLAY')
     name:SetFont(FONT, 11, 'THINOUTLINE')
     name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3.5)
 
-    local targetglow = overlay:CreateTexture(nil, 'ARTWORK')
+    local targetglow = healthbar:CreateTexture(nil, 'BACKGROUND')
     targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
     targetglow:SetTexCoord(0,.593,0,.875)
     targetglow:SetHeight(7)
-    targetglow:SetPoint('TOPLEFT',overlay,'BOTTOMLEFT',0,1)
-    targetglow:SetPoint('TOPRIGHT',overlay,'BOTTOMRIGHT',0,1)
+    targetglow:SetPoint('TOPLEFT',healthbar,'BOTTOMLEFT',0,1)
+    targetglow:SetPoint('TOPRIGHT',healthbar,'BOTTOMRIGHT',0,1)
     targetglow:SetVertexColor(unpack(target_glow_colour))
     targetglow:Hide()
 
-    f.overlay = overlay
     f.targetglow = targetglow
 
     -- castbar
     do
-        local bg = f:CreateTexture(nil, 'ARTWORK')
+        local bg = f:CreateTexture(nil, 'BACKGROUND')
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
         bg:SetHeight(4)
@@ -212,9 +205,9 @@ function test:Create(f)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
-        local spellname = overlay:CreateFontString(nil, 'ARTWORK')
+        local spellname = healthbar:CreateFontString(nil, 'OVERLAY')
         spellname:SetFont(FONT, 9, 'THINOUTLINE')
-        spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3)
+        spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3.5)
 
         -- spell icon
         local spelliconbg = f:CreateTexture(nil, 'ARTWORK')
@@ -230,7 +223,7 @@ function test:Create(f)
         spellicon:SetPoint('BOTTOMRIGHT', spelliconbg, -1, 1)
 
         -- cast shield
-        local spellshield = overlay:CreateTexture(nil, 'ARTWORK')
+        local spellshield = healthbar:CreateTexture(nil, 'ARTWORK')
         spellshield:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\Shield')
         spellshield:SetTexCoord(0, .84375, 0, 1)
         spellshield:SetSize(16 * .84375, 16)
