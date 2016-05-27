@@ -35,25 +35,6 @@ function addon:Frames()
     return ipairs(framelist)
 end
 --------------------------------------------------------------------------------
-local function UpdateFrameLevels(self,elap)
-    update_frame_levels = update_frame_levels - 1
-
-    if update_frame_levels <= 0 then
-        for _,frame in self:Frames() do
-            if frame:IsVisible() then
-                frame:SetFrameLevel(frame.parent:GetFrameLevel())
-            end
-        end
-
-        update_frame_levels = nil
-        self:SetScript('OnUpdate',nil)
-    end
-end
-local function ScheduleFrameLevelUpdate()
-    update_frame_levels = 5
-    addon:SetScript('OnUpdate',UpdateFrameLevels)
-end
---------------------------------------------------------------------------------
 function addon:NAME_PLATE_CREATED(frame)
     self:HookNameplate(frame)
 
@@ -69,8 +50,6 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
         self:print('unit |cff88ff88added|r: '..unit..' ('..UnitName(unit)..')')
     end
 
-    ScheduleFrameLevelUpdate()
-
     f.kui.handler:OnUnitAdded(unit)
 end
 function addon:NAME_PLATE_UNIT_REMOVED(unit)
@@ -84,9 +63,6 @@ function addon:NAME_PLATE_UNIT_REMOVED(unit)
 
         f.kui.handler:OnHide()
     end
-end
-function addon:PLAYER_TARGET_CHANGED()
-    ScheduleFrameLevelUpdate()
 end
 --------------------------------------------------------------------------------
 local function OnEvent(self,event,...)
@@ -131,4 +107,3 @@ addon:RegisterEvent('PLAYER_LOGIN')
 addon:RegisterEvent('NAME_PLATE_CREATED')
 addon:RegisterEvent('NAME_PLATE_UNIT_ADDED')
 addon:RegisterEvent('NAME_PLATE_UNIT_REMOVED')
-addon:RegisterEvent('PLAYER_TARGET_CHANGED')

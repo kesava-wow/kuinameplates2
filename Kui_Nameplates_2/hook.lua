@@ -13,8 +13,12 @@ local select, strfind, setmetatable, floor
     = select, strfind, setmetatable, floor
 --------------------------------------------------------------------------------
 -------------------------------------------------------- Core script handlers --
-local function OnFrameHide(frame)
-    frame.kui.handler:OnHide()
+local function FrameOnHide(self)
+    self.kui.handler:OnHide()
+end
+--------------------------------------------------------- frame level monitor --
+local function FrameOnUpdate(self)
+    self.kui:SetFrameLevel(self:GetFrameLevel())
 end
 ----------------------------------------------------------------------- Sizer --
 local function SizerOnSizeChanged(self,x,y)
@@ -68,7 +72,8 @@ function addon:HookNameplate(frame)
     setmetatable(frame.kui.handler, self.Nameplate)
 
     -- base frame
-    frame:HookScript('OnHide', OnFrameHide)
+    frame:HookScript('OnHide',FrameOnHide)
+    frame:HookScript('OnUpdate',FrameOnUpdate)
 
     frame.kui.handler:Create()
 
