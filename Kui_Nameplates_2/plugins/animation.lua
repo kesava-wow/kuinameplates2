@@ -26,12 +26,12 @@ do
 
                 -- store original rightmost value
                 self.KuiFader.right = self:GetValue()
-            end
 
-            kui.frameFade(self.KuiFader, {
-                mode = 'OUT',
-                timeToFade = .3
-            })
+                kui.frameFade(self.KuiFader, {
+                    mode = 'OUT',
+                    timeToFade = .2
+                })
+            end
         end
 
         if self.KuiFader.right and value > self.KuiFader.right then
