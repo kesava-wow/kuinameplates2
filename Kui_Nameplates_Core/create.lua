@@ -80,7 +80,33 @@ local function TB_SetVertexColor(self,...)
         v:SetVertexColor(...)
     end
 end
+local function TB_Show(self)
+    for k,v in ipairs(self.textures) do
+        v:Show()
+    end
+end
+local function TB_Hide(self)
+    for k,v in ipairs(self.textures) do
+        v:Hide()
+    end
+end
 --##############################################################################
+--[[
+
+-- ARTWORK
+-- spell shield = 2
+-- healthbar highlight = 1
+-- spell icon = 1
+-- spell icon background = 0
+
+-- BACKGROUND
+-- healthbar fill background = 2
+-- healthbar background = 1
+-- castbar background = 1
+-- threat brackets = 0
+-- frame/target glow = -5
+
+--]]
 function test:Create(f)
     local healthbar
     do
@@ -113,7 +139,7 @@ function test:Create(f)
         setmetatable(glow,glow_prototype)
 
         for side,coords in ipairs(glow_coords) do
-            side = f:CreateTexture(nil,'BACKGROUND',nil,0)
+            side = f:CreateTexture(nil,'BACKGROUND',nil,-5)
             side:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\FrameGlow')
             side:SetTexCoord(unpack(coords))
 
@@ -136,49 +162,12 @@ function test:Create(f)
         glow.sides[4]:SetPoint('BOTTOMLEFT', glow.sides[2], 'BOTTOMRIGHT')
         glow.sides[4]:SetWidth(sizes.glow)
 
-        -- threat brackets
-        local tb = CreateFrame('Frame',nil,healthbar)
-        tb:Hide()
-
-        tb.textures = {}
-        tb.SetVertexColor = TB_SetVertexColor
-
-        for i,p in ipairs(TB_POINTS) do
-            local b = tb:CreateTexture(nil,'ARTWORK',nil,-1)
-            b:SetTexture(TB_TEXTURE)
-            b:SetSize(TB_WIDTH, TB_HEIGHT)
-            b:SetPoint(p[1], healthbar, p[2], p[3], p[4])
-
-            if i == 2 then
-                b:SetTexCoord(1,0,0,1)
-            elseif i == 3 then
-                b:SetTexCoord(0,1,1,0)
-            elseif i == 4 then
-                b:SetTexCoord(1,0,1,0)
-            end
-
-            tinsert(tb.textures,b)
-        end
-
-        f.ThreatBrackets = tb
-
         f.handler:RegisterElement('HealthBar', healthbar)
         f.handler:RegisterElement('ThreatGlow', glow)
     end
 
-    local highlight = healthbar:CreateTexture(nil, 'ARTWORK')
-    highlight:SetTexture(kui.m.t.bar)
-    highlight:SetAllPoints(healthbar)
-    highlight:SetVertexColor(1,1,1)
-    highlight:SetBlendMode('ADD')
-    highlight:SetAlpha(.4)
-    highlight:Hide()
-
-    local name = healthbar:CreateFontString(nil, 'OVERLAY')
-    name:SetFont(FONT, 11, 'THINOUTLINE')
-    name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3.5)
-
-    local targetglow = healthbar:CreateTexture(nil, 'BACKGROUND')
+    -- target glow
+    local targetglow = f:CreateTexture(nil,'BACKGROUND',nil,-5)
     targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
     targetglow:SetTexCoord(0,.593,0,.875)
     targetglow:SetHeight(7)
@@ -189,9 +178,51 @@ function test:Create(f)
 
     f.targetglow = targetglow
 
+    -- health bar highlight
+    local highlight = healthbar:CreateTexture(nil,'ARTWORK',nil,1)
+    highlight:SetTexture(kui.m.t.bar)
+    highlight:SetAllPoints(healthbar)
+    highlight:SetVertexColor(1,1,1)
+    highlight:SetBlendMode('ADD')
+    highlight:SetAlpha(.4)
+    highlight:Hide()
+
+    -- name text
+    local name = healthbar:CreateFontString(nil, 'OVERLAY')
+    name:SetFont(FONT, 11, 'THINOUTLINE')
+    name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3.5)
+
+    -- threat brackets
+    local tb = {
+        Hide = TB_Hide,
+        Show = TB_Show,
+        SetVertexColor = TB_SetVertexColor,
+        textures = {}
+    }
+
+    for i,p in ipairs(TB_POINTS) do
+        local b = f:CreateTexture(nil,'BACKGROUND',nil,0)
+        b:SetTexture(TB_TEXTURE)
+        b:SetSize(TB_WIDTH, TB_HEIGHT)
+        b:SetPoint(p[1], healthbar, p[2], p[3], p[4])
+        b:Hide()
+
+        if i == 2 then
+            b:SetTexCoord(1,0,0,1)
+        elseif i == 3 then
+            b:SetTexCoord(0,1,1,0)
+        elseif i == 4 then
+            b:SetTexCoord(1,0,1,0)
+        end
+
+        tinsert(tb.textures,b)
+    end
+
+    f.ThreatBrackets = tb
+
     -- castbar
     do
-        local bg = f:CreateTexture(nil, 'BACKGROUND')
+        local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
         bg:SetHeight(4)
@@ -199,6 +230,7 @@ function test:Create(f)
         bg:SetPoint('TOPRIGHT', healthbar, 'BOTTOMRIGHT', 1, 0)
 
         local castbar = CreateFrame('StatusBar', nil, f)
+        castbar:SetFrameLevel(0)
         castbar:SetStatusBarTexture(kui.m.t.bar)
         castbar:SetStatusBarColor(.6, .6, .75)
         castbar:SetHeight(2)
@@ -210,20 +242,20 @@ function test:Create(f)
         spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3.5)
 
         -- spell icon
-        local spelliconbg = f:CreateTexture(nil, 'ARTWORK')
+        local spelliconbg = f:CreateTexture(nil, 'ARTWORK', nil, 0)
         spelliconbg:SetTexture(kui.m.t.solid)
         spelliconbg:SetVertexColor(0,0,0,.8)
         spelliconbg:SetPoint('BOTTOMRIGHT', bg, 'BOTTOMLEFT', -1, 0)
         spelliconbg:SetPoint('TOPRIGHT', healthbar.bg, 'TOPLEFT', -1, 0)
         spelliconbg:SetWidth(9)
 
-        local spellicon = castbar:CreateTexture(nil, 'ARTWORK')
+        local spellicon = castbar:CreateTexture(nil, 'ARTWORK', nil, 1)
         spellicon:SetTexCoord(.1, .9, .25, .75)
         spellicon:SetPoint('TOPLEFT', spelliconbg, 1, -1)
         spellicon:SetPoint('BOTTOMRIGHT', spelliconbg, -1, 1)
 
         -- cast shield
-        local spellshield = healthbar:CreateTexture(nil, 'ARTWORK')
+        local spellshield = healthbar:CreateTexture(nil, 'ARTWORK', nil, 2)
         spellshield:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\Shield')
         spellshield:SetTexCoord(0, .84375, 0, 1)
         spellshield:SetSize(16 * .84375, 16)
@@ -243,6 +275,7 @@ function test:Create(f)
         castbar:Hide()
         spelliconbg:Hide()
         spellshield:Hide()
+        spellname:Hide()
 
         castbar.bg = bg
         spellicon.bg = spelliconbg
@@ -304,7 +337,7 @@ function test:GlowColourChange(f)
         f.ThreatBrackets:Show()
         f.ThreatBrackets:SetVertexColor(unpack(f.state.glowColour))
     else
-        f.ThreatBrackets:Hide()
+        --f.ThreatBrackets:Hide()
     end
 
     if f.handler:IsTarget() then
@@ -318,12 +351,13 @@ function test:GlowColourChange(f)
     end
 end
 function test:CastBarShow(f)
+    -- show attached elements
     f.CastBar.bg:Show()
     f.SpellIcon.bg:Show()
     f.SpellName:Show()
 
-    local icon_width = f.SpellIcon.bg:GetHeight()
-    f.SpellIcon.bg:SetWidth(floor(icon_width*1.5))
+    -- set spell icon width TODO buggy upon first show
+    f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
 end
 function test:CastBarHide(f)
     f.CastBar.bg:Hide()
