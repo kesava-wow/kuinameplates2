@@ -10,6 +10,7 @@ if not test then
     return
 end
 
+local FONT = kui.m.f.francois
 local sizes = {
     width = 130,
     height = 11,
@@ -21,7 +22,6 @@ local sizes = {
 local x,y
 
 local target_glow_colour = { .3, .7, 1, 1 }
-
 -- texture coords for the frame glow
 local glow_coords = {
     { .05, .95,  0,  .24 }, -- top
@@ -181,8 +181,8 @@ function test:Create(f)
     highlight:Hide()
 
     local name = overlay:CreateFontString(nil, 'ARTWORK')
-    name:SetFont(kui.m.f.francois, 11, 'OUTLINE')
-    name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3)
+    name:SetFont(FONT, 11, 'THINOUTLINE')
+    name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3.5)
 
     local targetglow = overlay:CreateTexture(nil, 'ARTWORK')
     targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
@@ -213,7 +213,7 @@ function test:Create(f)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
         local spellname = overlay:CreateFontString(nil, 'ARTWORK')
-        spellname:SetFont(kui.m.f.francois, 9, 'OUTLINE')
+        spellname:SetFont(FONT, 9, 'THINOUTLINE')
         spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3)
 
         -- spell icon
