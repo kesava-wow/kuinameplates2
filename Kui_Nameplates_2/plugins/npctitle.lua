@@ -3,12 +3,15 @@ local addon = KuiNameplates
 local mod = addon:NewPlugin('NPCTitle')
 
 local tooltip = CreateFrame('GameTooltip','KNPNPCTitleTooltip',UIParent,'GameTooltipTemplate')
-GameTooltip_SetDefaultAnchor(tooltip,UIParent)
 -- messages ####################################################################
 function mod:Show(f)
     if not UnitIsPlayer(f.unit) then
+        tooltip:SetOwner(UIParent,ANCHOR_NONE)
         tooltip:SetUnit(f.unit)
+
         local gtext = KNPNPCTitleTooltipTextLeft2:GetText()
+        tooltip:Hide()
+
         if not gtext or gtext:find('^Level ') then return end
         f.state.guild_text = gtext
     end
