@@ -103,12 +103,8 @@ local function NameOnly_On(f)
         -- player class colour
         f.NameText:SetTextColor(kui.GetClassColour(f.unit,2))
     else
-        -- reaction colour
-        if f.state.reaction >= 4 then
-            f.NameText:SetTextColor(.6,1,.6)
-        else
-            f.NameText:SetTextColor(1,.4,.4)
-        end
+        -- friendly colour
+        f.NameText:SetTextColor(.6,1,.6)
     end
 
     if f.state.nameonly then return end
