@@ -120,8 +120,10 @@ local function NameOnly_On(f)
         if f.state.reaction >= 4 then
             -- friendly colour
             f.NameText:SetTextColor(.6,1,.6)
+            f.GuildText:SetTextColor(.8,.9,.8,.9)
         else
             f.NameText:SetTextColor(1,.4,.3)
+            f.GuildText:SetTextColor(1,.8,.7,.9)
         end
     end
 
@@ -314,7 +316,6 @@ function test:Create(f)
     local guildtext = f:CreateFontString(nil,'OVERLAY')
     guildtext:SetFont(FONT, 9, 'THINOUTLINE')
     guildtext:SetPoint('TOP',name,'BOTTOM', 0, -2)
-    guildtext:SetTextColor(.8,.9,.8,.9)
     guildtext:Hide()
 
     f.GuildText = guildtext
