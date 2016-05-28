@@ -467,6 +467,7 @@ function test:GlowColourChange(f)
         f.ThreatGlow:SetVertexColor(0, 0, 0, .6)
     end
 end
+-- TODO possible target stickiness upon zoning
 function test:CastBarShow(f)
     if f.state.nameonly then return end
 
