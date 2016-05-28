@@ -90,6 +90,11 @@ local function TB_Hide(self)
         v:Hide()
     end
 end
+
+local function CastBar_SpellIconSetWidth(f)
+    -- set spell icon width TODO buggy upon first show
+    f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
+end
 -- nameonly functions ##########################################################
 local function NameOnly_On(f)
     -- update name text colour
@@ -114,7 +119,8 @@ local function NameOnly_On(f)
     f.HealthBar.bg:Hide()
     f.HealthBar.fill:Hide()
     f.ThreatGlow:Hide()
-    f.targetglow:Hide()
+    f.ThreatBrackets:Hide()
+    f.TargetGlow:Hide()
 
     f.NameText:SetShadowOffset(0,-2)
     f.NameText:SetShadowColor(0,0,0,.3)
@@ -254,7 +260,7 @@ function test:Create(f)
     targetglow:SetVertexColor(unpack(target_glow_colour))
     targetglow:Hide()
 
-    f.targetglow = targetglow
+    f.TargetGlow = targetglow
 
     -- health bar highlight
     local highlight = healthbar:CreateTexture(nil,'ARTWORK',nil,1)
@@ -390,12 +396,7 @@ function test:Show(f)
         f.HealthBar:SetSize(sizes.width, sizes.height)
     end
 
-    if UnitShouldDisplayName(f.unit) then
-        f.NameText:Show()
-    else
-        f.NameText:Hide()
-        f.HealthBar:SetHeight(sizes.no_name)
-    end
+    self:ShowNameUpdate(f)
 
     -- calculate where the health bar needs to go to be visually centred
     -- while remaining pixel-perfect ('CENTER' does not)
@@ -411,7 +412,7 @@ function test:Show(f)
 end
 function test:Hide(f)
     NameOnly_Off(f,true)
-    f.targetglow:Hide()
+    f.TargetGlow:Hide()
 end
 function test:HealthUpdate(f)
     NameOnly_HealthUpdate(f)
@@ -450,8 +451,7 @@ function test:CastBarShow(f)
     f.SpellIcon.bg:Show()
     f.SpellName:Show()
 
-    -- set spell icon width TODO buggy upon first show
-    f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
+    CastBar_SpellIconSetWidth(f)
 end
 function test:CastBarHide(f)
     f.CastBar.bg:Hide()
@@ -461,7 +461,7 @@ end
 function test:GainedTarget(f)
     NameOnly_Off(f,true)
 
-    f.targetglow:Show()
+    f.TargetGlow:Show()
     f.ThreatGlow:Show()
     f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
 
@@ -471,7 +471,7 @@ function test:LostTarget(f)
     NameOnly_Update(f)
     if f.state.nameonly then return end
 
-    f.targetglow:Hide()
+    f.TargetGlow:Hide()
 
     if f.state.glowing then
         -- revert glow to threat colour
@@ -487,7 +487,10 @@ end
 function test:ShowNameUpdate(f)
     if f.state.nameonly then return end
 
-    if f.handler:IsTarget() or UnitShouldDisplayName(f.unit) then
+    if  f.handler:IsTarget() or
+        UnitAffectingCombat(f.unit) or
+        UnitShouldDisplayName(f.unit)
+    then
         f.NameText:Show()
 
         if f.state.minus then
@@ -499,6 +502,10 @@ function test:ShowNameUpdate(f)
         f.NameText:Hide()
         f.HealthBar:SetHeight(sizes.no_name)
     end
+
+    if f.state.casting then
+        CastBar_SpellIconSetWidth(f)
+    end
 end
 function test:QUESTLINE_UPDATE()
     for _,frame in addon:Frames() do
@@ -506,6 +513,9 @@ function test:QUESTLINE_UPDATE()
             self:ShowNameUpdate(frame)
         end
     end
+end
+function test:UNIT_THREAT_LIST_UPDATE(event,f)
+    self:ShowNameUpdate(f)
 end
 -- register ####################################################################
 function test:Initialise()
@@ -534,4 +544,5 @@ function test:Initialise()
     self:RegisterMessage('LostTarget')
 
     self:RegisterEvent('QUESTLINE_UPDATE')
+    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
 end

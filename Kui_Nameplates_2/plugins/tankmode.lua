@@ -15,7 +15,7 @@ end
 function mod:GlowColourChange(f)
     -- TODO tank detection etc
     -- tank mode health bar colours
-    if f.state.threat > 0 then
+    if f.state.threat and f.state.threat > 0 then
         if f.elements.HealthBar then
             f.HealthBar:SetStatusBarColor(unpack(colours[f.state.threat]))
         end
