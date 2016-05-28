@@ -15,9 +15,8 @@ addon.Nameplate = {}
 addon.Nameplate.__index = addon.Nameplate
 
 -- Element registrar
--- elements used by the default scripts (below) are:
--- Castbar, Healthbar, Name, Level, SpellName, SpellIcon, SpellShield, RaidIcon,
--- BossIcon, Highlight, ThreatGlow
+-- TODO now that elements are external, element files should register which
+-- elements they provide so that they can be called when disabled/enabled etc
 function addon.Nameplate.RegisterElement(frame, element_name, element_frame)
     frame = frame.parent
     if frame[element_name] then return end
