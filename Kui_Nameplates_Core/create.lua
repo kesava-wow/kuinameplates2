@@ -444,8 +444,6 @@ function test:GlowColourChange(f)
     end
 end
 function test:CastBarShow(f)
-    if f.state.nameonly then return end
-
     -- show attached elements
     f.CastBar.bg:Show()
     f.SpellIcon.bg:Show()
