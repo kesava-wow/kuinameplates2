@@ -188,7 +188,7 @@ end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
     if  f.handler:IsTarget() and
-        UnitCanAttack('player',f.unit)
+        UnitIsEnemy('player',f.unit)
     then
         local parent = f[FRAME_POINT[2]]
 

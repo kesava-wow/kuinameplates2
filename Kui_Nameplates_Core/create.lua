@@ -175,7 +175,8 @@ end
 local function NameOnly_Update(f)
     if  not UnitIsUnit('player',f.unit) and
         not UnitCanAttack('player',f.unit) and
-        not UnitIsUnit('target',f.unit)
+        not UnitIsUnit('target',f.unit) and
+        not (UnitIsPlayer(f.unit) and UnitIsEnemy('player',f.unit))
     then
         NameOnly_On(f)
     else
