@@ -60,15 +60,15 @@ function addon.Nameplate.UpdateHealth(f,show)
 end
 -- messages ####################################################################
 function ele:Show(f)
-    f.handler:UpdateHealth(f,true)
-    f.handler:UpdateHealthColour(f,true)
+    f.handler:UpdateHealth(true)
+    f.handler:UpdateHealthColour(true)
 end
 -- events ######################################################################
 function ele:UNIT_FACTION(event,f)
-    f.handler:UpdateHealthColour(f)
+    f.handler:UpdateHealthColour()
 end
 function ele:UNIT_HEALTH(event,f)
-    f.handler:UpdateHealth(f)
+    f.handler:UpdateHealth()
 end
 -- register ####################################################################
 function ele:Initialise()
