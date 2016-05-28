@@ -112,6 +112,7 @@ local function NameOnly_On(f)
     f.HealthBar.bg:Hide()
     f.HealthBar.fill:Hide()
     f.ThreatGlow:Hide()
+    f.targetglow:Hide()
 
     f.NameText:SetParent(f)
     f.NameText:Show()
@@ -424,14 +425,16 @@ function test:CastBarHide(f)
     f.SpellName:Hide()
 end
 function test:GainedTarget(f)
-    if f.state.nameonly then return end
+    NameOnly_Off(f)
 
     f.targetglow:Show()
+    f.ThreatGlow:Show()
     f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
 
     self:ShowNameUpdate(f)
 end
 function test:LostTarget(f)
+    NameOnly_Update(f)
     if f.state.nameonly then return end
 
     f.targetglow:Hide()

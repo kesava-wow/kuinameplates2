@@ -20,7 +20,11 @@ function addon.Nameplate.UpdateHealthColour(f,show)
     if UnitIsTapDenied(f.unit) then
         r,g,b = unpack(colours.tapped)
     elseif UnitIsPlayer(f.unit) then
-        r,g,b = kui.GetClassColour(f.unit,2)
+        if UnitIsFriend('player',f.unit) then
+            r,g,b = .2, .5, .9
+        else
+            r,g,b = kui.GetClassColour(f.unit,2)
+        end
     else
         if react == 4 then
             r,g,b = unpack(colours.neutral)
