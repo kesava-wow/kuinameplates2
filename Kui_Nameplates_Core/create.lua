@@ -117,8 +117,12 @@ local function NameOnly_On(f)
         -- player class colour
         f.NameText:SetTextColor(NameOnly_ClassColour(f))
     else
-        -- friendly colour
-        f.NameText:SetTextColor(.6,1,.6)
+        if f.state.reaction >= 4 then
+            -- friendly colour
+            f.NameText:SetTextColor(.6,1,.6)
+        else
+            f.NameText:SetTextColor(1,.4,.3)
+        end
     end
 
     if f.state.nameonly then return end
@@ -169,8 +173,7 @@ local function NameOnly_Off(f,skip_messages)
     f.handler:EnableElement('CastBar')
 end
 local function NameOnly_Update(f)
-    if  f.state.reaction >= 4 and
-        not UnitIsUnit('player',f.unit) and
+    if  not UnitIsUnit('player',f.unit) and
         not UnitCanAttack('player',f.unit) and
         not UnitIsUnit('target',f.unit)
     then
