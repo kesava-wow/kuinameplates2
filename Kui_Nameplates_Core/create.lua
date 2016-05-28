@@ -98,10 +98,10 @@ local function NameOnly_On(f)
         f.NameText:SetTextColor(kui.GetClassColour(f.unit,2))
     else
         -- reaction colour
-        if f.state.reaction > 4 then
+        if f.state.reaction >= 4 then
             f.NameText:SetTextColor(.6,1,.6)
         else
-            f.NameText:SetTextColor(1,1,.6)
+            f.NameText:SetTextColor(1,.4,.4)
         end
     end
 
@@ -116,6 +116,9 @@ local function NameOnly_On(f)
     f.ThreatGlow:Hide()
     f.targetglow:Hide()
 
+    f.NameText:SetShadowOffset(0,-2)
+    f.NameText:SetShadowColor(0,0,0,.3)
+
     f.NameText:ClearAllPoints()
     f.NameText:SetParent(f)
     f.NameText:SetPoint('CENTER')
@@ -128,6 +131,7 @@ local function NameOnly_Off(f,skip_messages)
 
     f.NameText:SetText(f.state.name)
     f.NameText:SetTextColor(1,1,1,1)
+    f.NameText:SetShadowColor(0,0,0,0)
 
     f.NameText:ClearAllPoints()
     f.NameText:SetParent(f.HealthBar)
@@ -143,8 +147,9 @@ local function NameOnly_Off(f,skip_messages)
     end
 end
 local function NameOnly_Update(f)
-    if  f.state.reaction >= 4 and
-        not UnitIsUnit('player',f.unit) and
+    -- TODO this -might- break on aggressive units which start unattackable and
+    -- become attackable. need test case. (lord adder - horde?)
+    if  not UnitIsUnit('player',f.unit) and
         not UnitCanAttack('player',f.unit) and
         not UnitIsUnit('target',f.unit)
     then
