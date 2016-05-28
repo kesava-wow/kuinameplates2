@@ -108,6 +108,8 @@ local function NameOnly_On(f)
     if f.state.nameonly then return end
     f.state.nameonly = true
 
+    test:HealthUpdate(f)
+
     f.HealthBar:Hide()
     f.HealthBar.bg:Hide()
     f.HealthBar.fill:Hide()
@@ -117,16 +119,22 @@ local function NameOnly_On(f)
     f.NameText:SetParent(f)
     f.NameText:Show()
 end
-local function NameOnly_Off(f)
+local function NameOnly_Off(f,skip_messages)
     if not f.state.nameonly then return end
     f.state.nameonly = nil
 
+    f.NameText:SetText(f.state.name)
     f.NameText:SetTextColor(1,1,1,1)
     f.NameText:SetParent(f.HealthBar)
 
     f.HealthBar:Show()
     f.HealthBar.bg:Show()
     f.HealthBar.fill:Show()
+
+    if not skip_messages then
+        test:GlowColourChange(f)
+        test:ShowNameUpdate(f)
+    end
 end
 local function NameOnly_Update(f)
     if  f.state.reaction >= 4 and
@@ -136,9 +144,17 @@ local function NameOnly_Update(f)
         NameOnly_On(f)
     else
         NameOnly_Off(f)
-        test:GlowColourChange(f)
-        test:ShowNameUpdate(f)
     end
+end
+local function NameOnly_HealthUpdate(f)
+    -- set name text colour to approximate health
+    if not f.state.nameonly then return end
+
+    local health_len = strlen(f.state.name) * (UnitHealth(f.unit) / UnitHealthMax(f.unit))
+    f.NameText:SetText(
+        kui.utf8sub(f.state.name, 0, health_len)..
+        '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
+    )
 end
 --##############################################################################
 --[[
@@ -382,8 +398,11 @@ function test:Show(f)
     NameOnly_Update(f)
 end
 function test:Hide(f)
-    NameOnly_Off(f)
+    NameOnly_Off(f,true)
     f.targetglow:Hide()
+end
+function test:HealthUpdate(f)
+    NameOnly_HealthUpdate(f)
 end
 function test:HealthColourChange(f)
     NameOnly_Update(f)
@@ -428,7 +447,7 @@ function test:CastBarHide(f)
     f.SpellName:Hide()
 end
 function test:GainedTarget(f)
-    NameOnly_Off(f)
+    NameOnly_Off(f,true)
 
     f.targetglow:Show()
     f.ThreatGlow:Show()
@@ -491,6 +510,7 @@ function test:Initialise()
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
+    self:RegisterMessage('HealthUpdate')
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('GlowColourChange')
     self:RegisterMessage('CastBarShow')
