@@ -92,7 +92,8 @@ local function TB_Hide(self)
 end
 
 local function CastBar_SpellIconSetWidth(f)
-    -- set spell icon width TODO buggy upon first show
+    -- set spell icon width
+    f.HealthBar:GetHeight() -- calling this seems to coax it into calculating the height ¯\_(ツ)_/¯
     f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
 end
 -- nameonly functions ##########################################################
@@ -313,7 +314,7 @@ function test:Create(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-        bg:SetHeight(4)
+        bg:SetHeight(5)
         bg:SetPoint('TOPLEFT', healthbar, 'BOTTOMLEFT', -1, -2)
         bg:SetPoint('TOPRIGHT', healthbar, 'BOTTOMRIGHT', 1, 0)
 
@@ -321,7 +322,7 @@ function test:Create(f)
         castbar:SetFrameLevel(0)
         castbar:SetStatusBarTexture(kui.m.t.bar)
         castbar:SetStatusBarColor(.6, .6, .75)
-        castbar:SetHeight(2)
+        castbar:SetHeight(3)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
@@ -335,7 +336,6 @@ function test:Create(f)
         spelliconbg:SetVertexColor(0,0,0,.8)
         spelliconbg:SetPoint('BOTTOMRIGHT', bg, 'BOTTOMLEFT', -1, 0)
         spelliconbg:SetPoint('TOPRIGHT', healthbar.bg, 'TOPLEFT', -1, 0)
-        spelliconbg:SetWidth(9)
 
         local spellicon = castbar:CreateTexture(nil, 'ARTWORK', nil, 1)
         spellicon:SetTexCoord(.1, .9, .25, .75)
@@ -346,8 +346,8 @@ function test:Create(f)
         local spellshield = healthbar:CreateTexture(nil, 'ARTWORK', nil, 2)
         spellshield:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\Shield')
         spellshield:SetTexCoord(0, .84375, 0, 1)
-        spellshield:SetSize(16 * .84375, 16)
-        spellshield:SetPoint('LEFT', bg, -5, 0)
+        spellshield:SetSize(13.5, 16) -- 16 * .84375
+        spellshield:SetPoint('LEFT', bg, -7, 0)
         spellshield:SetVertexColor(.5, .5, .7)
 
         -- spark
@@ -356,7 +356,7 @@ function test:Create(f)
         spark:SetVertexColor(1,1,.8)
         spark:SetTexture('Interface\\AddOns\\Kui_Media\\t\\spark')
         spark:SetPoint('CENTER', castbar:GetRegions(), 'RIGHT', 1, 0)
-        spark:SetSize(6, 2 + 6)
+        spark:SetSize(6,9)
 
         -- hide elements by default
         bg:Hide()
@@ -400,8 +400,6 @@ function test:Show(f)
         f.HealthBar:SetSize(sizes.width, sizes.height)
     end
 
-    self:ShowNameUpdate(f)
-
     -- calculate where the health bar needs to go to be visually centred
     -- while remaining pixel-perfect ('CENTER' does not)
     x = floor((addon.width / 2) - (f.HealthBar:GetWidth() / 2))
@@ -409,10 +407,12 @@ function test:Show(f)
 
     f.HealthBar:SetPoint('BOTTOMLEFT', x, y)
 
+    -- go into nameonly mode if desired
+    NameOnly_Update(f)
     -- set initial glow colour
     self:GlowColourChange(f)
-
-    NameOnly_Update(f)
+    -- hide name if desired
+    self:ShowNameUpdate(f)
 end
 function test:Hide(f)
     NameOnly_Off(f,true)
@@ -469,6 +469,7 @@ function test:GainedTarget(f)
     f.ThreatGlow:Show()
     f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
 
+    -- target name is always shown
     self:ShowNameUpdate(f)
 end
 function test:LostTarget(f)
@@ -485,6 +486,7 @@ function test:LostTarget(f)
         self:GlowColourChange(f)
     end
 
+    -- hide name again depending on state
     self:ShowNameUpdate(f)
 end
 -- events ######################################################################
@@ -502,7 +504,7 @@ function test:ShowNameUpdate(f)
         else
             f.HealthBar:SetHeight(sizes.height)
         end
-    elseif not UnitShouldDisplayName(f.unit) then
+    else
         f.NameText:Hide()
         f.HealthBar:SetHeight(sizes.no_name)
     end
