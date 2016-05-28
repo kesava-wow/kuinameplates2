@@ -144,6 +144,7 @@ local function NameOnly_Off(f,skip_messages)
 end
 local function NameOnly_Update(f)
     if  f.state.reaction >= 4 and
+        not UnitIsUnit('player',f.unit) and
         not UnitCanAttack('player',f.unit) and
         not UnitIsUnit('target',f.unit)
     then
