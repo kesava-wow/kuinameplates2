@@ -142,14 +142,16 @@ local function NameOnly_On(f)
 
     f.NameText:ClearAllPoints()
     f.NameText:SetParent(f)
-    f.NameText:SetPoint('CENTER')
-
-    f.NameText:Show()
 
     if f.state.guild_text then
         f.GuildText:SetText(f.state.guild_text)
         f.GuildText:Show()
+        f.NameText:SetPoint('CENTER',0,6)
+    else
+        f.NameText:SetPoint('CENTER')
     end
+
+    f.NameText:Show()
 
     f.handler:CastBarHide()
     f.handler:DisableElement('CastBar')
