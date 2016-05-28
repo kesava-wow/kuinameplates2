@@ -90,6 +90,52 @@ local function TB_Hide(self)
         v:Hide()
     end
 end
+-- nameonly functions ##########################################################
+local function NameOnly_On(f)
+    -- update name text colour
+    if UnitIsPlayer(f.unit) then
+        -- player class colour
+        f.NameText:SetTextColor(kui.GetClassColour(f.unit,2))
+    else
+        -- reaction colour
+        if f.state.reaction > 4 then
+            f.NameText:SetTextColor(.6,1,.6)
+        else
+            f.NameText:SetTextColor(1,1,.6)
+        end
+    end
+
+    if f.state.nameonly then return end
+    f.state.nameonly = true
+
+    f.HealthBar:Hide()
+    f.HealthBar.bg:Hide()
+    f.HealthBar.fill:Hide()
+    f.ThreatGlow:Hide()
+
+    f.NameText:SetParent(f)
+    f.NameText:Show()
+end
+local function NameOnly_Off(f)
+    if not f.state.nameonly then return end
+    f.state.nameonly = nil
+
+    f.NameText:SetTextColor(1,1,1,1)
+    f.NameText:SetParent(f.HealthBar)
+
+    f.HealthBar:Show()
+    f.HealthBar.bg:Show()
+    f.HealthBar.fill:Show()
+end
+local function NameOnly_Update(f)
+    if f.state.reaction >= 4 and not UnitCanAttack('player',f.unit) then
+        NameOnly_On(f)
+    else
+        NameOnly_Off(f)
+        test:GlowColourChange(f)
+        test:ShowNameUpdate(f)
+    end
+end
 --##############################################################################
 --[[
 
@@ -328,11 +374,22 @@ function test:Show(f)
 
     -- set initial glow colour
     self:GlowColourChange(f)
+
+    NameOnly_Update(f)
 end
 function test:Hide(f)
+    NameOnly_Off(f)
     f.targetglow:Hide()
 end
+function test:HealthColourChange(f)
+    NameOnly_Update(f)
+end
 function test:GlowColourChange(f)
+    if f.state.nameonly then return end
+
+    -- force show threat glow because we use it as a shadow
+    f.ThreatGlow:Show()
+
     if f.state.glowing then
         f.ThreatBrackets:Show()
         f.ThreatBrackets:SetVertexColor(unpack(f.state.glowColour))
@@ -351,6 +408,8 @@ function test:GlowColourChange(f)
     end
 end
 function test:CastBarShow(f)
+    if f.state.nameonly then return end
+
     -- show attached elements
     f.CastBar.bg:Show()
     f.SpellIcon.bg:Show()
@@ -365,12 +424,16 @@ function test:CastBarHide(f)
     f.SpellName:Hide()
 end
 function test:GainedTarget(f)
+    if f.state.nameonly then return end
+
     f.targetglow:Show()
     f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
 
     self:ShowNameUpdate(f)
 end
 function test:LostTarget(f)
+    if f.state.nameonly then return end
+
     f.targetglow:Hide()
 
     if f.state.glowing then
@@ -385,6 +448,8 @@ function test:LostTarget(f)
 end
 -- events ######################################################################
 function test:ShowNameUpdate(f)
+    if f.state.nameonly then return end
+
     if f.handler:IsTarget() or UnitShouldDisplayName(f.unit) then
         f.NameText:Show()
 
@@ -420,6 +485,7 @@ function test:Initialise()
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
+    self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('GlowColourChange')
     self:RegisterMessage('CastBarShow')
     self:RegisterMessage('CastBarHide')

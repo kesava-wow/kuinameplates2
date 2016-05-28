@@ -25,12 +25,17 @@ function ele:UNIT_THREAT_LIST_UPDATE(event,f,unit)
         f.state.glowing = true
 
         if f.elements.ThreatGlow then
+            f.ThreatGlow:Show()
             f.ThreatGlow:SetVertexColor(unpack(threat_colour))
         end
 
         addon:DispatchMessage('GlowColourChange', f)
     elseif f.state.glowing then
         f.state.glowing = nil
+
+        if f.elements.ThreatGlow then
+            f.ThreatGlow:Hide()
+        end
 
         addon:DispatchMessage('GlowColourChange', f)
     end
