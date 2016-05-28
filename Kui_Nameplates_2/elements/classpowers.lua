@@ -187,7 +187,9 @@ local function PowerUpdate()
 end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
-    if f.handler:IsTarget() then
+    if  f.handler:IsTarget() and
+        not UnitIsFriend('player',f.unit)
+    then
         local parent = f[FRAME_POINT[2]]
 
         if parent then
