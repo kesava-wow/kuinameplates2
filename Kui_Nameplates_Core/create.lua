@@ -229,7 +229,7 @@ function test:Create(f)
 
         for side,coords in ipairs(glow_coords) do
             side = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-            side:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\FrameGlow')
+            side:SetTexture('interface/addons/kui_nameplates/media/frameglow')
             side:SetTexCoord(unpack(coords))
 
             tinsert(glow.sides, side)
