@@ -174,8 +174,11 @@ local function NameOnly_Off(f,skip_messages)
 end
 local function NameOnly_Update(f)
     if  not UnitIsUnit('player',f.unit) and
-        not UnitCanAttack('player',f.unit) and
+        -- don't show on target
         not UnitIsUnit('target',f.unit) and
+        -- don't show on attackable units
+        not UnitCanAttack('player',f.unit) and
+        -- don't show on unattackable enemy players (ice block etc)
         not (UnitIsPlayer(f.unit) and UnitIsEnemy('player',f.unit))
     then
         NameOnly_On(f)
