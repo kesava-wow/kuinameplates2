@@ -116,7 +116,10 @@ local function NameOnly_On(f)
     f.ThreatGlow:Hide()
     f.targetglow:Hide()
 
+    f.NameText:ClearAllPoints()
     f.NameText:SetParent(f)
+    f.NameText:SetPoint('CENTER')
+
     f.NameText:Show()
 end
 local function NameOnly_Off(f,skip_messages)
@@ -125,7 +128,10 @@ local function NameOnly_Off(f,skip_messages)
 
     f.NameText:SetText(f.state.name)
     f.NameText:SetTextColor(1,1,1,1)
+
+    f.NameText:ClearAllPoints()
     f.NameText:SetParent(f.HealthBar)
+    f.NameText:SetPoint('BOTTOM', f.HealthBar, 'TOP', 0, -3.5)
 
     f.HealthBar:Show()
     f.HealthBar.bg:Show()
@@ -497,7 +503,7 @@ function test:QUESTLINE_UPDATE()
 end
 -- register ####################################################################
 function test:Initialise()
-    C_NamePlate.SetNamePlateOtherSize(100,15)
+    C_NamePlate.SetNamePlateOtherSize(100,20)
 
     test.Auras = true
 
