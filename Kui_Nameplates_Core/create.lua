@@ -497,6 +497,8 @@ function test:QUESTLINE_UPDATE()
 end
 -- register ####################################################################
 function test:Initialise()
+    C_NamePlate.SetNamePlateOtherSize(100,15)
+
     test.Auras = true
 
     test.ClassPowers = {
