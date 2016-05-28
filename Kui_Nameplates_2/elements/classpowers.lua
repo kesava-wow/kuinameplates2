@@ -188,7 +188,7 @@ end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
     if  f.handler:IsTarget() and
-        not UnitIsFriend('player',f.unit)
+        UnitCanAttack('player',f.unit)
     then
         local parent = f[FRAME_POINT[2]]
 
@@ -239,6 +239,9 @@ function ele:PowerInit()
         self:RegisterMessage('GainedTarget','TargetUpdate')
         self:RegisterMessage('LostTarget','TargetUpdate')
 
+        -- for faction changes
+        self:RegisterMessage('HealthColourChange','TargetUpdate')
+
         CreateIcons()
     else
         self:UnregisterEvent('PLAYER_ENTERING_WORLD')
@@ -247,6 +250,7 @@ function ele:PowerInit()
 
         self:UnregisterMessage('TargetGained')
         self:UnregisterMessage('TargetLost')
+        self:UnregisterMessage('HealthColourChange')
     end
 end
 function ele:RuneUpdate(event,rune_id,energise)
