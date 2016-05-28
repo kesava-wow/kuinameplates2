@@ -7,6 +7,12 @@ if not test then
     return
 end
 
+local CLASS_COLOURS = {
+    DEATHKNIGHT = { .90, .22, .33 },
+    DEMONHUNTER = { .74, .35, .95 },
+    SHAMAN      = { .10, .54, .97 },
+}
+
 local FONT = kui.m.f.francois
 local sizes = {
     width = 130,
@@ -97,11 +103,19 @@ local function CastBar_SpellIconSetWidth(f)
     f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
 end
 -- nameonly functions ##########################################################
+local function NameOnly_ClassColour(f)
+    local class = select(2,UnitClass(f.unit))
+    if CLASS_COLOURS[class] then
+        return unpack(CLASS_COLOURS[class])
+    else
+        return kui.GetClassColour(class,2)
+    end
+end
 local function NameOnly_On(f)
     -- update name text colour
     if UnitIsPlayer(f.unit) then
         -- player class colour
-        f.NameText:SetTextColor(kui.GetClassColour(f.unit,2))
+        f.NameText:SetTextColor(NameOnly_ClassColour(f))
     else
         -- friendly colour
         f.NameText:SetTextColor(.6,1,.6)
