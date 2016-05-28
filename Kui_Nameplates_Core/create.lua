@@ -503,6 +503,7 @@ function test:QUESTLINE_UPDATE()
 end
 -- register ####################################################################
 function test:Initialise()
+    -- TODO resets upon chaning nameplate options
     C_NamePlate.SetNamePlateOtherSize(100,20)
 
     test.Auras = true
