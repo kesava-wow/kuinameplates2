@@ -15,13 +15,18 @@ function ele:UNIT_THREAT_LIST_UPDATE(event,f,unit)
     if unit == 'player' or UnitIsUnit('player',unit) then return end
 
     local status = UnitThreatSituation('player',unit)
-    local threat_state = (not status and 0) or (status == 3 and 1 or (status < 3 and status > 0) and 2 or 0)
-    local threat_colour = threat_state > 0 and threat_colours[threat_state] or nil
+    local threat_state,threat_colour
+
+    if status then
+        threat_state = status == 3 and 1 or (status < 3 and status > 0) and 2 or 0
+    end
+
+    threat_colour = threat_state and (threat_state > 0 and threat_colours[threat_state] or nil)
 
     f.state.threat = threat_state
     f.state.glowColour = threat_colour
 
-    if threat_state > 0 then
+    if threat_state and threat_state > 0 then
         f.state.glowing = true
 
         if f.elements.ThreatGlow then

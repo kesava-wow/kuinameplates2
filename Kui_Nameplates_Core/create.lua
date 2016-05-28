@@ -492,7 +492,7 @@ function test:ShowNameUpdate(f)
     if f.state.nameonly then return end
 
     if  f.handler:IsTarget() or
-        UnitAffectingCombat(f.unit) or
+        f.state.threat or
         UnitShouldDisplayName(f.unit)
     then
         f.NameText:Show()
