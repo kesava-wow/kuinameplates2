@@ -148,9 +148,9 @@ local function NameOnly_On(f)
     if f.state.guild_text then
         f.GuildText:SetText(f.state.guild_text)
         f.GuildText:Show()
-        f.NameText:SetPoint('CENTER',0,6)
+        f.NameText:SetPoint('CENTER',.5,6)
     else
-        f.NameText:SetPoint('CENTER')
+        f.NameText:SetPoint('CENTER',.5,0)
     end
 
     f.NameText:Show()
