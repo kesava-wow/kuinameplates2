@@ -130,6 +130,9 @@ local function NameOnly_On(f)
     f.NameText:SetPoint('CENTER')
 
     f.NameText:Show()
+
+    f.handler:CastBarHide()
+    f.handler:DisableElement('CastBar')
 end
 local function NameOnly_Off(f,skip_messages)
     if not f.state.nameonly then return end
@@ -151,11 +154,12 @@ local function NameOnly_Off(f,skip_messages)
         test:GlowColourChange(f)
         test:ShowNameUpdate(f)
     end
+
+    f.handler:EnableElement('CastBar')
 end
 local function NameOnly_Update(f)
-    -- TODO this -might- break on aggressive units which start unattackable and
-    -- become attackable. need test case. (lord adder - horde?)
-    if  not UnitIsUnit('player',f.unit) and
+    if  f.state.reaction >= 4 and
+        not UnitIsUnit('player',f.unit) and
         not UnitCanAttack('player',f.unit) and
         not UnitIsUnit('target',f.unit)
     then
@@ -444,6 +448,8 @@ function test:GlowColourChange(f)
     end
 end
 function test:CastBarShow(f)
+    if f.state.nameonly then return end
+
     -- show attached elements
     f.CastBar.bg:Show()
     f.SpellIcon.bg:Show()

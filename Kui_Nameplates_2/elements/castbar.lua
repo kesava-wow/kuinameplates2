@@ -10,14 +10,16 @@ local function OnCastBarUpdate(f,elapsed)
     f.cast_state.duration = f.cast_state.duration + elapsed
 
     if f.cast_state.channel then
-        f.CastBar:SetValue(f.cast_state.max - f.cast_state.duration)
-
+        if f.elements.CastBar then
+            f.CastBar:SetValue(f.cast_state.max - f.cast_state.duration)
+        end
         if f.cast_state.duration > f.cast_state.max then
             f.handler:CastBarHide()
         end
     else
-        f.CastBar:SetValue(f.cast_state.duration)
-
+        if f.elements.CastBar then
+            f.CastBar:SetValue(f.cast_state.duration)
+        end
         if f.cast_state.duration >= f.cast_state.max then
             f.handler:CastBarHide()
         end
