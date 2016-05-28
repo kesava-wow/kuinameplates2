@@ -129,7 +129,10 @@ local function NameOnly_Off(f)
     f.HealthBar.fill:Show()
 end
 local function NameOnly_Update(f)
-    if f.state.reaction >= 4 and not UnitCanAttack('player',f.unit) then
+    if  f.state.reaction >= 4 and
+        not UnitCanAttack('player',f.unit) and
+        not UnitIsUnit('target',f.unit)
+    then
         NameOnly_On(f)
     else
         NameOnly_Off(f)
