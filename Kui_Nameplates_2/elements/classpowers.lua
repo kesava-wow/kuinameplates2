@@ -209,6 +209,7 @@ function ele:TargetUpdate(f)
             cpf:Show()
         end
     else
+        -- TODO place on player's frame with no valid target
         cpf:Hide()
     end
 end
