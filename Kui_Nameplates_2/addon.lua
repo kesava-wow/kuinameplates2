@@ -73,9 +73,9 @@ local function OnEvent(self,event,...)
         return
     end
 
-    --self.uiscale = UIParent:GetEffectiveScale()
+    self.uiscale = UIParent:GetEffectiveScale()
     -- TODO i think this might be obsolete
-    self.uiscale = .71
+    --self.uiscale = .71
 
     -- get the pixel-perfect width/height of the default, non-trivial frames
     self.width, self.height = floor(width / self.uiscale), floor(height / self.uiscale)
