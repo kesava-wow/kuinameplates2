@@ -190,11 +190,14 @@ local function NameOnly_HealthUpdate(f)
     -- set name text colour to approximate health
     if not f.state.nameonly then return end
 
-    local health_len = strlen(f.state.name) * (UnitHealth(f.unit) / UnitHealthMax(f.unit))
-    f.NameText:SetText(
-        kui.utf8sub(f.state.name, 0, health_len)..
-        '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
-    )
+    local cur,max = UnitHealth(f.unit),UnitHealthMax(f.unit)
+    if cur and max then
+        local health_len = strlen(f.state.name) * (cur / max)
+        f.NameText:SetText(
+            kui.utf8sub(f.state.name, 0, health_len)..
+            '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
+        )
+    end
 end
 --##############################################################################
 --[[
