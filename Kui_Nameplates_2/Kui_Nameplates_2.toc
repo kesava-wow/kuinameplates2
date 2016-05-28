@@ -26,3 +26,5 @@ elements/auras.lua
 plugins/tankmode.lua
 plugins/animation.lua
 plugins/fading.lua
+plugins/npctitle.lua
+plugins/lowhealth.lua

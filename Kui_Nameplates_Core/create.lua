@@ -146,6 +146,11 @@ local function NameOnly_On(f)
 
     f.NameText:Show()
 
+    if f.state.guild_text then
+        f.GuildText:SetText(f.state.guild_text)
+        f.GuildText:Show()
+    end
+
     f.handler:CastBarHide()
     f.handler:DisableElement('CastBar')
 end
@@ -160,6 +165,8 @@ local function NameOnly_Off(f,skip_messages)
     f.NameText:ClearAllPoints()
     f.NameText:SetParent(f.HealthBar)
     f.NameText:SetPoint('BOTTOM', f.HealthBar, 'TOP', 0, -3.5)
+
+    f.GuildText:Hide()
 
     f.HealthBar:Show()
     f.HealthBar.bg:Show()
@@ -300,6 +307,15 @@ function test:Create(f)
     local name = healthbar:CreateFontString(nil, 'OVERLAY')
     name:SetFont(FONT, 11, 'THINOUTLINE')
     name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3.5)
+
+    -- guild text (nameonly)
+    local guildtext = f:CreateFontString(nil,'OVERLAY')
+    guildtext:SetFont(FONT, 9, 'THINOUTLINE')
+    guildtext:SetPoint('TOP',name,'BOTTOM', 0, -2)
+    guildtext:SetTextColor(.8,.9,.8,.9)
+    guildtext:Hide()
+
+    f.GuildText = guildtext
 
     -- threat brackets
     local tb = {
