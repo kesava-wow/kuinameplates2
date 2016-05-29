@@ -188,9 +188,8 @@ local function NameOnly_Off(f,skip_messages)
     f.state.nameonly = nil
 
     f.NameText:SetText(f.state.name)
+    f.NameText:SetTextColor(1,1,1,1)
     f.NameText:SetShadowColor(0,0,0,0)
-
-    NameOnly_NameUpdate(f)
 
     f.NameText:ClearAllPoints()
     f.NameText:SetParent(f.HealthBar)
@@ -205,6 +204,7 @@ local function NameOnly_Off(f,skip_messages)
     if not skip_messages then
         test:GlowColourChange(f)
         test:ShowNameUpdate(f)
+        NameOnly_NameUpdate(f)
     end
 
     f.handler:EnableElement('CastBar')
@@ -464,14 +464,17 @@ function test:Show(f)
 
     f.HealthBar:SetPoint('BOTTOMLEFT', x, y)
 
-    -- set name text colour
-    self:NameChange(f)
     -- go into nameonly mode if desired
     NameOnly_Update(f)
     -- set initial glow colour
     self:GlowColourChange(f)
     -- hide name if desired
     self:ShowNameUpdate(f)
+
+    if not f.state.nameonly then
+        -- set name text colour
+        NameOnly_NameUpdate(f)
+    end
 end
 function test:Hide(f)
     NameOnly_Off(f,true)
@@ -524,6 +527,7 @@ function test:CastBarHide(f)
 end
 function test:GainedTarget(f)
     NameOnly_Off(f,true)
+    NameOnly_NameUpdate(f)
 
     f.TargetGlow:Show()
     f.ThreatGlow:Show()
@@ -548,10 +552,6 @@ function test:LostTarget(f)
 
     -- hide name again depending on state
     self:ShowNameUpdate(f)
-end
-function test:NameChange(f)
-    -- update name text colour
-    NameOnly_NameUpdate(f)
 end
 -- events ######################################################################
 function test:ShowNameUpdate(f)
@@ -587,6 +587,10 @@ end
 function test:UNIT_THREAT_LIST_UPDATE(event,f)
     self:ShowNameUpdate(f)
 end
+function test:UNIT_NAME_UPDATE(event,f)
+    -- update name text colour
+    NameOnly_NameUpdate(f)
+end
 -- register ####################################################################
 function test:Initialise()
     -- TODO resets upon chaning nameplate options
@@ -612,8 +616,8 @@ function test:Initialise()
     self:RegisterMessage('CastBarHide')
     self:RegisterMessage('GainedTarget')
     self:RegisterMessage('LostTarget')
-    self:RegisterMessage('NameChange')
 
     self:RegisterEvent('QUESTLINE_UPDATE')
     self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
+    self:RegisterUnitEvent('UNIT_NAME_UPDATE')
 end
