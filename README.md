@@ -4,3 +4,6 @@ The rewrite separates nameplate frame creation, event handling and visible frame
 
 Progress is on-going under the [legion branch](https://github.com/kesava-wow/kuinameplates2/tree/legion).
 
+---
+
+![](https://i.imgur.com/lKQWxP7.png)
