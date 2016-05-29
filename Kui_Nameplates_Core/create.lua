@@ -111,26 +111,51 @@ local function NameOnly_ClassColour(f)
         return kui.GetClassColour(class,2)
     end
 end
-local function NameOnly_On(f)
+local function NameOnly_HealthUpdate(f)
+    -- set name text colour to approximate health
+    if not f.state.nameonly then return end
+
+    local cur,max = UnitHealth(f.unit),UnitHealthMax(f.unit)
+    if cur and max then
+        local health_len = strlen(f.state.name) * (cur / max)
+        f.NameText:SetText(
+            kui.utf8sub(f.state.name, 0, health_len)..
+            '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
+        )
+    end
+end
+local function NameOnly_NameUpdate(f)
     -- update name text colour
-    if UnitIsPlayer(f.unit) then
-        -- player class colour
-        f.NameText:SetTextColor(NameOnly_ClassColour(f))
-    else
-        if f.state.reaction >= 4 then
-            -- friendly colour
-            f.NameText:SetTextColor(.6,1,.6)
-            f.GuildText:SetTextColor(.8,.9,.8,.9)
+    if f.state.nameonly then
+        if UnitIsPlayer(f.unit) then
+            -- player class colour
+            f.NameText:SetTextColor(NameOnly_ClassColour(f))
         else
-            f.NameText:SetTextColor(1,.4,.3)
-            f.GuildText:SetTextColor(1,.8,.7,.9)
+            if f.state.reaction >= 4 then
+                -- friendly colour
+                f.NameText:SetTextColor(.6,1,.6)
+                f.GuildText:SetTextColor(.8,.9,.8,.9)
+            else
+                f.NameText:SetTextColor(1,.4,.3)
+                f.GuildText:SetTextColor(1,.8,.7,.9)
+            end
+        end
+
+        NameOnly_HealthUpdate(f)
+    else
+        if UnitIsPlayer(f.unit) and UnitIsFriend('player',f.unit) then
+            -- friendly player class colour
+            f.NameText:SetTextColor(NameOnly_ClassColour(f))
+        else
+            f.NameText:SetTextColor(1,1,1,1)
         end
     end
-
+end
+local function NameOnly_On(f)
     if f.state.nameonly then return end
     f.state.nameonly = true
 
-    test:HealthUpdate(f)
+    NameOnly_NameUpdate(f)
 
     f.HealthBar:Hide()
     f.HealthBar.bg:Hide()
@@ -163,8 +188,9 @@ local function NameOnly_Off(f,skip_messages)
     f.state.nameonly = nil
 
     f.NameText:SetText(f.state.name)
-    f.NameText:SetTextColor(1,1,1,1)
     f.NameText:SetShadowColor(0,0,0,0)
+
+    NameOnly_NameUpdate(f)
 
     f.NameText:ClearAllPoints()
     f.NameText:SetParent(f.HealthBar)
@@ -192,22 +218,14 @@ local function NameOnly_Update(f)
         -- don't show on unattackable enemy players (ice block etc)
         not (UnitIsPlayer(f.unit) and UnitIsEnemy('player',f.unit))
     then
-        NameOnly_On(f)
+        if f.state.nameonly then
+            -- in case reaction has changed
+            NameOnly_NameUpdate(f)
+        else
+            NameOnly_On(f)
+        end
     else
         NameOnly_Off(f)
-    end
-end
-local function NameOnly_HealthUpdate(f)
-    -- set name text colour to approximate health
-    if not f.state.nameonly then return end
-
-    local cur,max = UnitHealth(f.unit),UnitHealthMax(f.unit)
-    if cur and max then
-        local health_len = strlen(f.state.name) * (cur / max)
-        f.NameText:SetText(
-            kui.utf8sub(f.state.name, 0, health_len)..
-            '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
-        )
     end
 end
 --##############################################################################
@@ -446,6 +464,8 @@ function test:Show(f)
 
     f.HealthBar:SetPoint('BOTTOMLEFT', x, y)
 
+    -- set name text colour
+    self:NameChange(f)
     -- go into nameonly mode if desired
     NameOnly_Update(f)
     -- set initial glow colour
@@ -529,6 +549,10 @@ function test:LostTarget(f)
     -- hide name again depending on state
     self:ShowNameUpdate(f)
 end
+function test:NameChange(f)
+    -- update name text colour
+    NameOnly_NameUpdate(f)
+end
 -- events ######################################################################
 function test:ShowNameUpdate(f)
     if f.state.nameonly then return end
@@ -588,6 +612,7 @@ function test:Initialise()
     self:RegisterMessage('CastBarHide')
     self:RegisterMessage('GainedTarget')
     self:RegisterMessage('LostTarget')
+    self:RegisterMessage('NameChange')
 
     self:RegisterEvent('QUESTLINE_UPDATE')
     self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
