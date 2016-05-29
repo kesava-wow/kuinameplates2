@@ -489,6 +489,11 @@ end
 function test:HealthColourChange(f)
     -- toggle nameonly upon faction changes
     NameOnly_Update(f)
+
+    if not f.state.nameonly and UnitIsUnit('target',f.unit) then
+        -- re-set name text colour of the current target
+        NameOnly_NameUpdate(f)
+    end
 end
 function test:GlowColourChange(f)
     if f.state.nameonly then return end
