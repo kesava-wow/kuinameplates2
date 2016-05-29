@@ -5,7 +5,7 @@ local mod = addon:NewPlugin('NPCTitle')
 local tooltip = CreateFrame('GameTooltip','KNPNPCTitleTooltip',UIParent,'GameTooltipTemplate')
 -- messages ####################################################################
 function mod:Show(f)
-    if not UnitIsPlayer(f.unit) then
+    if not UnitIsPlayer(f.unit) and not UnitPlayerControlled(f.unit) then
         tooltip:SetOwner(UIParent,ANCHOR_NONE)
         tooltip:SetUnit(f.unit)
 
