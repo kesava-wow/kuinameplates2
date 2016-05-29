@@ -477,19 +477,23 @@ function test:Show(f)
     end
 end
 function test:Hide(f)
+    -- reset nameonly elements
     NameOnly_Off(f,true)
+    -- reset targetglow
     f.TargetGlow:Hide()
 end
 function test:HealthUpdate(f)
+    -- update to set colour of name to approximate health
     NameOnly_HealthUpdate(f)
 end
 function test:HealthColourChange(f)
+    -- toggle nameonly upon faction changes
     NameOnly_Update(f)
 end
 function test:GlowColourChange(f)
     if f.state.nameonly then return end
 
-    -- force show threat glow because we use it as a shadow
+    -- always show threat glow because we use it as a shadow
     f.ThreatGlow:Show()
 
     if f.state.glowing then
@@ -513,7 +517,7 @@ end
 function test:CastBarShow(f)
     if f.state.nameonly then return end
 
-    -- show attached elements
+    -- also show attached elements
     f.CastBar.bg:Show()
     f.SpellIcon.bg:Show()
     f.SpellName:Show()
@@ -521,12 +525,15 @@ function test:CastBarShow(f)
     CastBar_SpellIconSetWidth(f)
 end
 function test:CastBarHide(f)
+    -- also hide attached elements
     f.CastBar.bg:Hide()
     f.SpellIcon.bg:Hide()
     f.SpellName:Hide()
 end
 function test:GainedTarget(f)
+    -- disable nameonly on target
     NameOnly_Off(f,true)
+    -- update to re-set name text colour of friendly players
     NameOnly_NameUpdate(f)
 
     f.TargetGlow:Show()
@@ -578,6 +585,7 @@ function test:ShowNameUpdate(f)
     end
 end
 function test:QUESTLINE_UPDATE()
+    -- update to show name of new quest NPCs
     for _,frame in addon:Frames() do
         if frame:IsShown() then
             self:ShowNameUpdate(frame)
@@ -585,6 +593,7 @@ function test:QUESTLINE_UPDATE()
     end
 end
 function test:UNIT_THREAT_LIST_UPDATE(event,f)
+    -- update to show name of units which are in combat with the player
     self:ShowNameUpdate(f)
 end
 function test:UNIT_NAME_UPDATE(event,f)
