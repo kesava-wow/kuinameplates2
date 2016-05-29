@@ -31,6 +31,7 @@
         function.
 
 ]]
+-- TODO sometimes hides during combat (or just every so often)
 local addon = KuiNameplates
 local ele = addon:NewElement('ClassPowers')
 local class, power_type, power_type_tag, cpf
