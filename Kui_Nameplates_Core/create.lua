@@ -1,3 +1,11 @@
+--------------------------------------------------------------------------------
+-- Kui Nameplates
+-- By Kesava at curse.com
+-- All rights reserved
+--------------------------------------------------------------------------------
+-- As the name "test" does well imply, this is not an accurate representation
+-- of the final code for the core layout.
+--------------------------------------------------------------------------------
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local test = addon:Layout()

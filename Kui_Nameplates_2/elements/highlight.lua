@@ -1,4 +1,4 @@
--- check mouseover
+-- check mouseover and fire OnEnter/OnLeave messages, Show/Hide Highlight
 local addon = KuiNameplates
 local ele = addon:NewElement('Highlight')
 -- hightlight checker frame ####################################################

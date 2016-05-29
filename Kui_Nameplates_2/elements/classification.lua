@@ -1,3 +1,4 @@
+-- provide unit classification to classification element
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Classification',1)

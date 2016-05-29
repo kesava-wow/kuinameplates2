@@ -1,3 +1,4 @@
+-- get unit name and provide to LevelText element
 local addon = KuiNameplates
 local ele = addon:NewElement('LevelText')
 -- prototype additions #########################################################

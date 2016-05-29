@@ -1,3 +1,4 @@
+-- get unit name and provide to the NameText element
 local addon = KuiNameplates
 local ele = addon:NewElement('NameText')
 -- prototype additions #########################################################

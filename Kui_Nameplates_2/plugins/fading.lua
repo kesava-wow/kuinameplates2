@@ -1,3 +1,4 @@
+-- fade nameplate frames based on current target
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Fading')
