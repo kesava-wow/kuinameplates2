@@ -8,6 +8,8 @@ function addon.Nameplate.UpdateName(f)
     if f.elements.NameText then
         f.NameText:SetText(f.state.name)
     end
+
+    addon:DispatchMessage('NameChange',f)
 end
 -- messages ####################################################################
 function ele:Show(f)
