@@ -705,7 +705,9 @@ function test:Initialise()
     -- TODO resets upon chaning nameplate options
     C_NamePlate.SetNamePlateOtherSize(100,20)
 
-    test.Auras = true
+    test.Auras = {
+        font = FONT,
+    }
 
     test.ClassPowers = {
         icon_size = 10,

@@ -56,6 +56,8 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Auras')
 
+local FONT,FONT_SIZE_CD,FONT_SIZE_COUNT,FONT_FLAGS
+
 local spelllist,whitelist
 
 local class
@@ -245,11 +247,11 @@ local function CreateAuraButton(parent)
 
         -- TODO CooldownFrames don't like being moved ?
         local cd = button:CreateFontString(nil,'OVERLAY')
-        cd:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
+        cd:SetFont(FONT, FONT_SIZE_CD, FONT_FLAGS)
         cd:SetPoint('CENTER')
 
         local count = button:CreateFontString(il,'OVERLAY')
-        count:SetFont('Fonts\\FRIZQT__.TTF', 10, 'OUTLINE')
+        count:SetFont(FONT, FONT_SIZE_COUNT, FONT_FLAGS)
         count:SetPoint('BOTTOMRIGHT', 2, -2)
         count:Hide()
 
@@ -547,6 +549,12 @@ end
 -- register ####################################################################
 function ele:Initialised()
     if not addon.layout.Auras then return end
+
+    -- TODO add to docs
+    FONT = addon.layout.Auras.font or 'Fonts\\FRIZQT__.TTF'
+    FONT_SIZE_CD = addon.layout.Auras.font_size_cd or 12
+    FONT_SIZE_COUNT = addon.layout.Auras.font_size_count or 10
+    FONT_FLAGS = addon.layout.Auras.font_flags or 'OUTLINE'
 
     class = select(2,UnitClass('player'))
 
