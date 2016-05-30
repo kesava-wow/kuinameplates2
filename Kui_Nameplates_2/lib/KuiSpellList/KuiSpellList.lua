@@ -119,6 +119,10 @@ local auras = {
             [43265] = true, -- death and decay
             [55095] = true, -- frost fever
             [55078] = true, -- blood plague
+            [194310] = true, -- festering wound
+            [196782] = true, -- outbreak
+            [130736] = true, -- soul reaper
+            [191587] = true, -- virulent plague
         },
         CONTROL = {
             [56222] = true, -- dark command
@@ -258,6 +262,8 @@ local auras = {
             [2818] = true,   -- deadly poison
             [8680] = true,   -- wound poison
             [137619] = true, -- marked for death
+            [195452] = true, -- nightblade
+            [206760] = true, -- night terrors
         },
         CONTROL = {
             [408] = true,    -- kidney shot
@@ -270,6 +276,7 @@ local auras = {
             [88611] = true,  -- smoke bomb
             [3409] = true,   -- crippling poison
             [115196] = true, -- debilitating poison
+            [197395] = true, -- finality: nightblade (snare)
         },
     },
     MONK = {
@@ -307,9 +314,12 @@ local auras = {
         },
         HARMFUL = {
             [207744] = true, -- fiery brand
+            [207771] = true, -- fiery brand 2
             [204598] = true, -- sigil of flame
             [204490] = true, -- sigil of silence
             [207407] = true, -- soul carver
+            [224509] = true, -- frail
+            [206491] = true, -- nemesis
 
             -- TODO
             -- bloodlet
