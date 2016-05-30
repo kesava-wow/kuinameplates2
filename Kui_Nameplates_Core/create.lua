@@ -623,6 +623,7 @@ local default_config = {
 -- bar auras proof of concept or something #####################################
 local BarAuras_PostCreateAuraButton,BarAuras_ArrangeButtons
 do
+    local orig_UpdateCooldown
     local auras_sort = function(a,b)
         -- we have to recreate this base sorting function to maintain
         -- definitive sorting
@@ -635,8 +636,6 @@ do
         end
         return a.parent.sort(a,b)
     end
-
-    local orig_UpdateCooldown
     local function BarAuras_ButtonUpdate(self)
         local remaining = self.expiration - GetTime()
 
@@ -663,7 +662,6 @@ do
             button.bar:Hide()
         end
     end
-
     function BarAuras_ArrangeButtons(self)
         -- arrange in single row
         table.sort(self.buttons,auras_sort)
