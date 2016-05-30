@@ -110,6 +110,118 @@ local function CastBar_SpellIconSetWidth(f)
     f.HealthBar:GetHeight() -- calling this seems to coax it into calculating the height ¯\_(ツ)_/¯
     f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
 end
+-- auras functions #############################################################
+local BarAuras_PostCreateAuraButton,BarAuras_ArrangeButtons
+do
+    local orig_UpdateCooldown
+    local auras_sort = function(a,b)
+        -- we have to recreate this base sorting function to maintain
+        -- definitive sorting
+        if not a.index and not b.index then
+            return
+        elseif a.index and not b.index then
+            return true
+        elseif not a.index and b.index then
+            return
+        end
+        return a.parent.sort(a,b)
+    end
+    local function BarAuras_ButtonUpdate(self)
+        local remaining = self.expiration - GetTime()
+
+        if remaining > 0 and remaining <= 10 then
+            -- update bar for last 10 seconds
+            self.bar:SetValue(remaining)
+        end
+
+        if remaining > 20 then
+            self.cd:SetTextColor(1,1,1)
+        end
+
+        self.cd:SetText(kui.FormatTime(remaining))
+        self.cd:Show()
+    end
+    local function BarAuras_ButtonUpdateCooldown(button,duration,expiration)
+        orig_UpdateCooldown(button,duration,expiration)
+
+        if expiration and expiration > 0 then
+            button.bar:Show()
+            button.bar:SetValue(10)
+            button:HookScript('OnUpdate',BarAuras_ButtonUpdate)
+        else
+            button.bar:Hide()
+        end
+    end
+    function BarAuras_ArrangeButtons(self)
+        -- arrange in single row
+        table.sort(self.buttons,auras_sort)
+
+        local prev
+        self.visible = 0
+
+        for _,button in ipairs(self.buttons) do
+            if button.spellid then
+                if not self.max or self.visible < self.max then
+                    self.visible = self.visible + 1
+                    button:ClearAllPoints()
+
+                    if not prev then
+                        button:SetPoint(self.point[1])
+                    else
+                        button:SetPoint('BOTTOMLEFT',prev,'TOPLEFT',0,self.y_spacing)
+                    end
+
+                    prev = button
+                    button:Show()
+                else
+                    button:Hide()
+                end
+            end
+        end
+    end
+    function BarAuras_PostCreateAuraButton(button)
+        -- add status bar
+        local bar = CreateFrame('StatusBar',nil,button)
+        bar:SetPoint('TOPLEFT',button.icon,'TOPRIGHT',1,0)
+        bar:SetPoint('BOTTOMLEFT',button.icon,'BOTTOMRIGHT')
+        bar:SetPoint('RIGHT',button,'RIGHT',-1,0)
+        bar:SetStatusBarTexture(kui.m.t.sbar)
+        bar:SetStatusBarColor(.3,.3,1)
+        bar:SetMinMaxValues(0,10)
+        bar:Hide()
+
+        bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',2)
+
+        button.cd:SetParent(bar)
+        button.cd:ClearAllPoints()
+        button.cd:SetPoint('LEFT',1,-1)
+
+        button.count:SetParent(bar)
+        button.count:ClearAllPoints()
+        button.count:SetPoint('RIGHT',1,-1)
+
+        button:SetWidth(button.parent:GetWidth())
+        button:SetHeight(10)
+
+        button.icon:SetSize(8,8)
+        button.icon:ClearAllPoints()
+        button.icon:SetPoint('BOTTOMLEFT',1,1)
+
+        if not orig_UpdateCooldown then
+            orig_UpdateCooldown = button.UpdateCooldown
+        end
+
+        button.UpdateCooldown = BarAuras_ButtonUpdateCooldown
+        button.bar = bar
+    end
+end
+function test.Auras_PostCreateAuraButton(button)
+    -- move text slightly for our font
+    button.cd:ClearAllPoints()
+    button.cd:SetPoint('CENTER',1,-1)
+    button.count:ClearAllPoints()
+    button.count:SetPoint('BOTTOMRIGHT',3,-3)
+end
 -- nameonly functions ##########################################################
 local function NameOnly_ClassColour(f)
     local class = select(2,UnitClass(f.unit))
@@ -620,111 +732,6 @@ end
 local default_config = {
     nameonly = true
 }
--- bar auras proof of concept or something #####################################
-local BarAuras_PostCreateAuraButton,BarAuras_ArrangeButtons
-do
-    local orig_UpdateCooldown
-    local auras_sort = function(a,b)
-        -- we have to recreate this base sorting function to maintain
-        -- definitive sorting
-        if not a.index and not b.index then
-            return
-        elseif a.index and not b.index then
-            return true
-        elseif not a.index and b.index then
-            return
-        end
-        return a.parent.sort(a,b)
-    end
-    local function BarAuras_ButtonUpdate(self)
-        local remaining = self.expiration - GetTime()
-
-        if remaining > 0 and remaining <= 10 then
-            -- update bar for last 10 seconds
-            self.bar:SetValue(remaining)
-        end
-
-        if remaining > 20 then
-            self.cd:SetTextColor(1,1,1)
-        end
-
-        self.cd:SetText(kui.FormatTime(remaining))
-        self.cd:Show()
-    end
-    local function BarAuras_ButtonUpdateCooldown(button,duration,expiration)
-        orig_UpdateCooldown(button,duration,expiration)
-
-        if expiration and expiration > 0 then
-            button.bar:Show()
-            button.bar:SetValue(10)
-            button:HookScript('OnUpdate',BarAuras_ButtonUpdate)
-        else
-            button.bar:Hide()
-        end
-    end
-    function BarAuras_ArrangeButtons(self)
-        -- arrange in single row
-        table.sort(self.buttons,auras_sort)
-
-        local prev
-        self.visible = 0
-
-        for _,button in ipairs(self.buttons) do
-            if button.spellid then
-                if not self.max or self.visible < self.max then
-                    self.visible = self.visible + 1
-                    button:ClearAllPoints()
-
-                    if not prev then
-                        button:SetPoint(self.point[1])
-                    else
-                        button:SetPoint('BOTTOMLEFT',prev,'TOPLEFT',0,self.y_spacing)
-                    end
-
-                    prev = button
-                    button:Show()
-                else
-                    button:Hide()
-                end
-            end
-        end
-    end
-    function BarAuras_PostCreateAuraButton(button)
-        -- add status bar
-        local bar = CreateFrame('StatusBar',nil,button)
-        bar:SetPoint('TOPLEFT',button.icon,'TOPRIGHT',1,0)
-        bar:SetPoint('BOTTOMLEFT',button.icon,'BOTTOMRIGHT')
-        bar:SetPoint('RIGHT',button,'RIGHT',-1,0)
-        bar:SetStatusBarTexture(kui.m.t.sbar)
-        bar:SetStatusBarColor(.3,.3,1)
-        bar:SetMinMaxValues(0,10)
-        bar:Hide()
-
-        bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',2)
-
-        button.cd:SetParent(bar)
-        button.cd:ClearAllPoints()
-        button.cd:SetPoint('LEFT',1,-1)
-
-        button.count:SetParent(bar)
-        button.count:ClearAllPoints()
-        button.count:SetPoint('RIGHT',1,-1)
-
-        button:SetWidth(button.parent:GetWidth())
-        button:SetHeight(10)
-
-        button.icon:SetSize(8,8)
-        button.icon:ClearAllPoints()
-        button.icon:SetPoint('BOTTOMLEFT',1,1)
-
-        if not orig_UpdateCooldown then
-            orig_UpdateCooldown = button.UpdateCooldown
-        end
-
-        button.UpdateCooldown = BarAuras_ButtonUpdateCooldown
-        button.bar = bar
-    end
-end
 -- register ####################################################################
 function test:Initialise()
     -- TODO resets upon chaning nameplate options
