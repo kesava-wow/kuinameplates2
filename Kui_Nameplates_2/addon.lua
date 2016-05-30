@@ -81,6 +81,11 @@ local function OnEvent(self,event,...)
         return
     end
 
+    if not IsAddOnLoaded('Blizzard_Nameplates') then
+        print('|cff9966ffKui Namemplates|r: You have disabled the built-in Blizzard_Nameplates addon which KNP requires. There will be errors. You can re-enable it with:')
+        print('    /run EnableAddOn(\'Blizzard_Nameplates\')')
+    end
+
     -- initialise plugins & elements
     if #self.plugins > 0 then
         -- sort to be initialised by order of priority
