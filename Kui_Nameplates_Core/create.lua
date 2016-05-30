@@ -8,6 +8,7 @@
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
+local kc = LibStub('KuiConfig-1.0')
 local test = addon:Layout()
 
 if not test then
@@ -159,6 +160,7 @@ local function NameOnly_NameUpdate(f)
     end
 end
 local function NameOnly_On(f)
+    if not test.profile.nameonly then return end
     if f.state.nameonly then return end
     f.state.nameonly = true
 
@@ -217,7 +219,8 @@ local function NameOnly_Off(f,skip_messages)
     f.handler:EnableElement('CastBar')
 end
 local function NameOnly_Update(f)
-    if  not UnitIsUnit('player',f.unit) and
+    if  test.profile.nameonly and
+        not UnitIsUnit('player',f.unit) and
         -- don't show on target
         not UnitIsUnit('target',f.unit) and
         -- don't show on attackable units
@@ -613,6 +616,10 @@ function test:UNIT_NAME_UPDATE(event,f)
     -- update name text colour
     NameOnly_NameUpdate(f)
 end
+-- defaults ####################################################################
+local default_config = {
+    nameonly = true
+}
 -- register ####################################################################
 function test:Initialise()
     -- TODO resets upon chaning nameplate options
@@ -642,4 +649,7 @@ function test:Initialise()
     self:RegisterEvent('QUESTLINE_UPDATE')
     self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
     self:RegisterUnitEvent('UNIT_NAME_UPDATE')
+
+    self.config = kc:Initialise('KuiNameplatesCore',default_config)
+    self.profile = self.config:GetConfig()
 end
