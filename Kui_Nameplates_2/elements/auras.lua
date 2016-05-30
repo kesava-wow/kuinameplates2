@@ -232,7 +232,6 @@ local function CreateAuraButton(parent)
         button = CreateFrame('Frame',nil,parent)
         button:SetWidth(parent.size)
         button:SetHeight(parent.icon_height)
-        button:SetFrameLevel(0)
 
         local icon = button:CreateTexture(nil, 'ARTWORK', nil, 1)
         icon:SetTexCoord(.1,.9,.1+parent.icon_ratio,.9-parent.icon_ratio)
@@ -245,7 +244,6 @@ local function CreateAuraButton(parent)
         icon:SetPoint('TOPLEFT',bg,'TOPLEFT',1,-1)
         icon:SetPoint('BOTTOMRIGHT',bg,'BOTTOMRIGHT',-1,1)
 
-        -- TODO CooldownFrames don't like being moved ?
         local cd = button:CreateFontString(nil,'OVERLAY')
         cd:SetFont(FONT, FONT_SIZE_CD, FONT_FLAGS)
         cd:SetPoint('CENTER')
@@ -445,7 +443,6 @@ local aura_meta = {
 }
 local function CreateAuraFrame(parent)
     local auraframe = CreateFrame('Frame',nil,parent)
-    auraframe:SetFrameLevel(0)
 
     -- mixin prototype (can't actually setmeta on a frame)
     for k,v in pairs(aura_meta) do
