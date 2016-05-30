@@ -620,6 +620,86 @@ end
 local default_config = {
     nameonly = true
 }
+-- bar auras proof of concept or something #####################################
+local BarAuras_PostCreateAuraButton,BarAuras_ArrangeButtons
+do
+    local orig_UpdateCooldown
+    local function BarAuras_ButtonUpdate(self)
+        local remaining = self.expiration - GetTime()
+
+        if remaining > 0 and remaining <= 10 then
+            -- update bar for last 10 seconds
+            self.bar:SetValue(remaining)
+        end
+    end
+    local function BarAuras_ButtonUpdateCooldown(button,duration,expiration)
+        orig_UpdateCooldown(button,duration,expiration)
+
+        if expiration and expiration > 0 then
+            button.bar:Show()
+            button.bar:SetValue(10)
+            button:HookScript('OnUpdate',BarAuras_ButtonUpdate)
+        else
+            button.bar:Hide()
+        end
+    end
+
+    function BarAuras_ArrangeButtons(self)
+        -- arrange in single row
+        local prev
+        self.visible = 0
+
+        for _,button in ipairs(self.buttons) do
+            if button.spellid then
+                if not self.max or self.visible < self.max then
+                    self.visible = self.visible + 1
+                    button:ClearAllPoints()
+
+                    if not prev then
+                        button:SetPoint(self.point[1])
+                    else
+                        button:SetPoint('BOTTOMLEFT',prev,'TOPLEFT',0,self.y_spacing)
+                    end
+
+                    prev = button
+                    button:Show()
+                else
+                    button:Hide()
+                end
+            end
+        end
+    end
+    function BarAuras_PostCreateAuraButton(button)
+        -- add status bar
+        local bar = CreateFrame('StatusBar',nil,button)
+        bar:SetPoint('TOPLEFT',button.icon,'TOPRIGHT',1,0)
+        bar:SetPoint('BOTTOMLEFT',button.icon,'BOTTOMRIGHT')
+        bar:SetPoint('RIGHT',button,'RIGHT',-1,0)
+        bar:SetStatusBarTexture(kui.m.t.sbar)
+        bar:SetStatusBarColor(.3,.3,1)
+        bar:SetMinMaxValues(0,10)
+        bar:Hide()
+
+        bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',2)
+
+        button.cd:SetParent(bar)
+        button.count:SetParent(bar)
+
+        button:SetWidth(button.parent:GetWidth())
+        button:SetHeight(10)
+
+        button.icon:SetSize(8,8)
+        button.icon:ClearAllPoints()
+        button.icon:SetPoint('BOTTOMLEFT',1,1)
+
+        if not orig_UpdateCooldown then
+            orig_UpdateCooldown = button.UpdateCooldown
+        end
+
+        button.UpdateCooldown = BarAuras_ButtonUpdateCooldown
+        button.bar = bar
+    end
+end
 -- register ####################################################################
 function test:Initialise()
     -- TODO resets upon chaning nameplate options
@@ -652,4 +732,10 @@ function test:Initialise()
 
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.profile = self.config:GetConfig()
+
+    -- /run KuiNameplatesCoreSaved.profiles.default.bar_auras = true
+    if self.profile.bar_auras then
+        self.Auras_ArrangeButtons = BarAuras_ArrangeButtons
+        self.Auras_PostCreateAuraButton = BarAuras_PostCreateAuraButton
+    end
 end

@@ -230,6 +230,7 @@ local function CreateAuraButton(parent)
         button = CreateFrame('Frame',nil,parent)
         button:SetWidth(parent.size)
         button:SetHeight(parent.icon_height)
+        button:SetFrameLevel(0)
 
         local icon = button:CreateTexture(nil, 'ARTWORK', nil, 1)
         icon:SetTexCoord(.1,.9,.1+parent.icon_ratio,.9-parent.icon_ratio)
@@ -442,6 +443,7 @@ local aura_meta = {
 }
 local function CreateAuraFrame(parent)
     local auraframe = CreateFrame('Frame',nil,parent)
+    auraframe:SetFrameLevel(0)
 
     -- mixin prototype (can't actually setmeta on a frame)
     for k,v in pairs(aura_meta) do
@@ -470,6 +472,7 @@ end
 -- prototype additions #########################################################
 function addon.Nameplate.CreateAuraFrame(f,frame_def)
     -- TODO update documentation to reflect this change
+    -- (creating aura frames via handler function)
     f = f.parent
     local new_frame = CreateAuraFrame(f)
 
