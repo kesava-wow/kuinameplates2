@@ -631,6 +631,13 @@ do
             -- update bar for last 10 seconds
             self.bar:SetValue(remaining)
         end
+
+        if remaining > 20 then
+            self.cd:SetTextColor(1,1,1)
+        end
+
+        self.cd:SetText(kui.FormatTime(remaining))
+        self.cd:Show()
     end
     local function BarAuras_ButtonUpdateCooldown(button,duration,expiration)
         orig_UpdateCooldown(button,duration,expiration)
@@ -683,7 +690,12 @@ do
         bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',2)
 
         button.cd:SetParent(bar)
+        button.cd:ClearAllPoints()
+        button.cd:SetPoint('LEFT',1,-1)
+
         button.count:SetParent(bar)
+        button.count:ClearAllPoints()
+        button.count:SetPoint('RIGHT',1,-1)
 
         button:SetWidth(button.parent:GetWidth())
         button:SetHeight(10)
