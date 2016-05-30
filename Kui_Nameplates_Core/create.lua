@@ -623,6 +623,19 @@ local default_config = {
 -- bar auras proof of concept or something #####################################
 local BarAuras_PostCreateAuraButton,BarAuras_ArrangeButtons
 do
+    local auras_sort = function(a,b)
+        -- we have to recreate this base sorting function to maintain
+        -- definitive sorting
+        if not a.index and not b.index then
+            return
+        elseif a.index and not b.index then
+            return true
+        elseif not a.index and b.index then
+            return
+        end
+        return a.parent.sort(a,b)
+    end
+
     local orig_UpdateCooldown
     local function BarAuras_ButtonUpdate(self)
         local remaining = self.expiration - GetTime()
@@ -653,6 +666,8 @@ do
 
     function BarAuras_ArrangeButtons(self)
         -- arrange in single row
+        table.sort(self.buttons,auras_sort)
+
         local prev
         self.visible = 0
 
