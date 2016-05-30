@@ -171,8 +171,8 @@ local function NameOnly_On(f)
     f.ThreatBrackets:Hide()
     f.TargetGlow:Hide()
 
-    f.NameText:SetShadowOffset(0,-2)
-    f.NameText:SetShadowColor(0,0,0,.3)
+    f.NameText:SetShadowOffset(1,-1)
+    f.NameText:SetShadowColor(0,0,0,1)
 
     f.NameText:ClearAllPoints()
     f.NameText:SetParent(f)
@@ -341,6 +341,8 @@ function test:Create(f)
     local guildtext = f:CreateFontString(nil,'OVERLAY')
     guildtext:SetFont(FONT, 9, 'THINOUTLINE')
     guildtext:SetPoint('TOP',name,'BOTTOM', 0, -2)
+    guildtext:SetShadowOffset(1,-1)
+    guildtext:SetShadowColor(0,0,0,1)
     guildtext:Hide()
 
     f.GuildText = guildtext
