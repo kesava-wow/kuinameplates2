@@ -13,6 +13,10 @@ addon.debug = true
 --addon.debug_messages = true
 --addon.draw_frames = true
 
+-- kui nameplate container frame size
+addon.uiscale = .71 -- updated upon reload
+addon.width,addon.height = 140,40
+
 local framelist = {}
 
 -- plugin & element vars
@@ -21,11 +25,6 @@ local function PluginSort(a,b)
     return a.priority > b.priority
 end
 addon.plugins = {}
-
--- this is the size of the container, not the visible frame
--- changing it will cause positioning problems
-local width, height = 142, 40
-local update_frame_levels
 --------------------------------------------------------------------------------
 function addon:print(msg)
     if not addon.debug then return end
@@ -64,6 +63,15 @@ function addon:NAME_PLATE_UNIT_REMOVED(unit)
         f.kui.handler:OnHide()
     end
 end
+function addon:UI_SCALE_CHANGED()
+    self.uiscale = UIParent:GetEffectiveScale()
+
+    if #framelist > 0 then
+        for i,f in self:Frames() do
+            f:SetScale(self.uiscale)
+        end
+    end
+end
 --------------------------------------------------------------------------------
 local function OnEvent(self,event,...)
     if event ~= 'PLAYER_LOGIN' then
@@ -72,13 +80,6 @@ local function OnEvent(self,event,...)
         end
         return
     end
-
-    self.uiscale = UIParent:GetEffectiveScale()
-    -- TODO i think this might be obsolete
-    --self.uiscale = .71
-
-    -- get the pixel-perfect width/height of the default, non-trivial frames
-    self.width, self.height = floor(width / self.uiscale), floor(height / self.uiscale)
 
     -- initialise plugins & elements
     if #self.plugins > 0 then
@@ -109,3 +110,4 @@ addon:RegisterEvent('PLAYER_LOGIN')
 addon:RegisterEvent('NAME_PLATE_CREATED')
 addon:RegisterEvent('NAME_PLATE_UNIT_ADDED')
 addon:RegisterEvent('NAME_PLATE_UNIT_REMOVED')
+addon:RegisterEvent('UI_SCALE_CHANGED')

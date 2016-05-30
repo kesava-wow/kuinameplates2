@@ -58,14 +58,14 @@ function addon:HookNameplate(frame)
     end)
 
     frame.kui:SetScale(self.uiscale)
-    frame.kui:SetSize(self.width, self.height)
+    frame.kui:SetSize(self.width,self.height)
 
     if self.draw_frames then
         -- debug; visible frame sizes
-        frame:SetBackdrop({ bgFile = kui.m.t.solid })
-        frame:SetBackdropColor(0,0,0,.5)
-        frame.kui:SetBackdrop({ bgFile = kui.m.t.solid })
-        frame.kui:SetBackdropColor(1,1,1,.5)
+        frame:SetBackdrop({ edgeFile = kui.m.t.solid, edgeSize = 1 })
+        frame:SetBackdropBorderColor(0,0,0)
+        frame.kui:SetBackdrop({ edgeFile = kui.m.t.solid, edgeSize = 1 })
+        frame.kui:SetBackdropBorderColor(1,1,1)
     end
 
     frame.kui.handler = { parent = frame.kui }

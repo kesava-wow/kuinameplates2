@@ -30,7 +30,6 @@ local sizes = {
     glow = 8,
     no_name = 7
 }
-local x,y
 
 local target_glow_colour = { .3, .7, 1, 1 }
 -- texture coords for the frame glow
@@ -465,12 +464,11 @@ function test:Show(f)
         f.HealthBar:SetSize(sizes.width, sizes.height)
     end
 
-    -- calculate where the health bar needs to go to be visually centred
-    -- while remaining pixel-perfect ('CENTER' does not)
-    x = floor((addon.width / 2) - (f.HealthBar:GetWidth() / 2))
-    y = floor((addon.height / 2) - (f.HealthBar:GetHeight() / 2))
+    -- calculate center to remain pixel-perfect
+    f.x = floor((addon.width / 2) - (f.HealthBar:GetWidth() / 2))
+    f.y = floor((addon.height / 2) - (f.HealthBar:GetHeight() / 2))
 
-    f.HealthBar:SetPoint('BOTTOMLEFT', x, y)
+    f.HealthBar:SetPoint('BOTTOMLEFT', f.x, f.y)
 
     -- go into nameonly mode if desired
     NameOnly_Update(f)
