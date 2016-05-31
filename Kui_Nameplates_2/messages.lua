@@ -243,7 +243,13 @@ end
 function message.AddCallback(table,target,name,func)
     -- add a callback function
     if type(func) ~= 'function' then
-        addon:print(table.name..': invalid called to AddCallback')
+        addon:print((table.name or 'nil')..': invalid called to AddCallback: no function')
+        return
+    end
+
+    target = addon:GetPlugin(target)
+    if not target then
+        addon:print((table.name or 'nil')..': invalid called to AddCallback: no plugin by given name')
         return
     end
 
@@ -255,9 +261,9 @@ function message.AddCallback(table,target,name,func)
             target.callbacks[name] = {}
         end
 
-        tinsert(table.callbacks[name],func)
+        tinsert(target.callbacks[name],func)
     else
-        addon:print(table.name..': no callback '..name..' in '..target.name)
+        addon:print((table.name or 'nil')..': no callback '..name..' in '..(target.name or 'nil'))
     end
 end
 function message.HasCallback(table,name)
@@ -327,6 +333,11 @@ function addon:NewPlugin(name,priority)
     tinsert(addon.plugins, pluginTable)
 
     return pluginTable
+end
+function addon:GetPlugin(name)
+    for i,plugin in ipairs(addon.plugins) do
+        if plugin.name == name then return plugin end
+    end
 end
 -------------------------------------------------- external element registrar --
 -- elements are just plugins with a lower default priority

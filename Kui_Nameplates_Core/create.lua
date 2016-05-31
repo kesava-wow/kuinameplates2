@@ -735,7 +735,8 @@ function test:UNIT_NAME_UPDATE(event,f)
 end
 -- defaults ####################################################################
 local default_config = {
-    nameonly = true
+    nameonly = true,
+    bar_auras = false
 }
 -- register ####################################################################
 function test:Initialise()
@@ -774,7 +775,7 @@ function test:Initialise()
 
     -- /run KuiNameplatesCoreSaved.profiles.default.bar_auras = true
     if self.profile.bar_auras then
-        self.Auras_ArrangeButtons = BarAuras_ArrangeButtons
-        self.Auras_PostCreateAuraButton = BarAuras_PostCreateAuraButton
+        self:AddCallback('Auras','ArrangeButtons',BarAuras_ArrangeButtons)
+        self:AddCallback('Auras','PostCreateAuraButton',BarAuras_PostCreateAuraButton)
     end
 end

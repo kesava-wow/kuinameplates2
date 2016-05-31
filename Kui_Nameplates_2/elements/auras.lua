@@ -66,10 +66,6 @@ local row_growth_points = {
     UP = {'BOTTOM','TOP'},
     DOWN = {'TOP','BOTTOM'}
 }
--- callback functions
--- TODO should probably make a helper for this really.
-local cb_CreateAuraButton, cb_PostCreateAuraButton, cb_ArrangeButtons,
-      cb_PostCreateAuraFrame
 -- aura sorting functions ######################################################
 local index_sort = function(a,b)
     -- sort by aura index
@@ -226,9 +222,7 @@ local button_meta = {
 local function CreateAuraButton(parent)
     local button
 
-    if cb_CreateAuraButton then
-        button = cb_CreateAuraButton(parent)
-    else
+    if not ele:RunCallback('CreateAuraButton',parent) then
         button = CreateFrame('Frame',nil,parent)
         button:SetWidth(parent.size)
         button:SetHeight(parent.icon_height)
@@ -265,9 +259,7 @@ local function CreateAuraButton(parent)
         button[k] = v
     end
 
-    if cb_PostCreateAuraButton then
-        cb_PostCreateAuraButton(button)
-    end
+    ele:RunCallback('PostCreateAuraButton',button)
 
     return button
 end
@@ -285,7 +277,7 @@ local function AuraFrame_Update(self)
 
     self:ArrangeButtons()
 
-    if self.visible > 0 then
+    if self.visible and self.visible > 0 then
         self:Show()
     else
         self:Hide()
@@ -374,8 +366,7 @@ local function AuraFrame_HideAllButtons(self)
     end
 end
 local function AuraFrame_ArrangeButtons(self)
-    if cb_ArrangeButtons then
-        cb_ArrangeButtons(self)
+    if ele:RunCallback('ArrangeButtons',self) then
         return
     end
 
@@ -458,9 +449,7 @@ local function CreateAuraFrame(parent)
     auraframe.buttons = {}
     auraframe.spellids = {}
 
-    if cb_PostCreateAuraFrame then
-        cb_PostCreateAuraFrame(auraframe)
-    end
+    ele:RunCallback('PostCreateAuraFrame',auraframe)
 
     return auraframe
 end
@@ -555,25 +544,19 @@ function ele:Initialised()
 
     class = select(2,UnitClass('player'))
 
-    -- populate callbacks
-    if type(addon.layout.Auras_ArrangeButtons) == 'function' then
-        cb_ArrangeButtons = addon.layout.Auras_ArrangeButtons
-    end
-    if type(addon.layout.Auras_CreateAuraButton) == 'function' then
-        cb_CreateAuraButton = addon.layout.Auras_CreateAuraButton
-    end
-    if type(addon.layout.Auras_PostCreateAuraButton) == 'function' then
-        cb_PostCreateAuraButton = addon.layout.Auras_PostCreateAuraButton
-    end
-    if type(addon.layout.Auras_PostCreateAuraFrame) == 'function' then
-        cb_PostCreateAuraFrame = addon.layout.Auras_PostCreateAuraFrame
-    end
-
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
 
     self:RegisterUnitEvent('UNIT_AURA')
     self:RegisterUnitEvent('UNIT_FACTION')
 end
+function ele:Initialise()
+    -- register callbacks
+    ele:RegisterCallback('ArrangeButtons')
+    ele:RegisterCallback('CreateAuraButton')
+    ele:RegisterCallback('PostCreateAuraButton')
+    ele:RegisterCallback('PostCreateAuraFrame')
 
-ele:RegisterMessage('Initialised')
+    ele:RegisterMessage('Initialised')
+end
+
