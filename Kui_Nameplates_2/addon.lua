@@ -22,7 +22,7 @@ local framelist = {}
 -- plugin & element vars
 local sort, tinsert = table.sort, tinsert
 local function PluginSort(a,b)
-    return a.priority > b.priority
+    return a.priority < b.priority
 end
 addon.plugins = {}
 --------------------------------------------------------------------------------
