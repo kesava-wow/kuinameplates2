@@ -36,19 +36,19 @@
     Callbacks
     =========
 
-    layout.Auras_ArrangeButtons(auraframe)
+    ArrangeButtons(auraframe)
         Used to replace the built in ArrangeButtons function which arranges the
         aura buttons in the aura frame whenever they are updated.
 
-    layout.Auras_CreateAuraButton(auraframe)
+    CreateAuraButton(auraframe)
         Used to replace the built in CreateAuraButton function. Button functions
         will be mixed-in to the returned frame which can then be edited via the
         PostCreateAuraButton callback.
 
-    layout.Auras_PostCreateAuraButton(button)
+    PostCreateAuraButton(button)
         Called after an aura button is created.
 
-    layout.Auras_PostCreateAuraFrame(auraframe)
+    PostCreateAuraFrame(auraframe)
         Called after an aura frame is created.
 
 ]]
