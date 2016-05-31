@@ -240,7 +240,7 @@ function message.RegisterCallback(table,name)
     end
     table.__CALLBACKS[name] = true
 end
-function message.AddCallback(table,target,name,func)
+function message.AddCallback(table,target,name,func,priority)
     -- add a callback function
     if type(func) ~= 'function' then
         addon:print((table.name or 'nil')..': invalid call to AddCallback: no function')
@@ -253,6 +253,12 @@ function message.AddCallback(table,target,name,func)
         return
     end
 
+    if not priority then
+        priority = table.priority or 0
+    end
+
+    local insert_tbl = { func,priority }
+
     if target.__CALLBACKS and target.__CALLBACKS[name] then
         if not target.callbacks then
             target.callbacks = {}
@@ -261,7 +267,18 @@ function message.AddCallback(table,target,name,func)
             target.callbacks[name] = {}
         end
 
-        tinsert(target.callbacks[name],func)
+        local inserted
+        for i,cb in ipairs(target.callbacks[name]) do
+            if cb[2] > priority then
+                tinsert(target.callbacks[name],i,insert_tbl)
+                inserted = true
+                break
+            end
+        end
+
+        if not inserted then
+            tinsert(target.callbacks[name],insert_tbl)
+        end
     else
         addon:print((table.name or 'nil')..': no callback '..name..' in '..(target.name or 'nil'))
     end
@@ -276,8 +293,8 @@ end
 function message.RunCallback(table,name,...)
     -- run this plugin's named callback
     if not table:HasCallback(name) then return end
-    for i,func in ipairs(table.callbacks[name]) do
-        func(...)
+    for i,cb in ipairs(table.callbacks[name]) do
+        cb[1](...)
     end
     return true
 end
