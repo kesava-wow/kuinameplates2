@@ -165,7 +165,10 @@ local function NameOnly_NameUpdate(f)
 
         NameOnly_HealthUpdate(f)
     else
-        if UnitIsPlayer(f.unit) and UnitIsFriend('player',f.unit) then
+        if  not UnitIsUnit(f.unit,'player') and
+            UnitIsPlayer(f.unit) and
+            UnitIsFriend('player',f.unit)
+        then
             -- friendly player class colour
             f.NameText:SetTextColor(NameOnly_ClassColour(f))
         else
