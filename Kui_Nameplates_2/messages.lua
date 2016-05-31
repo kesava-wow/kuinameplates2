@@ -243,13 +243,13 @@ end
 function message.AddCallback(table,target,name,func)
     -- add a callback function
     if type(func) ~= 'function' then
-        addon:print((table.name or 'nil')..': invalid called to AddCallback: no function')
+        addon:print((table.name or 'nil')..': invalid call to AddCallback: no function')
         return
     end
 
     target = addon:GetPlugin(target)
     if not target then
-        addon:print((table.name or 'nil')..': invalid called to AddCallback: no plugin by given name')
+        addon:print((table.name or 'nil')..': invalid call to AddCallback: no plugin by given name')
         return
     end
 
