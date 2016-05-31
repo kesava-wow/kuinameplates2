@@ -206,6 +206,7 @@ do
         button.icon:SetSize(8,8)
         button.icon:ClearAllPoints()
         button.icon:SetPoint('BOTTOMLEFT',1,1)
+        button.icon:SetTexCoord(.1,.9,.1,.9)
 
         if not orig_UpdateCooldown then
             orig_UpdateCooldown = button.UpdateCooldown
