@@ -232,6 +232,49 @@ function message.UnregisterAllEvents(table)
     end
     table.__EVENTS = nil
 end
+------------------------------------------------------------- callback helper --
+function message.RegisterCallback(table,name)
+    -- register a callback to this plugin
+    if not table.__CALLBACKS then
+        table.__CALLBACKS = {}
+    end
+    table.__CALLBACKS[name] = true
+end
+function message.AddCallback(table,target,name,func)
+    -- add a callback function
+    if type(func) ~= 'function' then
+        addon:print(table.name..': invalid called to AddCallback')
+        return
+    end
+
+    if target.__CALLBACKS and target.__CALLBACKS[name] then
+        if not target.callbacks then
+            target.callbacks = {}
+        end
+        if not target.callbacks[name] then
+            target.callbacks[name] = {}
+        end
+
+        tinsert(table.callbacks[name],func)
+    else
+        addon:print(table.name..': no callback '..name..' in '..target.name)
+    end
+end
+function message.HasCallback(table,name)
+    if  table.__CALLBACKS and table.__CALLBACKS[name] and table.callbacks and
+        table.callbacks[name] and #table.callbacks[name] > 0
+    then
+        return true
+    end
+end
+function message.RunCallback(table,name,...)
+    -- run this plugin's named callback
+    if not table:HasCallback(name) then return end
+    for i,func in ipairs(table.callbacks[name]) do
+        func(...)
+    end
+    return true
+end
 ------------------------------------------------------- plugin-only functions --
 local function plugin_Enable(table)
     if type(table.OnEnable) == 'function' then
