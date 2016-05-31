@@ -112,6 +112,7 @@ local function CastBar_SpellIconSetWidth(f)
 end
 -- auras functions #############################################################
 local function Auras_PostCreateAuraButton(button)
+    -- TODO this overwrites bar auras
     -- move text slightly for our font
     button.cd:ClearAllPoints()
     button.cd:SetPoint('CENTER',1,-1)
