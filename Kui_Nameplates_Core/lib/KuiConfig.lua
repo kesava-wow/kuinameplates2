@@ -45,6 +45,9 @@ function config_meta:SetConfig(k,v)
     if not self.profile then return end
     self.profile[k] = v
 
+    -- TODO debug
+    LibStub('Kui-1.0').print(self.profile)
+
     -- TODO emit config changed to listeners
 end
 

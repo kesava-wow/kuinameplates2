@@ -635,7 +635,8 @@ function test:UNIT_NAME_UPDATE(event,f)
 end
 -- defaults ####################################################################
 local default_config = {
-    nameonly = true
+    nameonly = true,
+    hide_names = true
 }
 -- register ####################################################################
 function test:Initialise()
@@ -671,6 +672,10 @@ function test:Initialise()
 
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.profile = self.config:GetConfig()
+
+    if KuiNameplatesCoreConfig then
+        KuiNameplatesCoreConfig:LayoutLoaded()
+    end
 
     self:AddCallback('Auras','PostCreateAuraButton',Auras_PostCreateAuraButton)
 end
