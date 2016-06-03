@@ -597,7 +597,8 @@ end
 function test:ShowNameUpdate(f)
     if f.state.nameonly then return end
 
-    if  f.handler:IsTarget() or
+    if  not test.profile.hide_names or
+        f.handler:IsTarget() or
         f.state.threat or
         UnitShouldDisplayName(f.unit)
     then
@@ -672,6 +673,10 @@ function test:Initialise()
 
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.profile = self.config:GetConfig()
+
+    self.config:SetListener(function(self,k,v)
+        test.profile = self:GetConfig()
+    end)
 
     if KuiNameplatesCoreConfig then
         KuiNameplatesCoreConfig:LayoutLoaded()

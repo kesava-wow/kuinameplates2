@@ -48,7 +48,10 @@ function config_meta:SetConfig(k,v)
     -- TODO debug
     LibStub('Kui-1.0').print(self.profile)
 
-    -- TODO emit config changed to listeners
+    -- TODO
+    if type(self.listener) == 'function' then
+        self:listener(k,v)
+    end
 end
 
 function config_meta:GetProfile(profile_name)
@@ -70,6 +73,12 @@ end
 function config_meta:GetActiveProfile()
     self.profile = self:GetProfile(self.csv.profile)
     return self.profile
+end
+
+function config_meta:SetListener(func)
+    if type(func) == 'function' then
+        self.listener = func
+    end
 end
 
 function kc:Initialise(var_prefix,defaults)
