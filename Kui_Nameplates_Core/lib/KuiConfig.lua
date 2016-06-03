@@ -11,6 +11,10 @@ if not kc then
     return
 end
 
+function kc:print(m)
+    print(MAJOR..'-'..MINOR..': '..(m or 'nil'))
+end
+
 local config_meta = {}
 config_meta.__index = config_meta
 
@@ -53,9 +57,20 @@ function config_meta:SetConfig(k,v)
     LibStub('Kui-1.0').print(self.profile)
     LibStub('Kui-1.0').print(_G[self.gsv_name].profiles[self.csv.profile])
 
-    -- TODO
-    if type(self.listener) == 'function' then
-        self:listener(k,v)
+    -- dispatch to configChanged listeners
+    if type(self.listeners) == 'table' then
+        for i,listener_tbl in ipairs(self.listeners) do
+            local listener,func = unpack(listener_tbl)
+
+            if  listener and
+                type(func) == 'string' and
+                type(listener[func]) == 'function'
+            then
+                listener[func](listener,self,k,v)
+            elseif type(func) == 'function' then
+                func(self,k,v)
+            end
+        end
     end
 end
 
@@ -80,9 +95,17 @@ function config_meta:GetActiveProfile()
     return self.profile
 end
 
-function config_meta:SetListener(func)
-    if type(func) == 'function' then
-        self.listener = func
+function config_meta:RegisterConfigChanged(arg1,arg2)
+    if not self.listeners then
+        self.listeners = {}
+    end
+
+    if type(arg1) == 'table' and type(arg2) == 'string' and arg1[arg2] then
+        tinsert(self.listeners,{arg1,arg2})
+    elseif type(arg1) == 'function' then
+        tinsert(self.listeners,{nil,arg1})
+    else
+       kc:print('invalid arguments to RegisterConfigChanged: no function')
     end
 end
 

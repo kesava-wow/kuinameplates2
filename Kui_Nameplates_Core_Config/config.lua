@@ -99,6 +99,10 @@ function opt:LayoutLoaded()
 
     config = knp.layout.config
     profile = config:GetConfig()
+
+    config:RegisterConfigChanged(function(self)
+        profile = self:GetConfig()
+    end)
 end
 
 opt:SetScript('OnEvent',function(self,event,addon)

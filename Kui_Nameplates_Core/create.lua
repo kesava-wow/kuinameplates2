@@ -728,7 +728,7 @@ function test:Initialise()
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.profile = self.config:GetConfig()
 
-    self.config:SetListener(function(self,k,v)
+    self.config:RegisterConfigChanged(function(self)
         test.profile = self:GetConfig()
     end)
 
