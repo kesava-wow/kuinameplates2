@@ -24,12 +24,12 @@ local CLASS_COLOURS = {
 
 local FONT = kui.m.f.francois
 local sizes = {
-    width = 130,
-    height = 11,
-    trivial_width = 70,
-    trivial_height = 7,
+    width = 132,
+    height = 13,
+    trivial_width = 72,
+    trivial_height = 9,
     glow = 8,
-    no_name = 7
+    no_name = 9
 }
 
 local target_glow_colour = { .3, .7, 1, 1 }
@@ -50,9 +50,9 @@ local TB_WIDTH = TB_HEIGHT * TB_RATIO
 local TB_X_OFFSET = TB_WIDTH * TB_PIXEL_LEFTMOST
 local TB_POINTS = {
     { 'BOTTOMLEFT', 'TOPLEFT',    -TB_X_OFFSET,    2   },
-    { 'BOTTOMRIGHT','TOPRIGHT',    TB_X_OFFSET-1,  2   },
+    { 'BOTTOMRIGHT','TOPRIGHT',    TB_X_OFFSET,  2   },
     { 'TOPLEFT',    'BOTTOMLEFT', -TB_X_OFFSET,   -2.5 },
-    { 'TOPRIGHT',   'BOTTOMRIGHT', TB_X_OFFSET-1, -2.5 }
+    { 'TOPRIGHT',   'BOTTOMRIGHT', TB_X_OFFSET, -2.5 }
 }
 
 -- frame glow functions
@@ -105,9 +105,39 @@ local function TB_Hide(self)
     end
 end
 
+local function UpdateFrameSize(f)
+    -- set frame size and position
+    if f.state.minus then
+        -- set elements to micro sizes
+        f.bg:SetSize(sizes.trivial_width, sizes.trivial_height)
+    else
+        -- set elements to normal sizes
+        f.bg:SetSize(sizes.width, sizes.height)
+    end
+
+    if f.state.no_name then
+        f.bg:SetHeight(sizes.no_name)
+    end
+
+    local hb_height = f.bg:GetHeight() - 2
+
+    if f.PowerBar:IsShown() then
+        hb_height = hb_height - 3
+        f.PowerBar:SetHeight(2)
+    end
+
+    f.HealthBar:SetHeight(hb_height)
+
+    -- calculate center to remain pixel-perfect
+    f.x = floor((addon.width / 2) - (f.bg:GetWidth() / 2))
+    f.y = floor((addon.height / 2) - (f.bg:GetHeight() / 2))
+
+    f.bg:SetPoint('BOTTOMLEFT', f.x, f.y)
+end
+
 local function CastBar_SpellIconSetWidth(f)
     -- set spell icon width
-    f.HealthBar:GetHeight() -- calling this seems to coax it into calculating the height ¯\_(ツ)_/¯
+    f.bg:GetHeight() -- calling this seems to coax it into calculating the height ¯\_(ツ)_/¯
     f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
 end
 -- auras functions #############################################################
@@ -282,13 +312,14 @@ function test:Create(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
+        f.bg = bg
 
         healthbar = CreateFrame('StatusBar', nil, f)
         healthbar:SetStatusBarTexture(kui.m.t.bar)
         healthbar:SetFrameLevel(0)
 
-        bg:SetPoint('TOPLEFT', healthbar, -1, 1)
-        bg:SetPoint('BOTTOMRIGHT', healthbar, 1, -1)
+        healthbar:SetPoint('TOPLEFT', bg, 1, -1)
+        healthbar:SetPoint('RIGHT',bg,-1,0)
 
         fill:SetAllPoints(healthbar)
 
@@ -299,6 +330,15 @@ function test:Create(f)
         healthbar.SetStatusBarColor = HealthBar_SetStatusBarColor
 
         f.handler:SetBarAnimation(healthbar,'cutaway')
+
+        local powerbar = CreateFrame('StatusBar',nil,healthbar)
+        powerbar:SetStatusBarTexture(kui.m.t.sbar)
+        powerbar:SetFrameLevel(0)
+
+        powerbar:SetPoint('TOPLEFT', healthbar, 'BOTTOMLEFT', 0, -1)
+        powerbar:SetPoint('RIGHT',bg,-1,0)
+
+        f.handler:SetBarAnimation(powerbar,'cutaway')
 
         local glow = { sides = {} }
         setmetatable(glow,glow_prototype)
@@ -311,12 +351,12 @@ function test:Create(f)
             tinsert(glow.sides, side)
         end
 
-        glow.sides[1]:SetPoint('BOTTOMLEFT', bg, 'TOPLEFT', 1, -1)
-        glow.sides[1]:SetPoint('BOTTOMRIGHT', bg, 'TOPRIGHT', -1, -1)
+        glow.sides[1]:SetPoint('BOTTOMLEFT', bg, 'TOPLEFT')
+        glow.sides[1]:SetPoint('BOTTOMRIGHT', bg, 'TOPRIGHT')
         glow.sides[1]:SetHeight(sizes.glow)
 
-        glow.sides[2]:SetPoint('TOPLEFT', bg, 'BOTTOMLEFT', 1, 1)
-        glow.sides[2]:SetPoint('TOPRIGHT', bg, 'BOTTOMRIGHT', -1, 1)
+        glow.sides[2]:SetPoint('TOPLEFT', bg, 'BOTTOMLEFT')
+        glow.sides[2]:SetPoint('TOPRIGHT', bg, 'BOTTOMRIGHT')
         glow.sides[2]:SetHeight(sizes.glow)
 
         glow.sides[3]:SetPoint('TOPRIGHT', glow.sides[1], 'TOPLEFT')
@@ -328,6 +368,7 @@ function test:Create(f)
         glow.sides[4]:SetWidth(sizes.glow)
 
         f.handler:RegisterElement('HealthBar', healthbar)
+        f.handler:RegisterElement('PowerBar', powerbar)
         f.handler:RegisterElement('ThreatGlow', glow)
     end
 
@@ -336,8 +377,8 @@ function test:Create(f)
     targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
     targetglow:SetTexCoord(0,.593,0,.875)
     targetglow:SetHeight(7)
-    targetglow:SetPoint('TOPLEFT',healthbar,'BOTTOMLEFT',0,1)
-    targetglow:SetPoint('TOPRIGHT',healthbar,'BOTTOMRIGHT',0,1)
+    targetglow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,1)
+    targetglow:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
     targetglow:SetVertexColor(unpack(target_glow_colour))
     targetglow:Hide()
 
@@ -401,8 +442,8 @@ function test:Create(f)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
         bg:SetHeight(5)
-        bg:SetPoint('TOPLEFT', healthbar, 'BOTTOMLEFT', -1, -2)
-        bg:SetPoint('TOPRIGHT', healthbar, 'BOTTOMRIGHT', 1, 0)
+        bg:SetPoint('TOPLEFT', f.bg, 'BOTTOMLEFT', 0, -1)
+        bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
 
         local castbar = CreateFrame('StatusBar', nil, f)
         castbar:SetFrameLevel(0)
@@ -471,38 +512,28 @@ function test:Create(f)
     })
     auras:SetWidth(124)
     auras:SetHeight(10)
-    auras:SetPoint('BOTTOMLEFT',healthbar.bg,'TOPLEFT',4,15)
+    auras:SetPoint('BOTTOMLEFT',f.bg,'TOPLEFT',4,15)
 
     f.handler:RegisterElement('NameText', name)
     f.handler:RegisterElement('Highlight', highlight)
 end
 -- messages ####################################################################
 function test:Show(f)
-    if f.state.minus then
-        -- set elements to micro sizes
-        f.HealthBar:SetSize(sizes.trivial_width, sizes.trivial_height)
-    else
-        -- set elements to normal sizes
-        f.HealthBar:SetSize(sizes.width, sizes.height)
-    end
-
-    -- calculate center to remain pixel-perfect
-    f.x = floor((addon.width / 2) - (f.HealthBar:GetWidth() / 2))
-    f.y = floor((addon.height / 2) - (f.HealthBar:GetHeight() / 2))
-
-    f.HealthBar:SetPoint('BOTTOMLEFT', f.x, f.y)
-
     -- go into nameonly mode if desired
     NameOnly_Update(f)
     -- set initial glow colour
     self:GlowColourChange(f)
     -- hide name if desired
     self:ShowNameUpdate(f)
+    -- show/hide powerbar
+    self:PowerUpdate(f,true)
 
     if not f.state.nameonly then
         -- set name text colour
         NameOnly_NameUpdate(f)
     end
+
+    UpdateFrameSize(f)
 end
 function test:Hide(f)
     -- reset nameonly elements
@@ -521,6 +552,28 @@ function test:HealthColourChange(f)
     if not f.state.nameonly and UnitIsUnit('target',f.unit) then
         -- re-set name text colour of the current target
         NameOnly_NameUpdate(f)
+    end
+end
+function test:PowerUpdate(f,on_show)
+    if  UnitIsUnit(f.unit,'player') and
+        f.state.power_type
+        and UnitPowerMax(f.unit,f.state.power_type) > 0
+    then
+        if not f.elements.PowerBar then
+            f.handler:EnableElement('PowerBar')
+
+            f.PowerBar:SetMinMaxValues(0,UnitPowerMax(f.unit,f.state.power_type))
+            f.PowerBar:SetValue(UnitPower(f.unit,f.state.power_type))
+        end
+
+        f.PowerBar:Show()
+    else
+        f.handler:DisableElement('PowerBar')
+        f.PowerBar:Hide()
+    end
+
+    if not on_show then
+        UpdateFrameSize(f)
     end
 end
 function test:GlowColourChange(f)
@@ -603,16 +656,13 @@ function test:ShowNameUpdate(f)
         UnitShouldDisplayName(f.unit)
     then
         f.NameText:Show()
-
-        if f.state.minus then
-            f.HealthBar:SetHeight(sizes.trivial_height)
-        else
-            f.HealthBar:SetHeight(sizes.height)
-        end
+        f.state.no_name = nil
     else
         f.NameText:Hide()
-        f.HealthBar:SetHeight(sizes.no_name)
+        f.state.no_name = true
     end
+
+    UpdateFrameSize(f)
 
     if f.state.casting then
         CastBar_SpellIconSetWidth(f)
@@ -653,7 +703,7 @@ function test:Initialise()
         icon_texture = 'interface/addons/kui_nameplates/media/combopoint-round',
         glow_texture = 'interface/addons/kui_nameplates/media/combopoint-glow',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
-        point = { 'TOP','HealthBar','BOTTOM',0,3 }
+        point = { 'TOP','bg','BOTTOM',0,3 }
     }
 
     self:RegisterMessage('Create')
@@ -661,6 +711,7 @@ function test:Initialise()
     self:RegisterMessage('Hide')
     self:RegisterMessage('HealthUpdate')
     self:RegisterMessage('HealthColourChange')
+    self:RegisterMessage('PowerUpdate')
     self:RegisterMessage('GlowColourChange')
     self:RegisterMessage('CastBarShow')
     self:RegisterMessage('CastBarHide')

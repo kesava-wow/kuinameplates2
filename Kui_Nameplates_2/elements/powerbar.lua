@@ -6,6 +6,8 @@ local colours = {}
 
 -- prototype additions #########################################################
 function addon.Nameplate.UpdatePower(f,show,power_type)
+    -- TODO i'm guessing UNIT_POWER will sometimes fire for the power type that
+    -- we aren't currently displaying, which would break this.
     f = f.parent
 
     f.state.power_type = power_type
