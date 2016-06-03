@@ -29,8 +29,8 @@ function config_meta:GetConfig()
     end
 
     for k,v in pairs(self.profile) do
-        if self.defaults[k] and v == self.defaults[k] then
-            -- unset variables which equal the default settings
+        if self.defaults[k] == nil or self.defaults[k] == v then
+            -- unset variables which don't exist or which equal the defaults
             self.profile[k] = nil
         else
             -- apply saved variables from profile
