@@ -47,12 +47,12 @@ local TB_PIXEL_LEFTMOST = .28125
 local TB_RATIO = 2
 local TB_HEIGHT = 18
 local TB_WIDTH = TB_HEIGHT * TB_RATIO
-local TB_X_OFFSET = TB_WIDTH * TB_PIXEL_LEFTMOST
+local TB_X_OFFSET = floor((TB_WIDTH * TB_PIXEL_LEFTMOST)-1)
 local TB_POINTS = {
-    { 'BOTTOMLEFT', 'TOPLEFT',    -TB_X_OFFSET,    2   },
-    { 'BOTTOMRIGHT','TOPRIGHT',    TB_X_OFFSET,  2   },
-    { 'TOPLEFT',    'BOTTOMLEFT', -TB_X_OFFSET,   -2.5 },
-    { 'TOPRIGHT',   'BOTTOMRIGHT', TB_X_OFFSET, -2.5 }
+    { 'BOTTOMLEFT', 'TOPLEFT',    -TB_X_OFFSET,  1.3 },
+    { 'BOTTOMRIGHT','TOPRIGHT',    TB_X_OFFSET,  1.3 },
+    { 'TOPLEFT',    'BOTTOMLEFT', -TB_X_OFFSET, -1.5 },
+    { 'TOPRIGHT',   'BOTTOMRIGHT', TB_X_OFFSET, -1.5 }
 }
 
 -- frame glow functions
@@ -351,12 +351,12 @@ function test:Create(f)
             tinsert(glow.sides, side)
         end
 
-        glow.sides[1]:SetPoint('BOTTOMLEFT', bg, 'TOPLEFT')
-        glow.sides[1]:SetPoint('BOTTOMRIGHT', bg, 'TOPRIGHT')
+        glow.sides[1]:SetPoint('BOTTOMLEFT', bg, 'TOPLEFT', 1, -1)
+        glow.sides[1]:SetPoint('BOTTOMRIGHT', bg, 'TOPRIGHT', -1, -1)
         glow.sides[1]:SetHeight(sizes.glow)
 
-        glow.sides[2]:SetPoint('TOPLEFT', bg, 'BOTTOMLEFT')
-        glow.sides[2]:SetPoint('TOPRIGHT', bg, 'BOTTOMRIGHT')
+        glow.sides[2]:SetPoint('TOPLEFT', bg, 'BOTTOMLEFT', 1, 1)
+        glow.sides[2]:SetPoint('TOPRIGHT', bg, 'BOTTOMRIGHT', -1, 1)
         glow.sides[2]:SetHeight(sizes.glow)
 
         glow.sides[3]:SetPoint('TOPRIGHT', glow.sides[1], 'TOPLEFT')
@@ -377,7 +377,7 @@ function test:Create(f)
     targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
     targetglow:SetTexCoord(0,.593,0,.875)
     targetglow:SetHeight(7)
-    targetglow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,1)
+    targetglow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,2)
     targetglow:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
     targetglow:SetVertexColor(unpack(target_glow_colour))
     targetglow:Hide()
@@ -396,7 +396,7 @@ function test:Create(f)
     -- name text
     local name = healthbar:CreateFontString(nil, 'OVERLAY')
     name:SetFont(FONT, 11, 'THINOUTLINE')
-    name:SetPoint('BOTTOM', healthbar, 'TOP', 0, -3.5)
+    name:SetPoint('BOTTOM', f.HealthBar, 'TOP', 0, -3.5)
 
     -- guild text (nameonly)
     local guildtext = f:CreateFontString(nil,'OVERLAY')
@@ -420,7 +420,7 @@ function test:Create(f)
         local b = f:CreateTexture(nil,'BACKGROUND',nil,0)
         b:SetTexture(TB_TEXTURE)
         b:SetSize(TB_WIDTH, TB_HEIGHT)
-        b:SetPoint(p[1], healthbar, p[2], p[3], p[4])
+        b:SetPoint(p[1], f.bg, p[2], p[3], p[4])
         b:Hide()
 
         if i == 2 then
@@ -462,7 +462,7 @@ function test:Create(f)
         spelliconbg:SetTexture(kui.m.t.solid)
         spelliconbg:SetVertexColor(0,0,0,.8)
         spelliconbg:SetPoint('BOTTOMRIGHT', bg, 'BOTTOMLEFT', -1, 0)
-        spelliconbg:SetPoint('TOPRIGHT', healthbar.bg, 'TOPLEFT', -1, 0)
+        spelliconbg:SetPoint('TOPRIGHT', f.bg, 'TOPLEFT', -1, 0)
 
         local spellicon = castbar:CreateTexture(nil, 'ARTWORK', nil, 1)
         spellicon:SetTexCoord(.1, .9, .25, .75)
