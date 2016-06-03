@@ -512,7 +512,7 @@ function test:Create(f)
     })
     auras:SetWidth(124)
     auras:SetHeight(10)
-    auras:SetPoint('BOTTOMLEFT',f.bg,'TOPLEFT',4,15)
+    auras:SetPoint('BOTTOMLEFT',healthbar,'TOPLEFT',4,15)
 
     f.handler:RegisterElement('NameText', name)
     f.handler:RegisterElement('Highlight', highlight)
@@ -703,7 +703,7 @@ function test:Initialise()
         icon_texture = 'interface/addons/kui_nameplates/media/combopoint-round',
         glow_texture = 'interface/addons/kui_nameplates/media/combopoint-glow',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
-        point = { 'TOP','bg','BOTTOM',0,3 }
+        point = { 'TOP','HealthBar','BOTTOM',0,3 }
     }
 
     self:RegisterMessage('Create')
