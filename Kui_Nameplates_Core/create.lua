@@ -671,6 +671,9 @@ function test:Initialise()
     self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
     self:RegisterUnitEvent('UNIT_NAME_UPDATE')
 
+    self:AddCallback('Auras','PostCreateAuraButton',Auras_PostCreateAuraButton)
+
+    -- configuration stuff
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.profile = self.config:GetConfig()
 
@@ -678,9 +681,8 @@ function test:Initialise()
         test.profile = self:GetConfig()
     end)
 
+    -- inform config addon that the config table is available if it's loaded
     if KuiNameplatesCoreConfig then
         KuiNameplatesCoreConfig:LayoutLoaded()
     end
-
-    self:AddCallback('Auras','PostCreateAuraButton',Auras_PostCreateAuraButton)
 end

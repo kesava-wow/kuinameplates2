@@ -45,8 +45,13 @@ function config_meta:SetConfig(k,v)
     if not self.profile then return end
     self.profile[k] = v
 
+    -- post complete profile to saved variable
+    -- TODO set to other profiles maybe?
+    _G[self.gsv_name].profiles[self.csv.profile] = self.profile
+
     -- TODO debug
     LibStub('Kui-1.0').print(self.profile)
+    LibStub('Kui-1.0').print(_G[self.gsv_name].profiles[self.csv.profile])
 
     -- TODO
     if type(self.listener) == 'function' then
@@ -100,6 +105,9 @@ function kc:Initialise(var_prefix,defaults)
     if not csv.profile then
         csv.profile = 'default'
     end
+
+    config_tbl.gsv_name = g_name
+    config_tbl.csv_name = c_name
 
     config_tbl.gsv = gsv
     config_tbl.csv = csv

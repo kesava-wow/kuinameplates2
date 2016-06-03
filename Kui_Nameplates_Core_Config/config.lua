@@ -5,10 +5,24 @@
 --------------------------------------------------------------------------------
 -- configuration interface for the core layout
 --------------------------------------------------------------------------------
-local category = 'Kui Nameplates Core'
+local folder,ns = ...
+local category = 'Kui |cff9966ffNameplates Core'
 local knp = KuiNameplates
 local kc = LibStub('KuiConfig-1.0')
 local config,profile
+-- load-on-demand ##############################################################
+if AddonLoader and AddonLoader.RemoveInterfaceOptions then
+    -- remove AddonLoader's fake category
+    AddonLoader:RemoveInterfaceOptions(category)
+
+    -- and nil its slash commands
+    SLASH_KUINAMEPLATES1 = nil
+    SLASH_KNP1 = nil
+    SlashCmdList.KUINAMEPLATES = nil
+    SlashCmdList.KNP = nil
+    hash_SlashCmdList["/kuinameplates"] = nil
+    hash_SlashCmdList["/knp"] = nil
+end
 -- #############################################################################
 local opt = CreateFrame('Frame','KuiNameplatesCoreConfig',InterfaceOptionsFramePanelContainer)
 opt:Hide()
@@ -30,6 +44,7 @@ local function CheckBoxOnClick(self)
     end
 end
 local function CheckBoxOnShow(self)
+    if not profile then return end
     if self.env then
         self:SetChecked(profile[self.env])
     end
@@ -54,13 +69,25 @@ local hidenamesCheck = CreateCheckBox('hide_names','Hide unimportant unit names'
 
 nameonlyCheck:SetPoint('TOPLEFT')
 hidenamesCheck:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
--- #############################################################################
+-- add to interface ############################################################
 InterfaceOptions_AddCategory(opt)
+
+-- 6.2.2: workaround for the category not populating correctly OnClick
+if AddonLoader and AddonLoader.RemoveInterfaceOptions then
+    local lastFrame = InterfaceOptionsFrame.lastFrame
+    InterfaceOptionsFrame.lastFrame = nil
+    InterfaceOptionsFrame_Show()
+    InterfaceOptionsFrame_OpenToCategory(category)
+    InterfaceOptionsFrame_OpenToCategory(category)
+    InterfaceOptionsFrame.lastFrame = lastFrame
+    lastFrame = nil
+end
 -- slash command ###############################################################
 SLASH_KUINAMEPLATESCORE1 = '/knp'
 SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
 function SlashCmdList.KUINAMEPLATESCORE(msg)
+    -- 6.2.2: call twice to force it to open to the correct frame
     InterfaceOptionsFrame_OpenToCategory(category)
     InterfaceOptionsFrame_OpenToCategory(category)
 end
@@ -75,12 +102,12 @@ function opt:LayoutLoaded()
 end
 
 opt:SetScript('OnEvent',function(self,event,addon)
-    if addon ~= 'Kui_Nameplates_Core_Config' then return end
-    -- used to get config if we're loaded on demand
+    if addon ~= folder then return end
+    self:UnregisterEvent('ADDON_LOADED')
+
+    -- get config from layout if we were loaded on demand
     if knp.layout and knp.layout.config then
         self:LayoutLoaded()
     end
-
-    opt:UnregisterEvent('ADDON_LOADED')
 end)
 opt:RegisterEvent('ADDON_LOADED')
