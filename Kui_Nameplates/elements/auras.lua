@@ -507,6 +507,7 @@ function ele:Show(f)
     self:UNIT_FACTION(nil,f)
 end
 function ele:Hide(f)
+    if not f.Auras then return end
     for i,frame in ipairs(f.Auras.frames) do
         frame:Hide()
     end
