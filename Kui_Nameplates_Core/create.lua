@@ -12,10 +12,10 @@ local core = KuiNameplatesCore
 -- create functions ############################################################
 function core:CreateHealthBar(f)
     local healthbar = CreateFrame('StatusBar',nil,f)
-    healthbar:SetStatusBarTexture(kui.m.t.solid)
+    healthbar:SetStatusBarTexture(kui.m.t.bar)
     healthbar:SetFrameLevel(0)
 
-    healthbar:SetSize(100,20)
+    healthbar:SetSize(130,10)
     healthbar:SetPoint('CENTER')
 
     f.handler:SetBarAnimation(healthbar,'cutaway')
