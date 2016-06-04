@@ -12,8 +12,9 @@ local core = KuiNameplatesCore
 local MEDIA = 'interface/addons/kui_nameplates/media/'
 
 -- TODO move into core. for config
+local FONT = kui.m.f.francois
 local sizes = {
-    width = 132,
+    width = 131,
     height = 13,
     trivial_width = 72,
     trivial_height = 9,
@@ -46,7 +47,14 @@ do
         return bar
     end
 end
--- create functions ############################################################
+local function CreateFontString(parent)
+    local f = parent:CreateFontString(nil,'OVERLAY')
+    f:SetFont(FONT,11,'THINOUTLINE')
+
+    return f
+end
+-- create/update functions #####################################################
+-- frame background ############################################################
 function core:CreateBackground(f)
     local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
     bg:SetTexture(kui.m.t.solid)
@@ -57,6 +65,7 @@ function core:CreateBackground(f)
 
     f.bg = bg
 end
+-- health bar ##################################################################
 function core:CreateHealthBar(f)
     local healthbar = CreateStatusBar(f)
 
@@ -66,6 +75,14 @@ function core:CreateHealthBar(f)
     f.handler:SetBarAnimation(healthbar,'cutaway')
     f.handler:RegisterElement('HealthBar',healthbar)
 end
+-- name text ###################################################################
+function core:CreateNameText(f)
+    local nametext = CreateFontString(f)
+    nametext:SetPoint('BOTTOM',f.HealthBar,'TOP',0,-3.5)
+
+    f.handler:RegisterElement('NameText',nametext)
+end
+-- frame glow ##################################################################
 do
     -- frame glow texture coords
     local glow_coords = {

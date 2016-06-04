@@ -34,6 +34,7 @@ function core:Create(f)
     self:CreateBackground(f)
     self:CreateHealthBar(f)
     self:CreateFrameGlow(f)
+    self:CreateNameText(f)
 end
 function core:Show(f)
 end
