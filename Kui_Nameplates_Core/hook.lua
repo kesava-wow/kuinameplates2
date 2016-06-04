@@ -31,7 +31,9 @@ local function Auras_PostCreateAuraButton(button)
 end
 -- messages ####################################################################
 function core:Create(f)
+    self:CreateBackground(f)
     self:CreateHealthBar(f)
+    self:CreateFrameGlow(f)
 end
 function core:Show(f)
 end
@@ -44,14 +46,17 @@ end
 function core:PowerUpdate(f,on_show)
 end
 function core:GlowColourChange(f)
+    f:UpdateFrameGlow()
 end
 function core:CastBarShow(f)
 end
 function core:CastBarHide(f)
 end
 function core:GainedTarget(f)
+    f:UpdateFrameGlow()
 end
 function core:LostTarget(f)
+    f:UpdateFrameGlow()
 end
 -- events ######################################################################
 function core:QUESTLINE_UPDATE()
