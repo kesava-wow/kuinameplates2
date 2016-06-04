@@ -7,4 +7,6 @@
 
 lib/KuiConfig.lua
 
+hook.lua
 create.lua
+config.lua
