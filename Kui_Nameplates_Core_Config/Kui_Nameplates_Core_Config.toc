@@ -1,0 +1,11 @@
+## Interface: 70000
+## Author: Kesava
+## Title: Kui |cff9966ffNameplates:|r |cffffffffCore Config|r
+## Notes: I just can't work out what this is
+## Dependencies: Kui_Nameplates_Core
+## SavedVariables: KuiNameplatesCoreSaved, KuiNameplatesCoreCharacterSaved
+## LoadManagers: AddonLoader
+## X-LoadOn-Slash: /knp, /kuinameplates
+## X-LoadOn-InterfaceOptions: Kui |cff9966ffNameplates Core
+
+config.lua
