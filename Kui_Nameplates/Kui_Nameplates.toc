@@ -1,8 +1,7 @@
 ## Interface: 70000
 ## Author: Kesava
-## Title: Kui |cff9966ffNameplates:|r |cffffffffBase|r
+## Title: Kui |cff9966ffNameplates
 ## Notes: Kesava's nameplate framework.|nRemember to enable Kui Nameplates Core (or a compatible layout), too!
-## SavedVariables: KuiNameplatesGDB
 
 lib\embeds.xml
 
@@ -24,8 +23,7 @@ elements/threat.lua
 elements/glow.lua
 elements/auras.lua
 
-plugins/tankmode.lua
 plugins/animation.lua
 plugins/fading.lua
 plugins/npctitle.lua
-plugins/lowhealth.lua
+plugins/tankmode.lua

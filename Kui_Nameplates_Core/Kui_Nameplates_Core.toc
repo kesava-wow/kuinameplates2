@@ -1,8 +1,8 @@
 ## Interface: 70000
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates:|r |cffffffffCore|r
-## Notes: The official layout for Kui Nameplates Base.
-## Dependencies: Kui_Nameplates_2
+## Notes: The official layout for Kui Nameplates.
+## Dependencies: Kui_Nameplates
 ## SavedVariables: KuiNameplatesCoreSaved, KuiNameplatesCoreCharacterSaved
 
 lib/KuiConfig.lua
