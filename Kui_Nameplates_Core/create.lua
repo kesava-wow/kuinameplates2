@@ -442,6 +442,18 @@ do
     end
 end
 -- auras #######################################################################
+function core.Auras_PostCreateAuraButton(button)
+    -- move text slightly for our font
+    button.cd:ClearAllPoints()
+    button.cd:SetPoint('CENTER',1,-1)
+    button.cd:SetShadowOffset(1,-1)
+    button.cd:SetShadowColor(0,0,0,1)
+
+    button.count:ClearAllPoints()
+    button.count:SetPoint('BOTTOMRIGHT',3,-3)
+    button.count:SetShadowOffset(1,-1)
+    button.count:SetShadowColor(0,0,0,1)
+end
 function core:CreateAuras(f)
     local auras = f.handler:CreateAuraFrame({
         kui_whitelist = true,
