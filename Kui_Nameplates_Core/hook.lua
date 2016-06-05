@@ -34,6 +34,7 @@ function core:Create(f)
     self:CreateBackground(f)
     self:CreateHealthBar(f)
     self:CreateFrameGlow(f)
+    self:CreateTargetGlow(f)
     self:CreateNameText(f)
     self:CreateHighlight(f)
     self:CreateCastBar(f)
@@ -61,10 +62,16 @@ function core:CastBarHide(f)
     f:HideCastBar()
 end
 function core:GainedTarget(f)
+    f.state.target = true
+
     f:UpdateFrameGlow()
+    f:UpdateTargetGlow()
 end
 function core:LostTarget(f)
+    f.state.target = nil
+
     f:UpdateFrameGlow()
+    f:UpdateTargetGlow()
 end
 -- events ######################################################################
 function core:QUESTLINE_UPDATE()

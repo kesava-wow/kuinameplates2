@@ -18,7 +18,7 @@ local function ClearTarget()
 end
 -- prototype additions #########################################################
 function addon.Nameplate.IsTarget(f)
-    return UnitIsUnit('target',f.parent.unit)
+    return f.parent.unit and UnitIsUnit('target',f.parent.unit)
 end
 -- events ######################################################################
 function ele:PLAYER_TARGET_CHANGED(event)

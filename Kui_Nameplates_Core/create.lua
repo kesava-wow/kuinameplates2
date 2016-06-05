@@ -167,7 +167,7 @@ do
     local function UpdateFrameGlow(f)
         f.ThreatGlow:Show()
 
-        if f.unit and f.handler:IsTarget() then
+        if f.state.target then
             f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
         elseif not f.state.glowing then
             f.ThreatGlow:SetVertexColor(0,0,0,.6)
@@ -203,6 +203,34 @@ do
         f.handler:RegisterElement('ThreatGlow',glow)
 
         f.UpdateFrameGlow = UpdateFrameGlow
+    end
+end
+-- target glow #################################################################
+do
+    local function UpdateTargetGlow(f)
+        if f.state.nameonly then
+            f.TargetGlow:Hide()
+            return
+        end
+
+        if f.state.target then
+            f.TargetGlow:Show()
+        else
+            f.TargetGlow:Hide()
+        end
+    end
+    function core:CreateTargetGlow(f)
+        local targetglow = f:CreateTexture(nil,'BACKGROUND',nil,-5)
+        targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
+        targetglow:SetTexCoord(0,.593,0,.875)
+        targetglow:SetHeight(7)
+        targetglow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,2)
+        targetglow:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
+        targetglow:SetVertexColor(unpack(target_glow_colour))
+        targetglow:Hide()
+
+        f.TargetGlow = targetglow
+        f.UpdateTargetGlow = UpdateTargetGlow
     end
 end
 -- castbar #####################################################################
