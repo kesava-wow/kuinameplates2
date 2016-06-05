@@ -33,6 +33,7 @@ end
 function core:Create(f)
     self:CreateBackground(f)
     self:CreateHealthBar(f)
+    self:CreatePowerBar(f)
     self:CreateFrameGlow(f)
     self:CreateTargetGlow(f)
     self:CreateNameText(f)
@@ -42,10 +43,14 @@ function core:Create(f)
     self:CreateAuras(f)
 end
 function core:Show(f)
+    f.state.player = UnitIsUnit(f.unit,'player')
+
     -- go into nameonly mode if desired
     self:NameOnlyUpdate(f)
     -- hide name if desired
     self:ShowNameUpdate(f)
+    -- show/hide power bar
+    f:UpdatePowerBar(true)
     -- set initial frame size
     f:UpdateFrameSize()
     -- set initial glow colour
@@ -66,7 +71,8 @@ function core:HealthColourChange(f)
     f:UpdateNameText()
     f:UpdateFrameGlow()
 end
-function core:PowerUpdate(f,on_show)
+function core:PowerUpdate(f)
+    f:UpdatePowerBar()
 end
 function core:GlowColourChange(f)
     f:UpdateFrameGlow()

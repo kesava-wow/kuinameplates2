@@ -80,7 +80,7 @@ local function UpdateFrameSize(f)
         f.bg:SetSize(sizes.width,sizes.height)
     end
 
-    if f.state.no_name then
+    if f.state.no_name and not f.state.player then
         f.bg:SetHeight(sizes.height_no_name)
     end
 
@@ -113,27 +113,68 @@ function core:CreateHighlight(f)
     f.handler:RegisterElement('Highlight',highlight)
 end
 -- health bar ##################################################################
-local function UpdateMainBars(f)
-    -- update health/power bar size
-    local hb_height = f.bg:GetHeight()-2
+do
+    local function UpdateMainBars(f)
+        -- update health/power bar size
+        local hb_height = f.bg:GetHeight()-2
 
-    if f.PowerBar and f.PowerBar:IsShown() then
-        hb_height = hb_height - 3
-        f.PowerBar:SetHeight(2)
+        if f.PowerBar:IsShown() then
+            hb_height = hb_height - 3
+            f.PowerBar:SetHeight(2)
+        end
+
+        f.HealthBar:SetHeight(hb_height)
     end
+    function core:CreateHealthBar(f)
+        local healthbar = CreateStatusBar(f)
 
-    f.HealthBar:SetHeight(hb_height)
+        healthbar:SetPoint('TOPLEFT',f.bg,1,-1)
+        healthbar:SetPoint('RIGHT',f.bg,-1,0)
+
+        f.handler:SetBarAnimation(healthbar,'cutaway')
+        f.handler:RegisterElement('HealthBar',healthbar)
+
+        f.UpdateMainBars = UpdateMainBars
+    end
 end
-function core:CreateHealthBar(f)
-    local healthbar = CreateStatusBar(f)
+-- power bar ###################################################################
+do
+    local function UpdatePowerBar(f,on_show)
+        if  f.state.player and
+            f.state.power_type
+            and UnitPowerMax(f.unit,f.state.power_type) > 0
+        then
+            if not f.elements.PowerBar then
+                f.handler:EnableElement('PowerBar')
 
-    healthbar:SetPoint('TOPLEFT',f.bg,1,-1)
-    healthbar:SetPoint('RIGHT',f.bg,-1,0)
+                f.PowerBar:SetMinMaxValues(0,UnitPowerMax(f.unit,f.state.power_type))
+                f.PowerBar:SetValue(UnitPower(f.unit,f.state.power_type))
+            end
 
-    f.handler:SetBarAnimation(healthbar,'cutaway')
-    f.handler:RegisterElement('HealthBar',healthbar)
+            f.PowerBar:Show()
+        else
+            f.handler:DisableElement('PowerBar')
+            f.PowerBar:Hide()
+        end
 
-    f.UpdateMainBars = UpdateMainBars
+        if not on_show then
+            -- update health bar height
+            f:UpdateMainBars()
+        end
+    end
+    function core:CreatePowerBar(f)
+        local powerbar = CreateFrame('StatusBar',nil,f.HealthBar)
+        powerbar:SetStatusBarTexture(kui.m.t.sbar)
+        powerbar:SetFrameLevel(0)
+
+        powerbar:SetPoint('TOPLEFT',f.HealthBar,'BOTTOMLEFT',0,-1)
+        powerbar:SetPoint('RIGHT',f.bg,-1,0)
+
+        f.handler:SetBarAnimation(powerbar,'cutaway')
+        f.handler:RegisterElement('PowerBar',powerbar)
+
+        f.UpdatePowerBar = UpdatePowerBar
+    end
 end
 -- name text ###################################################################
 do
@@ -156,7 +197,7 @@ do
             -- set name text colour to health
             core:NameOnlyHealthUpdate(f)
         else
-            if  not UnitIsUnit(f.unit,'player') and
+            if  not f.state.player and
                 UnitIsPlayer(f.unit) and
                 UnitIsFriend('player',f.unit)
             then
@@ -481,7 +522,7 @@ do
     function core:NameOnlyUpdate(f,hide)
         if  not hide and self.profile.nameonly and
             -- don't show on player frame
-            not UnitIsUnit('player',f.unit) and
+            not f.state.player and
             -- don't show on target
             not f.state.target and
             -- don't show on attackable units
