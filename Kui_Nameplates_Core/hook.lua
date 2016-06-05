@@ -41,6 +41,7 @@ function core:Create(f)
     self:CreateHighlight(f)
     self:CreateCastBar(f)
     self:CreateAuras(f)
+    self:CreateThreatBrackets(f)
 end
 function core:Show(f)
     f.state.player = UnitIsUnit(f.unit,'player')
@@ -76,6 +77,7 @@ function core:PowerUpdate(f)
 end
 function core:GlowColourChange(f)
     f:UpdateFrameGlow()
+    f:UpdateThreatBrackets()
 end
 function core:CastBarShow(f)
     f:ShowCastBar()

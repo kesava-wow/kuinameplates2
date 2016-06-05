@@ -4,6 +4,21 @@
 -- All rights reserved
 --------------------------------------------------------------------------------
 -- element create/update functions
+-- layers ----------------------------------------------------------------------
+--
+-- ARTWORK
+-- spell shield = 2
+-- healthbar highlight = 1
+-- spell icon = 1
+-- spell icon background = 0
+
+-- BACKGROUND
+-- healthbar fill background = 2
+-- healthbar background = 1
+-- castbar background = 1
+-- threat brackets = 0
+-- frame/target glow = -5
+--
 --------------------------------------------------------------------------------
 local folder,ns=...
 local addon = KuiNameplates
@@ -439,6 +454,79 @@ function core:CreateAuras(f)
     auras:SetWidth(124)
     auras:SetHeight(10)
     auras:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT',4,15)
+end
+-- threat brackets #############################################################
+do
+    local TB_TEXTURE = 'interface/addons/kui_nameplates/media/threat-bracket'
+    local TB_PIXEL_LEFTMOST = .28125
+    local TB_RATIO = 2
+    local TB_HEIGHT = 18
+    local TB_WIDTH = TB_HEIGHT * TB_RATIO
+    local TB_X_OFFSET = floor((TB_WIDTH * TB_PIXEL_LEFTMOST)-1)
+    local TB_POINTS = {
+        { 'BOTTOMLEFT', 'TOPLEFT',    -TB_X_OFFSET,  1.3 },
+        { 'BOTTOMRIGHT','TOPRIGHT',    TB_X_OFFSET,  1.3 },
+        { 'TOPLEFT',    'BOTTOMLEFT', -TB_X_OFFSET, -1.5 },
+        { 'TOPRIGHT',   'BOTTOMRIGHT', TB_X_OFFSET, -1.5 }
+    }
+    -- threat bracket prototype
+    local tb_prototype = {}
+    tb_prototype.__index = tb_prototype
+    function tb_prototype:SetVertexColor(...)
+        for k,v in ipairs(self.textures) do
+            v:SetVertexColor(...)
+        end
+    end
+    function tb_prototype:Show(...)
+        for k,v in ipairs(self.textures) do
+            v:Show(...)
+        end
+    end
+    function tb_prototype:Hide(...)
+        for k,v in ipairs(self.textures) do
+            v:Hide(...)
+        end
+    end
+    -- update
+    local function UpdateThreatBrackets(f)
+        if f.state.nameonly then
+            f.ThreatBrackets:Hide()
+            return
+        end
+
+        if f.state.glowing then
+            f.ThreatBrackets:SetVertexColor(unpack(f.state.glowColour))
+            f.ThreatBrackets:Show()
+        else
+            f.ThreatBrackets:Hide()
+        end
+    end
+    -- create
+    function core:CreateThreatBrackets(f)
+        local tb = { textures = {} }
+        setmetatable(tb,tb_prototype)
+
+        for i,p in ipairs(TB_POINTS) do
+            local b = f:CreateTexture(nil,'BACKGROUND',nil,0)
+            b:SetTexture(TB_TEXTURE)
+            b:SetSize(TB_WIDTH, TB_HEIGHT)
+            b:SetPoint(p[1], f.bg, p[2], p[3], p[4])
+            b:Hide()
+
+            if i == 2 then
+                b:SetTexCoord(1,0,0,1)
+            elseif i == 3 then
+                b:SetTexCoord(0,1,1,0)
+            elseif i == 4 then
+                b:SetTexCoord(1,0,1,0)
+            end
+
+            tinsert(tb.textures,b)
+        end
+
+        f.ThreatBrackets = tb
+        f.UpdateThreatBrackets = UpdateThreatBrackets
+    end
 end
 -- name show/hide ##############################################################
 function core:ShowNameUpdate(f)
