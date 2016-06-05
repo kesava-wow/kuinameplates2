@@ -146,10 +146,10 @@ do
                 if f.state.reaction >= 4 then
                     -- friendly colour
                     f.NameText:SetTextColor(.6,1,.6)
-                    -- TODO f.GuildText:SetTextColor(.8,.9,.8,.9)
+                    f.GuildText:SetTextColor(.8,.9,.8,.9)
                 else
                     f.NameText:SetTextColor(1,.4,.3)
-                    -- TODO f.GuildText:SetTextColor(1,.8,.7,.9)
+                    f.GuildText:SetTextColor(1,.8,.7,.9)
                 end
             end
 
@@ -182,6 +182,17 @@ do
 
         f.UpdateNameText = UpdateNameText
     end
+end
+-- npc guild text ##############################################################
+function core:CreateGuildText(f)
+    local guildtext = f:CreateFontString(nil,'OVERLAY')
+    guildtext:SetFont(FONT, 9, 'THINOUTLINE')
+    guildtext:SetPoint('TOP',f.NameText,'BOTTOM', 0, -2)
+    guildtext:SetShadowOffset(1,-1)
+    guildtext:SetShadowColor(0,0,0,1)
+    guildtext:Hide()
+
+    f.GuildText = guildtext
 end
 -- frame glow ##################################################################
 do
@@ -223,6 +234,7 @@ do
     local function UpdateFrameGlow(f)
         if f.state.nameonly then
             f.ThreatGlow:Hide()
+            f.TargetGlow:Hide()
             return
         end
 
@@ -230,8 +242,10 @@ do
 
         if f.state.target then
             f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
+            f.TargetGlow:Show()
         elseif not f.state.glowing then
             f.ThreatGlow:SetVertexColor(0,0,0,.6)
+            f.TargetGlow:Hide()
         end
     end
     -- create
@@ -267,32 +281,18 @@ do
     end
 end
 -- target glow #################################################################
-do
-    local function UpdateTargetGlow(f)
-        if f.state.nameonly then
-            f.TargetGlow:Hide()
-            return
-        end
+-- updated by UpdateFrameGlow
+function core:CreateTargetGlow(f)
+    local targetglow = f:CreateTexture(nil,'BACKGROUND',nil,-5)
+    targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
+    targetglow:SetTexCoord(0,.593,0,.875)
+    targetglow:SetHeight(7)
+    targetglow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,2)
+    targetglow:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
+    targetglow:SetVertexColor(unpack(target_glow_colour))
+    targetglow:Hide()
 
-        if f.state.target then
-            f.TargetGlow:Show()
-        else
-            f.TargetGlow:Hide()
-        end
-    end
-    function core:CreateTargetGlow(f)
-        local targetglow = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-        targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
-        targetglow:SetTexCoord(0,.593,0,.875)
-        targetglow:SetHeight(7)
-        targetglow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,2)
-        targetglow:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
-        targetglow:SetVertexColor(unpack(target_glow_colour))
-        targetglow:Hide()
-
-        f.TargetGlow = targetglow
-        f.UpdateTargetGlow = UpdateTargetGlow
-    end
+    f.TargetGlow = targetglow
 end
 -- castbar #####################################################################
 do
@@ -412,16 +412,12 @@ function core:ShowNameUpdate(f)
     else
         f.state.no_name = true
     end
-
-    f:UpdateFrameSize()
 end
 -- nameonly ####################################################################
 do
     local function NameOnlyEnable(f)
         if f.state.nameonly then return end
         f.state.nameonly = true
-
-        --NameOnly_NameUpdate(f)
 
         f.bg:Hide()
         f.HealthBar:Hide()
@@ -437,8 +433,8 @@ do
         f.NameText:SetParent(f)
 
         if f.state.guild_text then
-            --f.GuildText:SetText(f.state.guild_text)
-            --f.GuildText:Show()
+            f.GuildText:SetText(f.state.guild_text)
+            f.GuildText:Show()
             f.NameText:SetPoint('CENTER',.5,6)
         else
             f.NameText:SetPoint('CENTER',.5,0)
@@ -461,15 +457,11 @@ do
         f.NameText:SetParent(f.HealthBar)
         f.NameText:SetPoint('BOTTOM', f.HealthBar, 'TOP', 0, -3.5)
 
-        --TODO f.GuildText:Hide()
+        f.GuildText:Hide()
 
         f.bg:Show()
         f.HealthBar:Show()
         f.HealthBar.fill:Show()
-
-        --test:GlowColourChange(f)
-        --test:ShowNameUpdate(f)
-        --NameOnly_NameUpdate(f)
 
         f.handler:EnableElement('CastBar')
     end

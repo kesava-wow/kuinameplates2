@@ -36,6 +36,7 @@ function core:Create(f)
     self:CreateFrameGlow(f)
     self:CreateTargetGlow(f)
     self:CreateNameText(f)
+    self:CreateGuildText(f)
     self:CreateHighlight(f)
     self:CreateCastBar(f)
     self:CreateAuras(f)
@@ -45,6 +46,8 @@ function core:Show(f)
     self:NameOnlyUpdate(f)
     -- hide name if desired
     self:ShowNameUpdate(f)
+    -- set initial frame size
+    f:UpdateFrameSize()
     -- set initial glow colour
     f:UpdateFrameGlow()
     -- set name text colour
@@ -62,7 +65,6 @@ function core:HealthColourChange(f)
 
     f:UpdateNameText()
     f:UpdateFrameGlow()
-    f:UpdateTargetGlow()
 end
 function core:PowerUpdate(f,on_show)
 end
@@ -83,9 +85,9 @@ function core:GainedTarget(f)
     -- show name on target
     self:ShowNameUpdate(f)
 
+    f:UpdateFrameSize()
     f:UpdateNameText()
     f:UpdateFrameGlow()
-    f:UpdateTargetGlow()
 end
 function core:LostTarget(f)
     f.state.target = nil
@@ -95,9 +97,9 @@ function core:LostTarget(f)
     -- hide name depending on state
     self:ShowNameUpdate(f)
 
+    f:UpdateFrameSize()
     f:UpdateNameText()
     f:UpdateFrameGlow()
-    f:UpdateTargetGlow()
 end
 -- events ######################################################################
 function core:QUESTLINE_UPDATE()
@@ -106,6 +108,7 @@ function core:QUESTLINE_UPDATE()
     for _,frame in addon:Frames() do
         if frame:IsShown() then
             self:ShowNameUpdate(frame)
+            frame:UpdateFrameSize()
             frame:UpdateNameText()
         end
     end
@@ -113,6 +116,7 @@ end
 function core:UNIT_THREAT_LIST_UPDATE(event,f)
     -- update to show name of units which are in combat with the player
     self:ShowNameUpdate(f)
+    f:UpdateFrameSize()
     f:UpdateNameText()
 end
 function core:UNIT_NAME_UPDATE(event,f)
