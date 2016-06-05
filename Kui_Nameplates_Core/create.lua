@@ -153,6 +153,7 @@ do
                 end
             end
 
+            -- set name text colour to health
             core:NameOnlyHealthUpdate(f)
         else
             if  not UnitIsUnit(f.unit,'player') and
@@ -220,6 +221,11 @@ do
     end
     -- update
     local function UpdateFrameGlow(f)
+        if f.state.nameonly then
+            f.ThreatGlow:Hide()
+            return
+        end
+
         f.ThreatGlow:Show()
 
         if f.state.target then
@@ -417,11 +423,11 @@ do
 
         --NameOnly_NameUpdate(f)
 
+        f.bg:Hide()
         f.HealthBar:Hide()
-        f.HealthBar.bg:Hide()
         f.HealthBar.fill:Hide()
         f.ThreatGlow:Hide()
-        f.ThreatBrackets:Hide()
+        --f.ThreatBrackets:Hide()
         f.TargetGlow:Hide()
 
         f.NameText:SetShadowOffset(1,-1)
@@ -457,8 +463,8 @@ do
 
         --TODO f.GuildText:Hide()
 
+        f.bg:Show()
         f.HealthBar:Show()
-        f.HealthBar.bg:Show()
         f.HealthBar.fill:Show()
 
         --test:GlowColourChange(f)

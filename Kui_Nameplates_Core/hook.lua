@@ -41,10 +41,14 @@ function core:Create(f)
     self:CreateAuras(f)
 end
 function core:Show(f)
-    f:UpdateFrameSize()
-    f:UpdateFrameGlow()
-
+    -- go into nameonly mode if desired
+    self:NameOnlyUpdate(f)
+    -- hide name if desired
     self:ShowNameUpdate(f)
+    -- set initial glow colour
+    f:UpdateFrameGlow()
+    -- set name text colour
+    f:UpdateNameText()
 end
 function core:Hide(f)
 end
