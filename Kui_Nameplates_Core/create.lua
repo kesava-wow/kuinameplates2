@@ -11,8 +11,10 @@ local kui = LibStub('Kui-1.0')
 local core = KuiNameplatesCore
 local MEDIA = 'interface/addons/kui_nameplates/media/'
 
--- TODO move into core. for config
-local FONT = kui.m.f.francois
+core.font = kui.m.f.francois
+local FONT = core.font
+
+-- TODO configuration
 local sizes = {
     width = 132,
     height = 13,
@@ -293,4 +295,18 @@ do
         f.HideCastBar = HideCastBar
         f.SpellIconSetWidth = SpellIconSetWidth
     end
+end
+-- auras #######################################################################
+function core:CreateAuras(f)
+    local auras = f.handler:CreateAuraFrame({
+        kui_whitelist = true,
+        max = 10,
+        point = {'BOTTOMLEFT','LEFT','RIGHT'},
+        x_spacing = 1,
+        y_spacing = 1,
+        rows = 2
+    })
+    auras:SetWidth(124)
+    auras:SetHeight(10)
+    auras:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT',4,15)
 end

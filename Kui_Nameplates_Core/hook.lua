@@ -36,8 +36,8 @@ function core:Create(f)
     self:CreateFrameGlow(f)
     self:CreateNameText(f)
     self:CreateHighlight(f)
-
     self:CreateCastBar(f)
+    self:CreateAuras(f)
 end
 function core:Show(f)
     f:UpdateFrameSize()
@@ -77,7 +77,7 @@ end
 function core:Initialise()
     -- element configuration
     self.Auras = {
-        font = FONT
+        font = self.font
     }
 
     self.ClassPowers = {
