@@ -36,6 +36,8 @@ function core:Create(f)
     self:CreateFrameGlow(f)
     self:CreateNameText(f)
     self:CreateHighlight(f)
+
+    self:CreateCastBar(f)
 end
 function core:Show(f)
     f:UpdateFrameSize()
@@ -53,8 +55,10 @@ function core:GlowColourChange(f)
     f:UpdateFrameGlow()
 end
 function core:CastBarShow(f)
+    f:ShowCastBar()
 end
 function core:CastBarHide(f)
+    f:HideCastBar()
 end
 function core:GainedTarget(f)
     f:UpdateFrameGlow()

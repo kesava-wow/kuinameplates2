@@ -74,6 +74,7 @@ local function UpdateFrameSize(f)
     f.bg:SetPoint('BOTTOMLEFT',f.x,f.y)
 
     f:UpdateMainBars()
+    f:SpellIconSetWidth()
 end
 function core:CreateBackground(f)
     local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
@@ -200,5 +201,96 @@ do
         f.handler:RegisterElement('ThreatGlow',glow)
 
         f.UpdateFrameGlow = UpdateFrameGlow
+    end
+end
+-- castbar #####################################################################
+do
+    local function SpellIconSetWidth(f)
+        -- set spell icon width
+        f.bg:GetHeight() -- calling this coaxes it into calculating the height
+        f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
+    end
+    local function ShowCastBar(f)
+        if f.state.nameonly then return end
+
+        -- also show attached elements
+        f.CastBar.bg:Show()
+        f.SpellIcon.bg:Show()
+        f.SpellName:Show()
+
+        f:SpellIconSetWidth()
+    end
+    local function HideCastBar(f)
+        -- also hide attached elements
+        f.CastBar.bg:Hide()
+        f.SpellIcon.bg:Hide()
+        f.SpellName:Hide()
+    end
+    function core:CreateCastBar(f)
+        local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
+        bg:SetTexture(kui.m.t.solid)
+        bg:SetVertexColor(0,0,0,.8)
+        bg:SetHeight(5)
+        bg:SetPoint('TOPLEFT', f.bg, 'BOTTOMLEFT', 0, -1)
+        bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
+
+        local castbar = CreateFrame('StatusBar', nil, f)
+        castbar:SetFrameLevel(0)
+        castbar:SetStatusBarTexture(kui.m.t.bar)
+        castbar:SetStatusBarColor(.6, .6, .75)
+        castbar:SetHeight(3)
+        castbar:SetPoint('TOPLEFT', bg, 1, -1)
+        castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
+
+        local spellname = f.HealthBar:CreateFontString(nil, 'OVERLAY')
+        spellname:SetFont(FONT, 9, 'THINOUTLINE')
+        spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3.5)
+
+        -- spell icon
+        local spelliconbg = f:CreateTexture(nil, 'ARTWORK', nil, 0)
+        spelliconbg:SetTexture(kui.m.t.solid)
+        spelliconbg:SetVertexColor(0,0,0,.8)
+        spelliconbg:SetPoint('BOTTOMRIGHT', bg, 'BOTTOMLEFT', -1, 0)
+        spelliconbg:SetPoint('TOPRIGHT', f.bg, 'TOPLEFT', -1, 0)
+
+        local spellicon = castbar:CreateTexture(nil, 'ARTWORK', nil, 1)
+        spellicon:SetTexCoord(.1, .9, .25, .75)
+        spellicon:SetPoint('TOPLEFT', spelliconbg, 1, -1)
+        spellicon:SetPoint('BOTTOMRIGHT', spelliconbg, -1, 1)
+
+        -- cast shield
+        local spellshield = f.HealthBar:CreateTexture(nil, 'ARTWORK', nil, 2)
+        spellshield:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\Shield')
+        spellshield:SetTexCoord(0, .84375, 0, 1)
+        spellshield:SetSize(13.5, 16) -- 16 * .84375
+        spellshield:SetPoint('LEFT', bg, -7, 0)
+        spellshield:SetVertexColor(.5, .5, .7)
+
+        -- spark
+        local spark = castbar:CreateTexture(nil, 'ARTWORK')
+        spark:SetDrawLayer('ARTWORK', 7)
+        spark:SetVertexColor(1,1,.8)
+        spark:SetTexture('Interface\\AddOns\\Kui_Media\\t\\spark')
+        spark:SetPoint('CENTER', castbar:GetRegions(), 'RIGHT', 1, 0)
+        spark:SetSize(6,9)
+
+        -- hide elements by default
+        bg:Hide()
+        castbar:Hide()
+        spelliconbg:Hide()
+        spellshield:Hide()
+        spellname:Hide()
+
+        castbar.bg = bg
+        spellicon.bg = spelliconbg
+
+        f.handler:RegisterElement('CastBar', castbar)
+        f.handler:RegisterElement('SpellName', spellname)
+        f.handler:RegisterElement('SpellIcon', spellicon)
+        f.handler:RegisterElement('SpellShield', spellshield)
+
+        f.ShowCastBar = ShowCastBar
+        f.HideCastBar = HideCastBar
+        f.SpellIconSetWidth = SpellIconSetWidth
     end
 end
