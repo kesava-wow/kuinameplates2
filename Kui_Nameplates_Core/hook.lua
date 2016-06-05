@@ -51,6 +51,7 @@ function core:Show(f)
     f:UpdateNameText()
 end
 function core:Hide(f)
+    self:NameOnlyUpdate(f,true)
 end
 function core:HealthUpdate(f)
     self:NameOnlyHealthUpdate(f)
@@ -59,9 +60,9 @@ function core:HealthColourChange(f)
     -- update nameonly upon faction changes
     self:NameOnlyUpdate(f)
 
-    if not f.state.nameonly and f.state.target then
-        f:UpdateNameText()
-    end
+    f:UpdateNameText()
+    f:UpdateFrameGlow()
+    f:UpdateTargetGlow()
 end
 function core:PowerUpdate(f,on_show)
 end

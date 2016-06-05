@@ -486,8 +486,8 @@ do
             )
         end
     end
-    function core:NameOnlyUpdate(f)
-        if  self.profile.nameonly and
+    function core:NameOnlyUpdate(f,hide)
+        if  not hide and self.profile.nameonly and
             -- don't show on player frame
             not UnitIsUnit('player',f.unit) and
             -- don't show on target
@@ -497,12 +497,7 @@ do
             -- don't show on unattackable enemy players (ice block etc)
             not (UnitIsPlayer(f.unit) and UnitIsEnemy('player',f.unit))
         then
-            if f.state.nameonly then
-                -- in case reaction has changed
-                f:UpdateNameText()
-            else
-                NameOnlyEnable(f)
-            end
+            NameOnlyEnable(f)
         else
             NameOnlyDisable(f)
         end
