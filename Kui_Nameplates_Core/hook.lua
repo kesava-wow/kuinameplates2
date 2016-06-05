@@ -43,6 +43,8 @@ function core:Show(f)
     f:UpdateFrameSize()
     -- set initial glow colour
     f:UpdateFrameGlow()
+    -- show/hide threat brackets
+    f:UpdateThreatBrackets()
     -- set name text colour
     f:UpdateNameText()
 end
