@@ -9,7 +9,13 @@ local folder,ns=...
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local core = KuiNameplatesCore
+
 local MEDIA = 'interface/addons/kui_nameplates/media/'
+local CLASS_COLOURS = {
+    DEATHKNIGHT = { .90, .22, .33 },
+    DEMONHUNTER = { .74, .35, .95 },
+    SHAMAN      = { .10, .54, .97 },
+}
 
 core.font = kui.m.f.francois
 local FONT = core.font
@@ -54,6 +60,15 @@ local function CreateFontString(parent)
     f:SetFont(FONT,11,'THINOUTLINE')
 
     return f
+end
+local function GetClassColour(f)
+    -- return adjusted class colour (used in nameonly)
+    local class = select(2,UnitClass(f.unit))
+    if CLASS_COLOURS[class] then
+        return unpack(CLASS_COLOURS[class])
+    else
+        return kui.GetClassColour(class,2)
+    end
 end
 -- create/update functions #####################################################
 -- frame background ############################################################
@@ -123,10 +138,39 @@ end
 -- name text ###################################################################
 do
     local function UpdateNameText(f)
-        if f.state.no_name then
-            f.NameText:Hide()
+        if f.state.nameonly then
+            if UnitIsPlayer(f.unit) then
+                -- player class colour
+                f.NameText:SetTextColor(GetClassColour(f))
+            else
+                if f.state.reaction >= 4 then
+                    -- friendly colour
+                    f.NameText:SetTextColor(.6,1,.6)
+                    -- TODO f.GuildText:SetTextColor(.8,.9,.8,.9)
+                else
+                    f.NameText:SetTextColor(1,.4,.3)
+                    -- TODO f.GuildText:SetTextColor(1,.8,.7,.9)
+                end
+            end
+
+            core:NameOnlyHealthUpdate(f)
         else
-            f.NameText:Show()
+            if  not UnitIsUnit(f.unit,'player') and
+                UnitIsPlayer(f.unit) and
+                UnitIsFriend('player',f.unit)
+            then
+                -- friendly player class colour
+                f.NameText:SetTextColor(GetClassColour(f))
+            else
+                -- white by default
+                f.NameText:SetTextColor(1,1,1,1)
+            end
+
+            if f.state.no_name then
+                f.NameText:Hide()
+            else
+                f.NameText:Show()
+            end
         end
     end
     function core:CreateNameText(f)
@@ -363,6 +407,98 @@ function core:ShowNameUpdate(f)
         f.state.no_name = true
     end
 
-    f:UpdateNameText()
     f:UpdateFrameSize()
+end
+-- nameonly ####################################################################
+do
+    local function NameOnlyEnable(f)
+        if f.state.nameonly then return end
+        f.state.nameonly = true
+
+        --NameOnly_NameUpdate(f)
+
+        f.HealthBar:Hide()
+        f.HealthBar.bg:Hide()
+        f.HealthBar.fill:Hide()
+        f.ThreatGlow:Hide()
+        f.ThreatBrackets:Hide()
+        f.TargetGlow:Hide()
+
+        f.NameText:SetShadowOffset(1,-1)
+        f.NameText:SetShadowColor(0,0,0,1)
+
+        f.NameText:ClearAllPoints()
+        f.NameText:SetParent(f)
+
+        if f.state.guild_text then
+            --f.GuildText:SetText(f.state.guild_text)
+            --f.GuildText:Show()
+            f.NameText:SetPoint('CENTER',.5,6)
+        else
+            f.NameText:SetPoint('CENTER',.5,0)
+        end
+
+        f.NameText:Show()
+
+        f.handler:CastBarHide()
+        f.handler:DisableElement('CastBar')
+    end
+    local function NameOnlyDisable(f)
+        if not f.state.nameonly then return end
+        f.state.nameonly = nil
+
+        f.NameText:SetText(f.state.name)
+        f.NameText:SetTextColor(1,1,1,1)
+        f.NameText:SetShadowColor(0,0,0,0)
+
+        f.NameText:ClearAllPoints()
+        f.NameText:SetParent(f.HealthBar)
+        f.NameText:SetPoint('BOTTOM', f.HealthBar, 'TOP', 0, -3.5)
+
+        --TODO f.GuildText:Hide()
+
+        f.HealthBar:Show()
+        f.HealthBar.bg:Show()
+        f.HealthBar.fill:Show()
+
+        --test:GlowColourChange(f)
+        --test:ShowNameUpdate(f)
+        --NameOnly_NameUpdate(f)
+
+        f.handler:EnableElement('CastBar')
+    end
+    function core:NameOnlyHealthUpdate(f)
+        -- set name text colour to approximate health
+        if not f.state.nameonly then return end
+
+        local cur,max = UnitHealth(f.unit),UnitHealthMax(f.unit)
+        if cur and max then
+            local health_len = strlen(f.state.name) * (cur / max)
+            f.NameText:SetText(
+                kui.utf8sub(f.state.name, 0, health_len)..
+                '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
+            )
+        end
+    end
+    function core:NameOnlyUpdate(f)
+        if  self.profile.nameonly and
+            -- don't show on player frame
+            not UnitIsUnit('player',f.unit) and
+            -- don't show on target
+            not f.state.target and
+            -- don't show on attackable units
+            not UnitCanAttack('player',f.unit) and
+            -- don't show on unattackable enemy players (ice block etc)
+            not (UnitIsPlayer(f.unit) and UnitIsEnemy('player',f.unit))
+        then
+            if f.state.nameonly then
+                -- in case reaction has changed
+                f:UpdateNameText()
+            else
+                NameOnlyEnable(f)
+            end
+        else
+            NameOnlyDisable(f)
+        end
+    end
 end

@@ -49,8 +49,15 @@ end
 function core:Hide(f)
 end
 function core:HealthUpdate(f)
+    self:NameOnlyHealthUpdate(f)
 end
 function core:HealthColourChange(f)
+    -- update nameonly upon faction changes
+    self:NameOnlyUpdate(f)
+
+    if not f.state.nameonly and f.state.target then
+        f:UpdateNameText()
+    end
 end
 function core:PowerUpdate(f,on_show)
 end
@@ -66,20 +73,26 @@ end
 function core:GainedTarget(f)
     f.state.target = true
 
+    -- disable nameonly on target
+    self:NameOnlyUpdate(f)
+    -- show name on target
+    self:ShowNameUpdate(f)
+
+    f:UpdateNameText()
     f:UpdateFrameGlow()
     f:UpdateTargetGlow()
-
-    -- target name is always shown
-    self:ShowNameUpdate(f)
 end
 function core:LostTarget(f)
     f.state.target = nil
 
-    f:UpdateFrameGlow()
-    f:UpdateTargetGlow()
-
+    -- toggle nameonly depending on state
+    self:NameOnlyUpdate(f)
     -- hide name depending on state
     self:ShowNameUpdate(f)
+
+    f:UpdateNameText()
+    f:UpdateFrameGlow()
+    f:UpdateTargetGlow()
 end
 -- events ######################################################################
 function core:QUESTLINE_UPDATE()
@@ -88,14 +101,18 @@ function core:QUESTLINE_UPDATE()
     for _,frame in addon:Frames() do
         if frame:IsShown() then
             self:ShowNameUpdate(frame)
+            frame:UpdateNameText()
         end
     end
 end
 function core:UNIT_THREAT_LIST_UPDATE(event,f)
     -- update to show name of units which are in combat with the player
     self:ShowNameUpdate(f)
+    f:UpdateNameText()
 end
 function core:UNIT_NAME_UPDATE(event,f)
+    -- update name text colour
+    f:UpdateNameText()
 end
 -- register ####################################################################
 function core:Initialise()
