@@ -43,6 +43,8 @@ end
 function core:Show(f)
     f:UpdateFrameSize()
     f:UpdateFrameGlow()
+
+    self:ShowNameUpdate(f)
 end
 function core:Hide(f)
 end
@@ -66,17 +68,32 @@ function core:GainedTarget(f)
 
     f:UpdateFrameGlow()
     f:UpdateTargetGlow()
+
+    -- target name is always shown
+    self:ShowNameUpdate(f)
 end
 function core:LostTarget(f)
     f.state.target = nil
 
     f:UpdateFrameGlow()
     f:UpdateTargetGlow()
+
+    -- hide name depending on state
+    self:ShowNameUpdate(f)
 end
 -- events ######################################################################
 function core:QUESTLINE_UPDATE()
+    -- TODO this isn't really the right event, but the others fire too soon
+    -- update to show name of new quest NPCs
+    for _,frame in addon:Frames() do
+        if frame:IsShown() then
+            self:ShowNameUpdate(frame)
+        end
+    end
 end
 function core:UNIT_THREAT_LIST_UPDATE(event,f)
+    -- update to show name of units which are in combat with the player
+    self:ShowNameUpdate(f)
 end
 function core:UNIT_NAME_UPDATE(event,f)
 end

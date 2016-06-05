@@ -121,11 +121,22 @@ function core:CreateHealthBar(f)
     f.UpdateMainBars = UpdateMainBars
 end
 -- name text ###################################################################
-function core:CreateNameText(f)
-    local nametext = CreateFontString(f)
-    nametext:SetPoint('BOTTOM',f.HealthBar,'TOP',0,-3.5)
+do
+    local function UpdateNameText(f)
+        if f.state.no_name then
+            f.NameText:Hide()
+        else
+            f.NameText:Show()
+        end
+    end
+    function core:CreateNameText(f)
+        local nametext = CreateFontString(f)
+        nametext:SetPoint('BOTTOM',f.HealthBar,'TOP',0,-3.5)
 
-    f.handler:RegisterElement('NameText',nametext)
+        f.handler:RegisterElement('NameText',nametext)
+
+        f.UpdateNameText = UpdateNameText
+    end
 end
 -- frame glow ##################################################################
 do
@@ -337,4 +348,21 @@ function core:CreateAuras(f)
     auras:SetWidth(124)
     auras:SetHeight(10)
     auras:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT',4,15)
+end
+-- name show/hide ##############################################################
+function core:ShowNameUpdate(f)
+    if f.state.nameonly then return end
+
+    if  not core.profile.hide_names or
+        f.state.target or
+        f.state.threat or
+        UnitShouldDisplayName(f.unit)
+    then
+        f.state.no_name = nil
+    else
+        f.state.no_name = true
+    end
+
+    f:UpdateNameText()
+    f:UpdateFrameSize()
 end
