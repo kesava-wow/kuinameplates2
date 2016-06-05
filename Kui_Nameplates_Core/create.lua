@@ -52,6 +52,14 @@ do
         self:orig_SetStatusBarColor(...)
         self.fill:SetVertexColor(...)
     end
+    local function FilledBar_Show(self)
+        self:orig_Show()
+        self.fill:Show()
+    end
+    local function FilledBar_Hide(self)
+        self:orig_Hide()
+        self.fill:Hide()
+    end
     function CreateStatusBar(parent)
         local bar = CreateFrame('StatusBar',nil,parent)
         bar:SetStatusBarTexture(kui.m.t.bar)
@@ -66,6 +74,12 @@ do
 
         bar.orig_SetStatusBarColor = bar.SetStatusBarColor
         bar.SetStatusBarColor = FilledBar_SetStatusBarColor
+
+        bar.orig_Show = bar.Show
+        bar.Show = FilledBar_Show
+
+        bar.orig_Hide = bar.Hide
+        bar.Hide = FilledBar_Hide
 
         return bar
     end
@@ -178,10 +192,7 @@ do
         end
     end
     function core:CreatePowerBar(f)
-        local powerbar = CreateFrame('StatusBar',nil,f.HealthBar)
-        powerbar:SetStatusBarTexture(kui.m.t.sbar)
-        powerbar:SetFrameLevel(0)
-
+        local powerbar = CreateStatusBar(f.HealthBar)
         powerbar:SetPoint('TOPLEFT',f.HealthBar,'BOTTOMLEFT',0,-1)
         powerbar:SetPoint('RIGHT',f.bg,-1,0)
 

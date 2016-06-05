@@ -20,6 +20,7 @@ function addon.Nameplate.UpdatePower(f,show,power_type)
             if colours[power_type] and power_type ~= 'STAGGER' then
                 f.PowerBar:SetStatusBarColor(unpack(colours[power_type]))
             end
+            -- TODO stagger
         else
             f.PowerBar:SetValue(0)
             f.PowerBar:SetStatusBarColor(.5,.5,.5)
