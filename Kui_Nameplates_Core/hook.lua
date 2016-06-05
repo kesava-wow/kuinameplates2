@@ -35,8 +35,11 @@ function core:Create(f)
     self:CreateHealthBar(f)
     self:CreateFrameGlow(f)
     self:CreateNameText(f)
+    self:CreateHighlight(f)
 end
 function core:Show(f)
+    f:UpdateFrameSize()
+    f:UpdateFrameGlow()
 end
 function core:Hide(f)
 end
