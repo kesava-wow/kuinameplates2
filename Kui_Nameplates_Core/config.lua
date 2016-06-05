@@ -18,7 +18,7 @@ function core:InitialiseConfig()
     self.profile = self.config:GetConfig()
 
     self.config:RegisterConfigChanged(function(self)
-        self.profile = self:GetConfig()
+        core.profile = self:GetConfig()
     end)
 
     -- inform config addon that the config table is available if it's loaded
