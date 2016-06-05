@@ -122,6 +122,9 @@ function core:UNIT_NAME_UPDATE(event,f)
 end
 -- register ####################################################################
 function core:Initialise()
+    -- TODO resets upon changing any interface options
+    C_NamePlate.SetNamePlateOtherSize(100,20)
+
     -- element configuration
     self.Auras = {
         font = self.font
