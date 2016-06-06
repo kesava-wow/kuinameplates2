@@ -575,8 +575,7 @@ do
         f.HealthBar:Hide()
         f.HealthBar.fill:Hide()
         f.ThreatGlow:Hide()
-        --f.ThreatBrackets:Hide()
-        f.TargetGlow:Hide()
+        f.ThreatBrackets:Hide()
 
         f.NameText:SetShadowOffset(1,-1)
         f.NameText:SetShadowColor(0,0,0,1)
