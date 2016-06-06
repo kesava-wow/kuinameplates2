@@ -452,6 +452,39 @@ do
         f.SpellIconSetWidth = SpellIconSetWidth
     end
 end
+-- state icons #################################################################
+do
+    local BOSS = {0,.5,0,.5}
+    local RARE = {.5,1,.5,1}
+
+    local function UpdateStateIcon(f)
+        if f.state.nameonly then
+            f.StateIcon:Hide()
+            return
+        end
+
+        if f.state.classification == 'worldboss' then
+            f.StateIcon:SetTexCoord(unpack(BOSS))
+            f.StateIcon:SetVertexColor(1,1,1)
+            f.StateIcon:Show()
+        elseif f.state.classification == 'rare' or f.state.classification == 'rareelite' then
+            f.StateIcon:SetTexCoord(unpack(RARE))
+            f.StateIcon:SetVertexColor(1,.8,.2)
+            f.StateIcon:Show()
+        else
+            f.StateIcon:Hide()
+        end
+    end
+    function core:CreateStateIcon(f)
+        local stateicon = f:CreateTexture(nil,'ARTWORK',nil,2)
+        stateicon:SetTexture(MEDIA..'state-icons')
+        stateicon:SetSize(20,20)
+        stateicon:SetPoint('LEFT',f.HealthBar,'BOTTOMLEFT',0,1)
+
+        f.StateIcon = stateicon
+        f.UpdateStateIcon = UpdateStateIcon
+    end
+end
 -- auras #######################################################################
 function core.Auras_PostCreateAuraButton(button)
     -- move text slightly for our font

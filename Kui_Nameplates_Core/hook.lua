@@ -29,6 +29,7 @@ function core:Create(f)
     self:CreateCastBar(f)
     self:CreateAuras(f)
     self:CreateThreatBrackets(f)
+    self:CreateStateIcon(f)
 end
 function core:Show(f)
     f.state.player = UnitIsUnit(f.unit,'player')
@@ -47,6 +48,8 @@ function core:Show(f)
     f:UpdateThreatBrackets()
     -- set name text colour
     f:UpdateNameText()
+    -- set state icon
+    f:UpdateStateIcon()
 end
 function core:Hide(f)
     self:NameOnlyUpdate(f,true)
@@ -60,6 +63,7 @@ function core:HealthColourChange(f)
 
     f:UpdateNameText()
     f:UpdateFrameGlow()
+    f:UpdateStateIcon()
 end
 function core:PowerUpdate(f)
     f:UpdatePowerBar()
@@ -85,6 +89,7 @@ function core:GainedTarget(f)
     f:UpdateFrameSize()
     f:UpdateNameText()
     f:UpdateFrameGlow()
+    f:UpdateStateIcon()
 end
 function core:LostTarget(f)
     f.state.target = nil
@@ -97,6 +102,10 @@ function core:LostTarget(f)
     f:UpdateFrameSize()
     f:UpdateNameText()
     f:UpdateFrameGlow()
+    f:UpdateStateIcon()
+end
+function core:ClassificationChanged(f)
+    f:UpdateStateIcon()
 end
 -- events ######################################################################
 function core:QUESTLINE_UPDATE()
@@ -150,6 +159,7 @@ function core:Initialise()
     self:RegisterMessage('CastBarHide')
     self:RegisterMessage('GainedTarget')
     self:RegisterMessage('LostTarget')
+    self:RegisterMessage('ClassificationChanged')
 
     -- register events
     self:RegisterEvent('QUESTLINE_UPDATE')
