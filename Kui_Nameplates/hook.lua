@@ -79,6 +79,6 @@ function addon:HookNameplate(frame)
 
     if frame.namePlateUnitToken and frame:IsShown() then
         -- force the first OnShow
-        frame.kui.handler:OnShow()
+        frame.kui.handler:OnUnitAdded(frame.namePlateUnitToken)
     end
 end
