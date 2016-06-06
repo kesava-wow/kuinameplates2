@@ -1,4 +1,5 @@
--- provide unit classification to rare/boss icons
+-- provide unit classification to frame state
+-- provide RareIcon and BossIcon elements
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Classification',1)
