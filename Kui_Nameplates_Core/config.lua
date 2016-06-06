@@ -6,6 +6,7 @@
 local folder,ns=...
 local kui = LibStub('Kui-1.0')
 local kc = LibStub('KuiConfig-1.0')
+local addon = KuiNameplates
 local core = KuiNameplatesCore
 -- default configuration #######################################################
 local default_config = {
@@ -19,6 +20,13 @@ function core:InitialiseConfig()
 
     self.config:RegisterConfigChanged(function(self)
         core.profile = self:GetConfig()
+
+        for i,f in addon:Frames() do
+            if f:IsShown() then
+                f.handler:OnHide()
+                f.handler:OnUnitAdded(f.parent.namePlateUnitToken)
+            end
+        end
     end)
 
     -- inform config addon that the config table is available if it's loaded
