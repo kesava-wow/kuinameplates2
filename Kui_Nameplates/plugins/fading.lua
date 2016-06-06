@@ -60,6 +60,7 @@ function mod:Hide(f)
 end
 -- register ####################################################################
 mod:RegisterEvent('PLAYER_TARGET_CHANGED','TargetUpdate')
+mod:RegisterEvent('PLAYER_ENTERING_WORLD','TargetUpdate')
 mod:RegisterMessage('GainedTarget','TargetUpdate')
 mod:RegisterMessage('LostTarget','TargetUpdate')
 mod:RegisterMessage('Show')

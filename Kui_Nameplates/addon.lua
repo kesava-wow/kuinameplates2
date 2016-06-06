@@ -63,6 +63,15 @@ function addon:NAME_PLATE_UNIT_REMOVED(unit)
         f.kui.handler:OnHide()
     end
 end
+function addon:PLAYER_LEAVING_WORLD()
+    if #framelist > 0 then
+        for i,f in self:Frames() do
+            if f:IsShown() then
+                f.handler:OnHide()
+            end
+        end
+    end
+end
 function addon:UI_SCALE_CHANGED()
     self.uiscale = UIParent:GetEffectiveScale()
 
@@ -112,6 +121,7 @@ end
 ------------------------------------------- initialise addon scripts & events --
 addon:SetScript('OnEvent',OnEvent)
 addon:RegisterEvent('PLAYER_LOGIN')
+addon:RegisterEvent('PLAYER_LEAVING_WORLD')
 addon:RegisterEvent('NAME_PLATE_CREATED')
 addon:RegisterEvent('NAME_PLATE_UNIT_ADDED')
 addon:RegisterEvent('NAME_PLATE_UNIT_REMOVED')

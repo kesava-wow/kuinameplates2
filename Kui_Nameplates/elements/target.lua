@@ -21,7 +21,7 @@ function addon.Nameplate.IsTarget(f)
     return f.parent.unit and UnitIsUnit('target',f.parent.unit)
 end
 -- events ######################################################################
-function ele:PLAYER_TARGET_CHANGED(event)
+function ele:TargetEvent()
     ClearTarget()
 
     if UnitExists('target') then
@@ -49,6 +49,7 @@ function ele:Hide(f)
     end
 end
 -- register ####################################################################
-ele:RegisterEvent('PLAYER_TARGET_CHANGED')
+ele:RegisterEvent('PLAYER_TARGET_CHANGED','TargetEvent')
+ele:RegisterEvent('PLAYER_ENTERING_WORLD','TargetEvent')
 ele:RegisterMessage('Show')
 ele:RegisterMessage('Hide')
