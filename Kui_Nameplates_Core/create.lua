@@ -182,8 +182,8 @@ do
 
             f.PowerBar:Show()
         else
-            f.handler:DisableElement('PowerBar')
-            f.PowerBar:Hide()
+            --f.handler:DisableElement('PowerBar')
+            --f.PowerBar:Hide()
         end
 
         if not on_show then

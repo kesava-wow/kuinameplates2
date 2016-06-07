@@ -5,39 +5,51 @@ local ele = addon:NewElement('PowerBar')
 local colours = {}
 
 -- prototype additions #########################################################
-function addon.Nameplate.UpdatePower(f,show,power_type)
-    -- TODO i'm guessing UNIT_POWER will sometimes fire for the power type that
-    -- we aren't currently displaying, which would break this.
+function addon.Nameplate.UpdatePower(f,on_show)
     f = f.parent
 
-    f.state.power_type = power_type
-
     if f.elements.PowerBar then
-        if power_type then
+        if f.state.power_type then
+            local power_type = f.state.power_type
+
             f.PowerBar:SetMinMaxValues(0,UnitPowerMax(f.unit,power_type))
             f.PowerBar:SetValue(UnitPower(f.unit,power_type))
 
+            -- TODO stagger
             if colours[power_type] and power_type ~= 'STAGGER' then
                 f.PowerBar:SetStatusBarColor(unpack(colours[power_type]))
             end
-            -- TODO stagger
         else
+            f.PowerBar:SetStatusBarColor(0,0,0)
             f.PowerBar:SetValue(0)
-            f.PowerBar:SetStatusBarColor(.5,.5,.5)
         end
     end
 
-    if not show then
+    if not on_show then
         addon:DispatchMessage('PowerUpdate', f)
     end
 end
 -- messages ####################################################################
 function ele:Show(f)
-    f.handler:UpdatePower(true,select(2,UnitPowerType(f.unit)))
+    -- get unit's primary power type
+    local power_type = select(2,UnitPowerType(f.unit))
+    local power_max = UnitPowerMax(f.unit,power_type)
+
+    if power_max == 0 then
+        power_type = nil
+    end
+
+    f.state.power_type = power_type
+
+    -- and update display
+    f.handler:UpdatePower(true)
 end
 -- events ######################################################################
-function ele:UNIT_POWER(event,f,power_type)
-    f.handler:UpdatePower(nil,power_type)
+function ele:PowerTypeEvent(event,f)
+    self:Show(f)
+end
+function ele:PowerEvent(event,f)
+    f.handler:UpdatePower()
 end
 -- register ####################################################################
 function ele:Initialise()
@@ -53,7 +65,7 @@ function ele:Initialise()
 end
 -- #############################################################################
 ele:RegisterMessage('Show')
-ele:RegisterUnitEvent('UNIT_DISPLAYPOWER','UNIT_POWER')
-ele:RegisterUnitEvent('UNIT_MAXPOWER','UNIT_POWER')
-ele:RegisterUnitEvent('UNIT_POWER_FREQUENT','UNIT_POWER')
-ele:RegisterUnitEvent('UNIT_POWER')
+ele:RegisterUnitEvent('UNIT_DISPLAYPOWER','PowerTypeEvent')
+ele:RegisterUnitEvent('UNIT_MAXPOWER','PowerTypeEvent')
+ele:RegisterUnitEvent('UNIT_POWER_FREQUENT','PowerEvent')
+ele:RegisterUnitEvent('UNIT_POWER','PowerEvent')
