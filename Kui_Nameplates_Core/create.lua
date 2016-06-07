@@ -183,7 +183,7 @@ do
             f.PowerBar:Show()
         else
             -- TODO need actual :Disable,:Enable functions and OnDisable/OnEnable
-            -- for power bar colour stickiness to be fixed
+            -- for power bar colour stickiness to be fixed (#5)
             f.handler:DisableElement('PowerBar')
             f.PowerBar:Hide()
         end
@@ -630,8 +630,8 @@ do
 
         f.NameText:Show()
 
+        -- TODO this shouldn't be necessary after fixing #5
         f:HideCastBar()
-
         f.handler:DisableElement('CastBar')
     end
     local function NameOnlyDisable(f)
@@ -652,8 +652,8 @@ do
         f.HealthBar:Show()
         f.HealthBar.fill:Show()
 
+        -- TODO this shouldn't be necessary after fixing #5
         f.handler:EnableElement('CastBar')
-
         if f.state.casting then
             f.handler:CastBarShow()
         end
