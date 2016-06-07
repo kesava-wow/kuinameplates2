@@ -67,7 +67,6 @@ function addon.Nameplate.CastBarHide(f)
 
     if f.elements.CastBar then
         f.CastBar:Hide()
-        f.CastBar:SetScript('OnUpdate',nil)
     end
 
     if f.elements.SpellShield then

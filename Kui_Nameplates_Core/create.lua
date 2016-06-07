@@ -380,9 +380,11 @@ do
     end
     local function HideCastBar(f)
         -- also hide attached elements
+        f.CastBar:Hide()
         f.CastBar.bg:Hide()
         f.SpellIcon.bg:Hide()
         f.SpellName:Hide()
+        f.SpellShield:Hide()
     end
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
@@ -626,7 +628,8 @@ do
 
         f.NameText:Show()
 
-        f.handler:CastBarHide()
+        f:HideCastBar()
+
         f.handler:DisableElement('CastBar')
     end
     local function NameOnlyDisable(f)
@@ -648,6 +651,10 @@ do
         f.HealthBar.fill:Show()
 
         f.handler:EnableElement('CastBar')
+
+        if f.state.casting then
+            f.handler:CastBarShow()
+        end
     end
     function core:NameOnlyHealthUpdate(f)
         -- set name text colour to approximate health
