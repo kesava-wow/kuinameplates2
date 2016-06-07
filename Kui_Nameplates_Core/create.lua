@@ -310,10 +310,18 @@ do
         f.ThreatGlow:Show()
 
         if f.state.target then
+            -- target glow colour
             f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
             f.TargetGlow:Show()
-        elseif not f.state.glowing then
-            f.ThreatGlow:SetVertexColor(0,0,0,.6)
+        else
+            if f.state.glowing then
+                -- threat glow colour
+                f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
+            else
+                -- shadow
+                f.ThreatGlow:SetVertexColor(0,0,0,.6)
+            end
+
             f.TargetGlow:Hide()
         end
     end
@@ -555,7 +563,7 @@ do
         end
 
         if f.state.glowing then
-            f.ThreatBrackets:SetVertexColor(unpack(f.state.glowColour))
+            f.ThreatBrackets:SetVertexColor(unpack(f.state.glow_colour))
             f.ThreatBrackets:Show()
         else
             f.ThreatBrackets:Hide()

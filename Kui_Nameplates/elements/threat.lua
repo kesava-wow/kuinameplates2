@@ -24,7 +24,7 @@ function ele:UNIT_THREAT_LIST_UPDATE(event,f,unit)
     threat_colour = threat_state and (threat_state > 0 and threat_colours[threat_state] or nil)
 
     f.state.threat = threat_state
-    f.state.glowColour = threat_colour
+    f.state.glow_colour = threat_colour
 
     if threat_state and threat_state > 0 then
         f.state.glowing = true
