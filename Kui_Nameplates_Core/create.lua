@@ -182,8 +182,10 @@ do
 
             f.PowerBar:Show()
         else
-            --f.handler:DisableElement('PowerBar')
-            --f.PowerBar:Hide()
+            -- TODO need actual :Disable,:Enable functions and OnDisable/OnEnable
+            -- for power bar colour stickiness to be fixed
+            f.handler:DisableElement('PowerBar')
+            f.PowerBar:Hide()
         end
 
         if not on_show then
