@@ -298,7 +298,7 @@ function message.RunCallback(table,name,...)
     end
     return true
 end
-------------------------------------------------------- plugin-only functions --
+----------------------------------------------- plugin/element-only functions --
 local function plugin_Enable(table)
     if type(table.OnEnable) == 'function' then
         table:OnEnable()
@@ -308,11 +308,7 @@ local function plugin_Enable(table)
     -- then call OnEnable if the element is enabled
     -- OnEnable is where plugins register their messages/events/etc
 
-    if table.element then
-        for i,frame in addon:Frames() do
-            frame.handler:EnableElement(table.name)
-        end
-    end
+    table.enabled = true
 end
 local function plugin_Disable(table)
     if type(table.OnDisable) == 'function' then
@@ -322,11 +318,7 @@ local function plugin_Disable(table)
     table:UnregisterAllMessages()
     table:UnregisterAllEvents()
 
-    if table.element then
-        for i,frame in addon:Frames() do
-            frame.handler:DisableElement(table.name)
-        end
-    end
+    table.enabled = nil
 end
 ------------------------------------------------------------ plugin registrar --
 -- priority = any number. Defines the load order. Default of 5.
