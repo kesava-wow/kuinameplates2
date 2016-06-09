@@ -63,7 +63,7 @@ local colours = {
     PALADIN     = { 1, 1, .1 },
     ROGUE       = { 1, 1, .1 },
     MAGE        = { .5, .5, 1 },
-    MONK        = { 0, 0, 1 },
+    MONK        = { .3, 1, .9 },
     WARLOCK     = { 1, .5, 1 },
 }
 local ICON_SIZE
