@@ -305,6 +305,7 @@ function ele:RuneUpdate(event,rune_id,energise)
         icon.glow:Hide()
     end
 
+    -- TODO should be a callback
     addon:DispatchMessage('ClassPowers_RuneUpdate')
 end
 function ele:PowerEvent(event,unit,power_type_rcv)
@@ -325,6 +326,7 @@ function ele:Initialised()
     class = select(2,UnitClass('player'))
     if not powers[class] then return end
 
+    -- TODO move these to callback helper (auras)
     -- populate callbacks
     if type(addon.layout.ClassPowers_PositionIcons) == 'function' then
         cb_PositionIcons = addon.layout.ClassPowers_PositionIcons
