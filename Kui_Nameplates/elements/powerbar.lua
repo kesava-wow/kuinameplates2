@@ -51,6 +51,15 @@ end
 function ele:PowerEvent(event,f)
     f.handler:UpdatePower()
 end
+-- enable/disable per frame ####################################################
+function ele:EnableOnFrame(frame)
+    frame.PowerBar:Show()
+    self:Show(frame)
+end
+function ele:DisableOnFrame(frame)
+    -- TODO we also don't want to run events/messages for disabled frames
+    frame.PowerBar:Hide()
+end
 -- register ####################################################################
 function ele:Initialise()
     -- get default colours

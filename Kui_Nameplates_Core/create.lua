@@ -173,19 +173,9 @@ do
             f.state.power_type
             and UnitPowerMax(f.unit,f.state.power_type) > 0
         then
-            if not f.elements.PowerBar then
-                f.handler:EnableElement('PowerBar')
-
-                f.PowerBar:SetMinMaxValues(0,UnitPowerMax(f.unit,f.state.power_type))
-                f.PowerBar:SetValue(UnitPower(f.unit,f.state.power_type))
-            end
-
-            f.PowerBar:Show()
+            f.handler:EnableElement('PowerBar')
         else
-            -- TODO need actual :Disable,:Enable functions and OnDisable/OnEnable
-            -- for power bar colour stickiness to be fixed (#5)
             f.handler:DisableElement('PowerBar')
-            f.PowerBar:Hide()
         end
 
         if not on_show then
