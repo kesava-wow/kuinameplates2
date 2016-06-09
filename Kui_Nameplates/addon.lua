@@ -101,7 +101,7 @@ local function OnEvent(self,event,...)
         sort(self.plugins, PluginSort)
 
         for k,plugin in ipairs(self.plugins) do
-            if type(plug.Initialise) == 'function' then
+            if type(plugin.Initialise) == 'function' then
                 plugin:Initialise()
             end
 
