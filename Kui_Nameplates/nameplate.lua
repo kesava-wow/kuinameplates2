@@ -32,7 +32,7 @@ function addon.Nameplate.DisableElement(frame, element_name)
     -- TODO as above, addon:GetElementProvider(name) or something
     local provider = addon:GetPlugin(element_name)
     if provider and type(provider.DisableOnFrame) == 'function' then
-        plugin:DisableOnFrame(frame)
+        plugin:DisableOnFrame(frame,element_name)
     end
 end
 function addon.Nameplate.EnableElement(frame, element_name)
@@ -43,7 +43,7 @@ function addon.Nameplate.EnableElement(frame, element_name)
 
     local provider = addon:GetPlugin(element_name)
     if provider and type(provider.EnableOnFrame) == 'function' then
-        plugin:EnableOnFrame(frame)
+        plugin:EnableOnFrame(frame,element_name)
     end
 end
 -------------------------------------------------------- Frame event handlers --
