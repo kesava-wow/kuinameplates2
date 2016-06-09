@@ -300,25 +300,25 @@ function message.RunCallback(table,name,...)
 end
 ----------------------------------------------- plugin/element-only functions --
 local function plugin_Enable(table)
-    if type(table.OnEnable) == 'function' then
-        table:OnEnable()
-    end
-    -- TODO
-    -- OnInitialise should always be called first
-    -- then call OnEnable if the element is enabled
-    -- OnEnable is where plugins register their messages/events/etc
+    if not table.enabled then
+        table.enabled = true
 
-    table.enabled = true
+        if type(table.OnEnable) == 'function' then
+            table:OnEnable()
+        end
+    end
 end
 local function plugin_Disable(table)
-    if type(table.OnDisable) == 'function' then
-        table:OnDisable()
+    if table.enabled then
+        if type(table.OnDisable) == 'function' then
+            table:OnDisable(frame)
+        end
+
+        table:UnregisterAllMessages()
+        table:UnregisterAllEvents()
+
+        table.enabled = nil
     end
-
-    table:UnregisterAllMessages()
-    table:UnregisterAllEvents()
-
-    table.enabled = nil
 end
 ------------------------------------------------------------ plugin registrar --
 -- priority = any number. Defines the load order. Default of 5.
