@@ -35,6 +35,7 @@
 local addon = KuiNameplates
 local ele = addon:NewElement('ClassPowers')
 local class, power_type, power_type_tag, cpf
+local on_target
 -- power types by class/spec
 local powers = {
     DEATHKNIGHT = SPELL_POWER_RUNES,
@@ -171,6 +172,7 @@ local function CreateIcons()
 
     PositionIcons()
 
+    -- TODO should be a callback
     addon:DispatchMessage('ClassPowers_IconsCreated')
 end
 local function PowerUpdate()
@@ -184,40 +186,69 @@ local function PowerUpdate()
         end
     end
 
+    -- TODO should be a callback
     addon:DispatchMessage('ClassPowers_PowerUpdate')
+end
+local function SetPosition()
+    local frame
+
+    if on_target then
+        if UnitIsPlayer('target') or UnitCanAttack('player','target') then
+            frame = C_NamePlate.GetNamePlateForUnit('target')
+
+            if frame and frame.kui.state.reaction <= 4 then
+                frame = frame.kui
+            else
+                frame = nil
+            end
+        end
+    else
+        frame = C_NamePlate.GetNamePlateForUnit('player')
+        frame = frame and frame.kui or nil
+    end
+
+    if not frame then
+        cpf:Hide()
+        return
+    end
+
+    local parent = frame[FRAME_POINT[2]]
+
+    if parent then
+        cpf:ClearAllPoints()
+        cpf:SetParent(frame)
+        cpf:SetFrameLevel(frame:GetFrameLevel()+1)
+        cpf:SetPoint(
+            FRAME_POINT[1],
+            parent,
+            FRAME_POINT[3],
+            FRAME_POINT[4],
+            FRAME_POINT[5]
+        )
+        cpf:Show()
+    else
+        cpf:Hide()
+    end
 end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
-    if  f.handler:IsTarget() and
-        f.state.reaction <= 4 and
-        (UnitIsPlayer(f.unit) or UnitCanAttack('player',f.unit))
-    then
-        local parent = f[FRAME_POINT[2]]
-
-        if parent then
-            cpf:ClearAllPoints()
-            cpf:SetParent(parent)
-            cpf:SetFrameLevel(parent:GetFrameLevel()+1)
-
-            cpf:SetPoint(
-                FRAME_POINT[1],
-                parent,
-                FRAME_POINT[3],
-                FRAME_POINT[4],
-                FRAME_POINT[5]
-            )
-
-            cpf:Show()
-        end
-    else
-        -- TODO place on player's frame with no valid target
-        cpf:Hide()
-    end
+    SetPosition()
 end
 -- events ######################################################################
 function ele:PLAYER_ENTERING_WORLD()
     -- update icons upon zoning. just in case.
     PowerUpdate()
+end
+function ele:CVAR_UPDATE()
+    on_target = GetCVarBool('nameplateResourceOnTarget')
+
+    if on_target then
+        self:RegisterMessage('GainedTarget','TargetUpdate')
+        self:RegisterMessage('LostTarget','TargetUpdate')
+    else
+        self:UnregisterMessage('TargetGained')
+        self:UnregisterMessage('TargetLost')
+    end
 end
 function ele:PowerInit()
     -- get current power type, register events
@@ -239,18 +270,22 @@ function ele:PowerInit()
             self:RegisterEvent('UNIT_POWER','PowerEvent')
         end
 
-        self:RegisterMessage('GainedTarget','TargetUpdate')
-        self:RegisterMessage('LostTarget','TargetUpdate')
-
-        -- for faction changes
+        self:RegisterMessage('Show','TargetUpdate')
         self:RegisterMessage('HealthColourChange','TargetUpdate')
+
+        -- for nameplateResourceOnTarget
+        self:RegisterEvent('CVAR_UPDATE')
+        self:CVAR_UPDATE()
 
         CreateIcons()
     else
         self:UnregisterEvent('PLAYER_ENTERING_WORLD')
         self:UnregisterEvent('UNIT_MAXPOWER')
         self:UnregisterEvent('UNIT_POWER')
+        self:UnregisterEvent('CVAR_UPDATE')
+        self:UnregisterEvent('RUNE_POWER_UPDATE')
 
+        self:UnregisterMessage('Show')
         self:UnregisterMessage('TargetGained')
         self:UnregisterMessage('TargetLost')
         self:UnregisterMessage('HealthColourChange')

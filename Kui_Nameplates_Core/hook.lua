@@ -144,7 +144,7 @@ function core:Initialise()
         icon_texture = 'interface/addons/kui_nameplates/media/combopoint-round',
         glow_texture = 'interface/addons/kui_nameplates/media/combopoint-glow',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
-        point = { 'TOP','HealthBar','BOTTOM',0,3 }
+        point = { 'TOP','bg','BOTTOM',0,4 }
     }
 
     -- register messages
