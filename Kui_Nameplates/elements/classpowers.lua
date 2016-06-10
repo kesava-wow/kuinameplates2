@@ -56,6 +56,9 @@
     PostRuneUpdate
         Called after updating rune icon cooldown frames for death knights.
 
+    PostPositionFrame
+        Called after positioning the icon container frame.
+
 ]]
 -- TODO sometimes hides during combat (or just every so often)
 local addon = KuiNameplates
@@ -249,6 +252,8 @@ local function PositionFrame()
     else
         cpf:Hide()
     end
+
+    ele:RunCallback('PostPositionFrame')
 end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
@@ -383,6 +388,7 @@ function ele:Initialise()
     self:RegisterCallback('PostIconsCreated')
     self:RegisterCallback('PostRuneUpdate')
     self:RegisterCallback('PostPowerUpdate')
+    self:RegisterCallback('PostPositionFrame')
 
     self:RegisterMessage('Initialised')
 end
