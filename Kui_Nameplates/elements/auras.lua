@@ -112,7 +112,7 @@ local function button_OnUpdate(self,elapsed)
     if self.cd_elap <= 0 then
         local remaining = self.expiration - GetTime()
 
-        if remaining > 0 and remaining <= 5 then
+        if remaining <= 5 then
             self:StartPulsate()
         else
             self:StopPulsate()

@@ -29,7 +29,15 @@ local function ButtonUpdate(self)
         self.cd:SetTextColor(1,1,1)
     end
 
-    self.cd:SetText(kui.FormatTime(remaining))
+    if remaining <= 0 then
+        remaining = 0
+    elseif remaining <= 1 then
+        remaining = format("%.1f", remaining)
+    else
+        remaining = kui.FormatTime(remaining)
+    end
+
+    self.cd:SetText(remaining)
     self.cd:Show()
 end
 local function ButtonUpdateCooldown(button,duration,expiration)
