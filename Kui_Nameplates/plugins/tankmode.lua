@@ -15,10 +15,11 @@ end
 function mod:GlowColourChange(f)
     -- TODO tank detection etc
     -- tank mode health bar colours
-    if f.state.threat and f.state.threat > 0 then
+    if self.enabled and f.state.threat and f.state.threat > 0 then
         if f.elements.HealthBar then
             f.HealthBar:SetStatusBarColor(unpack(colours[f.state.threat]))
         end
+
         f.state.tank_mode_coloured = true
     elseif f.state.tank_mode_coloured then
         if f.elements.HealthBar then
@@ -30,8 +31,20 @@ function mod:GlowColourChange(f)
     end
 end
 -- register ####################################################################
+function mod:OnEnable()
+    self:RegisterMessage('HealthColourChange')
+    self:RegisterMessage('GlowColourChange')
+
+    self:OnDisable()
+end
+function mod:OnDisable()
+    -- toggle on current frames
+    for i,f in addon:Frames() do
+        if f:IsShown() then
+            self:GlowColourChange(f)
+        end
+    end
+end
 function mod:Initialise()
     -- TODO get colours from layout
-    mod:RegisterMessage('HealthColourChange')
-    mod:RegisterMessage('GlowColourChange')
 end

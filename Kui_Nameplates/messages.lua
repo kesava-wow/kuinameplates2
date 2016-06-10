@@ -324,14 +324,14 @@ local function plugin_Enable(table)
 end
 local function plugin_Disable(table)
     if table.enabled then
+        table.enabled = nil
+
         if type(table.OnDisable) == 'function' then
             table:OnDisable(frame)
         end
 
         table:UnregisterAllMessages()
         table:UnregisterAllEvents()
-
-        table.enabled = nil
     end
 end
 ------------------------------------------------------------ plugin registrar --
