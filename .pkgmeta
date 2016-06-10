@@ -11,3 +11,4 @@ ignore:
     - .gitignore
     - changelog
     - README.md
+    - Kui_Nameplates_BarAuras

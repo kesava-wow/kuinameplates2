@@ -95,6 +95,12 @@ local function OnEvent(self,event,...)
         print('    /run EnableAddOn(\'Blizzard_Nameplates\')')
     end
 
+    if not self.layout then
+        -- throw missing layout
+        print('|cff9966ffKui Namemplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
+        return
+    end
+
     -- initialise plugins & elements
     if #self.plugins > 0 then
         -- sort to be initialised by order of priority
@@ -109,13 +115,8 @@ local function OnEvent(self,event,...)
         end
     end
 
-    if not self.layout then
-        -- throw missing layout
-        print('|cff9966ffKui Namemplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
-    else
-        if type(self.layout.Initialise) == 'function' then
-            self.layout:Initialise()
-        end
+    if type(self.layout.Initialise) == 'function' then
+        self.layout:Initialise()
     end
 
     addon:DispatchMessage('Initialised')
