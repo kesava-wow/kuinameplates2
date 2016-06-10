@@ -1,34 +1,60 @@
 --[[
---  Provides class power icons on nameplates for combo points, shards, etc.
+    Provides class power icons on nameplates for combo points, shards, etc.
 
     Icon container is created as addon.ClassPowersFrame after layout
     initialisation.
 
-    Messages
-    ========
+    In layout initialise
+    ====================
 
-    ClassPowers_IconsCreated
-        After icons are created.
-
-    ClassPowers_PowerUpdate
-        After icons are set to active or inactive.
-
-    ClassPowers_RuneUpdate
-        After updating rune icon cooldown frames for death knights.
+    self.ClassPowers = {
+        icon_size = size of class power icons
+        icon_texture = texture of class power icons
+        icon_glow_texture = texture of class power glow
+        cd_texture = cooldown spiral texture
+        frame_point = {
+            position of the class powers container frame
+            1 = point
+            2 = relative point frame
+            3 = relative point
+            4 = x offset
+            5 = y offset
+        }
+        colours = {
+            custom class colours for power icons
+            [class name] = {
+                1 = red,
+                2 = green,
+                3 = blue
+            }
+            ...
+        }
+    }
+        Configuration table. Must not be empty.
+        Element will not initialise if this is missing or not a table.
 
     Callbacks
     =========
 
-    layout.ClassPowers_PositionIcons
+    PositionIcons
         Can be used to replace the built in icon positioning function.
 
-    layout.ClassPowers_CreateIcon
+    CreateIcon
         Can be used to replace the built in function which creates each
         individual power icon.
 
-    layout.ClassPowers_PostCreateIcon(icon)
+    PostCreateIcon(icon)
         Called after a power icon is created by the built in CreateIcon
         function.
+
+    PostIconsCreated
+        Called after icons are created.
+
+    PostPowerUpdate
+        Called after icons are set to active or inactive.
+
+    PostRuneUpdate
+        Called after updating rune icon cooldown frames for death knights.
 
 ]]
 -- TODO sometimes hides during combat (or just every so often)
@@ -95,53 +121,46 @@ local function PositionIcons()
 end
 local function CreateIcon()
     -- create individual icon
-    if cb_CreateIcon then
-        return cb_CreateIcon()
-    end
+    local icon = ele:RunCallback('CreateIcon')
 
-    -- TODO this needs the return value from the callback (the created icon)
-    if ele:RunCallback('CreateIcon') then
-        return
-    end
+    if not icon then
+        icon = cpf:CreateTexture(nil,'ARTWORK',nil,1)
+        icon:SetTexture(ICON_TEXTURE)
+        icon:SetSize(ICON_SIZE,ICON_SIZE)
 
-    local icon = cpf:CreateTexture(nil,'ARTWORK',nil,1)
-    icon:SetTexture(ICON_TEXTURE)
-    icon:SetSize(ICON_SIZE,ICON_SIZE)
+        -- TODO glow should probably just be a layout thing
+        local ig = cpf:CreateTexture(nil,'ARTWORK',nil,0)
+        ig:SetTexture(ICON_GLOW_TEXTURE)
+        ig:SetSize(ICON_SIZE+10,ICON_SIZE+10)
+        ig:SetPoint('CENTER',icon)
+        ig:SetAlpha(.8)
 
-    -- TODO glow should probably just be a layout thing
-    local ig = cpf:CreateTexture(nil,'ARTWORK',nil,0)
-    ig:SetTexture(ICON_GLOW_TEXTURE)
-    ig:SetSize(ICON_SIZE+10,ICON_SIZE+10)
-    ig:SetPoint('CENTER',icon)
-    ig:SetAlpha(.8)
+        icon.glow = ig
 
-    icon.glow = ig
+        icon:SetVertexColor(unpack(colours[class]))
+        ig:SetVertexColor(unpack(colours[class]))
 
-    icon:SetVertexColor(unpack(colours[class]))
-    ig:SetVertexColor(unpack(colours[class]))
-
-    if class == 'DEATHKNIGHT' then
-        -- also create a cooldown frame for runes
-        local cd = CreateFrame('Cooldown',nil,cpf,'CooldownFrameTemplate')
-        cd:SetSwipeTexture(CD_TEXTURE)
-        cd:SetAllPoints(icon)
-        cd:SetDrawEdge(false)
-        cd:SetHideCountdownNumbers(true)
-        icon.cd = cd
-    else
-        icon.Active = function(self)
-            self:SetAlpha(1)
-            self.glow:Show()
-        end
-        icon.Inactive = function(self)
-            self:SetAlpha(.5)
-            self.glow:Hide()
+        if class == 'DEATHKNIGHT' then
+            -- also create a cooldown frame for runes
+            local cd = CreateFrame('Cooldown',nil,cpf,'CooldownFrameTemplate')
+            cd:SetSwipeTexture(CD_TEXTURE)
+            cd:SetAllPoints(icon)
+            cd:SetDrawEdge(false)
+            cd:SetHideCountdownNumbers(true)
+            icon.cd = cd
+        else
+            icon.Active = function(self)
+                self:SetAlpha(1)
+                self.glow:Show()
+            end
+            icon.Inactive = function(self)
+                self:SetAlpha(.5)
+                self.glow:Hide()
+            end
         end
     end
 
-    if cb_PostCreateIcon then
-        cb_PostCreateIcon(icon)
-    end
+    ele:RunCallback('PostCreateIcon',icon)
 
     return icon
 end
@@ -174,8 +193,8 @@ local function CreateIcons()
 
     PositionIcons()
 
-    -- TODO should be a callback
-    addon:DispatchMessage('ClassPowers_IconsCreated')
+    ele:RunCallback('PostIconsCreated')
+
 end
 local function PowerUpdate()
     -- toggle icons based on current power
@@ -188,8 +207,7 @@ local function PowerUpdate()
         end
     end
 
-    -- TODO should be a callback
-    addon:DispatchMessage('ClassPowers_PowerUpdate')
+    ele:RunCallback('PostPowerUpdate')
 end
 local function SetPosition()
     local frame
@@ -307,8 +325,7 @@ function ele:RuneUpdate(event,rune_id,energise)
         icon.glow:Hide()
     end
 
-    -- TODO should be a callback
-    addon:DispatchMessage('ClassPowers_RuneUpdate')
+    ele:RunCallback('PostRuneUpdate')
 end
 function ele:PowerEvent(event,unit,power_type_rcv)
     -- validate power events + passthrough to PowerUpdate
@@ -323,25 +340,26 @@ function ele:PowerEvent(event,unit,power_type_rcv)
 end
 -- register ####################################################################
 function ele:Initialised()
-    if not addon.layout.ClassPowers then return end
+    if  not addon.layout.ClassPowers or
+        type(addon.layout.ClassPowers) ~= 'table'
+    then
+        return
+    end
 
     class = select(2,UnitClass('player'))
     if not powers[class] then return end
 
-    -- TODO add to documentation
-    if type(addon.layout.ClassPowers) == 'table' then
-        -- get config from layout
-        ICON_SIZE         = addon.layout.ClassPowers.icon_size
-        ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
-        ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
-        CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
-        FRAME_POINT       = addon.layout.ClassPowers.point
+    -- get config from layout
+    ICON_SIZE         = addon.layout.ClassPowers.icon_size
+    ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
+    ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
+    CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
+    FRAME_POINT       = addon.layout.ClassPowers.point
 
-        if type(addon.layout.ClassPowers.colours) == 'table' and
-           addon.layout.ClassPowers.colours[class]
-        then
-            colours[class] = addon.layout.ClassPowers.colours[class]
-        end
+    if type(addon.layout.ClassPowers.colours) == 'table' and
+       addon.layout.ClassPowers.colours[class]
+    then
+        colours[class] = addon.layout.ClassPowers.colours[class]
     end
 
     ICON_SIZE = ICON_SIZE * addon.uiscale
@@ -360,8 +378,11 @@ end
 function ele:Initialise()
     -- register callbacks
     self:RegisterCallback('PositionIcons')
-    self:RegisterCallback('CreateIcon')
+    self:RegisterCallback('CreateIcon',true)
     self:RegisterCallback('PostCreateIcon')
+    self:RegisterCallback('PostIconsCreated')
+    self:RegisterCallback('PostRuneUpdate')
+    self:RegisterCallback('PostPowerUpdate')
 
     self:RegisterMessage('Initialised')
 end

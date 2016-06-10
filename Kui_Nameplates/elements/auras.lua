@@ -1,7 +1,6 @@
 --[[
     Provides aura frames to the layout based on table configuration.
 
-
     In layout initialise
     ====================
 
