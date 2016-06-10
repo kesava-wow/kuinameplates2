@@ -10,6 +10,11 @@ local category = 'Kui |cff9966ffNameplates Core'
 local knp = KuiNameplates
 local kc = LibStub('KuiConfig-1.0')
 local config,profile
+-- tooltips ####################################################################
+local tooltip_text = {
+    nameonly = 'Hide the healthbars of friendly or unattackable units',
+    tank_mode = 'Recolour the health bars of units you are actively tanking',
+}
 -- load-on-demand ##############################################################
 if AddonLoader and AddonLoader.RemoveInterfaceOptions then
     -- remove AddonLoader's fake category
@@ -28,6 +33,20 @@ local opt = CreateFrame('Frame','KuiNameplatesCoreConfig',InterfaceOptionsFrameP
 opt:Hide()
 opt.name = category
 -- helpers #####################################################################
+local function OnEnter(self)
+    GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
+    GameTooltip:SetWidth(200)
+    GameTooltip:AddLine(self.desc:GetText())
+
+    if tooltip_text[self.env] then
+        GameTooltip:AddLine(tooltip_text[self.env], 1,1,1,true)
+    end
+
+    GameTooltip:Show()
+end
+local function OnLeave(self)
+    GameTooltip:Hide()
+end
 local function CheckBoxOnClick(self)
     if self:GetChecked() then
         PlaySound("igMainMenuOptionCheckBoxOn")
@@ -56,6 +75,9 @@ local function CreateCheckBox(name, desc, callback)
     check.callback = callback
     check:SetScript('OnClick',CheckBoxOnClick)
     check:SetScript('OnShow',CheckBoxOnShow)
+
+    check:HookScript('OnEnter',OnEnter)
+    check:HookScript('OnLeave',OnLeave)
 
     check.desc = opt:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
     check.desc:SetText(desc)
