@@ -18,6 +18,7 @@ local default_config = {
 -- config changed functions ####################################################
 local configChanged = {}
 function configChanged.tank_mode(v)
+    -- TODO need to apply this stuff on init
     if v then
         addon:GetPlugin('TankMode'):Enable()
     else
