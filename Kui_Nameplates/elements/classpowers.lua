@@ -209,7 +209,7 @@ local function PowerUpdate()
 
     ele:RunCallback('PostPowerUpdate')
 end
-local function SetPosition()
+local function PositionFrame()
     local frame
 
     if on_target then
@@ -252,7 +252,7 @@ local function SetPosition()
 end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
-    SetPosition()
+    PositionFrame()
 end
 -- events ######################################################################
 function ele:PLAYER_ENTERING_WORLD()
