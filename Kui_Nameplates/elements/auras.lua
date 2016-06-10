@@ -228,9 +228,9 @@ local button_meta = {
     StopPulsate = button_StopPulsate
 }
 local function CreateAuraButton(parent)
-    local button
+    local button = ele:RunCallback('CreateAuraButton',parent)
 
-    if not ele:RunCallback('CreateAuraButton',parent) then
+    if not button then
         button = CreateFrame('Frame',nil,parent)
         button:SetWidth(parent.size)
         button:SetHeight(parent.icon_height)
@@ -559,7 +559,7 @@ end
 function ele:Initialise()
     -- register callbacks
     self:RegisterCallback('ArrangeButtons')
-    self:RegisterCallback('CreateAuraButton')
+    self:RegisterCallback('CreateAuraButton',true)
     self:RegisterCallback('PostCreateAuraButton')
     self:RegisterCallback('PostCreateAuraFrame')
 
