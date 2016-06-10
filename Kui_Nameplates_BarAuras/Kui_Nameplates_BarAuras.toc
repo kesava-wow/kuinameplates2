@@ -1,0 +1,6 @@
+## Interface: 70000
+## Author: Kesava
+## Title: Kui |cff9966ffNameplates:|r |cffffffffBarAuras|r
+## Notes: Example plugin using callbacks.
+
+mod.lua
