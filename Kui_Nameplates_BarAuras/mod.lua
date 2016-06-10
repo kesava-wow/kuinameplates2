@@ -20,10 +20,8 @@ end
 local function ButtonUpdate(self)
     local remaining = self.expiration - GetTime()
 
-    if remaining > 0 and remaining <= 10 then
-        -- update bar for last 10 seconds
-        self.bar:SetValue(remaining)
-    end
+    -- also update bar
+    self.bar:SetValue(remaining <= 0 and 0 or remaining >= 10 and 10 or remaining)
 
     if remaining > 20 then
         self.cd:SetTextColor(1,1,1)
@@ -45,7 +43,6 @@ local function ButtonUpdateCooldown(button,duration,expiration)
 
     if expiration and expiration > 0 then
         button.bar:Show()
-        button.bar:SetValue(10)
         button:HookScript('OnUpdate',ButtonUpdate)
     else
         button.bar:Hide()
