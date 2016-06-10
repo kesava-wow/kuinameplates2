@@ -12,15 +12,29 @@ local core = KuiNameplatesCore
 local default_config = {
     nameonly = true,
     hide_names = true,
-    threat_brackets = false
+    tank_mode = true,
+    threat_brackets = false,
 }
+-- config changed functions ####################################################
+local configChanged = {}
+function configChanged.tank_mode(v)
+    if v then
+        addon:GetPlugin('TankMode'):Enable()
+    else
+        addon:GetPlugin('TankMode'):Disable()
+    end
+end
 -- init config #################################################################
 function core:InitialiseConfig()
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.profile = self.config:GetConfig()
 
-    self.config:RegisterConfigChanged(function(self)
+    self.config:RegisterConfigChanged(function(self,k,v)
         core.profile = self:GetConfig()
+
+        if configChanged[k] then
+            configChanged[k](v)
+        end
 
         for i,f in addon:Frames() do
             if f:IsShown() then

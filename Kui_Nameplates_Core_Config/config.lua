@@ -66,11 +66,13 @@ end
 -- create elements #############################################################
 local nameonlyCheck = CreateCheckBox('nameonly','Use nameonly mode')
 local hidenamesCheck = CreateCheckBox('hide_names','Hide unimportant unit names')
+local tankmodeCheck = CreateCheckBox('tank_mode','Enable tank mode')
 local threatbracketsCheck = CreateCheckBox('threat_brackets','Show threat brackets')
 
 nameonlyCheck:SetPoint('TOPLEFT',20,-20)
 hidenamesCheck:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
-threatbracketsCheck:SetPoint('TOPLEFT',hidenamesCheck,'BOTTOMLEFT')
+tankmodeCheck:SetPoint('TOPLEFT',hidenamesCheck,'BOTTOMLEFT')
+threatbracketsCheck:SetPoint('TOPLEFT',tankmodeCheck,'BOTTOMLEFT')
 -- add to interface ############################################################
 InterfaceOptions_AddCategory(opt)
 
