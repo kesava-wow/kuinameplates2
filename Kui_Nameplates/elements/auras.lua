@@ -250,7 +250,7 @@ local function CreateAuraButton(parent)
         cd:SetFont(FONT, FONT_SIZE_CD, FONT_FLAGS)
         cd:SetPoint('CENTER')
 
-        local count = button:CreateFontString(il,'OVERLAY')
+        local count = button:CreateFontString(nil,'OVERLAY')
         count:SetFont(FONT, FONT_SIZE_COUNT, FONT_FLAGS)
         count:SetPoint('BOTTOMRIGHT', 2, -2)
         count:Hide()
