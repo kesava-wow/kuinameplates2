@@ -515,6 +515,7 @@ function core:CreateAuras(f)
 end
 -- class powers ################################################################
 function core.ClassPowers_PostPositionFrame()
+    if not addon.ClassPowersFrame:IsShown() then return end
     if UnitIsUnit(addon.ClassPowersFrame:GetParent().unit,'player') then
         -- change position when on the player's nameplate
         addon.ClassPowersFrame:ClearAllPoints()
