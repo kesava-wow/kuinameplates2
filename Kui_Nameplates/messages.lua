@@ -233,12 +233,13 @@ function message.UnregisterAllEvents(table)
     table.__EVENTS = nil
 end
 ------------------------------------------------------------- callback helper --
-function message.RegisterCallback(table,name)
+function message.RegisterCallback(table,name,return_needed)
     -- register a callback to this plugin
+    -- return_needed: only allow one callback function
     if not table.__CALLBACKS then
         table.__CALLBACKS = {}
     end
-    table.__CALLBACKS[name] = true
+    table.__CALLBACKS[name] = return_needed and 2 or 1
 end
 function message.AddCallback(table,target,name,func,priority)
     -- add a callback function
@@ -263,21 +264,30 @@ function message.AddCallback(table,target,name,func,priority)
         if not target.callbacks then
             target.callbacks = {}
         end
-        if not target.callbacks[name] then
-            target.callbacks[name] = {}
-        end
 
-        local inserted
-        for i,cb in ipairs(target.callbacks[name]) do
-            if cb[2] > priority then
-                tinsert(target.callbacks[name],i,insert_tbl)
-                inserted = true
-                break
+        if target.__CALLBACKS[name] == 1 then
+            if not target.callbacks[name] then
+                target.callbacks[name] = {}
             end
-        end
 
-        if not inserted then
-            tinsert(target.callbacks[name],insert_tbl)
+            local inserted
+            for i,cb in ipairs(target.callbacks[name]) do
+                if cb[2] > priority then
+                    tinsert(target.callbacks[name],i,insert_tbl)
+                    inserted = true
+                    break
+                end
+            end
+
+            if not inserted then
+                tinsert(target.callbacks[name],insert_tbl)
+            end
+        elseif target.__CALLBACKS[name] == 2 then
+            if not target.callbacks[name] or
+               priority > target.callbacks[name][2]
+            then
+                target.callbacks[name] = insert_tbl
+            end
         end
     else
         addon:print((table.name or 'nil')..': no callback '..name..' in '..(target.name or 'nil'))
@@ -293,10 +303,14 @@ end
 function message.RunCallback(table,name,...)
     -- run this plugin's named callback
     if not table:HasCallback(name) then return end
-    for i,cb in ipairs(table.callbacks[name]) do
-        cb[1](...)
+    if table.__CALLBACKS[name] == 2 then
+        return table.callbacks[name][1](...)
+    else
+        for i,cb in ipairs(table.callbacks[name]) do
+            cb[1](...)
+        end
+        return true
     end
-    return true
 end
 ----------------------------------------------- plugin/element-only functions --
 local function plugin_Enable(table)
