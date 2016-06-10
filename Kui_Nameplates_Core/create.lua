@@ -513,6 +513,20 @@ function core:CreateAuras(f)
     auras:SetHeight(10)
     auras:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT',4,15)
 end
+-- class powers ################################################################
+function core.ClassPowers_PostPositionFrame()
+    if UnitIsUnit(addon.ClassPowersFrame:GetParent().unit,'player') then
+        -- change position when on the player's nameplate
+        addon.ClassPowersFrame:ClearAllPoints()
+        addon.ClassPowersFrame:SetPoint(
+            'CENTER',
+            addon.ClassPowersFrame:GetParent().HealthBar,
+            'TOP',
+            0,
+            1
+        )
+    end
+end
 -- threat brackets #############################################################
 do
     local TB_TEXTURE = 'interface/addons/kui_nameplates/media/threat-bracket'
