@@ -1,6 +1,6 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('BarAuras')
+local mod = addon:NewPlugin('BarAuras',101)
 
 local orig_UpdateCooldown
 local auras_sort = function(a,b)
