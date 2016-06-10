@@ -55,8 +55,6 @@ local power_tags = {
     [SPELL_POWER_CHI]            = 'CHI',
     [SPELL_POWER_SOUL_SHARDS]    = 'SOUL_SHARDS'
 }
--- callback functions
-local cb_PositionIcons, cb_CreateIcon, cb_PostCreateIcon
 -- icon config
 local colours = {
     DEATHKNIGHT = { 1, .2, .3 },
@@ -75,8 +73,7 @@ local FRAME_POINT
 -- local functions #############################################################
 local function PositionIcons()
     -- position icons in the powers container frame
-    if cb_PositionIcons then
-        cb_PositionIcons()
+    if ele:RunCallback('PositionIcons') then
         return
     end
 
@@ -100,6 +97,11 @@ local function CreateIcon()
     -- create individual icon
     if cb_CreateIcon then
         return cb_CreateIcon()
+    end
+
+    -- TODO this needs the return value from the callback (the created icon)
+    if ele:RunCallback('CreateIcon') then
+        return
     end
 
     local icon = cpf:CreateTexture(nil,'ARTWORK',nil,1)
@@ -326,18 +328,6 @@ function ele:Initialised()
     class = select(2,UnitClass('player'))
     if not powers[class] then return end
 
-    -- TODO move these to callback helper (auras)
-    -- populate callbacks
-    if type(addon.layout.ClassPowers_PositionIcons) == 'function' then
-        cb_PositionIcons = addon.layout.ClassPowers_PositionIcons
-    end
-    if type(addon.layout.ClassPowers_CreateIcon) == 'function' then
-        cb_CreateIcon = addon.layout.ClassPowers_CreateIcon
-    end
-    if type(addon.layout.ClassPowers_PostCreateIcon) == 'function' then
-        cb_PostCreateIcon = addon.layout.ClassPowers_PostCreateIcon
-    end
-
     -- TODO add to documentation
     if type(addon.layout.ClassPowers) == 'table' then
         -- get config from layout
@@ -367,5 +357,11 @@ function ele:Initialised()
 
     addon.ClassPowersFrame = cpf
 end
+function ele:Initialise()
+    -- register callbacks
+    self:RegisterCallback('PositionIcons')
+    self:RegisterCallback('CreateIcon')
+    self:RegisterCallback('PostCreateIcon')
 
-ele:RegisterMessage('Initialised')
+    self:RegisterMessage('Initialised')
+end

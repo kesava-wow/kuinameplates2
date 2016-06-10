@@ -559,11 +559,11 @@ function ele:Initialised()
 end
 function ele:Initialise()
     -- register callbacks
-    ele:RegisterCallback('ArrangeButtons')
-    ele:RegisterCallback('CreateAuraButton')
-    ele:RegisterCallback('PostCreateAuraButton')
-    ele:RegisterCallback('PostCreateAuraFrame')
+    self:RegisterCallback('ArrangeButtons')
+    self:RegisterCallback('CreateAuraButton')
+    self:RegisterCallback('PostCreateAuraButton')
+    self:RegisterCallback('PostCreateAuraFrame')
 
-    ele:RegisterMessage('Initialised')
+    self:RegisterMessage('Initialised')
 end
 
