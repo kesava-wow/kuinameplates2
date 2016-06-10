@@ -562,7 +562,7 @@ do
     end
     -- update
     local function UpdateThreatBrackets(f)
-        if f.state.nameonly then
+        if not core.profile.threat_brackets or f.state.nameonly then
             f.ThreatBrackets:Hide()
             return
         end

@@ -11,7 +11,8 @@ local core = KuiNameplatesCore
 -- default configuration #######################################################
 local default_config = {
     nameonly = true,
-    hide_names = true
+    hide_names = true,
+    threat_brackets = false
 }
 -- init config #################################################################
 function core:InitialiseConfig()
