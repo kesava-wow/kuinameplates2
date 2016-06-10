@@ -1,37 +1,46 @@
 --[[
     Provides aura frames to the layout based on table configuration.
 
-    Aura frames are created on each nameplate when the Create message is
-    dispatched. They are listed in the table: frame.Auras.frames
 
     In layout initialise
     ====================
 
-    self.Auras = {}
-        Table of frame definitions. Must have numeric index.
-        Element will not run if this is missing or empty.
-
-    Frame definition values
-    =======================
-
-    size = icon size
-    squareness = icon width/height ratio
-    point = {
-        [1] = point to place first aura icon in auras frame
-        [2] = point of icon to attach to previous icon in a row
-        [3] = point of previous icon on to which the next will be attached
+    self.Auras = {
+        font = path to font to use for aura countdown and stack count
+        font_size_cd = size of font used for aura countdown
+        font_size_count = size of font used for aura stack count
+        font_flags = additional font flags (OUTLINE, et al)
     }
-    x_spacing = horizontal spacing between icons
-    y_spacing = vertical spacing between icons
-    max = maximum number of auras to display
-    rows = maximum number of rows
-    row_growth = direction in which rows will grow ('UP' or 'DOWN')
-    sort = aura sorting function
-    filter = filter used in UnitAura calls
-    num_per_row = number of icons per row;
-                  if left nil, calculates as max / rows
-    whitelist = a table of spellids to to show in the aura frame
-    kui_whitelist = use the whitelist provided by KuiSpellList
+        Configuration table. Can be an empty table.
+        Element will not initialise if this is missing.
+
+    Creating aura frames
+    ====================
+
+    Aura frames can be created with the function:
+        frame.handler:CreateAuraFrame(frame_def)
+
+    frame_def is a table which may contain the following values:
+    frame_def = {
+        size = icon size
+        squareness = icon width/height ratio
+        point = {
+            [1] = point to place first aura icon in auras frame
+            [2] = point of icon to attach to previous icon in a row
+            [3] = point of previous icon on to which the next will be attached
+        }
+        x_spacing = horizontal spacing between icons
+        y_spacing = vertical spacing between icons
+        max = maximum number of auras to display
+        rows = maximum number of rows
+        row_growth = direction in which rows will grow ('UP' or 'DOWN')
+        sort = aura sorting function
+        filter = filter used in UnitAura calls
+        num_per_row = number of icons per row;
+                      if left nil, calculates as max / rows
+        whitelist = a table of spellids to to show in the aura frame
+        kui_whitelist = use the whitelist provided by KuiSpellList
+    }
 
     Callbacks
     =========
@@ -459,8 +468,6 @@ function ele:WhitelistChanged()
 end
 -- prototype additions #########################################################
 function addon.Nameplate.CreateAuraFrame(f,frame_def)
-    -- TODO update documentation to reflect this change
-    -- (creating aura frames via handler function)
     f = f.parent
     local new_frame = CreateAuraFrame(f)
 
@@ -537,7 +544,6 @@ end
 function ele:Initialised()
     if not addon.layout.Auras then return end
 
-    -- TODO add to docs
     FONT = addon.layout.Auras.font or 'Fonts\\FRIZQT__.TTF'
     FONT_SIZE_CD = addon.layout.Auras.font_size_cd or 12
     FONT_SIZE_COUNT = addon.layout.Auras.font_size_count or 10
