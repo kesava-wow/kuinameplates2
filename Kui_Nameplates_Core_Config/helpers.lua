@@ -138,10 +138,11 @@ do
             if pt then
                 tab:SetPoint('LEFT',pt,'RIGHT')
             else
-                tab:SetPoint('TOPLEFT',10,-8)
+                tab:SetPoint('TOPLEFT',10,-9)
             end
 
             PanelTemplates_TabResize(tab,0)
+            PanelTemplates_DeselectTab(tab)
 
             pt = tab
         end
