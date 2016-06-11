@@ -42,7 +42,6 @@ if AddonLoader and AddonLoader.RemoveInterfaceOptions then
     InterfaceOptionsFrame.lastFrame = lastFrame
     lastFrame = nil
 end
-
 -- slash command ###############################################################
 SLASH_KUINAMEPLATESCORE1 = '/knp'
 SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
@@ -52,6 +51,13 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     InterfaceOptionsFrame_OpenToCategory(category)
     InterfaceOptionsFrame_OpenToCategory(category)
 end
+-- script handlers #############################################################
+opt:HookScript('OnSizeChanged',function(self)
+    -- fit pages into frame
+    for k,v in ipairs(self.pages) do
+        v:SetWidth(opt:GetWidth()-40)
+    end
+end)
 -- initialise ##################################################################
 function opt:LayoutLoaded()
     -- called by knp core if config is already loaded when layout is initialised
