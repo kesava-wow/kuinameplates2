@@ -141,7 +141,7 @@ do
                 tab:SetPoint('TOPLEFT',10,-8)
             end
 
-            PanelTemplates_TabResize(tab,5)
+            PanelTemplates_TabResize(tab,0)
 
             pt = tab
         end
