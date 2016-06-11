@@ -8,4 +8,7 @@
 ## X-LoadOn-Slash: /knp, /kuinameplates
 ## X-LoadOn-InterfaceOptions: Kui |cff9966ffNameplates Core
 
-config.lua
+main.lua
+l11n.lua
+helpers.lua
+create.lua
