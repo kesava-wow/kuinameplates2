@@ -11,10 +11,22 @@ local frame_name = 'KuiNameplatesCoreConfig'
 local knp = KuiNameplates
 local kc = LibStub('KuiConfig-1.0')
 local config,profile
--- tooltips ####################################################################
-local tooltip_text = {
+-- strings #####################################################################
+local page_names = {
+    general = 'General',
+    test1 = 'Test 1',
+    test2 = 'Test 2',
+    test3 = 'Something different'
+}
+local opt_tooltips = {
     nameonly = 'Hide the healthbars of friendly or unattackable units',
     tank_mode = 'Recolour the health bars of units you are actively tanking',
+}
+local opt_titles = {
+    nameonly = 'Use nameonly mode',
+    hide_names = 'Hide unimportant unit names',
+    tank_mode = 'Enable tank mode',
+    threat_brackets = 'Show threat brackets'
 }
 -- load-on-demand ##############################################################
 if AddonLoader and AddonLoader.RemoveInterfaceOptions then
@@ -71,7 +83,7 @@ do
             self:SetChecked(profile[self.env])
         end
     end
-    local function CreateCheckBox(parent, name, desc, callback)
+    local function CreateCheckBox(parent, name, callback)
         local check = CreateFrame('CheckButton', frame_name..name..'Check', parent, 'OptionsBaseCheckButtonTemplate')
 
         check.env = name
@@ -83,7 +95,7 @@ do
         check:HookScript('OnLeave',OnLeave)
 
         check.desc = parent:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-        check.desc:SetText(desc)
+        check.desc:SetText(opt_titles[name] or 'Checkbox')
         check.desc:SetPoint('LEFT', check, 'RIGHT')
 
         return check
@@ -156,7 +168,7 @@ do
         for k,v in ipairs(opt.pages) do
             local tab = CreateFrame('Button',frame_name..v.name..'PageTab',opt,'TabButtonTemplate')
             tab:HookScript('OnClick',OnClick)
-            tab:SetText(v.name)
+            tab:SetText(page_names[v.name] or 'Tab')
             tab.child = v
 
             if pt then
@@ -175,15 +187,15 @@ end
 -- #############################################################################
 -- options frame elements ######################################################
 -- page containers #############################################################
-local general = opt:CreateConfigPage('General')
-local test1 = opt:CreateConfigPage('Test 1')
-local test2 = opt:CreateConfigPage('Test 2')
-local test3 = opt:CreateConfigPage('Test 3')
+local general = opt:CreateConfigPage('general')
+local test1 = opt:CreateConfigPage('test1')
+local test2 = opt:CreateConfigPage('test2')
+local test3 = opt:CreateConfigPage('test3')
 -- create elements #############################################################
-local nameonlyCheck = general:CreateCheckBox('nameonly','Use nameonly mode')
-local hidenamesCheck = general:CreateCheckBox('hide_names','Hide unimportant unit names')
-local tankmodeCheck = general:CreateCheckBox('tank_mode','Enable tank mode')
-local threatbracketsCheck = general:CreateCheckBox('threat_brackets','Show threat brackets')
+local nameonlyCheck = general:CreateCheckBox('nameonly')
+local hidenamesCheck = general:CreateCheckBox('hide_names')
+local tankmodeCheck = general:CreateCheckBox('tank_mode')
+local threatbracketsCheck = general:CreateCheckBox('threat_brackets')
 
 nameonlyCheck:SetPoint('TOPLEFT',10,-10)
 hidenamesCheck:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
