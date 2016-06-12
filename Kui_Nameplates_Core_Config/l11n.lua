@@ -17,4 +17,5 @@ opt.titles = {
     tank_mode = 'Enable tank mode',
     threat_brackets = 'Show threat brackets',
     profile = 'Profile',
+    new_profile = 'New profile...',
 }

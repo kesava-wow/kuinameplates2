@@ -59,6 +59,7 @@ opt:HookScript('OnSizeChanged',function(self)
     end
 end)
 -- profile drop down handlers ##################################################
+-- TODO move this stuff into a KuiConfig helper
 local function profileDropDown_OnChanged(dd,profile_select)
     opt.config:SetProfile(profile_select)
 end
@@ -69,7 +70,7 @@ local function profileDropDown_Initialize()
     local info = UIDropDownMenu_CreateInfo()
 
     do
-        info.text = "New profile..."
+        info.text = opt.titles.new_profile
         info.checked = nil
         info.func = profileDropDown_NewProfile
         UIDropDownMenu_AddButton(info)
