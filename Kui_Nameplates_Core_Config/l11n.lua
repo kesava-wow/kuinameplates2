@@ -15,5 +15,6 @@ opt.titles = {
     nameonly = 'Use nameonly mode',
     hide_names = 'Hide unimportant unit names',
     tank_mode = 'Enable tank mode',
-    threat_brackets = 'Show threat brackets'
+    threat_brackets = 'Show threat brackets',
+    profile = 'Profile',
 }

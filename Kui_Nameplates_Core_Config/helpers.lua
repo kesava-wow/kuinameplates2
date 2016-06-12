@@ -2,12 +2,11 @@ local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
 -- element creation helpers ####################################################
-local CreateCheckBox
 do
     local function OnEnter(self)
         GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
         GameTooltip:SetWidth(200)
-        GameTooltip:AddLine(self.desc:GetText())
+        GameTooltip:AddLine(self.label and self.label:GetText() or '')
 
         if opt.tooltips[self.env] then
             GameTooltip:AddLine(opt.tooltips[self.env], 1,1,1,true)
@@ -40,7 +39,7 @@ do
         end
     end
 
-    function CreateCheckBox(parent, name, callback)
+    function opt.CreateCheckBox(parent, name, callback)
         local check = CreateFrame('CheckButton', frame_name..name..'Check', parent, 'OptionsBaseCheckButtonTemplate')
 
         check.env = name
@@ -51,11 +50,25 @@ do
         check:HookScript('OnEnter',OnEnter)
         check:HookScript('OnLeave',OnLeave)
 
-        check.desc = parent:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-        check.desc:SetText(opt.titles[name] or 'Checkbox')
-        check.desc:SetPoint('LEFT', check, 'RIGHT')
+        check.label = parent:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
+        check.label:SetText(opt.titles[name] or 'Checkbox')
+        check.label:SetPoint('LEFT', check, 'RIGHT')
 
         return check
+    end
+
+    function opt.CreateDropDown(parent, name)
+        local dd = CreateFrame('Frame',frame_name..name..'DropDown',parent,'UIDropDownMenuTemplate')
+        UIDropDownMenu_SetWidth(dd,150)
+
+        dd:HookScript('OnEnter',OnEnter)
+        dd:HookScript('OnLeave',OnLeave)
+
+        dd.label = parent:CreateFontString(dd:GetName()..'Label','ARTWORK','GameFontHighlightSmall')
+        dd.label:SetText(opt.titles[name] or 'DropDown')
+        dd.label:SetPoint('BOTTOMLEFT',dd,'TOPLEFT',20,1)
+
+        return dd
     end
 end
 -- page functions ##############################################################
@@ -80,7 +93,8 @@ do
     end
 
     local page_proto = {
-        CreateCheckBox = CreateCheckBox,
+        CreateCheckBox = opt.CreateCheckBox,
+        CreateDropDown = opt.CreateDropDown,
 
         HidePage = HidePage,
         ShowPage = ShowPage
@@ -90,7 +104,7 @@ do
         f.name = name
 
         f.scroll = CreateFrame('ScrollFrame',frame_name..name..'PageScrollFrame',self,'UIPanelScrollFrameTemplate')
-        f.scroll:SetPoint('TOPLEFT',20,-50)
+        f.scroll:SetPoint('TOPLEFT',20,-95)
         f.scroll:SetPoint('BOTTOMRIGHT',-40,20)
         f.scroll:SetScrollChild(f)
 
@@ -138,7 +152,7 @@ do
             if pt then
                 tab:SetPoint('LEFT',pt,'RIGHT')
             else
-                tab:SetPoint('TOPLEFT',10,-9)
+                tab:SetPoint('TOPLEFT',10,-54)
             end
 
             PanelTemplates_TabResize(tab,0)
