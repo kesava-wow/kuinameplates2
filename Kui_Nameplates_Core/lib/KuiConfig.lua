@@ -3,7 +3,7 @@
 -- By Kesava @ curse.com.
 -- All rights reserved.
 --]]
-local MAJOR, MINOR = 'KuiConfig-1.0', 2
+local MAJOR, MINOR = 'KuiConfig-1.0', 3
 local kc = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kc then
@@ -72,6 +72,15 @@ function config_meta:SetConfig(k,v)
             end
         end
     end
+end
+
+--[[
+-- set active profile to given name
+-- will create a profile if given doesn't exist
+--]]
+function config_meta:SetProfile(profile_name)
+    self.csv.profile = profile_name
+    self:GetActiveProfile()
 end
 
 function config_meta:GetProfile(profile_name)

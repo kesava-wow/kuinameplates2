@@ -58,18 +58,51 @@ opt:HookScript('OnSizeChanged',function(self)
         v:SetWidth(opt:GetWidth()-40)
     end
 end)
+-- profile drop down handlers ##################################################
+local function profileDropDown_OnChanged(dd,profile_select)
+    opt.config:SetProfile(profile_select)
+    opt:ProfileChanged()
+end
+local function profileDropDown_NewProfile(dd)
+end
+local function profileDropDown_Initialize()
+    local info = UIDropDownMenu_CreateInfo()
+
+    do
+        info.text = "New profile..."
+        info.checked = nil
+        info.func = profileDropDown_NewProfile
+        UIDropDownMenu_AddButton(info)
+    end
+
+    for k,p in pairs(opt.config.gsv.profiles) do
+        info.text = k
+        info.arg1 = k
+        info.checked = nil
+        info.func = profileDropDown_OnChanged
+        UIDropDownMenu_AddButton(info)
+    end
+end
+-- config handlers #############################################################
+function opt:ConfigChanged()
+    self.profile = self.config:GetConfig()
+
+    UIDropDownMenu_Initialize(self.profileDropDown,profileDropDown_Initialize)
+    UIDropDownMenu_SetSelectedName(self.profileDropDown,self.config.csv.profile)
+end
+function opt:ProfileChanged()
+    self:ConfigChanged()
+end
 -- initialise ##################################################################
 function opt:LayoutLoaded()
     -- called by knp core if config is already loaded when layout is initialised
     if not knp.layout then return end
-    if opt.config then return end
+    if self.config then return end
 
-    opt.config = knp.layout.config
-    opt.profile = opt.config:GetConfig()
+    self.config = knp.layout.config
 
-    opt.config:RegisterConfigChanged(function(self)
-        opt.profile = self:GetConfig()
-    end)
+    self.config:RegisterConfigChanged(opt,'ConfigChanged')
+    self:ConfigChanged()
 end
 
 opt:SetScript('OnEvent',function(self,event,addon)
