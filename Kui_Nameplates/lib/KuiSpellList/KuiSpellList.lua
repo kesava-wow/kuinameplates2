@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 19
+local MAJOR, MINOR = 'KuiSpellList-1.0', 20
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -232,6 +232,12 @@ local auras = {
             [114908] = true, -- spirit shell shield
             [152118] = true, -- clarity of will
             [111759] = true, -- levitate
+            [121557] = true, -- angelic feather
+            [65081] = true,  -- body and soul
+            [214121] = true, -- body and mind
+            [77489] = true,  -- echo of light
+            [64901] = true,  -- symbol of hope
+            [194384] = true, -- attonement
         },
         HARMFUL = {
             [2096] = true,   -- mind vision
@@ -240,14 +246,18 @@ local auras = {
             [34914] = true,  -- vampiric touch
             [129250] = true, -- power word: solace
             [155361] = true, -- void entropy
+            [204213] = true, -- purge the wicked
+            [214621] = true, -- schism
         },
         CONTROL = {
             [605] = true,    -- dominate mind
             [8122] = true,   -- psychic scream
             [64044] = true,  -- psychic horror
-            [88625] = true,  -- holy word chastise
+            [88625] = true,  -- holy word: chastise
+            [200200] = true, -- holy word: chastise
             [9484] = true,   -- shackle undead
             [114404] = true, -- void tendril root
+            [204263] = true, -- shining force
         },
     },
     ROGUE = {
