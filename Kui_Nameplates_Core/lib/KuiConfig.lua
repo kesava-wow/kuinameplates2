@@ -76,7 +76,6 @@ function config_meta:SetConfig(k,v)
 
     -- TODO debug
     LibStub('Kui-1.0').print(self.profile)
-    LibStub('Kui-1.0').print(_G[self.gsv_name].profiles[self.csv.profile])
 
     -- dispatch to configChanged listeners
     CallListeners(self,k,v)
