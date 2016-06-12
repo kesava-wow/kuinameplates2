@@ -61,7 +61,6 @@ end)
 -- profile drop down handlers ##################################################
 local function profileDropDown_OnChanged(dd,profile_select)
     opt.config:SetProfile(profile_select)
-    opt:ProfileChanged()
 end
 local function profileDropDown_NewProfile(dd)
     -- TODO
@@ -96,9 +95,6 @@ function opt:ConfigChanged()
         self:Hide()
         self:Show()
     end
-end
-function opt:ProfileChanged()
-    self:ConfigChanged()
 end
 -- initialise ##################################################################
 function opt:LayoutLoaded()

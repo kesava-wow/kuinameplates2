@@ -15,6 +15,27 @@ function kc:print(m)
     print(MAJOR..'-'..MINOR..': '..(m or 'nil'))
 end
 
+--[[
+-- call callback of listeners to given config table
+--]]
+local function CallListeners(tbl,k,v)
+    if type(tbl.listeners) == 'table' then
+        for i,listener_tbl in ipairs(tbl.listeners) do
+            local listener,func = unpack(listener_tbl)
+
+            if  listener and
+                type(func) == 'string' and
+                type(listener[func]) == 'function'
+            then
+                listener[func](listener,tbl,k,v)
+            elseif type(func) == 'function' then
+                func(tbl,k,v)
+            end
+        end
+    end
+end
+
+-- config table prototype ######################################################
 local config_meta = {}
 config_meta.__index = config_meta
 
@@ -58,20 +79,7 @@ function config_meta:SetConfig(k,v)
     LibStub('Kui-1.0').print(_G[self.gsv_name].profiles[self.csv.profile])
 
     -- dispatch to configChanged listeners
-    if type(self.listeners) == 'table' then
-        for i,listener_tbl in ipairs(self.listeners) do
-            local listener,func = unpack(listener_tbl)
-
-            if  listener and
-                type(func) == 'string' and
-                type(listener[func]) == 'function'
-            then
-                listener[func](listener,self,k,v)
-            elseif type(func) == 'function' then
-                func(self,k,v)
-            end
-        end
-    end
+    CallListeners(self,k,v)
 end
 
 --[[
@@ -81,7 +89,9 @@ end
 function config_meta:SetProfile(profile_name)
     _G[self.csv_name].profile = profile_name
     self.csv = _G[self.csv_name]
-    self:GetActiveProfile()
+    self.profile = self:GetProfile(profile_name)
+
+    CallListeners(self)
 end
 
 function config_meta:GetProfile(profile_name)
