@@ -71,6 +71,9 @@ function ele:Initialise()
             colours[p] = {c.r,c.g,c.b}
         end
     end
+
+    -- TODO layout colours
+    colours['MANA'] = { .30, .37, .74 }
 end
 -- #############################################################################
 ele:RegisterMessage('Show')
