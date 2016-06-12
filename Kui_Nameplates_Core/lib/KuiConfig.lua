@@ -79,7 +79,8 @@ end
 -- will create a profile if given doesn't exist
 --]]
 function config_meta:SetProfile(profile_name)
-    self.csv.profile = profile_name
+    _G[self.csv_name].profile = profile_name
+    self.csv = _G[self.csv_name]
     self:GetActiveProfile()
 end
 
