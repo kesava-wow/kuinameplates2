@@ -64,6 +64,7 @@ local function profileDropDown_OnChanged(dd,profile_select)
     opt:ProfileChanged()
 end
 local function profileDropDown_NewProfile(dd)
+    -- TODO
 end
 local function profileDropDown_Initialize()
     local info = UIDropDownMenu_CreateInfo()
@@ -89,6 +90,12 @@ function opt:ConfigChanged()
 
     UIDropDownMenu_Initialize(self.profileDropDown,profileDropDown_Initialize)
     UIDropDownMenu_SetSelectedName(self.profileDropDown,self.config.csv.profile)
+
+    if self:IsShown() then
+        -- re-run OnShow of all visible options
+        self:Hide()
+        self:Show()
+    end
 end
 function opt:ProfileChanged()
     self:ConfigChanged()
