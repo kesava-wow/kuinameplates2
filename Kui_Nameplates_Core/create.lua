@@ -646,8 +646,6 @@ do
 
         f.NameText:Show()
 
-        -- TODO this shouldn't be necessary after fixing #5
-        f:HideCastBar()
         f.handler:DisableElement('CastBar')
     end
     local function NameOnlyDisable(f)
@@ -668,11 +666,7 @@ do
         f.HealthBar:Show()
         f.HealthBar.fill:Show()
 
-        -- TODO this shouldn't be necessary after fixing #5
         f.handler:EnableElement('CastBar')
-        if f.state.casting then
-            f.handler:CastBarShow()
-        end
     end
     function core:NameOnlyHealthUpdate(f)
         -- set name text colour to approximate health
