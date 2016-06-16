@@ -56,21 +56,6 @@ end
 function addon.Nameplate.OnShow(f)
     f = f.parent
 
-    --[[ TODO
-    if f.default.eliteIcon:IsVisible() then
-        if f.default.eliteIcon:GetTexture() == "Interface\Tooltips\EliteNameplateIcon"
-        then
-            f.state.elite = true
-        else
-            f.state.rare = true
-        end
-    end
-    ]]
-
-    if f.elements.BossIcon then
-        f.BossIcon:Show()
-    end
-
     addon:DispatchMessage('Show', f)
     f:Show()
 end
