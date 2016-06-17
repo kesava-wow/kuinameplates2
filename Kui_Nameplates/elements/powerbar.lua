@@ -54,10 +54,12 @@ end
 -- enable/disable per frame ####################################################
 function ele:EnableOnFrame(frame)
     frame.PowerBar:Show()
-    self:Show(frame)
+
+    if frame:IsShown() then
+        self:Show(frame)
+    end
 end
 function ele:DisableOnFrame(frame)
-    -- TODO we also don't want to run events/messages for disabled frames
     frame.PowerBar:Hide()
 end
 -- register ####################################################################

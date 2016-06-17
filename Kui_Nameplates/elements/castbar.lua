@@ -151,7 +151,9 @@ function ele:CastUpdate(event,f,unit)
 end
 -- enable/disable per frame ####################################################
 function ele:EnableOnFrame(frame)
-    self:Show(frame)
+    if frame:IsShown() then
+        self:Show(frame)
+    end
 end
 function ele:DisableOnFrame(frame)
     self:Hide(frame)
