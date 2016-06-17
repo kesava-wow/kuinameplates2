@@ -262,6 +262,9 @@ local auras = {
     },
     ROGUE = {
         SELF = {
+            [5171] = true, -- slice and dice
+            [185311] = true, -- crimson vial
+            [193538] = true, -- alacrity
             [193356] = true, -- rtb: broadsides
             [199600] = true, -- rtb: buried treasure
             [193358] = true, -- rtb: grand melee
@@ -283,6 +286,7 @@ local auras = {
             [195452] = true, -- nightblade
             [206760] = true, -- night terrors
             [192759] = true, -- kingsbane
+            [196937] = true, -- ghostly strike
         },
         CONTROL = {
             [408] = true,    -- kidney shot
@@ -299,6 +303,8 @@ local auras = {
             [185763] = true, -- pistol shot snare
             [185778] = true, -- cannonball barrage snare
             [199804] = true, -- between the eyes stun
+            [199740] = true, -- bribe
+            [199743] = true, -- parley
         },
     },
     MONK = {
