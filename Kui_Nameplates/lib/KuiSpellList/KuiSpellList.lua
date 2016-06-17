@@ -297,7 +297,7 @@ local auras = {
             [115196] = true, -- debilitating poison
             [197395] = true, -- finality: nightblade (snare)
             [185763] = true, -- pistol shot snare
-            [186778] = true, -- cannonball barrage snare
+            [185778] = true, -- cannonball barrage snare
             [199804] = true, -- between the eyes stun
         },
     },
