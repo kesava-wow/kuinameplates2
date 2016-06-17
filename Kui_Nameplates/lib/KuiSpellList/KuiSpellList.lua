@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 20
+local MAJOR, MINOR = 'KuiSpellList-1.0', 21
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -261,6 +261,14 @@ local auras = {
         },
     },
     ROGUE = {
+        SELF = {
+            [193356] = true, -- rtb: broadsides
+            [199600] = true, -- rtb: buried treasure
+            [193358] = true, -- rtb: grand melee
+            [199603] = true, -- rtb: jolly roger
+            [193357] = true, -- rtb: shark infested waters
+            [193359] = true, -- rtb: true bearing
+        },
         HELPFUL = {
             [57934] = true,  -- tricks of the trade
         },
@@ -274,6 +282,7 @@ local auras = {
             [137619] = true, -- marked for death
             [195452] = true, -- nightblade
             [206760] = true, -- night terrors
+            [192759] = true, -- kingsbane
         },
         CONTROL = {
             [408] = true,    -- kidney shot
@@ -287,6 +296,9 @@ local auras = {
             [3409] = true,   -- crippling poison
             [115196] = true, -- debilitating poison
             [197395] = true, -- finality: nightblade (snare)
+            [185763] = true, -- pistol shot snare
+            [186778] = true, -- cannonball barrage snare
+            [199804] = true, -- between the eyes stun
         },
     },
     MONK = {
