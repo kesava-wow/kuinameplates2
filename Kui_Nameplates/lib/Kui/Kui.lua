@@ -1,10 +1,15 @@
-local MAJOR, MINOR = 'Kui-1.0', 16
+local MAJOR, MINOR = 'Kui-1.0', 17
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
     -- already registered
     return
 end
+
+local TRILLION=1000000000000
+local BILLION=1000000000
+local MILLION=1000000
+local THOUSAND=1000
 --------------------------------------------------------------- media / files --
 local media = "Interface\\AddOns\\Kui_Media\\"
 kui.m = {
@@ -186,12 +191,16 @@ kui.CreateFontString = function(parent, args)
 end
 -- Format numbers
 kui.num = function(num)
-    if num < 1000 then
+    if num < THOUSAND then
         return num
-    elseif num >= 1000000 then
-        return string.format('%.1fm', num/1000000)
-    elseif num >= 1000 then
-        return string.format('%.1fk', num/1000)
+    elseif num >= TRILLION then
+        return string.format('%.1ft', num/TRILLION)
+    elseif num >= BILLION then
+        return string.format('%.1fb', num/BILLION)
+    elseif num >= MILLION then
+        return string.format('%.1fm', num/MILLION)
+    elseif num >= THOUSAND then
+        return string.format('%.1fk', num/THOUSAND)
     end
 end
 -- Format times (given in seconds)
