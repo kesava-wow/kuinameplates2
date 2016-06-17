@@ -52,6 +52,13 @@ local auras = {
         }
     },
     HUNTER = {
+        SELF = {
+            [190931] = true, -- mongoose fury
+            [186257] = true, -- aspect of the cheetah 90%
+            [186258] = true, -- aspect of the cheetah 30%
+            [186289] = true, -- aspect of the eagle
+            [186265] = true, -- aspect of the turtle
+        },
         HELPFUL = {
             [34477] = true, -- misdirection
         },
@@ -61,6 +68,7 @@ local auras = {
             [131894] = true, -- murder by way of crow
             [13812] = true, -- explosive trap
             [117405] = true, -- binding shot
+            [185855] = true, -- lacerate
         },
         CONTROL = {
             [5116] = true, -- concussive shot
@@ -68,12 +76,14 @@ local auras = {
             [24394] = true, -- intimidation
             [64803] = true, -- entrapment
             [3355] = true, -- freezing trap
-            [135299] = true, -- ice trap TODO isn't classed as caused by player
+            [135299] = true, -- ice trap
             [136634] = true, -- narrow escape
             [19386] = true, -- wyvern sting
             [117526] = true, -- binding shot stun
             [120761] = true, -- glaive toss slow
             [121414] = true, -- glaive toss slow 2
+            [190927] = true, -- harpoon root
+            [195645] = true, -- wing clip
         }
     },
     MAGE = {
@@ -284,7 +294,6 @@ local auras = {
             [8680] = true,   -- wound poison
             [137619] = true, -- marked for death
             [195452] = true, -- nightblade
-            [206760] = true, -- night terrors
             [192759] = true, -- kingsbane
             [196937] = true, -- ghostly strike
         },
