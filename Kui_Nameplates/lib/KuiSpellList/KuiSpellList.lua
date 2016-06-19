@@ -165,9 +165,14 @@ local auras = {
     },
     PALADIN = {
         HELPFUL = {
+            [184662] = true, -- shield of vengeance
             [114163] = true, -- eternal flame
             [53563] = true, -- beacon of light
             [156910] = true, -- beacon of faith
+
+            [203528] = true, -- greater blessing of might
+            [203538] = true, -- greater blessing of kings
+            [203539] = true, -- greater blessing of wisdom
 
             -- hand of...
             [6940] = true,   -- sacrifice
@@ -176,6 +181,7 @@ local auras = {
         },
         HARMFUL = {
             [26573] = true,  -- consecration
+            [197277] = true, -- judgement
         },
         CONTROL = {
             [853] = true,    -- hammer of justice
