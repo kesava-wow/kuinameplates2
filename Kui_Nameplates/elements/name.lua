@@ -19,5 +19,7 @@ function ele:UNIT_NAME_UPDATE(event,f)
     f.handler:UpdateName()
 end
 -- register ####################################################################
-ele:RegisterMessage('Show')
-ele:RegisterUnitEvent('UNIT_NAME_UPDATE')
+function ele:OnEnable()
+    self:RegisterMessage('Show')
+    self:RegisterUnitEvent('UNIT_NAME_UPDATE')
+end

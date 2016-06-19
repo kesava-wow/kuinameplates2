@@ -19,5 +19,7 @@ function ele:UNIT_LEVEL(event,f)
     f.handler:UpdateLevel()
 end
 -- register ####################################################################
-ele:RegisterMessage('Show')
-ele:RegisterUnitEvent('UNIT_LEVEL')
+function ele:OnEnable()
+    self:RegisterMessage('Show')
+    self:RegisterUnitEvent('UNIT_LEVEL')
+end

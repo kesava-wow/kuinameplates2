@@ -61,6 +61,14 @@ function ele:DisableOnFrame(frame)
     frame.PowerBar:Hide()
 end
 -- register ####################################################################
+function ele:OnEnable()
+    self:RegisterMessage('Show')
+
+    self:RegisterUnitEvent('UNIT_DISPLAYPOWER','PowerTypeEvent')
+    self:RegisterUnitEvent('UNIT_MAXPOWER','PowerTypeEvent')
+    self:RegisterUnitEvent('UNIT_POWER_FREQUENT','PowerEvent')
+    self:RegisterUnitEvent('UNIT_POWER','PowerEvent')
+end
 function ele:Initialise()
     self.colours = {}
 
@@ -70,11 +78,4 @@ function ele:Initialise()
             self.colours[p] = {c.r,c.g,c.b}
         end
     end
-
-    self:RegisterMessage('Show')
-
-    self:RegisterUnitEvent('UNIT_DISPLAYPOWER','PowerTypeEvent')
-    self:RegisterUnitEvent('UNIT_MAXPOWER','PowerTypeEvent')
-    self:RegisterUnitEvent('UNIT_POWER_FREQUENT','PowerEvent')
-    self:RegisterUnitEvent('UNIT_POWER','PowerEvent')
 end

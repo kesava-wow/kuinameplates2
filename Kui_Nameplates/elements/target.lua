@@ -49,7 +49,9 @@ function ele:Hide(f)
     end
 end
 -- register ####################################################################
-ele:RegisterEvent('PLAYER_TARGET_CHANGED','TargetEvent')
-ele:RegisterEvent('PLAYER_ENTERING_WORLD','TargetEvent')
-ele:RegisterMessage('Show')
-ele:RegisterMessage('Hide')
+function ele:OnEnable()
+    self:RegisterMessage('Show')
+    self:RegisterMessage('Hide')
+    self:RegisterEvent('PLAYER_TARGET_CHANGED','TargetEvent')
+    self:RegisterEvent('PLAYER_ENTERING_WORLD','TargetEvent')
+end

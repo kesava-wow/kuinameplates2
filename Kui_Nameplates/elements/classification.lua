@@ -35,5 +35,7 @@ function ele:UNIT_CLASSIFICATION_CHANGED(event,f)
     self:Show(f,on_show)
 end
 -- register ####################################################################
-ele:RegisterMessage('Show')
-ele:RegisterUnitEvent('UNIT_CLASSIFICATION_CHANGED')
+function ele:OnEnable()
+    self:RegisterMessage('Show')
+    self:RegisterUnitEvent('UNIT_CLASSIFICATION_CHANGED')
+end

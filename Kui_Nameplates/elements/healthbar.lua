@@ -73,11 +73,10 @@ function ele:UNIT_HEALTH(event,f)
     f.handler:UpdateHealth()
 end
 -- register ####################################################################
-function ele:Initialise()
-    -- TODO get colours from layout
-end
--- #############################################################################
-ele:RegisterMessage('Show')
+-- TODO get colours from layout
+function ele:OnEnable()
+    self:RegisterMessage('Show')
 
-ele:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
-ele:RegisterUnitEvent('UNIT_FACTION')
+    self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
+    self:RegisterUnitEvent('UNIT_FACTION')
+end

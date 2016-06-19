@@ -61,6 +61,7 @@ function ele:UPDATE_MOUSEOVER_UNIT(event)
     f.handler:HighlightShow()
 end
 -- register ####################################################################
-ele:RegisterMessage('Hide')
-
-ele:RegisterEvent('UPDATE_MOUSEOVER_UNIT')
+function ele:OnEnable()
+    self:RegisterMessage('Hide')
+    self:RegisterEvent('UPDATE_MOUSEOVER_UNIT')
+end
