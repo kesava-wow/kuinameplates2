@@ -148,6 +148,8 @@ function ele:CastUpdate(event,f,unit)
 
     f.cast_state.duration = GetTime() - startTime
     f.cast_state.max = endTime - startTime
+
+    f.handler:CastBarShow()
 end
 -- enable/disable per frame ####################################################
 function ele:EnableOnFrame(frame)
