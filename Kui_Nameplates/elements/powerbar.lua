@@ -12,9 +12,10 @@ function addon.Nameplate.UpdatePower(f,on_show)
             f.PowerBar:SetMinMaxValues(0,UnitPowerMax(f.unit,power_type))
             f.PowerBar:SetValue(UnitPower(f.unit,power_type))
 
-            -- TODO stagger
-            if ele.colours[power_type] and power_type ~= 'STAGGER' then
+            if ele.colours[power_type] then
                 f.PowerBar:SetStatusBarColor(unpack(ele.colours[power_type]))
+            else
+                f.PowerBar:SetStatusBarColor(unpack(ele.colours['MANA']))
             end
         else
             f.PowerBar:SetStatusBarColor(0,0,0)
@@ -65,10 +66,7 @@ function ele:Initialise()
 
     -- get default colours
     for p,c in next, PowerBarColor do
-        if p == 'STAGGER' then
-            -- stagger has different colours for levels of stagger
-            self.colours[p] = c
-        else
+        if c.r and c.g and c.b then
             self.colours[p] = {c.r,c.g,c.b}
         end
     end
