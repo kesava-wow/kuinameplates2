@@ -364,7 +364,7 @@ local auras = {
         SELF = {
             [218256] = true, -- empower wards
             [203819] = true, -- demon spikes
-            [187827] = true, -- metamorphosis
+            [187827] = true, -- metamorphosis (vengeance)
             [212800] = true, -- blur
             [196555] = true, -- netherwalk
         },
@@ -379,12 +379,8 @@ local auras = {
             [207407] = true, -- soul carver
             [224509] = true, -- frail
             [206491] = true, -- nemesis
-
-            -- TODO
-            -- bloodlet
-            -- nemesis
-            -- master of the glaive snare
-            -- chaos blades
+            [207690] = true, -- bloodlet
+            [213405] = true, -- master of the glaive snare
         },
         CONTROL = {
             [185245] = true, -- torment taunt
