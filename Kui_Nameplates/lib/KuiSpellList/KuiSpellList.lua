@@ -182,6 +182,7 @@ local auras = {
         HARMFUL = {
             [26573] = true,  -- consecration
             [197277] = true, -- judgement
+            [183218] = true, -- hand of hindrance
         },
         CONTROL = {
             [853] = true,    -- hammer of justice
@@ -329,10 +330,14 @@ local auras = {
             [116849] = true, -- life cocoon
             [119611] = true, -- renewing mist
             [124081] = true, -- zen sphere
+            [124682] = true, -- enveloping mist
+            [191840] = true, -- essence font
         },
         HARMFUL = {
             [123725] = true, -- breath of fire dot
             [138130] = true, -- storm, earth and fire 1
+            [196608] = true, -- eye of the tiger
+            [115804] = true, -- mortal wounds
         },
         CONTROL = {
             [116095] = true, -- disable
