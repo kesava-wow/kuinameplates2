@@ -324,6 +324,15 @@ local auras = {
         },
     },
     MONK = {
+        SELF = {
+            [116847] = true, -- rushing jade wind
+            [119085] = true, -- chi torpedo
+            [120954] = true, -- fortifying brew
+            [122278] = true, -- dampen harm
+            [122783] = true, -- diffuse magic
+            [196725] = true, -- refreshing jade wind
+            [215479] = true, -- ironskin brew
+        },
         HELPFUL = {
             [116841] = true, -- tiger's lust
             [116844] = true, -- ring of peace
