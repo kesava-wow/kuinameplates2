@@ -2,11 +2,6 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('TankMode')
-
-local colours = {
-    { 0, 1, 0 },
-    { 1, 1, 0 }
-}
 -- messages ####################################################################
 function mod:HealthColourChange(f,caller)
     if caller and caller == self then return end
@@ -17,7 +12,7 @@ function mod:GlowColourChange(f)
     -- tank mode health bar colours
     if self.enabled and f.state.threat and f.state.threat > 0 then
         if f.elements.HealthBar then
-            f.HealthBar:SetStatusBarColor(unpack(colours[f.state.threat]))
+            f.HealthBar:SetStatusBarColor(unpack(self.colours[f.state.threat]))
         end
 
         f.state.tank_mode_coloured = true
@@ -46,5 +41,8 @@ function mod:OnDisable()
     end
 end
 function mod:Initialise()
-    -- TODO get colours from layout
+    self.colours = {
+        { 0, 1, 0 },
+        { 1, 1, 0 }
+    }
 end

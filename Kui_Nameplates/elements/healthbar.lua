@@ -2,14 +2,6 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('HealthBar')
-
-local colours = {
-    hated    = { .7, .2, .1 },
-    neutral  = {  1, .8,  0 },
-    friendly = { .2, .6, .1 },
-    tapped   = { .5, .5, .5 },
-    player   = { .2, .5, .9 }
-}
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateHealthColour(f,show)
     f = f.parent
@@ -18,22 +10,22 @@ function addon.Nameplate.UpdateHealthColour(f,show)
     local react = UnitReaction(f.unit,'player')
 
     if UnitIsTapDenied(f.unit) then
-        r,g,b = unpack(colours.tapped)
+        r,g,b = unpack(ele.colours.tapped)
     elseif UnitIsPlayer(f.unit) then
         if  not UnitIsUnit('player',f.unit) and
             UnitIsFriend('player',f.unit)
         then
-            r,g,b = .2, .5, .9
+            r,g,b = unpack(ele.colours.player)
         else
             r,g,b = kui.GetClassColour(f.unit,2)
         end
     else
         if react == 4 then
-            r,g,b = unpack(colours.neutral)
+            r,g,b = unpack(ele.colours.neutral)
         elseif react > 4 then
-            r,g,b = unpack(colours.friendly)
+            r,g,b = unpack(ele.colours.friendly)
         else
-            r,g,b = unpack(colours.hated)
+            r,g,b = unpack(ele.colours.hated)
         end
     end
 
@@ -73,10 +65,18 @@ function ele:UNIT_HEALTH(event,f)
     f.handler:UpdateHealth()
 end
 -- register ####################################################################
--- TODO get colours from layout
 function ele:OnEnable()
     self:RegisterMessage('Show')
 
     self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
     self:RegisterUnitEvent('UNIT_FACTION')
+end
+function ele:Initialise()
+    self.colours = {
+        hated    = { .7, .2, .1 },
+        neutral  = {  1, .8,  0 },
+        friendly = { .2, .6, .1 },
+        tapped   = { .5, .5, .5 },
+        player   = { .2, .5, .9 }
+    }
 end
