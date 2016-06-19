@@ -673,7 +673,7 @@ do
         if not f.state.nameonly then return end
 
         local cur,max = UnitHealth(f.unit),UnitHealthMax(f.unit)
-        if cur and max then
+        if cur and cur > 0 and max and max > 0 then
             local health_len = strlen(f.state.name) * (cur / max)
             f.NameText:SetText(
                 kui.utf8sub(f.state.name, 0, health_len)..
