@@ -325,6 +325,7 @@ local auras = {
     },
     MONK = {
         SELF = {
+            [116680] = true, -- thunder focus tea
             [116847] = true, -- rushing jade wind
             [119085] = true, -- chi torpedo
             [120954] = true, -- fortifying brew
