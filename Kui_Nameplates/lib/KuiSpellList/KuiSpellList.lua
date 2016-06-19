@@ -357,6 +357,7 @@ local auras = {
             [120086] = true, -- fists of fury stun
             [121253] = true, -- keg smash slow
             [122470] = true, -- touch of karma
+            [198909] = true, -- song of chi-ji
         },
     },
     DEMONHUNTER = {
