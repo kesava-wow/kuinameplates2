@@ -73,7 +73,6 @@ function ele:Initialise()
         end
     end
 
-    self:RegisterMessage('Initialised')
     self:RegisterMessage('Show')
 
     self:RegisterUnitEvent('UNIT_DISPLAYPOWER','PowerTypeEvent')
