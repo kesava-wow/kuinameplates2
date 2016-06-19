@@ -66,6 +66,7 @@ local ele = addon:NewElement('ClassPowers')
 local class, power_type, power_type_tag, cpf
 local on_target
 -- power types by class/spec
+-- TODO could probably just detect from UnitPowerType instead of this
 local powers = {
     DEATHKNIGHT = SPELL_POWER_RUNES,
     DRUID       = { [2] = SPELL_POWER_COMBO_POINTS },
