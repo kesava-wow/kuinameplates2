@@ -17,6 +17,6 @@ function mod:Show(f)
     end
 end
 -- register ####################################################################
-function mod:Initialise()
-    mod:RegisterMessage('Show')
+function mod:OnEnable()
+    self:RegisterMessage('Show')
 end

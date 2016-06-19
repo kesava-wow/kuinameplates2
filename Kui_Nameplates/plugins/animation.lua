@@ -148,4 +148,6 @@ function mod:Hide(f)
     end
 end
 -- register ####################################################################
-mod:RegisterMessage('Hide')
+function mod:OnEnable()
+    self:RegisterMessage('Hide')
+end
