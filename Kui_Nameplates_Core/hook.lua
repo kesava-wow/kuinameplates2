@@ -147,6 +147,12 @@ function core:Initialise()
         point = { 'TOP','bg','BOTTOM',0,4 }
     }
 
+    local plugin_pb = addon:GetPlugin('PowerBar')
+    if plugin_pb then
+        -- set custom power colours
+        plugin_pb.colours['MANA'] = { .30, .37, .74 }
+    end
+
     -- register messages
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')

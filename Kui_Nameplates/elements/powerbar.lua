@@ -1,9 +1,6 @@
 -- listen for power events and dispatch to nameplates
 local addon = KuiNameplates
 local ele = addon:NewElement('PowerBar')
-
-local colours = {}
-
 -- prototype additions #########################################################
 function addon.Nameplate.UpdatePower(f,on_show)
     f = f.parent
@@ -16,8 +13,8 @@ function addon.Nameplate.UpdatePower(f,on_show)
             f.PowerBar:SetValue(UnitPower(f.unit,power_type))
 
             -- TODO stagger
-            if colours[power_type] and power_type ~= 'STAGGER' then
-                f.PowerBar:SetStatusBarColor(unpack(colours[power_type]))
+            if ele.colours[power_type] and power_type ~= 'STAGGER' then
+                f.PowerBar:SetStatusBarColor(unpack(ele.colours[power_type]))
             end
         else
             f.PowerBar:SetStatusBarColor(0,0,0)
@@ -64,22 +61,23 @@ function ele:DisableOnFrame(frame)
 end
 -- register ####################################################################
 function ele:Initialise()
+    self.colours = {}
+
     -- get default colours
     for p,c in next, PowerBarColor do
         if p == 'STAGGER' then
             -- stagger has different colours for levels of stagger
-            colours[p] = c
+            self.colours[p] = c
         else
-            colours[p] = {c.r,c.g,c.b}
+            self.colours[p] = {c.r,c.g,c.b}
         end
     end
 
-    -- TODO layout colours
-    colours['MANA'] = { .30, .37, .74 }
+    self:RegisterMessage('Initialised')
+    self:RegisterMessage('Show')
+
+    self:RegisterUnitEvent('UNIT_DISPLAYPOWER','PowerTypeEvent')
+    self:RegisterUnitEvent('UNIT_MAXPOWER','PowerTypeEvent')
+    self:RegisterUnitEvent('UNIT_POWER_FREQUENT','PowerEvent')
+    self:RegisterUnitEvent('UNIT_POWER','PowerEvent')
 end
--- #############################################################################
-ele:RegisterMessage('Show')
-ele:RegisterUnitEvent('UNIT_DISPLAYPOWER','PowerTypeEvent')
-ele:RegisterUnitEvent('UNIT_MAXPOWER','PowerTypeEvent')
-ele:RegisterUnitEvent('UNIT_POWER_FREQUENT','PowerEvent')
-ele:RegisterUnitEvent('UNIT_POWER','PowerEvent')
