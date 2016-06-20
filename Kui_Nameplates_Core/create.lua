@@ -537,17 +537,19 @@ do
         self.__width = (size * self.num_per_row) + (self.num_per_row - 1)
         AuraFrame_SetFrameWidth(self)
 
-        -- set buttons to new size
-        for k,button in ipairs(self.buttons) do
-            button:SetWidth(size)
-            button:SetHeight(self.icon_height)
-            button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
+        if not addon.BarAuras then
+            -- set buttons to new size
+            for k,button in ipairs(self.buttons) do
+                button:SetWidth(size)
+                button:SetHeight(self.icon_height)
+                button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
 
-            Button_SetFontSize(button,minus)
-        end
+                Button_SetFontSize(button,minus)
+            end
 
-        if self.visible and self.visible > 0 then
-            self:ArrangeButtons()
+            if self.visible and self.visible > 0 then
+                self:ArrangeButtons()
+            end
         end
     end
 

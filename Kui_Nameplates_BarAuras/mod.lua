@@ -66,6 +66,8 @@ function ArrangeButtons(self)
             if not self.max or self.visible < self.max then
                 self.visible = self.visible + 1
                 button:ClearAllPoints()
+                button:SetPoint('LEFT')
+                button:SetPoint('RIGHT')
 
                 if not prev then
                     button:SetPoint(self.point[1])
@@ -115,7 +117,6 @@ local function PostCreateAuraButton(button)
     button.count:SetPoint('RIGHT',button.icon,'LEFT',-3,-.5)
     button.count:SetJustifyH('RIGHT')
 
-    button:SetWidth(button.parent:GetWidth())
     button:SetHeight(14)
 
     button.icon:SetSize(12,12)
@@ -138,6 +139,8 @@ function mod:Initialised()
     font_size = addon.layout.Auras.font_size_count or 10
 end
 function mod:Initialise()
+    addon.BarAuras = true
+
     self:AddCallback('Auras','ArrangeButtons',ArrangeButtons)
     self:AddCallback('Auras','PostCreateAuraButton',PostCreateAuraButton)
 
