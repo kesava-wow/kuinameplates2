@@ -494,21 +494,22 @@ end
 -- auras #######################################################################
 do
     local AURAS_NORMAL_SIZE = 24
-    local AURAS_MINUS_SIZE = 16
+    local AURAS_MINUS_SIZE = 18
+    local AURAS_NORMAL_FONT_SIZE_CD = 12
+    local AURAS_NORMAL_FONT_SIZE_COUNT = 10
+    local AURAS_MINUS_FONT_SIZE_CD = 10
+    local AURAS_MINUS_FONT_SIZE_COUNT = 8
 
-    function core.Auras_PostCreateAuraButton(button)
-        -- move text slightly for our font
-        button.cd:ClearAllPoints()
-        button.cd:SetPoint('CENTER',1,-1)
-        button.cd:SetShadowOffset(1,-1)
-        button.cd:SetShadowColor(0,0,0,1)
-
-        button.count:ClearAllPoints()
-        button.count:SetPoint('BOTTOMRIGHT',3,-3)
-        button.count:SetShadowOffset(1,-1)
-        button.count:SetShadowColor(0,0,0,1)
+    local function Button_SetFontSize(self,minus)
+        local font,_,flags = self.cd:GetFont()
+        if minus then
+            self.cd:SetFont(font,AURAS_MINUS_FONT_SIZE_CD,flags)
+            self.count:SetFont(font,AURAS_MINUS_FONT_SIZE_COUNT,flags)
+        else
+            self.cd:SetFont(font,AURAS_NORMAL_FONT_SIZE_CD,flags)
+            self.count:SetFont(font,AURAS_NORMAL_FONT_SIZE_COUNT,flags)
+        end
     end
-
     local function AuraFrame_SetFrameWidth(self,width)
         self:SetWidth(width)
         self:SetPoint(
@@ -519,13 +520,10 @@ do
             15
         )
     end
-    local function AuraFrame_SetIconSize(self,size)
+    local function AuraFrame_SetIconSize(self,minus)
+        local size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
         local width = (size * (self.max / self.rows)) + (self.num_per_row - 1)
         AuraFrame_SetFrameWidth(self,width)
-
-        if self.size == size then
-            return
-        end
 
         -- re-set frame vars
         self.size = size
@@ -537,15 +535,15 @@ do
             button:SetWidth(self.size)
             button:SetHeight(self.icon_height)
             button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
+
+            Button_SetFontSize(button,minus)
         end
     end
 
     local function UpdateAuras(f)
         -- set auras to normal/minus sizes
-        AuraFrame_SetIconSize(
-            f.Auras.frames[1],
-            f.state.minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
-        )
+        AuraFrame_SetIconSize(f.Auras.frames[1],f.state.minus)
+        addon:print('update auras: '..f.state.name)
     end
     function core:CreateAuras(f)
         local auras = f.handler:CreateAuraFrame({
@@ -559,7 +557,23 @@ do
         })
         auras:SetHeight(10)
 
+        auras.SetIconSize = AuraFrame_SetIconSize
+
         f.UpdateAuras = UpdateAuras
+    end
+    function core.Auras_PostCreateAuraButton(button)
+        -- move text slightly for our font
+        button.cd:ClearAllPoints()
+        button.cd:SetPoint('CENTER',1,-1)
+        button.cd:SetShadowOffset(1,-1)
+        button.cd:SetShadowColor(0,0,0,1)
+
+        button.count:ClearAllPoints()
+        button.count:SetPoint('BOTTOMRIGHT',3,-3)
+        button.count:SetShadowOffset(1,-1)
+        button.count:SetShadowColor(0,0,0,1)
+
+        Button_SetFontSize(button,button.parent.parent.state.minus)
     end
 end
 -- class powers ################################################################
