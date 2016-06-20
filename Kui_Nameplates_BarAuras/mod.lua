@@ -95,10 +95,11 @@ local function PostCreateAuraButton(button)
     local name = bar:CreateFontString(nil,'OVERLAY')
     name:SetFont(font,font_size)
     name:SetPoint('LEFT',bar,1,.5)
-    name:SetPoint('RIGHT',button.cd,-1,0)
+    name:SetPoint('RIGHT',button.cd,'LEFT',-2,0)
     name:SetJustifyH('LEFT')
     name:SetShadowOffset(1,-1)
     name:SetShadowColor(0,0,0,1)
+    name:SetWordWrap()
 
     bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',2)
 
