@@ -567,6 +567,7 @@ do
             y_spacing = 1,
             rows = 2
         })
+        auras:SetFrameLevel(0)
         auras:SetHeight(10)
 
         f.UpdateAuras = UpdateAuras
