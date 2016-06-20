@@ -122,6 +122,7 @@ local function UpdateFrameSize(f)
 
     f:UpdateMainBars()
     f:SpellIconSetWidth()
+    f:UpdateAuras()
 end
 function core:CreateBackground(f)
     local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
@@ -512,9 +513,9 @@ do
         self:SetWidth(width)
         self:SetPoint(
             'BOTTOMLEFT',
-            f.HealthBar,
+            self.parent.HealthBar,
             'TOPLEFT',
-            floor(f.HealthBar:GetWidth() - width) / 2,
+            floor(self.parent.bg:GetWidth() - width) / 2,
             15
         )
     end
@@ -535,10 +536,17 @@ do
         for k,button in ipairs(self.buttons) do
             button:SetWidth(self.size)
             button:SetHeight(self.icon_height)
-            button:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
+            button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
         end
     end
 
+    local function UpdateAuras(f)
+        -- set auras to normal/minus sizes
+        AuraFrame_SetIconSize(
+            f.Auras.frames[1],
+            f.state.minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
+        )
+    end
     function core:CreateAuras(f)
         local auras = f.handler:CreateAuraFrame({
             size = AURAS_NORMAL_SIZE,
@@ -549,7 +557,9 @@ do
             y_spacing = 1,
             rows = 2
         })
-        AuraFrame_SetIconSize(AURAS_NORMAL_SIZE)
+        auras:SetHeight(10)
+
+        f.UpdateAuras = UpdateAuras
     end
 end
 -- class powers ################################################################
