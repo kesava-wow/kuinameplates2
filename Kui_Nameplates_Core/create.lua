@@ -527,21 +527,19 @@ do
             return
         end
 
-        addon:print('update auras: '..self.parent.state.name)
-
         -- re-set frame vars
         self.size = size
-        self.icon_height = self.size * self.squareness
-        self.icon_ratio = (1 - (self.icon_height / self.size)) / 2
+        self.icon_height = size * self.squareness
+        self.icon_ratio = (1 - (self.icon_height / size)) / 2
         self.num_per_row = minus and 4 or 5
 
         -- re-set frame width
-        self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
+        self.__width = (size * self.num_per_row) + (self.num_per_row - 1)
         AuraFrame_SetFrameWidth(self)
 
         -- set buttons to new size
         for k,button in ipairs(self.buttons) do
-            button:SetWidth(self.size)
+            button:SetWidth(size)
             button:SetHeight(self.icon_height)
             button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
 
