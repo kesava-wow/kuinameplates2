@@ -47,6 +47,9 @@ local function ButtonUpdateCooldown(button,duration,expiration)
     else
         button.bar:Hide()
     end
+
+    -- set aura name
+    button.name:SetText(button.spellid and GetSpellInfo(button.spellid) or nil)
 end
 -- callbacks ###################################################################
 function ArrangeButtons(self)
@@ -65,7 +68,7 @@ function ArrangeButtons(self)
                 if not prev then
                     button:SetPoint(self.point[1])
                 else
-                    button:SetPoint('BOTTOMLEFT',prev,'TOPLEFT',0,self.y_spacing)
+                    button:SetPoint('BOTTOMLEFT',prev,'TOPLEFT',0,-1)
                 end
 
                 prev = button
@@ -77,30 +80,43 @@ function ArrangeButtons(self)
     end
 end
 local function PostCreateAuraButton(button)
-    -- add status bar
+    -- add status bar and name
     local bar = CreateFrame('StatusBar',nil,button)
     bar:SetPoint('TOPLEFT',button.icon,'TOPRIGHT',1,0)
     bar:SetPoint('BOTTOMLEFT',button.icon,'BOTTOMRIGHT')
     bar:SetPoint('RIGHT',button,'RIGHT',-1,0)
     bar:SetStatusBarTexture(kui.m.t.sbar)
-    bar:SetStatusBarColor(.8,.8,1)
+    bar:SetStatusBarColor(.3,.4,.8)
     bar:SetMinMaxValues(0,10)
     bar:Hide()
 
+    local font,font_size = button.count:GetFont()
+
+    local name = bar:CreateFontString(nil,'OVERLAY')
+    name:SetFont(font,font_size)
+    name:SetPoint('LEFT',bar,1,.5)
+    name:SetPoint('RIGHT',button.cd,-1,0)
+    name:SetJustifyH('LEFT')
+    name:SetShadowOffset(1,-1)
+    name:SetShadowColor(0,0,0,1)
+    button.name = name
+
     bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',2)
 
+    button.cd:SetFont(font,font_size)
     button.cd:SetParent(bar)
     button.cd:ClearAllPoints()
-    button.cd:SetPoint('LEFT',1,-1)
+    button.cd:SetPoint('RIGHT',-1,.5)
 
+    button.count:SetFont(font,font_size)
     button.count:SetParent(bar)
     button.count:ClearAllPoints()
-    button.count:SetPoint('RIGHT',1,-1)
+    button.count:SetPoint('RIGHT',button.icon,'LEFT',-1,.5)
 
     button:SetWidth(button.parent:GetWidth())
-    button:SetHeight(10)
+    button:SetHeight(14)
 
-    button.icon:SetSize(8,8)
+    button.icon:SetSize(12,12)
     button.icon:ClearAllPoints()
     button.icon:SetPoint('BOTTOMLEFT',1,1)
     button.icon:SetTexCoord(.1,.9,.1,.9)
