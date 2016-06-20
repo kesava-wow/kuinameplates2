@@ -510,7 +510,8 @@ do
             self.count:SetFont(font,AURAS_NORMAL_FONT_SIZE_COUNT,flags)
         end
     end
-    local function AuraFrame_SetFrameWidth(self,width)
+    local function AuraFrame_SetFrameWidth(self)
+        local width = (self.size * self.num_per_row) + (self.num_per_row - 1)
         self:SetWidth(width)
         self:SetPoint(
             'BOTTOMLEFT',
@@ -522,13 +523,16 @@ do
     end
     local function AuraFrame_SetIconSize(self,minus)
         local size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
-        local width = (size * (self.max / self.rows)) + (self.num_per_row - 1)
-        AuraFrame_SetFrameWidth(self,width)
+
+        if self.size == size then
+            return
+        end
 
         -- re-set frame vars
         self.size = size
         self.icon_height = self.size * self.squareness
         self.icon_ratio = (1 - (self.icon_height / self.size)) / 2
+        self.num_per_row = minus and 4 or 5
 
         -- set buttons to new size
         for k,button in ipairs(self.buttons) do
@@ -538,11 +542,16 @@ do
 
             Button_SetFontSize(button,minus)
         end
+
+        if self.visible and self.visible > 0 then
+            self:ArrangeButtons()
+        end
     end
 
     local function UpdateAuras(f)
         -- set auras to normal/minus sizes
         AuraFrame_SetIconSize(f.Auras.frames[1],f.state.minus)
+        AuraFrame_SetFrameWidth(f.Auras.frames[1])
         addon:print('update auras: '..f.state.name)
     end
     function core:CreateAuras(f)
@@ -556,8 +565,6 @@ do
             rows = 2
         })
         auras:SetHeight(10)
-
-        auras.SetIconSize = AuraFrame_SetIconSize
 
         f.UpdateAuras = UpdateAuras
     end
