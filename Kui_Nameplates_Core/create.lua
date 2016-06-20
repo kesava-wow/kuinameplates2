@@ -491,30 +491,66 @@ do
     end
 end
 -- auras #######################################################################
-function core.Auras_PostCreateAuraButton(button)
-    -- move text slightly for our font
-    button.cd:ClearAllPoints()
-    button.cd:SetPoint('CENTER',1,-1)
-    button.cd:SetShadowOffset(1,-1)
-    button.cd:SetShadowColor(0,0,0,1)
+do
+    local AURAS_NORMAL_SIZE = 24
+    local AURAS_MINUS_SIZE = 16
 
-    button.count:ClearAllPoints()
-    button.count:SetPoint('BOTTOMRIGHT',3,-3)
-    button.count:SetShadowOffset(1,-1)
-    button.count:SetShadowColor(0,0,0,1)
-end
-function core:CreateAuras(f)
-    local auras = f.handler:CreateAuraFrame({
-        kui_whitelist = true,
-        max = 10,
-        point = {'BOTTOMLEFT','LEFT','RIGHT'},
-        x_spacing = 1,
-        y_spacing = 1,
-        rows = 2
-    })
-    auras:SetWidth(124)
-    auras:SetHeight(10)
-    auras:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT',4,15)
+    function core.Auras_PostCreateAuraButton(button)
+        -- move text slightly for our font
+        button.cd:ClearAllPoints()
+        button.cd:SetPoint('CENTER',1,-1)
+        button.cd:SetShadowOffset(1,-1)
+        button.cd:SetShadowColor(0,0,0,1)
+
+        button.count:ClearAllPoints()
+        button.count:SetPoint('BOTTOMRIGHT',3,-3)
+        button.count:SetShadowOffset(1,-1)
+        button.count:SetShadowColor(0,0,0,1)
+    end
+
+    local function AuraFrame_SetFrameWidth(self,width)
+        self:SetWidth(width)
+        self:SetPoint(
+            'BOTTOMLEFT',
+            f.HealthBar,
+            'TOPLEFT',
+            floor(f.HealthBar:GetWidth() - width) / 2,
+            15
+        )
+    end
+    local function AuraFrame_SetIconSize(self,size)
+        local width = (size * (self.max / self.rows)) + (self.num_per_row - 1)
+        AuraFrame_SetFrameWidth(self,width)
+
+        if self.size == size then
+            return
+        end
+
+        -- re-set frame vars
+        self.size = size
+        self.icon_height = self.size * self.squareness
+        self.icon_ratio = (1 - (self.icon_height / self.size)) / 2
+
+        -- set buttons to new size
+        for k,button in ipairs(self.buttons) do
+            button:SetWidth(self.size)
+            button:SetHeight(self.icon_height)
+            button:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
+        end
+    end
+
+    function core:CreateAuras(f)
+        local auras = f.handler:CreateAuraFrame({
+            size = AURAS_NORMAL_SIZE,
+            kui_whitelist = true,
+            max = 10,
+            point = {'BOTTOMLEFT','LEFT','RIGHT'},
+            x_spacing = 1,
+            y_spacing = 1,
+            rows = 2
+        })
+        AuraFrame_SetIconSize(AURAS_NORMAL_SIZE)
+    end
 end
 -- class powers ################################################################
 function core.ClassPowers_PostPositionFrame()
