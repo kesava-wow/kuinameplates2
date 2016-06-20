@@ -451,9 +451,6 @@ local function CreateAuraFrame(parent)
 
     auraframe:SetScript('OnHide', AuraFrame_OnHide)
 
-    -- dynamic: buffs on friends, debuffs on enemies, player-cast only
-    auraframe.dynamic = not auraframe.filter
-
     auraframe.parent = parent
     auraframe.buttons = {}
     auraframe.spellids = {}
@@ -475,6 +472,9 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
     for k,v in pairs(frame_def) do
         new_frame[k] = v
     end
+
+    -- dynamic: buffs on friends, debuffs on enemies, player-cast only
+    new_frame.dynamic = not new_frame.filter
 
     new_frame.max = new_frame.max or 12
 
