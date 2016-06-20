@@ -87,6 +87,7 @@ end
 local function CreateFontString(parent)
     local f = parent:CreateFontString(nil,'OVERLAY')
     f:SetFont(FONT,11,'THINOUTLINE')
+    f:SetWordWrap()
 
     return f
 end
@@ -249,6 +250,7 @@ function core:CreateGuildText(f)
     guildtext:SetPoint('TOP',f.NameText,'BOTTOM', 0, -2)
     guildtext:SetShadowOffset(1,-1)
     guildtext:SetShadowColor(0,0,0,1)
+    guildtext:SetWordWrap()
     guildtext:Hide()
 
     f.GuildText = guildtext
@@ -405,6 +407,7 @@ do
         local spellname = f.HealthBar:CreateFontString(nil, 'OVERLAY')
         spellname:SetFont(FONT, 9, 'THINOUTLINE')
         spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3.5)
+        spellname:SetWordWrap()
 
         -- spell icon
         local spelliconbg = f:CreateTexture(nil, 'ARTWORK', nil, 0)
