@@ -112,7 +112,7 @@ local function PostCreateAuraButton(button)
     button.count:SetFont(font,font_size)
     button.count:SetParent(bar)
     button.count:ClearAllPoints()
-    button.count:SetPoint('RIGHT',button.icon,'LEFT',-1,.5)
+    button.count:SetPoint('RIGHT',button.icon,'LEFT',-3,.5)
     button.count:SetJustifyH('RIGHT')
 
     button:SetWidth(button.parent:GetWidth())
