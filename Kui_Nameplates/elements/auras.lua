@@ -476,23 +476,24 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
     -- dynamic: buffs on friends, debuffs on enemies, player-cast only
     new_frame.dynamic = not new_frame.filter
 
-    new_frame.max = new_frame.max or 12
+    -- set defaults
+    if not new_frame.max then
+        new_frame.max = 12
+    end
+    if not new_frame.rows then
+        new_frame.rows = 2
+    end
+    if not new_frame.num_per_row then
+        new_frame.num_per_row = floor(new_frame.max / new_frame.rows)
+    end
+    if not new_frame.row_growth then
+        new_frame.row_growth = 'UP'
+    end
+
+    new_frame.row_point = row_growth_points[new_frame.row_growth]
 
     new_frame.icon_height = new_frame.size * new_frame.squareness
     new_frame.icon_ratio = (1 - (new_frame.icon_height / new_frame.size)) / 2
-
-    -- positioning stuff
-    if new_frame.rows then
-        if not new_frame.num_per_row then
-            new_frame.num_per_row = floor(new_frame.max / new_frame.rows)
-        end
-
-        if not new_frame.row_growth then
-            new_frame.row_growth = 'UP'
-        end
-
-        new_frame.row_point = row_growth_points[new_frame.row_growth]
-    end
 
     if new_frame.kui_whitelist and not whitelist then
         -- initialise KuiSpellList whitelist
