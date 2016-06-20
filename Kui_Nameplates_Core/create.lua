@@ -511,28 +511,33 @@ do
         end
     end
     local function AuraFrame_SetFrameWidth(self)
-        local width = (self.size * self.num_per_row) + (self.num_per_row - 1)
-        self:SetWidth(width)
+        self:SetWidth(self.__width)
         self:SetPoint(
             'BOTTOMLEFT',
             self.parent.HealthBar,
             'TOPLEFT',
-            floor(self.parent.bg:GetWidth() - width) / 2,
+            floor(self.parent.bg:GetWidth() - self.__width) / 2,
             15
         )
     end
     local function AuraFrame_SetIconSize(self,minus)
         local size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
 
-        if self.size == size then
+        if self.__width and self.size == size then
             return
         end
+
+        addon:print('update auras: '..self.parent.state.name)
 
         -- re-set frame vars
         self.size = size
         self.icon_height = self.size * self.squareness
         self.icon_ratio = (1 - (self.icon_height / self.size)) / 2
         self.num_per_row = minus and 4 or 5
+
+        -- re-set frame width
+        self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
+        AuraFrame_SetFrameWidth(self)
 
         -- set buttons to new size
         for k,button in ipairs(self.buttons) do
@@ -551,8 +556,6 @@ do
     local function UpdateAuras(f)
         -- set auras to normal/minus sizes
         AuraFrame_SetIconSize(f.Auras.frames[1],f.state.minus)
-        AuraFrame_SetFrameWidth(f.Auras.frames[1])
-        addon:print('update auras: '..f.state.name)
     end
     function core:CreateAuras(f)
         local auras = f.handler:CreateAuraFrame({
