@@ -69,6 +69,7 @@ local on_target
 -- TODO could probably just detect from UnitPowerType instead of this
 local powers = {
     DEATHKNIGHT = SPELL_POWER_RUNES,
+    -- TODO re:above obviously this is wrong, all druids can become kitties
     DRUID       = { [2] = SPELL_POWER_COMBO_POINTS },
     PALADIN     = { [3] = SPELL_POWER_HOLY_POWER },
     ROGUE       = SPELL_POWER_COMBO_POINTS,
