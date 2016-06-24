@@ -72,6 +72,7 @@ function addon.Nameplate.OnHide(f)
     f:Hide()
     addon:DispatchMessage('Hide', f)
 
+    f.unit = nil
     wipe(f.state)
 end
 function addon.Nameplate.Create(f)
