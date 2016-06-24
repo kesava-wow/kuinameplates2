@@ -50,6 +50,12 @@ end
 function addon.Nameplate.OnUnitAdded(f,unit)
     f = f.parent
     f.unit = unit
+
+    if not f.unit then
+        addon:print('NO UNIT: '..f:GetName())
+        return
+    end
+
     f.handler:OnShow()
 end
 ------------------------------------------------------- Frame script handlers --

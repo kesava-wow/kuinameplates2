@@ -4,7 +4,7 @@ local ele = addon:NewElement('NameText')
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateName(f)
     f = f.parent
-    f.state.name = f.unit and UnitName(f.unit)
+    f.state.name = UnitName(f.unit) or ''
 
     if f.elements.NameText then
         f.NameText:SetText(f.state.name)

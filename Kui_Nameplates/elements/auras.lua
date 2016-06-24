@@ -522,9 +522,11 @@ function ele:Hide(f)
 end
 -- events ######################################################################
 function ele:UNIT_FACTION(event,f)
+    -- update each aura frame on this nameplate
     if not f.Auras then return end
     for _,auras_frame in ipairs(f.Auras.frames) do
         if auras_frame.dynamic then
+            -- update filter on faction change if dynamic
             if UnitIsFriend('player',f.unit) then
                 auras_frame.filter = 'PLAYER HELPFUL'
             else
@@ -536,6 +538,7 @@ function ele:UNIT_FACTION(event,f)
     end
 end
 function ele:UNIT_AURA(event,f)
+    -- update each aura frame on this nameplate
     if not f.Auras then return end
     for _,auras_frame in ipairs(f.Auras.frames) do
         auras_frame:Update()
