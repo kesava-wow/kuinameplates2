@@ -50,6 +50,11 @@ function addon.Nameplate.HighlightHide(f)
     addon:DispatchMessage('OnLeave', f)
 end
 -- messages ####################################################################
+function ele:Show(f)
+    if UnitIsUnit('mouseover',f.unit) then
+        f.handler:HighlightShow()
+    end
+end
 function ele:Hide(f)
     f.handler:HighlightHide()
 end
@@ -63,6 +68,7 @@ function ele:UPDATE_MOUSEOVER_UNIT(event)
 end
 -- register ####################################################################
 function ele:OnEnable()
+    self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
     self:RegisterEvent('UPDATE_MOUSEOVER_UNIT')
 end
