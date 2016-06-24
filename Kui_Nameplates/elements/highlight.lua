@@ -5,12 +5,14 @@ local ele = addon:NewElement('Highlight')
 local HighlightUpdateFrame = CreateFrame('Frame')
 local function HighlightUpdate(self)
     if not self.current or not self.current.unit then
+        -- currently highlighted frame no longer exists
         self.current = nil
         self:SetScript('OnUpdate',nil)
     elseif
         not UnitExists('mouseover') or
         not UnitIsUnit('mouseover',self.current.unit)
     then
+        -- currently highlighted frame no longer has mouseover
         self.current.handler:HighlightHide()
         self.current = nil
         self:SetScript('OnUpdate',nil)
@@ -51,6 +53,8 @@ function addon.Nameplate.HighlightHide(f)
 end
 -- messages ####################################################################
 function ele:Show(f)
+    -- this could of course cause problems if, for whatever reason, multiple
+    -- nameplates have the same unit. at some point.
     if UnitIsUnit('mouseover',f.unit) then
         f.handler:HighlightShow()
     end
