@@ -2,15 +2,25 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('TankMode')
+
+local spec_enabled
+-- functions ###################################################################
+local function UpdateFrames()
+    -- update threat colour on currently visible frames
+    for i,f in addon:Frames() do
+        if f:IsShown() then
+            self:GlowColourChange(f)
+        end
+    end
+end
 -- messages ####################################################################
 function mod:HealthColourChange(f,caller)
     if caller and caller == self then return end
     self:GlowColourChange(f)
 end
 function mod:GlowColourChange(f)
-    -- TODO tank detection etc
     -- tank mode health bar colours
-    if self.enabled and f.state.threat and f.state.threat > 0 then
+    if self.enabled and spec_enabled and f.state.threat and f.state.threat > 0 then
         if f.elements.HealthBar then
             f.HealthBar:SetStatusBarColor(unpack(self.colours[f.state.threat]))
         end
@@ -25,20 +35,29 @@ function mod:GlowColourChange(f)
         addon:DispatchMessage('HealthColourChange', f, mod)
     end
 end
+-- events ######################################################################
+function mod:Update()
+    local spec = GetSpecialization()
+    local role = spec and GetSpecializationRole(spec) or nil
+
+    if role == 'TANK' then
+        spec_enabled = true
+    else
+        spec_enabled = nil
+    end
+
+    UpdateFrames()
+end
 -- register ####################################################################
 function mod:OnEnable()
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('GlowColourChange')
 
-    self:OnDisable()
+    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','Update')
+    self:Update()
 end
 function mod:OnDisable()
-    -- toggle on current frames
-    for i,f in addon:Frames() do
-        if f:IsShown() then
-            self:GlowColourChange(f)
-        end
-    end
+    UpdateFrames()
 end
 function mod:Initialise()
     self.colours = {
