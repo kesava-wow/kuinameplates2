@@ -3,8 +3,8 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('TankMode')
 
-local spec_enabled
--- functions ###################################################################
+local force_enable,spec_enabled
+-- local functions #############################################################
 local function UpdateFrames()
     -- update threat colour on currently visible frames
     for i,f in addon:Frames() do
@@ -12,6 +12,11 @@ local function UpdateFrames()
             self:GlowColourChange(f)
         end
     end
+end
+-- mod functions ###############################################################
+function mod:SetForceEnable(b)
+    force_enable = b == true
+    self:Update()
 end
 -- messages ####################################################################
 function mod:HealthColourChange(f,caller)
@@ -37,13 +42,17 @@ function mod:GlowColourChange(f)
 end
 -- events ######################################################################
 function mod:Update()
-    local spec = GetSpecialization()
-    local role = spec and GetSpecializationRole(spec) or nil
+    if not force_enable then
+        local spec = GetSpecialization()
+        local role = spec and GetSpecializationRole(spec) or nil
 
-    if role == 'TANK' then
-        spec_enabled = true
+        if role == 'TANK' then
+            spec_enabled = true
+        else
+            spec_enabled = nil
+        end
     else
-        spec_enabled = nil
+        spec_enabled = true
     end
 
     UpdateFrames()
