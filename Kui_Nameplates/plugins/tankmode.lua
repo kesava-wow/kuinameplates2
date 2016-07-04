@@ -9,7 +9,7 @@ local function UpdateFrames()
     -- update threat colour on currently visible frames
     for i,f in addon:Frames() do
         if f:IsShown() then
-            self:GlowColourChange(f)
+            mod:GlowColourChange(f)
         end
     end
 end
