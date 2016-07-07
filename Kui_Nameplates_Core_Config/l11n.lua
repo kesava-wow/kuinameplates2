@@ -9,13 +9,16 @@ opt.page_names = {
     castbars    = 'Cast bars',
     classpowers = 'Class powers',
     threat      = 'Threat',
-
 }
 opt.tooltips = {
     nameonly = 'Hide the healthbars of friendly or unattackable units',
     hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names"',
     tank_mode = 'Recolour the health bars of units you are actively tanking',
     threat_brackets = 'Show triangles around nameplates which indicate threat status',
+
+    castbar_showpersonal = 'Show the castbar on your character\'s nameplate if it is enabled',
+    castbar_showall = 'Show castbars on all nameplates, rather than on just the current target',
+    castbar_showfriend = 'Show castbars on friendly nameplates',
 }
 opt.titles = {
     nameonly = 'Use nameonly mode',
@@ -24,4 +27,8 @@ opt.titles = {
     threat_brackets = 'Show threat brackets',
     profile = 'Profile',
     new_profile = 'New profile...',
+
+    castbar_showpersonal = 'Show own castbar',
+    castbar_showall = 'Show castbars on all nameplates',
+    castbar_showfriend = 'Show friendly castbars',
 }

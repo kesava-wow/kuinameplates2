@@ -14,6 +14,10 @@ local default_config = {
     hide_names = true,
     tank_mode = true,
     threat_brackets = false,
+
+    castbar_showpersonal = true,
+    castbar_showall = true,
+    castbar_showfriend = true,
 }
 -- config changed functions ####################################################
 local configChanged = {}

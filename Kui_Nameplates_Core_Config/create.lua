@@ -40,6 +40,15 @@ testslider2:SetPoint('TOPLEFT',testslider,'BOTTOMLEFT',0,-30)
 testslider3:SetPoint('TOPLEFT',testslider2,'BOTTOMLEFT',0,-30)
 testslider4:SetPoint('LEFT',testslider,'RIGHT',20,0)
 
+-- cast bars ###################################################################
+local castbar_personal = castbars:CreateCheckBox('castbar_showpersonal')
+local castbar_all = castbars:CreateCheckBox('castbar_showall')
+local castbar_friend = castbars:CreateCheckBox('castbar_showfriend')
+
+castbar_personal:SetPoint('TOPLEFT',10,-10)
+castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
+castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT')
+
 -- threat ######################################################################
 local tankmodeCheck = threat:CreateCheckBox('tank_mode')
 local threatbracketsCheck = threat:CreateCheckBox('threat_brackets')
