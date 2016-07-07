@@ -6,9 +6,12 @@ profileDropDown:SetPoint('TOPLEFT',-5,-23)
 opt.profileDropDown = profileDropDown
 -- create pages ################################################################
 local general = opt:CreateConfigPage('general')
-local test1 = opt:CreateConfigPage('test1')
-local test2 = opt:CreateConfigPage('test2')
-local test3 = opt:CreateConfigPage('test3')
+local text = opt:CreateConfigPage('text')
+local framesizes = opt:CreateConfigPage('framesizes')
+local auras = opt:CreateConfigPage('auras')
+local castbars = opt:CreateConfigPage('castbars')
+local classpowers = opt:CreateConfigPage('classpowers')
+local threat = opt:CreateConfigPage('threat')
 
 -- create tabs
 opt:CreateTabs()
@@ -16,12 +19,19 @@ opt:CreateTabs()
 opt.pages[1]:ShowPage()
 
 -- create elements #############################################################
+-- general #####################################################################
 local nameonlyCheck = general:CreateCheckBox('nameonly')
-local hidenamesCheck = general:CreateCheckBox('hide_names')
-local tankmodeCheck = general:CreateCheckBox('tank_mode')
-local threatbracketsCheck = general:CreateCheckBox('threat_brackets')
 
 nameonlyCheck:SetPoint('TOPLEFT',10,-10)
-hidenamesCheck:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
-tankmodeCheck:SetPoint('TOPLEFT',hidenamesCheck,'BOTTOMLEFT')
+
+-- text ########################################################################
+local hidenamesCheck = text:CreateCheckBox('hide_names')
+
+hidenamesCheck:SetPoint('TOPLEFT',10,-10)
+
+-- threat ######################################################################
+local tankmodeCheck = threat:CreateCheckBox('tank_mode')
+local threatbracketsCheck = threat:CreateCheckBox('threat_brackets')
+
+tankmodeCheck:SetPoint('TOPLEFT',10,-10)
 threatbracketsCheck:SetPoint('TOPLEFT',tankmodeCheck,'BOTTOMLEFT')
