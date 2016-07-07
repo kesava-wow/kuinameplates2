@@ -74,6 +74,11 @@ do
     local function SliderOnChanged(self)
         self.display:SetText(self:GetValue())
     end
+    local function SliderSetMinMaxValues(self,min,max)
+        self:orig_SetMinMaxValues(min,max)
+        self.Low:SetText(min)
+        self.High:SetText(max)
+    end
     function opt.CreateSlider(parent, name)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
         slider:SetWidth(150)
@@ -90,6 +95,10 @@ do
         display:SetPoint('TOP',slider,'BOTTOM')
         -- TODO editbox
 
+        slider.orig_SetMinMaxValues = slider.SetMinMaxValues
+        slider.SetMinMaxValues = SliderSetMinMaxValues
+
+        slider.env = name
         slider.label = label
         slider.display = display
 
@@ -100,8 +109,6 @@ do
 
         -- TODO test purposes
         slider:SetMinMaxValues(0,100)
-        slider.Low:SetText('0')
-        slider.High:SetText('100')
         slider:SetValue(0)
         slider:SetValueStep(1)
 

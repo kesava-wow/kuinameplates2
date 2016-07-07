@@ -30,15 +30,15 @@ local hidenamesCheck = text:CreateCheckBox('hide_names')
 hidenamesCheck:SetPoint('TOPLEFT',10,-10)
 
 -- frame sizes #################################################################
-local testslider = framesizes:CreateSlider('test')
-local testslider2 = framesizes:CreateSlider('test2')
-local testslider3 = framesizes:CreateSlider('test3')
-local testslider4 = framesizes:CreateSlider('test4')
+local frame_width = framesizes:CreateSlider('frame_width')
+local frame_height = framesizes:CreateSlider('frame_height')
+local frame_width_minus = framesizes:CreateSlider('frame_width_minus')
+local frame_height_minus = framesizes:CreateSlider('frame_height_minus')
 
-testslider:SetPoint('TOPLEFT',10,-30)
-testslider2:SetPoint('TOPLEFT',testslider,'BOTTOMLEFT',0,-30)
-testslider3:SetPoint('TOPLEFT',testslider2,'BOTTOMLEFT',0,-30)
-testslider4:SetPoint('LEFT',testslider,'RIGHT',20,0)
+frame_width:SetPoint('TOPLEFT',10,-30)
+frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
+frame_width_minus:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-30)
+frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
 
 -- cast bars ###################################################################
 local castbar_personal = castbars:CreateCheckBox('castbar_showpersonal')

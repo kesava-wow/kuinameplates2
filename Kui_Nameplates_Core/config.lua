@@ -15,6 +15,11 @@ local default_config = {
     tank_mode = true,
     threat_brackets = false,
 
+    frame_width = 132,
+    frame_height = 13,
+    frame_width_minus = 72,
+    frame_height_minus = 9,
+
     castbar_showpersonal = true,
     castbar_showall = true,
     castbar_showfriend = true,

@@ -16,6 +16,11 @@ opt.tooltips = {
     tank_mode = 'Recolour the health bars of units you are actively tanking',
     threat_brackets = 'Show triangles around nameplates which indicate threat status',
 
+    frame_width = 'Width of the standard nameplates',
+    frame_height = 'Height of the standard nameplates',
+    frame_width_minus = 'Width of nameplates used on low-health mobs',
+    frame_height_minus = 'Height of nameplates used on low-health mobs',
+
     castbar_showpersonal = 'Show the castbar on your character\'s nameplate if it is enabled',
     castbar_showall = 'Show castbars on all nameplates, rather than on just the current target',
     castbar_showfriend = 'Show castbars on friendly nameplates',
@@ -27,6 +32,11 @@ opt.titles = {
     threat_brackets = 'Show threat brackets',
     profile = 'Profile',
     new_profile = 'New profile...',
+
+    frame_width = 'Frame width',
+    frame_height = 'Frame height',
+    frame_width_minus = 'Minus frame width',
+    frame_height_minus = 'Minus frame height',
 
     castbar_showpersonal = 'Show own castbar',
     castbar_showall = 'Show castbars on all nameplates',
