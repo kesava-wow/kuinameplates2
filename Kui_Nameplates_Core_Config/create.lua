@@ -31,8 +31,14 @@ hidenamesCheck:SetPoint('TOPLEFT',10,-10)
 
 -- frame sizes #################################################################
 local testslider = framesizes:CreateSlider('test')
+local testslider2 = framesizes:CreateSlider('test2')
+local testslider3 = framesizes:CreateSlider('test3')
+local testslider4 = framesizes:CreateSlider('test4')
 
-testslider:SetPoint('TOPLEFT',10,-10)
+testslider:SetPoint('TOPLEFT',10,-30)
+testslider2:SetPoint('TOPLEFT',testslider,'BOTTOMLEFT',0,-30)
+testslider3:SetPoint('TOPLEFT',testslider2,'BOTTOMLEFT',0,-30)
+testslider4:SetPoint('LEFT',testslider,'RIGHT',20,0)
 
 -- threat ######################################################################
 local tankmodeCheck = threat:CreateCheckBox('tank_mode')
