@@ -29,6 +29,11 @@ local hidenamesCheck = text:CreateCheckBox('hide_names')
 
 hidenamesCheck:SetPoint('TOPLEFT',10,-10)
 
+-- frame sizes #################################################################
+local testslider = framesizes:CreateSlider('test')
+
+testslider:SetPoint('TOPLEFT',10,-10)
+
 -- threat ######################################################################
 local tankmodeCheck = threat:CreateCheckBox('tank_mode')
 local threatbracketsCheck = threat:CreateCheckBox('threat_brackets')

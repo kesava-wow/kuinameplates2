@@ -70,6 +70,35 @@ do
 
         return dd
     end
+
+    local function SliderOnChanged(self)
+        self.display:SetText(self:GetValue())
+    end
+    function opt.CreateSlider(parent, name)
+        local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
+        slider:SetWidth(150)
+        slider:SetHeight(15)
+        slider:SetOrientation('HORIZONTAL')
+        slider:SetThumbTexture('interface/buttons/ui-sliderbar-button-horizontal')
+        slider:SetMinMaxValues(0,100)
+        slider:SetValue(0)
+        slider:SetValueStep(1)
+        slider:SetObeyStepOnDrag(true)
+
+        slider:HookScript('OnValueChanged',SliderOnChanged)
+
+        local label = parent:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontHighlight')
+        label:SetText(opt.titles[name] or 'Slider')
+        label:SetPoint('BOTTOM',slider,'TOP')
+
+        local display = parent:CreateFontString(slider:GetName()..'Display','ARTWORK','GameFontHighlightSmall')
+        display:SetPoint('TOP',slider,'BOTTOM')
+
+        slider.label = label
+        slider.display = display
+
+        return slider
+    end
 end
 -- page functions ##############################################################
 do
@@ -95,6 +124,7 @@ do
     local page_proto = {
         CreateCheckBox = opt.CreateCheckBox,
         CreateDropDown = opt.CreateDropDown,
+        CreateSlider = opt.CreateSlider,
 
         HidePage = HidePage,
         ShowPage = ShowPage
