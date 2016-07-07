@@ -64,7 +64,7 @@ do
         dd:HookScript('OnEnter',OnEnter)
         dd:HookScript('OnLeave',OnLeave)
 
-        dd.label = parent:CreateFontString(dd:GetName()..'Label','ARTWORK','GameFontHighlightSmall')
+        dd.label = parent:CreateFontString(dd:GetName()..'Label','ARTWORK','GameFontNormalSmall')
         dd.label:SetText(opt.titles[name] or 'DropDown')
         dd.label:SetPoint('BOTTOMLEFT',dd,'TOPLEFT',20,1)
 
@@ -80,22 +80,30 @@ do
         slider:SetHeight(15)
         slider:SetOrientation('HORIZONTAL')
         slider:SetThumbTexture('interface/buttons/ui-sliderbar-button-horizontal')
-        slider:SetMinMaxValues(0,100)
-        slider:SetValue(0)
-        slider:SetValueStep(1)
         slider:SetObeyStepOnDrag(true)
 
-        slider:HookScript('OnValueChanged',SliderOnChanged)
-
-        local label = parent:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontHighlight')
+        local label = parent:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
         label:SetText(opt.titles[name] or 'Slider')
         label:SetPoint('BOTTOM',slider,'TOP')
 
         local display = parent:CreateFontString(slider:GetName()..'Display','ARTWORK','GameFontHighlightSmall')
         display:SetPoint('TOP',slider,'BOTTOM')
+        -- TODO editbox
 
         slider.label = label
         slider.display = display
+
+        slider:HookScript('OnEnter',OnEnter)
+        slider:HookScript('OnLeave',OnLeave)
+        slider:HookScript('OnValueChanged',SliderOnChanged)
+        -- TODO mousewheel
+
+        -- TODO test purposes
+        slider:SetMinMaxValues(0,100)
+        slider.Low:SetText('0')
+        slider.High:SetText('100')
+        slider:SetValue(0)
+        slider:SetValueStep(1)
 
         return slider
     end
