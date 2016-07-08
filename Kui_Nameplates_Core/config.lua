@@ -39,6 +39,10 @@ function configChanged.tank_mode(v)
     end
 end
 
+function configChanged.castbar_showall(v)
+    SetCVar('showVKeyCastbarOnlyOnTarget',not v)
+end
+
 local function configChangedFrameSize()
     core:configChangedFrameSize()
 end
