@@ -36,15 +36,21 @@ core.font = kui.m.f.francois
 local FONT = core.font
 
 -- TODO configuration
-local sizes = {
-    width = 132,
-    height = 13,
-    width_minus = 72,
-    height_minus = 9,
-    height_no_name = 9,
-    glow = 8,
-}
 local target_glow_colour = { .3, .7, 1, 1 }
+
+local FRAME_WIDTH = 132
+local FRAME_HEIGHT = 13
+local FRAME_WIDTH_MINUS = 72
+local FRAME_HEIGHT_MINUS = 9
+local FRAME_GLOW_SIZE = 8
+-- config functions ############################################################
+function core:configChangedFrameSize()
+    -- update size locals
+    FRAME_WIDTH = core.profile.frame_width
+    FRAME_HEIGHT = core.profile.frame_height
+    FRAME_WIDTH_MINUS = core.profile.frame_width_minus
+    FRAME_HEIGHT_MINUS = core.profile.frame_height_minus
+end
 -- helper functions ############################################################
 local CreateStatusBar
 do
@@ -105,13 +111,13 @@ end
 local function UpdateFrameSize(f)
     -- set frame size and position
     if f.state.minus then
-        f.bg:SetSize(sizes.width_minus,sizes.height_minus)
+        f.bg:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
     else
-        f.bg:SetSize(sizes.width,sizes.height)
+        f.bg:SetSize(FRAME_WIDTH,FRAME_HEIGHT)
     end
 
     if f.state.no_name and not f.state.player then
-        f.bg:SetHeight(sizes.height_no_name)
+        f.bg:SetHeight(FRAME_HEIGHT_MINUS)
     end
 
     -- calculate point to remain pixel-perfect
@@ -331,7 +337,7 @@ do
             tinsert(glow.sides,side)
         end
 
-        glow:SetSize(sizes.glow)
+        glow:SetSize(FRAME_GLOW_SIZE)
 
         glow.sides[1]:SetPoint('BOTTOMLEFT', f.bg, 'TOPLEFT', 1, -1)
         glow.sides[1]:SetPoint('BOTTOMRIGHT', f.bg, 'TOPRIGHT', -1, -1)

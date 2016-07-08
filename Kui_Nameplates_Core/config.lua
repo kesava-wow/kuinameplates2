@@ -25,15 +25,22 @@ local default_config = {
     castbar_showfriend = true,
 }
 -- config changed functions ####################################################
+-- TODO need to apply this stuff on init
 local configChanged = {}
 function configChanged.tank_mode(v)
-    -- TODO need to apply this stuff on init
     if v then
         addon:GetPlugin('TankMode'):Enable()
     else
         addon:GetPlugin('TankMode'):Disable()
     end
 end
+local function configChangedFrameSize()
+    core:configChangedFrameSize()
+end
+configChanged.frame_width = configChangedFrameSize
+configChanged.frame_height = configChangedFrameSize
+configChanged.frame_width_minus = configChangedFrameSize
+configChanged.frame_height_minus = configChangedFrameSize
 -- init config #################################################################
 function core:InitialiseConfig()
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
