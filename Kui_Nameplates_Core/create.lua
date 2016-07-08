@@ -518,7 +518,7 @@ do
             'BOTTOMLEFT',
             self.parent.HealthBar,
             'TOPLEFT',
-            floor(self.parent.bg:GetWidth() - self.__width) / 2,
+            floor((self.parent.bg:GetWidth() - self.__width) / 2),
             15
         )
     end
