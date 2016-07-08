@@ -440,7 +440,11 @@ do
                     f.handler:DisableElement('CastBar')
                 end
             else
-                if UnitIsFriend(f.unit,'player') then
+                if not core.profile.castbar_showall and
+                   not f.state.target
+                then
+                    f.handler:DisableElement('CastBar')
+                elseif UnitIsFriend(f.unit,'player') then
                     if core.profile.castbar_showfriend then
                         f.handler:EnableElement('CastBar')
                     else
