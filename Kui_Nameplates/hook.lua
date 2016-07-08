@@ -29,7 +29,7 @@ end
 function addon:HookNameplate(frame)
     local name = 'Kui'..frame:GetName()
 
-    frame.kui = CreateFrame('Frame',name,UIParent) -- TODO WorldFrame
+    frame.kui = CreateFrame('Frame',name,WorldFrame)
     frame.kui:Hide()
     frame.kui:SetFrameStrata('BACKGROUND')
     frame.kui:SetFrameLevel(0)
@@ -50,7 +50,7 @@ function addon:HookNameplate(frame)
         self:Hide()
     end)
 
-    --frame.kui:SetScale(self.uiscale) -- TODO
+    frame.kui:SetScale(self.uiscale)
     frame.kui:SetSize(self.width,self.height)
 
     if self.draw_frames then
