@@ -18,6 +18,14 @@ local auras_sort = function(a,b)
     return a.parent.sort(a,b)
 end
 
+-- scripts #####################################################################
+local function FadeSpark(self,val)
+    if val >= 7 then
+        self.spark:SetAlpha(0)
+    else
+        self.spark:SetAlpha(1 - ((val - 3) / (7 - 3)))
+    end
+end
 -- function replacements #######################################################
 local function ButtonUpdate(self)
     local remaining = self.expiration - GetTime()
@@ -93,6 +101,16 @@ local function PostCreateAuraButton(button)
     bar:SetStatusBarColor(.3,.4,.8)
     bar:SetMinMaxValues(0,10)
     bar:Hide()
+
+    local spark = bar:CreateTexture(nil,'ARTWORK')
+    spark:SetDrawLayer('ARTWORK',7)
+    spark:SetVertexColor(.6,.7,1)
+    spark:SetTexture('Interface\\AddOns\\Kui_Media\\t\\spark')
+    spark:SetPoint('CENTER', bar:GetRegions(), 'RIGHT', 0, 0)
+    spark:SetSize(6,20)
+
+    bar.spark = spark
+    bar:HookScript('OnValueChanged',FadeSpark)
 
     local name = bar:CreateFontString(nil,'OVERLAY')
     name:SetFont(font,font_size)
