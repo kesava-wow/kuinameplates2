@@ -34,10 +34,10 @@ font_size_small:SetPoint('LEFT',font_size_normal,'RIGHT',20,0)
 hidenamesCheck:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-20)
 
 -- frame sizes #################################################################
-local frame_width = framesizes:CreateSlider('frame_width',50,200)
-local frame_height = framesizes:CreateSlider('frame_height',5,30)
-local frame_width_minus = framesizes:CreateSlider('frame_width_minus',50,200)
-local frame_height_minus = framesizes:CreateSlider('frame_height_minus',5,30)
+local frame_width = framesizes:CreateSlider('frame_width',20,200)
+local frame_height = framesizes:CreateSlider('frame_height',3,40)
+local frame_width_minus = framesizes:CreateSlider('frame_width_minus',20,200)
+local frame_height_minus = framesizes:CreateSlider('frame_height_minus',3,40)
 
 frame_width:SetPoint('TOPLEFT',10,-30)
 frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
