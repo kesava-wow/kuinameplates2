@@ -32,7 +32,7 @@ function ele:Show(f,on_show)
 end
 -- events ######################################################################
 function ele:UNIT_CLASSIFICATION_CHANGED(event,f)
-    self:Show(f,on_show)
+    self:Show(f,true)
 end
 -- register ####################################################################
 function ele:OnEnable()
