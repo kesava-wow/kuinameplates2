@@ -57,6 +57,11 @@ castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
 castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT')
 castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
 
+castbar_personal.enabled = function(p) return p.castbar_enable end
+castbar_all.enabled = function(p) return p.castbar_enable end
+castbar_friend.enabled = function(p) return p.castbar_enable and p.castbar_showall end
+castbar_enemy.enabled = function(p) return p.castbar_enable and p.castbar_showall end
+
 -- threat ######################################################################
 local tankmodeCheck = threat:CreateCheckBox('tank_mode')
 local threatbracketsCheck = threat:CreateCheckBox('threat_brackets')

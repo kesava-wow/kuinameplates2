@@ -17,6 +17,26 @@ do
     local function OnLeave(self)
         GameTooltip:Hide()
     end
+    local function OnEnable(self)
+        if self.label then
+            self.label:SetAlpha(1)
+        end
+    end
+    local function OnDisable(self)
+        if self.label then
+            self.label:SetAlpha(.5)
+        end
+    end
+    local function GenericOnShow(self)
+        if self.enabled then
+            if self.enabled(opt.profile) then
+                self:Enable()
+            else
+                self:Disable()
+            end
+        end
+    end
+
     local function CheckBoxOnClick(self)
         if self:GetChecked() then
             PlaySound("igMainMenuOptionCheckBoxOn")
@@ -37,6 +57,8 @@ do
         if self.env then
             self:SetChecked(opt.profile[self.env])
         end
+
+        GenericOnShow(self)
     end
 
     function opt.CreateCheckBox(parent, name, callback)
@@ -49,6 +71,8 @@ do
 
         check:HookScript('OnEnter',OnEnter)
         check:HookScript('OnLeave',OnLeave)
+        check:HookScript('OnEnable',OnEnable)
+        check:HookScript('OnDisable',OnDisable)
 
         check.label = parent:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
         check.label:SetText(opt.titles[name] or 'Checkbox')
@@ -76,6 +100,8 @@ do
         if self.env then
             self:SetValue(opt.profile[self.env])
         end
+
+        GenericOnShow(self)
     end
     local function SliderOnChanged(self)
         self.display:SetText(self:GetValue())
@@ -120,6 +146,8 @@ do
 
         slider:HookScript('OnEnter',OnEnter)
         slider:HookScript('OnLeave',OnLeave)
+        slider:HookScript('OnEnable',OnEnable)
+        slider:HookScript('OnDisable',OnDisable)
         slider:HookScript('OnShow',SliderOnShow)
         slider:HookScript('OnValueChanged',SliderOnChanged)
         slider:HookScript('OnMouseUp',SliderOnManualChange)
