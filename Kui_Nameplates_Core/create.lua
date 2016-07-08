@@ -367,8 +367,10 @@ end
 -- castbar #####################################################################
 do
     local function SpellIconSetWidth(f)
-        -- set spell icon width
-        f.bg:GetHeight() -- calling this coaxes it into calculating the height
+        -- set spell icon width (based on height)
+        -- this seems to convice it to calculate the actual height
+        f.SpellIcon.bg:SetHeight(1)
+        --f.SpellIcon.bg:SetHeight(f.bg:GetHeight()+f.CastBar.bg:GetHeight()+1)
         f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
     end
     local function ShowCastBar(f)
