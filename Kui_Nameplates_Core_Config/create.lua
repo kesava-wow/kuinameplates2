@@ -25,9 +25,13 @@ local nameonlyCheck = general:CreateCheckBox('nameonly')
 nameonlyCheck:SetPoint('TOPLEFT',10,-10)
 
 -- text ########################################################################
+local font_size_normal = text:CreateSlider('font_size_normal',1,20)
+local font_size_small = text:CreateSlider('font_size_small',1,20)
 local hidenamesCheck = text:CreateCheckBox('hide_names')
 
-hidenamesCheck:SetPoint('TOPLEFT',10,-10)
+font_size_normal:SetPoint('TOPLEFT',10,-30)
+font_size_small:SetPoint('LEFT',font_size_normal,'RIGHT',20,0)
+hidenamesCheck:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-20)
 
 -- frame sizes #################################################################
 local frame_width = framesizes:CreateSlider('frame_width',50,200)

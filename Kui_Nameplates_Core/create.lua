@@ -43,6 +43,9 @@ local FRAME_HEIGHT = 13
 local FRAME_WIDTH_MINUS = 72
 local FRAME_HEIGHT_MINUS = 9
 local FRAME_GLOW_SIZE = 8
+
+local FONT_SIZE_NORMAL = 11
+local FONT_SIZE_SMALL = 9
 -- config functions ############################################################
 function core:configChangedFrameSize()
     -- update size locals
@@ -50,6 +53,28 @@ function core:configChangedFrameSize()
     FRAME_HEIGHT = core.profile.frame_height
     FRAME_WIDTH_MINUS = core.profile.frame_width_minus
     FRAME_HEIGHT_MINUS = core.profile.frame_height_minus
+end
+do
+    local function UpdateFontObject(object)
+        if not object then return end
+        object:SetFont(
+            FONT,
+            object.fontobject_small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
+            'THINOUTLINE'
+        )
+    end
+    function core:configChangedFontOption()
+        -- update font locals
+        FONT_SIZE_NORMAL = core.profile.font_size_normal
+        FONT_SIZE_SMALL = core.profile.font_size_small
+
+        -- update font objects
+        for i,f in addon:Frames() do
+            UpdateFontObject(f.NameText)
+            UpdateFontObject(f.GuildText)
+            UpdateFontObject(f.SpellName)
+        end
+    end
 end
 -- helper functions ############################################################
 local CreateStatusBar
@@ -90,10 +115,15 @@ do
         return bar
     end
 end
-local function CreateFontString(parent)
+local function CreateFontString(parent,small)
     local f = parent:CreateFontString(nil,'OVERLAY')
-    f:SetFont(FONT,11,'THINOUTLINE')
+    f:SetFont(
+        FONT,
+        small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
+        'THINOUTLINE'
+    )
     f:SetWordWrap()
+    f.fontobject_small = small
 
     return f
 end
@@ -252,12 +282,10 @@ do
 end
 -- npc guild text ##############################################################
 function core:CreateGuildText(f)
-    local guildtext = f:CreateFontString(nil,'OVERLAY')
-    guildtext:SetFont(FONT, 9, 'THINOUTLINE')
+    local guildtext = CreateFontString(f,FONT_SIZE_SMALL)
     guildtext:SetPoint('TOP',f.NameText,'BOTTOM', 0, -2)
     guildtext:SetShadowOffset(1,-1)
     guildtext:SetShadowColor(0,0,0,1)
-    guildtext:SetWordWrap()
     guildtext:Hide()
 
     f.GuildText = guildtext
@@ -413,8 +441,7 @@ do
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
-        local spellname = f.HealthBar:CreateFontString(nil, 'OVERLAY')
-        spellname:SetFont(FONT, 9, 'THINOUTLINE')
+        local spellname = CreateFontString(f.HealthBar,FONT_SIZE_SMALL)
         spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3.5)
         spellname:SetWordWrap()
 

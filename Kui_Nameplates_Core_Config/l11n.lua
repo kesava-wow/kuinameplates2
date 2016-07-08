@@ -16,6 +16,9 @@ opt.tooltips = {
     tank_mode = 'Recolour the health bars of units you are actively tanking',
     threat_brackets = 'Show triangles around nameplates which indicate threat status',
 
+    font_size_normal = 'Standard font size (name, etc)',
+    font_size_small = 'Smaller font size (vendor, spell name, etc)',
+
     frame_width = 'Width of the standard nameplates',
     frame_height = 'Height of the standard nameplates',
     frame_width_minus = 'Width of nameplates used on low-health mobs',
@@ -32,6 +35,9 @@ opt.titles = {
     threat_brackets = 'Show threat brackets',
     profile = 'Profile',
     new_profile = 'New profile...',
+
+    font_size_normal = 'Normal font size',
+    font_size_small = 'Small font size',
 
     frame_width = 'Frame width',
     frame_height = 'Frame height',

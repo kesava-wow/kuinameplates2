@@ -11,9 +11,10 @@ local core = KuiNameplatesCore
 -- default configuration #######################################################
 local default_config = {
     nameonly = true,
+
     hide_names = true,
-    tank_mode = true,
-    threat_brackets = false,
+    font_size_normal = 11,
+    font_size_small = 9,
 
     frame_width = 132,
     frame_height = 13,
@@ -23,6 +24,9 @@ local default_config = {
     castbar_showpersonal = true,
     castbar_showall = true,
     castbar_showfriend = true,
+
+    tank_mode = true,
+    threat_brackets = false,
 }
 -- config changed functions ####################################################
 -- TODO need to apply this stuff on init
@@ -34,6 +38,7 @@ function configChanged.tank_mode(v)
         addon:GetPlugin('TankMode'):Disable()
     end
 end
+
 local function configChangedFrameSize()
     core:configChangedFrameSize()
 end
@@ -41,6 +46,13 @@ configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize
 configChanged.frame_width_minus = configChangedFrameSize
 configChanged.frame_height_minus = configChangedFrameSize
+
+local function configChangedFontOption()
+    core:configChangedFontOption()
+end
+configChanged.font_face = configChangedFontOption
+configChanged.font_size_normal = configChangedFontOption
+configChanged.font_size_small = configChangedFontOption
 -- init config #################################################################
 function core:InitialiseConfig()
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
