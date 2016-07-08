@@ -2,8 +2,6 @@ local MAJOR, MINOR = 'KuiSpellList-1.0', 22
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
--- this is a test comment.
-
 if not KuiSpellList then
     -- already registered
     return
@@ -94,6 +92,8 @@ local auras = {
             [108843] = true, -- blazing speed
             [116014] = true, -- rune of power
             [116267] = true, -- incanter's flow
+            [198924] = true, -- quickening
+            [205766] = true, -- bone chilling
         },
         HELPFUL = {
             [130] = true, -- slow fall
@@ -107,6 +107,7 @@ local auras = {
             [114923] = true, -- nether tempest
             [157981] = true, -- blast wave
             [155158] = true, -- meteor burn
+            [210134] = true, -- erosion
             [217694] = true, -- living bomb
             [226757] = true, -- conflagration
         },
@@ -118,6 +119,9 @@ local auras = {
             [31661] = true, -- dragon's breath
             [82691] = true, -- ring of frost
             [157997] = true, -- ice nova
+            [205708] = true, -- chilled
+            [228354] = true, -- flurry slow
+            [228600] = true, -- glacial spike freeze
 
             [118] = true, -- polymorph
             [28271] = true, -- polymorph: turtle
