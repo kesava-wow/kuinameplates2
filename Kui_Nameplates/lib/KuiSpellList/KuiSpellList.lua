@@ -2,6 +2,8 @@ local MAJOR, MINOR = 'KuiSpellList-1.0', 22
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
+-- this is a test comment.
+
 if not KuiSpellList then
     -- already registered
     return
