@@ -103,7 +103,7 @@ local function PostCreateAuraButton(button)
     bar:Hide()
 
     local spark = bar:CreateTexture(nil,'ARTWORK')
-    spark:SetDrawLayer('ARTWORK',7)
+    spark:SetDrawLayer('ARTWORK',3)
     spark:SetVertexColor(.6,.7,1)
     spark:SetTexture('Interface\\AddOns\\Kui_Media\\t\\spark')
     spark:SetPoint('CENTER', bar:GetRegions(), 'RIGHT', 0, 0)
