@@ -126,8 +126,10 @@ do
         slider:SetHeight(15)
         slider:SetOrientation('HORIZONTAL')
         slider:SetThumbTexture('interface/buttons/ui-sliderbar-button-horizontal')
+        slider:SetValueStep(1)
         slider:SetObeyStepOnDrag(true)
         slider:EnableMouseWheel(true)
+        slider:SetMinMaxValues(min or 0, max or 100)
 
         local label = parent:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
         label:SetText(opt.titles[name] or 'Slider')
@@ -152,12 +154,6 @@ do
         slider:HookScript('OnValueChanged',SliderOnChanged)
         slider:HookScript('OnMouseUp',SliderOnManualChange)
         slider:HookScript('OnMouseWheel',SliderOnMouseWheel)
-        -- TODO mousewheel
-
-        -- TODO test purposes
-        slider:SetMinMaxValues(min or 0, max or 100)
-        slider:SetValue(0)
-        slider:SetValueStep(1)
 
         return slider
     end
