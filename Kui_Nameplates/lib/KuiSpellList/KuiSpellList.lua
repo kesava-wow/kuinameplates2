@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 21
+local MAJOR, MINOR = 'KuiSpellList-1.0', 22
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -87,6 +87,12 @@ local auras = {
         }
     },
     MAGE = {
+        SELF = {
+            [108839] = true, -- ice floes
+            [108843] = true, -- blazing speed
+            [116014] = true, -- rune of power
+            [116267] = true, -- incanter's flow
+        },
         HELPFUL = {
             [130] = true, -- slow fall
         },
@@ -96,16 +102,20 @@ local auras = {
             [12654] = true, -- ignite
             [44457] = true, -- living bomb
             [112948] = true, -- frost bomb
-            [157981] = true, -- blast wave
             [114923] = true, -- nether tempest
+            [157981] = true, -- blast wave
+            [155158] = true, -- meteor burn
+            [217694] = true, -- living bomb
+            [226757] = true, -- conflagration
         },
         CONTROL = {
-            [31589] = true, -- slow
             [116] = true, -- frostbolt debuff
-            [157997] = true, -- ice nova
             [120] = true, -- cone of cold
+            [122] = true, -- frost nova
+            [31589] = true, -- slow
             [31661] = true, -- dragon's breath
             [82691] = true, -- ring of frost
+            [157997] = true, -- ice nova
 
             [118] = true, -- polymorph
             [28271] = true, -- polymorph: turtle
