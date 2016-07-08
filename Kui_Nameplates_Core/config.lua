@@ -21,7 +21,7 @@ local default_config = {
     frame_width_minus = 72,
     frame_height_minus = 9,
 
-    castbar_showpersonal = true,
+    castbar_showpersonal = false,
     castbar_showall = true,
     castbar_showfriend = true,
 

@@ -408,7 +408,7 @@ do
         f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
     end
     local function ShowCastBar(f)
-        if f.state.nameonly then return end
+        if not f.elements.CastBar then return end
 
         -- also show attached elements
         f.CastBar.bg:Show()
@@ -428,16 +428,20 @@ do
     local function UpdateCastBar(f)
         if f.state.nameonly then
             f.handler:DisableElement('CastBar')
-            print('castbar disabled on '..f.state.name)
         else
-            if (not core.profile.castbar_showpersonal and UnitIsUnit(f.unit,'player')) or
-               (not core.profile.castbar_showfriend and UnitIsFriend(f.unit,'player'))
+            if UnitIsUnit(f.unit,'player') then
+                if core.profile.castbar_showpersonal then
+                    f.handler:EnableElement('CastBar')
+                else
+                    f.handler:DisableElement('CastBar')
+                end
+            elseif
+                UnitIsFriend(f.unit,'player') and
+                not core.profile.castbar_showfriend
             then
                 f.handler:DisableElement('CastBar')
-                print('castbar disabled on '..f.state.name)
             else
                 f.handler:EnableElement('CastBar')
-                print('castbar enabled on '..f.state.name)
             end
         end
     end
