@@ -408,7 +408,11 @@ do
         f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
     end
     local function ShowCastBar(f)
-        if not f.elements.CastBar then return end
+        if not f.elements.CastBar then
+            -- keep attached elements hidden
+            f:HideCastBar()
+            return
+        end
 
         -- also show attached elements
         f.CastBar.bg:Show()
