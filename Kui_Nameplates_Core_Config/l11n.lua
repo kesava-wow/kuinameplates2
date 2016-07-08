@@ -24,9 +24,11 @@ opt.tooltips = {
     frame_width_minus = 'Width of nameplates used on low-health mobs',
     frame_height_minus = 'Height of nameplates used on low-health mobs',
 
+    castbar_enable = 'Enable the castbar element',
     castbar_showpersonal = 'Show the castbar on your character\'s nameplate if it is enabled',
     castbar_showall = 'Show castbars on all nameplates, rather than on just the current target',
     castbar_showfriend = 'Show castbars on friendly nameplates (note that castbars are not shown on frames which have nameonly mode active)',
+    castbar_showenemy = 'Show castbars on enemy nameplates',
 }
 opt.titles = {
     nameonly = 'Use nameonly mode',
@@ -44,7 +46,9 @@ opt.titles = {
     frame_width_minus = 'Minus frame width',
     frame_height_minus = 'Minus frame height',
 
+    castbar_enable = 'Enable',
     castbar_showpersonal = 'Show own castbar',
     castbar_showall = 'Show castbars on all nameplates',
     castbar_showfriend = 'Show friendly castbars',
+    castbar_showenemy = 'Show enemy castbars',
 }

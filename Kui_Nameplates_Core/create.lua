@@ -439,13 +439,20 @@ do
                 else
                     f.handler:DisableElement('CastBar')
                 end
-            elseif
-                UnitIsFriend(f.unit,'player') and
-                not core.profile.castbar_showfriend
-            then
-                f.handler:DisableElement('CastBar')
             else
-                f.handler:EnableElement('CastBar')
+                if UnitIsFriend(f.unit,'player') then
+                    if core.profile.castbar_showfriend then
+                        f.handler:EnableElement('CastBar')
+                    else
+                        f.handler:DisableElement('CastBar')
+                    end
+                else
+                    if core.profile.castbar_showenemy then
+                        f.handler:EnableElement('CastBar')
+                    else
+                        f.handler:DisableElement('CastBar')
+                    end
+                end
             end
         end
     end

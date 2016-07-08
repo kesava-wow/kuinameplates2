@@ -45,13 +45,17 @@ frame_width_minus:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-30)
 frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
 
 -- cast bars ###################################################################
+local castbar_enable = castbars:CreateCheckBox('castbar_enable')
 local castbar_personal = castbars:CreateCheckBox('castbar_showpersonal')
 local castbar_all = castbars:CreateCheckBox('castbar_showall')
 local castbar_friend = castbars:CreateCheckBox('castbar_showfriend')
+local castbar_enemy = castbars:CreateCheckBox('castbar_showenemy')
 
-castbar_personal:SetPoint('TOPLEFT',10,-10)
+castbar_enable:SetPoint('TOPLEFT',10,-10)
+castbar_personal:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
 castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
 castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT')
+castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
 
 -- threat ######################################################################
 local tankmodeCheck = threat:CreateCheckBox('tank_mode')

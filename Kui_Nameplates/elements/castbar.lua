@@ -161,6 +161,11 @@ function ele:DisableOnFrame(frame)
     self:Hide(frame)
 end
 -- register ####################################################################
+function ele:OnDisable()
+    for i,f in addon:Frames() do
+        self:DisableOnFrame(f)
+    end
+end
 function ele:OnEnable()
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')

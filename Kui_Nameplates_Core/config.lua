@@ -21,9 +21,11 @@ local default_config = {
     frame_width_minus = 72,
     frame_height_minus = 9,
 
+    castbar_enable = true,
     castbar_showpersonal = false,
     castbar_showall = true,
     castbar_showfriend = true,
+    castbar_showenemy = true,
 
     tank_mode = true,
     threat_brackets = false,
@@ -36,6 +38,14 @@ function configChanged.tank_mode(v)
         addon:GetPlugin('TankMode'):Enable()
     else
         addon:GetPlugin('TankMode'):Disable()
+    end
+end
+
+function configChanged.castbar_enable(v)
+    if v then
+        addon:GetPlugin('CastBar'):Enable()
+    else
+        addon:GetPlugin('CastBar'):Disable()
     end
 end
 
