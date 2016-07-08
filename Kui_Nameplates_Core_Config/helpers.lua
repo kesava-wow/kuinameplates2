@@ -71,21 +71,37 @@ do
         return dd
     end
 
+    local function SliderOnShow(self)
+        if not opt.profile then return end
+        if self.env then
+            self:SetValue(opt.profile[self.env])
+        end
+    end
     local function SliderOnChanged(self)
         self.display:SetText(self:GetValue())
+    end
+    local function SliderOnManualChange(self)
+        if self.env and opt.config then
+            opt.config:SetConfig(self.env,self:GetValue())
+        end
+    end
+    local function SliderOnMouseWheel(self,delta)
+        self:SetValue(self:GetValue()+delta)
+        SliderOnManualChange(self)
     end
     local function SliderSetMinMaxValues(self,min,max)
         self:orig_SetMinMaxValues(min,max)
         self.Low:SetText(min)
         self.High:SetText(max)
     end
-    function opt.CreateSlider(parent, name)
+    function opt.CreateSlider(parent, name, min, max)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
         slider:SetWidth(150)
         slider:SetHeight(15)
         slider:SetOrientation('HORIZONTAL')
         slider:SetThumbTexture('interface/buttons/ui-sliderbar-button-horizontal')
         slider:SetObeyStepOnDrag(true)
+        slider:EnableMouseWheel(true)
 
         local label = parent:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
         label:SetText(opt.titles[name] or 'Slider')
@@ -104,11 +120,14 @@ do
 
         slider:HookScript('OnEnter',OnEnter)
         slider:HookScript('OnLeave',OnLeave)
+        slider:HookScript('OnShow',SliderOnShow)
         slider:HookScript('OnValueChanged',SliderOnChanged)
+        slider:HookScript('OnMouseUp',SliderOnManualChange)
+        slider:HookScript('OnMouseWheel',SliderOnMouseWheel)
         -- TODO mousewheel
 
         -- TODO test purposes
-        slider:SetMinMaxValues(0,100)
+        slider:SetMinMaxValues(min or 0, max or 100)
         slider:SetValue(0)
         slider:SetValueStep(1)
 

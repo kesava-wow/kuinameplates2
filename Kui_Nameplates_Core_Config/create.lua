@@ -30,10 +30,10 @@ local hidenamesCheck = text:CreateCheckBox('hide_names')
 hidenamesCheck:SetPoint('TOPLEFT',10,-10)
 
 -- frame sizes #################################################################
-local frame_width = framesizes:CreateSlider('frame_width')
-local frame_height = framesizes:CreateSlider('frame_height')
-local frame_width_minus = framesizes:CreateSlider('frame_width_minus')
-local frame_height_minus = framesizes:CreateSlider('frame_height_minus')
+local frame_width = framesizes:CreateSlider('frame_width',50,200)
+local frame_height = framesizes:CreateSlider('frame_height',5,30)
+local frame_width_minus = framesizes:CreateSlider('frame_width_minus',50,200)
+local frame_height_minus = framesizes:CreateSlider('frame_height_minus',5,30)
 
 frame_width:SetPoint('TOPLEFT',10,-30)
 frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
