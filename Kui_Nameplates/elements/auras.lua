@@ -420,7 +420,6 @@ local function AuraFrame_ArrangeButtons(self)
     end
 end
 local function AuraFrame_OnHide(self)
-    if self.parent.MOVING then return end
     -- hide all buttons
     self:HideAllButtons()
 end

@@ -22,21 +22,14 @@ local function FrameOnUpdate(self)
 end
 ----------------------------------------------------------------------- Sizer --
 local function SizerOnSizeChanged(self,x,y)
-    -- TODO probably just a beta thing:
-    -- SetCVar('releaseUITextures',0)
-    -- is necessary to have textures not flash when moving with this
-    self.f.MOVING = true
-    --self.f:Hide() -- TODO temp since releaseuitextures was removed
     self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
-    --self.f:Show()
-    self.f.MOVING = nil
 end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts
 function addon:HookNameplate(frame)
     local name = 'Kui'..frame:GetName()
 
-    frame.kui = CreateFrame('Frame',name,WorldFrame)
+    frame.kui = CreateFrame('Frame',name,UIParent) -- TODO WorldFrame
     frame.kui:Hide()
     frame.kui:SetFrameStrata('BACKGROUND')
     frame.kui:SetFrameLevel(0)
@@ -57,7 +50,7 @@ function addon:HookNameplate(frame)
         self:Hide()
     end)
 
-    frame.kui:SetScale(self.uiscale)
+    --frame.kui:SetScale(self.uiscale) -- TODO
     frame.kui:SetSize(self.width,self.height)
 
     if self.draw_frames then
