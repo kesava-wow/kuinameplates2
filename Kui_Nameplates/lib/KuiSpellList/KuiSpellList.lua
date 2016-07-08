@@ -401,6 +401,7 @@ local auras = {
         CONTROL = {
             [185245] = true, -- torment taunt
             [204843] = true, -- sigil of chains
+            [207685] = true, -- sigil of misery
             [179057] = true, -- chaos nova
             [211881] = true, -- fel eruption
             [200166] = true, -- metamorphosis stun
