@@ -50,6 +50,8 @@ function core:Show(f)
     f:UpdateNameText()
     -- set state icon
     f:UpdateStateIcon()
+    -- enable/disable castbar
+    f:UpdateCastBar()
 end
 function core:Hide(f)
     self:NameOnlyUpdate(f,true)
@@ -64,6 +66,7 @@ function core:HealthColourChange(f)
     f:UpdateNameText()
     f:UpdateFrameGlow()
     f:UpdateStateIcon()
+    f:UpdateCastBar()
 end
 function core:PowerUpdate(f)
     f:UpdatePowerBar()
@@ -90,6 +93,7 @@ function core:GainedTarget(f)
     f:UpdateNameText()
     f:UpdateFrameGlow()
     f:UpdateStateIcon()
+    f:UpdateCastBar()
 end
 function core:LostTarget(f)
     f.state.target = nil
@@ -103,6 +107,7 @@ function core:LostTarget(f)
     f:UpdateNameText()
     f:UpdateFrameGlow()
     f:UpdateStateIcon()
+    f:UpdateCastBar()
 end
 function core:ClassificationChanged(f)
     f:UpdateStateIcon()

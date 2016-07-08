@@ -425,6 +425,22 @@ do
         f.SpellName:Hide()
         f.SpellShield:Hide()
     end
+    local function UpdateCastBar(f)
+        if f.state.nameonly then
+            f.handler:DisableElement('CastBar')
+            print('castbar disabled on '..f.state.name)
+        else
+            if (not core.profile.castbar_showpersonal and UnitIsUnit(f.unit,'player')) or
+               (not core.profile.castbar_showfriend and UnitIsFriend(f.unit,'player'))
+            then
+                f.handler:DisableElement('CastBar')
+                print('castbar disabled on '..f.state.name)
+            else
+                f.handler:EnableElement('CastBar')
+                print('castbar enabled on '..f.state.name)
+            end
+        end
+    end
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
@@ -490,6 +506,7 @@ do
 
         f.ShowCastBar = ShowCastBar
         f.HideCastBar = HideCastBar
+        f.UpdateCastBar = UpdateCastBar
         f.SpellIconSetWidth = SpellIconSetWidth
     end
 end
@@ -754,8 +771,6 @@ do
         end
 
         f.NameText:Show()
-
-        f.handler:DisableElement('CastBar')
     end
     local function NameOnlyDisable(f)
         if not f.state.nameonly then return end
@@ -774,8 +789,6 @@ do
         f.bg:Show()
         f.HealthBar:Show()
         f.HealthBar.fill:Show()
-
-        f.handler:EnableElement('CastBar')
     end
     function core:NameOnlyHealthUpdate(f)
         -- set name text colour to approximate health

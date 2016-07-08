@@ -26,7 +26,7 @@ opt.tooltips = {
 
     castbar_showpersonal = 'Show the castbar on your character\'s nameplate if it is enabled',
     castbar_showall = 'Show castbars on all nameplates, rather than on just the current target',
-    castbar_showfriend = 'Show castbars on friendly nameplates',
+    castbar_showfriend = 'Show castbars on friendly nameplates (note that castbars are not shown on frames which have nameonly mode active)',
 }
 opt.titles = {
     nameonly = 'Use nameonly mode',
