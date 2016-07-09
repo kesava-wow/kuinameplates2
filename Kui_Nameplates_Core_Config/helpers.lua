@@ -243,6 +243,38 @@ do
     end
 end
 -- popup functions #############################################################
+local function PopupOnShow(self)
+    PlaySound("igMainMenuOpen")
+end
+local function PopupOnHide(self)
+    PlaySound("igMainMenuClose")
+end
+local function OkayButtonOnClick(self)
+    if opt.Popup.active_page.callback then
+        opt.Popup.active_page.callback(true)
+    end
+    opt.Popup:Hide()
+end
+local function CancelButtonOnClick(self)
+    if opt.Popup.active_page.callback then
+        opt.Popup.active_page.callback(false)
+    end
+    opt.Popup:Hide()
+end
+
+local function PopupShowPage(self,page_name)
+    if self.active_page then
+        self.active_page:Hide()
+    end
+
+    if self.pages[page_name] then
+        self.pages[page_name]:Show()
+        self.active_page = self.pages[page_name]
+    end
+
+    self:Show()
+end
+
 local function CreatePopup()
     local popup = CreateFrame('Frame',nil,opt)
     popup:SetBackdrop({
@@ -262,17 +294,23 @@ local function CreatePopup()
     popup:Hide()
     popup.pages = {}
 
-    function popup:ShowPage(page_name)
-        for k,v in pairs(self.pages) do
-            v:Hide()
-        end
+    popup.ShowPage = PopupShowPage
 
-        if self.pages[page_name] then
-            self.pages[page_name]:Show()
-        end
+    popup:SetScript('OnShow',PopupOnShow)
+    popup:SetScript('OnHide',PopupOnHide)
 
-        self:Show()
-    end
+    local okay = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
+    okay:SetText('OK')
+    okay:SetSize(90,25)
+    okay:SetPoint('BOTTOM',-50,20)
+
+    local cancel = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
+    cancel:SetText('Cancel')
+    cancel:SetSize(90,25)
+    cancel:SetPoint('BOTTOM',50,20)
+
+    okay:SetScript('OnClick',OkayButtonOnClick)
+    cancel:SetScript('OnClick',CancelButtonOnClick)
 
     -- create popup pages
     local new_profile = CreateFrame('Frame',nil,popup)
