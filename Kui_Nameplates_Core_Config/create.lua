@@ -2,10 +2,6 @@ local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 
 opt:Initialise()
--- create profile selector #####################################################
-local profileDropDown = opt:CreateDropDown('profile',130)
-profileDropDown:SetPoint('TOPLEFT',-5,-23)
-opt.profileDropDown = profileDropDown
 -- create pages ################################################################
 local general = opt:CreateConfigPage('general')
 local text = opt:CreateConfigPage('text')

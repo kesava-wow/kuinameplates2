@@ -1,6 +1,10 @@
 local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
+-- generic helpers #############################################################
+local function EditBoxOnEscapePressed(self)
+    self:ClearFocus()
+end
 -- element creation helpers ####################################################
 do
     local function OnEnter(self)
@@ -238,8 +242,80 @@ do
         end
     end
 end
+-- popup functions #############################################################
+local function CreatePopup()
+    local popup = CreateFrame('Frame',nil,opt)
+    popup:SetBackdrop({
+        bgFile='interface/dialogframe/ui-dialogbox-background',
+        edgeFile='interface/dialogframe/ui-dialogbox-border',
+        edgeSize=32,
+        tile=true,
+        tileSize=32,
+        insets = {
+            top=12,right=12,bottom=11,left=11
+        }
+    })
+    popup:SetSize(400,300)
+    popup:SetPoint('CENTER')
+    popup:SetFrameStrata('DIALOG')
+    popup:EnableMouse(true)
+    popup:Hide()
+    popup.pages = {}
+
+    function popup:ShowPage(page_name)
+        for k,v in pairs(self.pages) do
+            v:Hide()
+        end
+
+        if self.pages[page_name] then
+            self.pages[page_name]:Show()
+        end
+
+        self:Show()
+    end
+
+    -- create popup pages
+    local new_profile = CreateFrame('Frame',nil,popup)
+    new_profile:SetAllPoints(popup)
+    new_profile:Hide()
+
+    local profile_name = CreateFrame('EditBox',nil,new_profile,'InputBoxTemplate')
+    profile_name:SetAutoFocus(false)
+    profile_name:EnableMouse(true)
+    profile_name:SetMaxLetters(50)
+    profile_name:SetPoint('CENTER')
+    profile_name:SetSize(150,30)
+
+    new_profile.editbox = profile_name
+
+    new_profile:SetScript('OnShow',function(self)
+        self.editbox:SetText('')
+        self.editbox:SetFocus()
+    end)
+
+    profile_name:SetScript('OnEnterPressed',function(self)
+        -- TODO obviously
+        opt.Popup:Hide()
+    end)
+    profile_name:SetScript('OnEscapePressed',function(self)
+        EditBoxOnEscapePressed(self)
+        opt.Popup:Hide()
+    end)
+
+    popup.pages.new_profile = new_profile
+
+    opt.Popup = popup
+end
 -- init display ################################################################
 function opt:Initialise()
+    CreatePopup()
+
+    -- create profile dropdown
+    local profileDropDown = self:CreateDropDown('profile',130)
+    profileDropDown:SetPoint('TOPLEFT',-5,-23)
+
+    self.profileDropDown = profileDropDown
+
     -- create backgrounds
     local tl_bg = CreateFrame('Frame',nil,self)
     tl_bg:SetBackdrop({

@@ -65,6 +65,7 @@ local function profileDropDown_OnChanged(dd,profile_select)
 end
 local function profileDropDown_NewProfile(dd)
     -- TODO
+    opt.Popup:ShowPage('new_profile')
 end
 local function profileDropDown_Initialize()
     local info = UIDropDownMenu_CreateInfo()
