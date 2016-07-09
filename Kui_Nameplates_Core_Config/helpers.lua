@@ -327,6 +327,16 @@ do
     end
 
     -- new profile #############################################################
+    local function NewProfile_OnShow(self)
+        self.editbox:SetText('')
+        self.editbox:SetFocus()
+    end
+    local function NewProfile_OnEnterPressed(self)
+        opt.Popup.Okay:Click()
+    end
+    local function NewProfile_OnEscapePressed(self)
+        opt.Popup.Cancel:Click()
+    end
     local function CreatePopupPage_NewProfile()
         local new_profile = CreateFrame('Frame',nil,opt.Popup)
         new_profile:SetAllPoints(opt.Popup)
@@ -348,16 +358,9 @@ do
 
         new_profile.editbox = profile_name
 
-        new_profile:SetScript('OnShow',function(self)
-            self.editbox:SetText('')
-            self.editbox:SetFocus()
-        end)
-        profile_name:SetScript('OnEnterPressed',function(self)
-            opt.Popup.Okay:Click()
-        end)
-        profile_name:SetScript('OnEscapePressed',function(self)
-            opt.Popup.Cancel:Click()
-        end)
+        new_profile:SetScript('OnShow',NewProfile_OnShow)
+        profile_name:SetScript('OnEnterPressed',NewProfile_OnEnterPressed)
+        profile_name:SetScript('OnEscapePressed',NewProfile_OnEscapePressed)
 
         opt.Popup.pages.new_profile = new_profile
     end
@@ -395,6 +398,31 @@ do
         end
 
         slider:GetParent().text:SetText(text)
+    end
+    local function ColourPicker_OnShow(self)
+        if not self.colour_picker then
+            opt.Popup:Hide()
+            return
+        end
+
+        local val = opt.profile[self.colour_picker.env]
+
+        self.r:SetValue(val[1]*255)
+        self.g:SetValue(val[2]*255)
+        self.b:SetValue(val[3]*255)
+
+        if #val == 4 then
+            self.o:Show()
+            self.o:SetValue(val[4]*255)
+        else
+            self.o:Hide()
+        end
+    end
+    local function ColourPicker_Callback(self,accept)
+        if accept then
+            self.colour_picker:Set(ColourPicker_GetColour(self))
+        end
+        self.colour_picker = nil
     end
     local function CreatePopupPage_ColourPicker()
         local colour_picker = CreateFrame('Frame',nil,opt.Popup)
@@ -442,32 +470,8 @@ do
         colour_picker.b = b
         colour_picker.o = o
 
-        function colour_picker:callback(accept)
-            if accept then
-                self.colour_picker:Set(ColourPicker_GetColour(self))
-            end
-            self.colour_picker = nil
-        end
-
-        colour_picker:SetScript('OnShow',function(self)
-            if not self.colour_picker then
-                opt.Popup:Hide()
-                return
-            end
-
-            local val = opt.profile[self.colour_picker.env]
-
-            self.r:SetValue(val[1]*255)
-            self.g:SetValue(val[2]*255)
-            self.b:SetValue(val[3]*255)
-
-            if #val == 4 then
-                self.o:Show()
-                self.o:SetValue(val[4]*255)
-            else
-                self.o:Hide()
-            end
-        end)
+        colour_picker.callback = ColourPicker_Callback
+        colour_picker:SetScript('OnShow',ColourPicker_OnShow)
 
         r:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
         g:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
