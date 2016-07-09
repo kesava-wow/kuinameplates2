@@ -32,6 +32,7 @@ local default_config = {
 }
 -- config changed functions ####################################################
 -- TODO need to apply this stuff on init
+-- TODO need to run on profile change too
 local configChanged = {}
 function configChanged.tank_mode(v)
     if v then
