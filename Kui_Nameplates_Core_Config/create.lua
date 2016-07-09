@@ -19,10 +19,12 @@ opt.pages[1]:ShowPage()
 local nameonlyCheck = general:CreateCheckBox('nameonly')
 local glow_as_shadow = general:CreateCheckBox('glow_as_shadow')
 local target_glow = general:CreateCheckBox('target_glow')
+local target_glow_colour = general:CreateColourPicker('target_glow_colour')
 
 nameonlyCheck:SetPoint('TOPLEFT',10,-10)
 glow_as_shadow:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
+target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',200,0)
 
 -- text ########################################################################
 local font_size_normal = text:CreateSlider('font_size_normal',1,20)

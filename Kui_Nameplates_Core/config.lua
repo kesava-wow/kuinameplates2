@@ -13,6 +13,7 @@ local default_config = {
     nameonly = true,
     glow_as_shadow = true,
     target_glow = true,
+    target_glow_colour = { .3, .7, 1, 1 },
 
     hide_names = true,
     font_size_normal = 11,

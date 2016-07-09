@@ -37,6 +37,7 @@ opt.titles = {
     nameonly = 'Use nameonly mode',
     glow_as_shadow = 'Show frame shadow',
     target_glow = 'Show target glow',
+    target_glow_colour = 'Target glow colour',
 
     hide_names = 'Hide unimportant unit names',
     font_size_normal = 'Normal font size',

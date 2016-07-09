@@ -162,6 +162,51 @@ do
 
         return slider
     end
+
+    local function ColourPickerOnShow(self)
+        if not opt.profile then return end
+        if self.env then
+            self.block:SetBackdropColor(unpack(opt.profile[self.env]))
+        end
+    end
+    local function ColourPickerOnClick(self)
+        opt.Popup.pages['colour_picker'].colour_picker = self
+        opt.Popup:ShowPage('colour_picker')
+    end
+    local function ColourPickerOnSet(self,col)
+        opt.config:SetConfig(self.env,col)
+    end
+
+    function opt.CreateColourPicker(parent,name)
+        local container = CreateFrame('Button',frame_name..name..'ColourPicker',parent)
+        container:SetWidth(150)
+        container:SetHeight(27)
+        container:EnableMouse(true)
+        container.env = name
+
+        local block = CreateFrame('Frame',nil,container)
+        block:SetBackdrop({
+            bgFile='interface/buttons/white8x8',
+            edgeFile='interface/buttons/white8x8',
+            edgeSize=1
+        })
+        block:SetBackdropBorderColor(0,0,0)
+        block:SetSize(15,15)
+        block:SetPoint('LEFT')
+
+        local label = container:CreateFontString(nil,'ARTWORK','GameFontHighlight')
+        label:SetText(opt.titles[name] or 'Colour picker')
+        label:SetPoint('LEFT',block,'RIGHT',5,0)
+
+        container.block = block
+        container.label = label
+
+        container:SetScript('OnShow',ColourPickerOnShow)
+        container:SetScript('OnClick',ColourPickerOnClick)
+        container.Set = ColourPickerOnSet
+
+        return container
+    end
 end
 -- page functions ##############################################################
 do
@@ -190,6 +235,7 @@ do
         CreateCheckBox = opt.CreateCheckBox,
         CreateDropDown = opt.CreateDropDown,
         CreateSlider = opt.CreateSlider,
+        CreateColourPicker = opt.CreateColourPicker,
 
         HidePage = HidePage,
         ShowPage = ShowPage
@@ -311,6 +357,120 @@ do
         opt.Popup.pages.new_profile = new_profile
     end
 
+    local function ColourPicker_GetColour(self)
+        local r = self.r:GetValue() or 255
+        local g = self.g:GetValue() or 255
+        local b = self.b:GetValue() or 255
+
+        r = r > 0 and r/255 or 0
+        g = g > 0 and g/255 or 0
+        b = b > 0 and b/255 or 0
+
+        if self.o:IsShown() then
+            local o = self.o:GetValue() or 255
+            o = o > 0 and o/255 or 0
+
+            return {r,g,b,o}
+        else
+            return {r,g,b}
+        end
+    end
+    local function ColourPicker_OnValueChanged(slider)
+        local col = ColourPicker_GetColour(slider:GetParent())
+        slider:GetParent().display:SetBackdropColor(unpack(col))
+
+        local text =
+            string.format("%.2f",col[1])..', '..
+            string.format("%.2f",col[2])..', '..
+            string.format("%.2f",col[3])
+
+        if col[4] then
+            text = text..', '..string.format("%.2f",col[4])
+        end
+
+        slider:GetParent().text:SetText(text)
+    end
+    local function CreatePopupPage_ColourPicker()
+        local colour_picker = CreateFrame('Frame',nil,opt.Popup)
+        colour_picker:SetAllPoints(opt.Popup)
+        colour_picker:Hide()
+
+        local display = CreateFrame('Frame',nil,colour_picker)
+        display:SetBackdrop({
+            bgFile='interface/buttons/white8x8',
+            edgeFile='interface/buttons/white8x8',
+            edgeSize=1
+        })
+        display:SetBackdropBorderColor(.3,.3,.3)
+        display:SetSize(150,150)
+        display:SetPoint('TOPLEFT',35,-45)
+
+        local text = colour_picker:CreateFontString(nil,'ARTWORK','GameFontHighlightSmall')
+        text:SetPoint('TOPLEFT',display,'BOTTOMLEFT',0,-5)
+        text:SetPoint('TOPRIGHT',display,'BOTTOMRIGHT')
+
+        local r = opt.CreateSlider(colour_picker,'ColourPickerR',0,255)
+        r:SetPoint('TOPRIGHT',-40,-50)
+        r.label:SetText('Red')
+        r.env = nil
+
+        local g = opt.CreateSlider(colour_picker,'ColourPickerG',0,255)
+        g:SetPoint('TOPLEFT',r,'BOTTOMLEFT',0,-30)
+        g.label:SetText('Green')
+        g.env = nil
+
+        local b = opt.CreateSlider(colour_picker,'ColourPickerB',0,255)
+        b:SetPoint('TOPLEFT',g,'BOTTOMLEFT',0,-30)
+        b.label:SetText('Blue')
+        b.env = nil
+
+        local o = opt.CreateSlider(colour_picker,'ColourPickerO',0,255)
+        o:SetPoint('TOPLEFT',b,'BOTTOMLEFT',0,-30)
+        o.label:SetText('Opacity')
+        o.env = nil
+
+        colour_picker.display = display
+        colour_picker.text = text
+        colour_picker.r = r
+        colour_picker.g = g
+        colour_picker.b = b
+        colour_picker.o = o
+
+        function colour_picker:callback(accept)
+            if accept then
+                self.colour_picker:Set(ColourPicker_GetColour(self))
+            end
+            self.colour_picker = nil
+        end
+
+        colour_picker:SetScript('OnShow',function(self)
+            if not self.colour_picker then
+                opt.Popup:Hide()
+                return
+            end
+
+            local val = opt.profile[self.colour_picker.env]
+
+            self.r:SetValue(val[1]*255)
+            self.g:SetValue(val[2]*255)
+            self.b:SetValue(val[3]*255)
+
+            if #val == 4 then
+                self.o:Show()
+                self.o:SetValue(val[4]*255)
+            else
+                self.o:Hide()
+            end
+        end)
+
+        r:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
+        g:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
+        b:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
+        o:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
+
+        opt.Popup.pages.colour_picker = colour_picker
+    end
+
     function opt:CreatePopup()
         local popup = CreateFrame('Frame',nil,self)
         popup:SetBackdrop({
@@ -354,6 +514,7 @@ do
         self.Popup = popup
 
         CreatePopupPage_NewProfile()
+        CreatePopupPage_ColourPicker()
     end
 end
 -- init display ################################################################
