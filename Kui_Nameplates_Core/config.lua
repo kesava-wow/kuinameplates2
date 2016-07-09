@@ -11,6 +11,8 @@ local core = KuiNameplatesCore
 -- default configuration #######################################################
 local default_config = {
     nameonly = true,
+    glow_as_shadow = true,
+    target_glow = true,
 
     hide_names = true,
     font_size_normal = 11,

@@ -31,13 +31,14 @@ opt.tooltips = {
     castbar_showenemy = 'Show castbars on enemy nameplates',
 }
 opt.titles = {
-    nameonly = 'Use nameonly mode',
-    hide_names = 'Hide unimportant unit names',
-    tank_mode = 'Enable tank mode',
-    threat_brackets = 'Show threat brackets',
     profile = 'Profile',
     new_profile = 'New profile...',
 
+    nameonly = 'Use nameonly mode',
+    glow_as_shadow = 'Show frame shadow',
+    target_glow = 'Show target glow',
+
+    hide_names = 'Hide unimportant unit names',
     font_size_normal = 'Normal font size',
     font_size_small = 'Small font size',
 
@@ -51,4 +52,7 @@ opt.titles = {
     castbar_showall = 'Show castbars on all nameplates',
     castbar_showfriend = 'Show friendly castbars',
     castbar_showenemy = 'Show enemy castbars',
+
+    tank_mode = 'Enable tank mode',
+    threat_brackets = 'Show threat brackets',
 }

@@ -336,7 +336,7 @@ do
 
         f.ThreatGlow:Show()
 
-        if f.state.target then
+        if f.state.target and core.profile.target_glow then
             -- target glow colour
             f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
             f.TargetGlow:Show()
@@ -345,8 +345,12 @@ do
                 -- threat glow colour
                 f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
             else
-                -- shadow
-                f.ThreatGlow:SetVertexColor(0,0,0,.6)
+                if core.profile.glow_as_shadow then
+                    -- shadow
+                    f.ThreatGlow:SetVertexColor(0,0,0,.6)
+                else
+                    f.ThreatGlow:SetVertexColor(0,0,0,0)
+                end
             end
 
             f.TargetGlow:Hide()
