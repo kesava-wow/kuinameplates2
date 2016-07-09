@@ -243,117 +243,123 @@ do
     end
 end
 -- popup functions #############################################################
-local function PopupOnShow(self)
-    PlaySound("igMainMenuOpen")
-end
-local function PopupOnHide(self)
-    PlaySound("igMainMenuClose")
-end
-local function OkayButtonOnClick(self)
-    if opt.Popup.active_page.callback then
-        opt.Popup.active_page:callback(true)
+do
+    local function PopupOnShow(self)
+        PlaySound("igMainMenuOpen")
     end
-    opt.Popup:Hide()
-end
-local function CancelButtonOnClick(self)
-    if opt.Popup.active_page.callback then
-        opt.Popup.active_page:callback(false)
+    local function PopupOnHide(self)
+        PlaySound("igMainMenuClose")
     end
-    opt.Popup:Hide()
-end
-
-local function PopupShowPage(self,page_name)
-    if self.active_page then
-        self.active_page:Hide()
-    end
-
-    if self.pages[page_name] then
-        self.pages[page_name]:Show()
-        self.active_page = self.pages[page_name]
-    end
-
-    self:Show()
-end
-
-local function CreatePopup()
-    local popup = CreateFrame('Frame',nil,opt)
-    popup:SetBackdrop({
-        bgFile='interface/dialogframe/ui-dialogbox-background',
-        edgeFile='interface/dialogframe/ui-dialogbox-border',
-        edgeSize=32,
-        tile=true,
-        tileSize=32,
-        insets = {
-            top=12,right=12,bottom=11,left=11
-        }
-    })
-    popup:SetSize(400,300)
-    popup:SetPoint('CENTER')
-    popup:SetFrameStrata('DIALOG')
-    popup:EnableMouse(true)
-    popup:Hide()
-    popup.pages = {}
-
-    popup.ShowPage = PopupShowPage
-
-    popup:SetScript('OnShow',PopupOnShow)
-    popup:SetScript('OnHide',PopupOnHide)
-
-    local okay = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
-    okay:SetText('OK')
-    okay:SetSize(90,22)
-    okay:SetPoint('BOTTOM',-45,20)
-
-    local cancel = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
-    cancel:SetText('Cancel')
-    cancel:SetSize(90,22)
-    cancel:SetPoint('BOTTOM',45,20)
-
-    okay:SetScript('OnClick',OkayButtonOnClick)
-    cancel:SetScript('OnClick',CancelButtonOnClick)
-
-    popup.Okay = okay
-    popup.Cancel = cancel
-
-    -- create popup pages
-    local new_profile = CreateFrame('Frame',nil,popup)
-    new_profile:SetAllPoints(popup)
-    new_profile:Hide()
-
-    function new_profile:callback(accept)
-        if accept then
-            opt.config:SetProfile(self.editbox:GetText())
+    local function OkayButtonOnClick(self)
+        if opt.Popup.active_page.callback then
+            opt.Popup.active_page:callback(true)
         end
+        opt.Popup:Hide()
+    end
+    local function CancelButtonOnClick(self)
+        if opt.Popup.active_page.callback then
+            opt.Popup.active_page:callback(false)
+        end
+        opt.Popup:Hide()
     end
 
-    local profile_name = CreateFrame('EditBox',nil,new_profile,'InputBoxTemplate')
-    profile_name:SetAutoFocus(false)
-    profile_name:EnableMouse(true)
-    profile_name:SetMaxLetters(50)
-    profile_name:SetPoint('CENTER')
-    profile_name:SetSize(150,30)
+    local function PopupShowPage(self,page_name)
+        if self.active_page then
+            self.active_page:Hide()
+        end
 
-    new_profile.editbox = profile_name
+        if self.pages[page_name] then
+            self.pages[page_name]:Show()
+            self.active_page = self.pages[page_name]
+        end
 
-    new_profile:SetScript('OnShow',function(self)
-        self.editbox:SetText('')
-        self.editbox:SetFocus()
-    end)
+        self:Show()
+    end
 
-    profile_name:SetScript('OnEnterPressed',function(self)
-        opt.Popup.Okay:Click()
-    end)
-    profile_name:SetScript('OnEscapePressed',function(self)
-        opt.Popup.Cancel:Click()
-    end)
+    local function CreatePopupPage_NewProfile()
+        local new_profile = CreateFrame('Frame',nil,opt.Popup)
+        new_profile:SetAllPoints(opt.Popup)
+        new_profile:Hide()
 
-    popup.pages.new_profile = new_profile
+        function new_profile:callback(accept)
+            if accept then
+                opt.config:SetProfile(self.editbox:GetText())
+            end
+        end
 
-    opt.Popup = popup
+        local profile_name = CreateFrame('EditBox',nil,new_profile,'InputBoxTemplate')
+        profile_name:SetAutoFocus(false)
+        profile_name:EnableMouse(true)
+        profile_name:SetMaxLetters(50)
+        profile_name:SetPoint('CENTER')
+        profile_name:SetSize(150,30)
+
+        new_profile.editbox = profile_name
+
+        new_profile:SetScript('OnShow',function(self)
+            self.editbox:SetText('')
+            self.editbox:SetFocus()
+        end)
+
+        profile_name:SetScript('OnEnterPressed',function(self)
+            opt.Popup.Okay:Click()
+        end)
+        profile_name:SetScript('OnEscapePressed',function(self)
+            opt.Popup.Cancel:Click()
+        end)
+
+        opt.Popup.pages.new_profile = new_profile
+    end
+
+    function opt:CreatePopup()
+        local popup = CreateFrame('Frame',nil,self)
+        popup:SetBackdrop({
+            bgFile='interface/dialogframe/ui-dialogbox-background',
+            edgeFile='interface/dialogframe/ui-dialogbox-border',
+            edgeSize=32,
+            tile=true,
+            tileSize=32,
+            insets = {
+                top=12,right=12,bottom=11,left=11
+            }
+        })
+        popup:SetSize(400,300)
+        popup:SetPoint('CENTER')
+        popup:SetFrameStrata('DIALOG')
+        popup:EnableMouse(true)
+        popup:Hide()
+        popup.pages = {}
+
+        popup.ShowPage = PopupShowPage
+
+        popup:SetScript('OnShow',PopupOnShow)
+        popup:SetScript('OnHide',PopupOnHide)
+
+        local okay = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
+        okay:SetText('OK')
+        okay:SetSize(90,22)
+        okay:SetPoint('BOTTOM',-45,20)
+
+        local cancel = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
+        cancel:SetText('Cancel')
+        cancel:SetSize(90,22)
+        cancel:SetPoint('BOTTOM',45,20)
+
+        okay:SetScript('OnClick',OkayButtonOnClick)
+        cancel:SetScript('OnClick',CancelButtonOnClick)
+
+        popup.Okay = okay
+        popup.Cancel = cancel
+
+        self.Popup = popup
+
+        -- create popup pages
+        CreatePopupPage_NewProfile()
+    end
 end
 -- init display ################################################################
 function opt:Initialise()
-    CreatePopup()
+    self:CreatePopup()
 
     -- create profile dropdown
     local profileDropDown = self:CreateDropDown('profile',130)
