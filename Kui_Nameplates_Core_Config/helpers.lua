@@ -251,13 +251,13 @@ local function PopupOnHide(self)
 end
 local function OkayButtonOnClick(self)
     if opt.Popup.active_page.callback then
-        opt.Popup.active_page.callback(true)
+        opt.Popup.active_page:callback(true)
     end
     opt.Popup:Hide()
 end
 local function CancelButtonOnClick(self)
     if opt.Popup.active_page.callback then
-        opt.Popup.active_page.callback(false)
+        opt.Popup.active_page:callback(false)
     end
     opt.Popup:Hide()
 end
@@ -301,21 +301,30 @@ local function CreatePopup()
 
     local okay = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
     okay:SetText('OK')
-    okay:SetSize(90,25)
-    okay:SetPoint('BOTTOM',-50,20)
+    okay:SetSize(90,22)
+    okay:SetPoint('BOTTOM',-45,20)
 
     local cancel = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
     cancel:SetText('Cancel')
-    cancel:SetSize(90,25)
-    cancel:SetPoint('BOTTOM',50,20)
+    cancel:SetSize(90,22)
+    cancel:SetPoint('BOTTOM',45,20)
 
     okay:SetScript('OnClick',OkayButtonOnClick)
     cancel:SetScript('OnClick',CancelButtonOnClick)
+
+    popup.Okay = okay
+    popup.Cancel = cancel
 
     -- create popup pages
     local new_profile = CreateFrame('Frame',nil,popup)
     new_profile:SetAllPoints(popup)
     new_profile:Hide()
+
+    function new_profile:callback(accept)
+        if accept then
+            opt.config:SetProfile(self.editbox:GetText())
+        end
+    end
 
     local profile_name = CreateFrame('EditBox',nil,new_profile,'InputBoxTemplate')
     profile_name:SetAutoFocus(false)
@@ -332,12 +341,10 @@ local function CreatePopup()
     end)
 
     profile_name:SetScript('OnEnterPressed',function(self)
-        -- TODO obviously
-        opt.Popup:Hide()
+        opt.Popup.Okay:Click()
     end)
     profile_name:SetScript('OnEscapePressed',function(self)
-        EditBoxOnEscapePressed(self)
-        opt.Popup:Hide()
+        opt.Popup.Cancel:Click()
     end)
 
     popup.pages.new_profile = new_profile
