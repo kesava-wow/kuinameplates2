@@ -199,8 +199,8 @@ do
         f.name = name
 
         f.scroll = CreateFrame('ScrollFrame',frame_name..name..'PageScrollFrame',self,'UIPanelScrollFrameTemplate')
-        f.scroll:SetPoint('TOPLEFT',self.PageBG,10,-10)
-        f.scroll:SetPoint('BOTTOMRIGHT',self.PageBG,-30,10)
+        f.scroll:SetPoint('TOPLEFT',self.PageBG,4,-4)
+        f.scroll:SetPoint('BOTTOMRIGHT',self.PageBG,-26,4)
         f.scroll:SetScrollChild(f)
 
         f:SetWidth(1)
@@ -228,7 +228,7 @@ do
         local tab = CreateFrame('Button',frame_name..page.name..'PageTab',self.TabList,'OptionsListButtonTemplate')
         tab:SetScript('OnClick',OnClick)
         tab:SetText(self.page_names[page.name] or 'Tab')
-        tab:SetWidth(110)
+        tab:SetWidth(120)
 
         tab.child = page
         page.tab = tab
@@ -238,7 +238,7 @@ do
         if pt then
             tab:SetPoint('TOPLEFT',pt,'BOTTOMLEFT')
         else
-            tab:SetPoint('TOPLEFT',self.TabList)
+            tab:SetPoint('TOPLEFT',self.TabList,3,-3)
         end
     end
 end
@@ -371,7 +371,7 @@ function opt:Initialise()
     tl_bg:SetBackdrop({
         bgFile = 'Interface/ChatFrame/ChatFrameBackground',
         edgeFile = 'Interface/Tooltips/UI-Tooltip-border',
-        edgeSize = 16,
+        edgeSize = 14,
         insets = { left = 4, right = 4, top = 4, bottom = 4 }
     })
     tl_bg:SetBackdropColor(.1,.1,.1,.3)
@@ -384,7 +384,7 @@ function opt:Initialise()
     p_bg:SetBackdrop({
         bgFile = 'Interface/ChatFrame/ChatFrameBackground',
         edgeFile = 'Interface/Tooltips/UI-Tooltip-border',
-        edgeSize = 16,
+        edgeSize = 14,
         insets = { left = 4, right = 4, top = 4, bottom = 4 }
     })
     p_bg:SetBackdropColor(.1,.1,.1,.3)
@@ -398,8 +398,8 @@ function opt:Initialise()
     tablist:SetHeight(1)
 
     local scroll = CreateFrame('ScrollFrame',frame_name..'TabListScrollFrame',self,'UIPanelScrollFrameTemplate')
-    scroll:SetPoint('TOPLEFT',tl_bg,10,-10)
-    scroll:SetPoint('BOTTOMRIGHT',tl_bg,-30,10)
+    scroll:SetPoint('TOPLEFT',tl_bg,4,-4)
+    scroll:SetPoint('BOTTOMRIGHT',tl_bg,-26,4)
     scroll:SetScrollChild(tablist)
 
     tablist.Scroll = scroll
