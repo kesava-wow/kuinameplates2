@@ -283,6 +283,7 @@ do
 
         function new_profile:callback(accept)
             if accept then
+                -- create and activate the new profile
                 opt.config:SetProfile(self.editbox:GetText())
             end
         end
@@ -300,7 +301,6 @@ do
             self.editbox:SetText('')
             self.editbox:SetFocus()
         end)
-
         profile_name:SetScript('OnEnterPressed',function(self)
             opt.Popup.Okay:Click()
         end)
@@ -353,7 +353,6 @@ do
 
         self.Popup = popup
 
-        -- create popup pages
         CreatePopupPage_NewProfile()
     end
 end
