@@ -3,7 +3,7 @@ local opt = KuiNameplatesCoreConfig
 
 opt:Initialise()
 -- create profile selector #####################################################
-local profileDropDown = opt:CreateDropDown('profile')
+local profileDropDown = opt:CreateDropDown('profile',130)
 profileDropDown:SetPoint('TOPLEFT',-5,-23)
 opt.profileDropDown = profileDropDown
 -- create pages ################################################################

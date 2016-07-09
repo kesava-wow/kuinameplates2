@@ -81,9 +81,9 @@ do
         return check
     end
 
-    function opt.CreateDropDown(parent, name)
+    function opt.CreateDropDown(parent, name, width)
         local dd = CreateFrame('Frame',frame_name..name..'DropDown',parent,'UIDropDownMenuTemplate')
-        UIDropDownMenu_SetWidth(dd,150)
+        UIDropDownMenu_SetWidth(dd,width or 150)
 
         dd:HookScript('OnEnter',OnEnter)
         dd:HookScript('OnLeave',OnLeave)
