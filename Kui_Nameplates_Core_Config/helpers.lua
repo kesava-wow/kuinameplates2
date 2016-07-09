@@ -326,6 +326,7 @@ do
         self:Show()
     end
 
+    -- new profile #############################################################
     local function CreatePopupPage_NewProfile()
         local new_profile = CreateFrame('Frame',nil,opt.Popup)
         new_profile:SetAllPoints(opt.Popup)
@@ -361,6 +362,7 @@ do
         opt.Popup.pages.new_profile = new_profile
     end
 
+    -- colour picker ###########################################################
     local function ColourPicker_GetColour(self)
         local r = self.r:GetValue() or 255
         local g = self.g:GetValue() or 255
@@ -475,6 +477,7 @@ do
         opt.Popup.pages.colour_picker = colour_picker
     end
 
+    -- create popup ############################################################
     function opt:CreatePopup()
         local popup = CreateFrame('Frame',nil,self)
         popup:SetBackdrop({
