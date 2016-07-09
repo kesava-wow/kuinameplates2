@@ -51,13 +51,6 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     InterfaceOptionsFrame_OpenToCategory(category)
     InterfaceOptionsFrame_OpenToCategory(category)
 end
--- script handlers #############################################################
-opt:HookScript('OnSizeChanged',function(self)
-    -- fit pages into frame
-    for k,v in ipairs(self.pages) do
-        v:SetWidth(opt:GetWidth()-40)
-    end
-end)
 -- profile drop down handlers ##################################################
 -- TODO move this stuff into a KuiConfig helper
 local function profileDropDown_OnChanged(dd,profile_select)

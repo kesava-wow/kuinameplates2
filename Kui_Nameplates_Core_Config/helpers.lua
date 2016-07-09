@@ -168,6 +168,8 @@ do
         if self.env then
             self.block:SetBackdropColor(unpack(opt.profile[self.env]))
         end
+
+        GenericOnShow(self)
     end
     local function ColourPickerOnClick(self)
         opt.Popup.pages['colour_picker'].colour_picker = self
@@ -202,6 +204,8 @@ do
         container.label = label
 
         container:SetScript('OnShow',ColourPickerOnShow)
+        container:SetScript('OnEnable',OnEnable)
+        container:SetScript('OnDisable',OnDisable)
         container:SetScript('OnClick',ColourPickerOnClick)
         container.Set = ColourPickerOnSet
 
@@ -515,6 +519,10 @@ do
 
         CreatePopupPage_NewProfile()
         CreatePopupPage_ColourPicker()
+
+        opt:HookScript('OnHide',function(self)
+            self.Popup:Hide()
+        end)
     end
 end
 -- init display ################################################################
