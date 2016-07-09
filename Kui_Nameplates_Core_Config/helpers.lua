@@ -164,19 +164,15 @@ do
     local function ShowPage(self)
         if opt.active_page then
             opt.active_page:HidePage()
-            PanelTemplates_DeselectTab(opt.active_page.tab)
         end
 
         self.scroll:Show()
-        self.bg:Show()
         self:Show()
 
         opt.active_page = self
-        PanelTemplates_SelectTab(self.tab)
     end
     local function HidePage(self)
         self.scroll:Hide()
-        self.bg:Hide()
         self:Hide()
     end
 
@@ -193,21 +189,9 @@ do
         f.name = name
 
         f.scroll = CreateFrame('ScrollFrame',frame_name..name..'PageScrollFrame',self,'UIPanelScrollFrameTemplate')
-        f.scroll:SetPoint('TOPLEFT',20,-95)
-        f.scroll:SetPoint('BOTTOMRIGHT',-40,20)
+        f.scroll:SetPoint('TOPLEFT',self.PageBG,10,-10)
+        f.scroll:SetPoint('BOTTOMRIGHT',self.PageBG,-30,10)
         f.scroll:SetScrollChild(f)
-
-        f.bg = CreateFrame('Frame',nil,self)
-        f.bg:SetBackdrop({
-            bgFile = 'Interface/ChatFrame/ChatFrameBackground',
-            edgeFile = 'Interface/Tooltips/UI-Tooltip-border',
-            edgeSize = 16,
-            insets = { left = 4, right = 4, top = 4, bottom = 4 }
-        })
-        f.bg:SetBackdropColor(.1, .1, .1, .3)
-        f.bg:SetBackdropBorderColor(.5, .5, .5)
-        f.bg:SetPoint('TOPLEFT',f.scroll,-10,10)
-        f.bg:SetPoint('BOTTOMRIGHT',f.scroll,30,-10)
 
         f:SetWidth(1)
         f:SetHeight(1000)
@@ -218,6 +202,7 @@ do
         end
 
         f:HidePage()
+        self:CreatePageTab(f)
 
         tinsert(self.pages,f)
         return f
@@ -228,26 +213,68 @@ do
     local function OnClick(self)
         self.child:ShowPage()
     end
-    function opt:CreateTabs(self)
-        local pt
-        for k,v in ipairs(opt.pages) do
-            local tab = CreateFrame('Button',frame_name..v.name..'PageTab',opt,'TabButtonTemplate')
-            tab:HookScript('OnClick',OnClick)
-            tab:SetText(opt.page_names[v.name] or 'Tab')
+    function opt:CreatePageTab(page)
+        local tab = CreateFrame('Button',frame_name..page.name..'PageTab',self,'OptionsListButtonTemplate')
+        tab:HookScript('OnClick',OnClick)
+        tab:SetText(self.page_names[page.name] or 'Tab')
+        tab:SetWidth(110)
 
-            tab.child = v
-            v.tab = tab
+        tab.child = page
+        page.tab = tab
 
-            if pt then
-                tab:SetPoint('LEFT',pt,'RIGHT')
-            else
-                tab:SetPoint('TOPLEFT',10,-54)
-            end
+        local pt = #self.pages > 0 and self.pages[#self.pages].tab
 
-            PanelTemplates_TabResize(tab,0)
-            PanelTemplates_DeselectTab(tab)
-
-            pt = tab
+        if pt then
+            tab:SetPoint('TOPLEFT',pt,'BOTTOMLEFT')
+        else
+            tab:SetPoint('TOPLEFT',self.TabList)
         end
+
+        -- update tablist height for scrollframe
+        self.TabList:SetHeight(self.TabList:GetHeight()+tab:GetHeight())
     end
+end
+-- init display ################################################################
+function opt:Initialise()
+    -- create backgrounds
+    local tl_bg = CreateFrame('Frame',nil,self)
+    tl_bg:SetBackdrop({
+        bgFile = 'Interface/ChatFrame/ChatFrameBackground',
+        edgeFile = 'Interface/Tooltips/UI-Tooltip-border',
+        edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+    })
+    tl_bg:SetBackdropColor(.1,.1,.1,.3)
+    tl_bg:SetBackdropBorderColor(.5,.5,.5)
+    tl_bg:SetPoint('TOPLEFT',self,10,-60)
+    tl_bg:SetPoint('BOTTOMLEFT',self,10,10)
+    tl_bg:SetWidth(150)
+
+    local p_bg = CreateFrame('Frame',nil,self)
+    p_bg:SetBackdrop({
+        bgFile = 'Interface/ChatFrame/ChatFrameBackground',
+        edgeFile = 'Interface/Tooltips/UI-Tooltip-border',
+        edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+    })
+    p_bg:SetBackdropColor(.1,.1,.1,.3)
+    p_bg:SetBackdropBorderColor(.5,.5,.5)
+    p_bg:SetPoint('TOPLEFT',tl_bg,'TOPRIGHT',10,0)
+    p_bg:SetPoint('BOTTOMRIGHT',self,-10,10)
+
+    -- create tab container
+    local tablist = CreateFrame('Frame',nil,self)
+    tablist:SetWidth(1)
+    tablist:SetHeight(1)
+
+    local scroll = CreateFrame('ScrollFrame',nil,self,'UIPanelScrollFrameTemplate')
+    scroll:SetPoint('TOPLEFT',tl_bg,10,-10)
+    scroll:SetPoint('BOTTOMRIGHT',tl_bg,-30,10)
+    scroll:SetScrollChild(tablist)
+
+    tablist.Scroll = scroll
+
+    self.TabList = tablist
+    self.TabListBG = tl_bg
+    self.PageBG = p_bg
 end
