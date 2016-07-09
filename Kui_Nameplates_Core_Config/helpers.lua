@@ -166,12 +166,18 @@ do
             opt.active_page:HidePage()
         end
 
+        self.tab.highlight:SetVertexColor(1,1,0)
+        self.tab:LockHighlight()
+
         self.scroll:Show()
         self:Show()
 
         opt.active_page = self
     end
     local function HidePage(self)
+        self.tab.highlight:SetVertexColor(.196,.388,.8)
+        self.tab:UnlockHighlight()
+
         self.scroll:Hide()
         self:Hide()
     end
@@ -201,8 +207,8 @@ do
             f[k]=v
         end
 
-        f:HidePage()
         self:CreatePageTab(f)
+        f:HidePage()
 
         tinsert(self.pages,f)
         return f
@@ -211,11 +217,12 @@ end
 -- tab functions ###############################################################
 do
     local function OnClick(self)
+        PlaySound("igMainMenuOptionCheckBoxOn");
         self.child:ShowPage()
     end
     function opt:CreatePageTab(page)
-        local tab = CreateFrame('Button',frame_name..page.name..'PageTab',self,'OptionsListButtonTemplate')
-        tab:HookScript('OnClick',OnClick)
+        local tab = CreateFrame('Button',frame_name..page.name..'PageTab',self.TabList,'OptionsListButtonTemplate')
+        tab:SetScript('OnClick',OnClick)
         tab:SetText(self.page_names[page.name] or 'Tab')
         tab:SetWidth(110)
 
@@ -263,11 +270,11 @@ function opt:Initialise()
     p_bg:SetPoint('BOTTOMRIGHT',self,-10,10)
 
     -- create tab container
-    local tablist = CreateFrame('Frame',nil,self)
+    local tablist = CreateFrame('Frame',frame_name..'TabList',self)
     tablist:SetWidth(1)
     tablist:SetHeight(1)
 
-    local scroll = CreateFrame('ScrollFrame',nil,self,'UIPanelScrollFrameTemplate')
+    local scroll = CreateFrame('ScrollFrame',frame_name..'TabListScrollFrame',self,'UIPanelScrollFrameTemplate')
     scroll:SetPoint('TOPLEFT',tl_bg,10,-10)
     scroll:SetPoint('BOTTOMRIGHT',tl_bg,-30,10)
     scroll:SetScrollChild(tablist)

@@ -14,9 +14,10 @@ local auras = opt:CreateConfigPage('auras')
 local castbars = opt:CreateConfigPage('castbars')
 local classpowers = opt:CreateConfigPage('classpowers')
 local threat = opt:CreateConfigPage('threat')
-local test = opt:CreateConfigPage('test1')
-local test = opt:CreateConfigPage('test2')
-local test = opt:CreateConfigPage('test3')
+
+for i=0,50 do
+    local test = opt:CreateConfigPage('tab_test'..i)
+end
 
 -- show inital page
 opt.pages[1]:ShowPage()
