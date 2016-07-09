@@ -15,10 +15,6 @@ local castbars = opt:CreateConfigPage('castbars')
 local classpowers = opt:CreateConfigPage('classpowers')
 local threat = opt:CreateConfigPage('threat')
 
-for i=0,50 do
-    local test = opt:CreateConfigPage('tab_test'..i)
-end
-
 -- show inital page
 opt.pages[1]:ShowPage()
 
