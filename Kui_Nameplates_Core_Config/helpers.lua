@@ -200,7 +200,7 @@ do
         f.scroll:SetScrollChild(f)
 
         f:SetWidth(1)
-        f:SetHeight(1000)
+        f:SetHeight(1)
 
         -- mixin page functions
         for k,v in pairs(page_proto) do
@@ -236,9 +236,6 @@ do
         else
             tab:SetPoint('TOPLEFT',self.TabList)
         end
-
-        -- update tablist height for scrollframe
-        self.TabList:SetHeight(self.TabList:GetHeight()+tab:GetHeight())
     end
 end
 -- init display ################################################################
