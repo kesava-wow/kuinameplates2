@@ -190,7 +190,7 @@ do
             edgeFile='interface/buttons/white8x8',
             edgeSize=1
         })
-        block:SetBackdropBorderColor(0,0,0)
+        block:SetBackdropBorderColor(.1,.1,.1)
         block:SetSize(15,15)
         block:SetPoint('LEFT')
 
@@ -401,7 +401,7 @@ do
             edgeFile='interface/buttons/white8x8',
             edgeSize=1
         })
-        display:SetBackdropBorderColor(.3,.3,.3)
+        display:SetBackdropBorderColor(.1,.1,.1)
         display:SetSize(150,150)
         display:SetPoint('TOPLEFT',35,-45)
 

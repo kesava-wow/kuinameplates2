@@ -47,6 +47,9 @@ local FRAME_GLOW_SIZE = 8
 local FONT_SIZE_NORMAL = 11
 local FONT_SIZE_SMALL = 9
 -- config functions ############################################################
+function core.configChangedTargetGlowColour()
+    target_glow_colour = core.profile.target_glow_colour
+end
 function core:configChangedFrameSize()
     -- update size locals
     FRAME_WIDTH = core.profile.frame_width
@@ -339,6 +342,7 @@ do
         if f.state.target and core.profile.target_glow then
             -- target glow colour
             f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
+            f.TargetGlow:SetVertexColor(unpack(target_glow_colour))
             f.TargetGlow:Show()
         else
             if f.state.glowing then

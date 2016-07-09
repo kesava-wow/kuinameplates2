@@ -53,6 +53,10 @@ function configChanged.castbar_enable(v)
     end
 end
 
+function configChanged.target_glow_colour()
+    core:configChangedTargetGlowColour()
+end
+
 local function configChangedFrameSize()
     core:configChangedFrameSize()
 end
