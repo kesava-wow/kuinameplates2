@@ -376,7 +376,7 @@ function opt:Initialise()
     })
     tl_bg:SetBackdropColor(.1,.1,.1,.3)
     tl_bg:SetBackdropBorderColor(.5,.5,.5)
-    tl_bg:SetPoint('TOPLEFT',self,10,-60)
+    tl_bg:SetPoint('TOPLEFT',self,10,-55)
     tl_bg:SetPoint('BOTTOMLEFT',self,10,10)
     tl_bg:SetWidth(150)
 
@@ -389,7 +389,7 @@ function opt:Initialise()
     })
     p_bg:SetBackdropColor(.1,.1,.1,.3)
     p_bg:SetBackdropBorderColor(.5,.5,.5)
-    p_bg:SetPoint('TOPLEFT',tl_bg,'TOPRIGHT',10,0)
+    p_bg:SetPoint('TOPLEFT',tl_bg,'TOPRIGHT',3,0)
     p_bg:SetPoint('BOTTOMRIGHT',self,-10,10)
 
     -- create tab container
