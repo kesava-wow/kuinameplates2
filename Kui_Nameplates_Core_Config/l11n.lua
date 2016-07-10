@@ -16,6 +16,7 @@ opt.tooltips = {
     tank_mode = 'Recolour the health bars of units you are actively tanking',
     threat_brackets = 'Show triangles around nameplates which indicate threat status',
 
+    font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
     font_size_normal = 'Standard font size (name, etc)',
     font_size_small = 'Smaller font size (vendor, spell name, etc)',
 
@@ -39,9 +40,10 @@ opt.titles = {
     target_glow = 'Show target glow',
     target_glow_colour = 'Target glow colour',
 
-    hide_names = 'Hide unimportant unit names',
+    font_face = 'Font face',
     font_size_normal = 'Normal font size',
     font_size_small = 'Small font size',
+    hide_names = 'Hide unimportant unit names',
 
     frame_width = 'Frame width',
     frame_height = 'Frame height',
