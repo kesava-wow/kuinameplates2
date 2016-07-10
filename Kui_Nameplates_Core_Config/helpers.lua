@@ -93,8 +93,10 @@ do
             UIDropDownMenu_SetSelectedName(self,opt.profile[self.env])
         end
     end
-    local function DropDownOnChanged(self,selected)
-        print('selected: '..selected)
+    local function DropDownOnChanged(info,self,selected)
+        if self.env and opt.config then
+            opt.config:SetConfig(self.env,selected)
+        end
     end
     function opt.CreateDropDown(parent, name, width)
         local dd = CreateFrame('Frame',frame_name..name..'DropDown',parent,'UIDropDownMenuTemplate')
