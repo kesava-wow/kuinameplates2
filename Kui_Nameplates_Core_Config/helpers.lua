@@ -85,16 +85,32 @@ do
         return check
     end
 
+    local function DropDownOnShow(self)
+        if type(self.Initialize) ~= 'function' then return end
+        UIDropDownMenu_Initialize(self,self.Initialize)
+
+        if self.env then
+            UIDropDownMenu_SetSelectedName(self,opt.profile[self.env])
+        end
+    end
+    local function DropDownOnChanged(self,selected)
+        print('selected: '..selected)
+    end
     function opt.CreateDropDown(parent, name, width)
         local dd = CreateFrame('Frame',frame_name..name..'DropDown',parent,'UIDropDownMenuTemplate')
-        UIDropDownMenu_SetWidth(dd,width or 150)
+        dd.env = name
 
-        dd:HookScript('OnEnter',OnEnter)
-        dd:HookScript('OnLeave',OnLeave)
+        UIDropDownMenu_SetWidth(dd,width or 150)
 
         dd.label = parent:CreateFontString(dd:GetName()..'Label','ARTWORK','GameFontNormalSmall')
         dd.label:SetText(opt.titles[name] or 'DropDown')
         dd.label:SetPoint('BOTTOMLEFT',dd,'TOPLEFT',20,1)
+
+        dd:HookScript('OnShow',DropDownOnShow)
+        dd:HookScript('OnEnter',OnEnter)
+        dd:HookScript('OnLeave',OnLeave)
+
+        dd.OnChanged = DropDownOnChanged
 
         return dd
     end

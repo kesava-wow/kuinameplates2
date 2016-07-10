@@ -11,7 +11,7 @@ local addon = KuiNameplates
 local core = KuiNameplatesCore
 -- add media to LSM ############################################################
 LSM:Register(LSM.MediaType.FONT,'Yanone Kaffesatz Bold',kui.m.f.yanone)
-LSM:Register(LSM.MediaType.FONT,'FrancoisOne',kui.m.f.fracnois)
+LSM:Register(LSM.MediaType.FONT,'FrancoisOne',kui.m.f.francois)
 
 LSM:Register(LSM.MediaType.STATUSBAR, 'Kui status bar', kui.m.t.bar)
 LSM:Register(LSM.MediaType.STATUSBAR, 'Kui shaded bar', kui.m.t.oldbar)

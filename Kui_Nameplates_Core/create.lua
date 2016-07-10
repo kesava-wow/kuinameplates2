@@ -23,6 +23,7 @@
 local folder,ns=...
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
+local LSM = LibStub('LibSharedMedia-3.0')
 local core = KuiNameplatesCore
 
 local MEDIA = 'interface/addons/kui_nameplates/media/'
@@ -68,7 +69,7 @@ do
     end
     function core:configChangedFontOption()
         -- update font locals
-        FONT = core.profile.font_face
+        FONT = LSM:Fetch(LSM.MediaType.FONT,core.profile.font_face)
         FONT_SIZE_NORMAL = core.profile.font_size_normal
         FONT_SIZE_SMALL = core.profile.font_size_small
 
