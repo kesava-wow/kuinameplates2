@@ -36,7 +36,8 @@ local CLASS_COLOURS = {
 core.font = kui.m.f.francois
 local FONT = core.font
 
--- TODO configuration
+local BAR_TEXTURE = kui.m.t.bar
+
 local target_glow_colour = { .3, .7, 1, 1 }
 
 local FRAME_WIDTH = 132
@@ -81,6 +82,27 @@ do
         end
     end
 end
+do
+    local function UpdateStatusBar(object)
+        if not object then return end
+        if object.SetStatusBarTexture then
+            object:SetStatusBarTexture(BAR_TEXTURE)
+            UpdateStatusBar(object.fill)
+        elseif object.SetTexture then
+            object:SetTexture(BAR_TEXTURE)
+        end
+    end
+    function core:configChangedBarTexture()
+        BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,core.profile.bar_texture)
+
+        for i,f in addon:Frames() do
+            UpdateStatusBar(f.CastBar)
+            UpdateStatusBar(f.Highlight)
+            UpdateStatusBar(f.HealthBar)
+            UpdateStatusBar(f.PowerBar)
+        end
+    end
+end
 -- helper functions ############################################################
 local CreateStatusBar
 do
@@ -98,11 +120,11 @@ do
     end
     function CreateStatusBar(parent)
         local bar = CreateFrame('StatusBar',nil,parent)
-        bar:SetStatusBarTexture(kui.m.t.bar)
+        bar:SetStatusBarTexture(BAR_TEXTURE)
         bar:SetFrameLevel(0)
 
         local fill = parent:CreateTexture(nil,'BACKGROUND',nil,2)
-        fill:SetTexture(kui.m.t.bar)
+        fill:SetTexture(BAR_TEXTURE)
         fill:SetAllPoints(bar)
         fill:SetAlpha(.2)
 
@@ -176,7 +198,7 @@ end
 -- highlight ###################################################################
 function core:CreateHighlight(f)
     local highlight = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,1)
-    highlight:SetTexture(kui.m.t.bar)
+    highlight:SetTexture(BAR_TEXTURE)
     highlight:SetAllPoints(f.HealthBar)
     highlight:SetVertexColor(1,1,1,.4)
     highlight:SetBlendMode('ADD')
@@ -480,7 +502,7 @@ do
 
         local castbar = CreateFrame('StatusBar', nil, f)
         castbar:SetFrameLevel(0)
-        castbar:SetStatusBarTexture(kui.m.t.bar)
+        castbar:SetStatusBarTexture(BAR_TEXTURE)
         castbar:SetStatusBarColor(.6, .6, .75)
         castbar:SetHeight(3)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)

@@ -27,7 +27,6 @@ nameonlyCheck:SetPoint('TOPLEFT',10,-70)
 glow_as_shadow:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',200,0)
-
 bar_texture:SetPoint('TOPLEFT',70,-30)
 
 target_glow_colour.enabled = function(p) return p.target_glow end

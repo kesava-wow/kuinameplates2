@@ -23,14 +23,13 @@ local DEFAULT_FONT = latin and 'FrancoisOne' or LSM:GetDefault(LSM.MediaType.FON
 local DEFAULT_BAR = 'Kui status bar'
 -- default configuration #######################################################
 local default_config = {
-    font_face = DEFAULT_FONT,
     bar_texture = DEFAULT_BAR,
-
     nameonly = true,
     glow_as_shadow = true,
     target_glow = true,
     target_glow_colour = { .3, .7, 1, 1 },
 
+    font_face = DEFAULT_FONT,
     hide_names = true,
     font_size_normal = 11,
     font_size_small = 9,
@@ -67,6 +66,10 @@ function configChanged.castbar_enable(v)
     else
         addon:GetPlugin('CastBar'):Disable()
     end
+end
+
+function configChanged.bar_texture()
+    core:configChangedBarTexture()
 end
 
 function configChanged.target_glow_colour()
