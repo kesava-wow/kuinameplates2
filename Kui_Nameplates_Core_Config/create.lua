@@ -48,7 +48,7 @@ function font_face.Initialize()
         info.text = k
         info.arg1 = font_face
         info.arg2 = k
-        info.notCheckable = true
+        info.checked = nil
         info.func = font_face.OnChanged
         UIDropDownMenu_AddButton(info)
     end
