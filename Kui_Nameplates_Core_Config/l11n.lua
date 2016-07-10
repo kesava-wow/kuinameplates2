@@ -11,6 +11,7 @@ opt.page_names = {
     threat      = 'Threat',
 }
 opt.tooltips = {
+    bar_texture = 'The texture used for the health bar',
     nameonly = 'Hide the healthbars of friendly or unattackable units',
     hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names"',
     tank_mode = 'Recolour the health bars of units you are actively tanking',
@@ -35,6 +36,7 @@ opt.titles = {
     profile = 'Profile',
     new_profile = 'New profile...',
 
+    bar_texture = 'Bar texture',
     nameonly = 'Use nameonly mode',
     glow_as_shadow = 'Show frame shadow',
     target_glow = 'Show target glow',
