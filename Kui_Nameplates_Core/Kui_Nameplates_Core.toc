@@ -5,7 +5,7 @@
 ## Dependencies: Kui_Nameplates
 ## SavedVariables: KuiNameplatesCoreSaved, KuiNameplatesCoreCharacterSaved
 
-lib/KuiConfig.lua
+lib\embeds.xml
 
 hook.lua
 create.lua
