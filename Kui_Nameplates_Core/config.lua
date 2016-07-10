@@ -6,10 +6,26 @@
 local folder,ns=...
 local kui = LibStub('Kui-1.0')
 local kc = LibStub('KuiConfig-1.0')
+local LSM = LibStub('LibSharedMedia-3.0')
 local addon = KuiNameplates
 local core = KuiNameplatesCore
+-- add media to LSM ############################################################
+LSM:Register(LSM.MediaType.FONT,'Yanone Kaffesatz Bold',kui.m.f.yanone)
+LSM:Register(LSM.MediaType.FONT,'FrancoisOne',kui.m.f.fracnois)
+
+LSM:Register(LSM.MediaType.STATUSBAR, 'Kui status bar', kui.m.t.bar)
+LSM:Register(LSM.MediaType.STATUSBAR, 'Kui shaded bar', kui.m.t.oldbar)
+
+local locale = GetLocale()
+local latin  = (locale ~= 'zhCN' and locale ~= 'zhTW' and locale ~= 'koKR' and locale ~= 'ruRU')
+
+local DEFAULT_FONT = latin and 'FrancoisOne' or LSM:GetDefault(LSM.MediaType.FONT)
+local DEFAULT_BAR = 'Kui status bar'
 -- default configuration #######################################################
 local default_config = {
+    font_face = DEFAULT_FONT,
+    bar_texture = DEFAULT_BAR,
+
     nameonly = true,
     glow_as_shadow = true,
     target_glow = true,

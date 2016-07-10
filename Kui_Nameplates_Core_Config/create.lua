@@ -29,11 +29,13 @@ target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',200,0)
 target_glow_colour.enabled = function(p) return p.target_glow end
 
 -- text ########################################################################
+local font_face = text:CreateDropDown('font_face')
 local font_size_normal = text:CreateSlider('font_size_normal',1,20)
 local font_size_small = text:CreateSlider('font_size_small',1,20)
 local hidenamesCheck = text:CreateCheckBox('hide_names')
 
-font_size_normal:SetPoint('TOPLEFT',10,-30)
+font_face:SetPoint('TOPLEFT',-10,-30)
+font_size_normal:SetPoint('TOPLEFT',font_face,'BOTTOMLEFT',20,-20)
 font_size_small:SetPoint('LEFT',font_size_normal,'RIGHT',20,0)
 hidenamesCheck:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-20)
 

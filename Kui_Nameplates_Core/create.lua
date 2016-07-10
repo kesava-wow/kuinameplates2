@@ -68,6 +68,7 @@ do
     end
     function core:configChangedFontOption()
         -- update font locals
+        FONT = core.profile.font_face
         FONT_SIZE_NORMAL = core.profile.font_size_normal
         FONT_SIZE_SMALL = core.profile.font_size_small
 

@@ -537,10 +537,15 @@ function opt:Initialise()
     self:CreatePopup()
 
     -- create profile dropdown
-    local profileDropDown = self:CreateDropDown('profile',130)
-    profileDropDown:SetPoint('TOPLEFT',-5,-23)
+    local p_dd = CreateFrame('Frame','KuiNameplatesCoreConfigProfileDropDown',opt,'UIDropDownMenuTemplate')
+    UIDropDownMenu_SetWidth(p_dd,130)
+    p_dd:SetPoint('TOPLEFT',-5,-23)
 
-    self.profileDropDown = profileDropDown
+    p_dd.label = opt:CreateFontString(nil,'ARTWORK','GameFontNormalSmall')
+    p_dd.label:SetText(opt.titles['profile'])
+    p_dd.label:SetPoint('BOTTOMLEFT',p_dd,'TOPLEFT',20,1)
+
+    self.profileDropDown = p_dd
 
     -- create backgrounds
     local tl_bg = CreateFrame('Frame',nil,self)
