@@ -33,8 +33,6 @@ local CLASS_COLOURS = {
     SHAMAN      = { .10, .54, .97 },
 }
 
-core.font = kui.m.f.francois -- TODO
-
 local FONT
 local FONT_STYLE
 local FONT_SIZE_NORMAL
@@ -75,6 +73,10 @@ do
             FONT_STYLE
         )
     end
+    function core.AurasButton_SetFont(button)
+        UpdateFontObject(button.cd)
+        UpdateFontObject(button.count)
+    end
     function core:configChangedFontOption()
         self:SetFontLocals()
 
@@ -83,6 +85,10 @@ do
             UpdateFontObject(f.NameText)
             UpdateFontObject(f.GuildText)
             UpdateFontObject(f.SpellName)
+
+            for _,button in pairs(f.Auras.frames[1].buttons) do
+                self.AurasButton_SetFont(button)
+            end
         end
     end
     function core:SetFontLocals()
@@ -612,22 +618,7 @@ end
 do
     local AURAS_NORMAL_SIZE = 24
     local AURAS_MINUS_SIZE = 18
-    local AURAS_NORMAL_FONT_SIZE_CD = 12
-    local AURAS_NORMAL_FONT_SIZE_COUNT = 10
-    local AURAS_MINUS_FONT_SIZE_CD = 10
-    local AURAS_MINUS_FONT_SIZE_COUNT = 8
 
-    local function Button_SetFontSize(self,minus)
-        local font,_,flags = self.cd:GetFont()
-        -- TODO font options
-        if minus then
-            self.cd:SetFont(font,AURAS_MINUS_FONT_SIZE_CD,flags)
-            self.count:SetFont(font,AURAS_MINUS_FONT_SIZE_COUNT,flags)
-        else
-            self.cd:SetFont(font,AURAS_NORMAL_FONT_SIZE_CD,flags)
-            self.count:SetFont(font,AURAS_NORMAL_FONT_SIZE_COUNT,flags)
-        end
-    end
     local function AuraFrame_SetFrameWidth(self)
         self:SetWidth(self.__width)
         self:SetPoint(
@@ -701,8 +692,9 @@ do
         button.count:SetPoint('BOTTOMRIGHT',3,-3)
         button.count:SetShadowOffset(1,-1)
         button.count:SetShadowColor(0,0,0,1)
+        button.count.fontobject_small = true
 
-        Button_SetFontSize(button,button.parent.parent.state.minus)
+        core.AurasButton_SetFont(button)
     end
 end
 -- class powers ################################################################

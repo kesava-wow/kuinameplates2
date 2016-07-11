@@ -140,9 +140,7 @@ function core:Initialise()
     C_NamePlate.SetNamePlateOtherSize(100,20)
 
     -- element configuration
-    self.Auras = {
-        font = self.font -- TODO font config
-    }
+    self.Auras = {}
 
     self.ClassPowers = {
         icon_size = 10,
