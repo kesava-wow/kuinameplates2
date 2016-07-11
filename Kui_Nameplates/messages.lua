@@ -373,7 +373,6 @@ end
 ------------------------------------------------------------ layout registrar --
 -- the layout is always executed last
 function addon:Layout()
-    -- TODO multiple layouts
     if addon.layout then return end
 
     addon.layout = {

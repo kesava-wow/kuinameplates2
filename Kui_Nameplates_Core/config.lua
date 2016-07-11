@@ -50,7 +50,6 @@ local default_config = {
     threat_brackets = false,
 }
 -- config changed functions ####################################################
--- TODO need to run on profile change too
 local configChanged = {}
 function configChanged.tank_mode(v)
     if v then
