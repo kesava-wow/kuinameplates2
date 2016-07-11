@@ -52,24 +52,29 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     InterfaceOptionsFrame_OpenToCategory(category)
 end
 -- config handlers #############################################################
-function opt:ConfigChanged(config,k,v)
-    self.profile = self.config:GetConfig()
+function opt:ConfigChanged(config,k)
+    self.profile = config:GetConfig()
+    if not self.active_page then return end
 
-    if not k or not self.active_page then return end
+    if not k then
+        -- profile changed; re-run OnShow of all visible elements
+        opt:Hide()
+        opt:Show()
+    else
+        if self.active_page.elements[k] then
+            -- re-run OnShow of affected option
+            self.active_page.elements[k]:Hide()
+            self.active_page.elements[k]:Show()
+        end
 
-    if self.active_page.elements[k] then
-        -- re-run OnShow of affected option
-        self.active_page.elements[k]:Hide()
-        self.active_page.elements[k]:Show()
-    end
-
-    -- re-run enabled of other options on the current page
-    for name,ele in pairs(self.active_page.elements) do
-        if ele.enabled then
-            if ele.enabled(self.profile) then
-                ele:Enable()
-            else
-                ele:Disable()
+        -- re-run enabled of other options on the current page
+        for name,ele in pairs(self.active_page.elements) do
+            if ele.enabled then
+                if ele.enabled(self.profile) then
+                    ele:Enable()
+                else
+                    ele:Disable()
+                end
             end
         end
     end
@@ -83,7 +88,7 @@ function opt:LayoutLoaded()
     self.config = knp.layout.config
 
     self.config:RegisterConfigChanged(opt,'ConfigChanged')
-    self:ConfigChanged()
+    self.profile = self.config:GetConfig()
 end
 
 opt:SetScript('OnEvent',function(self,event,addon)
