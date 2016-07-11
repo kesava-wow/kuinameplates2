@@ -36,10 +36,10 @@ function bar_texture:initialize()
 
     for k,f in ipairs(LSM:List(LSM.MediaType.STATUSBAR)) do
         info.text = f
-        info.arg1 = bar_texture
+        info.arg1 = self
         info.arg2 = f
         info.checked = nil
-        info.func = bar_texture.OnChanged
+        info.func = self.OnChanged
         UIDropDownMenu_AddButton(info)
     end
 end
@@ -57,7 +57,7 @@ font_size_normal:SetPoint('TOPLEFT',10,-90)
 font_size_small:SetPoint('LEFT',font_size_normal,'RIGHT',20,0)
 hidenamesCheck:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-20)
 
-function font_face:initialize(self)
+function font_face:initialize()
     local info = UIDropDownMenu_CreateInfo()
 
     for k,f in ipairs(LSM:List(LSM.MediaType.FONT)) do
@@ -72,7 +72,7 @@ function font_face:initialize(self)
 end
 
 font_style.SelectTable = { 'None','Outline','Monochrome' }
-function font_style:initialize(self)
+function font_style:initialize()
     local info = UIDropDownMenu_CreateInfo()
 
     for k,f in ipairs(self.SelectTable) do
