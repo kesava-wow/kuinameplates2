@@ -77,6 +77,7 @@ function configChanged.target_glow_colour()
 end
 
 local function configChangedFrameSize()
+    -- TODO auras frame size needs to be updated
     core:SetFrameSizeLocals()
 end
 configChanged.frame_width = configChangedFrameSize
