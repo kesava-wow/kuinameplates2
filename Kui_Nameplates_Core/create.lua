@@ -49,15 +49,15 @@ local FRAME_GLOW_SIZE = 8
 local FONT_SIZE_NORMAL = 11
 local FONT_SIZE_SMALL = 9
 -- config functions ############################################################
-function core.configChangedTargetGlowColour()
-    target_glow_colour = core.profile.target_glow_colour
+function core:SetTargetGlowLocals()
+    target_glow_colour = self.profile.target_glow_colour
 end
-function core:configChangedFrameSize()
+function core:SetFrameSizeLocals()
     -- update size locals
-    FRAME_WIDTH = core.profile.frame_width
-    FRAME_HEIGHT = core.profile.frame_height
-    FRAME_WIDTH_MINUS = core.profile.frame_width_minus
-    FRAME_HEIGHT_MINUS = core.profile.frame_height_minus
+    FRAME_WIDTH = self.profile.frame_width
+    FRAME_HEIGHT = self.profile.frame_height
+    FRAME_WIDTH_MINUS = self.profile.frame_width_minus
+    FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
 end
 do
     local function UpdateFontObject(object)
@@ -69,10 +69,7 @@ do
         )
     end
     function core:configChangedFontOption()
-        -- update font locals
-        FONT = LSM:Fetch(LSM.MediaType.FONT,core.profile.font_face)
-        FONT_SIZE_NORMAL = core.profile.font_size_normal
-        FONT_SIZE_SMALL = core.profile.font_size_small
+        self:SetFontLocals()
 
         -- update font objects
         for i,f in addon:Frames() do
@@ -80,6 +77,12 @@ do
             UpdateFontObject(f.GuildText)
             UpdateFontObject(f.SpellName)
         end
+    end
+    function core:SetFontLocals()
+        -- update font locals
+        FONT = LSM:Fetch(LSM.MediaType.FONT,self.profile.font_face)
+        FONT_SIZE_NORMAL = self.profile.font_size_normal
+        FONT_SIZE_SMALL = self.profile.font_size_small
     end
 end
 do
@@ -93,7 +96,7 @@ do
         end
     end
     function core:configChangedBarTexture()
-        BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,core.profile.bar_texture)
+        self:SetBarTextureLocals()
 
         for i,f in addon:Frames() do
             UpdateStatusBar(f.CastBar)
@@ -101,6 +104,9 @@ do
             UpdateStatusBar(f.HealthBar)
             UpdateStatusBar(f.PowerBar)
         end
+    end
+    function core:SetBarTextureLocals()
+        BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,self.profile.bar_texture)
     end
 end
 -- helper functions ############################################################

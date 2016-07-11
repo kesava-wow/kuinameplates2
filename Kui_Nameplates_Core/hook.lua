@@ -141,7 +141,7 @@ function core:Initialise()
 
     -- element configuration
     self.Auras = {
-        font = self.font
+        font = self.font -- TODO font config
     }
 
     self.ClassPowers = {
@@ -180,41 +180,13 @@ function core:Initialise()
     -- register callbacks
     self:AddCallback('Auras','PostCreateAuraButton',self.Auras_PostCreateAuraButton)
     self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
-    --[[
-    -- TODO callback testing
-    self:AddCallback('Auras','CreateAuraButton',function(parent)
-        button = CreateFrame('Frame',nil,parent)
-        button:SetWidth(parent.size)
-        button:SetHeight(parent.icon_height)
-
-        local icon = button:CreateTexture(nil, 'ARTWORK', nil, 1)
-        icon:SetTexCoord(0,1,0,1)
-
-        local bg = button:CreateTexture(nil, 'ARTWORK', nil, 0)
-        bg:SetTexture('interface/buttons/white8x8')
-        bg:SetVertexColor(1,1,1,1)
-        bg:SetAllPoints(button)
-
-        icon:SetPoint('TOPLEFT',bg,'TOPLEFT',1,-1)
-        icon:SetPoint('BOTTOMRIGHT',bg,'BOTTOMRIGHT',-1,1)
-
-        local cd = button:CreateFontString(nil,'OVERLAY')
-        cd:SetFont(kui.m.f.francois,20,'OUTLINE')
-        cd:SetPoint('CENTER')
-
-        local count = button:CreateFontString(il,'OVERLAY')
-        cd:SetFont(kui.m.f.francois,20,'OUTLINE')
-        count:SetPoint('BOTTOMRIGHT', 2, -2)
-        count:Hide()
-
-        button.icon   = icon
-        button.cd     = cd
-        button.count  = count
-
-        return button
-    end)
-    ]]
 
     -- layout configuration stuff
     self:InitialiseConfig()
+
+    -- update layout's locals with configuration
+    self:SetFrameSizeLocals()
+    self:SetFontLocals()
+    self:SetBarTextureLocals()
+    self:SetTargetGlowLocals()
 end

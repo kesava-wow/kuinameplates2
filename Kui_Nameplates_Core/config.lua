@@ -49,7 +49,6 @@ local default_config = {
     threat_brackets = false,
 }
 -- config changed functions ####################################################
--- TODO need to apply this stuff on init
 -- TODO need to run on profile change too
 local configChanged = {}
 function configChanged.tank_mode(v)
@@ -73,11 +72,11 @@ function configChanged.bar_texture()
 end
 
 function configChanged.target_glow_colour()
-    core:configChangedTargetGlowColour()
+    core:SetTargetGlowLocals()
 end
 
 local function configChangedFrameSize()
-    core:configChangedFrameSize()
+    core:SetFrameSizeLocals()
 end
 configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize
@@ -90,6 +89,14 @@ end
 configChanged.font_face = configChangedFontOption
 configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
+-- config loaded functions #####################################################
+local configLoaded = {}
+function configLoaded.tank_mode(v)
+    configChanged.tank_mode(v)
+end
+function configLoaded.castbar_enable(v)
+    configChanged.castbar_enable(v)
+end
 -- init config #################################################################
 function core:InitialiseConfig()
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
@@ -109,6 +116,11 @@ function core:InitialiseConfig()
             end
         end
     end)
+
+    -- run config loaded functions
+    for k,f in pairs(configLoaded) do
+        f(self.profile[k])
+    end
 
     -- inform config addon that the config table is available if it's loaded
     if KuiNameplatesCoreConfig then
