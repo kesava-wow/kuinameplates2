@@ -31,7 +31,7 @@ bar_texture:SetPoint('TOPLEFT',70,-30)
 
 target_glow_colour.enabled = function(p) return p.target_glow end
 
-function bar_texture.Initialize()
+function bar_texture:initialize()
     local info = UIDropDownMenu_CreateInfo()
 
     for k,f in ipairs(LSM:List(LSM.MediaType.STATUSBAR)) do
@@ -57,7 +57,7 @@ font_size_normal:SetPoint('TOPLEFT',10,-90)
 font_size_small:SetPoint('LEFT',font_size_normal,'RIGHT',20,0)
 hidenamesCheck:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-20)
 
-function font_face.Initialize(self)
+function font_face:initialize(self)
     local info = UIDropDownMenu_CreateInfo()
 
     for k,f in ipairs(LSM:List(LSM.MediaType.FONT)) do
@@ -72,7 +72,7 @@ function font_face.Initialize(self)
 end
 
 font_style.SelectTable = { 'None','Outline','Monochrome' }
-function font_style.Initialize(self)
+function font_style:initialize(self)
     local info = UIDropDownMenu_CreateInfo()
 
     for k,f in ipairs(self.SelectTable) do

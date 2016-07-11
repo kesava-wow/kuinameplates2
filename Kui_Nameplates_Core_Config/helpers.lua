@@ -86,8 +86,8 @@ do
     end
 
     local function DropDownOnShow(self)
-        if type(self.Initialize) ~= 'function' then return end
-        UIDropDownMenu_Initialize(self,self.Initialize)
+        if type(self.initialize) ~= 'function' then return end
+        self:initialize()
 
         if not self.manual and self.env then
             UIDropDownMenu_SetSelectedName(self,opt.profile[self.env])
