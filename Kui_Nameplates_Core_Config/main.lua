@@ -65,7 +65,6 @@ function opt:ConfigChanged(config,k,v)
 
     -- re-run enabled of other options on the current page
     for name,ele in pairs(self.active_page.elements) do
-        print(name)
         if ele.enabled then
             if ele.enabled(self.profile) then
                 ele:Enable()
