@@ -74,9 +74,6 @@ function config_meta:SetConfig(k,v)
     -- TODO set to other profiles maybe?
     _G[self.gsv_name].profiles[self.csv.profile] = self.profile
 
-    -- TODO debug
-    LibStub('Kui-1.0').print(self.profile)
-
     -- dispatch to configChanged listeners
     CallListeners(self,k,v)
 end
