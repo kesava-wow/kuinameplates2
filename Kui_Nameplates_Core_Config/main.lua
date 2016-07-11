@@ -52,13 +52,27 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     InterfaceOptionsFrame_OpenToCategory(category)
 end
 -- config handlers #############################################################
-function opt:ConfigChanged()
+function opt:ConfigChanged(config,k,v)
     self.profile = self.config:GetConfig()
 
-    if self:IsShown() then
-        -- re-run OnShow of all visible options
-        self:Hide()
-        self:Show()
+    if not k or not self.active_page then return end
+
+    if self.active_page.elements[k] then
+        -- re-run OnShow of affected option
+        self.active_page.elements[k]:Hide()
+        self.active_page.elements[k]:Show()
+    end
+
+    -- re-run enabled of other options on the current page
+    for name,ele in pairs(self.active_page.elements) do
+        print(name)
+        if ele.enabled then
+            if ele.enabled(self.profile) then
+                ele:Enable()
+            else
+                ele:Disable()
+            end
+        end
     end
 end
 -- initialise ##################################################################

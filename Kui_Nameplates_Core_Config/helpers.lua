@@ -82,6 +82,9 @@ do
         check.label:SetText(opt.titles[name] or 'Checkbox')
         check.label:SetPoint('LEFT', check, 'RIGHT')
 
+        if name and type(parent.elements) == 'table' then
+            parent.elements[name] = check
+        end
         return check
     end
 
@@ -114,6 +117,9 @@ do
 
         dd.OnChanged = DropDownOnChanged
 
+        if name and type(parent.elements) == 'table' then
+            parent.elements[name] = dd
+        end
         return dd
     end
 
@@ -178,6 +184,9 @@ do
         slider:SetValueStep(1)
         slider:SetMinMaxValues(min or 0, max or 100)
 
+        if name and type(parent.elements) == 'table' then
+            parent.elements[name] = slider
+        end
         return slider
     end
 
@@ -227,6 +236,9 @@ do
         container:SetScript('OnClick',ColourPickerOnClick)
         container.Set = ColourPickerOnSet
 
+        if name and type(parent.elements) == 'table' then
+            parent.elements[name] = container
+        end
         return container
     end
 end
@@ -265,6 +277,7 @@ do
     function opt:CreateConfigPage(name)
         local f = CreateFrame('Frame',frame_name..name..'Page',self)
         f.name = name
+        f.elements = {}
 
         f.scroll = CreateFrame('ScrollFrame',frame_name..name..'PageScrollFrame',self,'UIPanelScrollFrameTemplate')
         f.scroll:SetPoint('TOPLEFT',self.PageBG,4,-4)
