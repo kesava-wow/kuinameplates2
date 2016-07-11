@@ -106,11 +106,20 @@ function core:InitialiseConfig()
     self.config:RegisterConfigChanged(function(self,k,v)
         core.profile = self:GetConfig()
 
-        if configChanged[k] then
-            configChanged[k](v)
+        if k then
+            -- call affected listener
+            if configChanged[k] then
+                configChanged[k](v)
+            end
+        else
+            -- profile changed; call all listeners
+            for k,f in pairs(configChanged) do
+                f(core.profile[k])
+            end
         end
 
         for i,f in addon:Frames() do
+            -- hide and re-show frames
             if f:IsShown() then
                 f.handler:OnHide()
                 f.handler:OnUnitAdded(f.parent.namePlateUnitToken)
