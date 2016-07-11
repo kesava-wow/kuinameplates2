@@ -33,10 +33,14 @@ local CLASS_COLOURS = {
     SHAMAN      = { .10, .54, .97 },
 }
 
-core.font = kui.m.f.francois
-local FONT = core.font
+core.font = kui.m.f.francois -- TODO
 
-local BAR_TEXTURE = kui.m.t.bar
+local FONT
+local FONT_STYLE
+local FONT_SIZE_NORMAL
+local FONT_SIZE_SMALL
+
+local BAR_TEXTURE
 
 local target_glow_colour = { .3, .7, 1, 1 }
 
@@ -46,8 +50,6 @@ local FRAME_WIDTH_MINUS = 72
 local FRAME_HEIGHT_MINUS = 9
 local FRAME_GLOW_SIZE = 8
 
-local FONT_SIZE_NORMAL = 11
-local FONT_SIZE_SMALL = 9
 -- config functions ############################################################
 function core:SetTargetGlowLocals()
     target_glow_colour = self.profile.target_glow_colour
@@ -60,12 +62,17 @@ function core:SetFrameSizeLocals()
     FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
 end
 do
+    local FONT_STYLE_ASSOC = {
+        '',
+        'THINOUTLINE',
+        'THINOUTLINE MONOCHROME'
+    }
     local function UpdateFontObject(object)
         if not object then return end
         object:SetFont(
             FONT,
             object.fontobject_small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
-            'THINOUTLINE'
+            FONT_STYLE
         )
     end
     function core:configChangedFontOption()
@@ -81,6 +88,7 @@ do
     function core:SetFontLocals()
         -- update font locals
         FONT = LSM:Fetch(LSM.MediaType.FONT,self.profile.font_face)
+        FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SIZE_NORMAL = self.profile.font_size_normal
         FONT_SIZE_SMALL = self.profile.font_size_small
     end
@@ -153,7 +161,7 @@ local function CreateFontString(parent,small)
     f:SetFont(
         FONT,
         small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
-        'THINOUTLINE'
+        FONT_STYLE
     )
     f:SetWordWrap()
     f.fontobject_small = small
@@ -611,6 +619,7 @@ do
 
     local function Button_SetFontSize(self,minus)
         local font,_,flags = self.cd:GetFont()
+        -- TODO font options
         if minus then
             self.cd:SetFont(font,AURAS_MINUS_FONT_SIZE_CD,flags)
             self.count:SetFont(font,AURAS_MINUS_FONT_SIZE_COUNT,flags)

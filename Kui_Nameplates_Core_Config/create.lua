@@ -46,26 +46,49 @@ end
 
 -- text ########################################################################
 local font_face = text:CreateDropDown('font_face')
+local font_style = text:CreateDropDown('font_style')
 local font_size_normal = text:CreateSlider('font_size_normal',1,20)
 local font_size_small = text:CreateSlider('font_size_small',1,20)
 local hidenamesCheck = text:CreateCheckBox('hide_names')
 
-font_face:SetPoint('TOPLEFT',70,-30)
+font_face:SetPoint('TOPLEFT',-5,-30)
+font_style:SetPoint('LEFT',font_face,'RIGHT',-20,0)
 font_size_normal:SetPoint('TOPLEFT',10,-90)
 font_size_small:SetPoint('LEFT',font_size_normal,'RIGHT',20,0)
 hidenamesCheck:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-20)
 
-function font_face.Initialize()
+function font_face.Initialize(self)
     local info = UIDropDownMenu_CreateInfo()
 
     for k,f in ipairs(LSM:List(LSM.MediaType.FONT)) do
         info.text = f
-        info.arg1 = font_face
+        info.arg1 = self
         info.arg2 = f
         info.checked = nil
-        info.func = font_face.OnChanged
+        info.func = self.OnChanged
+
         UIDropDownMenu_AddButton(info)
     end
+end
+
+font_style.SelectTable = { 'None','Outline','Monochrome' }
+function font_style.Initialize(self)
+    local info = UIDropDownMenu_CreateInfo()
+
+    for k,f in ipairs(self.SelectTable) do
+        info.text = f
+        info.arg1 = self
+        info.arg2 = k
+        info.checked = nil
+        info.func = self.OnChanged
+
+        UIDropDownMenu_AddButton(info)
+    end
+
+    UIDropDownMenu_SetSelectedName(self,self.SelectTable[opt.profile[self.env]])
+
+    -- we manually set the selected entry
+    self.manual = true
 end
 
 -- frame sizes #################################################################

@@ -30,6 +30,7 @@ local default_config = {
     target_glow_colour = { .3, .7, 1, 1 },
 
     font_face = DEFAULT_FONT,
+    font_style = 2,
     hide_names = true,
     font_size_normal = 11,
     font_size_small = 9,

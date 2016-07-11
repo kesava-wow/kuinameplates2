@@ -89,7 +89,7 @@ do
         if type(self.Initialize) ~= 'function' then return end
         UIDropDownMenu_Initialize(self,self.Initialize)
 
-        if self.env then
+        if not self.manual and self.env then
             UIDropDownMenu_SetSelectedName(self,opt.profile[self.env])
         end
     end
