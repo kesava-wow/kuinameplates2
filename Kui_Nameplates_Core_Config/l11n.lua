@@ -43,6 +43,7 @@ opt.titles = {
     target_glow_colour = 'Target glow colour',
 
     font_face = 'Font face',
+    font_style = 'Font style',
     font_size_normal = 'Normal font size',
     font_size_small = 'Small font size',
     hide_names = 'Hide unimportant unit names',
