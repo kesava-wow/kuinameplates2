@@ -136,25 +136,10 @@ function core:UNIT_NAME_UPDATE(event,f)
 end
 -- register ####################################################################
 function core:Initialise()
+    self:InitialiseConfig()
+
     -- TODO resets upon changing any interface options
     C_NamePlate.SetNamePlateOtherSize(100,20)
-
-    -- element configuration
-    self.Auras = {}
-
-    self.ClassPowers = {
-        icon_size = 10,
-        icon_texture = 'interface/addons/kui_nameplates/media/combopoint-round',
-        glow_texture = 'interface/addons/kui_nameplates/media/combopoint-glow',
-        cd_texture = 'interface/playerframe/classoverlay-runecooldown',
-        point = { 'TOP','bg','BOTTOM',0,4 }
-    }
-
-    local plugin_pb = addon:GetPlugin('PowerBar')
-    if plugin_pb then
-        -- set custom power colours
-        plugin_pb.colours['MANA'] = { .30, .37, .74 }
-    end
 
     -- register messages
     self:RegisterMessage('Create')
@@ -179,12 +164,12 @@ function core:Initialise()
     self:AddCallback('Auras','PostCreateAuraButton',self.Auras_PostCreateAuraButton)
     self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
 
-    -- layout configuration stuff
-    self:InitialiseConfig()
-
     -- update layout's locals with configuration
     self:SetFrameSizeLocals()
     self:SetFontLocals()
     self:SetBarTextureLocals()
     self:SetTargetGlowLocals()
+
+    -- set element configuration tables
+    self:InitialiseElements()
 end

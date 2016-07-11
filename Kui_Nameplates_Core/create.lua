@@ -76,6 +76,7 @@ do
     function core.AurasButton_SetFont(button)
         UpdateFontObject(button.cd)
         UpdateFontObject(button.count)
+        UpdateFontObject(button.name)
     end
     function core:configChangedFontOption()
         self:SetFontLocals()
@@ -652,8 +653,6 @@ do
                 button:SetWidth(size)
                 button:SetHeight(self.icon_height)
                 button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
-
-                Button_SetFontSize(button,minus)
             end
 
             if self.visible and self.visible > 0 then
@@ -692,7 +691,10 @@ do
         button.count:SetPoint('BOTTOMRIGHT',3,-3)
         button.count:SetShadowOffset(1,-1)
         button.count:SetShadowColor(0,0,0,1)
-        button.count.fontobject_small = true
+
+        if not addon.BarAuras then
+            button.count.fontobject_small = true
+        end
 
         core.AurasButton_SetFont(button)
     end
@@ -876,5 +878,23 @@ do
         else
             NameOnlyDisable(f)
         end
+    end
+end
+-- init elements ###############################################################
+function core:InitialiseElements()
+    self.Auras = {}
+
+    self.ClassPowers = {
+        icon_size = 10,
+        icon_texture = 'interface/addons/kui_nameplates/media/combopoint-round',
+        glow_texture = 'interface/addons/kui_nameplates/media/combopoint-glow',
+        cd_texture = 'interface/playerframe/classoverlay-runecooldown',
+        point = { 'TOP','bg','BOTTOM',0,4 }
+    }
+
+    local plugin_pb = addon:GetPlugin('PowerBar')
+    if plugin_pb then
+        -- set custom power colours
+        plugin_pb.colours['MANA'] = { .30, .37, .74 }
     end
 end

@@ -2,8 +2,6 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BarAuras',101)
 
-local font,font_size
-
 local orig_UpdateCooldown
 local auras_sort = function(a,b)
     -- we have to recreate this base sorting function to maintain
@@ -113,7 +111,7 @@ local function PostCreateAuraButton(button)
     bar:HookScript('OnValueChanged',FadeSpark)
 
     local name = bar:CreateFontString(nil,'OVERLAY')
-    name:SetFont(font,font_size)
+    name:SetFont(button.cd:GetFont())
     name:SetPoint('LEFT',bar,1,-.5)
     name:SetPoint('RIGHT',button.cd,'LEFT',-2,0)
     name:SetJustifyH('LEFT')
@@ -123,13 +121,11 @@ local function PostCreateAuraButton(button)
 
     bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',2)
 
-    button.cd:SetFont(font,font_size)
     button.cd:SetParent(bar)
     button.cd:ClearAllPoints()
     button.cd:SetPoint('RIGHT',-1,-.5)
     button.cd:SetJustifyH('RIGHT')
 
-    button.count:SetFont(font,font_size)
     button.count:SetParent(bar)
     button.count:ClearAllPoints()
     button.count:SetPoint('RIGHT',button.icon,'LEFT',-3,-.5)
@@ -153,8 +149,6 @@ local function PostCreateAuraButton(button)
 end
 -- register ####################################################################
 function mod:Initialised()
-    font = addon.layout.Auras.font or 'Fonts\\FRIZQT__.TTF'
-    font_size = addon.layout.Auras.font_size_count or 10
 end
 function mod:Initialise()
     addon.BarAuras = true
