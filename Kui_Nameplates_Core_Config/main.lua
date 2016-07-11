@@ -51,38 +51,9 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     InterfaceOptionsFrame_OpenToCategory(category)
     InterfaceOptionsFrame_OpenToCategory(category)
 end
--- profile drop down handlers ##################################################
--- TODO move this stuff into a KuiConfig helper
-local function profileDropDown_OnChanged(dd,profile_select)
-    opt.config:SetProfile(profile_select)
-end
-local function profileDropDown_NewProfile(dd)
-    opt.Popup:ShowPage('new_profile')
-end
-local function profileDropDown_Initialize()
-    local info = UIDropDownMenu_CreateInfo()
-
-    do
-        info.text = opt.titles.new_profile
-        info.checked = nil
-        info.func = profileDropDown_NewProfile
-        UIDropDownMenu_AddButton(info)
-    end
-
-    for k,p in pairs(opt.config.gsv.profiles) do
-        info.text = k
-        info.arg1 = k
-        info.checked = nil
-        info.func = profileDropDown_OnChanged
-        UIDropDownMenu_AddButton(info)
-    end
-end
 -- config handlers #############################################################
 function opt:ConfigChanged()
     self.profile = self.config:GetConfig()
-
-    UIDropDownMenu_Initialize(self.profileDropDown,profileDropDown_Initialize)
-    UIDropDownMenu_SetSelectedName(self.profileDropDown,self.config.csv.profile)
 
     if self:IsShown() then
         -- re-run OnShow of all visible options

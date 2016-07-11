@@ -563,7 +563,35 @@ function opt:Initialise()
     p_dd.label:SetText(opt.titles['profile'])
     p_dd.label:SetPoint('BOTTOMLEFT',p_dd,'TOPLEFT',20,1)
 
-    self.profileDropDown = p_dd
+    function p_dd.OnChanged(self,selected)
+        opt.config:SetProfile(selected)
+    end
+    function p_dd.NewProfile()
+        opt.Popup:ShowPage('new_profile')
+    end
+    function p_dd:initialize()
+        local info = UIDropDownMenu_CreateInfo()
+
+        do
+            info.text = opt.titles.new_profile
+            info.checked = nil
+            info.func = self.NewProfile
+            UIDropDownMenu_AddButton(info)
+        end
+
+        for k,p in pairs(opt.config.gsv.profiles) do
+            info.text = k
+            info.arg1 = k
+            info.checked = nil
+            info.func = self.OnChanged
+            UIDropDownMenu_AddButton(info)
+        end
+    end
+
+    p_dd:HookScript('OnShow',function(self)
+        self:initialize()
+        UIDropDownMenu_SetSelectedName(self,opt.config.csv.profile)
+    end)
 
     -- create backgrounds
     local tl_bg = CreateFrame('Frame',nil,self)
