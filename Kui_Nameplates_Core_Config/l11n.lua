@@ -13,7 +13,7 @@ opt.page_names = {
 opt.tooltips = {
     bar_texture = 'The texture used for the health bar',
     nameonly = 'Hide the healthbars of friendly or unattackable units',
-    hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names"',
+    hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names". Note that this does not affect nameonly mode',
     tank_mode = 'Recolour the health bars of units you are actively tanking',
     threat_brackets = 'Show triangles around nameplates which indicate threat status',
 
