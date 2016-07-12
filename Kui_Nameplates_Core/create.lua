@@ -86,6 +86,8 @@ do
             UpdateFontObject(f.NameText)
             UpdateFontObject(f.GuildText)
             UpdateFontObject(f.SpellName)
+            UpdateFontObject(f.HealthText)
+            UpdateFontObject(f.LevelText)
 
             for _,button in pairs(f.Auras.frames[1].buttons) do
                 self.AurasButton_SetFont(button)
