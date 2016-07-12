@@ -91,6 +91,20 @@ function configChanged.target_glow_colour()
     core:SetTargetGlowLocals()
 end
 
+local function configChangedReactionColour()
+    local ele = addon:GetPlugin('HealthBar')
+    ele.colours.hated = core.profile.colour_hated
+    ele.colours.neutral = core.profile.colour_neutral
+    ele.colours.friendly = core.profile.colour_friendly
+    ele.colours.tapped = core.profile.colour_tapped
+    ele.colours.player = core.profile.colour_player
+end
+configChanged.colour_hated = configChangedReactionColour
+configChanged.colour_neutral = configChangedReactionColour
+configChanged.colour_friendly = configChangedReactionColour
+configChanged.colour_tapped = configChangedReactionColour
+configChanged.colour_player = configChangedReactionColour
+
 local function configChangedFrameSize()
     -- TODO auras frame size needs to be updated
     core:SetFrameSizeLocals()
@@ -108,6 +122,11 @@ configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
 -- config loaded functions #####################################################
 local configLoaded = {}
+configLoaded.colour_hated = configChangedReactionColour
+configLoaded.colour_neutral = configChangedReactionColour
+configLoaded.colour_friendly = configChangedReactionColour
+configLoaded.colour_tapped = configChangedReactionColour
+configLoaded.colour_player = configChangedReactionColour
 configLoaded.tank_mode = configChanged.tank_mode
 configLoaded.castbar_enable = configChanged.castbar_enable
 configLoaded.level_text = configChanged.level_text
