@@ -24,7 +24,9 @@ function core:Create(f)
     self:CreateFrameGlow(f)
     self:CreateTargetGlow(f)
     self:CreateNameText(f)
+    self:CreateLevelText(f)
     self:CreateGuildText(f)
+    self:CreateHealthText(f)
     self:CreateHighlight(f)
     self:CreateCastBar(f)
     self:CreateAuras(f)
@@ -38,6 +40,7 @@ function core:Show(f)
     self:NameOnlyUpdate(f)
     -- hide name if desired
     self:ShowNameUpdate(f)
+
     -- show/hide power bar
     f:UpdatePowerBar(true)
     -- set initial frame size
@@ -48,6 +51,10 @@ function core:Show(f)
     f:UpdateThreatBrackets()
     -- set name text colour
     f:UpdateNameText()
+    -- show/hide level text
+    f:UpdateLevelText()
+    -- set initial health text
+    f:UpdateHealthText()
     -- set state icon
     f:UpdateStateIcon()
     -- enable/disable castbar
@@ -57,6 +64,8 @@ function core:Hide(f)
     self:NameOnlyUpdate(f,true)
 end
 function core:HealthUpdate(f)
+    f:UpdateHealthText()
+
     self:NameOnlyHealthUpdate(f)
 end
 function core:HealthColourChange(f)
@@ -64,6 +73,7 @@ function core:HealthColourChange(f)
     self:NameOnlyUpdate(f)
 
     f:UpdateNameText()
+    f:UpdateHealthText()
     f:UpdateFrameGlow()
     f:UpdateStateIcon()
     f:UpdateCastBar()
@@ -91,6 +101,7 @@ function core:GainedTarget(f)
 
     f:UpdateFrameSize()
     f:UpdateNameText()
+    f:UpdateHealthText()
     f:UpdateFrameGlow()
     f:UpdateStateIcon()
     f:UpdateCastBar()
@@ -105,6 +116,7 @@ function core:LostTarget(f)
 
     f:UpdateFrameSize()
     f:UpdateNameText()
+    f:UpdateHealthText()
     f:UpdateFrameGlow()
     f:UpdateStateIcon()
     f:UpdateCastBar()

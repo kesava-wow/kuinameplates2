@@ -328,6 +328,45 @@ do
         f.UpdateNameText = UpdateNameText
     end
 end
+-- level text ##################################################################
+do
+    local function UpdateLevelText(f)
+        if f.state.nameonly then return end
+        if f.state.player then
+            f.LevelText:Hide()
+        else
+            f.LevelText:Show()
+        end
+    end
+    function core:CreateLevelText(f)
+        local leveltext = CreateFontString(f.HealthBar)
+        leveltext:SetPoint('BOTTOMLEFT',3,-4.5)
+
+        f.handler:RegisterElement('LevelText',leveltext)
+
+        f.UpdateLevelText = UpdateLevelText
+    end
+end
+-- health text #################################################################
+do
+    local function UpdateHealthText(f)
+        if f.state.nameonly then return end
+        if f.state.player then
+            f.HealthText:Hide()
+        else
+            local cur,_,max = f.HealthBar:GetValue(),f.HealthBar:GetMinMaxValues()
+            f.HealthText:SetText(kui.num(cur))
+            f.HealthText:Show()
+        end
+    end
+    function core:CreateHealthText(f)
+        local healthtext = CreateFontString(f.HealthBar)
+        healthtext:SetPoint('BOTTOMRIGHT',-3,-4.5)
+
+        f.HealthText = healthtext
+        f.UpdateHealthText = UpdateHealthText
+    end
+end
 -- npc guild text ##############################################################
 function core:CreateGuildText(f)
     local guildtext = CreateFontString(f,FONT_SIZE_SMALL)
