@@ -157,11 +157,11 @@ do
         slider:SetObeyStepOnDrag(true)
         slider:EnableMouseWheel(true)
 
-        local label = parent:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
+        local label = slider:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
         label:SetText(opt.titles[name] or 'Slider')
         label:SetPoint('BOTTOM',slider,'TOP')
 
-        local display = parent:CreateFontString(slider:GetName()..'Display','ARTWORK','GameFontHighlightSmall')
+        local display = slider:CreateFontString(slider:GetName()..'Display','ARTWORK','GameFontHighlightSmall')
         display:SetPoint('TOP',slider,'BOTTOM')
         -- TODO editbox
 
@@ -192,7 +192,7 @@ do
 
     local function ColourPickerOnShow(self)
         if not opt.profile then return end
-        if self.env then
+        if self.env and opt.profile[self.env] then
             self.block:SetBackdropColor(unpack(opt.profile[self.env]))
         end
 
@@ -217,10 +217,11 @@ do
         block:SetBackdrop({
             bgFile='interface/buttons/white8x8',
             edgeFile='interface/buttons/white8x8',
-            edgeSize=1
+            edgeSize=1,
+            insets={top=2,right=2,bottom=2,left=2}
         })
-        block:SetBackdropBorderColor(.1,.1,.1)
-        block:SetSize(15,15)
+        block:SetBackdropBorderColor(.5,.5,.5)
+        block:SetSize(18,18)
         block:SetPoint('LEFT')
 
         local label = container:CreateFontString(nil,'ARTWORK','GameFontHighlight')
@@ -240,6 +241,27 @@ do
             parent.elements[name] = container
         end
         return container
+    end
+
+    function opt.CreateSeperator(parent,name)
+        local line = parent:CreateTexture(nil,'ARTWORK')
+        line:SetTexture('interface/buttons/white8x8')
+        line:SetVertexColor(1,1,1,.3)
+        line:SetSize(400,1)
+
+        local shadow = parent:CreateTexture(nil,'ARTWORK')
+        shadow:SetTexture('interface/buttons/white8x8')
+        shadow:SetVertexColor(0,0,0,.8)
+        shadow:SetSize(400,1)
+        shadow:SetPoint('BOTTOM',line,'TOP')
+
+        local label = parent:CreateFontString(nil,'ARTWORK','GameFontNormal')
+        label:SetText(opt.titles[name] or 'Seperator')
+        label:SetPoint('CENTER',line,0,10)
+
+        line.label = label
+        line.shadow = shadow
+        return line
     end
 end
 -- page functions ##############################################################
@@ -270,6 +292,7 @@ do
         CreateDropDown = opt.CreateDropDown,
         CreateSlider = opt.CreateSlider,
         CreateColourPicker = opt.CreateColourPicker,
+        CreateSeperator = opt.CreateSeperator,
 
         HidePage = HidePage,
         ShowPage = ShowPage
@@ -284,7 +307,7 @@ do
         f.scroll:SetPoint('BOTTOMRIGHT',self.PageBG,-26,4)
         f.scroll:SetScrollChild(f)
 
-        f:SetWidth(1)
+        f:SetWidth(450)
         f:SetHeight(1)
 
         -- mixin page functions
@@ -438,16 +461,16 @@ do
 
         local val = opt.profile[self.colour_picker.env]
 
-        self.r:SetValue(val[1]*255)
-        self.g:SetValue(val[2]*255)
-        self.b:SetValue(val[3]*255)
-
         if #val == 4 then
             self.o:Show()
             self.o:SetValue(val[4]*255)
         else
             self.o:Hide()
         end
+
+        self.r:SetValue(val[1]*255)
+        self.g:SetValue(val[2]*255)
+        self.b:SetValue(val[3]*255)
     end
     local function ColourPicker_Callback(self,accept)
         if accept then
@@ -464,9 +487,10 @@ do
         display:SetBackdrop({
             bgFile='interface/buttons/white8x8',
             edgeFile='interface/buttons/white8x8',
-            edgeSize=1
+            edgeSize=1,
+            insets={top=2,right=2,bottom=2,left=2}
         })
-        display:SetBackdropBorderColor(.1,.1,.1)
+        display:SetBackdropBorderColor(.5,.5,.5)
         display:SetSize(150,150)
         display:SetPoint('TOPLEFT',35,-45)
 

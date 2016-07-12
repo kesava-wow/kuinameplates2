@@ -42,6 +42,13 @@ opt.titles = {
     target_glow = 'Show target glow',
     target_glow_colour = 'Target glow colour',
 
+    reaction_colour_sep = 'Reaction colours',
+    colour_hated = 'Hated',
+    colour_neutral = 'Neutral',
+    colour_friendly = 'Friendly',
+    colour_tapped = 'Tapped',
+    colour_player = 'Player',
+
     font_face = 'Font face',
     font_style = 'Font style',
     font_size_normal = 'Normal font size',

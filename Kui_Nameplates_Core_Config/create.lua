@@ -29,6 +29,21 @@ target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',200,0)
 bar_texture:SetPoint('TOPLEFT',70,-30)
 
+local colour_sep = general:CreateSeperator('reaction_colour_sep')
+local colour_hated = general:CreateColourPicker('colour_hated')
+local colour_neutral = general:CreateColourPicker('colour_neutral')
+local colour_friendly = general:CreateColourPicker('colour_friendly')
+local colour_tapped = general:CreateColourPicker('colour_tapped')
+local colour_player = general:CreateColourPicker('colour_player')
+
+colour_sep:SetPoint('TOP',0,-180)
+
+colour_hated:SetPoint('TOPLEFT',15,-200)
+colour_neutral:SetPoint('LEFT',colour_hated,'RIGHT')
+colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
+colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')
+colour_player:SetPoint('LEFT',colour_tapped,'RIGHT')
+
 target_glow_colour.enabled = function(p) return p.target_glow end
 
 function bar_texture:initialize()

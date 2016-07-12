@@ -37,6 +37,12 @@ local default_config = {
     level_text = false,
     health_text = false,
 
+    colour_hated = {.7,.2,.1},
+    colour_neutral = {1,.8,0},
+    colour_friendly = {.2,.6,.1},
+    colour_tapped = {.5,.5,.5},
+    colour_player = {.2,.5,.9},
+
     frame_width = 132,
     frame_height = 13,
     frame_width_minus = 72,
