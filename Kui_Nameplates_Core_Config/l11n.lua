@@ -47,6 +47,8 @@ opt.titles = {
     font_size_normal = 'Normal font size',
     font_size_small = 'Small font size',
     hide_names = 'Hide unimportant unit names',
+    level_text = 'Show level text',
+    health_text = 'Show health text',
 
     frame_width = 'Frame width',
     frame_height = 'Frame height',

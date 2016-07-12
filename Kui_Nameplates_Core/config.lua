@@ -34,6 +34,8 @@ local default_config = {
     hide_names = true,
     font_size_normal = 11,
     font_size_small = 9,
+    level_text = false,
+    health_text = false,
 
     frame_width = 132,
     frame_height = 13,
@@ -67,6 +69,14 @@ function configChanged.castbar_enable(v)
     end
 end
 
+function configChanged.level_text(v)
+    if v then
+        addon:GetPlugin('LevelText'):Enable()
+    else
+        addon:GetPlugin('LevelText'):Disable()
+    end
+end
+
 function configChanged.bar_texture()
     core:configChangedBarTexture()
 end
@@ -92,12 +102,9 @@ configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
 -- config loaded functions #####################################################
 local configLoaded = {}
-function configLoaded.tank_mode(v)
-    configChanged.tank_mode(v)
-end
-function configLoaded.castbar_enable(v)
-    configChanged.castbar_enable(v)
-end
+configLoaded.tank_mode = configChanged.tank_mode
+configLoaded.castbar_enable = configChanged.castbar_enable
+configLoaded.level_text = configChanged.level_text
 -- init config #################################################################
 function core:InitialiseConfig()
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
