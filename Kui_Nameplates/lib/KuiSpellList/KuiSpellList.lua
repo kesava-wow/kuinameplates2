@@ -225,6 +225,7 @@ local auras = {
             [30108] = true,  -- unstable affliction
             [48181] = true,  -- haunt
             [80240] = true,  -- havoc
+            [63106] = true,  -- siphon life
         },
         CONTROL = {
             [710] = true,    -- banish
