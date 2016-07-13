@@ -26,6 +26,15 @@ opt.tooltips = {
     frame_width_minus = 'Width of nameplates used on low-health mobs',
     frame_height_minus = 'Height of nameplates used on low-health mobs',
 
+    auras_whitelist = 'Use KuiSpellList to filter spells. You can use the extra addon KuiSpellListConfig from Curse to customise this list',
+    auras_pulsate = 'Pulsate icons when they are about to expire',
+    auras_time_threshold = 'The countdown text will display when there is less than or equal to this amount of time left on an aura. Set to -1 to always display the timer',
+    auras_minimum_length = 'Don\'t show auras with an initial length less than this value',
+    auras_maximum_length = 'Don\'t show auras with an initial length greater than this value. Set to -1 to ignore',
+    auras_icon_normal_size = 'Icon size on normal-size frames',
+    auras_icon_minus_size = 'Icon size on smaller frames',
+    auras_icon_squareness = 'Size ratio of the aura icons, where 1 means a perfect square',
+
     castbar_enable = 'Enable the castbar element',
     castbar_showpersonal = 'Show the castbar on your character\'s nameplate if it is enabled',
     castbar_showall = 'Show castbars on all nameplates, rather than on just the current target',
