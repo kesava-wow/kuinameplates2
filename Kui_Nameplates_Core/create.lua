@@ -661,6 +661,9 @@ do
     local AURAS_NORMAL_SIZE = 24
     local AURAS_MINUS_SIZE = 18
 
+    local AURAS_MIN_LENGTH = nil
+    local AURAS_MAX_LENGTH = nil
+
     local function AuraFrame_SetFrameWidth(self)
         self:SetWidth(self.__width)
         self:SetPoint(
@@ -738,6 +741,28 @@ do
         end
 
         core.AurasButton_SetFont(button)
+    end
+    function core.Auras_DisplayAura(name,spellid,duration)
+        if AURAS_MIN_LENGTH and duration <= AURAS_MIN_LENGTH then
+            return false
+        end
+        if AURAS_MAX_LENGTH and duration > AURAS_MAX_LENGTH then
+            return false
+        end
+
+        return true
+    end
+
+    function core:SetAurasLocals()
+        AURAS_MIN_LENGTH = self.profile.auras_minimum_length
+        if AURAS_MIN_LENGTH == 0 then
+            AURAS_MIN_LENGTH = nil
+        end
+
+        AURAS_MAX_LENGTH = self.profile.auras_maximum_length
+        if AURAS_MAX_LENGTH == -1 then
+            AURAS_MAX_LENGTH = nil
+        end
     end
 end
 -- class powers ################################################################

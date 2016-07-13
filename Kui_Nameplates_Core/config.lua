@@ -130,6 +130,12 @@ end
 configChanged.font_face = configChangedFontOption
 configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
+
+local function configChangedAurasThreshold()
+    core:SetAurasLocals()
+end
+configChanged.auras_minimum_length = configChangedAurasThreshold
+configChanged.auras_maximum_length = configChangedAurasThreshold
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.colour_hated = configChangedReactionColour
