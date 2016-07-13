@@ -124,8 +124,14 @@ configChanged.colour_tapped = configChangedReactionColour
 configChanged.colour_player = configChangedReactionColour
 
 local function configChangedFrameSize()
-    -- TODO auras frame size needs to be updated
     core:SetFrameSizeLocals()
+
+    for k,f in addon:Frames() do
+        if f.Auras and f.Auras.frames and f.Auras.frames[1] then
+            -- force auras frame size update
+            f.Auras.frames[1].__width = nil
+        end
+    end
 end
 configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize

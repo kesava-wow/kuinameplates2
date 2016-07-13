@@ -673,10 +673,10 @@ do
             15
         )
     end
-    local function AuraFrame_SetIconSize(self,minus,force)
+    local function AuraFrame_SetIconSize(self,minus)
         local size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
 
-        if not force and self.__width and self.size == size then
+        if self.__width and self.size == size then
             return
         end
 
@@ -782,7 +782,8 @@ do
                 af.timer_threshold = timer_threshold
                 af.squareness = self.profile.auras_icon_squareness
 
-                AuraFrame_SetIconSize(af,f.state.minus,true)
+                -- force size update
+                af.__width = nil
             end
         end
     end
