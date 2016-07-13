@@ -59,6 +59,9 @@
     PostCreateAuraFrame(auraframe)
         Called after an aura frame is created.
 
+    DisplayAura(name,spellid,duration)
+        Can be used to arbitrarily filter auras.
+
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
@@ -325,10 +328,17 @@ local function AuraFrame_DisplayButton(self,name,icon,spellid,count,duration,exp
     if  self.kui_whitelist and whitelist and
         not whitelist[spellid] and not whitelist[strlower(name)]
     then
+        -- not in kui whitelist
         return
     elseif self.whitelist and
            not self.whitelist[spellid] and not self.whitelist[strlower(name)]
     then
+        -- not in provided whitelist
+        return
+    end
+
+    if ele:RunCallback('DisplayAura',name,spellid,duration) == false then
+        -- blocked by callback
         return
     end
 
@@ -566,6 +576,7 @@ function ele:Initialise()
     self:RegisterCallback('CreateAuraButton',true)
     self:RegisterCallback('PostCreateAuraButton')
     self:RegisterCallback('PostCreateAuraFrame')
+    self:RegisterCallback('DisplayAura',true)
 
     self:RegisterMessage('Initialised')
 end
