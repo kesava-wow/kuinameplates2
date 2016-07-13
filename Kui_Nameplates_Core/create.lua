@@ -721,6 +721,8 @@ do
             timer_threshold = self.profile.auras_time_threshold > 0 and self.profile.auras_time_threshold or nil,
             squareness = self.profile.auras_icon_squareness
         })
+        -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
+
         auras:SetFrameLevel(0)
         auras:SetHeight(10)
 
