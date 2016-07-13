@@ -558,8 +558,18 @@ function ele:UNIT_AURA(event,f)
     end
 end
 -- register ####################################################################
+function ele:OnEnable()
+    self:RegisterMessage('Show')
+    self:RegisterMessage('Hide')
+
+    self:RegisterUnitEvent('UNIT_AURA')
+    self:RegisterUnitEvent('UNIT_FACTION')
+end
 function ele:Initialised()
-    if not addon.layout.Auras then return end
+    if not addon.layout.Auras then
+        self:Disable()
+        return
+    end
 
     FONT = addon.layout.Auras.font or 'Fonts\\FRIZQT__.TTF'
     FONT_SIZE_CD = addon.layout.Auras.font_size_cd or 12
@@ -567,12 +577,6 @@ function ele:Initialised()
     FONT_FLAGS = addon.layout.Auras.font_flags or 'OUTLINE'
 
     class = select(2,UnitClass('player'))
-
-    self:RegisterMessage('Show')
-    self:RegisterMessage('Hide')
-
-    self:RegisterUnitEvent('UNIT_AURA')
-    self:RegisterUnitEvent('UNIT_FACTION')
 end
 function ele:Initialise()
     -- register callbacks
