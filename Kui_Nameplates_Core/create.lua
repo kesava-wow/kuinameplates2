@@ -710,13 +710,16 @@ do
     end
     function core:CreateAuras(f)
         local auras = f.handler:CreateAuraFrame({
-            size = AURAS_NORMAL_SIZE,
-            kui_whitelist = true,
             max = 10,
             point = {'BOTTOMLEFT','LEFT','RIGHT'},
             x_spacing = 1,
             y_spacing = 1,
-            rows = 2
+            rows = 2,
+
+            kui_whitelist = self.profile.auras_whitelist,
+            pulsate = self.profile.auras_pulsate,
+            timer_threshold = self.profile.auras_time_threshold > 0 and self.profile.auras_time_threshold or nil,
+            squareness = self.profile.auras_icon_squareness
         })
         auras:SetFrameLevel(0)
         auras:SetHeight(10)
