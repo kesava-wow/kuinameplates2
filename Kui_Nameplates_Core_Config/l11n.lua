@@ -62,6 +62,16 @@ opt.titles = {
     frame_width_minus = 'Minus frame width',
     frame_height_minus = 'Minus frame height',
 
+    auras_enabled = 'Show auras',
+    auras_whitelist = 'Use whitelist',
+    auras_pulsate = 'Pulsate icons',
+    auras_time_threshold = 'Timer threshold',
+    auras_minimum_length = 'Minimum effect length',
+    auras_maximum_length = 'Maximum effect length',
+    auras_icon_normal_size = 'Icon size (normal)',
+    auras_icon_minus_size = 'Icon size (minus)',
+    auras_icon_squareness = 'Icon squareness',
+
     castbar_enable = 'Enable',
     castbar_showpersonal = 'Show own castbar',
     castbar_showall = 'Show castbars on all nameplates',

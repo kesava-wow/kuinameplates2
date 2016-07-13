@@ -48,6 +48,16 @@ local default_config = {
     frame_width_minus = 72,
     frame_height_minus = 9,
 
+    auras_enabled = true,
+    auras_whitelist = true,
+    auras_pulsate = true,
+    auras_time_threshold = 20,
+    auras_minimum_length = 0,
+    auras_maximum_length = -1,
+    auras_icon_normal_size = 24,
+    auras_icon_minus_size = 18,
+    auras_icon_squareness = .7,
+
     castbar_enable = true,
     castbar_showpersonal = false,
     castbar_showall = true,
