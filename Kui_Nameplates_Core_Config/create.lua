@@ -130,6 +130,7 @@ local auras_maximum_length = auras:CreateSlider('auras_maximum_length',-1,1800)
 local auras_icon_normal_size = auras:CreateSlider('auras_icon_normal_size',10,50)
 local auras_icon_minus_size = auras:CreateSlider('auras_icon_minus_size',10,50)
 local auras_icon_squareness = auras:CreateSlider('auras_icon_squareness',0.5,1)
+
 auras_icon_squareness:SetValueStep(.1)
 
 auras_enabled:SetPoint('TOPLEFT',10,-10)

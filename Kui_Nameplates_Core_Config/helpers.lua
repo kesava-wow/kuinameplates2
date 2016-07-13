@@ -140,6 +140,11 @@ do
         end
     end
     local function SliderOnMouseWheel(self,delta)
+        if delta > 0 then
+            delta = self:GetValueStep()
+        else
+            delta = -self:GetValueStep()
+        end
         self:SetValue(self:GetValue()+delta)
         SliderOnManualChange(self)
     end
