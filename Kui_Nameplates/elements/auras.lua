@@ -115,7 +115,7 @@ local function button_OnUpdate(self,elapsed)
     if self.cd_elap <= 0 then
         local remaining = self.expiration - GetTime()
 
-        if remaining <= 5 then
+        if self.parent.pulsate and remaining <= 5 then
             self:StartPulsate()
         else
             self:StopPulsate()
@@ -126,8 +126,10 @@ local function button_OnUpdate(self,elapsed)
             self.cd:SetText(0)
             self:SetScript('OnUpdate',nil)
             return
-        elseif remaining > 20 then
-            -- don't show a timer above 20 seconds
+        elseif self.parent.timer_threshold and
+               remaining > self.parent.timer_threshold
+        then
+            -- don't show a timer above threshold
             self.cd_elap = 1
             self.cd:SetText('')
             return
@@ -441,6 +443,8 @@ local aura_meta = {
     x_spacing  = 0,
     y_spacing  = 0,
     sort       = time_sort,
+    pulsate    = true,
+    timer_threshold = 20,
 
     Update         = AuraFrame_Update,
     GetAuras       = AuraFrame_GetAuras,
@@ -501,7 +505,7 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
 
     new_frame.row_point = row_growth_points[new_frame.row_growth]
 
-    new_frame.icon_height = new_frame.size * new_frame.squareness
+    new_frame.icon_height = floor(new_frame.size * new_frame.squareness)
     new_frame.icon_ratio = (1 - (new_frame.icon_height / new_frame.size)) / 2
 
     if new_frame.kui_whitelist and not whitelist then

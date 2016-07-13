@@ -661,8 +661,8 @@ do
     local AURAS_NORMAL_SIZE = 24
     local AURAS_MINUS_SIZE = 18
 
-    local AURAS_MIN_LENGTH = nil
-    local AURAS_MAX_LENGTH = nil
+    local AURAS_MIN_LENGTH
+    local AURAS_MAX_LENGTH
 
     local function AuraFrame_SetFrameWidth(self)
         self:SetWidth(self.__width)
@@ -674,16 +674,16 @@ do
             15
         )
     end
-    local function AuraFrame_SetIconSize(self,minus)
+    local function AuraFrame_SetIconSize(self,minus,force)
         local size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
 
-        if self.__width and self.size == size then
+        if not force and self.__width and self.size == size then
             return
         end
 
         -- re-set frame vars
         self.size = size
-        self.icon_height = size * self.squareness
+        self.icon_height = floor(size * self.squareness)
         self.icon_ratio = (1 - (self.icon_height / size)) / 2
         self.num_per_row = minus and 4 or 5
 
@@ -753,7 +753,7 @@ do
         return true
     end
 
-    function core:SetAurasLocals()
+    function core:SetAurasConfig()
         AURAS_MIN_LENGTH = self.profile.auras_minimum_length
         if AURAS_MIN_LENGTH == 0 then
             AURAS_MIN_LENGTH = nil
@@ -762,6 +762,26 @@ do
         AURAS_MAX_LENGTH = self.profile.auras_maximum_length
         if AURAS_MAX_LENGTH == -1 then
             AURAS_MAX_LENGTH = nil
+        end
+
+        AURAS_NORMAL_SIZE = self.profile.auras_icon_normal_size
+        AURAS_MINUS_SIZE = self.profile.auras_icon_minus_size
+
+        local timer_threshold = self.profile.auras_time_threshold
+        if timer_threshold < 0 then
+            timer_threshold = nil
+        end
+
+        for k,f in addon:Frames() do
+            if f.Auras and f.Auras.frames and f.Auras.frames[1] then
+                local af = f.Auras.frames[1]
+                af.kui_whitelist = self.profile.auras_whitelist
+                af.pulsate = self.profile.auras_pulsate
+                af.timer_threshold = timer_threshold
+                af.squareness = self.profile.auras_icon_squareness
+
+                AuraFrame_SetIconSize(af,f.state.minus,true)
+            end
         end
     end
 end
