@@ -658,9 +658,8 @@ do
 end
 -- auras #######################################################################
 do
-    local AURAS_NORMAL_SIZE = 24
-    local AURAS_MINUS_SIZE = 18
-
+    local AURAS_NORMAL_SIZE
+    local AURAS_MINUS_SIZE
     local AURAS_MIN_LENGTH
     local AURAS_MAX_LENGTH
 

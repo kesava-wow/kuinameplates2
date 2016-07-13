@@ -93,6 +93,14 @@ function configChanged.level_text(v)
     end
 end
 
+function configChanged.auras_enabled(v)
+    if v then
+        addon:GetPlugin('Auras'):Enable()
+    else
+        addon:GetPlugin('Auras'):Disable()
+    end
+end
+
 function configChanged.bar_texture()
     core:configChangedBarTexture()
 end
@@ -145,13 +153,13 @@ configChanged.auras_icon_squareness = configChangedAuras
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.colour_hated = configChangedReactionColour
-configLoaded.colour_neutral = configChangedReactionColour
-configLoaded.colour_friendly = configChangedReactionColour
-configLoaded.colour_tapped = configChangedReactionColour
-configLoaded.colour_player = configChangedReactionColour
+
 configLoaded.tank_mode = configChanged.tank_mode
 configLoaded.castbar_enable = configChanged.castbar_enable
 configLoaded.level_text = configChanged.level_text
+
+configLoaded.auras_enabled = configChanged.auras_enabled
+configLoaded.auras_whitelist = configChangedAuras
 -- init config #################################################################
 function core:InitialiseConfig()
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
