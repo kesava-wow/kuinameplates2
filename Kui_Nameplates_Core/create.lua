@@ -334,7 +334,7 @@ end
 do
     local function UpdateLevelText(f)
         if f.state.nameonly then return end
-        if not core.profile.level_text or f.state.player then
+        if not core.profile.level_text or f.state.minus or f.state.player then
             f.LevelText:Hide()
         else
             f.LevelText:Show()
@@ -353,7 +353,7 @@ end
 do
     local function UpdateHealthText(f)
         if f.state.nameonly then return end
-        if not core.profile.health_text or f.state.player then
+        if not core.profile.health_text or f.state.minus or f.state.player then
             f.HealthText:Hide()
         else
             local cur,_,max = f.HealthBar:GetValue(),f.HealthBar:GetMinMaxValues()

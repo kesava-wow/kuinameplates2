@@ -53,7 +53,7 @@ function core:Show(f)
     f:UpdateNameText()
     -- show/hide level text
     f:UpdateLevelText()
-    -- set initial health text
+    -- show/hide, set initial health text
     f:UpdateHealthText()
     -- set state icon
     f:UpdateStateIcon()
