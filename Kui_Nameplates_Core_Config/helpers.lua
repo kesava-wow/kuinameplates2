@@ -79,7 +79,7 @@ do
         check:HookScript('OnDisable',OnDisable)
 
         check.label = parent:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-        check.label:SetText(opt.titles[name] or 'Checkbox')
+        check.label:SetText(opt.titles[name] or name or 'Checkbox')
         check.label:SetPoint('LEFT', check, 'RIGHT')
 
         if name and type(parent.elements) == 'table' then
@@ -108,7 +108,7 @@ do
         UIDropDownMenu_SetWidth(dd,width or 150)
 
         dd.label = parent:CreateFontString(dd:GetName()..'Label','ARTWORK','GameFontNormalSmall')
-        dd.label:SetText(opt.titles[name] or 'DropDown')
+        dd.label:SetText(opt.titles[name] or name or 'DropDown')
         dd.label:SetPoint('BOTTOMLEFT',dd,'TOPLEFT',20,1)
 
         dd:HookScript('OnShow',DropDownOnShow)
@@ -125,7 +125,7 @@ do
 
     local function SliderOnShow(self)
         if not opt.profile then return end
-        if self.env then
+        if self.env and opt.profile[self.env] then
             self:SetValue(opt.profile[self.env])
         end
 
@@ -135,11 +135,13 @@ do
         self.display:SetText(self:GetValue())
     end
     local function SliderOnManualChange(self)
+        if not self:IsEnabled() then return end
         if self.env and opt.config then
             opt.config:SetConfig(self.env,self:GetValue())
         end
     end
     local function SliderOnMouseWheel(self,delta)
+        if not self:IsEnabled() then return end
         if delta > 0 then
             delta = self:GetValueStep()
         else
@@ -163,7 +165,7 @@ do
         slider:EnableMouseWheel(true)
 
         local label = slider:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
-        label:SetText(opt.titles[name] or 'Slider')
+        label:SetText(opt.titles[name] or name or 'Slider')
         label:SetPoint('BOTTOM',slider,'TOP')
 
         local display = slider:CreateFontString(slider:GetName()..'Display','ARTWORK','GameFontHighlightSmall')
@@ -230,7 +232,7 @@ do
         block:SetPoint('LEFT')
 
         local label = container:CreateFontString(nil,'ARTWORK','GameFontHighlight')
-        label:SetText(opt.titles[name] or 'Colour picker')
+        label:SetText(opt.titles[name] or name or 'Colour picker')
         label:SetPoint('LEFT',block,'RIGHT',5,0)
 
         container.block = block
@@ -261,7 +263,7 @@ do
         shadow:SetPoint('BOTTOM',line,'TOP')
 
         local label = parent:CreateFontString(nil,'ARTWORK','GameFontNormal')
-        label:SetText(opt.titles[name] or 'Seperator')
+        label:SetText(opt.titles[name] or name or 'Seperator')
         label:SetPoint('CENTER',line,0,10)
 
         line.label = label

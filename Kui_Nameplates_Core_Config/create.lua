@@ -67,11 +67,22 @@ local hidenamesCheck = text:CreateCheckBox('hide_names')
 local level_text = text:CreateCheckBox('level_text')
 local health_text = text:CreateCheckBox('health_text')
 
+local name_vertical_offset = text:CreateSlider('name_vertical_offset',-10,10)
+name_vertical_offset:SetValueStep(.5)
+local bot_vertical_offset = text:CreateSlider('bot_vertical_offset',-10,10)
+bot_vertical_offset:SetValueStep(.5)
+
+bot_vertical_offset.enabled = function(p) return p.level_text or p.health_text end
+
 font_face:SetPoint('TOPLEFT',-5,-30)
 font_style:SetPoint('LEFT',font_face,'RIGHT',-20,0)
+
 font_size_normal:SetPoint('TOPLEFT',10,-90)
 font_size_small:SetPoint('LEFT',font_size_normal,'RIGHT',20,0)
-hidenamesCheck:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-20)
+name_vertical_offset:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-30)
+bot_vertical_offset:SetPoint('LEFT',name_vertical_offset,'RIGHT',20,0)
+
+hidenamesCheck:SetPoint('TOPLEFT',name_vertical_offset,'BOTTOMLEFT',0,-20)
 level_text:SetPoint('TOPLEFT',hidenamesCheck,'BOTTOMLEFT')
 health_text:SetPoint('TOPLEFT',level_text,'BOTTOMLEFT')
 
