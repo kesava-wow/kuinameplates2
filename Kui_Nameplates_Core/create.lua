@@ -337,12 +337,19 @@ do
         if not core.profile.level_text or f.state.minus or f.state.player then
             f.LevelText:Hide()
         else
+            f.LevelText:ClearAllPoints()
+
+            if f.state.no_name then
+                f.LevelText:SetPoint('LEFT',3,-1.5)
+            else
+                f.LevelText:SetPoint('BOTTOMLEFT',3,-4.5)
+            end
+
             f.LevelText:Show()
         end
     end
     function core:CreateLevelText(f)
         local leveltext = CreateFontString(f.HealthBar)
-        leveltext:SetPoint('BOTTOMLEFT',3,-4.5)
 
         f.handler:RegisterElement('LevelText',leveltext)
 
@@ -358,12 +365,19 @@ do
         else
             local cur,_,max = f.HealthBar:GetValue(),f.HealthBar:GetMinMaxValues()
             f.HealthText:SetText(kui.num(cur))
+            f.HealthText:ClearAllPoints()
+
+            if f.state.no_name then
+                f.HealthText:SetPoint('RIGHT',-3,-1.5)
+            else
+                f.HealthText:SetPoint('BOTTOMRIGHT',-3,-4.5)
+            end
+
             f.HealthText:Show()
         end
     end
     function core:CreateHealthText(f)
         local healthtext = CreateFontString(f.HealthBar)
-        healthtext:SetPoint('BOTTOMRIGHT',-3,-4.5)
 
         f.HealthText = healthtext
         f.UpdateHealthText = UpdateHealthText

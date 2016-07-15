@@ -141,6 +141,7 @@ function core:QUESTLINE_UPDATE()
             self:ShowNameUpdate(frame)
             frame:UpdateFrameSize()
             frame:UpdateNameText()
+            frame:UpdateLevelText()
         end
     end
 end
