@@ -59,26 +59,26 @@ function bar_texture:initialize()
 end
 
 -- text ########################################################################
-local font_face = text:CreateDropDown('font_face',167)
-local font_style = text:CreateDropDown('font_style',167)
+local font_face = text:CreateDropDown('font_face',175)
+local font_style = text:CreateDropDown('font_style',175)
 
 local font_size_normal = text:CreateSlider('font_size_normal',1,20)
-font_size_normal:SetWidth(183)
+font_size_normal:SetWidth(190)
 local font_size_small = text:CreateSlider('font_size_small',1,20)
-font_size_small:SetWidth(183)
+font_size_small:SetWidth(190)
 
 local hidenamesCheck = text:CreateCheckBox('hide_names')
 local level_text = text:CreateCheckBox('level_text')
 local health_text = text:CreateCheckBox('health_text')
 
 local text_vertical_offset = text:CreateSlider('text_vertical_offset',-20,20)
-text_vertical_offset:SetWidth(115)
+text_vertical_offset:SetWidth(120)
 text_vertical_offset:SetValueStep(.5)
 local name_vertical_offset = text:CreateSlider('name_vertical_offset',-20,20)
-name_vertical_offset:SetWidth(115)
+name_vertical_offset:SetWidth(120)
 name_vertical_offset:SetValueStep(.5)
 local bot_vertical_offset = text:CreateSlider('bot_vertical_offset',-20,20)
-bot_vertical_offset:SetWidth(115)
+bot_vertical_offset:SetWidth(120)
 bot_vertical_offset:SetValueStep(.5)
 
 bot_vertical_offset.enabled = function(p) return p.level_text or p.health_text end
@@ -133,9 +133,13 @@ end
 
 -- frame sizes #################################################################
 local frame_width = framesizes:CreateSlider('frame_width',20,200)
+frame_width:SetWidth(190)
 local frame_height = framesizes:CreateSlider('frame_height',3,40)
+frame_height:SetWidth(190)
 local frame_width_minus = framesizes:CreateSlider('frame_width_minus',20,200)
+frame_width_minus:SetWidth(190)
 local frame_height_minus = framesizes:CreateSlider('frame_height_minus',3,40)
+frame_height_minus:SetWidth(190)
 
 frame_width:SetPoint('TOPLEFT',10,-30)
 frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
