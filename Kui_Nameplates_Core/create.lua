@@ -629,7 +629,7 @@ do
     local RARE = {.5,1,.5,1}
 
     local function UpdateStateIcon(f)
-        if f.state.nameonly then
+        if f.state.nameonly or f.Elements.LevelText then
             f.StateIcon:Hide()
             return
         end
