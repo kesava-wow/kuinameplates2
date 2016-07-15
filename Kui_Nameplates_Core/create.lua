@@ -63,6 +63,11 @@ function core:SetTextOffsetLocals()
 
     for k,f in addon:Frames() do
         f:UpdateNameTextPosition()
+        f:UpdateSpellNamePosition()
+
+        for _,button in pairs(f.Auras.frames[1].buttons) do
+            self.Auras_PostCreateAuraButton(button)
+        end
     end
 end
 do
@@ -578,6 +583,9 @@ do
             end
         end
     end
+    local function UpdateSpellNamePosition(f)
+        f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,-2+TEXT_VERTICAL_OFFSET)
+    end
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
@@ -595,7 +603,6 @@ do
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
         local spellname = CreateFontString(f.HealthBar,FONT_SIZE_SMALL)
-        spellname:SetPoint('TOP', castbar, 'BOTTOM', 0, -3.5)
         spellname:SetWordWrap()
 
         -- spell icon
@@ -645,6 +652,9 @@ do
         f.HideCastBar = HideCastBar
         f.UpdateCastBar = UpdateCastBar
         f.SpellIconSetWidth = SpellIconSetWidth
+        f.UpdateSpellNamePosition = UpdateSpellNamePosition
+
+        f:UpdateSpellNamePosition()
     end
 end
 -- state icons #################################################################
@@ -776,12 +786,12 @@ do
     function core.Auras_PostCreateAuraButton(button)
         -- move text slightly for our font
         button.cd:ClearAllPoints()
-        button.cd:SetPoint('CENTER',1,-1)
+        button.cd:SetPoint('CENTER',1,TEXT_VERTICAL_OFFSET)
         button.cd:SetShadowOffset(1,-1)
         button.cd:SetShadowColor(0,0,0,1)
 
         button.count:ClearAllPoints()
-        button.count:SetPoint('BOTTOMRIGHT',3,-3)
+        button.count:SetPoint('BOTTOMRIGHT',3,-2+TEXT_VERTICAL_OFFSET)
         button.count:SetShadowOffset(1,-1)
         button.count:SetShadowColor(0,0,0,1)
 

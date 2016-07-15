@@ -65,6 +65,9 @@ opt.titles = {
     hide_names = 'Hide unimportant unit names',
     level_text = 'Show level text',
     health_text = 'Show health text',
+    text_vertical_offset = 'Text v.offset',
+    name_vertical_offset = 'Name v.offset',
+    bot_vertical_offset = 'Level/health v.offset',
 
     frame_width = 'Frame width',
     frame_height = 'Frame height',
