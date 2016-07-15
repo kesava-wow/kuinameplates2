@@ -350,6 +350,7 @@ function ele:Initialised()
     if  not addon.layout.ClassPowers or
         type(addon.layout.ClassPowers) ~= 'table'
     then
+        self:Disable()
         return
     end
 
