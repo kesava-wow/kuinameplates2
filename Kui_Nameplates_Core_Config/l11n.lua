@@ -20,6 +20,9 @@ opt.tooltips = {
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
     font_size_normal = 'Standard font size (name, etc)',
     font_size_small = 'Smaller font size (vendor, spell name, etc)',
+    text_vertical_offset = 'Vertical offset applied to all strings. Used as some fonts render at odd vertical positions in WoW. Note that this value ends in .5 by default as this helps to reduce vertical jittering when frames are moving',
+    name_vertical_offset = 'Vertical offset of the name text',
+    bot_vertical_offset = 'Vertical offset of the level and health text strings',
 
     frame_width = 'Width of the standard nameplates',
     frame_height = 'Height of the standard nameplates',
