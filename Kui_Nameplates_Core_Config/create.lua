@@ -59,10 +59,14 @@ function bar_texture:initialize()
 end
 
 -- text ########################################################################
-local font_face = text:CreateDropDown('font_face')
-local font_style = text:CreateDropDown('font_style')
+local font_face = text:CreateDropDown('font_face',167)
+local font_style = text:CreateDropDown('font_style',167)
+
 local font_size_normal = text:CreateSlider('font_size_normal',1,20)
+font_size_normal:SetWidth(183)
 local font_size_small = text:CreateSlider('font_size_small',1,20)
+font_size_small:SetWidth(183)
+
 local hidenamesCheck = text:CreateCheckBox('hide_names')
 local level_text = text:CreateCheckBox('level_text')
 local health_text = text:CreateCheckBox('health_text')
