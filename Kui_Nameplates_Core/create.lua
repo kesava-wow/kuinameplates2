@@ -656,6 +656,27 @@ do
         f.UpdateStateIcon = UpdateStateIcon
     end
 end
+-- raid icons ##################################################################
+do
+    local function UpdateRaidIcon(f)
+        f.RaidIcon:ClearAllPoints()
+
+        if f.state.nameonly then
+            f.RaidIcon:SetPoint('LEFT',f.NameText,f.NameText:GetStringWidth()+2,0)
+        else
+            f.RaidIcon:SetPoint('LEFT',f.HealthBar,'RIGHT',5,0)
+        end
+    end
+    function core:CreateRaidIcon(f)
+        local raidicon = f:CreateTexture(nil,'ARTWORK',nil,2)
+        raidicon:SetTexture('interface/targetingframe/ui-raidtargetingicons')
+        raidicon:SetSize(26,26)
+
+        f.UpdateRaidIcon = UpdateRaidIcon
+
+        f.handler:RegisterElement('RaidIcon',raidicon)
+    end
+end
 -- auras #######################################################################
 do
     local AURAS_NORMAL_SIZE

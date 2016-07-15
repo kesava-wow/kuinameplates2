@@ -32,6 +32,7 @@ function core:Create(f)
     self:CreateAuras(f)
     self:CreateThreatBrackets(f)
     self:CreateStateIcon(f)
+    self:CreateRaidIcon(f)
 end
 function core:Show(f)
     f.state.player = UnitIsUnit(f.unit,'player')
@@ -57,6 +58,8 @@ function core:Show(f)
     f:UpdateHealthText()
     -- set state icon
     f:UpdateStateIcon()
+    -- position raid icon
+    f:UpdateRaidIcon()
     -- enable/disable castbar
     f:UpdateCastBar()
 end
@@ -76,6 +79,7 @@ function core:HealthColourChange(f)
     f:UpdateHealthText()
     f:UpdateFrameGlow()
     f:UpdateStateIcon()
+    f:UpdateRaidIcon()
     f:UpdateCastBar()
 end
 function core:PowerUpdate(f)
@@ -105,6 +109,7 @@ function core:GainedTarget(f)
     f:UpdateHealthText()
     f:UpdateFrameGlow()
     f:UpdateStateIcon()
+    f:UpdateRaidIcon()
     f:UpdateCastBar()
 end
 function core:LostTarget(f)
@@ -121,6 +126,7 @@ function core:LostTarget(f)
     f:UpdateHealthText()
     f:UpdateFrameGlow()
     f:UpdateStateIcon()
+    f:UpdateRaidIcon()
     f:UpdateCastBar()
 end
 function core:ClassificationChanged(f)

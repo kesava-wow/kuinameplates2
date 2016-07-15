@@ -21,6 +21,7 @@ elements/level.lua
 elements/target.lua
 elements/threat.lua
 elements/auras.lua
+elements/raidicon.lua
 
 plugins/animation.lua
 plugins/fading.lua
