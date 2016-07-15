@@ -33,11 +33,8 @@ local CLASS_COLOURS = {
     SHAMAN      = { .10, .54, .97 },
 }
 
-local FONT
-local FONT_STYLE
-local FONT_SIZE_NORMAL
-local FONT_SIZE_SMALL
-
+local FONT,FONT_STYLE,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
+local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE
 
 local target_glow_colour = { .3, .7, 1, 1 }
@@ -58,6 +55,15 @@ function core:SetFrameSizeLocals()
     FRAME_HEIGHT = self.profile.frame_height
     FRAME_WIDTH_MINUS = self.profile.frame_width_minus
     FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
+end
+function core:SetTextOffsetLocals()
+    TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
+    NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
+    BOT_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset
+
+    for k,f in addon:Frames() do
+        f:UpdateNameTextPosition()
+    end
 end
 do
     local FONT_STYLE_ASSOC = {
@@ -321,13 +327,17 @@ do
             end
         end
     end
+    local function UpdateNameTextPosition(f)
+        f.NameText:SetPoint('BOTTOM',f.HealthBar,'TOP',0,NAME_VERTICAL_OFFSET)
+    end
     function core:CreateNameText(f)
         local nametext = CreateFontString(f)
-        nametext:SetPoint('BOTTOM',f.HealthBar,'TOP',0,-3.5)
-
         f.handler:RegisterElement('NameText',nametext)
 
+        f.UpdateNameTextPosition = UpdateNameTextPosition
         f.UpdateNameText = UpdateNameText
+
+        f:UpdateNameTextPosition()
     end
 end
 -- level text ##################################################################
@@ -340,9 +350,9 @@ do
             f.LevelText:ClearAllPoints()
 
             if f.state.no_name then
-                f.LevelText:SetPoint('LEFT',3,-1.5)
+                f.LevelText:SetPoint('LEFT',3,TEXT_VERTICAL_OFFSET)
             else
-                f.LevelText:SetPoint('BOTTOMLEFT',3,-4.5)
+                f.LevelText:SetPoint('BOTTOMLEFT',3,BOT_VERTICAL_OFFSET)
             end
 
             f.LevelText:Show()
@@ -368,9 +378,9 @@ do
             f.HealthText:ClearAllPoints()
 
             if f.state.no_name then
-                f.HealthText:SetPoint('RIGHT',-3,-1.5)
+                f.HealthText:SetPoint('RIGHT',-3,TEXT_VERTICAL_OFFSET)
             else
-                f.HealthText:SetPoint('BOTTOMRIGHT',-3,-4.5)
+                f.HealthText:SetPoint('BOTTOMRIGHT',-3,BOT_VERTICAL_OFFSET)
             end
 
             f.HealthText:Show()

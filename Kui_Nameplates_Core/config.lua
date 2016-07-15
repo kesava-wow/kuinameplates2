@@ -112,6 +112,13 @@ function configChanged.target_glow_colour()
     core:SetTargetGlowLocals()
 end
 
+local function configChangedTextOffset()
+    core:SetTextOffsetLocals()
+end
+configChanged.text_vertical_offset = configChangedTextOffset
+configChanged.name_vertical_offset = configChangedTextOffset
+configChanged.bot_vertical_offset = configChangedTextOffset
+
 local function configChangedReactionColour()
     local ele = addon:GetPlugin('HealthBar')
     ele.colours.hated = core.profile.colour_hated

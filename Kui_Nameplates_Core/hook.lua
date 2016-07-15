@@ -191,6 +191,7 @@ function core:Initialise()
     self:SetFontLocals()
     self:SetBarTextureLocals()
     self:SetTargetGlowLocals()
+    self:SetTextOffsetLocals()
 
     -- set element configuration tables
     self:InitialiseElements()

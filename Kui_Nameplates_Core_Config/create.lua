@@ -67,9 +67,9 @@ local hidenamesCheck = text:CreateCheckBox('hide_names')
 local level_text = text:CreateCheckBox('level_text')
 local health_text = text:CreateCheckBox('health_text')
 
-local name_vertical_offset = text:CreateSlider('name_vertical_offset',-10,10)
+local name_vertical_offset = text:CreateSlider('name_vertical_offset',-20,20)
 name_vertical_offset:SetValueStep(.5)
-local bot_vertical_offset = text:CreateSlider('bot_vertical_offset',-10,10)
+local bot_vertical_offset = text:CreateSlider('bot_vertical_offset',-20,20)
 bot_vertical_offset:SetValueStep(.5)
 
 bot_vertical_offset.enabled = function(p) return p.level_text or p.health_text end
