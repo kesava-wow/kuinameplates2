@@ -36,6 +36,9 @@ local default_config = {
     font_size_small = 9,
     level_text = false,
     health_text = false,
+    text_vertical_offset = -1.5,
+    name_vertical_offset = -2,
+    bot_vertical_offset = -3,
 
     colour_hated = {.7,.2,.1},
     colour_neutral = {1,.8,0},
