@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 17
+local MAJOR, MINOR = 'Kui-1.0', 18
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -194,11 +194,11 @@ kui.num = function(num)
     if num < THOUSAND then
         return num
     elseif num >= TRILLION then
-        return string.format('%.1ft', num/TRILLION)
+        return string.format('%.3ft', num/TRILLION)
     elseif num >= BILLION then
-        return string.format('%.1fb', num/BILLION)
+        return string.format('%.3fb', num/BILLION)
     elseif num >= MILLION then
-        return string.format('%.1fm', num/MILLION)
+        return string.format('%.2fm', num/MILLION)
     elseif num >= THOUSAND then
         return string.format('%.1fk', num/THOUSAND)
     end
