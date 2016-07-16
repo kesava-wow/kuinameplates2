@@ -242,6 +242,8 @@ do
         container:SetScript('OnEnable',OnEnable)
         container:SetScript('OnDisable',OnDisable)
         container:SetScript('OnClick',ColourPickerOnClick)
+        container:SetScript('OnEnter',OnEnter)
+        container:SetScript('OnLeave',OnLeave)
         container.Set = ColourPickerOnSet
 
         if name and type(parent.elements) == 'table' then
