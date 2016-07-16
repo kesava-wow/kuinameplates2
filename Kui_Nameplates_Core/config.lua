@@ -137,6 +137,18 @@ configChanged.colour_friendly = configChangedReactionColour
 configChanged.colour_tapped = configChangedReactionColour
 configChanged.colour_player = configChangedReactionColour
 
+local function configChangedTankColour()
+    local ele = addon:GetPlugin('TankMode')
+    ele.colours = {
+        core.profile.tankmode_tank_colour,
+        core.profile.tankmode_trans_colour,
+        core.profile.tankmode_other_colour
+    }
+end
+configChanged.tankmode_tank_colour = configChangedTankColour
+configChanged.tankmode_trans_colour = configChangedTankColour
+configChanged.tankmode_other_colour = configChangedTankColour
+
 local function configChangedFrameSize()
     core:SetFrameSizeLocals()
 
