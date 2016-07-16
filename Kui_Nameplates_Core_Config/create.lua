@@ -36,6 +36,9 @@ local nameonlyCheck = general:CreateCheckBox('nameonly')
 local nameonly_enemies = general:CreateCheckBox('nameonly_enemies')
 local nameonly_damaged_friends = general:CreateCheckBox('nameonly_damaged_friends')
 
+nameonly_enemies.enabled = function(p) return p.nameonly end
+nameonly_damaged_friends.enabled = function(p) return p.nameonly end
+
 nameonly_sep:SetPoint('TOP',0,-160)
 nameonlyCheck:SetPoint('TOPLEFT',10,-180)
 nameonly_enemies:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
