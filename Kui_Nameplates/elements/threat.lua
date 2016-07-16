@@ -2,6 +2,7 @@
 local addon = KuiNameplates
 local ele = addon:NewElement('Threat',1)
 
+-- TODO config
 local threat_colours = {
     { 1, 0, 0 },
     { 1, .6, 0 }
