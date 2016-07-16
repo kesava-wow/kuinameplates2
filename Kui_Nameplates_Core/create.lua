@@ -590,6 +590,7 @@ do
     local function UpdateCastbarSize(f)
         f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
         f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
+        f.CastBar.spark:SetHeight(CASTBAR_HEIGHT+4)
     end
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
@@ -634,7 +635,7 @@ do
         spark:SetVertexColor(1,1,.8)
         spark:SetTexture('Interface\\AddOns\\Kui_Media\\t\\spark')
         spark:SetPoint('CENTER', castbar:GetRegions(), 'RIGHT', 1, 0)
-        spark:SetSize(6,9)
+        spark:SetWidth(6)
 
         -- hide elements by default
         bg:Hide()
@@ -644,6 +645,7 @@ do
         spellname:Hide()
 
         castbar.bg = bg
+        castbar.spark = spark
         spellicon.bg = spelliconbg
 
         f.handler:RegisterElement('CastBar', castbar)
