@@ -113,6 +113,17 @@ function config_meta:DeleteProfile(profile_name)
     self:SetProfile('default')
 end
 
+function config_meta:RenameProfile(profile_name,new_name)
+    -- copy the named profile to given name and delete the old one
+    if not profile_name or not new_name or new_name == '' then return end
+
+    _G[self.gsv_name].profiles[new_name] = self:GetProfile(profile_name)
+    self.gsv.profiles[new_name] = _G[self.gsv_name].profiles[new_name]
+
+    self:DeleteProfile(profile_name)
+    self:SetProfile(new_name)
+end
+
 --[[
 -- alias for GetProfile(active_profile_name)
 -- sets config_meta.profile to active profile

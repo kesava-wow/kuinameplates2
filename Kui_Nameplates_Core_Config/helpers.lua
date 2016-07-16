@@ -484,6 +484,12 @@ do
         pg:Hide()
         pg.size = { 400,150 }
 
+        function pg:callback(accept)
+            if accept then
+                opt.config:RenameProfile(opt.config.csv.profile,pg.editbox:GetText())
+            end
+        end
+
         local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
         label:SetPoint('CENTER',0,20)
 
@@ -518,8 +524,9 @@ do
         pg.size = { 400,150 }
 
         function pg:callback(accept)
-            opt.config:DeleteProfile(opt.config.csv.profile)
-            --KuiNameplatesCoreConfigProfileDropDown:initialize()
+            if accept then
+                opt.config:DeleteProfile(opt.config.csv.profile)
+            end
         end
 
         local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
