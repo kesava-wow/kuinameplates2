@@ -43,6 +43,10 @@ opt.tooltips = {
     castbar_showall = 'Show castbars on all nameplates, rather than on just the current target',
     castbar_showfriend = 'Show castbars on friendly nameplates (note that castbars are not shown on frames which have nameonly mode active)',
     castbar_showenemy = 'Show castbars on enemy nameplates',
+
+    tankmode_tank_colour = 'Health bar colour to use when securely tanking',
+    tankmode_trans_colour = 'Health bar colour to use when gaining or losing threat',
+    tankmode_other_colour = 'Health bar colour to use when another tank is tanking. This requires the other tank to be in your group and to have their group role set to tank',
 }
 opt.titles = {
     profile = 'Profile',
@@ -98,6 +102,7 @@ opt.titles = {
 
     tank_mode = 'Enable tank mode',
     threat_brackets = 'Show threat brackets',
+    tankmode_colour_sep = 'Bar colours',
     tankmode_tank_colour = 'Tanking',
     tankmode_trans_colour = 'Transitional',
     tankmode_other_colour = 'Offtank',
