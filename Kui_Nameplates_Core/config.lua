@@ -69,6 +69,7 @@ local default_config = {
     castbar_showenemy = true,
 
     tank_mode = true,
+    tankmode_force_enable = false,
     threat_brackets = false,
     tankmode_tank_colour = { 0, 1, 0 },
     tankmode_trans_colour = { 1, 1, 0 },
@@ -82,6 +83,10 @@ function configChanged.tank_mode(v)
     else
         addon:GetPlugin('TankMode'):Disable()
     end
+end
+function configChanged.tankmode_force_enable(v)
+    local ele = addon:GetPlugin('TankMode')
+    ele:SetForceEnable(v)
 end
 
 function configChanged.castbar_enable(v)
@@ -188,6 +193,7 @@ local configLoaded = {}
 configLoaded.colour_hated = configChangedReactionColour
 
 configLoaded.tank_mode = configChanged.tank_mode
+configLoaded.tankmode_force_enable = configChanged.tankmode_force_enable
 configLoaded.castbar_enable = configChanged.castbar_enable
 configLoaded.level_text = configChanged.level_text
 
