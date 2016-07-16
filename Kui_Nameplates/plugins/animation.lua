@@ -1,5 +1,4 @@
 -- provide status bar animations
--- TODO hide/show smoother so it doesn't update when disabled
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BarAnimation')
