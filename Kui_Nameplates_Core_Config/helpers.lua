@@ -462,6 +462,64 @@ do
         opt.Popup.pages.new_profile = new_profile
     end
 
+    -- rename profile ##########################################################
+    local function RenameProfile_OnShow(self)
+        self.editbox:SetText(opt.config.csv.profile)
+        self.editbox:SetFocus()
+        self.label:SetText(string.format(
+            opt.titles['rename_profile_label'],
+            opt.config.csv.profile
+        ))
+    end
+    local function CreatePopupPage_RenameProfile()
+        local pg = CreateFrame('Frame',nil,opt.Popup)
+        pg:SetAllPoints(opt.Popup)
+        pg:Hide()
+        pg.size = { 400,150 }
+
+        local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
+        label:SetPoint('CENTER',0,20)
+
+        local profile_name = CreateFrame('EditBox',nil,pg,'InputBoxTemplate')
+        profile_name:SetAutoFocus(false)
+        profile_name:EnableMouse(true)
+        profile_name:SetMaxLetters(50)
+        profile_name:SetPoint('CENTER')
+        profile_name:SetSize(150,30)
+
+        pg.label = label
+        pg.editbox = profile_name
+
+        pg:SetScript('OnShow',RenameProfile_OnShow)
+        profile_name:SetScript('OnEnterPressed',NewProfile_OnEnterPressed)
+        profile_name:SetScript('OnEscapePressed',NewProfile_OnEscapePressed)
+
+        opt.Popup.pages.rename_profile = pg
+    end
+
+    -- delete profile ##########################################################
+    local function DeleteProfile_OnShow(self)
+        self.label:SetText(string.format(
+            opt.titles['delete_profile_label'],
+            opt.config.csv.profile
+        ))
+    end
+    local function CreatePopupPage_DeleteProfile()
+        local pg = CreateFrame('Frame',nil,opt.Popup)
+        pg:SetAllPoints(opt.Popup)
+        pg:Hide()
+        pg.size = { 400,150 }
+
+        local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
+        label:SetPoint('CENTER',0,10)
+
+        pg.label = label
+
+        pg:SetScript('OnShow',DeleteProfile_OnShow)
+
+        opt.Popup.pages.delete_profile = pg
+    end
+
     -- colour picker ###########################################################
     local function ColourPicker_GetColour(self)
         local r = self.r:GetValue() or 255
@@ -623,6 +681,8 @@ do
 
         CreatePopupPage_NewProfile()
         CreatePopupPage_ColourPicker()
+        CreatePopupPage_RenameProfile()
+        CreatePopupPage_DeleteProfile()
 
         opt:HookScript('OnHide',function(self)
             self.Popup:Hide()
@@ -677,11 +737,17 @@ function opt:Initialise()
     p_delete:SetPoint('TOPRIGHT',-10,-26)
     p_delete:SetText('Delete profile')
     p_delete:SetSize(110,22)
+    p_delete:SetScript('OnClick',function(self)
+        opt.Popup:ShowPage('delete_profile')
+    end)
 
     local p_rename = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
     p_rename:SetPoint('RIGHT',p_delete,'LEFT',-5,0)
     p_rename:SetText('Rename profile')
     p_rename:SetSize(115,22)
+    p_rename:SetScript('OnClick',function(self)
+        opt.Popup:ShowPage('rename_profile')
+    end)
 
     -- create backgrounds
     local tl_bg = CreateFrame('Frame',nil,self)
