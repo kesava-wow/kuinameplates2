@@ -11,7 +11,8 @@ opt.page_names = {
     threat      = 'Threat',
 }
 opt.tooltips = {
-    bar_texture = 'The texture used for the health bar (provided by LibSharedMedia)',
+    bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
+    bar_animation = 'The style of animation to use on health/power bars',
     nameonly = 'Hide the healthbars of friendly or unattackable units',
 
     hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names". Note that this does not affect nameonly mode',
@@ -57,6 +58,7 @@ opt.titles = {
     rename_profile_label = 'Enter new name for |cffffffff%s',
 
     bar_texture = 'Bar texture',
+    bar_animation = 'Bar animation',
     nameonly = 'Use nameonly mode',
     glow_as_shadow = 'Show frame shadow',
     target_glow = 'Show target glow',
