@@ -3,13 +3,18 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('TankMode')
 
-local force_enable,spec_enabled
+local force_enable,spec_enabled,offtank_enable
 -- local functions #############################################################
 local function UpdateFrames()
     -- update threat colour on currently visible frames
     for i,f in addon:Frames() do
         if f:IsShown() then
-            mod:GlowColourChange(f)
+            if offtank_enable then
+                mod:Show(f)
+            else
+                f.state.tank_mode_offtank = nil
+                mod:GlowColourChange(f)
+            end
         end
     end
 end
@@ -54,6 +59,8 @@ end
 function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
     if unit == 'player' or UnitIsUnit('player',unit) then return end
 
+    print('threat list update')
+
     f.state.tank_mode_offtank = nil
 
     local status = UnitThreatSituation('player',unit)
@@ -63,10 +70,8 @@ function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
 
         if UnitExists(tank_unit) and not UnitIsUnit(tank_unit,'player') then
             if UnitInParty(tank_unit) or UnitInRaid(tank_unit) then
-                print(UnitName(tank_unit)..' is tanking '..f.state.name)
-
-                if  UnitName(tank_unit) == 'Oto the Protector' or
-                    UnitGroupRolesAssigned(tank_unit) == 'TANK'
+                if UnitGroupRolesAssigned(tank_unit) == 'TANK' or
+                   UnitName(tank_unit) == 'Oto the Protector'
                 then
                     -- unit is attacking another tank
                     f.state.tank_mode_offtank = true
@@ -79,7 +84,11 @@ function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
     self:GlowColourChange(f)
 end
 function mod:SpecUpdate()
-    if not force_enable then
+    local was_enabled = spec_enabled
+
+    if force_enable then
+        spec_enabled = true
+    else
         local spec = GetSpecialization()
         local role = spec and GetSpecializationRole(spec) or nil
 
@@ -88,20 +97,40 @@ function mod:SpecUpdate()
         else
             spec_enabled = nil
         end
-    else
-        spec_enabled = true
     end
 
-    UpdateFrames()
+    if spec_enabled ~= was_enabled then
+        self:GroupUpdate()
+        UpdateFrames()
+    end
+end
+function mod:GroupUpdate()
+    if GetNumGroupMembers() > 0 and spec_enabled then
+        if not offtank_enable then
+            offtank_enable = true
+
+            self:RegisterMessage('Show')
+            self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
+
+            UpdateFrames()
+        end
+    elseif offtank_enable then
+        offtank_enable = nil
+
+        self:UnregisterMessage('Show')
+        self:UnregisterEvent('UNIT_THREAT_LIST_UPDATE')
+
+        UpdateFrames()
+    end
 end
 -- register ####################################################################
 function mod:OnEnable()
-    self:RegisterMessage('Show')
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('GlowColourChange')
 
+    self:RegisterEvent('GROUP_ROSTER_UPDATE','GroupUpdate')
     self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','SpecUpdate')
-    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
+
     self:SpecUpdate()
 end
 function mod:OnDisable()
