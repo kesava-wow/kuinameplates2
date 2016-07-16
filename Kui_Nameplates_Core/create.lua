@@ -37,7 +37,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
 local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
-local BAR_TEXTURE
+local BAR_TEXTURE,BAR_ANIMATION
 
 local FRAME_GLOW_SIZE = 8
 
@@ -136,6 +136,19 @@ do
     end
     function core:SetBarTextureLocals()
         BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,self.profile.bar_texture)
+    end
+end
+do
+    local ANIM_ASSOC = {
+        nil,'smooth','cutaway'
+    }
+    function core:SetBarAnimation()
+        BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
+
+        for i,f in addon:Frames() do
+            f.handler:SetBarAnimation(f.HealthBar,BAR_ANIMATION)
+            f.handler:SetBarAnimation(f.PowerBar,BAR_ANIMATION)
+        end
     end
 end
 -- helper functions ############################################################
@@ -260,7 +273,7 @@ do
         healthbar:SetPoint('TOPLEFT',f.bg,1,-1)
         healthbar:SetPoint('RIGHT',f.bg,-1,0)
 
-        f.handler:SetBarAnimation(healthbar,'cutaway')
+        f.handler:SetBarAnimation(healthbar,BAR_ANIMATION)
         f.handler:RegisterElement('HealthBar',healthbar)
 
         f.UpdateMainBars = UpdateMainBars
@@ -288,7 +301,7 @@ do
         powerbar:SetPoint('TOPLEFT',f.HealthBar,'BOTTOMLEFT',0,-1)
         powerbar:SetPoint('RIGHT',f.bg,-1,0)
 
-        f.handler:SetBarAnimation(powerbar,'cutaway')
+        f.handler:SetBarAnimation(powerbar,BAR_ANIMATION)
         f.handler:RegisterElement('PowerBar',powerbar)
 
         f.UpdatePowerBar = UpdatePowerBar

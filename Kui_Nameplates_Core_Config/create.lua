@@ -23,7 +23,7 @@ local glow_as_shadow = general:CreateCheckBox('glow_as_shadow')
 local target_glow = general:CreateCheckBox('target_glow')
 local target_glow_colour = general:CreateColourPicker('target_glow_colour')
 
-bar_animation.SelectTable = {'Smooth','Cutaway'}
+bar_animation.SelectTable = {'None','Smooth','Cutaway'}
 
 bar_texture:SetPoint('TOPLEFT',-5,-30)
 bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',-20,0)

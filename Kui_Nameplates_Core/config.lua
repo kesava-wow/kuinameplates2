@@ -24,6 +24,7 @@ local DEFAULT_BAR = 'Kui status bar'
 -- default configuration #######################################################
 local default_config = {
     bar_texture = DEFAULT_BAR,
+    bar_animation = 3,
     nameonly = true,
     glow_as_shadow = true,
     target_glow = true,
@@ -115,6 +116,10 @@ end
 
 function configChanged.bar_texture()
     core:configChangedBarTexture()
+end
+
+function configChanged.bar_animation()
+    core:SetBarAnimation()
 end
 
 function configChanged.target_glow_colour()

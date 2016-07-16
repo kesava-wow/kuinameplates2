@@ -1,4 +1,5 @@
 -- provide status bar animations
+-- TODO hide/show smoother so it doesn't update when disabled
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BarAnimation')
@@ -67,9 +68,21 @@ do
         kui.frameFadeRemoveFrame(bar.KuiFader)
         bar.KuiFader:SetAlpha(0)
     end
+    local function DisableAnimationCutaway(bar)
+        ClearAnimationCutaway(bar)
+
+        bar.SetValue = bar.orig_anim_SetValue
+        bar.orig_anim_SetValue = nil
+
+        bar.SetStatusBarColor = bar.orig_anim_SetStatusBarColor
+        bar.orig_anim_SetStatusBarColor = nil
+
+        bar.KuiFader = nil
+    end
     anims['cutaway'] = {
         set   = SetAnimationCutaway,
-        clear = ClearAnimationCutaway
+        clear = ClearAnimationCutaway,
+        disable = DisableAnimationCutaway
     }
 end
 -- smooth ######################################################################
@@ -117,26 +130,51 @@ do
             smoothing[bar] = nil
         end
     end
+    local function DisableAnimationSmooth(bar)
+        ClearAnimationSmooth(bar)
+
+        bar.SetValue = bar.orig_anim_SetValue
+        bar.orig_anim_SetValue = nil
+    end
     anims['smooth'] = {
         set   = SetAnimationSmooth,
-        clear = ClearAnimationSmooth
+        clear = ClearAnimationSmooth,
+        disable = DisableAnimationSmooth
     }
 end
 -- prototype additions #########################################################
 function addon.Nameplate.SetBarAnimation(f,bar,anim_id)
-    if anims[anim_id] then
+    f = f.parent
+
+    if bar.animation and anims[bar.animation] then
+        -- disable current animation
+        anims[bar.animation].disable(bar)
+    end
+
+    if anim_id and anims[anim_id] then
         anims[anim_id].set(bar)
     else
+        -- no animation; remove from animated bars
+        if f.animated_bars and #f.animated_bars > 0 then
+            for i,a_bar in ipairs(f.animated_bars) do
+                if bar == a_bar then
+                    tremove(f.animated_bars,i)
+                end
+            end
+        end
+
         return
     end
 
-    f = f.parent
     if not f.animated_bars then
         f.animated_bars = {}
     end
 
+    if not bar.animation then
+        tinsert(f.animated_bars, bar)
+    end
+
     bar.animation = anim_id
-    tinsert(f.animated_bars, bar)
 end
 -- messages ####################################################################
 function mod:Hide(f)
