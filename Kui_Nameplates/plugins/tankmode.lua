@@ -150,6 +150,6 @@ function mod:Initialise()
     self.colours = {
         { 0, 1, 0 }, -- player is tanking
         { 1, 1, 0 }, -- player is gaining/losing threat
-        { 1, 0, 1 }  -- other tank is tanking
+        { .6, 0, 1 }  -- other tank is tanking
     }
 end

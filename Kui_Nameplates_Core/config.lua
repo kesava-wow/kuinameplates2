@@ -70,6 +70,9 @@ local default_config = {
 
     tank_mode = true,
     threat_brackets = false,
+    tankmode_tank_colour = { 0, 1, 0 },
+    tankmode_trans_colour = { 1, 1, 0 },
+    tankmode_other_colour = { .6, 0, 1 },
 }
 -- config changed functions ####################################################
 local configChanged = {}

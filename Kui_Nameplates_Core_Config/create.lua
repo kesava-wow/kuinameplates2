@@ -201,6 +201,15 @@ castbar_enemy.enabled = function(p) return p.castbar_enable and p.castbar_showal
 -- threat ######################################################################
 local tankmodeCheck = threat:CreateCheckBox('tank_mode')
 local threatbracketsCheck = threat:CreateCheckBox('threat_brackets')
+local tankmode_colour_sep = threat:CreateSeperator('tankmode_colour_sep')
+local tankmode_tank_colour = threat:CreateColourPicker('tankmode_tank_colour')
+local tankmode_trans_colour = threat:CreateColourPicker('tankmode_trans_colour')
+local tankmode_other_colour = threat:CreateColourPicker('tankmode_other_colour')
 
 tankmodeCheck:SetPoint('TOPLEFT',10,-10)
 threatbracketsCheck:SetPoint('TOPLEFT',tankmodeCheck,'BOTTOMLEFT')
+
+tankmode_colour_sep:SetPoint('TOP',0,-100)
+tankmode_tank_colour:SetPoint('TOPLEFT',15,-120)
+tankmode_trans_colour:SetPoint('LEFT',tankmode_tank_colour,'RIGHT')
+tankmode_other_colour:SetPoint('LEFT',tankmode_trans_colour,'RIGHT')

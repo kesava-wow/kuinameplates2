@@ -98,4 +98,7 @@ opt.titles = {
 
     tank_mode = 'Enable tank mode',
     threat_brackets = 'Show threat brackets',
+    tankmode_tank_colour = 'Tanking',
+    tankmode_trans_colour = 'Transitional',
+    tankmode_other_colour = 'Offtank',
 }
