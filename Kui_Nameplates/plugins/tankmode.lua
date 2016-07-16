@@ -3,6 +3,11 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('TankMode')
 
+local GetNumGroupMembers,UnitIsUnit,UnitIsFriend,UnitExists,UnitInParty,
+      UnitInRaid,UnitGroupRolesAssigned =
+      GetNumGroupMembers,UnitIsUnit,UnitIsFriend,UnitExists,UnitInParty,
+      UnitInRaid,UnitGroupRolesAssigned
+
 local force_enable,spec_enabled,offtank_enable
 -- local functions #############################################################
 local function UpdateFrames()
@@ -57,7 +62,12 @@ function mod:GlowColourChange(f)
 end
 -- events ######################################################################
 function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
-    if unit == 'player' or UnitIsUnit('player',unit) then return end
+    if  unit == 'player' or
+        UnitIsUnit('player',unit) or
+        UnitIsFriend('player',unit)
+    then
+        return
+    end
 
     f.state.tank_mode_offtank = nil
 
@@ -68,9 +78,7 @@ function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
 
         if UnitExists(tank_unit) and not UnitIsUnit(tank_unit,'player') then
             if UnitInParty(tank_unit) or UnitInRaid(tank_unit) then
-                if UnitGroupRolesAssigned(tank_unit) == 'TANK' or
-                   UnitName(tank_unit) == 'Oto the Protector'
-                then
+                if UnitGroupRolesAssigned(tank_unit) == 'TANK' then
                     -- unit is attacking another tank
                     f.state.tank_mode_offtank = true
                 end
