@@ -43,7 +43,7 @@ opt.tooltips = {
     castbar_showenemy = 'Show castbars on enemy nameplates',
 
     tank_mode = 'Recolour the health bars of units you are actively tanking',
-    threat_brackets = 'Show triangles around nameplates which indicate threat status',
+    threat_brackets = 'Show triangles around nameplates which indicate threat status (this does not require tank mode to be active)',
     tankmode_tank_colour = 'Health bar colour to use when securely tanking',
     tankmode_trans_colour = 'Health bar colour to use when gaining or losing threat',
     tankmode_other_colour = 'Health bar colour to use when another tank is tanking. This requires the other tank to be in your group and to have their group role set to tank',

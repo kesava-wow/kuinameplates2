@@ -206,6 +206,10 @@ local tankmode_tank_colour = threat:CreateColourPicker('tankmode_tank_colour')
 local tankmode_trans_colour = threat:CreateColourPicker('tankmode_trans_colour')
 local tankmode_other_colour = threat:CreateColourPicker('tankmode_other_colour')
 
+tankmode_tank_colour.enabled = function(p) return p.tank_mode end
+tankmode_trans_colour.enabled = function(p) return p.tank_mode end
+tankmode_other_colour.enabled = function(p) return p.tank_mode end
+
 tankmodeCheck:SetPoint('TOPLEFT',10,-10)
 threatbracketsCheck:SetPoint('TOPLEFT',tankmodeCheck,'BOTTOMLEFT')
 
