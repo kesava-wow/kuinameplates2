@@ -17,17 +17,29 @@ opt.pages[1]:ShowPage()
 
 -- create elements #############################################################
 -- general #####################################################################
-local bar_texture = general:CreateDropDown('bar_texture')
-local nameonlyCheck = general:CreateCheckBox('nameonly')
+local bar_texture = general:CreateDropDown('bar_texture',175)
+local bar_animation = general:CreateDropDown('bar_animation',175)
 local glow_as_shadow = general:CreateCheckBox('glow_as_shadow')
 local target_glow = general:CreateCheckBox('target_glow')
 local target_glow_colour = general:CreateColourPicker('target_glow_colour')
 
-bar_texture:SetPoint('TOP',0,-30)
-nameonlyCheck:SetPoint('TOPLEFT',10,-70)
-glow_as_shadow:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
+bar_animation.SelectTable = {'Smooth','Cutaway'}
+
+bar_texture:SetPoint('TOPLEFT',-5,-30)
+bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',-20,0)
+glow_as_shadow:SetPoint('TOPLEFT',10,-70)
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',200,0)
+
+local nameonly_sep = general:CreateSeperator('nameonly_sep')
+local nameonlyCheck = general:CreateCheckBox('nameonly')
+local nameonly_enemies = general:CreateCheckBox('nameonly_enemies')
+local nameonly_damaged_friends = general:CreateCheckBox('nameonly_damaged_friends')
+
+nameonly_sep:SetPoint('TOP',0,-160)
+nameonlyCheck:SetPoint('TOPLEFT',10,-180)
+nameonly_enemies:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
+nameonly_damaged_friends:SetPoint('LEFT',nameonly_enemies,'RIGHT',150,0)
 
 local colour_sep = general:CreateSeperator('reaction_colour_sep')
 local colour_hated = general:CreateColourPicker('colour_hated')
@@ -36,8 +48,8 @@ local colour_friendly = general:CreateColourPicker('colour_friendly')
 local colour_tapped = general:CreateColourPicker('colour_tapped')
 local colour_player = general:CreateColourPicker('colour_player')
 
-colour_sep:SetPoint('TOP',0,-180)
-colour_hated:SetPoint('TOPLEFT',15,-200)
+colour_sep:SetPoint('TOP',0,-270)
+colour_hated:SetPoint('TOPLEFT',15,-290)
 colour_neutral:SetPoint('LEFT',colour_hated,'RIGHT')
 colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
 colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')

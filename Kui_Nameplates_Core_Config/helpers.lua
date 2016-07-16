@@ -88,17 +88,40 @@ do
         return check
     end
 
+    local function DropDownOnChanged(info,self,selected)
+        if self.env and opt.config then
+            opt.config:SetConfig(self.env,selected)
+        end
+    end
+    local function DropDownGenericInit(self)
+        local info = UIDropDownMenu_CreateInfo()
+
+        for k,f in ipairs(self.SelectTable) do
+            info.text = f
+            info.arg1 = self
+            info.arg2 = k
+            info.checked = nil
+            info.func = DropDownOnChanged
+
+            UIDropDownMenu_AddButton(info)
+        end
+
+        if self.env and opt.profile[self.env] then
+            UIDropDownMenu_SetSelectedName(self,self.SelectTable[opt.profile[self.env]])
+            self.manual = true
+        end
+    end
     local function DropDownOnShow(self)
+        if self.SelectTable and not self.initialize then
+            -- give this menu the generic initialise function
+            self.initialize = DropDownGenericInit
+        end
+
         if type(self.initialize) ~= 'function' then return end
         self:initialize()
 
         if not self.manual and self.env then
             UIDropDownMenu_SetSelectedName(self,opt.profile[self.env])
-        end
-    end
-    local function DropDownOnChanged(info,self,selected)
-        if self.env and opt.config then
-            opt.config:SetConfig(self.env,selected)
         end
     end
     function opt.CreateDropDown(parent, name, width)
