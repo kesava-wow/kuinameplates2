@@ -102,9 +102,10 @@ function config_meta:GetProfile(profile_name)
     return self.gsv.profiles[profile_name]
 end
 
+--[[
+-- delete named profile and switch to default
+--]]
 function config_meta:DeleteProfile(profile_name)
-    -- delete named profile from the meta and the global variable
-    -- and switch back to default
     if not profile_name then return end
 
     _G[self.gsv_name].profiles[profile_name] = nil
@@ -113,8 +114,10 @@ function config_meta:DeleteProfile(profile_name)
     self:SetProfile('default')
 end
 
+--[[
+-- copy named profile to given name and delete the old one
+--]]
 function config_meta:RenameProfile(profile_name,new_name)
-    -- copy the named profile to given name and delete the old one
     if not profile_name or not new_name or new_name == '' then return end
 
     _G[self.gsv_name].profiles[new_name] = self:GetProfile(profile_name)
