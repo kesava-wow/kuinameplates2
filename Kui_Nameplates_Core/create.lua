@@ -988,7 +988,7 @@ do
 
         f.NameText:ClearAllPoints()
         f.NameText:SetParent(f.HealthBar)
-        f.NameText:SetPoint('BOTTOM', f.HealthBar, 'TOP', 0, -3.5)
+        f:UpdateNameTextPosition()
 
         f.GuildText:Hide()
 
