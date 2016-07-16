@@ -11,12 +11,10 @@ opt.page_names = {
     threat      = 'Threat',
 }
 opt.tooltips = {
-    bar_texture = 'The texture used for the health bar',
+    bar_texture = 'The texture used for the health bar (provided by LibSharedMedia)',
     nameonly = 'Hide the healthbars of friendly or unattackable units',
-    hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names". Note that this does not affect nameonly mode',
-    tank_mode = 'Recolour the health bars of units you are actively tanking',
-    threat_brackets = 'Show triangles around nameplates which indicate threat status',
 
+    hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names". Note that this does not affect nameonly mode',
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
     font_size_normal = 'Standard font size (name, etc)',
     font_size_small = 'Smaller font size (vendor, spell name, etc)',
@@ -44,6 +42,8 @@ opt.tooltips = {
     castbar_showfriend = 'Show castbars on friendly nameplates (note that castbars are not shown on frames which have nameonly mode active)',
     castbar_showenemy = 'Show castbars on enemy nameplates',
 
+    tank_mode = 'Recolour the health bars of units you are actively tanking',
+    threat_brackets = 'Show triangles around nameplates which indicate threat status',
     tankmode_tank_colour = 'Health bar colour to use when securely tanking',
     tankmode_trans_colour = 'Health bar colour to use when gaining or losing threat',
     tankmode_other_colour = 'Health bar colour to use when another tank is tanking. This requires the other tank to be in your group and to have their group role set to tank',
