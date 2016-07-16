@@ -33,21 +33,17 @@ local CLASS_COLOURS = {
     SHAMAN      = { .10, .54, .97 },
 }
 
+local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
+local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE
 
-local target_glow_colour = { .3, .7, 1, 1 }
-
-local FRAME_WIDTH = 132
-local FRAME_HEIGHT = 13
-local FRAME_WIDTH_MINUS = 72
-local FRAME_HEIGHT_MINUS = 9
 local FRAME_GLOW_SIZE = 8
 
 -- config functions ############################################################
 function core:SetTargetGlowLocals()
-    target_glow_colour = self.profile.target_glow_colour
+    TARGET_GLOW_COLOUR = self.profile.target_glow_colour
 end
 function core:SetFrameSizeLocals()
     -- update size locals
@@ -55,6 +51,11 @@ function core:SetFrameSizeLocals()
     FRAME_HEIGHT = self.profile.frame_height
     FRAME_WIDTH_MINUS = self.profile.frame_width_minus
     FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
+    CASTBAR_HEIGHT = self.profile.castbar_height
+
+    for k,f in addon:Frames() do
+        f:UpdateCastbarSize()
+    end
 end
 function core:SetTextOffsetLocals()
     TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
@@ -456,8 +457,8 @@ do
 
         if f.state.target and core.profile.target_glow then
             -- target glow colour
-            f.ThreatGlow:SetVertexColor(unpack(target_glow_colour))
-            f.TargetGlow:SetVertexColor(unpack(target_glow_colour))
+            f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+            f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetGlow:Show()
         else
             if f.state.glowing then
@@ -516,7 +517,7 @@ function core:CreateTargetGlow(f)
     targetglow:SetHeight(7)
     targetglow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,2)
     targetglow:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
-    targetglow:SetVertexColor(unpack(target_glow_colour))
+    targetglow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
     targetglow:Hide()
 
     f.TargetGlow = targetglow
@@ -586,11 +587,14 @@ do
     local function UpdateSpellNamePosition(f)
         f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,-2+TEXT_VERTICAL_OFFSET)
     end
+    local function UpdateCastbarSize(f)
+        f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
+        f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
+    end
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-        bg:SetHeight(5)
         bg:SetPoint('TOPLEFT', f.bg, 'BOTTOMLEFT', 0, -1)
         bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
 
@@ -598,7 +602,6 @@ do
         castbar:SetFrameLevel(0)
         castbar:SetStatusBarTexture(BAR_TEXTURE)
         castbar:SetStatusBarColor(.6, .6, .75)
-        castbar:SetHeight(3)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
@@ -653,8 +656,10 @@ do
         f.UpdateCastBar = UpdateCastBar
         f.SpellIconSetWidth = SpellIconSetWidth
         f.UpdateSpellNamePosition = UpdateSpellNamePosition
+        f.UpdateCastbarSize = UpdateCastbarSize
 
         f:UpdateSpellNamePosition()
+        f:UpdateCastbarSize()
     end
 end
 -- state icons #################################################################

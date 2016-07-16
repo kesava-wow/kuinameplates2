@@ -140,11 +140,14 @@ local frame_width_minus = framesizes:CreateSlider('frame_width_minus',20,200)
 frame_width_minus:SetWidth(190)
 local frame_height_minus = framesizes:CreateSlider('frame_height_minus',3,40)
 frame_height_minus:SetWidth(190)
+local castbar_height = framesizes:CreateSlider('castbar_height',3,20)
+castbar_height:SetWidth(190)
 
 frame_width:SetPoint('TOPLEFT',10,-30)
 frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
 frame_width_minus:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-30)
 frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
+castbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-30)
 
 -- auras #######################################################################
 local auras_enabled = auras:CreateCheckBox('auras_enabled')

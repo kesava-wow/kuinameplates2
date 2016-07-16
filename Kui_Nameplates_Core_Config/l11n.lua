@@ -76,6 +76,7 @@ opt.titles = {
     frame_height = 'Frame height',
     frame_width_minus = 'Minus frame width',
     frame_height_minus = 'Minus frame height',
+    castbar_height = 'Castbar height',
 
     auras_enabled = 'Show auras',
     auras_whitelist = 'Use whitelist',

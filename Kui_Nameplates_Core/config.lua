@@ -50,6 +50,7 @@ local default_config = {
     frame_height = 13,
     frame_width_minus = 72,
     frame_height_minus = 9,
+    castbar_height = 5,
 
     auras_enabled = true,
     auras_whitelist = true,
@@ -147,6 +148,7 @@ configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize
 configChanged.frame_width_minus = configChangedFrameSize
 configChanged.frame_height_minus = configChangedFrameSize
+configChanged.castbar_height = configChangedFrameSize
 
 local function configChangedFontOption()
     core:configChangedFontOption()
