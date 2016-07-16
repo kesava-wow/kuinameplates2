@@ -662,6 +662,17 @@ function opt:Initialise()
         UIDropDownMenu_SetSelectedName(self,opt.config.csv.profile)
     end)
 
+    -- create profile buttons
+    local p_delete = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
+    p_delete:SetPoint('TOPRIGHT',-10,-26)
+    p_delete:SetText('Delete profile')
+    p_delete:SetSize(110,22)
+
+    local p_rename = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
+    p_rename:SetPoint('RIGHT',p_delete,'LEFT',-5,0)
+    p_rename:SetText('Rename profile')
+    p_rename:SetSize(115,22)
+
     -- create backgrounds
     local tl_bg = CreateFrame('Frame',nil,self)
     tl_bg:SetBackdrop({
