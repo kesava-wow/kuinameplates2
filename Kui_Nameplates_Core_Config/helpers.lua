@@ -517,6 +517,11 @@ do
         pg:Hide()
         pg.size = { 400,150 }
 
+        function pg:callback(accept)
+            opt.config:DeleteProfile(opt.config.csv.profile)
+            --KuiNameplatesCoreConfigProfileDropDown:initialize()
+        end
+
         local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
         label:SetPoint('CENTER',0,10)
 
@@ -733,11 +738,12 @@ function opt:Initialise()
             info.func = self.OnChanged
             UIDropDownMenu_AddButton(info)
         end
+
+        UIDropDownMenu_SetSelectedName(self,opt.config.csv.profile)
     end
 
     p_dd:HookScript('OnShow',function(self)
         self:initialize()
-        UIDropDownMenu_SetSelectedName(self,opt.config.csv.profile)
     end)
 
     -- create profile buttons

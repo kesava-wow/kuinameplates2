@@ -102,6 +102,17 @@ function config_meta:GetProfile(profile_name)
     return self.gsv.profiles[profile_name]
 end
 
+function config_meta:DeleteProfile(profile_name)
+    -- delete named profile from the meta and the global variable
+    -- and switch back to default
+    if not profile_name then return end
+
+    _G[self.gsv_name].profiles[profile_name] = nil
+    self.gsv.profiles[profile_name] = nil
+
+    self:SetProfile('default')
+end
+
 --[[
 -- alias for GetProfile(active_profile_name)
 -- sets config_meta.profile to active profile
