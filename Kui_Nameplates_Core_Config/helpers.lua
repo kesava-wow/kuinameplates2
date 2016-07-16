@@ -407,6 +407,12 @@ do
         if self.pages[page_name] then
             self.pages[page_name]:Show()
             self.active_page = self.pages[page_name]
+
+            if self.active_page.size then
+                self:SetSize(unpack(self.active_page.size))
+            else
+                self:SetSize(400,300)
+            end
         end
 
         self:Show()
@@ -427,6 +433,7 @@ do
         local new_profile = CreateFrame('Frame',nil,opt.Popup)
         new_profile:SetAllPoints(opt.Popup)
         new_profile:Hide()
+        new_profile.size = { 400,150 }
 
         function new_profile:callback(accept)
             if accept then
@@ -434,6 +441,10 @@ do
                 opt.config:SetProfile(self.editbox:GetText())
             end
         end
+
+        local label = new_profile:CreateFontString(nil,'ARTWORK','GameFontNormal')
+        label:SetText(opt.titles['new_profile_label'])
+        label:SetPoint('CENTER',0,20)
 
         local profile_name = CreateFrame('EditBox',nil,new_profile,'InputBoxTemplate')
         profile_name:SetAutoFocus(false)
@@ -581,7 +592,6 @@ do
                 top=12,right=12,bottom=11,left=11
             }
         })
-        popup:SetSize(400,300)
         popup:SetPoint('CENTER')
         popup:SetFrameStrata('DIALOG')
         popup:EnableMouse(true)

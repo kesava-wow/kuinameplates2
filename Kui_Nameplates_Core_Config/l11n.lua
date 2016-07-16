@@ -52,6 +52,7 @@ opt.tooltips = {
 opt.titles = {
     profile = 'Profile',
     new_profile = 'New profile...',
+    new_profile_label = 'Enter profile name',
 
     bar_texture = 'Bar texture',
     nameonly = 'Use nameonly mode',
