@@ -73,23 +73,24 @@ end
 -- text ########################################################################
 local font_face = text:CreateDropDown('font_face',175)
 local font_style = text:CreateDropDown('font_style',175)
-
 local font_size_normal = text:CreateSlider('font_size_normal',1,20)
-font_size_normal:SetWidth(190)
 local font_size_small = text:CreateSlider('font_size_small',1,20)
-font_size_small:SetWidth(190)
-
 local hidenamesCheck = text:CreateCheckBox('hide_names')
 local level_text = text:CreateCheckBox('level_text')
 local health_text = text:CreateCheckBox('health_text')
-
 local text_vertical_offset = text:CreateSlider('text_vertical_offset',-20,20)
+local name_vertical_offset = text:CreateSlider('name_vertical_offset',-20,20)
+local bot_vertical_offset = text:CreateSlider('bot_vertical_offset',-20,20)
+
+font_style.SelectTable = { 'None','Outline','Monochrome' }
+
+font_size_normal:SetWidth(190)
+font_size_small:SetWidth(190)
+
 text_vertical_offset:SetWidth(120)
 text_vertical_offset:SetValueStep(.5)
-local name_vertical_offset = text:CreateSlider('name_vertical_offset',-20,20)
 name_vertical_offset:SetWidth(120)
 name_vertical_offset:SetValueStep(.5)
-local bot_vertical_offset = text:CreateSlider('bot_vertical_offset',-20,20)
 bot_vertical_offset:SetWidth(120)
 bot_vertical_offset:SetValueStep(.5)
 
@@ -121,26 +122,6 @@ function font_face:initialize()
 
         UIDropDownMenu_AddButton(info)
     end
-end
-
-font_style.SelectTable = { 'None','Outline','Monochrome' }
-function font_style:initialize()
-    local info = UIDropDownMenu_CreateInfo()
-
-    for k,f in ipairs(self.SelectTable) do
-        info.text = f
-        info.arg1 = self
-        info.arg2 = k
-        info.checked = nil
-        info.func = self.OnChanged
-
-        UIDropDownMenu_AddButton(info)
-    end
-
-    UIDropDownMenu_SetSelectedName(self,self.SelectTable[opt.profile[self.env]])
-
-    -- we manually set the selected entry
-    self.manual = true
 end
 
 -- frame sizes #################################################################
