@@ -16,18 +16,28 @@ end
 -- mod functions ###############################################################
 function mod:SetForceEnable(b)
     force_enable = b == true
-    self:Update()
+    self:SpecUpdate()
 end
 -- messages ####################################################################
+function mod:Show(f)
+    self:UNIT_THREAT_LIST_UPDATE(nil,f,f.unit)
+end
 function mod:HealthColourChange(f,caller)
     if caller and caller == self then return end
     self:GlowColourChange(f)
 end
 function mod:GlowColourChange(f)
     -- tank mode health bar colours
-    if self.enabled and spec_enabled and f.state.threat and f.state.threat > 0 then
+    if self.enabled and spec_enabled and
+        ((f.state.threat and f.state.threat > 0) or
+        f.state.tank_mode_offtank)
+    then
         if f.elements.HealthBar then
-            f.HealthBar:SetStatusBarColor(unpack(self.colours[f.state.threat]))
+            if f.state.threat and f.state.threat > 0 then
+                f.HealthBar:SetStatusBarColor(unpack(self.colours[f.state.threat]))
+            elseif f.state.tank_mode_offtank then
+                f.HealthBar:SetStatusBarColor(unpack(self.colours[3]))
+            end
         end
 
         f.state.tank_mode_coloured = true
@@ -41,7 +51,34 @@ function mod:GlowColourChange(f)
     end
 end
 -- events ######################################################################
-function mod:Update()
+function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
+    if unit == 'player' or UnitIsUnit('player',unit) then return end
+
+    f.state.tank_mode_offtank = nil
+
+    local status = UnitThreatSituation('player',unit)
+    if not status or status < 3 then
+        -- player isn't tanking; get current target
+        local tank_unit = unit..'target'
+
+        if UnitExists(tank_unit) and not UnitIsUnit(tank_unit,'player') then
+            if UnitInParty(tank_unit) or UnitInRaid(tank_unit) then
+                print(UnitName(tank_unit)..' is tanking '..f.state.name)
+
+                if  UnitName(tank_unit) == 'Oto the Protector' or
+                    UnitGroupRolesAssigned(tank_unit) == 'TANK'
+                then
+                    -- unit is attacking another tank
+                    f.state.tank_mode_offtank = true
+                end
+            end
+        end
+    end
+
+    -- force update bar colour
+    self:GlowColourChange(f)
+end
+function mod:SpecUpdate()
     if not force_enable then
         local spec = GetSpecialization()
         local role = spec and GetSpecializationRole(spec) or nil
@@ -59,18 +96,21 @@ function mod:Update()
 end
 -- register ####################################################################
 function mod:OnEnable()
+    self:RegisterMessage('Show')
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('GlowColourChange')
 
-    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','Update')
-    self:Update()
+    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','SpecUpdate')
+    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
+    self:SpecUpdate()
 end
 function mod:OnDisable()
     UpdateFrames()
 end
 function mod:Initialise()
     self.colours = {
-        { 0, 1, 0 },
-        { 1, 1, 0 }
+        { 0, 1, 0 }, -- player is tanking
+        { 1, 1, 0 }, -- player is gaining/losing threat
+        { 1, 0, 1 }  -- other tank is tanking
     }
 end
