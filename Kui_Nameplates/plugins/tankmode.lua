@@ -59,8 +59,6 @@ end
 function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
     if unit == 'player' or UnitIsUnit('player',unit) then return end
 
-    print('threat list update')
-
     f.state.tank_mode_offtank = nil
 
     local status = UnitThreatSituation('player',unit)
@@ -100,11 +98,11 @@ function mod:SpecUpdate()
     end
 
     if spec_enabled ~= was_enabled then
-        self:GroupUpdate()
+        self:GroupUpdate(nil,true)
         UpdateFrames()
     end
 end
-function mod:GroupUpdate()
+function mod:GroupUpdate(event,no_update)
     if GetNumGroupMembers() > 0 and spec_enabled then
         if not offtank_enable then
             offtank_enable = true
@@ -112,7 +110,9 @@ function mod:GroupUpdate()
             self:RegisterMessage('Show')
             self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
 
-            UpdateFrames()
+            if not no_update then
+                UpdateFrames()
+            end
         end
     elseif offtank_enable then
         offtank_enable = nil
@@ -120,7 +120,9 @@ function mod:GroupUpdate()
         self:UnregisterMessage('Show')
         self:UnregisterEvent('UNIT_THREAT_LIST_UPDATE')
 
-        UpdateFrames()
+        if not no_update then
+            UpdateFrames()
+        end
     end
 end
 -- register ####################################################################
