@@ -65,6 +65,7 @@ do
         bar.KuiFader = fader
     end
     local function ClearAnimationCutaway(bar)
+        if not bar.KuiFader then return end
         kui.frameFadeRemoveFrame(bar.KuiFader)
         bar.KuiFader:SetAlpha(0)
     end
@@ -87,7 +88,28 @@ do
 end
 -- smooth ######################################################################
 do
-    local smoother,smoothing = nil,{}
+    local smoother,smoothing,num_smoothing = nil,{},0
+
+    local function SmoothBar(bar,val)
+        if not smoothing[bar] then
+            num_smoothing = num_smoothing + 1
+        end
+
+        smoothing[bar] = val
+        smoother:Show()
+    end
+    local function ClearBar(bar)
+        if smoothing[bar] then
+            num_smoothing = num_smoothing - 1
+            smoothing[bar] = nil
+        end
+
+        if num_smoothing <= 0 then
+            num_smoothing = 0
+            smoother:Hide()
+        end
+    end
+
     local function SetValueSmooth(self,value)
         if not self:IsVisible() then
             self:orig_anim_SetValue(value)
@@ -95,10 +117,10 @@ do
         end
 
         if value == self:GetValue() then
-            smoothing[self] = nil
+            ClearBar(self)
             self:orig_anim_SetValue(value)
         else
-            smoothing[self] = value
+            SmoothBar(self,value)
         end
     end
     local function SmootherOnUpdate(bar)
@@ -110,7 +132,7 @@ do
 
             if cur == value or abs(new-value) < .005 then
                 bar:orig_anim_SetValue(value)
-                smoothing[bar] = nil
+                ClearBar(bar)
             else
                 bar:orig_anim_SetValue(new)
             end
@@ -119,6 +141,7 @@ do
     local function SetAnimationSmooth(bar)
         if not smoother then
             smoother = CreateFrame('Frame')
+            smoother:Hide()
             smoother:SetScript('OnUpdate',SmootherOnUpdate)
         end
 
@@ -127,7 +150,7 @@ do
     end
     local function ClearAnimationSmooth(bar)
         if smoother and smoothing[bar] then
-            smoothing[bar] = nil
+            ClearBar(bar)
         end
     end
     local function DisableAnimationSmooth(bar)
