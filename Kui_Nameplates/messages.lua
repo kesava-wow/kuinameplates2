@@ -50,7 +50,7 @@ local function event_frame_OnEvent(self,event,...)
         if unit_only and not unit and not unit_not_found then
             -- first unit_only listener; find nameplate
             unit = ...
-            if unit then
+            if unit and unit ~= 'target' and unit ~= 'mouseover' then
                 unit_frame = C_NamePlate.GetNamePlateForUnit(unit)
                 unit_frame = unit_frame and unit_frame.kui
             else
