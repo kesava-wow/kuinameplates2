@@ -57,19 +57,6 @@ colour_player:SetPoint('LEFT',colour_tapped,'RIGHT')
 
 target_glow_colour.enabled = function(p) return p.target_glow end
 
-function bar_texture:initialize()
-    local info = UIDropDownMenu_CreateInfo()
-
-    for k,f in ipairs(LSM:List(LSM.MediaType.STATUSBAR)) do
-        info.text = f
-        info.arg1 = self
-        info.arg2 = f
-        info.checked = nil
-        info.func = self.OnChanged
-        UIDropDownMenu_AddButton(info)
-    end
-end
-
 -- text ########################################################################
 local font_face = text:CreateDropDown('font_face',175)
 local font_style = text:CreateDropDown('font_style',175)
@@ -109,20 +96,6 @@ bot_vertical_offset:SetPoint('LEFT',name_vertical_offset,'RIGHT',20,0)
 hidenamesCheck:SetPoint('TOPLEFT',text_vertical_offset,'BOTTOMLEFT',0,-20)
 level_text:SetPoint('TOPLEFT',hidenamesCheck,'BOTTOMLEFT')
 health_text:SetPoint('TOPLEFT',level_text,'BOTTOMLEFT')
-
-function font_face:initialize()
-    local info = UIDropDownMenu_CreateInfo()
-
-    for k,f in ipairs(LSM:List(LSM.MediaType.FONT)) do
-        info.text = f
-        info.arg1 = self
-        info.arg2 = f
-        info.checked = nil
-        info.func = self.OnChanged
-
-        UIDropDownMenu_AddButton(info)
-    end
-end
 
 -- frame sizes #################################################################
 local frame_width = framesizes:CreateSlider('frame_width',20,200)
@@ -213,3 +186,30 @@ tankmode_colour_sep:SetPoint('TOP',0,-100)
 tankmode_tank_colour:SetPoint('TOPLEFT',15,-120)
 tankmode_trans_colour:SetPoint('LEFT',tankmode_tank_colour,'RIGHT')
 tankmode_other_colour:SetPoint('LEFT',tankmode_trans_colour,'RIGHT')
+
+-- LSM dropdowns ###############################################################
+function bar_texture:initialize()
+    local info = UIDropDownMenu_CreateInfo()
+
+    for k,f in ipairs(LSM:List(LSM.MediaType.STATUSBAR)) do
+        info.text = f
+        info.arg1 = self
+        info.arg2 = f
+        info.checked = nil
+        info.func = self.OnChanged
+        UIDropDownMenu_AddButton(info)
+    end
+end
+function font_face:initialize()
+    local info = UIDropDownMenu_CreateInfo()
+
+    for k,f in ipairs(LSM:List(LSM.MediaType.FONT)) do
+        info.text = f
+        info.arg1 = self
+        info.arg2 = f
+        info.checked = nil
+        info.func = self.OnChanged
+
+        UIDropDownMenu_AddButton(info)
+    end
+end
