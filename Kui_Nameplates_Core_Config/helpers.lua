@@ -386,6 +386,13 @@ do
     local function PopupOnHide(self)
         PlaySound("igMainMenuClose")
     end
+    local function PopupOnKeyUp(self,kc)
+        if kc == 'ENTER' then
+            self.Okay:Click()
+        elseif kc == 'ESCAPE' then
+            self.Cancel:Click()
+        end
+    end
     local function OkayButtonOnClick(self)
         if opt.Popup.active_page.callback then
             opt.Popup.active_page:callback(true)
@@ -658,6 +665,7 @@ do
 
         popup.ShowPage = PopupShowPage
 
+        popup:SetScript('OnKeyUp',PopupOnKeyUp)
         popup:SetScript('OnShow',PopupOnShow)
         popup:SetScript('OnHide',PopupOnHide)
 
