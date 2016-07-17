@@ -52,7 +52,7 @@ function mod:UpdateAllFrames()
         end
     end
 end
-function mod:ResetFadeRules(no_msg)
+function mod:ResetFadeRules()
     -- reset to default fade rules
     fade_rules = {
         function(f)
@@ -66,10 +66,8 @@ function mod:ResetFadeRules(no_msg)
         end
     }
 
-    if not no_msg then
-        -- let plugins re-add their own rules
-        mod:DispatchMessage('FadeRulesReset')
-    end
+    -- let plugins re/add their own rules
+    mod:RunCallback('FadeRulesReset')
 end
 function mod:AddFadeRule(func)
     if type(func) ~= 'function' then return end
@@ -101,6 +99,8 @@ function mod:OnEnable()
     self:RegisterMessage('Hide')
 end
 function mod:Initialise()
+    self:RegisterCallback('FadeRulesReset')
+
     self.faded_alpha = .5
     self:ResetFadeRules()
 end
