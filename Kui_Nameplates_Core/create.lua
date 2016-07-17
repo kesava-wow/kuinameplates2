@@ -330,7 +330,7 @@ do
         else
             if  not f.state.player and
                 UnitIsPlayer(f.unit) and
-                UnitIsFriend('player',f.unit)
+                f.state.friend
             then
                 -- friendly player class colour
                 f.NameText:SetTextColor(GetClassColour(f))
@@ -570,7 +570,7 @@ do
         if f.state.nameonly then
             f.handler:DisableElement('CastBar')
         else
-            if UnitIsUnit(f.unit,'player') then
+            if f.state.player then
                 if core.profile.castbar_showpersonal then
                     f.handler:EnableElement('CastBar')
                 else
@@ -581,7 +581,7 @@ do
                    not f.state.target
                 then
                     f.handler:DisableElement('CastBar')
-                elseif UnitIsFriend(f.unit,'player') then
+                elseif f.state.friend then
                     if core.profile.castbar_showfriend then
                         f.handler:EnableElement('CastBar')
                     else
@@ -957,7 +957,7 @@ end
 function core:ShowNameUpdate(f)
     if f.state.nameonly then return end
 
-    if UnitIsUnit(f.unit,'player') then
+    if f.state.player then
         f.state.no_name = true
     elseif
         not core.profile.hide_names or
