@@ -339,8 +339,10 @@ do
         f.scroll:SetPoint('BOTTOMRIGHT',self.PageBG,-26,4)
         f.scroll:SetScrollChild(f)
 
-        f:SetWidth(450)
-        f:SetHeight(1)
+        f:SetPoint('LEFT',f.scroll)
+        f:SetPoint('RIGHT',f.scroll)
+
+        f:SetHeight(400)
 
         -- mixin page functions
         for k,v in pairs(page_proto) do
