@@ -15,6 +15,7 @@ opt.tooltips = {
     bar_animation = 'The style of animation to use on health/power bars',
 
     nameonly = 'Hide the healthbars of friendly or unattackable units',
+    nameonly_no_font_style = 'Hide text outline when in nameonly mode (by setting the font style to nil)',
     nameonly_damaged_friends = 'Use nameonly mode, even on damaged friendly frames. Their name will be coloured as a percentage of their health',
     nameonly_enemies = 'Use nameonly mode on unattackable enemies (not including enemy players under effects such as Ice Block)',
 
@@ -65,6 +66,7 @@ opt.titles = {
 
     nameonly_sep = 'Nameonly mode',
     nameonly = 'Use nameonly mode',
+    nameonly_no_font_style = 'No text outline',
     nameonly_damaged_friends = 'On damaged friends',
     nameonly_enemies = 'On unattackable enemies',
 
