@@ -41,6 +41,12 @@ local BAR_TEXTURE,BAR_ANIMATION
 
 local FRAME_GLOW_SIZE = 8
 
+-- common globals
+local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
+      UnitHealth,UnitHealthMax,strlen =
+      UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
+      UnitHealth,UnitHealthMax,strlen
+
 -- config functions ############################################################
 function core:SetTargetGlowLocals()
     TARGET_GLOW_COLOUR = self.profile.target_glow_colour
