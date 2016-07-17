@@ -47,6 +47,74 @@ local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
       UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
       UnitHealth,UnitHealthMax,strlen,pairs,ipairs,floor,unpack
 
+-- helper functions ############################################################
+local CreateStatusBar
+do
+    local function FilledBar_SetStatusBarColor(self,...)
+        self:orig_SetStatusBarColor(...)
+        self.fill:SetVertexColor(...)
+    end
+    local function FilledBar_Show(self)
+        self:orig_Show()
+        self.fill:Show()
+    end
+    local function FilledBar_Hide(self)
+        self:orig_Hide()
+        self.fill:Hide()
+    end
+    function CreateStatusBar(parent)
+        local bar = CreateFrame('StatusBar',nil,parent)
+        bar:SetStatusBarTexture(BAR_TEXTURE)
+        bar:SetFrameLevel(0)
+
+        local fill = parent:CreateTexture(nil,'BACKGROUND',nil,2)
+        fill:SetTexture(BAR_TEXTURE)
+        fill:SetAllPoints(bar)
+        fill:SetAlpha(.2)
+
+        bar.fill = fill
+
+        bar.orig_SetStatusBarColor = bar.SetStatusBarColor
+        bar.SetStatusBarColor = FilledBar_SetStatusBarColor
+
+        bar.orig_Show = bar.Show
+        bar.Show = FilledBar_Show
+
+        bar.orig_Hide = bar.Hide
+        bar.Hide = FilledBar_Hide
+
+        return bar
+    end
+end
+local function CreateFontString(parent,small)
+    local f = parent:CreateFontString(nil,'OVERLAY')
+    f:SetFont(
+        FONT,
+        small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
+        FONT_STYLE
+    )
+    f:SetWordWrap()
+    f.fontobject_small = small
+
+    return f
+end
+local function GetClassColour(f)
+    -- return adjusted class colour (used in nameonly)
+    local class = select(2,UnitClass(f.unit))
+    if CLASS_COLOURS[class] then
+        return unpack(CLASS_COLOURS[class])
+    else
+        return kui.GetClassColour(class,2)
+    end
+end
+local function UpdateFontObject(object)
+    if not object then return end
+    object:SetFont(
+        FONT,
+        object.fontobject_small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
+        FONT_STYLE
+    )
+end
 -- config functions ############################################################
 function core:SetTargetGlowLocals()
     TARGET_GLOW_COLOUR = self.profile.target_glow_colour
@@ -83,14 +151,6 @@ do
         'THINOUTLINE',
         'THINOUTLINE MONOCHROME'
     }
-    local function UpdateFontObject(object)
-        if not object then return end
-        object:SetFont(
-            FONT,
-            object.fontobject_small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
-            FONT_STYLE
-        )
-    end
     function core.AurasButton_SetFont(button)
         UpdateFontObject(button.cd)
         UpdateFontObject(button.count)
@@ -157,66 +217,7 @@ do
         end
     end
 end
--- helper functions ############################################################
-local CreateStatusBar
-do
-    local function FilledBar_SetStatusBarColor(self,...)
-        self:orig_SetStatusBarColor(...)
-        self.fill:SetVertexColor(...)
-    end
-    local function FilledBar_Show(self)
-        self:orig_Show()
-        self.fill:Show()
-    end
-    local function FilledBar_Hide(self)
-        self:orig_Hide()
-        self.fill:Hide()
-    end
-    function CreateStatusBar(parent)
-        local bar = CreateFrame('StatusBar',nil,parent)
-        bar:SetStatusBarTexture(BAR_TEXTURE)
-        bar:SetFrameLevel(0)
-
-        local fill = parent:CreateTexture(nil,'BACKGROUND',nil,2)
-        fill:SetTexture(BAR_TEXTURE)
-        fill:SetAllPoints(bar)
-        fill:SetAlpha(.2)
-
-        bar.fill = fill
-
-        bar.orig_SetStatusBarColor = bar.SetStatusBarColor
-        bar.SetStatusBarColor = FilledBar_SetStatusBarColor
-
-        bar.orig_Show = bar.Show
-        bar.Show = FilledBar_Show
-
-        bar.orig_Hide = bar.Hide
-        bar.Hide = FilledBar_Hide
-
-        return bar
-    end
-end
-local function CreateFontString(parent,small)
-    local f = parent:CreateFontString(nil,'OVERLAY')
-    f:SetFont(
-        FONT,
-        small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
-        FONT_STYLE
-    )
-    f:SetWordWrap()
-    f.fontobject_small = small
-
-    return f
-end
-local function GetClassColour(f)
-    -- return adjusted class colour (used in nameonly)
-    local class = select(2,UnitClass(f.unit))
-    if CLASS_COLOURS[class] then
-        return unpack(CLASS_COLOURS[class])
-    else
-        return kui.GetClassColour(class,2)
-    end
-end
+-- #############################################################################
 -- create/update functions #####################################################
 -- frame background ############################################################
 local function UpdateFrameSize(f)
