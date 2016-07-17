@@ -86,18 +86,6 @@ do
         return bar
     end
 end
-local function CreateFontString(parent,small)
-    local f = parent:CreateFontString(nil,'OVERLAY')
-    f:SetFont(
-        FONT,
-        small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
-        FONT_STYLE
-    )
-    f:SetWordWrap()
-    f.fontobject_small = small
-
-    return f
-end
 local function GetClassColour(f)
     -- return adjusted class colour (used in nameonly)
     local class = select(2,UnitClass(f.unit))
@@ -114,6 +102,15 @@ local function UpdateFontObject(object)
         object.fontobject_small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
         FONT_STYLE
     )
+end
+local function CreateFontString(parent,small)
+    local f = parent:CreateFontString(nil,'OVERLAY')
+    f.fontobject_small = small
+    f:SetWordWrap()
+
+    UpdateFontObject(f)
+
+    return f
 end
 -- config functions ############################################################
 function core:SetTargetGlowLocals()

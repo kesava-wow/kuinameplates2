@@ -183,6 +183,7 @@ end
 configChanged.font_face = configChangedFontOption
 configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
+configChanged.font_style = configChangedFontOption
 
 local function configChangedAuras()
     core:SetAurasConfig()
