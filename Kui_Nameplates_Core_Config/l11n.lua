@@ -13,7 +13,10 @@ opt.page_names = {
 opt.tooltips = {
     bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
     bar_animation = 'The style of animation to use on health/power bars',
+
     nameonly = 'Hide the healthbars of friendly or unattackable units',
+    nameonly_damaged_friends = 'Use nameonly mode, even on damaged friendly frames. Their name will be coloured as a percentage of their health',
+    nameonly_enemies = 'Use nameonly mode on unattackable enemies (not including enemy players under effects such as Ice Block)',
 
     hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names". Note that this does not affect nameonly mode',
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
@@ -59,7 +62,11 @@ opt.titles = {
 
     bar_texture = 'Bar texture',
     bar_animation = 'Bar animation',
+
     nameonly = 'Use nameonly mode',
+    nameonly_damaged_friends = 'On damaged friends',
+    nameonly_enemies = 'On unattackable enemies',
+
     glow_as_shadow = 'Show frame shadow',
     target_glow = 'Show target glow',
     target_glow_colour = 'Target glow colour',
