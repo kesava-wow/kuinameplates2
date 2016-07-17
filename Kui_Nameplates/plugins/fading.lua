@@ -7,6 +7,7 @@ local abs = math.abs
 local UnitIsUnit = UnitIsUnit
 local kff,kffr = kui.frameFade, kui.frameFadeRemoveFrame
 local target_exists
+local fade_rules
 
 -- local functions #############################################################
 local function ResetFrameFade(frame)
@@ -33,23 +34,55 @@ local function FrameFade(frame,to)
     })
 end
 local function GetDesiredAlpha(frame)
-    if  UnitIsUnit(frame.unit,'player') or
-        not target_exists or
-        frame.handler:IsTarget()
-    then
-        return 1
-    else
-        return .5
+    for i,f in pairs(fade_rules) do
+        if f then
+            local a = f(frame)
+            if a then return a end
+        end
     end
+
+    return mod.faded_alpha
+end
+-- mod functions ###############################################################
+function mod:UpdateAllFrames()
+    -- update alpha of all visible frames
+    for k,f in addon:Frames() do
+        if f:IsVisible() then
+            FrameFade(f,GetDesiredAlpha(f))
+        end
+    end
+end
+function mod:ResetFadeRules(no_msg)
+    -- reset to default fade rules
+    fade_rules = {
+        function(f)
+            return UnitIsUnit(f.unit,'player') and 1
+        end,
+        function()
+            return not target_exists and 1
+        end,
+        function(f)
+            return f.handler:IsTarget() and 1
+        end
+    }
+
+    if not no_msg then
+        -- let plugins re-add their own rules
+        mod:DispatchMessage('FadeRulesReset')
+    end
+end
+function mod:AddFadeRule(func)
+    if type(func) ~= 'function' then return end
+    tinsert(fade_rules,func)
+    return #fade_rules
+end
+function mod:RemoveFadeRule(index)
+    fade_rules[index] = nil
 end
 -- messages ####################################################################
 function mod:TargetUpdate()
     target_exists = UnitExists('target')
-    for _,frame in addon:Frames() do
-        if frame:IsVisible() then
-            FrameFade(frame,GetDesiredAlpha(frame))
-        end
-    end
+    self:UpdateAllFrames()
 end
 function mod:Show(f)
     f:SetAlpha(0)
@@ -66,4 +99,8 @@ function mod:OnEnable()
     self:RegisterMessage('LostTarget','TargetUpdate')
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
+end
+function mod:Initialise()
+    self.faded_alpha = .5
+    self:ResetFadeRules()
 end
