@@ -1029,6 +1029,29 @@ do
             )
         end
     end
+
+    local function UnattackableEnemyPlayer(unit)
+        -- don't show on unattackable enemy players (ice block etc)
+        return UnitIsPlayer(unit) and UnitIsEnemy('player',unit)
+    end
+    local function EnemyAndDisabled(unit)
+        if  not core.profile.nameonly_enemies and
+            UnitIsEnemy('player',unit)
+        then
+            -- don't show on unattackble enemies
+            return true
+        end
+    end
+    local function FriendAndDisabled(unit)
+        if  not core.profile.nameonly_damaged_friends and
+            UnitIsFriend('player',unit)
+        then
+            if UnitHealth(unit) ~= UnitHealthMax(unit) then
+                -- don't show on damaged friends
+                return true
+            end
+        end
+    end
     function core:NameOnlyUpdate(f,hide)
         if  not hide and self.profile.nameonly and
             -- don't show on player frame
@@ -1037,8 +1060,10 @@ do
             not f.state.target and
             -- don't show on attackable units
             not UnitCanAttack('player',f.unit) and
-            -- don't show on unattackable enemy players (ice block etc)
-            not (UnitIsPlayer(f.unit) and UnitIsEnemy('player',f.unit))
+            -- more complex filters;
+            not UnattackableEnemyPlayer(f.unit) and
+            not EnemyAndDisabled(f.unit) and
+            not FriendAndDisabled(f.unit)
         then
             NameOnlyEnable(f)
         else
