@@ -63,6 +63,7 @@ opt.titles = {
     bar_texture = 'Bar texture',
     bar_animation = 'Bar animation',
 
+    nameonly_sep = 'Nameonly mode',
     nameonly = 'Use nameonly mode',
     nameonly_damaged_friends = 'On damaged friends',
     nameonly_enemies = 'On unattackable enemies',

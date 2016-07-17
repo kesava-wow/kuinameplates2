@@ -33,16 +33,16 @@ target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',200,0)
 
 local nameonly_sep = general:CreateSeperator('nameonly_sep')
 local nameonlyCheck = general:CreateCheckBox('nameonly')
-local nameonly_enemies = general:CreateCheckBox('nameonly_enemies')
 local nameonly_damaged_friends = general:CreateCheckBox('nameonly_damaged_friends')
+local nameonly_enemies = general:CreateCheckBox('nameonly_enemies')
 
 nameonly_enemies.enabled = function(p) return p.nameonly end
 nameonly_damaged_friends.enabled = function(p) return p.nameonly end
 
 nameonly_sep:SetPoint('TOP',0,-160)
 nameonlyCheck:SetPoint('TOPLEFT',10,-180)
-nameonly_enemies:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
-nameonly_damaged_friends:SetPoint('LEFT',nameonly_enemies,'RIGHT',150,0)
+nameonly_damaged_friends:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
+nameonly_enemies:SetPoint('LEFT',nameonly_damaged_friends,'RIGHT',150,0)
 
 local colour_sep = general:CreateSeperator('reaction_colour_sep')
 local colour_hated = general:CreateColourPicker('colour_hated')
