@@ -43,9 +43,9 @@ local FRAME_GLOW_SIZE = 8
 
 -- common globals
 local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,strlen =
+      UnitHealth,UnitHealthMax,strlen,pairs,ipairs,floor,unpack =
       UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,strlen
+      UnitHealth,UnitHealthMax,strlen,pairs,ipairs,floor,unpack
 
 -- config functions ############################################################
 function core:SetTargetGlowLocals()
