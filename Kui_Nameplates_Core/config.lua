@@ -124,12 +124,8 @@ function configChanged.bar_animation()
     core:SetBarAnimation()
 end
 
-function configChanged.target_glow_colour()
-    core:SetTargetGlowLocals()
-end
-
 local function configChangedTextOffset()
-    core:SetTextOffsetLocals()
+    core:configChangedTextOffset()
 end
 configChanged.text_vertical_offset = configChangedTextOffset
 configChanged.name_vertical_offset = configChangedTextOffset
@@ -162,14 +158,7 @@ configChanged.tankmode_trans_colour = configChangedTankColour
 configChanged.tankmode_other_colour = configChangedTankColour
 
 local function configChangedFrameSize()
-    core:SetFrameSizeLocals()
-
-    for k,f in addon:Frames() do
-        if f.Auras and f.Auras.frames and f.Auras.frames[1] then
-            -- force auras frame size update
-            f.Auras.frames[1].__width = nil
-        end
-    end
+    core:configChangedFrameSize()
 end
 configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize
@@ -214,6 +203,7 @@ function core:InitialiseConfig()
 
     self.config:RegisterConfigChanged(function(self,k,v)
         core.profile = self:GetConfig()
+        core:SetLocals()
 
         if k then
             -- call affected listener

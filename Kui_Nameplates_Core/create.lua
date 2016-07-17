@@ -113,26 +113,49 @@ local function CreateFontString(parent,small)
     return f
 end
 -- config functions ############################################################
-function core:SetTargetGlowLocals()
-    TARGET_GLOW_COLOUR = self.profile.target_glow_colour
-end
-function core:SetFrameSizeLocals()
-    -- update size locals
-    FRAME_WIDTH = self.profile.frame_width
-    FRAME_HEIGHT = self.profile.frame_height
-    FRAME_WIDTH_MINUS = self.profile.frame_width_minus
-    FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
-    CASTBAR_HEIGHT = self.profile.castbar_height
+do
+    local FONT_STYLE_ASSOC = {
+        '',
+        'THINOUTLINE',
+        'THINOUTLINE MONOCHROME'
+    }
+    local ANIM_ASSOC = {
+        nil,'smooth','cutaway'
+    }
+    function core:SetLocals()
+        -- set config locals to reduce table lookup
+        BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,self.profile.bar_texture)
+        BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
-    for k,f in addon:Frames() do
-        f:UpdateCastbarSize()
+        TARGET_GLOW_COLOUR = self.profile.target_glow_colour
+
+        FRAME_WIDTH = self.profile.frame_width
+        FRAME_HEIGHT = self.profile.frame_height
+        FRAME_WIDTH_MINUS = self.profile.frame_width_minus
+        FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
+        CASTBAR_HEIGHT = self.profile.castbar_height
+
+        TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
+        NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
+        BOT_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset
+
+        FONT = LSM:Fetch(LSM.MediaType.FONT,self.profile.font_face)
+        FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
+        FONT_SIZE_NORMAL = self.profile.font_size_normal
+        FONT_SIZE_SMALL = self.profile.font_size_small
     end
 end
-function core:SetTextOffsetLocals()
-    TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
-    NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
-    BOT_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset
+function core:configChangedFrameSize()
+    for k,f in addon:Frames() do
+        f:UpdateCastbarSize()
 
+        if f.Auras and f.Auras.frames and f.Auras.frames[1] then
+            -- force auras frame size update
+            f.Auras.frames[1].__width = nil
+        end
+    end
+end
+function core:configChangedTextOffset()
     for k,f in addon:Frames() do
         f:UpdateNameTextPosition()
         f:UpdateSpellNamePosition()
@@ -143,19 +166,12 @@ function core:SetTextOffsetLocals()
     end
 end
 do
-    local FONT_STYLE_ASSOC = {
-        '',
-        'THINOUTLINE',
-        'THINOUTLINE MONOCHROME'
-    }
     function core.AurasButton_SetFont(button)
         UpdateFontObject(button.cd)
         UpdateFontObject(button.count)
         UpdateFontObject(button.name)
     end
     function core:configChangedFontOption()
-        self:SetFontLocals()
-
         -- update font objects
         for i,f in addon:Frames() do
             UpdateFontObject(f.NameText)
@@ -169,13 +185,6 @@ do
             end
         end
     end
-    function core:SetFontLocals()
-        -- update font locals
-        FONT = LSM:Fetch(LSM.MediaType.FONT,self.profile.font_face)
-        FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
-        FONT_SIZE_NORMAL = self.profile.font_size_normal
-        FONT_SIZE_SMALL = self.profile.font_size_small
-    end
 end
 do
     local function UpdateStatusBar(object)
@@ -188,8 +197,6 @@ do
         end
     end
     function core:configChangedBarTexture()
-        self:SetBarTextureLocals()
-
         for i,f in addon:Frames() do
             UpdateStatusBar(f.CastBar)
             UpdateStatusBar(f.Highlight)
@@ -197,21 +204,11 @@ do
             UpdateStatusBar(f.PowerBar)
         end
     end
-    function core:SetBarTextureLocals()
-        BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,self.profile.bar_texture)
-    end
 end
-do
-    local ANIM_ASSOC = {
-        nil,'smooth','cutaway'
-    }
-    function core:SetBarAnimation()
-        BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
-
-        for i,f in addon:Frames() do
-            f.handler:SetBarAnimation(f.HealthBar,BAR_ANIMATION)
-            f.handler:SetBarAnimation(f.PowerBar,BAR_ANIMATION)
-        end
+function core:SetBarAnimation()
+    for i,f in addon:Frames() do
+        f.handler:SetBarAnimation(f.HealthBar,BAR_ANIMATION)
+        f.handler:SetBarAnimation(f.PowerBar,BAR_ANIMATION)
     end
 end
 -- #############################################################################

@@ -192,12 +192,7 @@ function core:Initialise()
     self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
 
     -- update layout's locals with configuration
-    self:SetFrameSizeLocals()
-    self:SetFontLocals()
-    self:SetBarTextureLocals()
-    self:SetTargetGlowLocals()
-    self:SetTextOffsetLocals()
-    self:SetBarAnimation()
+    self:SetLocals()
 
     -- set element configuration tables
     self:InitialiseElements()
