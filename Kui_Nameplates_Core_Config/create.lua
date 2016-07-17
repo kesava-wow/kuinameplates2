@@ -37,6 +37,7 @@ local nameonly_no_font_style = general:CreateCheckBox('nameonly_no_font_style')
 local nameonly_damaged_friends = general:CreateCheckBox('nameonly_damaged_friends')
 local nameonly_enemies = general:CreateCheckBox('nameonly_enemies')
 
+nameonly_no_font_style.enabled = function(p) return p.nameonly end
 nameonly_enemies.enabled = function(p) return p.nameonly end
 nameonly_damaged_friends.enabled = function(p) return p.nameonly end
 
