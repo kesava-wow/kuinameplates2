@@ -26,6 +26,7 @@ local default_config = {
     bar_texture = DEFAULT_BAR,
     bar_animation = 3,
     nameonly = true,
+    nameonly_no_font_style = true,
     nameonly_damaged_friends = true,
     nameonly_enemies = true,
     glow_as_shadow = true,
@@ -173,6 +174,7 @@ configChanged.font_face = configChangedFontOption
 configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
 configChanged.font_style = configChangedFontOption
+configChanged.nameonly_no_font_style = configChangedFontOption
 
 local function configChangedAuras()
     core:SetAurasConfig()

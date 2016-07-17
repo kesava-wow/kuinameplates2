@@ -38,6 +38,7 @@ local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION
+local NAMEONLY_NO_FONT_STYLE
 
 local FRAME_GLOW_SIZE = 8
 
@@ -143,6 +144,8 @@ do
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SIZE_NORMAL = self.profile.font_size_normal
         FONT_SIZE_SMALL = self.profile.font_size_small
+
+        NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
     end
 end
 function core:configChangedFrameSize()
@@ -997,6 +1000,11 @@ do
             f.NameText:SetPoint('CENTER',.5,0)
         end
 
+        if NAMEONLY_NO_FONT_STYLE then
+            f.NameText:SetFont(FONT,FONT_SIZE_NORMAL,nil)
+            f.GuildText:SetFont(FONT,FONT_SIZE_SMALL,nil)
+        end
+
         f.NameText:Show()
     end
     local function NameOnlyDisable(f)
@@ -1006,6 +1014,10 @@ do
         f.NameText:SetText(f.state.name)
         f.NameText:SetTextColor(1,1,1,1)
         f.NameText:SetShadowColor(0,0,0,0)
+
+        if NAMEONLY_NO_FONT_STYLE then
+            UpdateFontObject(f.NameText)
+        end
 
         f.NameText:ClearAllPoints()
         f.NameText:SetParent(f.HealthBar)
