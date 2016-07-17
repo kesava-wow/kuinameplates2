@@ -44,11 +44,14 @@ local function GetDesiredAlpha(frame)
     return mod.faded_alpha
 end
 -- mod functions ###############################################################
+function mod:UpdateFrame(f)
+    FrameFade(f,GetDesiredAlpha(f))
+end
 function mod:UpdateAllFrames()
     -- update alpha of all visible frames
     for k,f in addon:Frames() do
         if f:IsVisible() then
-            FrameFade(f,GetDesiredAlpha(f))
+            self:UpdateFrame(f)
         end
     end
 end
@@ -84,7 +87,7 @@ function mod:TargetUpdate()
 end
 function mod:Show(f)
     f:SetAlpha(0)
-    FrameFade(f,GetDesiredAlpha(f))
+    self:UpdateFrame(f)
 end
 function mod:Hide(f)
     ResetFrameFade(f)
