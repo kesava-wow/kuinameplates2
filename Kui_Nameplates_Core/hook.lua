@@ -36,8 +36,8 @@ function core:Create(f)
 end
 function core:Show(f)
     f.state.player = UnitIsUnit(f.unit,'player')
-    f.state.friend = UnitIsFriend(f.unit,'player')
-    f.state.enemy = UnitIsEnemy(f.unit,'player')
+    f.state.friend = UnitIsFriend('player',f.unit)
+    f.state.enemy = UnitIsEnemy('player',f.unit)
 
     -- go into nameonly mode if desired
     self:NameOnlyUpdate(f)
@@ -74,8 +74,8 @@ function core:HealthUpdate(f)
     self:NameOnlyHealthUpdate(f)
 end
 function core:HealthColourChange(f)
-    f.state.friend = UnitIsFriend(f.unit,'player')
-    f.state.enemy = UnitIsEnemy(f.unit,'player')
+    f.state.friend = UnitIsFriend('player',f.unit)
+    f.state.enemy = UnitIsEnemy('player',f.unit)
 
     -- update nameonly upon faction changes
     self:NameOnlyUpdate(f)
