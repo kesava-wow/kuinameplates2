@@ -226,6 +226,11 @@ function bar_texture:initialize()
     self:SetList(list)
     self:SetValue(opt.profile[self.env])
 end
+function bar_texture:OnListButtonChanged(button,item)
+    local texture = LSM:Fetch(LSM.MediaType.STATUSBAR,item.value)
+    button:SetBackdrop({bgFile=texture})
+    button.label:SetFont('fonts/frizqt__.ttf',10,'OUTLINE')
+end
 function font_face:initialize()
     local list = {}
     for k,f in ipairs(LSM:List(LSM.MediaType.FONT)) do
@@ -238,4 +243,8 @@ function font_face:initialize()
 
     self:SetList(list)
     self:SetValue(opt.profile[self.env])
+end
+function font_face:OnListButtonChanged(button,item)
+    local font = LSM:Fetch(LSM.MediaType.FONT,item.value)
+    button.label:SetFont(font,12)
 end
