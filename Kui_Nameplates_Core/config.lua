@@ -252,8 +252,6 @@ local function configLoadedFadeRule()
     configChangedFadeRule(nil,true)
 end
 configLoaded.fade_all = configLoadedFadeRule
-configLoaded.fade_avoid_nameonly = configLoadedFadeRule
-configLoaded.fade_avoid_raidicon = configLoadedFadeRule
 
 -- init config #################################################################
 function core:InitialiseConfig()
