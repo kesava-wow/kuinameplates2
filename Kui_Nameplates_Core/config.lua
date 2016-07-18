@@ -35,6 +35,7 @@ local default_config = {
 
     fade_all = false,
     fade_alpha = .5,
+    fade_speed = .5,
     fade_avoid_nameonly = true,
 
     font_face = DEFAULT_FONT,
