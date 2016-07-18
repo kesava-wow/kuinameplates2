@@ -33,6 +33,10 @@ local default_config = {
     target_glow = true,
     target_glow_colour = { .3, .7, 1, 1 },
 
+    fade_all = false,
+    fade_alpha = .5,
+    fade_avoid_nameonly = true,
+
     font_face = DEFAULT_FONT,
     font_style = 2,
     hide_names = true,
@@ -125,6 +129,10 @@ function configChanged.bar_animation()
     core:SetBarAnimation()
 end
 
+function configChanged.fade_alpha(v)
+    addon:GetPlugin('Fading').faded_alpha = v
+end
+
 local function configChangedTextOffset()
     core:configChangedTextOffset()
 end
@@ -189,6 +197,8 @@ configChanged.auras_icon_minus_size = configChangedAuras
 configChanged.auras_icon_squareness = configChangedAuras
 -- config loaded functions #####################################################
 local configLoaded = {}
+configLoaded.fade_alpha = configChanged.fade_alpha
+
 configLoaded.colour_hated = configChangedReactionColour
 
 configLoaded.tank_mode = configChanged.tank_mode
