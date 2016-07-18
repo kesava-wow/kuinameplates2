@@ -79,13 +79,7 @@ function core:HealthColourChange(f)
 
     -- update nameonly upon faction changes
     self:NameOnlyUpdate(f)
-
-    f:UpdateNameText()
-    f:UpdateHealthText()
-    f:UpdateFrameGlow()
-    f:UpdateStateIcon()
-    f:UpdateRaidIcon()
-    f:UpdateCastBar()
+    self:NameOnlyUpdateFunctions(f)
 end
 function core:PowerUpdate(f)
     f:UpdatePowerBar()
@@ -104,18 +98,13 @@ function core:GainedTarget(f)
     f.state.target = true
 
     -- disable nameonly on target
-    self:NameOnlyUpdate(f)
+    self:NameOnlyUpdate(f,true)
     -- show name on target
     self:ShowNameUpdate(f)
 
     f:UpdateFrameSize()
-    f:UpdateNameText()
     f:UpdateLevelText()
-    f:UpdateHealthText()
-    f:UpdateFrameGlow()
-    f:UpdateStateIcon()
-    f:UpdateRaidIcon()
-    f:UpdateCastBar()
+    self:NameOnlyUpdateFunctions(f)
 end
 function core:LostTarget(f)
     f.state.target = nil
@@ -126,13 +115,8 @@ function core:LostTarget(f)
     self:ShowNameUpdate(f)
 
     f:UpdateFrameSize()
-    f:UpdateNameText()
     f:UpdateLevelText()
-    f:UpdateHealthText()
-    f:UpdateFrameGlow()
-    f:UpdateStateIcon()
-    f:UpdateRaidIcon()
-    f:UpdateCastBar()
+    self:NameOnlyUpdateFunctions(f)
 end
 function core:ClassificationChanged(f)
     f:UpdateStateIcon()

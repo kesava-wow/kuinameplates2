@@ -340,7 +340,7 @@ do
             end
 
             -- set name text colour to health
-            core:NameOnlyHealthUpdate(f)
+            core:NameOnlySetNameTextToHealth(f)
         else
             if  not f.state.player and
                 UnitIsPlayer(f.unit) and
@@ -1049,22 +1049,26 @@ do
             plugin_fading:UpdateFrame(f)
         end
     end
+    function core:NameOnlySetNameTextToHealth(f)
+        -- set name text colour to approximate health
+        if not f.state.nameonly then return end
+
+        local cur,max = UnitHealth(f.unit),UnitHealthMax(f.unit)
+        if cur and cur > 0 and max and max > 0 then
+            local health_len = strlen(f.state.name) * (cur / max)
+            f.NameText:SetText(
+                kui.utf8sub(f.state.name, 0, health_len)..
+                '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
+            )
+        end
+    end
     function core:NameOnlyHealthUpdate(f)
         if NAMEONLY_DAMAGED_FRIENDS or not f.state.friend then
-            -- set name text colour to approximate health
-            if not f.state.nameonly then return end
-
-            local cur,max = UnitHealth(f.unit),UnitHealthMax(f.unit)
-            if cur and cur > 0 and max and max > 0 then
-                local health_len = strlen(f.state.name) * (cur / max)
-                f.NameText:SetText(
-                    kui.utf8sub(f.state.name, 0, health_len)..
-                    '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
-                )
-            end
+            self:NameOnlySetNameTextToHealth(f)
         else
             -- disable/enable based on health
             self:NameOnlyUpdate(f)
+            self:NameOnlyUpdateFunctions(f)
         end
     end
 
@@ -1107,6 +1111,15 @@ do
         else
             NameOnlyDisable(f)
         end
+    end
+    function core:NameOnlyUpdateFunctions(f)
+        -- call update functions affected by nameonly
+        f:UpdateNameText()
+        f:UpdateHealthText()
+        f:UpdateFrameGlow()
+        f:UpdateStateIcon()
+        f:UpdateRaidIcon()
+        f:UpdateCastBar()
     end
 end
 -- init elements ###############################################################
