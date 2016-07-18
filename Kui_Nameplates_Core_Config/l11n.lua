@@ -21,6 +21,9 @@ opt.tooltips = {
 
     fade_alpha = 'Opacity of faded frames',
     fade_speed = 'Speed of the frame fading animation, where 1 is slowest and 0 is instant',
+    fade_all = 'Fade all frames out by default, rather than in',
+    fade_avoid_nameonly = 'Don\'t fade nameplates which are currently in nameonly mode',
+    fade_avoid_raidicon = 'Don\'t fade nameplates which have a raid icon visible',
 
     hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names". Note that this does not affect nameonly mode',
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
@@ -79,6 +82,9 @@ opt.titles = {
 
     fade_alpha = 'Faded alpha',
     fade_speed = 'Fade animation speed',
+    fade_all = 'Fade by default',
+    fade_avoid_nameonly = 'Avoid nameonly',
+    fade_avoid_raidicon = 'Avoid raid icon',
 
     reaction_colour_sep = 'Reaction colours',
     colour_hated = 'Hated',
