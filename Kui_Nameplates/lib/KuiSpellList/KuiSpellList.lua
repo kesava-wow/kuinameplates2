@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 22
+local MAJOR, MINOR = 'KuiSpellList-1.0', 23
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -32,16 +32,16 @@ local auras = {
             [1822] = true, -- rake
             [155722] = true, -- rake 6.0
             [8921] = true, -- moonfire
-            [164812] = true,
+            [164812] = true, -- moonfire
             [77758] = true, -- bear thrash; td ma
             [106830] = true, -- cat thrash
             [93402] = true, -- sunfire
-            [164815] = true,
+            [164815] = true, -- sunfire
+            [202347] = true, -- stellar flare
         },
         CONTROL = {
             [339] = true, -- entangling roots
             [6795] = true, -- growl
-            [16914] = true, -- hurricane
             [22570] = true, -- maim
             [33786] = true, -- cyclone
             [78675] = true, -- solar beam silence
@@ -365,6 +365,7 @@ local auras = {
             [138130] = true, -- storm, earth and fire 1
             [196608] = true, -- eye of the tiger
             [115804] = true, -- mortal wounds
+            [115080] = true, -- touch of death
         },
         CONTROL = {
             [116095] = true, -- disable
