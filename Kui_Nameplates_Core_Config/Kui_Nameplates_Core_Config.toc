@@ -8,6 +8,8 @@
 ## X-LoadOn-Slash: /knp, /kuinameplates
 ## X-LoadOn-InterfaceOptions: Kui |cff9966ffNameplates Core
 
+lib\embeds.xml
+
 main.lua
 l11n.lua
 helpers.lua
