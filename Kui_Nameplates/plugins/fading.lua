@@ -3,9 +3,12 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Fading')
 
-local abs = math.abs
-local UnitIsUnit = UnitIsUnit
+local abs,pairs,type,tinsert = math.abs,pairs,type,tinsert
+local UnitExists,UnitIsUnit = UnitExists,UnitIsUnit
 local kff,kffr = kui.frameFade, kui.frameFadeRemoveFrame
+
+local UpdateFrame = CreateFrame('Frame')
+local delayed_frames = {}
 local target_exists
 local fade_rules
 
@@ -43,18 +46,34 @@ local function GetDesiredAlpha(frame)
 
     return mod.faded_alpha
 end
--- mod functions ###############################################################
-function mod:UpdateFrame(f)
-    if self.fade_speed > 0 then
+local function InstantUpdateFrame(f)
+    if not f:IsShown() then return end
+
+    if mod.fade_speed > 0 then
         FrameFade(f,GetDesiredAlpha(f))
     else
         f:SetAlpha(GetDesiredAlpha(f))
     end
 end
+-- update frame ################################################################
+local function OnUpdate(self)
+    for f,_ in pairs(delayed_frames) do
+        delayed_frames[f] = nil
+        InstantUpdateFrame(f)
+    end
+
+    UpdateFrame:SetScript('OnUpdate',nil)
+end
+-- mod functions ###############################################################
+function mod:UpdateFrame(f)
+    -- add frame to delayed update table
+    delayed_frames[f] = true
+    UpdateFrame:SetScript('OnUpdate',OnUpdate)
+end
 function mod:UpdateAllFrames()
     -- update alpha of all visible frames
     for k,f in addon:Frames() do
-        if f:IsVisible() then
+        if f:IsShown() then
             self:UpdateFrame(f)
         end
     end
