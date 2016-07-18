@@ -137,6 +137,10 @@ end
 function core:ClassificationChanged(f)
     f:UpdateStateIcon()
 end
+function core:RaidIconUpdate(f)
+    -- registered by configChanged, fade_avoid_raidicon
+    f:UpdateRaidIcon()
+end
 -- events ######################################################################
 function core:QUESTLINE_UPDATE()
     -- TODO this isn't really the right event, but the others fire too soon

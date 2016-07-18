@@ -37,6 +37,7 @@ local default_config = {
     fade_alpha = .5,
     fade_speed = .5,
     fade_avoid_nameonly = true,
+    fade_avoid_raidicon = true,
 
     font_face = DEFAULT_FONT,
     font_style = 2,
@@ -137,6 +138,38 @@ function configChanged.fade_speed(v)
     addon:GetPlugin('Fading').fade_speed = v
 end
 
+local function configChangedFadeRule(v,on_load)
+    local plugin = addon:GetPlugin('Fading')
+
+    if not on_load then
+        -- don't reset on the configLoaded call
+        plugin:ResetFadeRules()
+    end
+
+    if core.profile.fade_all then
+        plugin:RemoveFadeRule(2)
+    end
+
+    if core.profile.fade_avoid_nameonly then
+        plugin:AddFadeRule(function(f)
+            return f.state.nameonly and 1
+        end)
+    end
+
+    if core.profile.fade_avoid_raidicon then
+        plugin:AddFadeRule(function(f)
+            return f.RaidIcon:IsShown() and 1
+        end)
+
+        core:RegisterMessage('RaidIconUpdate')
+    else
+        core:UnregisterMessage('RaidIconUpdate')
+    end
+end
+configChanged.fade_all = configChangedFadeRule
+configChanged.fade_avoid_nameonly = configChangedFadeRule
+configChanged.fade_avoid_raidicon = configChangedFadeRule
+
 local function configChangedTextOffset()
     core:configChangedTextOffset()
 end
@@ -199,6 +232,7 @@ configChanged.auras_maximum_length = configChangedAuras
 configChanged.auras_icon_normal_size = configChangedAuras
 configChanged.auras_icon_minus_size = configChangedAuras
 configChanged.auras_icon_squareness = configChangedAuras
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
@@ -213,6 +247,14 @@ configLoaded.level_text = configChanged.level_text
 
 configLoaded.auras_enabled = configChanged.auras_enabled
 configLoaded.auras_whitelist = configChangedAuras
+
+local function configLoadedFadeRule()
+    configChangedFadeRule(nil,true)
+end
+configLoaded.fade_all = configLoadedFadeRule
+configLoaded.fade_avoid_nameonly = configLoadedFadeRule
+configLoaded.fade_avoid_raidicon = configLoadedFadeRule
+
 -- init config #################################################################
 function core:InitialiseConfig()
     self.config = kc:Initialise('KuiNameplatesCore',default_config)

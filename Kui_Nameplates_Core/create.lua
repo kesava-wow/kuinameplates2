@@ -26,6 +26,9 @@ local kui = LibStub('Kui-1.0')
 local LSM = LibStub('LibSharedMedia-3.0')
 local core = KuiNameplatesCore
 
+-- frame fading plugin - called by some update functions
+local plugin_fading
+
 local MEDIA = 'interface/addons/kui_nameplates/media/'
 local CLASS_COLOURS = {
     DEATHKNIGHT = { .90, .22, .33 },
@@ -38,7 +41,8 @@ local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION
-local NAMEONLY_NO_FONT_STYLE
+local NAMEONLY_NO_FONT_STYLE,NAMEONLY_NO_FADE
+local FADE_AVOID_RAIDICON
 
 local FRAME_GLOW_SIZE = 8
 
@@ -146,6 +150,9 @@ do
         FONT_SIZE_SMALL = self.profile.font_size_small
 
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
+
+        NAMEONLY_NO_FADE = self.profile.fade_avoid_nameonly
+        FADE_AVOID_RAIDICON = self.profile.fade_avoid_raidicon
     end
 end
 function core:configChangedFrameSize()
@@ -724,6 +731,10 @@ do
         else
             f.RaidIcon:SetPoint('LEFT',f.HealthBar,'RIGHT',5,0)
         end
+
+        if FADE_AVOID_RAIDICON then
+            plugin_fading:UpdateFrame(f)
+        end
     end
     function core:CreateRaidIcon(f)
         local raidicon = f:CreateTexture(nil,'ARTWORK',nil,2)
@@ -1000,12 +1011,15 @@ do
             f.NameText:SetPoint('CENTER',.5,0)
         end
 
+        f.NameText:Show()
+
         if NAMEONLY_NO_FONT_STYLE then
             f.NameText:SetFont(FONT,FONT_SIZE_NORMAL,nil)
             f.GuildText:SetFont(FONT,FONT_SIZE_SMALL,nil)
         end
-
-        f.NameText:Show()
+        if NAMEONLY_NO_FADE then
+            plugin_fading:UpdateFrame(f)
+        end
     end
     local function NameOnlyDisable(f)
         if not f.state.nameonly then return end
@@ -1014,10 +1028,6 @@ do
         f.NameText:SetText(f.state.name)
         f.NameText:SetTextColor(1,1,1,1)
         f.NameText:SetShadowColor(0,0,0,0)
-
-        if NAMEONLY_NO_FONT_STYLE then
-            UpdateFontObject(f.NameText)
-        end
 
         f.NameText:ClearAllPoints()
         f.NameText:SetParent(f.HealthBar)
@@ -1028,6 +1038,13 @@ do
         f.bg:Show()
         f.HealthBar:Show()
         f.HealthBar.fill:Show()
+
+        if NAMEONLY_NO_FONT_STYLE then
+            UpdateFontObject(f.NameText)
+        end
+        if NAMEONLY_NO_FADE then
+            plugin_fading:UpdateFrame(f)
+        end
     end
     function core:NameOnlyHealthUpdate(f)
         -- set name text colour to approximate health
@@ -1086,6 +1103,8 @@ do
 end
 -- init elements ###############################################################
 function core:InitialiseElements()
+    plugin_fading = addon:GetPlugin('Fading')
+
     self.Auras = {}
 
     self.ClassPowers = {
