@@ -711,7 +711,7 @@ do
         if value and value == 'new_profile' then
             opt.Popup:ShowPage('new_profile')
         else
-            opt.config:SetProfile(selected)
+            opt.config:SetProfile(text)
         end
     end
     local function initialize(self)
@@ -740,6 +740,7 @@ do
         p_dd:SetWidth(152)
         p_dd:SetHeight(40)
         p_dd:SetPoint('TOPLEFT',9,-15)
+        p_dd:SetFrameStrata('TOOLTIP')
 
         p_dd.initialize = initialize
         p_dd.OnValueChanged = OnValueChanged
