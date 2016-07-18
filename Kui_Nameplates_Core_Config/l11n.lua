@@ -19,6 +19,9 @@ opt.tooltips = {
     nameonly_damaged_friends = 'Use nameonly mode, even on damaged friendly frames. Their name will be coloured as a percentage of their health',
     nameonly_enemies = 'Use nameonly mode on unattackable enemies (not including enemy players under effects such as Ice Block)',
 
+    fade_alpha = 'Opacity of faded frames',
+    fade_speed = 'Speed of the frame fading animation, where 1 is slowest and 0 is instant',
+
     hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names". Note that this does not affect nameonly mode',
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
     font_size_normal = 'Standard font size (name, etc)',
@@ -73,6 +76,9 @@ opt.titles = {
     glow_as_shadow = 'Show frame shadow',
     target_glow = 'Show target glow',
     target_glow_colour = 'Target glow colour',
+
+    fade_alpha = 'Faded alpha',
+    fade_speed = 'Fade animation speed',
 
     reaction_colour_sep = 'Reaction colours',
     colour_hated = 'Hated',
