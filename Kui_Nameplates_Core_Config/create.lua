@@ -54,9 +54,9 @@ local fade_all = general:CreateCheckBox('fade_all')
 local fade_avoid_nameonly = general:CreateCheckBox('fade_avoid_nameonly')
 
 fade_alpha:SetWidth(190)
-fade_alpha:SetValueStep(.01)
+fade_alpha:SetValueStep(.05)
 fade_speed:SetWidth(190)
-fade_speed:SetValueStep(.1)
+fade_speed:SetValueStep(.05)
 
 fade_rules_sep:SetPoint('TOP',0,-280)
 fade_alpha:SetPoint('TOPLEFT',10,-310)
