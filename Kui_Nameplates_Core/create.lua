@@ -41,7 +41,7 @@ local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION
-local NAMEONLY_NO_FONT_STYLE,NAMEONLY_NO_FADE,NAMEONLY_ENEMIES
+local NAMEONLY_NO_FONT_STYLE,FADE_AVOID_NAMEONLY,NAMEONLY_ENEMIES
 local NAMEONLY_DAMAGED_FRIENDS,FADE_AVOID_RAIDICON
 
 local FRAME_GLOW_SIZE = 8
@@ -152,7 +152,6 @@ do
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
         NAMEONLY_ENEMIES = self.profile.nameonly_enemies
         NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
-
 
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_AVOID_RAIDICON = self.profile.fade_avoid_raidicon
@@ -1030,7 +1029,7 @@ do
             f.NameText:SetFont(FONT,FONT_SIZE_NORMAL,nil)
             f.GuildText:SetFont(FONT,FONT_SIZE_SMALL,nil)
         end
-        if NAMEONLY_NO_FADE then
+        if FADE_AVOID_NAMEONLY then
             plugin_fading:UpdateFrame(f)
         end
     end
@@ -1055,7 +1054,7 @@ do
         if NAMEONLY_NO_FONT_STYLE then
             UpdateFontObject(f.NameText)
         end
-        if NAMEONLY_NO_FADE then
+        if FADE_AVOID_NAMEONLY then
             plugin_fading:UpdateFrame(f)
         end
     end
