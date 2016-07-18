@@ -41,8 +41,8 @@ local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION
-local NAMEONLY_NO_FONT_STYLE,NAMEONLY_NO_FADE
-local FADE_AVOID_RAIDICON
+local NAMEONLY_NO_FONT_STYLE,NAMEONLY_NO_FADE,NAMEONLY_ENEMIES
+local NAMEONLY_DAMAGED_FRIENDS,FADE_AVOID_RAIDICON
 
 local FRAME_GLOW_SIZE = 8
 
@@ -150,8 +150,11 @@ do
         FONT_SIZE_SMALL = self.profile.font_size_small
 
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
+        NAMEONLY_ENEMIES = self.profile.nameonly_enemies
+        NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
 
-        NAMEONLY_NO_FADE = self.profile.fade_avoid_nameonly
+
+        FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_AVOID_RAIDICON = self.profile.fade_avoid_raidicon
     end
 end
@@ -1065,7 +1068,7 @@ do
         return UnitIsPlayer(unit) and UnitIsEnemy('player',unit)
     end
     local function EnemyAndDisabled(unit)
-        if  not core.profile.nameonly_enemies and
+        if  not NAMEONLY_ENEMIES and
             UnitIsEnemy('player',unit)
         then
             -- don't show on unattackble enemies
@@ -1073,7 +1076,7 @@ do
         end
     end
     local function FriendAndDisabled(unit)
-        if  not core.profile.nameonly_damaged_friends and
+        if  not NAMEONLY_DAMAGED_FRIENDS and
             UnitIsFriend('player',unit)
         then
             if UnitHealth(unit) ~= UnitHealthMax(unit) then
