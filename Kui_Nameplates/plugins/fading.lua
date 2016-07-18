@@ -45,7 +45,11 @@ local function GetDesiredAlpha(frame)
 end
 -- mod functions ###############################################################
 function mod:UpdateFrame(f)
-    FrameFade(f,GetDesiredAlpha(f))
+    if self.fade_speed > 0 then
+        FrameFade(f,GetDesiredAlpha(f))
+    else
+        f:SetAlpha(GetDesiredAlpha(f))
+    end
 end
 function mod:UpdateAllFrames()
     -- update alpha of all visible frames

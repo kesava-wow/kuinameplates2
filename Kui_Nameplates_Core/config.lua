@@ -133,6 +133,9 @@ end
 function configChanged.fade_alpha(v)
     addon:GetPlugin('Fading').faded_alpha = v
 end
+function configChanged.fade_speed(v)
+    addon:GetPlugin('Fading').fade_speed = v
+end
 
 local function configChangedTextOffset()
     core:configChangedTextOffset()
@@ -199,6 +202,7 @@ configChanged.auras_icon_squareness = configChangedAuras
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
+configLoaded.fade_speed = configChanged.fade_speed
 
 configLoaded.colour_hated = configChangedReactionColour
 
