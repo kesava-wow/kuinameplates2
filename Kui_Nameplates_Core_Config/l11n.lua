@@ -80,6 +80,7 @@ opt.titles = {
     target_glow = 'Show target glow',
     target_glow_colour = 'Target glow colour',
 
+    fade_rules_sep = 'Frame fading',
     fade_alpha = 'Faded alpha',
     fade_speed = 'Fade animation speed',
     fade_all = 'Fade by default',
