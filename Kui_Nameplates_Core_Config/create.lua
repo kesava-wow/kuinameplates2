@@ -214,27 +214,28 @@ tankmode_other_colour:SetPoint('LEFT',tankmode_trans_colour,'RIGHT')
 
 -- LSM dropdowns ###############################################################
 function bar_texture:initialize()
-    local info = UIDropDownMenu_CreateInfo()
-
+    local list = {}
     for k,f in ipairs(LSM:List(LSM.MediaType.STATUSBAR)) do
-        info.text = f
-        info.arg1 = self
-        info.arg2 = f
-        info.checked = nil
-        info.func = self.OnChanged
-        UIDropDownMenu_AddButton(info)
+        tinsert(list,{
+            text = f,
+            value = f,
+            selected = f == opt.profile[self.env]
+        })
     end
+
+    self:SetList(list)
+    self:SetValue(opt.profile[self.env])
 end
 function font_face:initialize()
-    local info = UIDropDownMenu_CreateInfo()
-
+    local list = {}
     for k,f in ipairs(LSM:List(LSM.MediaType.FONT)) do
-        info.text = f
-        info.arg1 = self
-        info.arg2 = f
-        info.checked = nil
-        info.func = self.OnChanged
-
-        UIDropDownMenu_AddButton(info)
+        tinsert(list,{
+            text = f,
+            value = f,
+            selected = f == opt.profile[self.env]
+        })
     end
+
+    self:SetList(list)
+    self:SetValue(opt.profile[self.env])
 end
