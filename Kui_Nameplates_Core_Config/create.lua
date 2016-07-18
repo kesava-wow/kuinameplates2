@@ -9,7 +9,6 @@ local text = opt:CreateConfigPage('text')
 local framesizes = opt:CreateConfigPage('framesizes')
 local auras = opt:CreateConfigPage('auras')
 local castbars = opt:CreateConfigPage('castbars')
-local classpowers = opt:CreateConfigPage('classpowers')
 local threat = opt:CreateConfigPage('threat')
 
 -- show inital page
