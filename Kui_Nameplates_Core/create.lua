@@ -990,6 +990,16 @@ function core:ShowNameUpdate(f)
 end
 -- nameonly ####################################################################
 do
+    function core:NameOnlyUpdateFunctions(f)
+        -- update elements affected by nameonly
+        f:UpdateNameText()
+        f:UpdateHealthText()
+        f:UpdateFrameGlow()
+        f:UpdateStateIcon()
+        f:UpdateRaidIcon()
+        f:UpdateCastBar()
+    end
+
     local function NameOnlyEnable(f)
         if f.state.nameonly then return end
         f.state.nameonly = true
@@ -1111,15 +1121,6 @@ do
         else
             NameOnlyDisable(f)
         end
-    end
-    function core:NameOnlyUpdateFunctions(f)
-        -- call update functions affected by nameonly
-        f:UpdateNameText()
-        f:UpdateHealthText()
-        f:UpdateFrameGlow()
-        f:UpdateStateIcon()
-        f:UpdateRaidIcon()
-        f:UpdateCastBar()
     end
 end
 -- init elements ###############################################################
