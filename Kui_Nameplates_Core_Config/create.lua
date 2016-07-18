@@ -29,7 +29,7 @@ bar_texture:SetPoint('TOPLEFT',-5,-30)
 bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',-20,0)
 glow_as_shadow:SetPoint('TOPLEFT',10,-70)
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
-target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',200,0)
+target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',220,0)
 
 local nameonly_sep = general:CreateSeperator('nameonly_sep')
 local nameonlyCheck = general:CreateCheckBox('nameonly')
@@ -41,11 +41,11 @@ nameonly_no_font_style.enabled = function(p) return p.nameonly end
 nameonly_enemies.enabled = function(p) return p.nameonly end
 nameonly_damaged_friends.enabled = function(p) return p.nameonly end
 
-nameonly_sep:SetPoint('TOP',0,-160)
-nameonlyCheck:SetPoint('TOPLEFT',10,-180)
-nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',150,0)
+nameonly_sep:SetPoint('TOP',0,-155)
+nameonlyCheck:SetPoint('TOPLEFT',10,-175)
+nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
 nameonly_damaged_friends:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
-nameonly_enemies:SetPoint('LEFT',nameonly_damaged_friends,'RIGHT',150,0)
+nameonly_enemies:SetPoint('LEFT',nameonly_damaged_friends,'RIGHT',190,0)
 
 local fade_rules_sep = general:CreateSeperator('fade_rules_sep')
 local fade_alpha = general:CreateSlider('fade_alpha',0,1)
@@ -58,11 +58,11 @@ fade_alpha:SetValueStep(.05)
 fade_speed:SetWidth(190)
 fade_speed:SetValueStep(.05)
 
-fade_rules_sep:SetPoint('TOP',0,-280)
-fade_alpha:SetPoint('TOPLEFT',10,-310)
+fade_rules_sep:SetPoint('TOP',0,-260)
+fade_alpha:SetPoint('TOPLEFT',10,-290)
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-fade_all:SetPoint('TOPLEFT',15,-350)
-fade_avoid_nameonly:SetPoint('LEFT',fade_all,'RIGHT',150,0)
+fade_all:SetPoint('TOPLEFT',15,-325)
+fade_avoid_nameonly:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 
 local colour_sep = general:CreateSeperator('reaction_colour_sep')
 local colour_hated = general:CreateColourPicker('colour_hated')
