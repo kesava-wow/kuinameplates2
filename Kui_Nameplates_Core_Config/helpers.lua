@@ -1,46 +1,45 @@
 local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
--- generic helpers #############################################################
+-- generic scripts #############################################################
 local function EditBoxOnEscapePressed(self)
     self:ClearFocus()
 end
+local function OnEnter(self)
+    GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
+    GameTooltip:SetWidth(200)
+    GameTooltip:AddLine(self.label and self.label:GetText() or '')
+
+    if opt.tooltips[self.env] then
+        GameTooltip:AddLine(opt.tooltips[self.env], 1,1,1,true)
+    end
+
+    GameTooltip:Show()
+end
+local function OnLeave(self)
+    GameTooltip:Hide()
+end
+local function OnEnable(self)
+    if self.label then
+        self.label:SetAlpha(1)
+    end
+end
+local function OnDisable(self)
+    if self.label then
+        self.label:SetAlpha(.5)
+    end
+end
+local function GenericOnShow(self)
+    if self.enabled then
+        if self.enabled(opt.profile) then
+            self:Enable()
+        else
+            self:Disable()
+        end
+    end
+end
 -- element creation helpers ####################################################
 do
-    local function OnEnter(self)
-        GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
-        GameTooltip:SetWidth(200)
-        GameTooltip:AddLine(self.label and self.label:GetText() or '')
-
-        if opt.tooltips[self.env] then
-            GameTooltip:AddLine(opt.tooltips[self.env], 1,1,1,true)
-        end
-
-        GameTooltip:Show()
-    end
-    local function OnLeave(self)
-        GameTooltip:Hide()
-    end
-    local function OnEnable(self)
-        if self.label then
-            self.label:SetAlpha(1)
-        end
-    end
-    local function OnDisable(self)
-        if self.label then
-            self.label:SetAlpha(.5)
-        end
-    end
-    local function GenericOnShow(self)
-        if self.enabled then
-            if self.enabled(opt.profile) then
-                self:Enable()
-            else
-                self:Disable()
-            end
-        end
-    end
-
     local function CheckBoxOnClick(self)
         if self:GetChecked() then
             PlaySound("igMainMenuOptionCheckBoxOn")
@@ -87,7 +86,8 @@ do
         end
         return check
     end
-
+end
+do
     local function DropDownOnChanged(info,self,selected)
         if self.env and opt.config then
             opt.config:SetConfig(self.env,selected)
@@ -145,7 +145,8 @@ do
         end
         return dd
     end
-
+end
+do
     local function SliderOnShow(self)
         if not opt.profile then return end
         if self.env and opt.profile[self.env] then
@@ -219,7 +220,8 @@ do
         end
         return slider
     end
-
+end
+do
     local function ColourPickerOnShow(self)
         if not opt.profile then return end
         if self.env and opt.profile[self.env] then
@@ -274,27 +276,26 @@ do
         end
         return container
     end
+end
+function opt.CreateSeperator(parent,name)
+    local line = parent:CreateTexture(nil,'ARTWORK')
+    line:SetTexture('interface/buttons/white8x8')
+    line:SetVertexColor(1,1,1,.3)
+    line:SetSize(400,1)
 
-    function opt.CreateSeperator(parent,name)
-        local line = parent:CreateTexture(nil,'ARTWORK')
-        line:SetTexture('interface/buttons/white8x8')
-        line:SetVertexColor(1,1,1,.3)
-        line:SetSize(400,1)
+    local shadow = parent:CreateTexture(nil,'ARTWORK')
+    shadow:SetTexture('interface/buttons/white8x8')
+    shadow:SetVertexColor(0,0,0,.8)
+    shadow:SetSize(400,1)
+    shadow:SetPoint('BOTTOM',line,'TOP')
 
-        local shadow = parent:CreateTexture(nil,'ARTWORK')
-        shadow:SetTexture('interface/buttons/white8x8')
-        shadow:SetVertexColor(0,0,0,.8)
-        shadow:SetSize(400,1)
-        shadow:SetPoint('BOTTOM',line,'TOP')
+    local label = parent:CreateFontString(nil,'ARTWORK','GameFontNormal')
+    label:SetText(opt.titles[name] or name or 'Seperator')
+    label:SetPoint('CENTER',line,0,10)
 
-        local label = parent:CreateFontString(nil,'ARTWORK','GameFontNormal')
-        label:SetText(opt.titles[name] or name or 'Seperator')
-        label:SetPoint('CENTER',line,0,10)
-
-        line.label = label
-        line.shadow = shadow
-        return line
-    end
+    line.label = label
+    line.shadow = shadow
+    return line
 end
 -- page functions ##############################################################
 do
