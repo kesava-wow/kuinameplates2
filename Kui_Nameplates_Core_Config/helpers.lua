@@ -1,6 +1,7 @@
 local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
+local pcdd = LibStub('PhanxConfig-Dropdown')
 -- generic scripts #############################################################
 local function EditBoxOnEscapePressed(self)
     self:ClearFocus()
@@ -8,9 +9,12 @@ end
 local function OnEnter(self)
     GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
     GameTooltip:SetWidth(200)
-    GameTooltip:AddLine(self.label and self.label:GetText() or '')
+    GameTooltip:AddLine(
+        self.env and (opt.titles[self.env] or self.env) or
+        self.label and self.label:GetText()
+    )
 
-    if opt.tooltips[self.env] then
+    if self.env and opt.tooltips[self.env] then
         GameTooltip:AddLine(opt.tooltips[self.env], 1,1,1,true)
     end
 
@@ -88,28 +92,23 @@ do
     end
 end
 do
-    local function DropDownOnChanged(info,self,selected)
+    local function DropDownOnChanged(self,value,text)
         if self.env and opt.config then
-            opt.config:SetConfig(self.env,selected)
+            opt.config:SetConfig(self.env,value)
         end
     end
     local function DropDownGenericInit(self)
-        local info = UIDropDownMenu_CreateInfo()
-
+        local list = {}
         for k,f in ipairs(self.SelectTable) do
-            info.text = f
-            info.arg1 = self
-            info.arg2 = k
-            info.checked = nil
-            info.func = DropDownOnChanged
-
-            UIDropDownMenu_AddButton(info)
+            tinsert(list,{
+                text = f,
+                value = k,
+                selected = k == opt.profile[self.env]
+            })
         end
 
-        if self.env and opt.profile[self.env] then
-            UIDropDownMenu_SetSelectedName(self,self.SelectTable[opt.profile[self.env]])
-            self.manual = true
-        end
+        self:SetList(list)
+        self:SetValue(opt.profile[self.env])
     end
     local function DropDownOnShow(self)
         if self.SelectTable and not self.initialize then
@@ -119,26 +118,19 @@ do
 
         if type(self.initialize) ~= 'function' then return end
         self:initialize()
-
-        if not self.manual and self.env then
-            UIDropDownMenu_SetSelectedName(self,opt.profile[self.env])
-        end
     end
     function opt.CreateDropDown(parent, name, width)
-        local dd = CreateFrame('Frame',frame_name..name..'DropDown',parent,'UIDropDownMenuTemplate')
+        local dd = pcdd:New(
+            parent,
+            opt.titles[name] or name or 'DropDown'
+        )
         dd.env = name
 
-        UIDropDownMenu_SetWidth(dd,width or 150)
-
-        dd.label = parent:CreateFontString(dd:GetName()..'Label','ARTWORK','GameFontNormalSmall')
-        dd.label:SetText(opt.titles[name] or name or 'DropDown')
-        dd.label:SetPoint('BOTTOMLEFT',dd,'TOPLEFT',20,1)
-
         dd:HookScript('OnShow',DropDownOnShow)
-        dd:HookScript('OnEnter',OnEnter)
-        dd:HookScript('OnLeave',OnLeave)
 
-        dd.OnChanged = DropDownOnChanged
+        dd.OnEnter = OnEnter
+        dd.OnLeave = OnLeave
+        dd.OnValueChanged = DropDownOnChanged
 
         if name and type(parent.elements) == 'table' then
             parent.elements[name] = dd
