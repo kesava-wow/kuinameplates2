@@ -27,7 +27,7 @@ local function FrameFade(frame,to)
 
     kff(frame, {
         mode = alpha_change < 0 and 'OUT' or 'IN',
-        timeToFade = abs(alpha_change) * .5,
+        timeToFade = abs(alpha_change) * mod.fade_speed,
         startAlpha = cur_alpha,
         endAlpha = to,
         finishedFunc = ResetFrameFade
@@ -105,5 +105,7 @@ function mod:Initialise()
     self:RegisterCallback('FadeRulesReset')
 
     self.faded_alpha = .5
+    self.fade_speed = .5
+
     self:ResetFadeRules()
 end
