@@ -704,50 +704,57 @@ do
         end)
     end
 end
+-- profile drop down functions #################################################
+local CreateProfileDropDown
+do
+    local function OnValueChanged(self,value,text)
+        if value and value == 'new_profile' then
+            opt.Popup:ShowPage('new_profile')
+        else
+            opt.config:SetProfile(selected)
+        end
+    end
+    local function initialize(self)
+        local list = {}
+
+        -- create new profile button
+        tinsert(list,{
+            text = opt.titles['new_profile'],
+            value = 'new_profile'
+        })
+
+        -- create profile buttons
+        for k,p in pairs(opt.config.gsv.profiles) do
+            tinsert(list,{
+                text = k,
+                selected = k == opt.config.csv.profile
+            })
+        end
+
+        self:SetList(list)
+        self:SetValue(opt.config.csv.profile)
+    end
+    function CreateProfileDropDown()
+        p_dd = pcdd:New(opt,opt.titles['profile'])
+        p_dd.labelText:SetFontObject('GameFontNormalSmall')
+        p_dd:SetWidth(152)
+        p_dd:SetHeight(40)
+        p_dd:SetPoint('TOPLEFT',9,-15)
+
+        p_dd.initialize = initialize
+        p_dd.OnValueChanged = OnValueChanged
+
+        p_dd:HookScript('OnShow',function(self)
+            self:initialize()
+        end)
+    end
+end
 -- init display ################################################################
 function opt:Initialise()
     self:CreatePopup()
+    CreateProfileDropDown()
 
-    -- create profile dropdown
-    local p_dd = CreateFrame('Frame','KuiNameplatesCoreConfigProfileDropDown',opt,'UIDropDownMenuTemplate')
-    UIDropDownMenu_SetWidth(p_dd,130)
-    p_dd:SetPoint('TOPLEFT',-5,-23)
-
-    p_dd.label = opt:CreateFontString(nil,'ARTWORK','GameFontNormalSmall')
-    p_dd.label:SetText(opt.titles['profile'])
-    p_dd.label:SetPoint('BOTTOMLEFT',p_dd,'TOPLEFT',20,1)
-
-    function p_dd.OnChanged(self,selected)
-        opt.config:SetProfile(selected)
-    end
-    function p_dd.NewProfile()
-        opt.Popup:ShowPage('new_profile')
-    end
-    function p_dd:initialize()
-        local info = UIDropDownMenu_CreateInfo()
-
-        do
-            info.text = opt.titles.new_profile
-            info.checked = nil
-            info.func = self.NewProfile
-            UIDropDownMenu_AddButton(info)
-        end
-
-        for k,p in pairs(opt.config.gsv.profiles) do
-            info.text = k
-            info.arg1 = k
-            info.checked = nil
-            info.func = self.OnChanged
-            UIDropDownMenu_AddButton(info)
-        end
-
-        UIDropDownMenu_SetSelectedName(self,opt.config.csv.profile)
-    end
-
-    p_dd:HookScript('OnShow',function(self)
-        self:initialize()
-    end)
-
+    -- create profile buttons
     local function ProfileButtonOnShow(self)
         if opt.config.csv.profile == 'default' then
             self:Disable()
@@ -756,7 +763,6 @@ function opt:Initialise()
         end
     end
 
-    -- create profile buttons
     local p_delete = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
     p_delete:SetPoint('TOPRIGHT',-10,-26)
     p_delete:SetText('Delete profile')
