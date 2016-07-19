@@ -149,7 +149,10 @@ do
         GenericOnShow(self)
     end
     local function SliderOnChanged(self)
-        self.display:SetText(self:GetValue())
+        local r_v = string.format('%.4f',self:GetValue())
+        r_v = string.gsub(r_v,'0+$','')
+        r_v = string.gsub(r_v,'%.$','')
+        self.display:SetText(r_v)
     end
     local function SliderOnManualChange(self)
         if not self:IsEnabled() then return end
@@ -181,13 +184,15 @@ do
         slider:SetObeyStepOnDrag(true)
         slider:EnableMouseWheel(true)
 
+        -- TODO inc/dec buttons
+        -- TODO editbox
+
         local label = slider:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
         label:SetText(opt.titles[name] or name or 'Slider')
         label:SetPoint('BOTTOM',slider,'TOP')
 
         local display = slider:CreateFontString(slider:GetName()..'Display','ARTWORK','GameFontHighlightSmall')
         display:SetPoint('TOP',slider,'BOTTOM')
-        -- TODO editbox
 
         slider.orig_SetMinMaxValues = slider.SetMinMaxValues
         slider.SetMinMaxValues = SliderSetMinMaxValues
