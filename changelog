@@ -1,3 +1,6 @@
+* It's a predictable release-day update! Previous change log is included.
+* force-enable the Blizzard_Nameplates addon and warn about addon conflicts.
+
 * This is a complete rewrite of KuiNameplates for Legion. It isn't completely
 finished yet. Read the description on Curse for more information.
 * Notably, some configuration is missing because I haven't got around to it
