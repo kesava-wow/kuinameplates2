@@ -92,9 +92,14 @@ local function OnEvent(self,event,...)
         return
     end
 
+    if not IsAddOnLoaded('Blizzard_Nameplates') then
+        print('|cff9966ffKui Namemplates|r: You have disabled the built-in Blizzard_Nameplates addon which KNP requires. There will be errors. You can re-enable it with:')
+        print('    /run EnableAddOn(\'Blizzard_Nameplates\')')
+    end
+
     if not self.layout then
         -- throw missing layout
-        print('|cff9966ffKui Nameplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
+        print('|cff9966ffKui Namemplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
         return
     end
 
