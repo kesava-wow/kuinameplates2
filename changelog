@@ -1,2 +1,10 @@
-- This is a "release candidate" sort of thing for the Legion prepatch. It
-won't work on what's left of live, and it isn't completely finished yet.
+* This is a complete rewrite of KuiNameplates for Legion. It isn't completely
+finished yet. Read the description on Curse for more information.
+* Notably, some configuration is missing because I haven't got around to it
+yet. Don't worry. You don't need to tell me. I know.
+* Your configuration will be reset for this version as I no longer use Ace3 to
+provide it. If you had some massively complex config set up, sorry about that.
+* External addons will need to be rewritten, and a custom.lua replacement
+doesn't exist yet, but of course people who have knowledge of lua can still
+make their own modifications.
+
