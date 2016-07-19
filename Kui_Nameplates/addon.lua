@@ -93,8 +93,8 @@ local function OnEvent(self,event,...)
     end
 
     if not IsAddOnLoaded('Blizzard_Nameplates') then
-        print('|cff9966ffKui Nameplates|r: You have disabled the built-in Blizzard_Nameplates addon which KNP requires. There will be errors. You can re-enable it with:')
-        print('    /run EnableAddOn(\'Blizzard_Nameplates\')')
+        EnableAddOn('Blizzard_Nameplates')
+        print('|cff9966ffKui Nameplates|r: You have disabled the built-in Blizzard_Nameplates addon which KNP requires. There will be errors. Reload the UI to re-enable it. If this message still appears, you may have another addon which is interfering.')
     end
 
     if not self.layout then
