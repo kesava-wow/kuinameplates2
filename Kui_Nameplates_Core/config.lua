@@ -142,6 +142,12 @@ function configChanged.fade_speed(v)
     addon:GetPlugin('Fading').fade_speed = v
 end
 
+function configChanged.castbar_colour()
+    for i,f in addon:Frames() do
+        f:UpdateCastbarColour()
+    end
+end
+
 local function configChangedCombatAction()
     -- push vars to layout
     core.CombatToggle = {

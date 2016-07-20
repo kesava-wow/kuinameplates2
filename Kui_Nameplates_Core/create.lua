@@ -623,7 +623,7 @@ do
         f.CastBar.spark:SetHeight(CASTBAR_HEIGHT+4)
     end
     local function UpdateCastbarColour(f)
-        f.CastBar:SetStatusBarColor(.6, .6, .75)
+        f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
     end
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
