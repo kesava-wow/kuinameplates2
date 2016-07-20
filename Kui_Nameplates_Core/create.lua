@@ -622,6 +622,9 @@ do
         f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
         f.CastBar.spark:SetHeight(CASTBAR_HEIGHT+4)
     end
+    local function UpdateCastbarColour(f)
+        f.CastBar:SetStatusBarColor(.6, .6, .75)
+    end
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
@@ -632,7 +635,6 @@ do
         local castbar = CreateFrame('StatusBar', nil, f)
         castbar:SetFrameLevel(0)
         castbar:SetStatusBarTexture(BAR_TEXTURE)
-        castbar:SetStatusBarColor(.6, .6, .75)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
@@ -689,9 +691,11 @@ do
         f.SpellIconSetWidth = SpellIconSetWidth
         f.UpdateSpellNamePosition = UpdateSpellNamePosition
         f.UpdateCastbarSize = UpdateCastbarSize
+        f.UpdateCastbarColour = UpdateCastbarColour
 
         f:UpdateSpellNamePosition()
         f:UpdateCastbarSize()
+        f:UpdateCastbarColour()
     end
 end
 -- state icons #################################################################
