@@ -27,3 +27,4 @@ plugins/animation.lua
 plugins/fading.lua
 plugins/npctitle.lua
 plugins/tankmode.lua
+plugins/combattoggle.lua

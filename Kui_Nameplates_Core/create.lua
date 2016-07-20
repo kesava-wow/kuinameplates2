@@ -1126,6 +1126,8 @@ end
 function core:InitialiseElements()
     plugin_fading = addon:GetPlugin('Fading')
 
+    self.CombatToggle = {}
+
     self.Auras = {}
 
     self.ClassPowers = {
