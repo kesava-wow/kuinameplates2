@@ -17,7 +17,7 @@ opt.tooltips = {
     combat_hostile = 'Action to take on hostile frames upon entering combat. Will be inverted upon leaving combat',
     combat_friendly = 'Action to take on friendly frames upon entering combat. Will be inverted upon leaving combat',
 
-    state_icons = 'Show an icon on bosses and rare units',
+    state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
     nameonly = 'Hide the healthbars of friendly or unattackable units',
     nameonly_no_font_style = 'Hide text outline when in nameonly mode (by setting the font style to nil)',
