@@ -14,6 +14,9 @@ opt.tooltips = {
     bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
     bar_animation = 'The style of animation to use on health/power bars',
 
+    combat_hostile = 'Action to take on hostile frames upon entering combat. Will be inverted upon leaving combat',
+    combat_friendly = 'Action to take on friendly frames upon entering combat. Will be inverted upon leaving combat',
+
     nameonly = 'Hide the healthbars of friendly or unattackable units',
     nameonly_no_font_style = 'Hide text outline when in nameonly mode (by setting the font style to nil)',
     nameonly_damaged_friends = 'Use nameonly mode, even on damaged friendly frames. Their name will be coloured as a percentage of their health',
@@ -69,6 +72,9 @@ opt.titles = {
 
     bar_texture = 'Bar texture',
     bar_animation = 'Bar animation',
+
+    combat_hostile = 'Combat action: hostile',
+    combat_friendly = 'Combat action: friendly',
 
     nameonly_sep = 'Nameonly mode',
     nameonly = 'Use nameonly mode',

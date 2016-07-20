@@ -19,12 +19,14 @@ opt.pages[1]:ShowPage()
 local bar_texture = general:CreateDropDown('bar_texture')
 local bar_animation = general:CreateDropDown('bar_animation')
 local combat_hostile = general:CreateDropDown('combat_hostile')
-local combat_friendly = general:CreateDropDown('combat_hostile')
+local combat_friendly = general:CreateDropDown('combat_friendly')
 local glow_as_shadow = general:CreateCheckBox('glow_as_shadow')
 local target_glow = general:CreateCheckBox('target_glow')
 local target_glow_colour = general:CreateColourPicker('target_glow_colour')
 
 bar_animation.SelectTable = {'None','Smooth','Cutaway'}
+combat_hostile.SelectTable = {'Do nothing','Hide','Show'}
+combat_friendly.SelectTable = {'Do nothing','Hide','Show'}
 
 bar_texture:SetPoint('TOPLEFT',10,-10)
 bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',10,0)
