@@ -140,6 +140,16 @@ function configChanged.fade_speed(v)
     addon:GetPlugin('Fading').fade_speed = v
 end
 
+local function configChangedCombatAction()
+    -- push vars to layout
+    core.CombatToggle = {
+        hostile = core.profile.combat_hostile,
+        friendly = core.profile.combat_friendly
+    }
+end
+configChanged.combat_hostile = configChangedCombatAction
+configChanged.combat_friendly = configChangedCombatAction
+
 local function configChangedFadeRule(v,on_load)
     local plugin = addon:GetPlugin('Fading')
 
@@ -254,6 +264,8 @@ local function configLoadedFadeRule()
     configChangedFadeRule(nil,true)
 end
 configLoaded.fade_all = configLoadedFadeRule
+
+configLoaded.combat_hostile = configChangedCombatAction
 
 -- init config #################################################################
 function core:InitialiseConfig()
