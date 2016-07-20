@@ -322,6 +322,7 @@ function ele:RuneUpdate(event,rune_id,energise)
     -- set cooldown on rune icons
     local startTime, duration, charged = GetRuneCooldown(rune_id)
     local icon = cpf.icons[rune_id]
+    if not icon then return end
 
     if charged or energise then
         icon.cd:Hide()
