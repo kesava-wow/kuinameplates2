@@ -21,6 +21,7 @@ local bar_animation = general:CreateDropDown('bar_animation')
 local combat_hostile = general:CreateDropDown('combat_hostile')
 local combat_friendly = general:CreateDropDown('combat_friendly')
 local glow_as_shadow = general:CreateCheckBox('glow_as_shadow')
+local state_icons = general:CreateCheckBox('state_icons')
 local target_glow = general:CreateCheckBox('target_glow')
 local target_glow_colour = general:CreateColourPicker('target_glow_colour')
 
@@ -35,6 +36,7 @@ combat_hostile:SetPoint('TOPLEFT',bar_texture,'BOTTOMLEFT',0,-5)
 combat_friendly:SetPoint('TOPLEFT',bar_animation,'BOTTOMLEFT',0,-5)
 
 glow_as_shadow:SetPoint('TOPLEFT',10,-100)
+state_icons:SetPoint('LEFT',glow_as_shadow,'RIGHT',190,0)
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',220,0)
 

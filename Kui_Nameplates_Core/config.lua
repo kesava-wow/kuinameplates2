@@ -32,6 +32,7 @@ local default_config = {
     nameonly_damaged_friends = true,
     nameonly_enemies = true,
     glow_as_shadow = true,
+    state_icons = false,
     target_glow = true,
     target_glow_colour = { .3, .7, 1, 1 },
 
