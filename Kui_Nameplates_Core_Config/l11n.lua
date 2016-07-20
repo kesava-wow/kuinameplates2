@@ -17,6 +17,8 @@ opt.tooltips = {
     combat_hostile = 'Action to take on hostile frames upon entering combat. Will be inverted upon leaving combat',
     combat_friendly = 'Action to take on friendly frames upon entering combat. Will be inverted upon leaving combat',
 
+    state_icons = 'Show an icon on bosses and rare units',
+
     nameonly = 'Hide the healthbars of friendly or unattackable units',
     nameonly_no_font_style = 'Hide text outline when in nameonly mode (by setting the font style to nil)',
     nameonly_damaged_friends = 'Use nameonly mode, even on damaged friendly frames. Their name will be coloured as a percentage of their health',
@@ -83,6 +85,7 @@ opt.titles = {
     nameonly_enemies = 'On unattackable enemies',
 
     glow_as_shadow = 'Show frame shadow',
+    state_icons = 'Show state icons',
     target_glow = 'Show target glow',
     target_glow_colour = 'Target glow colour',
 
