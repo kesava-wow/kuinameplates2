@@ -44,6 +44,7 @@ local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local NAMEONLY_NO_FONT_STYLE,FADE_AVOID_NAMEONLY,NAMEONLY_ENEMIES
 local NAMEONLY_DAMAGED_FRIENDS,FADE_AVOID_RAIDICON
 
+local POWER_BAR_HEIGHT = 2
 local FRAME_GLOW_SIZE = 8
 
 -- common globals
@@ -276,8 +277,8 @@ do
         local hb_height = f.bg:GetHeight()-2
 
         if f.PowerBar:IsShown() then
-            hb_height = hb_height - 3
-            f.PowerBar:SetHeight(2)
+            hb_height = (hb_height-POWER_BAR_HEIGHT)-1
+            f.PowerBar:SetHeight(POWER_BAR_HEIGHT)
         end
 
         f.HealthBar:SetHeight(hb_height)
