@@ -24,8 +24,10 @@ function addon.Nameplate.RegisterElement(frame, element_name, element_frame)
     frame[element_name] = element_frame
 end
 function addon.Nameplate.DisableElement(frame, element_name)
+    if not element_name then return end
     frame = frame.parent
-    if frame.elements[element_name] then
+
+    if frame and frame.elements[element_name] then
         frame.elements[element_name] = false
 
         -- TODO as above, addon:GetElementProvider(name) or something
@@ -36,8 +38,10 @@ function addon.Nameplate.DisableElement(frame, element_name)
     end
 end
 function addon.Nameplate.EnableElement(frame, element_name)
+    if not element_name then return end
     frame = frame.parent
-    if frame.elements[element_name] == false then
+
+    if frame and frame.elements[element_name] == false then
         frame.elements[element_name] = true
 
         local provider = addon:GetPlugin(element_name)
