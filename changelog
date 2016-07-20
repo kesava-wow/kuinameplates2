@@ -1,3 +1,4 @@
 * fix power bar sometimes being wrong. maybe. look, i don't know (#11)
 * add the global frame KuiNameplatesPlayerAnchor for anchoring WeakAuras to
 the player frame, etc.
+* add option to change castbar colour

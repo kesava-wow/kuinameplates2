@@ -133,6 +133,7 @@ opt.titles = {
     auras_icon_squareness = 'Icon squareness',
 
     castbar_enable = 'Enable',
+    castbar_colour = 'Castbar colour',
     castbar_showpersonal = 'Show own castbar',
     castbar_showall = 'Show castbars on all nameplates',
     castbar_showfriend = 'Show friendly castbars',
