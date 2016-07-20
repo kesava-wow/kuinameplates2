@@ -124,9 +124,12 @@ do
             parent,
             opt.titles[name] or name or 'DropDown'
         )
+        dd.labelText:SetFontObject('GameFontNormalSmall')
         dd:SetWidth(width or 200)
+        dd:SetHeight(40)
         dd:SetFrameStrata('TOOLTIP')
         dd.env = name
+
 
         dd:HookScript('OnShow',DropDownOnShow)
 
