@@ -1,13 +1,3 @@
-* It's a predictable release-day update! Previous change log is included.
-* force-enable the Blizzard_Nameplates addon and warn about addon conflicts.
-
-* This is a complete rewrite of KuiNameplates for Legion. It isn't completely
-finished yet. Read the description on Curse for more information.
-* Notably, some configuration is missing because I haven't got around to it
-yet. Don't worry. You don't need to tell me. I know.
-* Your configuration will be reset for this version as I no longer use Ace3 to
-provide it. If you had some massively complex config set up, sorry about that.
-* External addons will need to be rewritten, and a custom.lua replacement
-doesn't exist yet, but of course people who have knowledge of lua can still
-make their own modifications.
-
+* add state icons toggle
+* add auto combat toggle options
+* prevent nil rune errors
