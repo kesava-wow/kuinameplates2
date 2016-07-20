@@ -48,8 +48,8 @@ nameonly_no_font_style.enabled = function(p) return p.nameonly end
 nameonly_enemies.enabled = function(p) return p.nameonly end
 nameonly_damaged_friends.enabled = function(p) return p.nameonly end
 
-nameonly_sep:SetPoint('TOP',0,-185)
-nameonlyCheck:SetPoint('TOPLEFT',10,-205)
+nameonly_sep:SetPoint('TOP',0,-180)
+nameonlyCheck:SetPoint('TOPLEFT',10,-190)
 nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
 nameonly_damaged_friends:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
 nameonly_enemies:SetPoint('LEFT',nameonly_damaged_friends,'RIGHT',190,0)
@@ -66,10 +66,10 @@ fade_alpha:SetValueStep(.05)
 fade_speed:SetWidth(190)
 fade_speed:SetValueStep(.05)
 
-fade_rules_sep:SetPoint('TOP',0,-290)
-fade_alpha:SetPoint('TOPLEFT',10,-320)
+fade_rules_sep:SetPoint('TOP',0,-270)
+fade_alpha:SetPoint('TOPLEFT',10,-295)
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-fade_all:SetPoint('TOPLEFT',15,-355)
+fade_all:SetPoint('TOPLEFT',15,-330)
 fade_avoid_nameonly:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_avoid_raidicon:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
 
@@ -80,8 +80,8 @@ local colour_friendly = general:CreateColourPicker('colour_friendly')
 local colour_tapped = general:CreateColourPicker('colour_tapped')
 local colour_player = general:CreateColourPicker('colour_player')
 
-colour_sep:SetPoint('TOP',0,-440)
-colour_hated:SetPoint('TOPLEFT',15,-460)
+colour_sep:SetPoint('TOP',0,-405)
+colour_hated:SetPoint('TOPLEFT',15,-415)
 colour_neutral:SetPoint('LEFT',colour_hated,'RIGHT')
 colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
 colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')
