@@ -140,6 +140,7 @@ do
         FRAME_WIDTH_MINUS = self.profile.frame_width_minus
         FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
         CASTBAR_HEIGHT = self.profile.castbar_height
+        CASTBAR_COLOUR = self.profile.castbar_colour
 
         TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
         NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset

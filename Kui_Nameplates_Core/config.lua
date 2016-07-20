@@ -76,6 +76,7 @@ local default_config = {
     auras_icon_squareness = .7,
 
     castbar_enable = true,
+    castbar_colour = {.6,.6,.75},
     castbar_showpersonal = false,
     castbar_showall = true,
     castbar_showfriend = true,
