@@ -12,6 +12,10 @@ local kui = LibStub('Kui-1.0')
 KuiNameplatesCore = addon:Layout()
 local core = KuiNameplatesCore
 
+-- positioned and "shown" on the player's frame when/if it is shown
+KuiNameplatesPlayerAnchor = CreateFrame('Frame')
+KuiNameplatesPlayerAnchor:Hide()
+
 if not core then
     -- another layout is already loaded
     return
@@ -38,6 +42,11 @@ function core:Show(f)
     f.state.player = UnitIsUnit(f.unit,'player')
     f.state.friend = UnitIsFriend('player',f.unit)
     f.state.enemy = UnitIsEnemy('player',f.unit)
+
+    if f.state.player then
+        KuiNameplatesPlayerAnchor:SetAllPoints(f)
+        KuiNameplatesPlayerAnchor:Show()
+    end
 
     -- go into nameonly mode if desired
     self:NameOnlyUpdate(f)
@@ -66,6 +75,11 @@ function core:Show(f)
     f:UpdateCastBar()
 end
 function core:Hide(f)
+    if f.state.player then
+        KuiNameplatesPlayerAnchor:ClearAllPoints()
+        KuiNameplatesPlayerAnchor:Hide()
+    end
+
     self:NameOnlyUpdate(f,true)
 end
 function core:HealthUpdate(f)
