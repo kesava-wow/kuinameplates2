@@ -4,7 +4,6 @@ local ele = addon:NewElement('PowerBar')
 -- prototype additions #########################################################
 function addon.Nameplate.UpdatePower(f,on_show)
     f = f.parent
-
     if f.elements.PowerBar then
         if f.state.power_type then
             local power_type = f.state.power_type
@@ -21,10 +20,10 @@ function addon.Nameplate.UpdatePower(f,on_show)
             f.PowerBar:SetStatusBarColor(0,0,0)
             f.PowerBar:SetValue(0)
         end
-    end
 
-    if not on_show then
-        addon:DispatchMessage('PowerUpdate', f)
+        if not on_show then
+            addon:DispatchMessage('PowerUpdate', f)
+        end
     end
 end
 -- messages ####################################################################
@@ -52,10 +51,7 @@ end
 -- enable/disable per frame ####################################################
 function ele:EnableOnFrame(frame)
     frame.PowerBar:Show()
-
-    if frame:IsShown() then
-        self:Show(frame)
-    end
+    frame.handler:UpdatePower(true)
 end
 function ele:DisableOnFrame(frame)
     frame.PowerBar:Hide()
