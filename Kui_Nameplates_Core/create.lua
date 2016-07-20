@@ -40,7 +40,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
 local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
-local BAR_TEXTURE,BAR_ANIMATION
+local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local NAMEONLY_NO_FONT_STYLE,FADE_AVOID_NAMEONLY,NAMEONLY_ENEMIES
 local NAMEONLY_DAMAGED_FRIENDS,FADE_AVOID_RAIDICON
 
@@ -155,6 +155,8 @@ do
 
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_AVOID_RAIDICON = self.profile.fade_avoid_raidicon
+
+        SHOW_STATE_ICONS = self.profile.state_icons
     end
 end
 function core:configChangedFrameSize()
@@ -696,7 +698,10 @@ do
     local RARE = {.5,1,.5,1}
 
     local function UpdateStateIcon(f)
-        if f.state.nameonly or (f.elements.LevelText and f.LevelText:IsShown()) then
+        if  not SHOW_STATE_ICONS or
+            f.state.nameonly or
+            (f.elements.LevelText and f.LevelText:IsShown())
+        then
             f.StateIcon:Hide()
             return
         end
