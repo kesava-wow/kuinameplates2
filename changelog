@@ -1,3 +1,3 @@
-* add state icons toggle
-* add auto combat toggle options
-* prevent nil rune errors
+* fix power bar sometimes being wrong. maybe. look, i don't know (#11)
+* add the global frame KuiNameplatesPlayerAnchor for anchoring WeakAuras to
+the player frame, etc.
