@@ -130,7 +130,6 @@ do
         dd:SetFrameStrata('TOOLTIP')
         dd.env = name
 
-
         dd:HookScript('OnShow',DropDownOnShow)
 
         dd.OnEnter = OnEnter
