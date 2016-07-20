@@ -16,10 +16,10 @@ opt.pages[1]:ShowPage()
 
 -- create elements #############################################################
 -- general #####################################################################
-local bar_texture = general:CreateDropDown('bar_texture',175)
-local bar_animation = general:CreateDropDown('bar_animation',175)
-local combat_hostile = general:CreateDropDown('combat_hostile',175)
-local combat_friendly = general:CreateDropDown('combat_hostile',175)
+local bar_texture = general:CreateDropDown('bar_texture')
+local bar_animation = general:CreateDropDown('bar_animation')
+local combat_hostile = general:CreateDropDown('combat_hostile')
+local combat_friendly = general:CreateDropDown('combat_hostile')
 local glow_as_shadow = general:CreateCheckBox('glow_as_shadow')
 local target_glow = general:CreateCheckBox('target_glow')
 local target_glow_colour = general:CreateColourPicker('target_glow_colour')
@@ -88,8 +88,8 @@ colour_player:SetPoint('LEFT',colour_tapped,'RIGHT')
 target_glow_colour.enabled = function(p) return p.target_glow end
 
 -- text ########################################################################
-local font_face = text:CreateDropDown('font_face',175)
-local font_style = text:CreateDropDown('font_style',175)
+local font_face = text:CreateDropDown('font_face')
+local font_style = text:CreateDropDown('font_style')
 local font_size_normal = text:CreateSlider('font_size_normal',1,20)
 local font_size_small = text:CreateSlider('font_size_small',1,20)
 local hidenamesCheck = text:CreateCheckBox('hide_names')

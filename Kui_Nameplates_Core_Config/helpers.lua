@@ -124,6 +124,7 @@ do
             parent,
             opt.titles[name] or name or 'DropDown'
         )
+        dd:SetWidth(width or 200)
         dd:SetFrameStrata('TOOLTIP')
         dd.env = name
 
