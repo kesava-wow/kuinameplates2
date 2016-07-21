@@ -22,6 +22,7 @@ local function FrameOnUpdate(self)
 end
 ----------------------------------------------------------------------- Sizer --
 local function SizerOnSizeChanged(self,x,y)
+    if UnitName('player')=='Maiel' then x = 0 end
     self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
 end
 ------------------------------------------------------------ Nameplate hooker --
