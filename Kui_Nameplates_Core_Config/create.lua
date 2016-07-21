@@ -89,8 +89,8 @@ colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
 colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')
 colour_player:SetPoint('LEFT',colour_tapped,'RIGHT')
 
-colour_self_enable:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT')
-colour_self:SetPoint('LEFT',colour_self_enable,'RIGHT',124,0)
+colour_self_enable:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,0)
+colour_self:SetPoint('LEFT',colour_self_enable,'RIGHT',128,0)
 
 target_glow_colour.enabled = function(p) return p.target_glow end
 colour_self.enabled = function(p) return p.colour_self_enable end
