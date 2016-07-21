@@ -180,7 +180,7 @@ do
     end
     function opt.CreateSlider(parent, name, min, max)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
-        slider:SetWidth(150)
+        slider:SetWidth(190)
         slider:SetHeight(15)
         slider:SetOrientation('HORIZONTAL')
         slider:SetThumbTexture('interface/buttons/ui-sliderbar-button-horizontal')

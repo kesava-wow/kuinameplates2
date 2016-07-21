@@ -63,9 +63,7 @@ local fade_all = general:CreateCheckBox('fade_all')
 local fade_avoid_nameonly = general:CreateCheckBox('fade_avoid_nameonly')
 local fade_avoid_raidicon = general:CreateCheckBox('fade_avoid_raidicon')
 
-fade_alpha:SetWidth(190)
 fade_alpha:SetValueStep(.05)
-fade_speed:SetWidth(190)
 fade_speed:SetValueStep(.05)
 
 fade_rules_sep:SetPoint('TOP',0,-270)
@@ -105,9 +103,6 @@ local bot_vertical_offset = text:CreateSlider('bot_vertical_offset',-20,20)
 
 font_style.SelectTable = { 'None','Outline','Monochrome' }
 
-font_size_normal:SetWidth(190)
-font_size_small:SetWidth(190)
-
 text_vertical_offset:SetWidth(120)
 text_vertical_offset:SetValueStep(.5)
 name_vertical_offset:SetWidth(120)
@@ -133,15 +128,10 @@ health_text:SetPoint('TOPLEFT',level_text,'BOTTOMLEFT')
 
 -- frame sizes #################################################################
 local frame_width = framesizes:CreateSlider('frame_width',20,200)
-frame_width:SetWidth(190)
 local frame_height = framesizes:CreateSlider('frame_height',3,40)
-frame_height:SetWidth(190)
 local frame_width_minus = framesizes:CreateSlider('frame_width_minus',20,200)
-frame_width_minus:SetWidth(190)
 local frame_height_minus = framesizes:CreateSlider('frame_height_minus',3,40)
-frame_height_minus:SetWidth(190)
 local castbar_height = framesizes:CreateSlider('castbar_height',3,20)
-castbar_height:SetWidth(190)
 
 frame_width:SetPoint('TOPLEFT',10,-30)
 frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
@@ -168,11 +158,11 @@ auras_icon_squareness:SetValueStep(.1)
 
 auras_enabled:SetPoint('TOPLEFT',10,-10)
 auras_whitelist:SetPoint('TOPLEFT',auras_enabled,'BOTTOMLEFT')
-auras_pulsate:SetPoint('LEFT',auras_whitelist,'RIGHT',150,0)
+auras_pulsate:SetPoint('LEFT',auras_whitelist,'RIGHT',190,0)
 auras_time_threshold:SetPoint('TOPLEFT',auras_whitelist,'BOTTOMLEFT',0,-20)
 
 auras_filtering_sep:SetPoint('TOP',0,-140)
-auras_minimum_length:SetPoint('TOPLEFT',auras_time_threshold,'BOTTOMLEFT',53,-80)
+auras_minimum_length:SetPoint('TOPLEFT',auras_time_threshold,'BOTTOMLEFT',0,-80)
 auras_maximum_length:SetPoint('LEFT',auras_minimum_length,'RIGHT',20,0)
 
 auras_icons_sep:SetPoint('TOP',0,-240)
