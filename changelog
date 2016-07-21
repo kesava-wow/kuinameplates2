@@ -2,3 +2,4 @@
 * add the global frame KuiNameplatesPlayerAnchor for anchoring WeakAuras to
 the player frame, etc.
 * add option to change castbar colour
+* fix multiple issues with the classpowers module
