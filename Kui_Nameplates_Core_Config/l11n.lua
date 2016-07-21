@@ -30,6 +30,9 @@ opt.tooltips = {
     fade_avoid_nameonly = 'Don\'t fade nameplates which are currently in nameonly mode',
     fade_avoid_raidicon = 'Don\'t fade nameplates which have a raid icon visible',
 
+    colour_self_class = 'Use your class colour on your personal nameplate',
+    colour_self = 'The health bar colour of your personal nameplate',
+
     hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names". Note that this does not affect nameonly mode',
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
     font_size_normal = 'Standard font size (name, etc)',
@@ -97,12 +100,14 @@ opt.titles = {
     fade_avoid_nameonly = 'Avoid nameonly',
     fade_avoid_raidicon = 'Avoid raid icon',
 
-    reaction_colour_sep = 'Reaction colours',
+    reaction_colour_sep = 'Health bar colours',
     colour_hated = 'Hated',
     colour_neutral = 'Neutral',
     colour_friendly = 'Friendly',
     colour_tapped = 'Tapped',
     colour_player = 'Player',
+    colour_self_class = 'Class colour self',
+    colour_self = 'Self',
 
     font_face = 'Font face',
     font_style = 'Font style',
