@@ -1,6 +1,7 @@
 * fix power bar sometimes being wrong. maybe. look, i don't know (#11)
 * add the global frame KuiNameplatesPlayerAnchor for anchoring WeakAuras to the player frame, etc.
 * add option to change castbar colour
+* add option to change colour of player's personal health bar
 * you can type values into sliders now (but it still obeys the step values)
 * fix multiple issues with the classpowers module
 * fix tank colour options aren't applied upon load
