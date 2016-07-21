@@ -2,6 +2,10 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('HealthBar')
+
+local UnitIsTapDenied,UnitReaction,UnitIsPlayer,UnitIsUnit,UnitIsFriend =
+      UnitIsTapDenied,UnitReaction,UnitIsPlayer,UnitIsUnit,UnitIsFriend
+local unpack = unpack
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateHealthColour(f,show)
     f = f.parent
