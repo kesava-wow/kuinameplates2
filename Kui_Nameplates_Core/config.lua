@@ -77,6 +77,7 @@ local default_config = {
 
     castbar_enable = true,
     castbar_colour = {.6,.6,.75},
+    castbar_unin_colour = {.8,.3,.3},
     castbar_showpersonal = false,
     castbar_showall = true,
     castbar_showfriend = true,
@@ -140,12 +141,6 @@ function configChanged.fade_alpha(v)
 end
 function configChanged.fade_speed(v)
     addon:GetPlugin('Fading').fade_speed = v
-end
-
-function configChanged.castbar_colour()
-    for i,f in addon:Frames() do
-        f:UpdateCastbarColour()
-    end
 end
 
 local function configChangedCombatAction()

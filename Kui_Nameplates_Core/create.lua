@@ -43,6 +43,7 @@ local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local NAMEONLY_NO_FONT_STYLE,FADE_AVOID_NAMEONLY,NAMEONLY_ENEMIES
 local NAMEONLY_DAMAGED_FRIENDS,FADE_AVOID_RAIDICON
+local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR
 
 local POWER_BAR_HEIGHT = 2
 local FRAME_GLOW_SIZE = 8
@@ -141,6 +142,7 @@ do
         FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
         CASTBAR_HEIGHT = self.profile.castbar_height
         CASTBAR_COLOUR = self.profile.castbar_colour
+        CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
 
         TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
         NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
@@ -568,6 +570,12 @@ do
             return
         end
 
+        if f.cast_state.interruptible then
+            f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
+        else
+            f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+        end
+
         -- also show attached elements
         f.CastBar.bg:Show()
         f.SpellIcon.bg:Show()
@@ -621,9 +629,6 @@ do
         f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
         f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
         f.CastBar.spark:SetHeight(CASTBAR_HEIGHT+4)
-    end
-    local function UpdateCastbarColour(f)
-        f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
     end
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
@@ -691,11 +696,9 @@ do
         f.SpellIconSetWidth = SpellIconSetWidth
         f.UpdateSpellNamePosition = UpdateSpellNamePosition
         f.UpdateCastbarSize = UpdateCastbarSize
-        f.UpdateCastbarColour = UpdateCastbarColour
 
         f:UpdateSpellNamePosition()
         f:UpdateCastbarSize()
-        f:UpdateCastbarColour()
     end
 end
 -- state icons #################################################################
