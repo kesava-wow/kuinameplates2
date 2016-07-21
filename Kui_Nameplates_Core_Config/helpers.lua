@@ -642,21 +642,25 @@ do
         text:SetPoint('TOPRIGHT',display,'BOTTOMRIGHT')
 
         local r = opt.CreateSlider(colour_picker,'ColourPickerR',0,255)
+        r:SetWidth(150)
         r:SetPoint('TOPRIGHT',-40,-50)
         r.label:SetText('Red')
         r.env = nil
 
         local g = opt.CreateSlider(colour_picker,'ColourPickerG',0,255)
+        g:SetWidth(150)
         g:SetPoint('TOPLEFT',r,'BOTTOMLEFT',0,-30)
         g.label:SetText('Green')
         g.env = nil
 
         local b = opt.CreateSlider(colour_picker,'ColourPickerB',0,255)
+        b:SetWidth(150)
         b:SetPoint('TOPLEFT',g,'BOTTOMLEFT',0,-30)
         b.label:SetText('Blue')
         b.env = nil
 
         local o = opt.CreateSlider(colour_picker,'ColourPickerO',0,255)
+        o:SetWidth(150)
         o:SetPoint('TOPLEFT',b,'BOTTOMLEFT',0,-30)
         o.label:SetText('Opacity')
         o.env = nil
