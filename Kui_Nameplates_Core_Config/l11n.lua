@@ -57,6 +57,7 @@ opt.tooltips = {
     castbar_showall = 'Show castbars on all nameplates, rather than on just the current target',
     castbar_showfriend = 'Show castbars on friendly nameplates (note that castbars are not shown on frames which have nameonly mode active)',
     castbar_showenemy = 'Show castbars on enemy nameplates',
+    castbar_unin_colour = 'Colour of the castbar when a cast cannot be interrupted',
 
     tank_mode = 'Recolour the health bars of units you are actively tanking when in a tanking specialisation',
     tankmode_force_enable = 'Always use tank mode, even if you\'re not currently in a tanking specialisation',
@@ -134,6 +135,7 @@ opt.titles = {
 
     castbar_enable = 'Enable',
     castbar_colour = 'Castbar colour',
+    castbar_unin_colour = 'Uninterruptible colour',
     castbar_showpersonal = 'Show own castbar',
     castbar_showall = 'Show castbars on all nameplates',
     castbar_showfriend = 'Show friendly castbars',
