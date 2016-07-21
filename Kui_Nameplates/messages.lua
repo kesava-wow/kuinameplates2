@@ -53,6 +53,11 @@ local function event_frame_OnEvent(self,event,...)
             if unit and unit ~= 'target' and unit ~= 'mouseover' then
                 unit_frame = C_NamePlate.GetNamePlateForUnit(unit)
                 unit_frame = unit_frame and unit_frame.kui
+
+                if not unit_frame or not unit_frame.unit then
+                    unit_frame = nil
+                    unit_not_found = true
+                end
             else
                 unit_not_found = true
             end
