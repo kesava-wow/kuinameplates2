@@ -79,7 +79,7 @@ local colour_neutral = general:CreateColourPicker('colour_neutral')
 local colour_friendly = general:CreateColourPicker('colour_friendly')
 local colour_tapped = general:CreateColourPicker('colour_tapped')
 local colour_player = general:CreateColourPicker('colour_player')
-local colour_self_enable = general:CreateCheckBox('colour_self_enable')
+local colour_self_class = general:CreateCheckBox('colour_self_class')
 local colour_self = general:CreateColourPicker('colour_self')
 
 colour_sep:SetPoint('TOP',0,-405)
@@ -89,11 +89,11 @@ colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
 colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')
 colour_player:SetPoint('LEFT',colour_tapped,'RIGHT')
 
-colour_self_enable:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,0)
-colour_self:SetPoint('LEFT',colour_self_enable,'RIGHT',128,0)
+colour_self_class:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,0)
+colour_self:SetPoint('LEFT',colour_self_class,'RIGHT',128,0)
 
 target_glow_colour.enabled = function(p) return p.target_glow end
-colour_self.enabled = function(p) return p.colour_self_enable end
+colour_self.enabled = function(p) return not p.colour_self_class end
 
 -- text ########################################################################
 local font_face = text:CreateDropDown('font_face')

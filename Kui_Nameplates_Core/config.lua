@@ -58,7 +58,7 @@ local default_config = {
     colour_friendly = {.2,.6,.1},
     colour_tapped = {.5,.5,.5},
     colour_player = {.2,.5,.9},
-    colour_self_enable = false,
+    colour_self_class = true,
     colour_self = {.2,.6,.1},
 
     frame_width = 132,
@@ -202,10 +202,10 @@ local function configChangedReactionColour()
     ele.colours.tapped = core.profile.colour_tapped
     ele.colours.player = core.profile.colour_player
 
-    if core.profile.colour_self_enable then
-        ele.colours.self = core.profile.colour_self
-    else
+    if core.profile.colour_self_class then
         ele.colours.self = nil
+    else
+        ele.colours.self = core.profile.colour_self
     end
 end
 configChanged.colour_hated = configChangedReactionColour
@@ -213,7 +213,7 @@ configChanged.colour_neutral = configChangedReactionColour
 configChanged.colour_friendly = configChangedReactionColour
 configChanged.colour_tapped = configChangedReactionColour
 configChanged.colour_player = configChangedReactionColour
-configChanged.colour_self_enable = configChangedReactionColour
+configChanged.colour_self_class = configChangedReactionColour
 configChanged.colour_self = configChangedReactionColour
 
 local function configChangedTankColour()
