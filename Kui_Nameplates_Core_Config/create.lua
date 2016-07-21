@@ -179,7 +179,7 @@ local castbar_friend = castbars:CreateCheckBox('castbar_showfriend')
 local castbar_enemy = castbars:CreateCheckBox('castbar_showenemy')
 
 castbar_enable:SetPoint('TOPLEFT',10,-10)
-castbar_colour:SetPoint('LEFT',castbar_enable,'RIGHT',190,0)
+castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
 castbar_personal:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
 castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
 castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT')
@@ -206,7 +206,7 @@ tankmode_trans_colour.enabled = function(p) return p.tank_mode end
 tankmode_other_colour.enabled = function(p) return p.tank_mode end
 
 tankmodeCheck:SetPoint('TOPLEFT',10,-10)
-tankmode_force_enable:SetPoint('LEFT',tankmodeCheck,'RIGHT',150,0)
+tankmode_force_enable:SetPoint('LEFT',tankmodeCheck,'RIGHT',190,0)
 threatbracketsCheck:SetPoint('TOPLEFT',tankmodeCheck,'BOTTOMLEFT')
 
 tankmode_colour_sep:SetPoint('TOP',0,-100)
