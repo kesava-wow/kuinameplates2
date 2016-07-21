@@ -2,5 +2,6 @@
 * add the global frame KuiNameplatesPlayerAnchor for anchoring WeakAuras to
 the player frame, etc.
 * add option to change castbar colour
-* fix multiple issues with the classpowers module
 * you can type values into sliders now (but it still obeys the step values)
+* fix multiple issues with the classpowers module
+* fix tank colour options aren't applied upon load
