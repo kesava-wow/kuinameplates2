@@ -58,6 +58,8 @@ local default_config = {
     colour_friendly = {.2,.6,.1},
     colour_tapped = {.5,.5,.5},
     colour_player = {.2,.5,.9},
+    colour_self_enable = false,
+    colour_self = {1,1,1},
 
     frame_width = 132,
     frame_height = 13,
