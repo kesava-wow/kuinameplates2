@@ -59,7 +59,7 @@ local default_config = {
     colour_tapped = {.5,.5,.5},
     colour_player = {.2,.5,.9},
     colour_self_enable = false,
-    colour_self = {1,1,1},
+    colour_self = {.2,.6,.1},
 
     frame_width = 132,
     frame_height = 13,
@@ -201,12 +201,20 @@ local function configChangedReactionColour()
     ele.colours.friendly = core.profile.colour_friendly
     ele.colours.tapped = core.profile.colour_tapped
     ele.colours.player = core.profile.colour_player
+
+    if core.profile.colour_self_enable then
+        ele.colours.self = core.profile.colour_self
+    else
+        ele.colours.self = nil
+    end
 end
 configChanged.colour_hated = configChangedReactionColour
 configChanged.colour_neutral = configChangedReactionColour
 configChanged.colour_friendly = configChangedReactionColour
 configChanged.colour_tapped = configChangedReactionColour
 configChanged.colour_player = configChangedReactionColour
+configChanged.colour_self_enable = configChangedReactionColour
+configChanged.colour_self = configChangedReactionColour
 
 local function configChangedTankColour()
     local ele = addon:GetPlugin('TankMode')
