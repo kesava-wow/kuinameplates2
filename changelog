@@ -3,3 +3,4 @@
 the player frame, etc.
 * add option to change castbar colour
 * fix multiple issues with the classpowers module
+* you can type values into sliders now (but it still obeys the step values)
