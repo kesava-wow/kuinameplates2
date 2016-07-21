@@ -117,10 +117,10 @@ bot_vertical_offset:SetValueStep(.5)
 
 bot_vertical_offset.enabled = function(p) return p.level_text or p.health_text end
 
-font_face:SetPoint('TOPLEFT',10,-15)
+font_face:SetPoint('TOPLEFT',10,-10)
 font_style:SetPoint('LEFT',font_face,'RIGHT',10,0)
 
-font_size_normal:SetPoint('TOPLEFT',10,-90)
+font_size_normal:SetPoint('TOPLEFT',10,-70)
 font_size_small:SetPoint('LEFT',font_size_normal,'RIGHT',20,0)
 
 text_vertical_offset:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-30)
