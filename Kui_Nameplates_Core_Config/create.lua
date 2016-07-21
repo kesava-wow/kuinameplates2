@@ -173,6 +173,7 @@ auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-
 -- cast bars ###################################################################
 local castbar_enable = castbars:CreateCheckBox('castbar_enable')
 local castbar_colour = castbars:CreateColourPicker('castbar_colour')
+local castbar_unin_colour = castbars:CreateColourPicker('castbar_unin_colour')
 local castbar_personal = castbars:CreateCheckBox('castbar_showpersonal')
 local castbar_all = castbars:CreateCheckBox('castbar_showall')
 local castbar_friend = castbars:CreateCheckBox('castbar_showfriend')
@@ -180,12 +181,14 @@ local castbar_enemy = castbars:CreateCheckBox('castbar_showenemy')
 
 castbar_enable:SetPoint('TOPLEFT',10,-10)
 castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
+castbar_unin_colour:SetPoint('LEFT',castbar_personal,220,0)
 castbar_personal:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
 castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
 castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT')
 castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
 
 castbar_colour.enabled = function(p) return p.castbar_enable end
+castbar_unin_colour.enabled = function(p) return p.castbar_enable end
 castbar_personal.enabled = function(p) return p.castbar_enable end
 castbar_all.enabled = function(p) return p.castbar_enable end
 castbar_friend.enabled = function(p) return p.castbar_enable and p.castbar_showall end
