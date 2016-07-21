@@ -262,6 +262,8 @@ configLoaded.colour_hated = configChangedReactionColour
 
 configLoaded.tank_mode = configChanged.tank_mode
 configLoaded.tankmode_force_enable = configChanged.tankmode_force_enable
+configLoaded.tankmode_tank_colour = configChangedTankColour
+
 configLoaded.castbar_enable = configChanged.castbar_enable
 configLoaded.level_text = configChanged.level_text
 
