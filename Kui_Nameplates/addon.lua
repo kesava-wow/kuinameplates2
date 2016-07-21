@@ -10,8 +10,8 @@ KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
 addon.MAJOR,addon.MINOR=2,1
 
---addon.debug = true
---addon.debug_units = true
+addon.debug = true
+addon.debug_units = true
 --addon.debug_messages = true
 --addon.draw_frames = true
 
@@ -90,11 +90,6 @@ local function OnEvent(self,event,...)
             self[event](self,...)
         end
         return
-    end
-
-    if not IsAddOnLoaded('Blizzard_Nameplates') then
-        EnableAddOn('Blizzard_Nameplates')
-        print('|cff9966ffKui Nameplates|r: |cffff8888You have disabled the built-in Blizzard_Nameplates addon which KNP requires. There will be errors.|r Reload the UI to re-enable it. If this message still appears, you may have another addon which is interfering.')
     end
 
     if not self.layout then

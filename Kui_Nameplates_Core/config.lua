@@ -296,8 +296,9 @@ function core:InitialiseConfig()
         for i,f in addon:Frames() do
             -- hide and re-show frames
             if f:IsShown() then
+                local unit = f.unit
                 f.handler:OnHide()
-                f.handler:OnUnitAdded(f.parent.namePlateUnitToken)
+                f.handler:OnUnitAdded(unit)
             end
         end
     end)
