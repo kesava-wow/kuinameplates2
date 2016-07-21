@@ -178,6 +178,20 @@ do
         self.Low:SetText(min)
         self.High:SetText(max)
     end
+    local function SliderEditBoxOnEscapePressed(self)
+        self:ClearFocus()
+        SliderOnChanged(self:GetParent())
+    end
+    local function SliderEditBoxOnEnterPressed(self)
+        self:ClearFocus()
+        local v = tonumber(self:GetText())
+
+        if v then
+            self:GetParent():SetValue(v)
+        else
+            SliderOnChanged(self:GetParent())
+        end
+    end
     function opt.CreateSlider(parent, name, min, max)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
         slider:SetWidth(190)
@@ -188,14 +202,21 @@ do
         slider:EnableMouseWheel(true)
 
         -- TODO inc/dec buttons
-        -- TODO editbox
 
         local label = slider:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
         label:SetText(opt.titles[name] or name or 'Slider')
         label:SetPoint('BOTTOM',slider,'TOP')
 
-        local display = slider:CreateFontString(slider:GetName()..'Display','ARTWORK','GameFontHighlightSmall')
+        local display = CreateFrame('EditBox',nil,slider)
+        display:SetFontObject('GameFontHighlightSmall')
+        display:SetHeight(10)
         display:SetPoint('TOP',slider,'BOTTOM')
+        display:SetPoint('LEFT',slider.Low,'RIGHT')
+        display:SetPoint('RIGHT',slider.High,'LEFT')
+        display:SetJustifyH('CENTER')
+        display:SetAutoFocus(false)
+        display:SetScript('OnEnterPressed',SliderEditBoxOnEnterPressed)
+        display:SetScript('OnEscapePressed',SliderEditBoxOnEscapePressed)
 
         slider.orig_SetMinMaxValues = slider.SetMinMaxValues
         slider.SetMinMaxValues = SliderSetMinMaxValues
