@@ -196,7 +196,6 @@ local function CreateIcons()
     PositionIcons()
 
     ele:RunCallback('PostIconsCreated')
-
 end
 local function PowerUpdate()
     -- toggle icons based on current power
@@ -270,8 +269,8 @@ function ele:CVAR_UPDATE()
         self:RegisterMessage('GainedTarget','TargetUpdate')
         self:RegisterMessage('LostTarget','TargetUpdate')
     else
-        self:UnregisterMessage('TargetGained')
-        self:UnregisterMessage('TargetLost')
+        self:UnregisterMessage('GainedTarget')
+        self:UnregisterMessage('LostTarget')
     end
 end
 function ele:PowerInit()
@@ -302,6 +301,14 @@ function ele:PowerInit()
         self:CVAR_UPDATE()
 
         CreateIcons()
+
+        -- set initial state
+        if class ~= 'DEATHKNIGHT' then
+            PowerUpdate()
+        end
+
+        -- set initial position
+        PositionFrame()
     else
         self:UnregisterEvent('PLAYER_ENTERING_WORLD')
         self:UnregisterEvent('UNIT_MAXPOWER')
@@ -310,9 +317,11 @@ function ele:PowerInit()
         self:UnregisterEvent('RUNE_POWER_UPDATE')
 
         self:UnregisterMessage('Show')
-        self:UnregisterMessage('TargetGained')
-        self:UnregisterMessage('TargetLost')
+        self:UnregisterMessage('GainedTarget')
+        self:UnregisterMessage('LostTarget')
         self:UnregisterMessage('HealthColourChange')
+
+        cpf:Hide()
     end
 end
 function ele:RuneUpdate(event,rune_id,energise)
@@ -330,7 +339,7 @@ function ele:RuneUpdate(event,rune_id,energise)
         icon.glow:Hide()
     end
 
-    ele:RunCallback('PostRuneUpdate')
+    self:RunCallback('PostRuneUpdate')
 end
 function ele:PowerEvent(event,unit,power_type_rcv)
     -- validate power events + passthrough to PowerUpdate
