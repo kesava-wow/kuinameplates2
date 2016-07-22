@@ -93,8 +93,8 @@ local colours = {
     MAGE        = { .5, .5, 1 },
     MONK        = { .3, 1, .9 },
     WARLOCK     = { 1, .5, 1 },
+    overflow    = { 1, .3, .3 },
 }
-local overflow_colour = { 1, 0, 0 }
 
 local ICON_SIZE
 local ICON_TEXTURE
@@ -179,7 +179,7 @@ local function CreateIcon()
                 self.glow:Hide()
             end
             icon.ActiveOverflow = function(self)
-                self:SetVertexColor(unpack(overflow_colour))
+                self:SetVertexColor(unpack(colours.overflow))
                 self:SetAlpha(1)
                 self.glow:Show()
             end
@@ -414,10 +414,13 @@ function ele:Initialised()
     CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
     FRAME_POINT       = addon.layout.ClassPowers.point
 
-    if type(addon.layout.ClassPowers.colours) == 'table' and
-       addon.layout.ClassPowers.colours[class]
-    then
-        colours[class] = addon.layout.ClassPowers.colours[class]
+    if type(addon.layout.ClassPowers.colours) == 'table' then
+        if addon.layout.ClassPowers.colours[class] then
+            colours[class] = addon.layout.ClassPowers.colours[class]
+        end
+        if addon.layout.ClassPowers.colours.overflow then
+            colours.overflow = addon.layout.ClassPowers.colours.overflow
+        end
     end
 
     ICON_SIZE = ICON_SIZE * addon.uiscale
