@@ -282,6 +282,7 @@ local auras = {
             [155361] = true, -- void entropy
             [204213] = true, -- purge the wicked
             [214621] = true, -- schism
+            [217673] = true, -- mind spike
         },
         CONTROL = {
             [605] = true,    -- dominate mind
