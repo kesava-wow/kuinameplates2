@@ -1,3 +1,6 @@
+* it's another one of those day-zero updates. Previous change log included.
+* fix slider editboxes because i'm a dummy
+
 * fix power bar sometimes being wrong. maybe. look, i don't know (#11)
 * add the global frame KuiNameplatesPlayerAnchor for anchoring WeakAuras to the player frame, etc.
 * add option to change castbar colour
