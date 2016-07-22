@@ -1,12 +1,1 @@
-* it's another one of those day-zero updates. Previous change log included.
-* fix slider editboxes because i'm a dummy
-
-* fix power bar sometimes being wrong. maybe. look, i don't know (#11)
-* add the global frame KuiNameplatesPlayerAnchor for anchoring WeakAuras to the player frame, etc.
-* add option to change castbar colour
-* add option to change colour of player's personal health bar
-* you can type values into sliders now (but it still obeys the step values)
-* fix multiple issues with the classpowers module
-* fix tank colour options aren't applied upon load
-* fix events are sometimes pushed to frames that don't have units (healthbar.lua:10, et al)
-
+* class powers overflow is now a different colour (rogue anticipation)
