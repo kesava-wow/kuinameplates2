@@ -91,6 +91,8 @@ local default_config = {
     tankmode_tank_colour = { 0, 1, 0 },
     tankmode_trans_colour = { 1, 1, 0 },
     tankmode_other_colour = { .6, 0, 1 },
+
+    classpowers_size = 10,
 }
 -- config changed functions ####################################################
 local configChanged = {}
@@ -257,6 +259,12 @@ configChanged.auras_maximum_length = configChangedAuras
 configChanged.auras_icon_normal_size = configChangedAuras
 configChanged.auras_icon_minus_size = configChangedAuras
 configChanged.auras_icon_squareness = configChangedAuras
+
+-- TODO the other options, configLoaded
+function configChanged.classpowers_size(v)
+    core.ClassPowers.icon_size = v
+    addon:GetPlugin('ClassPowers'):UpdateConfig()
+end
 
 -- config loaded functions #####################################################
 local configLoaded = {}

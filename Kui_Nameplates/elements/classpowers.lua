@@ -296,6 +296,51 @@ local function PositionFrame()
 
     ele:RunCallback('PostPositionFrame')
 end
+-- mod functions ###############################################################
+function ele:UpdateConfig()
+    -- get config from layout
+    if type(addon.layout.ClassPowers) ~= 'table' then
+        return
+    end
+
+    ICON_SIZE         = addon.layout.ClassPowers.icon_size
+    ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
+    ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
+    CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
+    FRAME_POINT       = addon.layout.ClassPowers.point
+
+    if type(addon.layout.ClassPowers.colours) == 'table' then
+        if addon.layout.ClassPowers.colours[class] then
+            colours[class] = addon.layout.ClassPowers.colours[class]
+        end
+        if addon.layout.ClassPowers.colours.overflow then
+            colours.overflow = addon.layout.ClassPowers.colours.overflow
+        end
+    end
+
+    ICON_SIZE = ICON_SIZE * addon.uiscale
+
+    if cpf and cpf.icons then
+        -- update existing frame
+        cpf:SetHeight(ICON_SIZE)
+
+        -- update icons
+        for k,i in ipairs(cpf.icons) do
+            i:SetSize(ICON_SIZE,ICON_SIZE)
+            i:SetTexture(ICON_TEXTURE)
+
+            i.glow:SetSize(ICON_SIZE+10,ICON_SIZE+10)
+            i.glow:SetTexture(ICON_GLOW_TEXTURE)
+
+            if i.cd then
+                i.cd:SetSwipeTexture(CD_TEXTURE)
+            end
+        end
+
+        PositionIcons()
+        PositionFrame()
+    end
+end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
     PositionFrame()
@@ -407,23 +452,7 @@ function ele:Initialised()
     class = select(2,UnitClass('player'))
     if not powers[class] then return end
 
-    -- get config from layout
-    ICON_SIZE         = addon.layout.ClassPowers.icon_size
-    ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
-    ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
-    CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
-    FRAME_POINT       = addon.layout.ClassPowers.point
-
-    if type(addon.layout.ClassPowers.colours) == 'table' then
-        if addon.layout.ClassPowers.colours[class] then
-            colours[class] = addon.layout.ClassPowers.colours[class]
-        end
-        if addon.layout.ClassPowers.colours.overflow then
-            colours.overflow = addon.layout.ClassPowers.colours.overflow
-        end
-    end
-
-    ICON_SIZE = ICON_SIZE * addon.uiscale
+    self:UpdateConfig()
 
     -- icon frame container
     cpf = CreateFrame('Frame')
