@@ -10,6 +10,7 @@ local framesizes = opt:CreateConfigPage('framesizes')
 local auras = opt:CreateConfigPage('auras')
 local castbars = opt:CreateConfigPage('castbars')
 local threat = opt:CreateConfigPage('threat')
+local classpowers = opt:CreateConfigPage('classpowers')
 
 -- show inital page
 opt.pages[1]:ShowPage()
@@ -222,6 +223,15 @@ tankmode_colour_sep:SetPoint('TOP',0,-100)
 tankmode_tank_colour:SetPoint('TOPLEFT',15,-120)
 tankmode_trans_colour:SetPoint('LEFT',tankmode_tank_colour,'RIGHT')
 tankmode_other_colour:SetPoint('LEFT',tankmode_trans_colour,'RIGHT')
+
+-- classpowers #################################################################
+local classpowers_enable = classpowers:CreateCheckBox('classpowers_enable')
+local classpowers_on_target = classpowers:CreateCheckBox('classpowers_on_target')
+local classpowers_size = classpowers:CreateSlider('classpowers_size',5,20)
+
+classpowers_enable:SetPoint('TOPLEFT',10,-10)
+classpowers_on_target:SetPoint('LEFT',classpowers_enable,'RIGHT',190,0)
+classpowers_size:SetPoint('TOPLEFT',classpowers_enable,'BOTTOMLEFT',0,-20)
 
 -- LSM dropdowns ###############################################################
 function bar_texture:initialize()
