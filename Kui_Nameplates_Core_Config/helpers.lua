@@ -179,17 +179,22 @@ do
         self.High:SetText(max)
     end
     local function SliderEditBoxOnEscapePressed(self)
+        -- revert to previous value
         self:ClearFocus()
         SliderOnChanged(self:GetParent())
     end
     local function SliderEditBoxOnEnterPressed(self)
         self:ClearFocus()
+        -- dumb-verify input
         local v = tonumber(self:GetText())
 
         if v then
+            -- display change
             self:GetParent():SetValue(v)
+            -- push to config
+            SliderOnManualChange(self:GetParent())
         else
-            SliderOnChanged(self:GetParent())
+            SliderEditBoxOnEscapePressed(self)
         end
     end
     function opt.CreateSlider(parent, name, min, max)
