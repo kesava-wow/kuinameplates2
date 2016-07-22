@@ -9,7 +9,7 @@
 
     self.ClassPowers = {
         icon_size = size of class power icons
-        icon_space = space between icons
+        icon_spacing = space between icons
         icon_texture = texture of class power icons
         icon_glow_texture = texture of class power glow
         cd_texture = cooldown spiral texture
