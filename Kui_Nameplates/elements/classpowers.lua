@@ -9,6 +9,7 @@
 
     self.ClassPowers = {
         icon_size = size of class power icons
+        icon_space = space between icons
         icon_texture = texture of class power icons
         icon_glow_texture = texture of class power glow
         cd_texture = cooldown spiral texture
@@ -97,6 +98,7 @@ local colours = {
 }
 
 local ICON_SIZE
+local ICON_SPACING
 local ICON_TEXTURE
 local ICON_GLOW_TEXTURE
 local CD_TEXTURE
@@ -114,7 +116,7 @@ local function PositionIcons()
     end
 
     local pv
-    local full_size = (ICON_SIZE * #cpf.icons) + (1 * (#cpf.icons - 1))
+    local full_size = (ICON_SIZE * #cpf.icons) + (ICON_SPACING * (#cpf.icons - 1))
     cpf:SetWidth(full_size)
 
     for i,icon in ipairs(cpf.icons) do
@@ -123,7 +125,7 @@ local function PositionIcons()
         if i == 1 then
             icon:SetPoint('LEFT')
         elseif i > 1 then
-            icon:SetPoint('LEFT',pv,'RIGHT',1,0)
+            icon:SetPoint('LEFT',pv,'RIGHT',ICON_SPACING,0)
         end
 
         pv = icon
@@ -303,7 +305,8 @@ function ele:UpdateConfig()
         return
     end
 
-    ICON_SIZE         = addon.layout.ClassPowers.icon_size
+    ICON_SIZE         = addon.layout.ClassPowers.icon_size or 10
+    ICON_SPACING      = addon.layout.ClassPowers.icon_spacing or 0
     ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
     ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
     CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
