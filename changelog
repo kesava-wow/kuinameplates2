@@ -6,3 +6,4 @@
 * fix multiple issues with the classpowers module
 * fix tank colour options aren't applied upon load
 * fix events are sometimes pushed to frames that don't have units (healthbar.lua:10, et al)
+
