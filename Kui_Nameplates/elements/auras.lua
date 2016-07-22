@@ -68,10 +68,10 @@ local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Auras')
 
 local FONT,FONT_SIZE_CD,FONT_SIZE_COUNT,FONT_FLAGS
+local spelllist,whitelist,class
 
-local spelllist,whitelist
-
-local class
+-- time below which to show decimal places
+local DECIMAL_THRESHOLD = 1
 -- row growth lookup table
 local row_growth_points = {
     UP = {'BOTTOM','TOP'},
@@ -135,7 +135,7 @@ local function button_OnUpdate(self,elapsed)
             return
         end
 
-        if remaining <= 2 then
+        if remaining <= DECIMAL_THRESHOLD+1 then
             -- faster updates in the last 2 seconds
             self.cd_elap = .05
         else
@@ -144,11 +144,13 @@ local function button_OnUpdate(self,elapsed)
 
         if remaining <= 5 then
             self.cd:SetTextColor(1,0,0)
-        else
+        elseif remaining <= 20 then
             self.cd:SetTextColor(1,1,0)
+        else
+            self.cd:SetTextColor(1,1,1)
         end
 
-        if remaining <= 1 then
+        if remaining <= DECIMAL_THRESHOLD then
             -- decimal places in the last second
             remaining = format("%.1f", remaining)
         else
