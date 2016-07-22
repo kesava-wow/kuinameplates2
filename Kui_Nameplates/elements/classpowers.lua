@@ -64,6 +64,7 @@ local addon = KuiNameplates
 local ele = addon:NewElement('ClassPowers')
 local class, power_type, power_type_tag, cpf
 local on_target
+local orig_SetVertexColor
 -- power types by class/spec
 local powers = {
     DEATHKNIGHT = SPELL_POWER_RUNES,
@@ -93,12 +94,19 @@ local colours = {
     MONK        = { .3, 1, .9 },
     WARLOCK     = { 1, .5, 1 },
 }
+local overflow_colour = { 1, 0, 0 }
+
 local ICON_SIZE
 local ICON_TEXTURE
 local ICON_GLOW_TEXTURE
 local CD_TEXTURE
 local FRAME_POINT
+
+local ANTICIPATION_TALENT_ID=19240
 -- local functions #############################################################
+local function IsTalentKnown(id)
+    return select(10,GetTalentInfoByID(id))
+end
 local function PositionIcons()
     -- position icons in the powers container frame
     if ele:RunCallback('PositionIcons') then
@@ -121,6 +129,11 @@ local function PositionIcons()
         pv = icon
     end
 end
+local function Icon_SetVertexColor(icon,...)
+    -- also set glow colour
+    icon.glow:SetVertexColor(...)
+    orig_SetVertexColor(icon,...)
+end
 local function CreateIcon()
     -- create individual icon
     local icon = ele:RunCallback('CreateIcon')
@@ -139,8 +152,12 @@ local function CreateIcon()
 
         icon.glow = ig
 
+        if not orig_SetVertexColor then
+            orig_SetVertexColor = icon.SetVertexColor
+        end
+        icon.SetVertexColor = Icon_SetVertexColor
+
         icon:SetVertexColor(unpack(colours[class]))
-        ig:SetVertexColor(unpack(colours[class]))
 
         if class == 'DEATHKNIGHT' then
             -- also create a cooldown frame for runes
@@ -152,12 +169,19 @@ local function CreateIcon()
             icon.cd = cd
         else
             icon.Active = function(self)
+                self:SetVertexColor(unpack(colours[class]))
                 self:SetAlpha(1)
                 self.glow:Show()
             end
             icon.Inactive = function(self)
+                self:SetVertexColor(unpack(colours[class]))
                 self:SetAlpha(.5)
                 self.glow:Hide()
+            end
+            icon.ActiveOverflow = function(self)
+                self:SetVertexColor(unpack(overflow_colour))
+                self:SetAlpha(1)
+                self.glow:Show()
             end
         end
     end
@@ -167,28 +191,34 @@ local function CreateIcon()
     return icon
 end
 local function CreateIcons()
-    -- create/destroy icons based on player_power_max
-    local powermax = UnitPowerMax('player',power_type)
+    -- create/destroy icons based on player power max
+    local power_max
+
+    if class == 'ROGUE' and IsTalentKnown(ANTICIPATION_TALENT_ID) then
+        power_max = 5
+    else
+        power_max = UnitPowerMax('player',power_type)
+    end
 
     if cpf.icons then
-        if #cpf.icons > powermax then
+        if #cpf.icons > power_max then
             -- destroy overflowing icons if powermax has decreased
             for i,icon in ipairs(cpf.icons) do
-                if i > powermax then
+                if i > power_max then
                     icon:Hide()
                     cpf.icons[i] = nil
                 end
             end
-        elseif #cpf.icons < powermax then
+        elseif #cpf.icons < power_max then
             -- create new icons
-            for i=#cpf.icons+1,powermax do
+            for i=#cpf.icons+1,power_max do
                 cpf.icons[i] = CreateIcon()
             end
         end
     else
         -- create initial icons
         cpf.icons = {}
-        for i=1,powermax do
+        for i=1,power_max do
             cpf.icons[i] = CreateIcon()
         end
     end
@@ -200,11 +230,24 @@ end
 local function PowerUpdate()
     -- toggle icons based on current power
     local cur = UnitPower('player',power_type)
-    for i,icon in ipairs(cpf.icons) do
-        if i <= cur then
-            icon:Active()
-        else
-            icon:Inactive()
+
+    if cur > #cpf.icons then
+        -- colour with overflow
+        cur = cur - #cpf.icons
+        for i,icon in ipairs(cpf.icons) do
+            if i <= cur then
+                icon:ActiveOverflow()
+            else
+                icon:Active()
+            end
+        end
+    else
+        for i,icon in ipairs(cpf.icons) do
+            if i <= cur then
+                icon:Active()
+            else
+                icon:Inactive()
+            end
         end
     end
 
