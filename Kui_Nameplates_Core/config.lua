@@ -92,6 +92,8 @@ local default_config = {
     tankmode_trans_colour = { 1, 1, 0 },
     tankmode_other_colour = { .6, 0, 1 },
 
+    classpowers_enable = true,
+    classpowers_on_target = false,
     classpowers_size = 10,
 }
 -- config changed functions ####################################################
@@ -260,10 +262,19 @@ configChanged.auras_icon_normal_size = configChangedAuras
 configChanged.auras_icon_minus_size = configChangedAuras
 configChanged.auras_icon_squareness = configChangedAuras
 
--- TODO the other options, configLoaded
+function configChanged.classpowers_enable(v)
+    if v then
+        addon:GetPlugin('ClassPowers'):Enable()
+    else
+        addon:GetPlugin('ClassPowers'):Disable()
+    end
+end
 function configChanged.classpowers_size(v)
     core.ClassPowers.icon_size = v
     addon:GetPlugin('ClassPowers'):UpdateConfig()
+end
+function configChanged.classpowers_on_target(v)
+    -- TODO
 end
 
 -- config loaded functions #####################################################
@@ -282,6 +293,9 @@ configLoaded.level_text = configChanged.level_text
 
 configLoaded.auras_enabled = configChanged.auras_enabled
 configLoaded.auras_whitelist = configChangedAuras
+
+configLoaded.classpowers_enable = configChanged.classpowers_enable
+configLoaded.classpowers_on_target = configChanged.classpowers_on_target
 
 local function configLoadedFadeRule()
     configChangedFadeRule(nil,true)
