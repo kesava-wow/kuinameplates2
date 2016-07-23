@@ -444,6 +444,17 @@ function ele:PowerEvent(event,unit,power_type_rcv)
     PowerUpdate()
 end
 -- register ####################################################################
+function ele:OnEnable()
+    if cpf then
+        self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
+        self:PowerInit()
+    end
+end
+function ele:OnDisable()
+    if cpf then
+        cpf:Hide()
+    end
+end
 function ele:Initialised()
     if  not addon.layout.ClassPowers or
         type(addon.layout.ClassPowers) ~= 'table'
@@ -463,10 +474,11 @@ function ele:Initialised()
     cpf:SetPoint('CENTER')
     cpf:Hide()
 
-    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
-    self:PowerInit()
-
     addon.ClassPowersFrame = cpf
+
+    if self.enabled then
+        self:OnEnable()
+    end
 end
 function ele:Initialise()
     -- register callbacks
