@@ -1,1 +1,5 @@
 * class powers overflow is now a different colour (rogue anticipation)
+* add option to disable classpowers
+* add option to show classpowers on target (cvar)
+* add option to resize classpowers
+* fix profile selection being global rather than character specific
