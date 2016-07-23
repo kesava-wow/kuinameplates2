@@ -306,7 +306,7 @@ function ele:UpdateConfig()
     end
 
     ICON_SIZE         = addon.layout.ClassPowers.icon_size or 10
-    ICON_SPACING      = addon.layout.ClassPowers.icon_spacing or 0
+    ICON_SPACING      = addon.layout.ClassPowers.icon_spacing or 1
     ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
     ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
     CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
