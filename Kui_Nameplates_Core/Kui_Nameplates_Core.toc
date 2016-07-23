@@ -3,7 +3,8 @@
 ## Title: Kui |cff9966ffNameplates:|r |cffffffffCore|r
 ## Notes: The official layout for Kui Nameplates.
 ## Dependencies: Kui_Nameplates
-## SavedVariables: KuiNameplatesCoreSaved, KuiNameplatesCoreCharacterSaved
+## SavedVariables: KuiNameplatesCoreSaved
+## SavedVariablesPerCharacter: KuiNameplatesCoreCharacterSaved
 
 lib\embeds.xml
 
