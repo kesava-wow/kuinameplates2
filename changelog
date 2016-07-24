@@ -3,6 +3,7 @@
 * add option to show classpowers on target (cvar)
 * add option to resize classpowers
 * add shadow font style option
+* add options to hide castbar spell icon & name
 * fix profile selection being global rather than character specific
 * fix clickbox size resets upon closing interface options
 * disable default clickbox scaling based on distance
