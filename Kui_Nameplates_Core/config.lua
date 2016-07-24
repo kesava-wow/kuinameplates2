@@ -276,10 +276,12 @@ end
 function configChanged.classpowers_on_target(v)
     -- TODO need something to set cvars after combat ends/closing the interface panel
     if InCombatLockdown() then return end
+
     SetCVar('nameplateResourceOnTarget',v==true)
-    -- ...... apparently this doesn't fire cvar_update. okay.
-    addon:GetPlugin('ClassPowers'):CVAR_UPDATE()
-    -- take that, wow
+
+    if addon:GetPlugin('ClassPowers').enabled then
+        addon:GetPlugin('ClassPowers'):CVAR_UPDATE()
+    end
 end
 
 -- config loaded functions #####################################################
