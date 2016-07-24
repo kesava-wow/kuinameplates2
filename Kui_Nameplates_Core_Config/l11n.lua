@@ -68,6 +68,10 @@ opt.tooltips = {
     tankmode_tank_colour = 'Health bar colour to use when securely tanking',
     tankmode_trans_colour = 'Health bar colour to use when gaining or losing threat',
     tankmode_other_colour = 'Health bar colour to use when another tank is tanking. This requires the other tank to be in your group and to have their group role set to tank',
+
+    classpowers_enable = 'Show your class\' special resource, such as combo points, holy power, etc.',
+    classpowers_on_target = 'Show on the frame of your target, rather than on the personal nameplate',
+    classpowers_size = 'Size of the class powers icons',
 }
 opt.titles = {
     profile = 'Profile',
@@ -153,4 +157,8 @@ opt.titles = {
     tankmode_tank_colour = 'Tanking',
     tankmode_trans_colour = 'Transitional',
     tankmode_other_colour = 'Offtank',
+
+    classpowers_enable = 'Show class resources',
+    classpowers_on_target = 'Show on target',
+    classpowers_size = 'Icon size',
 }
