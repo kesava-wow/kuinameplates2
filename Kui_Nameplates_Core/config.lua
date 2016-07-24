@@ -271,7 +271,10 @@ function configChanged.classpowers_enable(v)
 end
 function configChanged.classpowers_size(v)
     core.ClassPowers.icon_size = v
-    addon:GetPlugin('ClassPowers'):UpdateConfig()
+
+    if addon:GetPlugin('ClassPowers').enabled then
+        addon:GetPlugin('ClassPowers'):UpdateConfig()
+    end
 end
 function configChanged.classpowers_on_target(v)
     -- TODO need something to set cvars after combat ends/closing the interface panel

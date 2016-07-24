@@ -301,6 +301,7 @@ end
 -- mod functions ###############################################################
 function ele:UpdateConfig()
     -- get config from layout
+    if not self.enabled then return end
     if type(addon.layout.ClassPowers) ~= 'table' then
         return
     end
