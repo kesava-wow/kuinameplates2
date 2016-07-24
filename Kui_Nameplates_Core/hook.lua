@@ -166,8 +166,12 @@ end
 function core:Initialise()
     self:InitialiseConfig()
 
+    -- we don't want the distance scaling
+    SetCVar('NameplateMinScale',1)
+    SetCVar('NameplateMaxScale',1)
+
     -- TODO resets upon changing any interface options
-    C_NamePlate.SetNamePlateOtherSize(100,20)
+    C_NamePlate.SetNamePlateOtherSize(105,30)
 
     -- register messages
     self:RegisterMessage('Create')
