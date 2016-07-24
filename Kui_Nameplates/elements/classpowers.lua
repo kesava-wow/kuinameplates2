@@ -63,7 +63,7 @@
 ]]
 local addon = KuiNameplates
 local ele = addon:NewElement('ClassPowers')
-local class, power_type, power_type_tag, cpf
+local class, power_type, power_type_tag, cpf, initialised
 local on_target
 local orig_SetVertexColor
 -- power types by class/spec
@@ -445,12 +445,14 @@ function ele:PowerEvent(event,unit,power_type_rcv)
 end
 -- register ####################################################################
 function ele:OnEnable()
-    if cpf then
-        self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
-        self:PowerInit()
-    else
+    if not initialised then return end
+    if not cpf then
         self:Disable()
+        return
     end
+
+    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
+    self:PowerInit()
 end
 function ele:OnDisable()
     if cpf then
@@ -458,6 +460,8 @@ function ele:OnDisable()
     end
 end
 function ele:Initialised()
+    initialised = true
+
     if  not addon.layout.ClassPowers or
         type(addon.layout.ClassPowers) ~= 'table'
     then
