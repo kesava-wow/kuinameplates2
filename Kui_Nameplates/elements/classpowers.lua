@@ -448,6 +448,8 @@ function ele:OnEnable()
     if cpf then
         self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
         self:PowerInit()
+    else
+        self:Disable()
     end
 end
 function ele:OnDisable()
