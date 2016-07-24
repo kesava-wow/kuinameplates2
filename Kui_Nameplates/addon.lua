@@ -8,12 +8,16 @@
 -- initalise addon global
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
-addon.MAJOR,addon.MINOR=2,1
+addon.MAJOR=2
 
---addon.debug = true
+--@alpha@
+addon.debug = true
+--@end-alpha@
+--@debug@
 --addon.debug_units = true
 --addon.debug_messages = true
 --addon.draw_frames = true
+--@end-debug@
 
 -- kui nameplate container frame size
 addon.uiscale = .71 -- updated upon reload
