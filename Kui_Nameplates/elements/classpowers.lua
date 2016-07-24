@@ -461,16 +461,14 @@ function ele:OnDisable()
 end
 function ele:Initialised()
     initialised = true
+    class = select(2,UnitClass('player'))
 
-    if  not addon.layout.ClassPowers or
-        type(addon.layout.ClassPowers) ~= 'table'
+    if  type(addon.layout.ClassPowers) ~= 'table' or
+        not powers[class]
     then
         self:Disable()
         return
     end
-
-    class = select(2,UnitClass('player'))
-    if not powers[class] then return end
 
     self:UpdateConfig()
 
