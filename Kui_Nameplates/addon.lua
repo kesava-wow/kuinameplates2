@@ -16,7 +16,7 @@ addon.debug = true
 --@debug@
 --addon.debug_units = true
 --addon.debug_messages = true
-addon.draw_frames = true
+--addon.draw_frames = true
 --@end-debug@
 
 -- kui nameplate container frame size
