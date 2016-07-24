@@ -43,7 +43,7 @@ local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local NAMEONLY_NO_FONT_STYLE,FADE_AVOID_NAMEONLY,NAMEONLY_ENEMIES
 local NAMEONLY_DAMAGED_FRIENDS,FADE_AVOID_RAIDICON
-local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR
+local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 
 local POWER_BAR_HEIGHT = 2
 local FRAME_GLOW_SIZE = 8
@@ -152,6 +152,8 @@ do
         CASTBAR_HEIGHT = self.profile.castbar_height
         CASTBAR_COLOUR = self.profile.castbar_colour
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
+        CASTBAR_SHOW_ICON = self.profile.castbar_icon
+        CASTBAR_SHOW_NAME = self.profile.castbar_name
 
         TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
         NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
@@ -588,8 +590,14 @@ do
 
         -- also show attached elements
         f.CastBar.bg:Show()
-        f.SpellIcon.bg:Show()
-        f.SpellName:Show()
+
+        if CASTBAR_SHOW_ICON then
+            f.SpellIcon.bg:Show()
+        end
+
+        if CASTBAR_SHOW_NAME then
+            f.SpellName:Show()
+        end
 
         f:SpellIconSetWidth()
     end
@@ -605,6 +613,12 @@ do
         if f.state.nameonly then
             f.handler:DisableElement('CastBar')
         else
+            if CASTBAR_SHOW_ICON then
+                f.SpellIcon:Show()
+            else
+                f.SpellIcon:Hide()
+            end
+
             if f.state.player then
                 if core.profile.castbar_showpersonal then
                     f.handler:EnableElement('CastBar')
@@ -667,6 +681,10 @@ do
         spellicon:SetTexCoord(.1, .9, .25, .75)
         spellicon:SetPoint('TOPLEFT', spelliconbg, 1, -1)
         spellicon:SetPoint('BOTTOMRIGHT', spelliconbg, -1, 1)
+
+        if not CASTBAR_SHOW_ICON then
+            spellicon:Hide()
+        end
 
         -- cast shield
         local spellshield = f.HealthBar:CreateTexture(nil, 'ARTWORK', nil, 2)
