@@ -170,7 +170,6 @@ end
 function core:Initialise()
     self:InitialiseConfig()
 
-    -- TODO resets upon changing any interface options
     SetNameplateOptions()
     InterfaceOptionsFrame:HookScript('OnHide',SetNameplateOptions)
 
