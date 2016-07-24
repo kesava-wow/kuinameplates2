@@ -264,6 +264,11 @@ configChanged.auras_icon_squareness = configChangedAuras
 
 function configChanged.classpowers_enable(v)
     if v then
+        if not addon.ClassPowersFrame then
+            -- if classpowers is disabled by configLoaded, it won't be enabled
+            -- to recieve the Initialised message. So re-run it.
+            addon:GetPlugin('ClassPowers'):Initialised()
+        end
         addon:GetPlugin('ClassPowers'):Enable()
     else
         addon:GetPlugin('ClassPowers'):Disable()
@@ -304,7 +309,13 @@ configLoaded.level_text = configChanged.level_text
 configLoaded.auras_enabled = configChanged.auras_enabled
 configLoaded.auras_whitelist = configChangedAuras
 
-configLoaded.classpowers_enable = configChanged.classpowers_enable
+function configLoaded.classpowers_enable(v)
+    if v then
+        addon:GetPlugin('ClassPowers'):Enable()
+    else
+        addon:GetPlugin('ClassPowers'):Disable()
+    end
+end
 configLoaded.classpowers_on_target = configChanged.classpowers_on_target
 
 local function configLoadedFadeRule()
