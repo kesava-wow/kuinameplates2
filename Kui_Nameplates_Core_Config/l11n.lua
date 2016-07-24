@@ -44,7 +44,7 @@ opt.tooltips = {
     frame_width = 'Width of the standard nameplates',
     frame_height = 'Height of the standard nameplates',
     frame_width_minus = 'Width of nameplates used on low-health mobs',
-    frame_height_minus = 'Height of nameplates used on low-health mobs',
+    frame_height_minus = 'Height of nameplates used on low-health mobs, as well as nameless frames (i.e. "unimportant" units)',
 
     auras_whitelist = 'Use KuiSpellList to filter spells. You can use the extra addon KuiSpellListConfig from Curse to customise this list',
     auras_pulsate = 'Pulsate icons when they are about to expire',
