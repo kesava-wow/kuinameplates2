@@ -1053,13 +1053,15 @@ do
 
         f.NameText:SetShadowOffset(1,-1)
         f.NameText:SetShadowColor(0,0,0,1)
-
         f.NameText:ClearAllPoints()
         f.NameText:SetParent(f)
 
         if f.state.guild_text then
+            f.GuildText:SetShadowOffset(1,-1)
+            f.GuildText:SetShadowColor(0,0,0,1)
             f.GuildText:SetText(f.state.guild_text)
             f.GuildText:Show()
+
             f.NameText:SetPoint('CENTER',.5,6)
         else
             f.NameText:SetPoint('CENTER',.5,0)
@@ -1082,12 +1084,15 @@ do
         f.NameText:SetText(f.state.name)
         f.NameText:SetTextColor(1,1,1,1)
         f.NameText:SetShadowColor(0,0,0,0)
-
         f.NameText:ClearAllPoints()
         f.NameText:SetParent(f.HealthBar)
         f:UpdateNameTextPosition()
 
-        f.GuildText:Hide()
+        if f.GuildText:IsShown() then
+            f.GuildText:SetTextColor(1,1,1,1)
+            f.GuildText:SetShadowColor(0,0,0,0)
+            f.GuildText:Hide()
+        end
 
         f.bg:Show()
         f.HealthBar:Show()
@@ -1095,6 +1100,7 @@ do
 
         if NAMEONLY_NO_FONT_STYLE or FONT_SHADOW then
             UpdateFontObject(f.NameText)
+            UpdateFontObject(f.GuildText)
         end
         if FADE_AVOID_NAMEONLY then
             plugin_fading:UpdateFrame(f)
