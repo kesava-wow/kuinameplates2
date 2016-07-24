@@ -3,7 +3,7 @@
 -- By Kesava @ curse.com.
 -- All rights reserved.
 --]]
-local MAJOR, MINOR = 'KuiConfig-1.0', 3
+local MAJOR, MINOR = 'KuiConfig-1.0', 4
 local kc = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kc then
@@ -125,6 +125,18 @@ function config_meta:RenameProfile(profile_name,new_name)
 
     self:DeleteProfile(profile_name)
     self:SetProfile(new_name)
+end
+
+--[[
+-- reset named profile to defaults (by deleting and recreating it)
+--]]
+function config_meta:ResetProfile(profile_name)
+    if not profile_name then return end
+
+    _G[self.gsv_name].profiles[profile_name] = nil
+    self.gsv.profiles[profile_name] = nil
+
+    self:SetProfile(profile_name)
 end
 
 --[[
