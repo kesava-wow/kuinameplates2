@@ -542,33 +542,31 @@ do
         opt.Popup.pages.rename_profile = pg
     end
 
-    -- delete profile ##########################################################
-    local function DeleteProfile_OnShow(self)
-        self.label:SetText(string.format(
-            opt.titles['delete_profile_label'],
-            opt.config.csv.profile
-        ))
+    -- confirm dialog ##########################################################
+    local function ConfirmDialog_PostShow(self,desc,callback)
+        self.label:SetText('')
+        self.callback = nil
+
+        if desc then
+            self.label:SetText(desc)
+        end
+        if callback then
+            self.callback = callback
+        end
     end
-    local function CreatePopupPage_DeleteProfile()
+    local function CreatePopupPage_ConfirmDialog()
         local pg = CreateFrame('Frame',nil,opt.Popup)
         pg:SetAllPoints(opt.Popup)
         pg:Hide()
         pg.size = { 400,150 }
 
-        function pg:callback(accept)
-            if accept then
-                opt.config:DeleteProfile(opt.config.csv.profile)
-            end
-        end
-
         local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
         label:SetPoint('CENTER',0,10)
 
         pg.label = label
+        pg.PostShow = ConfirmDialog_PostShow
 
-        pg:SetScript('OnShow',DeleteProfile_OnShow)
-
-        opt.Popup.pages.delete_profile = pg
+        opt.Popup.pages.confirm_dialog = pg
     end
 
     -- colour picker ###########################################################
@@ -738,7 +736,7 @@ do
         CreatePopupPage_NewProfile()
         CreatePopupPage_ColourPicker()
         CreatePopupPage_RenameProfile()
-        CreatePopupPage_DeleteProfile()
+        CreatePopupPage_ConfirmDialog()
 
         opt:HookScript('OnHide',function(self)
             self.Popup:Hide()
@@ -809,9 +807,16 @@ function opt:Initialise()
     p_delete:SetPoint('TOPRIGHT',-10,-26)
     p_delete:SetText('Delete profile')
     p_delete:SetSize(110,22)
+    p_delete.callback = function(accept)
+        opt.config:DeleteProfile(opt.config.csv.profile)
+    end
     p_delete:SetScript('OnShow',ProfileButtonOnShow)
     p_delete:SetScript('OnClick',function(self)
-        opt.Popup:ShowPage('delete_profile')
+        opt.Popup:ShowPage(
+            'confirm_dialog',
+            string.format(opt.titles.delete_profile_label,opt.config.csv.profile),
+            self.callback
+        )
     end)
 
     local p_rename = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
@@ -827,8 +832,15 @@ function opt:Initialise()
     p_reset:SetPoint('RIGHT',p_rename,'LEFT',-5,0)
     p_reset:SetText('Reset profile')
     p_reset:SetSize(115,22)
+    p_reset.callback = function(accept)
+        opt.config:ResetProfile(opt.config.csv.profile)
+    end
     p_reset:SetScript('OnClick',function(self)
-        opt.Popup:ShowPage('reset')
+        opt.Popup:ShowPage(
+            'confirm_dialog',
+            string.format(opt.titles.reset_profile_label,opt.config.csv.profile),
+            self.callback
+        )
     end)
 
     -- create backgrounds
