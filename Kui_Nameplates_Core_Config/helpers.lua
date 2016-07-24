@@ -434,7 +434,7 @@ do
         opt.Popup:Hide()
     end
 
-    local function PopupShowPage(self,page_name)
+    local function PopupShowPage(self,page_name,...)
         if self.active_page then
             self.active_page:Hide()
         end
@@ -447,6 +447,10 @@ do
                 self:SetSize(unpack(self.active_page.size))
             else
                 self:SetSize(400,300)
+            end
+
+            if type(self.active_page.PostShow) == 'function' then
+                self.active_page:PostShow(...)
             end
         end
 
@@ -805,7 +809,6 @@ function opt:Initialise()
     p_delete:SetPoint('TOPRIGHT',-10,-26)
     p_delete:SetText('Delete profile')
     p_delete:SetSize(110,22)
-
     p_delete:SetScript('OnShow',ProfileButtonOnShow)
     p_delete:SetScript('OnClick',function(self)
         opt.Popup:ShowPage('delete_profile')
@@ -815,10 +818,17 @@ function opt:Initialise()
     p_rename:SetPoint('RIGHT',p_delete,'LEFT',-5,0)
     p_rename:SetText('Rename profile')
     p_rename:SetSize(115,22)
-
     p_rename:SetScript('OnShow',ProfileButtonOnShow)
     p_rename:SetScript('OnClick',function(self)
         opt.Popup:ShowPage('rename_profile')
+    end)
+
+    local p_reset = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
+    p_reset:SetPoint('RIGHT',p_rename,'LEFT',-5,0)
+    p_reset:SetText('Reset profile')
+    p_reset:SetSize(115,22)
+    p_reset:SetScript('OnClick',function(self)
+        opt.Popup:ShowPage('reset')
     end)
 
     -- create backgrounds
