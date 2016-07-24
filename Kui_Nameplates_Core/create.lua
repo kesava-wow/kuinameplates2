@@ -111,8 +111,10 @@ local function UpdateFontObject(object)
     )
 
     if FONT_SHADOW then
-        object:SetShadowColor(0,0,0)
+        object:SetShadowColor(0,0,0,1)
         object:SetShadowOffset(1,-1)
+    else
+        object:SetShadowColor(0,0,0,0)
     end
 end
 local function CreateFontString(parent,small)
@@ -1073,7 +1075,7 @@ do
         f.HealthBar:Show()
         f.HealthBar.fill:Show()
 
-        if NAMEONLY_NO_FONT_STYLE then
+        if NAMEONLY_NO_FONT_STYLE or FONT_SHADOW then
             UpdateFontObject(f.NameText)
         end
         if FADE_AVOID_NAMEONLY then
