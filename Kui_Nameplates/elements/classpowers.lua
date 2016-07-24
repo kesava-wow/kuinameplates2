@@ -306,12 +306,21 @@ function ele:UpdateConfig()
         return
     end
 
+    on_target         = addon.layout.ClassPowers.on_target
     ICON_SIZE         = addon.layout.ClassPowers.icon_size or 10
     ICON_SPACING      = addon.layout.ClassPowers.icon_spacing or 1
     ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
     ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
     CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
     FRAME_POINT       = addon.layout.ClassPowers.point
+
+    if on_target then
+        self:RegisterMessage('GainedTarget','TargetUpdate')
+        self:RegisterMessage('LostTarget','TargetUpdate')
+    else
+        self:UnregisterMessage('GainedTarget')
+        self:UnregisterMessage('LostTarget')
+    end
 
     if type(addon.layout.ClassPowers.colours) == 'table' then
         if addon.layout.ClassPowers.colours[class] then
@@ -356,17 +365,6 @@ function ele:PLAYER_ENTERING_WORLD()
     -- update icons upon zoning. just in case.
     PowerUpdate()
 end
-function ele:CVAR_UPDATE()
-    on_target = GetCVarBool('nameplateResourceOnTarget')
-
-    if on_target then
-        self:RegisterMessage('GainedTarget','TargetUpdate')
-        self:RegisterMessage('LostTarget','TargetUpdate')
-    else
-        self:UnregisterMessage('GainedTarget')
-        self:UnregisterMessage('LostTarget')
-    end
-end
 function ele:PowerInit()
     -- get current power type, register events
     if type(powers[class]) == 'table' then
@@ -390,10 +388,6 @@ function ele:PowerInit()
         self:RegisterMessage('Show','TargetUpdate')
         self:RegisterMessage('HealthColourChange','TargetUpdate')
 
-        -- for nameplateResourceOnTarget
-        self:RegisterEvent('CVAR_UPDATE')
-        self:CVAR_UPDATE()
-
         CreateIcons()
 
         -- set initial state
@@ -407,7 +401,6 @@ function ele:PowerInit()
         self:UnregisterEvent('PLAYER_ENTERING_WORLD')
         self:UnregisterEvent('UNIT_MAXPOWER')
         self:UnregisterEvent('UNIT_POWER')
-        self:UnregisterEvent('CVAR_UPDATE')
         self:UnregisterEvent('RUNE_POWER_UPDATE')
 
         self:UnregisterMessage('Show')
