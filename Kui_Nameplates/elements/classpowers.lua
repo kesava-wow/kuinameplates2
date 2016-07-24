@@ -323,25 +323,27 @@ function ele:UpdateConfig()
 
     ICON_SIZE = ICON_SIZE * addon.uiscale
 
-    if cpf and cpf.icons then
+    if cpf then
         -- update existing frame
         cpf:SetHeight(ICON_SIZE)
 
-        -- update icons
-        for k,i in ipairs(cpf.icons) do
-            i:SetSize(ICON_SIZE,ICON_SIZE)
-            i:SetTexture(ICON_TEXTURE)
+        if cpf.icons then
+            -- update icons
+            for k,i in ipairs(cpf.icons) do
+                i:SetSize(ICON_SIZE,ICON_SIZE)
+                i:SetTexture(ICON_TEXTURE)
 
-            i.glow:SetSize(ICON_SIZE+10,ICON_SIZE+10)
-            i.glow:SetTexture(ICON_GLOW_TEXTURE)
+                i.glow:SetSize(ICON_SIZE+10,ICON_SIZE+10)
+                i.glow:SetTexture(ICON_GLOW_TEXTURE)
 
-            if i.cd then
-                i.cd:SetSwipeTexture(CD_TEXTURE)
+                if i.cd then
+                    i.cd:SetSwipeTexture(CD_TEXTURE)
+                end
             end
-        end
 
-        PositionIcons()
-        PositionFrame()
+            PositionIcons()
+            PositionFrame()
+        end
     end
 end
 -- messages ####################################################################
@@ -451,6 +453,7 @@ function ele:OnEnable()
         return
     end
 
+    self:UpdateConfig()
     self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
     self:PowerInit()
 end
@@ -470,11 +473,8 @@ function ele:Initialised()
         return
     end
 
-    self:UpdateConfig()
-
     -- icon frame container
     cpf = CreateFrame('Frame')
-    cpf:SetHeight(ICON_SIZE)
     cpf:SetPoint('CENTER')
     cpf:Hide()
 
