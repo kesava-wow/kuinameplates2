@@ -284,17 +284,10 @@ function configChanged.classpowers_size(v)
     end
 end
 function configChanged.classpowers_on_target(v)
-    if InCombatLockdown() then
-        cc:QueueConfigChanged('classpowers_on_target')
-        return
-    end
-
-    SetCVar('nameplateResourceOnTarget',v==true)
-    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:Enable()
-    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:SetChecked(v==true)
+    core.ClassPowers.on_target = v
 
     if addon:GetPlugin('ClassPowers').enabled then
-        addon:GetPlugin('ClassPowers'):CVAR_UPDATE()
+        addon:GetPlugin('ClassPowers'):UpdateConfig()
     end
 end
 
@@ -322,7 +315,6 @@ function configLoaded.classpowers_enable(v)
         addon:GetPlugin('ClassPowers'):Disable()
     end
 end
-configLoaded.classpowers_on_target = configChanged.classpowers_on_target
 
 local function configLoadedFadeRule()
     configChangedFadeRule(nil,true)
@@ -330,14 +322,6 @@ end
 configLoaded.fade_all = configLoadedFadeRule
 
 configLoaded.combat_hostile = configChangedCombatAction
-
--- sync cvars ##################################################################
-local function InterfaceOptionsFrameOnShow()
-    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:Enable()
-    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:SetChecked(
-        core.profile.classpowers_on_target==true
-    )
-end
 
 -- init config #################################################################
 function core:InitialiseConfig()
@@ -379,15 +363,8 @@ function core:InitialiseConfig()
     if KuiNameplatesCoreConfig then
         KuiNameplatesCoreConfig:LayoutLoaded()
     end
-
-    InterfaceOptionsFrame:HookScript('OnShow',InterfaceOptionsFrameOnShow)
-    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:HookScript('OnMouseUp',
-        function(self)
-            -- sync setting if default checkbox is used
-            core.config:SetConfig('classpowers_on_target',self:GetChecked())
-        end
-    )
 end
+
 -- combat checking frame #######################################################
 cc.queue = {}
 function cc:QueueConfigChanged(name)

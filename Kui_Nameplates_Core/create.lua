@@ -1145,6 +1145,7 @@ function core:InitialiseElements()
     self.Auras = {}
 
     self.ClassPowers = {
+        on_target = self.profile.classpowers_on_target,
         icon_size = self.profile.classpowers_size or 10,
         icon_texture = 'interface/addons/kui_nameplates/media/combopoint-round',
         glow_texture = 'interface/addons/kui_nameplates/media/combopoint-glow',
