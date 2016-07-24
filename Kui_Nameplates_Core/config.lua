@@ -9,6 +9,8 @@ local kc = LibStub('KuiConfig-1.0')
 local LSM = LibStub('LibSharedMedia-3.0')
 local addon = KuiNameplates
 local core = KuiNameplatesCore
+-- combat checking frame
+local cc = CreateFrame('Frame')
 -- add media to LSM ############################################################
 LSM:Register(LSM.MediaType.FONT,'Yanone Kaffesatz Bold',kui.m.f.yanone)
 LSM:Register(LSM.MediaType.FONT,'FrancoisOne',kui.m.f.francois)
@@ -282,10 +284,14 @@ function configChanged.classpowers_size(v)
     end
 end
 function configChanged.classpowers_on_target(v)
-    -- TODO need something to set cvars after combat ends/closing the interface panel
-    if InCombatLockdown() then return end
+    if InCombatLockdown() then
+        cc:QueueConfigChanged('classpowers_on_target')
+        return
+    end
 
     SetCVar('nameplateResourceOnTarget',v==true)
+    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:Enable()
+    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:SetChecked(v==true)
 
     if addon:GetPlugin('ClassPowers').enabled then
         addon:GetPlugin('ClassPowers'):CVAR_UPDATE()
@@ -324,6 +330,14 @@ end
 configLoaded.fade_all = configLoadedFadeRule
 
 configLoaded.combat_hostile = configChangedCombatAction
+
+-- sync cvars ##################################################################
+local function InterfaceOptionsFrameOnShow()
+    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:Enable()
+    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:SetChecked(
+        core.profile.classpowers_on_target==true
+    )
+end
 
 -- init config #################################################################
 function core:InitialiseConfig()
@@ -365,4 +379,27 @@ function core:InitialiseConfig()
     if KuiNameplatesCoreConfig then
         KuiNameplatesCoreConfig:LayoutLoaded()
     end
+
+    InterfaceOptionsFrame:HookScript('OnShow',InterfaceOptionsFrameOnShow)
+    InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy:HookScript('OnMouseUp',
+        function(self)
+            -- sync setting if default checkbox is used
+            core.config:SetConfig('classpowers_on_target',self:GetChecked())
+        end
+    )
 end
+-- combat checking frame #######################################################
+cc.queue = {}
+function cc:QueueConfigChanged(name)
+    tinsert(self.queue,name)
+end
+cc:SetScript('OnEvent',function(self,event,...)
+    for i,name in ipairs(self.queue) do
+        if type(configChanged[name]) == 'function' then
+            configChanged[name](core.profile[name])
+        end
+    end
+
+    wipe(self.queue)
+end)
+cc:RegisterEvent('PLAYER_REGEN_ENABLED')
