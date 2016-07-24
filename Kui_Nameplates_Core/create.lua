@@ -38,7 +38,7 @@ local CLASS_COLOURS = {
 
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
 local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
-local FONT,FONT_STYLE,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
+local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local NAMEONLY_NO_FONT_STYLE,FADE_AVOID_NAMEONLY,NAMEONLY_ENEMIES
@@ -109,6 +109,11 @@ local function UpdateFontObject(object)
         object.fontobject_small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
         FONT_STYLE
     )
+
+    if FONT_SHADOW then
+        object:SetShadowColor(0,0,0)
+        object:SetShadowOffset(1,-1)
+    end
 end
 local function CreateFontString(parent,small)
     local f = parent:CreateFontString(nil,'OVERLAY')
@@ -122,6 +127,8 @@ end
 -- config functions ############################################################
 do
     local FONT_STYLE_ASSOC = {
+        '',
+        'THINOUTLINE',
         '',
         'THINOUTLINE',
         'THINOUTLINE MONOCHROME'
@@ -150,6 +157,7 @@ do
 
         FONT = LSM:Fetch(LSM.MediaType.FONT,self.profile.font_face)
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
+        FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
         FONT_SIZE_NORMAL = self.profile.font_size_normal
         FONT_SIZE_SMALL = self.profile.font_size_small
 

@@ -108,7 +108,7 @@ local text_vertical_offset = text:CreateSlider('text_vertical_offset',-20,20)
 local name_vertical_offset = text:CreateSlider('name_vertical_offset',-20,20)
 local bot_vertical_offset = text:CreateSlider('bot_vertical_offset',-20,20)
 
-font_style.SelectTable = { 'None','Outline','Monochrome' }
+font_style.SelectTable = { 'None','Outline','Shadow','Shadow+Outline','Monochrome' }
 
 text_vertical_offset:SetWidth(120)
 text_vertical_offset:SetValueStep(.5)
