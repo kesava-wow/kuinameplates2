@@ -163,15 +163,19 @@ function core:UNIT_NAME_UPDATE(event,f)
     f:UpdateNameText()
 end
 -- register ####################################################################
-function core:Initialise()
-    self:InitialiseConfig()
-
+local function SetCVars()
     -- we don't want the distance scaling
     SetCVar('NameplateMinScale',1)
     SetCVar('NameplateMaxScale',1)
 
-    -- TODO resets upon changing any interface options
     C_NamePlate.SetNamePlateOtherSize(105,30)
+end
+function core:Initialise()
+    self:InitialiseConfig()
+
+    -- TODO resets upon changing any interface options
+    SetCVars()
+    InterfaceOptionsFrame:HookScript('OnHide',SetCVars)
 
     -- register messages
     self:RegisterMessage('Create')
