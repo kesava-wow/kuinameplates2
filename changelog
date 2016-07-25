@@ -7,4 +7,5 @@
 * add button to reset profiles to default
 * fix profile selection being global rather than character specific
 * fix clickbox size resets upon closing interface options
+* fix NPC titles showing reputation if colourblind mode is enabled
 * disable default clickbox scaling based on distance
