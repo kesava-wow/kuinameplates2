@@ -2,11 +2,12 @@ local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 -- strings
 opt.page_names = {
-    general     = 'General', -- fonts, textures, fading, nameonly, class colours
-    text        = 'Text', -- level, health text
+    general     = 'General',
+    healthbars  = 'Health bars',
+    castbars    = 'Cast bars',
+    text        = 'Text',
     framesizes  = 'Frame sizes',
     auras       = 'Auras',
-    castbars    = 'Cast bars',
     classpowers = 'Class powers',
     threat      = 'Threat',
 }
@@ -105,7 +106,7 @@ opt.titles = {
     fade_avoid_nameonly = 'Avoid nameonly',
     fade_avoid_raidicon = 'Avoid raid icon',
 
-    reaction_colour_sep = 'Health bar colours',
+    reaction_colour_sep = 'Colours',
     colour_hated = 'Hated',
     colour_neutral = 'Neutral',
     colour_friendly = 'Friendly',
