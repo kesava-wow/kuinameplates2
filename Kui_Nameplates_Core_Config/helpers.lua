@@ -391,7 +391,7 @@ do
     function opt:CreatePageTab(page)
         local tab = CreateFrame('Button',frame_name..page.name..'PageTab',self.TabList,'OptionsListButtonTemplate')
         tab:SetScript('OnClick',OnClick)
-        tab:SetText(self.page_names[page.name] or 'Tab')
+        tab:SetText(self.page_names[page.name] or page.name or 'Tab')
         tab:SetWidth(120)
 
         tab.child = page

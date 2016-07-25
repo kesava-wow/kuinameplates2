@@ -4,12 +4,13 @@ local LSM = LibStub('LibSharedMedia-3.0')
 
 opt:Initialise()
 -- create pages ################################################################
-local general = opt:CreateConfigPage('general')
-local text = opt:CreateConfigPage('text')
-local framesizes = opt:CreateConfigPage('framesizes')
-local auras = opt:CreateConfigPage('auras')
-local castbars = opt:CreateConfigPage('castbars')
-local threat = opt:CreateConfigPage('threat')
+local general     = opt:CreateConfigPage('general')
+local healthbars  = opt:CreateConfigPage('healthbars')
+local castbars    = opt:CreateConfigPage('castbars')
+local text        = opt:CreateConfigPage('text')
+local framesizes  = opt:CreateConfigPage('framesizes')
+local auras       = opt:CreateConfigPage('auras')
+local threat      = opt:CreateConfigPage('threat')
 local classpowers = opt:CreateConfigPage('classpowers')
 
 -- show inital page
@@ -17,8 +18,6 @@ opt.pages[1]:ShowPage()
 
 -- create elements #############################################################
 -- general #####################################################################
-local bar_texture = general:CreateDropDown('bar_texture')
-local bar_animation = general:CreateDropDown('bar_animation')
 local combat_hostile = general:CreateDropDown('combat_hostile')
 local combat_friendly = general:CreateDropDown('combat_friendly')
 local glow_as_shadow = general:CreateCheckBox('glow_as_shadow')
@@ -26,17 +25,13 @@ local state_icons = general:CreateCheckBox('state_icons')
 local target_glow = general:CreateCheckBox('target_glow')
 local target_glow_colour = general:CreateColourPicker('target_glow_colour')
 
-bar_animation.SelectTable = {'None','Smooth','Cutaway'}
 combat_hostile.SelectTable = {'Do nothing','Hide','Show'}
 combat_friendly.SelectTable = {'Do nothing','Hide','Show'}
 
-bar_texture:SetPoint('TOPLEFT',10,-10)
-bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',10,0)
+combat_hostile:SetPoint('TOPLEFT',10,-10)
+combat_friendly:SetPoint('LEFT',combat_hostile,'RIGHT',10,0)
 
-combat_hostile:SetPoint('TOPLEFT',bar_texture,'BOTTOMLEFT',0,-5)
-combat_friendly:SetPoint('TOPLEFT',bar_animation,'BOTTOMLEFT',0,-5)
-
-glow_as_shadow:SetPoint('TOPLEFT',10,-100)
+glow_as_shadow:SetPoint('TOPLEFT',10,-60)
 state_icons:SetPoint('LEFT',glow_as_shadow,'RIGHT',190,0)
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',220,0)
@@ -51,8 +46,8 @@ nameonly_no_font_style.enabled = function(p) return p.nameonly end
 nameonly_enemies.enabled = function(p) return p.nameonly end
 nameonly_damaged_friends.enabled = function(p) return p.nameonly end
 
-nameonly_sep:SetPoint('TOP',0,-180)
-nameonlyCheck:SetPoint('TOPLEFT',10,-190)
+nameonly_sep:SetPoint('TOP',0,-140)
+nameonlyCheck:SetPoint('TOPLEFT',10,-150)
 nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
 nameonly_damaged_friends:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
 nameonly_enemies:SetPoint('LEFT',nameonly_damaged_friends,'RIGHT',190,0)
@@ -67,24 +62,34 @@ local fade_avoid_raidicon = general:CreateCheckBox('fade_avoid_raidicon')
 fade_alpha:SetValueStep(.05)
 fade_speed:SetValueStep(.05)
 
-fade_rules_sep:SetPoint('TOP',0,-270)
-fade_alpha:SetPoint('TOPLEFT',10,-295)
+fade_rules_sep:SetPoint('TOP',0,-230)
+fade_alpha:SetPoint('TOPLEFT',10,-255)
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-fade_all:SetPoint('TOPLEFT',15,-330)
+fade_all:SetPoint('TOPLEFT',15,-290)
 fade_avoid_nameonly:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_avoid_raidicon:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
 
-local colour_sep = general:CreateSeperator('reaction_colour_sep')
-local colour_hated = general:CreateColourPicker('colour_hated')
-local colour_neutral = general:CreateColourPicker('colour_neutral')
-local colour_friendly = general:CreateColourPicker('colour_friendly')
-local colour_tapped = general:CreateColourPicker('colour_tapped')
-local colour_player = general:CreateColourPicker('colour_player')
-local colour_self_class = general:CreateCheckBox('colour_self_class')
-local colour_self = general:CreateColourPicker('colour_self')
+target_glow_colour.enabled = function(p) return p.target_glow end
 
-colour_sep:SetPoint('TOP',0,-405)
-colour_hated:SetPoint('TOPLEFT',15,-415)
+-- healthbars ##################################################################
+local bar_texture = healthbars:CreateDropDown('bar_texture')
+local bar_animation = healthbars:CreateDropDown('bar_animation')
+local colour_sep = healthbars:CreateSeperator('reaction_colour_sep')
+local colour_hated = healthbars:CreateColourPicker('colour_hated')
+local colour_neutral = healthbars:CreateColourPicker('colour_neutral')
+local colour_friendly = healthbars:CreateColourPicker('colour_friendly')
+local colour_tapped = healthbars:CreateColourPicker('colour_tapped')
+local colour_player = healthbars:CreateColourPicker('colour_player')
+local colour_self_class = healthbars:CreateCheckBox('colour_self_class')
+local colour_self = healthbars:CreateColourPicker('colour_self')
+
+bar_animation.SelectTable = {'None','Smooth','Cutaway'}
+
+bar_texture:SetPoint('TOPLEFT',10,-10)
+bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',10,0)
+
+colour_sep:SetPoint('TOP',0,-75)
+colour_hated:SetPoint('TOPLEFT',15,-90)
 colour_neutral:SetPoint('LEFT',colour_hated,'RIGHT')
 colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
 colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')
@@ -93,7 +98,6 @@ colour_player:SetPoint('LEFT',colour_tapped,'RIGHT')
 colour_self_class:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,0)
 colour_self:SetPoint('LEFT',colour_self_class,'RIGHT',128,0)
 
-target_glow_colour.enabled = function(p) return p.target_glow end
 colour_self.enabled = function(p) return not p.colour_self_class end
 
 -- text ########################################################################
