@@ -82,6 +82,9 @@ local colour_tapped = healthbars:CreateColourPicker('colour_tapped')
 local colour_player = healthbars:CreateColourPicker('colour_player')
 local colour_self_class = healthbars:CreateCheckBox('colour_self_class')
 local colour_self = healthbars:CreateColourPicker('colour_self')
+local colour_enemy_class = healthbars:CreateCheckBox('colour_enemy_class')
+local colour_enemy_player = healthbars:CreateColourPicker('colour_enemy_player')
+local colour_enemy_pet = healthbars:CreateColourPicker('colour_enemy_pet')
 
 bar_animation.SelectTable = {'None','Smooth','Cutaway'}
 
@@ -95,16 +98,22 @@ colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
 colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')
 colour_player:SetPoint('LEFT',colour_tapped,'RIGHT')
 
-colour_self_class:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,0)
+colour_enemy_class:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,0)
+colour_enemy_player:SetPoint('LEFT',colour_enemy_class,'RIGHT',128,0)
+colour_enemy_pet:SetPoint('LEFT',colour_enemy_player,'RIGHT',0,0)
+
+colour_self_class:SetPoint('TOPLEFT',colour_enemy_class,'BOTTOMLEFT')
 colour_self:SetPoint('LEFT',colour_self_class,'RIGHT',128,0)
 
 colour_self.enabled = function(p) return not p.colour_self_class end
+colour_enemy_player.enabled = function(p) return not p.colour_enemy_class end
 
 -- text ########################################################################
 local font_face = text:CreateDropDown('font_face')
 local font_style = text:CreateDropDown('font_style')
 local font_size_normal = text:CreateSlider('font_size_normal',1,20)
 local font_size_small = text:CreateSlider('font_size_small',1,20)
+local name_text = text:CreateCheckBox('name_text')
 local hidenamesCheck = text:CreateCheckBox('hide_names')
 local level_text = text:CreateCheckBox('level_text')
 local health_text = text:CreateCheckBox('health_text')
@@ -133,9 +142,12 @@ text_vertical_offset:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-30)
 name_vertical_offset:SetPoint('LEFT',text_vertical_offset,'RIGHT',20,0)
 bot_vertical_offset:SetPoint('LEFT',name_vertical_offset,'RIGHT',20,0)
 
-hidenamesCheck:SetPoint('TOPLEFT',text_vertical_offset,'BOTTOMLEFT',0,-20)
-level_text:SetPoint('TOPLEFT',hidenamesCheck,'BOTTOMLEFT')
+name_text:SetPoint('TOPLEFT',text_vertical_offset,'BOTTOMLEFT',0,-20)
+hidenamesCheck:SetPoint('LEFT',name_text,'RIGHT',190,0)
+level_text:SetPoint('TOPLEFT',name_text,'BOTTOMLEFT')
 health_text:SetPoint('TOPLEFT',level_text,'BOTTOMLEFT')
+
+hidenamesCheck.enabled = function(p) return p.name_text end
 
 -- frame sizes #################################################################
 local frame_width = framesizes:CreateSlider('frame_width',20,200)
