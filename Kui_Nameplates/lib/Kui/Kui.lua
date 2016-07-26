@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 18
+local MAJOR, MINOR = 'Kui-1.0', 19
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -116,6 +116,7 @@ kui.GetUnitColour = function(unit, str)
             return kui.GetClassColour(unit, str)
         else
             r, g, b = UnitSelectionColor(unit)
+            ret = { r = r, g = g, b = b }
         end
     end
 
@@ -192,7 +193,7 @@ end
 -- Format numbers
 kui.num = function(num)
     if num < THOUSAND then
-        return num
+        return floor(num)
     elseif num >= TRILLION then
         return string.format('%.3ft', num/TRILLION)
     elseif num >= BILLION then
