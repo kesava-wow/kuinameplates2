@@ -114,6 +114,9 @@ opt.titles = {
     colour_player = 'Player',
     colour_self_class = 'Class colour self',
     colour_self = 'Self',
+    colour_enemy_class = 'Class colour hostile players',
+    colour_enemy_player = 'Hostile player',
+    colour_enemy_pet = 'Hostile player pet',
 
     font_face = 'Font face',
     font_style = 'Font style',
