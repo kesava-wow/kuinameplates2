@@ -63,6 +63,9 @@ local default_config = {
     colour_player = {.2,.5,.9},
     colour_self_class = true,
     colour_self = {.2,.6,.1},
+    colour_enemy_class = true,
+    colour_enemy_player = {.7,.2,.1},
+    colour_enemy_pet = {.7,.2,.1},
 
     frame_width = 132,
     frame_height = 13,
