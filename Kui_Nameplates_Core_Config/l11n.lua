@@ -122,6 +122,7 @@ opt.titles = {
     font_style = 'Font style',
     font_size_normal = 'Normal font size',
     font_size_small = 'Small font size',
+    name_text = 'Show name text',
     hide_names = 'Hide unimportant unit names',
     level_text = 'Show level text',
     health_text = 'Show health text',
