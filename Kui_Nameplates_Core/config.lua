@@ -213,11 +213,18 @@ local function configChangedReactionColour()
     ele.colours.friendly = core.profile.colour_friendly
     ele.colours.tapped = core.profile.colour_tapped
     ele.colours.player = core.profile.colour_player
+    ele.colours.enemy_pet = core.profile.colour_enemy_pet
 
     if core.profile.colour_self_class then
         ele.colours.self = nil
     else
         ele.colours.self = core.profile.colour_self
+    end
+
+    if core.profile.colour_enemy_class then
+        ele.colours.enemy_player = nil
+    else
+        ele.colours.enemy_player = core.profile.colour_enemy_player
     end
 end
 configChanged.colour_hated = configChangedReactionColour
@@ -227,6 +234,9 @@ configChanged.colour_tapped = configChangedReactionColour
 configChanged.colour_player = configChangedReactionColour
 configChanged.colour_self_class = configChangedReactionColour
 configChanged.colour_self = configChangedReactionColour
+configChanged.colour_enemy_class = configChangedReactionColour
+configChanged.colour_enemy_player = configChangedReactionColour
+configChanged.colour_enemy_pet = configChangedReactionColour
 
 local function configChangedTankColour()
     local ele = addon:GetPlugin('TankMode')
