@@ -49,6 +49,7 @@ local default_config = {
     hide_names = true,
     font_size_normal = 11,
     font_size_small = 9,
+    name_text = true,
     level_text = false,
     health_text = false,
     text_vertical_offset = -1.5,

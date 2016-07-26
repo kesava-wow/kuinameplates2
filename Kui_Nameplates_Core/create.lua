@@ -36,6 +36,7 @@ local CLASS_COLOURS = {
     SHAMAN      = { .10, .54, .97 },
 }
 
+-- config locals
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
 local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
@@ -44,6 +45,7 @@ local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local NAMEONLY_NO_FONT_STYLE,FADE_AVOID_NAMEONLY,NAMEONLY_ENEMIES
 local NAMEONLY_DAMAGED_FRIENDS,FADE_AVOID_RAIDICON
 local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
+local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 
 local POWER_BAR_HEIGHT = 2
 local FRAME_GLOW_SIZE = 8
@@ -173,6 +175,9 @@ do
         FADE_AVOID_RAIDICON = self.profile.fade_avoid_raidicon
 
         SHOW_STATE_ICONS = self.profile.state_icons
+
+        SHOW_HEALTH_TEXT = self.profile.health_text
+        SHOW_NAME_TEXT = self.profile.name_text
     end
 end
 function core:configChangedFrameSize()
@@ -342,6 +347,8 @@ end
 do
     local function UpdateNameText(f)
         if f.state.nameonly then
+            f.NameText:Show()
+
             if UnitIsPlayer(f.unit) then
                 -- player class colour
                 f.NameText:SetTextColor(GetClassColour(f))
@@ -358,7 +365,7 @@ do
 
             -- set name text colour to health
             core:NameOnlySetNameTextToHealth(f)
-        else
+        elseif SHOW_NAME_TEXT then
             if  not f.state.player and
                 UnitIsPlayer(f.unit) and
                 f.state.friend
@@ -375,6 +382,8 @@ do
             else
                 f.NameText:Show()
             end
+        else
+            f.NameText:Hide()
         end
     end
     local function UpdateNameTextPosition(f)
@@ -420,7 +429,7 @@ end
 do
     local function UpdateHealthText(f)
         if f.state.nameonly then return end
-        if not core.profile.health_text or f.state.minus or f.state.player then
+        if not SHOW_HEALTH_TEXT or f.state.minus or f.state.player then
             f.HealthText:Hide()
         else
             local cur,_,max = f.HealthBar:GetValue(),f.HealthBar:GetMinMaxValues()
@@ -1019,6 +1028,7 @@ function core:ShowNameUpdate(f)
     if f.state.player then
         f.state.no_name = true
     elseif
+        not SHOW_NAME_TEXT or
         not core.profile.hide_names or
         f.state.target or
         f.state.threat or
