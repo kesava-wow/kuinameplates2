@@ -11,4 +11,5 @@
 * fix profile selection being global rather than character specific
 * fix clickbox size resets upon closing interface options
 * fix NPC titles showing reputation if colourblind mode is enabled
+* possibly fix an issue with health rounding/scaling. maybe.
 * disable default clickbox scaling based on distance
