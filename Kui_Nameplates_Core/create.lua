@@ -1193,7 +1193,7 @@ function core:InitialiseElements()
         icon_texture = 'interface/addons/kui_nameplates/media/combopoint-round',
         glow_texture = 'interface/addons/kui_nameplates/media/combopoint-glow',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
-        point = { 'TOP','bg','BOTTOM',0,4 }
+        point = { 'CENTER','bg','BOTTOM',0,1 }
     }
 
     local plugin_pb = addon:GetPlugin('PowerBar')
