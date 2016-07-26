@@ -1025,10 +1025,9 @@ end
 function core:ShowNameUpdate(f)
     if f.state.nameonly then return end
 
-    if f.state.player then
+    if f.state.player or not SHOW_NAME_TEXT then
         f.state.no_name = true
     elseif
-        not SHOW_NAME_TEXT or
         not core.profile.hide_names or
         f.state.target or
         f.state.threat or
