@@ -101,7 +101,7 @@ local default_config = {
     tankmode_other_colour = { .6, 0, 1 },
 
     classpowers_enable = true,
-    classpowers_on_target = false,
+    classpowers_on_target = true,
     classpowers_size = 10,
 }
 -- config changed functions ####################################################
