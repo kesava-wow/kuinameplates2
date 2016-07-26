@@ -3,9 +3,12 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('HealthBar')
 
-local UnitIsTapDenied,UnitReaction,UnitIsPlayer,UnitIsUnit,UnitIsFriend =
-      UnitIsTapDenied,UnitReaction,UnitIsPlayer,UnitIsUnit,UnitIsFriend
+local UnitIsTapDenied,UnitReaction,UnitIsPlayer,UnitIsUnit,UnitIsFriend,
+      UnitPlayerControlled =
+      UnitIsTapDenied,UnitReaction,UnitIsPlayer,UnitIsUnit,UnitIsFriend,
+      UnitPlayerControlled
 local unpack = unpack
+
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateHealthColour(f,show)
     f = f.parent
@@ -17,23 +20,38 @@ function addon.Nameplate.UpdateHealthColour(f,show)
         r,g,b = unpack(ele.colours.tapped)
     elseif UnitIsPlayer(f.unit) then
         if UnitIsUnit('player',f.unit) then
+            -- personal nameplate
             if ele.colours.self then
                 r,g,b = unpack(ele.colours.self)
             else
                 r,g,b = kui.GetClassColour(f.unit,2)
             end
         elseif UnitIsFriend('player',f.unit) then
+            -- friendly players
             r,g,b = unpack(ele.colours.player)
         else
-            r,g,b = kui.GetClassColour(f.unit,2)
+            -- hostile players
+            if ele.colours.enemy_player then
+                r,g,b = unpack(ele.colours.enemy_player)
+            else
+                r,g,b = kui.GetClassColour(f.unit,2)
+            end
         end
     else
         if react == 4 then
+            -- neutral NPCs
             r,g,b = unpack(ele.colours.neutral)
         elseif react > 4 then
+            -- friendly NPCs
             r,g,b = unpack(ele.colours.friendly)
         else
-            r,g,b = unpack(ele.colours.hated)
+            -- hostile NPCs
+            if UnitPlayerControlled(f.unit) and ele.colours.enemy_pet then
+                -- hostile player pet
+                r,g,b = unpack(ele.colours.enemy_pet)
+            else
+                r,g,b = unpack(ele.colours.hated)
+            end
         end
     end
 
