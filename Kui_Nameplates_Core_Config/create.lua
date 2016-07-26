@@ -98,12 +98,12 @@ colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
 colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')
 colour_player:SetPoint('LEFT',colour_tapped,'RIGHT')
 
-colour_enemy_class:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,0)
-colour_enemy_player:SetPoint('LEFT',colour_enemy_class,'RIGHT',128,0)
+colour_enemy_class:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,-15)
+colour_enemy_player:SetPoint('TOPLEFT',colour_enemy_class,'BOTTOMLEFT',4,0)
 colour_enemy_pet:SetPoint('LEFT',colour_enemy_player,'RIGHT',0,0)
 
-colour_self_class:SetPoint('TOPLEFT',colour_enemy_class,'BOTTOMLEFT')
-colour_self:SetPoint('LEFT',colour_self_class,'RIGHT',128,0)
+colour_self_class:SetPoint('TOPLEFT',colour_enemy_player,'BOTTOMLEFT',-4,-15)
+colour_self:SetPoint('TOPLEFT',colour_self_class,'BOTTOMLEFT',4,0)
 
 colour_self.enabled = function(p) return not p.colour_self_class end
 colour_enemy_player.enabled = function(p) return not p.colour_enemy_class end
