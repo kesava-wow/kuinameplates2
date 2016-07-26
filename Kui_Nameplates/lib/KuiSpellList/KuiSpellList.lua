@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 23
+local MAJOR, MINOR = 'KuiSpellList-1.0', 24
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -16,6 +16,13 @@ end
 local listeners = {}
 local auras = {
     DRUID = {
+        SELF = {
+            [22842] = true, -- frenzied regeneration
+            [192081] = true, -- ironfur
+            [61336] = true, -- survival instincts
+            [22812] = true, -- barkskin
+            [192083] = true, -- mark of ursol
+        },
         HELPFUL = {
             [774] = true, -- rejuvenation
             [8936] = true, -- regrowth
@@ -26,6 +33,7 @@ local auras = {
             [155777] = true, -- rejuvenation (germination)
             [102351] = true, -- cenarion ward
             [102352] = true, -- cenarion ward proc
+            [77761] = true, -- stampeding roar
         },
         HARMFUL = {
             [1079] = true, -- rip
@@ -33,7 +41,8 @@ local auras = {
             [155722] = true, -- rake 6.0
             [8921] = true, -- moonfire
             [164812] = true, -- moonfire
-            [77758] = true, -- bear thrash; td ma
+            [77758] = true, -- bear thrash
+            [192090] = true, -- bear thrash 7.0
             [106830] = true, -- cat thrash
             [93402] = true, -- sunfire
             [164815] = true, -- sunfire
