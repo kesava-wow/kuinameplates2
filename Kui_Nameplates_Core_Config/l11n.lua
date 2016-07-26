@@ -34,7 +34,7 @@ opt.tooltips = {
     colour_self_class = 'Use your class colour on your personal nameplate',
     colour_self = 'The health bar colour of your personal nameplate',
 
-    hide_names = 'Whether or not a unit is "unimportant" can be set by changing the default interface options under "Names". Note that this does not affect nameonly mode',
+    hide_names = 'Whether or not a unit is tracked can be set by changing the "NPC Names" dropdown in the default interface options under Esc > Interface > Names. Note that this does not affect nameonly mode',
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
     font_size_normal = 'Standard font size (name, etc)',
     font_size_small = 'Smaller font size (vendor, spell name, etc)',
@@ -123,7 +123,7 @@ opt.titles = {
     font_size_normal = 'Normal font size',
     font_size_small = 'Small font size',
     name_text = 'Show name text',
-    hide_names = 'Hide unimportant unit names',
+    hide_names = 'Hide non-tracked names',
     level_text = 'Show level text',
     health_text = 'Show health text',
     text_vertical_offset = 'Text v.offset',
