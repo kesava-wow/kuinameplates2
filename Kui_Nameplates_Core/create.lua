@@ -579,10 +579,9 @@ end
 do
     local function SpellIconSetWidth(f)
         -- set spell icon width (based on height)
-        -- this seems to convice it to calculate the actual height
+        -- this seems to convince it to calculate the actual height
         f.SpellIcon.bg:SetHeight(1)
-        --f.SpellIcon.bg:SetHeight(f.bg:GetHeight()+f.CastBar.bg:GetHeight()+1)
-        f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.5))
+        f.SpellIcon.bg:SetWidth(floor(f.SpellIcon.bg:GetHeight()*1.25))
     end
     local function ShowCastBar(f)
         if not f.elements.CastBar then
@@ -687,7 +686,7 @@ do
         spelliconbg:SetPoint('TOPRIGHT', f.bg, 'TOPLEFT', -1, 0)
 
         local spellicon = castbar:CreateTexture(nil, 'ARTWORK', nil, 1)
-        spellicon:SetTexCoord(.1, .9, .25, .75)
+        spellicon:SetTexCoord(.1, .9, .2, .8)
         spellicon:SetPoint('TOPLEFT', spelliconbg, 1, -1)
         spellicon:SetPoint('BOTTOMRIGHT', spelliconbg, -1, 1)
 
