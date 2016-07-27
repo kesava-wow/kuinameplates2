@@ -1118,9 +1118,13 @@ do
         -- set name text colour to approximate health
         if not f.state.nameonly then return end
 
-        local cur,max = UnitHealth(f.unit),UnitHealthMax(f.unit)
-        if cur and cur > 0 and max and max > 0 then
-            local health_len = strlen(f.state.name) * (cur / max)
+        if f.state.health_cur and f.state.health_cur > 0 and
+           f.state.health_max and f.state.health_max > 0
+        then
+            local health_len =
+                strlen(f.state.name) *
+                (f.state.health_cur / f.state.health_max)
+
             f.NameText:SetText(
                 kui.utf8sub(f.state.name, 0, health_len)..
                 '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
