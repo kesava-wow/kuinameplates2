@@ -1,7 +1,7 @@
 -- recolour health bars in execute range
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('Execute')
+local mod = addon:NewPlugin('Execute',6)
 
 local class,execute_range
 
@@ -47,17 +47,27 @@ local function CanOverwriteHealthColor(f)
     return not f.state.health_colour_priority or
            f.state.health_colour_priority <= mod.priority
 end
+-- mod functions ###############################################################
+function mod:SetExecuteRange(to)
+    if type(to) == 'number' then
+        self:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
+        execute_range = to
+    else
+        self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
+        self:PLAYER_SPECIALIZATION_CHANGED()
+    end
+end
 -- messages ####################################################################
 function mod:HealthColourChange(f,caller)
     if caller and caller == self then return end
 
-    if f.state.health.cur > 0 and f.state.health_per <= execute_range then
+    if f.state.health_cur > 0 and f.state.health_per <= execute_range then
         if CanOverwriteHealthColor(f) then
             f.state.execute_range_coloured = true
             f.state.health_colour_priority = self.priority
 
             if f.elements.HealthBar then
-                f.HealthBar:SetStatusBarColor(1,1,1)
+                f.HealthBar:SetStatusBarColor(unpack(self.colour))
             end
         end
     elseif f.state.execute_range_coloured then
@@ -86,9 +96,11 @@ function mod:OnEnable()
     self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
     self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
     self:RegisterMessage('HealthColourChange')
+    self:RegisterMessage('Show','HealthColourChange')
 
     self:PLAYER_SPECIALIZATION_CHANGED()
 end
 function mod:Initialise()
     class = select(2,UnitClass('player'))
+    self.colour = {1,1,1}
 end
