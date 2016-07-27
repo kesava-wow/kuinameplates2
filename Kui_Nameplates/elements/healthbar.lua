@@ -69,9 +69,17 @@ end
 function addon.Nameplate.UpdateHealth(f,show)
     f = f.parent
 
+    f.state.health_cur = UnitHealth(f.unit)
+    f.state.health_max = UnitHealthMax(f.unit)
+    f.state.health_deficit = f.state.health_max - f.state.health_cur
+    f.state.health_per =
+        f.state.health_cur > 0 and f.state.health_max > 0 and
+        (f.state.health_cur / f.state.health_max) * 100 or
+        0
+
     if f.elements.HealthBar then
-        f.HealthBar:SetMinMaxValues(0,UnitHealthMax(f.unit))
-        f.HealthBar:SetValue(UnitHealth(f.unit))
+        f.HealthBar:SetMinMaxValues(0,f.state.health_max)
+        f.HealthBar:SetValue(f.state.health_cur)
     end
 
     if not show then

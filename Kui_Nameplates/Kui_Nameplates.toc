@@ -28,3 +28,4 @@ plugins/fading.lua
 plugins/npctitle.lua
 plugins/tankmode.lua
 plugins/combattoggle.lua
+plugins/execute.lua
