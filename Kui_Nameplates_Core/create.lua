@@ -1141,23 +1141,19 @@ do
         end
     end
 
-    local function UnattackableEnemyPlayer(unit)
+    local function UnattackableEnemyPlayer(f)
         -- don't show on unattackable enemy players (ice block etc)
-        return UnitIsPlayer(unit) and UnitIsEnemy('player',unit)
+        return UnitIsPlayer(f.unit) and f.state.enemy
     end
-    local function EnemyAndDisabled(unit)
-        if  not NAMEONLY_ENEMIES and
-            UnitIsEnemy('player',unit)
-        then
+    local function EnemyAndDisabled(f)
+        if not NAMEONLY_ENEMIES and f.state.enemy then
             -- don't show on unattackble enemies
             return true
         end
     end
-    local function FriendAndDisabled(unit)
-        if  not NAMEONLY_DAMAGED_FRIENDS and
-            UnitIsFriend('player',unit)
-        then
-            if UnitHealth(unit) ~= UnitHealthMax(unit) then
+    local function FriendAndDisabled(f)
+        if not NAMEONLY_DAMAGED_FRIENDS and f.state.friend then
+            if f.state.health_deficit > 0 then
                 -- don't show on damaged friends
                 return true
             end
@@ -1172,9 +1168,9 @@ do
             -- don't show on attackable units
             not UnitCanAttack('player',f.unit) and
             -- more complex filters;
-            not UnattackableEnemyPlayer(f.unit) and
-            not EnemyAndDisabled(f.unit) and
-            not FriendAndDisabled(f.unit)
+            not UnattackableEnemyPlayer(f) and
+            not EnemyAndDisabled(f) and
+            not FriendAndDisabled(f)
         then
             NameOnlyEnable(f)
         else
