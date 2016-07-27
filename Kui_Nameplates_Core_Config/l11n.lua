@@ -81,6 +81,7 @@ opt.titles = {
     delete_profile_label = 'Delete profile |cffffffff%s|r?',
     reset_profile_label = 'Reset profile |cffffffff%s|r?',
     rename_profile_label = 'Enter new name for |cffffffff%s',
+    version = '%s by %s @ Curse. Version %s',
 
     bar_texture = 'Bar texture',
     bar_animation = 'Bar animation',

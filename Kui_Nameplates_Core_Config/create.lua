@@ -2,6 +2,13 @@ local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local LSM = LibStub('LibSharedMedia-3.0')
 
+local version = opt:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall')
+version:SetPoint('TOPRIGHT',-12,-12)
+version:SetText(string.format(
+    opt.titles.version,
+    'KuiNameplates','Kesava','@project-version@'
+))
+
 opt:Initialise()
 -- create pages ################################################################
 local general     = opt:CreateConfigPage('general')
