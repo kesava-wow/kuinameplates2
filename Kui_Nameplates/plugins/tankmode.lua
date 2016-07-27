@@ -23,6 +23,10 @@ local function UpdateFrames()
         end
     end
 end
+local function CanOverwriteHealthColor(f)
+    return not f.state.health_colour_priority or
+           f.state.health_colour_priority <= mod.priority
+end
 -- mod functions ###############################################################
 function mod:SetForceEnable(b)
     force_enable = b == true
@@ -42,22 +46,33 @@ function mod:GlowColourChange(f)
         ((f.state.threat and f.state.threat > 0) or
         f.state.tank_mode_offtank)
     then
-        if f.elements.HealthBar then
-            if f.state.threat and f.state.threat > 0 then
-                f.HealthBar:SetStatusBarColor(unpack(self.colours[f.state.threat]))
-            elseif f.state.tank_mode_offtank then
-                f.HealthBar:SetStatusBarColor(unpack(self.colours[3]))
+        -- mod is enabled and frame has an active threat state
+        if CanOverwriteHealthColor(f) then
+            f.state.tank_mode_coloured = true
+            f.state.health_colour_priority = self.priority
+
+            if f.elements.HealthBar then
+                if f.state.threat and f.state.threat > 0 then
+                    f.HealthBar:SetStatusBarColor(unpack(self.colours[f.state.threat]))
+                elseif f.state.tank_mode_offtank then
+                    f.HealthBar:SetStatusBarColor(unpack(self.colours[3]))
+                end
             end
         end
-
-        f.state.tank_mode_coloured = true
     elseif f.state.tank_mode_coloured then
-        if f.elements.HealthBar then
-            -- return to colour provided by HealthBar element
-            f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
-        end
+        -- mod is disabled or frame no longer has a coloured threat state
+        f.state.tank_mode_coloured = nil
 
-        addon:DispatchMessage('HealthColourChange', f, mod)
+        if CanOverwriteHealthColor(f) then
+            -- return to colour provided by HealthBar element
+            f.state.health_colour_priority = nil
+
+            if f.elements.HealthBar then
+                f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
+            end
+
+            addon:DispatchMessage('HealthColourChange', f, mod)
+        end
     end
 end
 -- events ######################################################################
