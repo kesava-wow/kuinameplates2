@@ -1,15 +1,2 @@
-* class powers overflow is now a different colour (rogue anticipation)
-* add option to disable classpowers
-* add option to show classpowers on target
-* add option to resize classpowers
-* add shadow font style option
-* add options to hide castbar spell icon & name
-* add option to hide name text entirely
-* add option to disable class colour on enemy players
-* add options to change enemy player & enemy player pet colour
-* add button to reset profiles to default
-* fix profile selection being global rather than character specific
-* fix clickbox size resets upon closing interface options
-* fix NPC titles showing reputation if colourblind mode is enabled
-* possibly fix an issue with health rounding/scaling. maybe.
-* disable default clickbox scaling based on distance
+* make castbar spell icon more square
+* add an author/version string to the config interface for debugging
