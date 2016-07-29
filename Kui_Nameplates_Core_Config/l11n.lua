@@ -104,6 +104,8 @@ opt.titles = {
     state_icons = 'Show state icons',
     target_glow = 'Show target glow',
     target_glow_colour = 'Target glow colour',
+    target_arrows = 'Show target arrows',
+    target_arrows_size = 'Target arrow size',
 
     fade_rules_sep = 'Frame fading',
     fade_alpha = 'Faded alpha',
