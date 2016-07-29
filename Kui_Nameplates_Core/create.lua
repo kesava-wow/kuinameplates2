@@ -200,6 +200,18 @@ function core:configChangedTextOffset()
         end
     end
 end
+function core:configChangedTargetArrows()
+    for k,f in addon:Frames() do
+        if core.profile.target_arrows then
+            if f.TargetArrows then
+                f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+                f.TargetArrows:SetSize(core.profile.target_arrows_size)
+            else
+                core:CreateTargetArrows(f)
+            end
+        end
+    end
+end
 do
     function core.AurasButton_SetFont(button)
         UpdateFontObject(button.cd)
@@ -504,10 +516,6 @@ do
             f.ThreatGlow:Hide()
             f.TargetGlow:Hide()
 
-            if f.TargetArrows then
-                f.TargetArrows:Hide()
-            end
-
             return
         end
 
@@ -518,11 +526,6 @@ do
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetGlow:Show()
-
-            if f.TargetArrows then
-                f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                f.TargetArrows:Show()
-            end
         else
             if f.state.glowing then
                 -- threat glow colour
@@ -537,10 +540,6 @@ do
             end
 
             f.TargetGlow:Hide()
-
-            if f.TargetArrows then
-                f.TargetArrows:Hide()
-            end
         end
     end
     -- create
@@ -590,38 +589,58 @@ function core:CreateTargetGlow(f)
     f.TargetGlow = targetglow
 end
 -- target arrows ###############################################################
--- also updated by UpdateFrameGlow
-function core:CreateTargetArrows(f)
-    local arrows = {}
-    function arrows:Hide()
-        self.l:Hide()
-        self.r:Hide()
+do
+    local function UpdateTargetArrows(f)
+        if f.state.nameonly or not core.profile.target_arrows then
+            f.TargetArrows:Hide()
+        end
+
+        if f.state.target then
+            f.TargetArrows:Show()
+        else
+            f.TargetArrows:Hide()
+        end
     end
-    function arrows:Show()
-        self.l:Show()
-        self.r:Show()
+    function core:CreateTargetArrows(f)
+        if not self.profile.target_arrows then
+            return
+        end
+
+        local arrows = {}
+        function arrows:Hide()
+            self.l:Hide()
+            self.r:Hide()
+        end
+        function arrows:Show()
+            self.l:Show()
+            self.r:Show()
+        end
+        function arrows:SetVertexColor(...)
+            self.l:SetVertexColor(...)
+            self.r:SetVertexColor(...)
+        end
+        function arrows:SetSize(size)
+            self.l:SetSize(size,size)
+            self.r:SetSize(size,size)
+        end
+
+        local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,0)
+        left:SetTexture(MEDIA..'target-arrow')
+        left:SetPoint('RIGHT',f.bg,'LEFT',14,-1)
+        arrows.l = left
+
+        local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,0)
+        right:SetTexture(MEDIA..'target-arrow')
+        right:SetPoint('LEFT',f.bg,'RIGHT',-14,-1)
+        right:SetTexCoord(1,0,0,1)
+        arrows.r = right
+
+        arrows:SetSize(core.profile.target_arrows_size)
+        arrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+
+        f.TargetArrows = arrows
+        f.UpdateTargetArrows = UpdateTargetArrows
     end
-    function arrows:SetVertexColor(...)
-        self.l:SetVertexColor(...)
-        self.r:SetVertexColor(...)
-    end
-
-    local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,0)
-    left:SetTexture(MEDIA..'target-arrow')
-    left:SetPoint('RIGHT',f.bg,'LEFT',14,-1)
-    left:SetSize(33,33)
-    arrows.l = left
-
-    local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,0)
-    right:SetTexture(MEDIA..'target-arrow')
-    right:SetPoint('LEFT',f.bg,'RIGHT',-14,-1)
-    right:SetTexCoord(1,0,0,1)
-    right:SetSize(33,33)
-    arrows.r = right
-
-    arrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-
-    f.TargetArrows = arrows
 end
 -- castbar #####################################################################
 do
@@ -1095,6 +1114,10 @@ do
         f:UpdateStateIcon()
         f:UpdateRaidIcon()
         f:UpdateCastBar()
+
+        if f.TargetArrows then
+            f:UpdateTargetArrows()
+        end
     end
 
     local function NameOnlyEnable(f)

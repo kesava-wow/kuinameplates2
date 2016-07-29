@@ -27,6 +27,7 @@ function core:Create(f)
     self:CreatePowerBar(f)
     self:CreateFrameGlow(f)
     self:CreateTargetGlow(f)
+    self:CreateTargetArrows(f)
     self:CreateNameText(f)
     self:CreateLevelText(f)
     self:CreateGuildText(f)
@@ -73,6 +74,11 @@ function core:Show(f)
     f:UpdateRaidIcon()
     -- enable/disable castbar
     f:UpdateCastBar()
+
+    if f.TargetArrows then
+        -- show/hide target arrows
+        f:UpdateTargetArrows()
+    end
 end
 function core:Hide(f)
     if f.state.player then
