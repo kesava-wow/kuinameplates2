@@ -621,19 +621,21 @@ do
             self.r:SetVertexColor(...)
         end
         function arrows:SetSize(size)
-            self.l:SetSize(size,size)
-            self.r:SetSize(size,size)
+            self.l:SetSize(size*.72,size)
+            self.l:SetPoint('RIGHT',f.bg,'LEFT',  3+(size*.12),-1)
+
+            self.r:SetSize(size*.72,size)
+            self.r:SetPoint('LEFT',f.bg,'RIGHT', -3-(size*.12),-1)
         end
 
-        local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,0)
+        local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,1)
         left:SetTexture(MEDIA..'target-arrow')
-        left:SetPoint('RIGHT',f.bg,'LEFT',14,-1)
+        left:SetTexCoord(0,.72,0,1)
         arrows.l = left
 
-        local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,0)
+        local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,1)
         right:SetTexture(MEDIA..'target-arrow')
-        right:SetPoint('LEFT',f.bg,'RIGHT',-14,-1)
-        right:SetTexCoord(1,0,0,1)
+        right:SetTexCoord(.72,0,0,1)
         arrows.r = right
 
         arrows:SetSize(core.profile.target_arrows_size)
