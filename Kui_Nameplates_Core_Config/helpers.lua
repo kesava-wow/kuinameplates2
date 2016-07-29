@@ -197,6 +197,16 @@ do
             SliderEditBoxOnEscapePressed(self)
         end
     end
+    local function SliderOnDisable(self)
+        self.display:Disable()
+        self.display:SetAlpha(.5)
+        OnDisable(self)
+    end
+    local function SliderOnEnable(self)
+        self.display:Enable()
+        self.display:SetAlpha(1)
+        OnEnable(self)
+    end
     function opt.CreateSlider(parent, name, min, max)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
         slider:SetWidth(190)
@@ -232,8 +242,8 @@ do
 
         slider:HookScript('OnEnter',OnEnter)
         slider:HookScript('OnLeave',OnLeave)
-        slider:HookScript('OnEnable',OnEnable)
-        slider:HookScript('OnDisable',OnDisable)
+        slider:HookScript('OnEnable',SliderOnEnable)
+        slider:HookScript('OnDisable',SliderOnDisable)
         slider:HookScript('OnShow',SliderOnShow)
         slider:HookScript('OnValueChanged',SliderOnChanged)
         slider:HookScript('OnMouseUp',SliderOnManualChange)
