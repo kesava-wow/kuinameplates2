@@ -503,6 +503,11 @@ do
         if f.state.nameonly then
             f.ThreatGlow:Hide()
             f.TargetGlow:Hide()
+
+            if f.TargetArrows then
+                f.TargetArrows:Hide()
+            end
+
             return
         end
 
@@ -513,6 +518,11 @@ do
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetGlow:Show()
+
+            if f.TargetArrows then
+                f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+                f.TargetArrows:Show()
+            end
         else
             if f.state.glowing then
                 -- threat glow colour
@@ -527,6 +537,10 @@ do
             end
 
             f.TargetGlow:Hide()
+
+            if f.TargetArrows then
+                f.TargetArrows:Hide()
+            end
         end
     end
     -- create
@@ -576,6 +590,7 @@ function core:CreateTargetGlow(f)
     f.TargetGlow = targetglow
 end
 -- target arrows ###############################################################
+-- also updated by UpdateFrameGlow
 function core:CreateTargetArrows(f)
     local arrows = {}
     function arrows:Hide()
