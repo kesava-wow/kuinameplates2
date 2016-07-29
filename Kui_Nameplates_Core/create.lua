@@ -1261,8 +1261,8 @@ function core:InitialiseElements()
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
         icon_size = self.profile.classpowers_size or 10,
-        icon_texture = MEDIA..'combopoint-round'
-        glow_texture = MEDIA..'combopoint-glow'
+        icon_texture = MEDIA..'combopoint-round',
+        glow_texture = MEDIA..'combopoint-glow',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
         point = { 'CENTER','bg','BOTTOM',0,1 }
     }
