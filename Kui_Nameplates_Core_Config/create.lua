@@ -82,6 +82,13 @@ target_glow_colour.enabled = function(p) return p.target_glow end
 -- healthbars ##################################################################
 local bar_texture = healthbars:CreateDropDown('bar_texture')
 local bar_animation = healthbars:CreateDropDown('bar_animation')
+
+local execute_sep = healthbars:CreateSeperator('execute_sep')
+local execute_enabled = healthbars:CreateCheckBox('execute_enabled')
+local execute_auto = healthbars:CreateCheckBox('execute_auto')
+local execute_colour = healthbars:CreateColourPicker('execute_colour')
+local execute_percent = healthbars:CreateSlider('execute_percent')
+
 local colour_sep = healthbars:CreateSeperator('reaction_colour_sep')
 local colour_hated = healthbars:CreateColourPicker('colour_hated')
 local colour_neutral = healthbars:CreateColourPicker('colour_neutral')
@@ -99,8 +106,14 @@ bar_animation.SelectTable = {'None','Smooth','Cutaway'}
 bar_texture:SetPoint('TOPLEFT',10,-10)
 bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',10,0)
 
-colour_sep:SetPoint('TOP',0,-75)
-colour_hated:SetPoint('TOPLEFT',15,-90)
+execute_sep:SetPoint('TOP',0,-75)
+execute_enabled:SetPoint('TOPLEFT',15,-90)
+execute_colour:SetPoint('LEFT',execute_enabled,'RIGHT',190,0)
+execute_auto:SetPoint('TOPLEFT',execute_enabled,'BOTTOMLEFT')
+execute_percent:SetPoint('LEFT',execute_auto,'RIGHT',180,-5)
+
+colour_sep:SetPoint('TOP',0,-175)
+colour_hated:SetPoint('TOPLEFT',15,-190)
 colour_neutral:SetPoint('LEFT',colour_hated,'RIGHT')
 colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
 colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')
@@ -115,6 +128,10 @@ colour_self:SetPoint('TOPLEFT',colour_self_class,'BOTTOMLEFT',4,0)
 
 colour_self.enabled = function(p) return not p.colour_self_class end
 colour_enemy_player.enabled = function(p) return not p.colour_enemy_class end
+
+execute_auto.enabled = function(p) return p.execute_enabled end
+execute_colour.enabled = function(p) return p.execute_enabled end
+execute_percent.enabled = function(p) return p.execute_enabled and not p.execute_auto end
 
 -- text ########################################################################
 local font_face = text:CreateDropDown('font_face')

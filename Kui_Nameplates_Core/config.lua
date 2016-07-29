@@ -67,6 +67,11 @@ local default_config = {
     colour_enemy_player = {.7,.2,.1},
     colour_enemy_pet = {.7,.2,.1},
 
+    execute_enabled = true,
+    execute_auto = true,
+    execute_percent = 20,
+    execute_colour = {1,1,1},
+
     frame_width = 132,
     frame_height = 13,
     frame_width_minus = 72,
