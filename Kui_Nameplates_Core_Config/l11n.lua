@@ -34,6 +34,11 @@ opt.tooltips = {
     colour_self_class = 'Use your class colour on your personal nameplate',
     colour_self = 'The health bar colour of your personal nameplate',
 
+    execute_enabled = 'Recolour health bars when units are within execute range',
+    execute_auto = 'Automatically detect the appropriate execute range from your talents',
+    execute_colour = 'Colour to use within execute range',
+    execute_percent = 'Manually set execute range',
+
     hide_names = 'Whether or not a unit is tracked can be set by changing the "NPC Names" dropdown in the default interface options under Esc > Interface > Names. Note that this does not affect nameonly mode',
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
     font_size_normal = 'Standard font size (name, etc)',
@@ -118,6 +123,12 @@ opt.titles = {
     colour_enemy_class = 'Class colour hostile players',
     colour_enemy_player = 'Hostile player',
     colour_enemy_pet = 'Hostile player pet',
+
+    execute_sep = 'Execute range',
+    execute_enabled = 'Enable execute range',
+    execute_auto = 'Auto-detect range',
+    execute_colour = 'Execute colour',
+    execute_percent = 'Execute range',
 
     font_face = 'Font face',
     font_style = 'Font style',
