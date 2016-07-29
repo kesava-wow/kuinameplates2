@@ -32,6 +32,8 @@ local glow_as_shadow = general:CreateCheckBox('glow_as_shadow')
 local state_icons = general:CreateCheckBox('state_icons')
 local target_glow = general:CreateCheckBox('target_glow')
 local target_glow_colour = general:CreateColourPicker('target_glow_colour')
+local target_arrows = general:CreateCheckBox('target_arrows')
+local target_arrows_size = general:CreateSlider('target_arrows_size',20,60)
 
 combat_hostile.SelectTable = {'Do nothing','Hide','Show'}
 combat_friendly.SelectTable = {'Do nothing','Hide','Show'}
@@ -43,6 +45,10 @@ glow_as_shadow:SetPoint('TOPLEFT',10,-60)
 state_icons:SetPoint('LEFT',glow_as_shadow,'RIGHT',190,0)
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',220,0)
+target_arrows:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT')
+target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',180,-5)
+
+target_arrows_size.enabled = function(p) return p.target_arrows end
 
 local nameonly_sep = general:CreateSeperator('nameonly_sep')
 local nameonlyCheck = general:CreateCheckBox('nameonly')
@@ -54,8 +60,8 @@ nameonly_no_font_style.enabled = function(p) return p.nameonly end
 nameonly_enemies.enabled = function(p) return p.nameonly end
 nameonly_damaged_friends.enabled = function(p) return p.nameonly end
 
-nameonly_sep:SetPoint('TOP',0,-140)
-nameonlyCheck:SetPoint('TOPLEFT',10,-150)
+nameonly_sep:SetPoint('TOP',0,-170)
+nameonlyCheck:SetPoint('TOPLEFT',10,-180)
 nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
 nameonly_damaged_friends:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
 nameonly_enemies:SetPoint('LEFT',nameonly_damaged_friends,'RIGHT',190,0)
@@ -70,10 +76,10 @@ local fade_avoid_raidicon = general:CreateCheckBox('fade_avoid_raidicon')
 fade_alpha:SetValueStep(.05)
 fade_speed:SetValueStep(.05)
 
-fade_rules_sep:SetPoint('TOP',0,-230)
-fade_alpha:SetPoint('TOPLEFT',10,-255)
+fade_rules_sep:SetPoint('TOP',0,-260)
+fade_alpha:SetPoint('TOPLEFT',10,-285)
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-fade_all:SetPoint('TOPLEFT',15,-290)
+fade_all:SetPoint('TOPLEFT',15,-320)
 fade_avoid_nameonly:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_avoid_raidicon:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
 

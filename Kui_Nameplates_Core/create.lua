@@ -593,6 +593,7 @@ do
     local function UpdateTargetArrows(f)
         if f.state.nameonly or not core.profile.target_arrows then
             f.TargetArrows:Hide()
+            return
         end
 
         if f.state.target then
