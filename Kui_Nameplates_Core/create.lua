@@ -7,6 +7,7 @@
 -- layers ----------------------------------------------------------------------
 --
 -- ARTWORK
+-- target arrows = 3
 -- spell shield = 2
 -- healthbar highlight = 1
 -- spell icon = 1
@@ -628,12 +629,12 @@ do
             self.r:SetPoint('LEFT',f.bg,'RIGHT', -3-(size*.12),-1)
         end
 
-        local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,1)
+        local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,3)
         left:SetTexture(MEDIA..'target-arrow')
         left:SetTexCoord(0,.72,0,1)
         arrows.l = left
 
-        local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,1)
+        local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,3)
         right:SetTexture(MEDIA..'target-arrow')
         right:SetTexCoord(.72,0,0,1)
         arrows.r = right
