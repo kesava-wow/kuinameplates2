@@ -109,6 +109,18 @@ local default_config = {
     classpowers_on_target = true,
     classpowers_size = 10,
 }
+-- local functions #############################################################
+local function UpdateClickboxSize()
+    local width,height =
+        (core.profile.frame_width * addon.uiscale)+10,
+        (core.profile.frame_height * addon.uiscale)+20
+
+    C_NamePlate.SetNamePlateOtherSize(width,height)
+    C_NamePlate.SetNamePlateSelfSize(width,height)
+end
+local function QueueClickboxUpdate()
+    cc:QueueFunction(UpdateClickboxSize)
+end
 -- config changed functions ####################################################
 local configChanged = {}
 function configChanged.tank_mode(v)
@@ -257,6 +269,7 @@ configChanged.tankmode_other_colour = configChangedTankColour
 
 local function configChangedFrameSize()
     core:configChangedFrameSize()
+    QueueClickboxUpdate()
 end
 configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize
@@ -408,6 +421,12 @@ function core:InitialiseConfig()
     if KuiNameplatesCoreConfig then
         KuiNameplatesCoreConfig:LayoutLoaded()
     end
+
+    -- update clickbox size to fit with config
+    QueueClickboxUpdate()
+
+    -- also update upon closing interface options
+    InterfaceOptionsFrame:HookScript('OnHide',QueueClickboxUpdate)
 end
 
 -- combat checking frame #######################################################

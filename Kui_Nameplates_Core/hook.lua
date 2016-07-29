@@ -163,15 +163,8 @@ function core:UNIT_NAME_UPDATE(event,f)
     f:UpdateNameText()
 end
 -- register ####################################################################
-local function SetNameplateOptions()
-    C_NamePlate.SetNamePlateOtherSize(105,30)
-    C_NamePlate.SetNamePlateSelfSize(105,30)
-end
 function core:Initialise()
     self:InitialiseConfig()
-
-    SetNameplateOptions()
-    InterfaceOptionsFrame:HookScript('OnHide',SetNameplateOptions)
 
     -- we don't want the distance scaling
     SetCVar('NameplateMinScale',1)
