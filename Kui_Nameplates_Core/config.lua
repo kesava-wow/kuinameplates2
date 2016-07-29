@@ -312,6 +312,26 @@ function configChanged.classpowers_on_target(v)
     end
 end
 
+function configChanged.execute_enabled(v)
+    if v then
+        addon:GetPlugin('Execute'):Enable()
+    else
+        addon:GetPlugin('Execute'):Disable()
+    end
+end
+function configChanged.execute_colour(v)
+    addon:GetPlugin('Execute').colour = v
+end
+function configChanged.execute_percent(v)
+    if core.profile.execute_auto then
+        -- revert to automatic
+        addon:GetPlugin('Execute'):SetExecuteRange()
+    else
+        addon:GetPlugin('Execute'):SetExecuteRange(core.profile.execute_percent)
+    end
+end
+configChanged.execute_auto = configChanged.execute_percent
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
@@ -343,6 +363,10 @@ end
 configLoaded.fade_all = configLoadedFadeRule
 
 configLoaded.combat_hostile = configChangedCombatAction
+
+configLoaded.execute_enabled = configChanged.execute_enabled
+configLoaded.execute_colour = configChanged.execute_colour
+configLoaded.execute_percent = configChanged.execute_percent
 
 -- init config #################################################################
 function core:InitialiseConfig()
