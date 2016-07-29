@@ -37,7 +37,7 @@ local default_config = {
     state_icons = true,
     target_glow = true,
     target_glow_colour = { .3, .7, 1, 1 },
-    target_arrows = true,
+    target_arrows = false,
     target_arrows_size = 33,
 
     fade_all = false,
