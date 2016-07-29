@@ -1,2 +1,4 @@
-* make castbar spell icon more square
+* add execute range (low health) plugin
 * add an author/version string to the config interface for debugging
+* make castbar spell icon more square
+* disable auras whitelist by default until I update it a bit more

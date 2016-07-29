@@ -79,7 +79,7 @@ local default_config = {
     castbar_height = 5,
 
     auras_enabled = true,
-    auras_whitelist = true,
+    auras_whitelist = false,
     auras_pulsate = true,
     auras_time_threshold = 20,
     auras_minimum_length = 0,
