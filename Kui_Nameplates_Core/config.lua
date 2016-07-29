@@ -412,13 +412,22 @@ end
 
 -- combat checking frame #######################################################
 cc.queue = {}
+function cc:QueueFunction(func,...)
+    if InCombatLockdown() then
+        tinsert(self.queue,{func,{...}})
+    else
+        func(...)
+    end
+end
 function cc:QueueConfigChanged(name)
-    tinsert(self.queue,name)
+    if type(configChanged[name]) == 'function' then
+        self:QueueFunction(configChanged[name],core.profile[name])
+    end
 end
 cc:SetScript('OnEvent',function(self,event,...)
-    for i,name in ipairs(self.queue) do
-        if type(configChanged[name]) == 'function' then
-            configChanged[name](core.profile[name])
+    for i,f_tbl in ipairs(self.queue) do
+        if type(f_tbl[1]) == 'function' then
+            f_tbl[1](unpack(f_tbl[2]))
         end
     end
 
