@@ -347,6 +347,12 @@ function configChanged.execute_percent(v)
 end
 configChanged.execute_auto = configChanged.execute_percent
 
+function configChanged.target_arrows()
+    core:configChangedTargetArrows()
+end
+configChanged.target_glow_colour = configChanged.target_arrows
+configChanged.target_arrows_size = configChanged.target_arrows
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
