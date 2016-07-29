@@ -29,7 +29,7 @@ local core = KuiNameplatesCore
 -- frame fading plugin - called by some update functions
 local plugin_fading
 
-local MEDIA = 'interface/addons/kui_nameplates/media/'
+local MEDIA = 'interface/addons/kui_nameplates_core/media/'
 local CLASS_COLOURS = {
     DEATHKNIGHT = { .90, .22, .33 },
     DEMONHUNTER = { .74, .35, .95 },
@@ -764,7 +764,7 @@ do
 
         -- cast shield
         local spellshield = f.HealthBar:CreateTexture(nil, 'ARTWORK', nil, 2)
-        spellshield:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\Shield')
+        spellshield:SetTexture(MEDIA..'Shield')
         spellshield:SetTexCoord(0, .84375, 0, 1)
         spellshield:SetSize(13.5, 16) -- 16 * .84375
         spellshield:SetPoint('LEFT', bg, -7, 0)
@@ -1017,7 +1017,7 @@ function core.ClassPowers_PostPositionFrame()
 end
 -- threat brackets #############################################################
 do
-    local TB_TEXTURE = 'interface/addons/kui_nameplates/media/threat-bracket'
+    local TB_TEXTURE = MEDIA..'threat-bracket'
     local TB_PIXEL_LEFTMOST = .28125
     local TB_RATIO = 2
     local TB_HEIGHT = 18
@@ -1261,8 +1261,8 @@ function core:InitialiseElements()
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
         icon_size = self.profile.classpowers_size or 10,
-        icon_texture = 'interface/addons/kui_nameplates/media/combopoint-round',
-        glow_texture = 'interface/addons/kui_nameplates/media/combopoint-glow',
+        icon_texture = MEDIA..'combopoint-round'
+        glow_texture = MEDIA..'combopoint-glow'
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
         point = { 'CENTER','bg','BOTTOM',0,1 }
     }
