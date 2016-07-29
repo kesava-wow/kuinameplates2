@@ -565,7 +565,7 @@ end
 -- updated by UpdateFrameGlow
 function core:CreateTargetGlow(f)
     local targetglow = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-    targetglow:SetTexture('Interface\\AddOns\\Kui_Nameplates\\media\\target-glow')
+    targetglow:SetTexture(MEDIA..'target-glow')
     targetglow:SetTexCoord(0,.593,0,.875)
     targetglow:SetHeight(7)
     targetglow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,2)
@@ -574,6 +574,39 @@ function core:CreateTargetGlow(f)
     targetglow:Hide()
 
     f.TargetGlow = targetglow
+end
+-- target arrows ###############################################################
+function core:CreateTargetArrows(f)
+    local arrows = {}
+    function arrows:Hide()
+        self.l:Hide()
+        self.r:Hide()
+    end
+    function arrows:Show()
+        self.l:Show()
+        self.r:Show()
+    end
+    function arrows:SetVertexColor(...)
+        self.l:SetVertexColor(...)
+        self.r:SetVertexColor(...)
+    end
+
+    local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,0)
+    left:SetTexture(MEDIA..'target-arrow')
+    left:SetPoint('RIGHT',f.bg,'LEFT',14,-1)
+    left:SetSize(33,33)
+    arrows.l = left
+
+    local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,0)
+    right:SetTexture(MEDIA..'target-arrow')
+    right:SetPoint('LEFT',f.bg,'RIGHT',-14,-1)
+    right:SetTexCoord(1,0,0,1)
+    right:SetSize(33,33)
+    arrows.r = right
+
+    arrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+
+    f.TargetArrows = arrows
 end
 -- castbar #####################################################################
 do
