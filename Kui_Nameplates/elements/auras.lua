@@ -38,7 +38,7 @@
         num_per_row = number of icons per row;
                       if left nil, calculates as max / rows
         whitelist = a table of spellids to to show in the aura frame
-        kui_whitelist = use the whitelist provided by KuiSpellList
+        kui_whitelist = initialise with whitelist from KuiSpellList
         pulsate = whether or not to pulsate icons with low time remaining
         timer_threshold = threshold below which to show timer text
     }
@@ -336,15 +336,10 @@ local function AuraFrame_GetButton(self,spellid)
     return button
 end
 local function AuraFrame_DisplayButton(self,name,icon,spellid,count,duration,expiration,index)
-    if  self.kui_whitelist and whitelist and
-        not whitelist[spellid] and not whitelist[strlower(name)]
+    if  self.whitelist and
+        not self.whitelist[spellid] and not self.whitelist[strlower(name)]
     then
-        -- not in kui whitelist
-        return
-    elseif self.whitelist and
-           not self.whitelist[spellid] and not self.whitelist[strlower(name)]
-    then
-        -- not in provided whitelist
+        -- not in whitelist
         return
     end
 
