@@ -287,7 +287,25 @@ local function CreateAuraButton(parent)
     return button
 end
 -- aura frame functions ########################################################
+local function AuraFrame_Enable(self)
+    if not self.__DISABLED then return end
+
+    self.__DISABLED = nil
+
+    if self.parent:IsShown() then
+        self:FactionUpdate()
+        self:Update()
+    end
+end
+local function AuraFrame_Disable(self)
+    if self.__DISABLED then return end
+
+    self:Hide()
+    self.__DISABLED = true
+end
 local function AuraFrame_Update(self)
+    if self.__DISABLED then return end
+
     self:GetAuras()
 
     for _,button in ipairs(self.buttons) do
@@ -304,6 +322,18 @@ local function AuraFrame_Update(self)
         self:Show()
     else
         self:Hide()
+    end
+end
+local function AuraFrame_FactionUpdate(self)
+    if self.__DISABLED then return end
+
+    if self.dynamic and self.parent.unit then
+        -- update filter on faction change if dynamic
+        if UnitIsFriend('player',self.parent.unit) then
+            self.filter = 'PLAYER HELPFUL'
+        else
+            self.filter = 'PLAYER HARMFUL'
+        end
     end
 end
 local function AuraFrame_GetAuras(self)
@@ -481,7 +511,10 @@ local aura_meta = {
     y_spacing  = 0,
     pulsate    = true,
 
+    Enable         = AuraFrame_Enable,
+    Disable        = AuraFrame_Disable,
     Update         = AuraFrame_Update,
+    FactionUpdate  = AuraFrame_FactionUpdate,
     GetAuras       = AuraFrame_GetAuras,
     GetButton      = AuraFrame_GetButton,
     DisplayButton  = AuraFrame_DisplayButton,
@@ -578,15 +611,7 @@ function ele:UNIT_FACTION(event,f)
     -- update each aura frame on this nameplate
     if not f.Auras then return end
     for _,auras_frame in ipairs(f.Auras.frames) do
-        if auras_frame.dynamic then
-            -- update filter on faction change if dynamic
-            if UnitIsFriend('player',f.unit) then
-                auras_frame.filter = 'PLAYER HELPFUL'
-            else
-                auras_frame.filter = 'PLAYER HARMFUL'
-            end
-        end
-
+        auras_frame:FactionUpdate()
         auras_frame:Update()
     end
 end
