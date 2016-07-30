@@ -200,7 +200,7 @@ local auras_whitelist = auras:CreateCheckBox('auras_whitelist')
 local auras_pulsate = auras:CreateCheckBox('auras_pulsate')
 local auras_time_threshold = auras:CreateSlider('auras_time_threshold',-1,180)
 
-auras_sort.SelectTable = {'Time remaining','Spell index'}
+auras_sort.SelectTable = {'Aura index','Time remaining'}
 
 local auras_filtering_sep = auras:CreateSeperator('auras_filtering_sep')
 local auras_minimum_length = auras:CreateSlider('auras_minimum_length',0,60)

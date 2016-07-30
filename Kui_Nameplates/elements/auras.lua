@@ -113,8 +113,8 @@ local auras_sort = function(a,b)
 end
 
 local sort_lookup = {
+    index_sort,
     time_sort,
-    index_sort
 }
 -- aura button functions #######################################################
 local function button_OnUpdate(self,elapsed)
