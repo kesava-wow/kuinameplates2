@@ -154,14 +154,6 @@ function configChanged.level_text(v)
     end
 end
 
-function configChanged.auras_enabled(v)
-    if v then
-        addon:GetPlugin('Auras'):Enable()
-    else
-        addon:GetPlugin('Auras'):Disable()
-    end
-end
-
 function configChanged.bar_texture()
     core:configChangedBarTexture()
 end
@@ -289,6 +281,13 @@ configChanged.font_size_small = configChangedFontOption
 configChanged.font_style = configChangedFontOption
 configChanged.nameonly_no_font_style = configChangedFontOption
 
+function configChanged.auras_enabled(v)
+    if v then
+        addon:GetPlugin('Auras'):Enable()
+    else
+        addon:GetPlugin('Auras'):Disable()
+    end
+end
 local function configChangedAuras()
     core:SetAurasConfig()
 end
