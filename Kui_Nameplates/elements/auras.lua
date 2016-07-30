@@ -287,12 +287,12 @@ local function CreateAuraButton(parent)
     return button
 end
 -- aura frame functions ########################################################
-local function AuraFrame_Enable(self)
+local function AuraFrame_Enable(self,force_update)
     if not self.__DISABLED then return end
 
     self.__DISABLED = nil
 
-    if self.parent:IsShown() then
+    if force_update or self.parent:IsShown() then
         self:FactionUpdate()
         self:Update()
     end

@@ -47,6 +47,7 @@ local NAMEONLY_NO_FONT_STYLE,FADE_AVOID_NAMEONLY,NAMEONLY_ENEMIES
 local NAMEONLY_DAMAGED_FRIENDS,FADE_AVOID_RAIDICON
 local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
+local AURAS_ON_PERSONAL
 
 local POWER_BAR_HEIGHT = 2
 local FRAME_GLOW_SIZE = 8
@@ -179,6 +180,8 @@ do
 
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
+
+        AURAS_ON_PERSONAL = self.profile.auras_on_personal
     end
 end
 function core:configChangedFrameSize()
@@ -920,10 +923,10 @@ do
     local function UpdateAuras(f,on_show)
         if on_show then
             -- enable/disable on personal frame
-            if f.state.player then
+            if not AURAS_ON_PERSONAL and f.state.player then
                 f.Auras.frames[1]:Disable()
             else
-                f.Auras.frames[1]:Enable()
+                f.Auras.frames[1]:Enable(true)
             end
         else
             -- set auras to normal/minus sizes
