@@ -51,6 +51,7 @@ opt.tooltips = {
     frame_height = 'Height of the standard nameplates',
     frame_width_minus = 'Width of nameplates used on mobs flagged as "minus" (previously referred to as trivial)',
     frame_height_minus = 'Height of nameplates used on mobs flagged as "minus" (previously referred to as trivial), as well as nameless frames (i.e. "unimportant" units)',
+    powerbar_height = 'Height of the power bar. Note that this will look broken if you make it larger than the frame actually supports',
 
     auras_on_personal = 'Show auras on your character\'s nameplate if it is enabled',
     auras_whitelist = 'Use KuiSpellList to filter spells. You can use the extra addon KuiSpellListConfig from Curse to customise this list',
@@ -149,7 +150,8 @@ opt.titles = {
     frame_height = 'Frame height',
     frame_width_minus = 'Minus frame width',
     frame_height_minus = 'Minus frame height',
-    castbar_height = 'Castbar height',
+    powerbar_height = 'Power bar height',
+    castbar_height = 'Cast bar height',
 
     auras_enabled = 'Show auras',
     auras_on_personal = 'Show on personal frame',
@@ -166,14 +168,14 @@ opt.titles = {
     auras_icon_squareness = 'Icon squareness',
 
     castbar_enable = 'Enable',
-    castbar_colour = 'Castbar colour',
+    castbar_colour = 'Cast bar colour',
     castbar_unin_colour = 'Uninterruptible colour',
-    castbar_showpersonal = 'Show own castbar',
+    castbar_showpersonal = 'Show own cast bar',
     castbar_icon = 'Show spell icon',
     castbar_name = 'Show spell name',
-    castbar_showall = 'Show castbars on all nameplates',
-    castbar_showfriend = 'Show friendly castbars',
-    castbar_showenemy = 'Show enemy castbars',
+    castbar_showall = 'Show cast bars on all nameplates',
+    castbar_showfriend = 'Show friendly cast bars',
+    castbar_showenemy = 'Show enemy cast bars',
 
     tank_mode = 'Enable tank mode',
     tankmode_force_enable = 'Force tank mode',
