@@ -932,7 +932,8 @@ do
             kui_whitelist = self.profile.auras_whitelist,
             pulsate = self.profile.auras_pulsate,
             timer_threshold = self.profile.auras_time_threshold > 0 and self.profile.auras_time_threshold or nil,
-            squareness = self.profile.auras_icon_squareness
+            squareness = self.profile.auras_icon_squareness,
+            sort = self.profile.auras_sort,
         })
         -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
 
