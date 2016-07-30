@@ -46,7 +46,7 @@ state_icons:SetPoint('LEFT',glow_as_shadow,'RIGHT',190,0)
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',220,0)
 target_arrows:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT')
-target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',180,-5)
+target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,-5)
 
 target_arrows_size.enabled = function(p) return p.target_arrows end
 
@@ -195,9 +195,12 @@ castbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-30)
 
 -- auras #######################################################################
 local auras_enabled = auras:CreateCheckBox('auras_enabled')
+local auras_sort = auras:CreateDropDown('auras_sort')
 local auras_whitelist = auras:CreateCheckBox('auras_whitelist')
 local auras_pulsate = auras:CreateCheckBox('auras_pulsate')
 local auras_time_threshold = auras:CreateSlider('auras_time_threshold',-1,180)
+
+auras_sort.SelectTable = {'Spell index','Time remaining'}
 
 local auras_filtering_sep = auras:CreateSeperator('auras_filtering_sep')
 local auras_minimum_length = auras:CreateSlider('auras_minimum_length',0,60)
@@ -210,17 +213,18 @@ local auras_icon_squareness = auras:CreateSlider('auras_icon_squareness',0.5,1)
 
 auras_icon_squareness:SetValueStep(.1)
 
-auras_enabled:SetPoint('TOPLEFT',10,-10)
+auras_enabled:SetPoint('TOPLEFT',10,-17)
+auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
 auras_whitelist:SetPoint('TOPLEFT',auras_enabled,'BOTTOMLEFT')
-auras_pulsate:SetPoint('LEFT',auras_whitelist,'RIGHT',190,0)
-auras_time_threshold:SetPoint('TOPLEFT',auras_whitelist,'BOTTOMLEFT',0,-20)
+auras_pulsate:SetPoint('TOPLEFT',auras_whitelist,'BOTTOMLEFT')
+auras_time_threshold:SetPoint('LEFT',auras_pulsate,'RIGHT',184,5)
 
-auras_filtering_sep:SetPoint('TOP',0,-140)
-auras_minimum_length:SetPoint('TOPLEFT',auras_time_threshold,'BOTTOMLEFT',0,-80)
+auras_filtering_sep:SetPoint('TOP',0,-130)
+auras_minimum_length:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT',0,-70)
 auras_maximum_length:SetPoint('LEFT',auras_minimum_length,'RIGHT',20,0)
 
-auras_icons_sep:SetPoint('TOP',0,-240)
-auras_icon_normal_size:SetPoint('TOPLEFT',auras_minimum_length,'BOTTOMLEFT',0,-80)
+auras_icons_sep:SetPoint('TOP',0,-230)
+auras_icon_normal_size:SetPoint('TOPLEFT',auras_minimum_length,'BOTTOMLEFT',0,-70)
 auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
 auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
 
