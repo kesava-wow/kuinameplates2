@@ -153,6 +153,7 @@ opt.titles = {
     auras_enabled = 'Show auras',
     auras_whitelist = 'Use whitelist',
     auras_pulsate = 'Pulsate icons',
+    auras_sort = 'Sorting method',
     auras_filtering_sep = 'Filtering',
     auras_time_threshold = 'Timer threshold',
     auras_minimum_length = 'Minimum effect length',
