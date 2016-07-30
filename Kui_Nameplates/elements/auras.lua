@@ -440,6 +440,22 @@ local function AuraFrame_ArrangeButtons(self)
         end
     end
 end
+local function AuraFrame_SetSort(self,sort_f)
+    if type(sort_f) == 'number' then
+        -- sorting function index
+        if type(sort_lookup[sort_f]) == 'function' then
+            self.sort = sort_lookup[sort_f]
+        else
+            self.sort = nil
+        end
+    elseif type(sort_f) == 'function' then
+        self.sort = sort_f
+    end
+
+    if not self.sort then
+        self.sort = index_sort
+    end
+end
 local function AuraFrame_OnHide(self)
     -- hide all buttons
     self:HideAllButtons()
@@ -461,6 +477,7 @@ local aura_meta = {
     HideButton     = AuraFrame_HideButton,
     HideAllButtons = AuraFrame_HideAllButtons,
     ArrangeButtons = AuraFrame_ArrangeButtons,
+    SetSort        = AuraFrame_SetSort,
 }
 local function CreateAuraFrame(parent)
     local auraframe = CreateFrame('Frame',nil,parent)
@@ -511,17 +528,8 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
         new_frame.row_growth = 'UP'
     end
 
-    if type(new_frame.sort) == 'number' then
-        -- sort function index
-        if type(sort_lookup[new_frame.sort]) == 'function' then
-            new_frame.sort = sort_lookup[new_frame.sort]
-        else
-            new_frame.sort = nil
-        end
-    end
-
-    if not new_frame.sort then
-        new_frame.sort = index_sort
+    if type(new_frame.sort) ~= 'function' then
+        new_frame:SetSort(new_frame.sort)
     end
 
     new_frame.row_point = row_growth_points[new_frame.row_growth]
