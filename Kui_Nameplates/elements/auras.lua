@@ -480,7 +480,6 @@ local aura_meta = {
     x_spacing  = 0,
     y_spacing  = 0,
     pulsate    = true,
-    timer_threshold = 20,
 
     Update         = AuraFrame_Update,
     GetAuras       = AuraFrame_GetAuras,
