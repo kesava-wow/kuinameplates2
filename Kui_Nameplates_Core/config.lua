@@ -79,6 +79,7 @@ local default_config = {
     frame_width_minus = 72,
     frame_height_minus = 9,
     castbar_height = 5,
+    powerbar_height = 2,
 
     auras_enabled = true,
     auras_on_personal = true,

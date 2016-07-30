@@ -39,7 +39,7 @@ local CLASS_COLOURS = {
 
 -- config locals
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
-local CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
+local POWER_BAR_HEIGHT,CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
@@ -49,7 +49,6 @@ local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local AURAS_ON_PERSONAL
 
-local POWER_BAR_HEIGHT = 2
 local FRAME_GLOW_SIZE = 8
 
 -- common globals
@@ -153,6 +152,7 @@ do
         FRAME_HEIGHT = self.profile.frame_height
         FRAME_WIDTH_MINUS = self.profile.frame_width_minus
         FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
+        POWER_BAR_HEIGHT = self.profile.powerbar_height
         CASTBAR_HEIGHT = self.profile.castbar_height
         CASTBAR_COLOUR = self.profile.castbar_colour
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
