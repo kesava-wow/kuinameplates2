@@ -33,12 +33,14 @@
         max = maximum number of auras to display
         rows = maximum number of rows
         row_growth = direction in which rows will grow ('UP' or 'DOWN')
-        sort = aura sorting function
+        sort = aura sorting function, or index in sort_lookup
         filter = filter used in UnitAura calls
         num_per_row = number of icons per row;
                       if left nil, calculates as max / rows
         whitelist = a table of spellids to to show in the aura frame
         kui_whitelist = use the whitelist provided by KuiSpellList
+        pulsate = whether or not to pulsate icons with low time remaining
+        timer_threshold = threshold below which to show timer text
     }
 
     Callbacks
@@ -109,6 +111,11 @@ local auras_sort = function(a,b)
     -- and call the frame's desired sort function
     return a.parent.sort(a,b)
 end
+
+local sort_lookup = {
+    time_sort,
+    index_sort
+}
 -- aura button functions #######################################################
 local function button_OnUpdate(self,elapsed)
     self.cd_elap = (self.cd_elap or 0) - elapsed
@@ -444,7 +451,6 @@ local aura_meta = {
     squareness = .7,
     x_spacing  = 0,
     y_spacing  = 0,
-    sort       = time_sort,
     pulsate    = true,
     timer_threshold = 20,
 
@@ -503,6 +509,19 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
     end
     if not new_frame.row_growth then
         new_frame.row_growth = 'UP'
+    end
+
+    if type(new_frame.sort) == 'number' then
+        -- sort function index
+        if type(sort_lookup[new_frame.sort]) == 'function' then
+            new_frame.sort = sort_lookup[new_frame.sort]
+        else
+            new_frame.sort = nil
+        end
+    end
+
+    if not new_frame.sort then
+        new_frame.sort = index_sort
     end
 
     new_frame.row_point = row_growth_points[new_frame.row_growth]
