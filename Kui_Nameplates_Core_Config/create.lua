@@ -45,8 +45,8 @@ glow_as_shadow:SetPoint('TOPLEFT',10,-60)
 state_icons:SetPoint('LEFT',glow_as_shadow,'RIGHT',190,0)
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',220,0)
-target_arrows:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT')
-target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,-5)
+target_arrows:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT',0,-15)
+target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,0)
 
 target_arrows_size.enabled = function(p) return p.target_arrows end
 
@@ -60,8 +60,8 @@ nameonly_no_font_style.enabled = function(p) return p.nameonly end
 nameonly_enemies.enabled = function(p) return p.nameonly end
 nameonly_damaged_friends.enabled = function(p) return p.nameonly end
 
-nameonly_sep:SetPoint('TOP',0,-170)
-nameonlyCheck:SetPoint('TOPLEFT',10,-180)
+nameonly_sep:SetPoint('TOP',0,-185)
+nameonlyCheck:SetPoint('TOPLEFT',10,-195)
 nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
 nameonly_damaged_friends:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
 nameonly_enemies:SetPoint('LEFT',nameonly_damaged_friends,'RIGHT',190,0)
@@ -76,10 +76,10 @@ local fade_avoid_raidicon = general:CreateCheckBox('fade_avoid_raidicon')
 fade_alpha:SetValueStep(.05)
 fade_speed:SetValueStep(.05)
 
-fade_rules_sep:SetPoint('TOP',0,-260)
-fade_alpha:SetPoint('TOPLEFT',10,-285)
+fade_rules_sep:SetPoint('TOP',0,-275)
+fade_alpha:SetPoint('TOPLEFT',10,-300)
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-fade_all:SetPoint('TOPLEFT',15,-320)
+fade_all:SetPoint('TOPLEFT',15,-335)
 fade_avoid_nameonly:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_avoid_raidicon:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
 
