@@ -26,8 +26,9 @@ function addon.Nameplate.UpdatePower(f,on_show)
         end
     end
 end
--- messages ####################################################################
-function ele:Show(f)
+function addon.Nameplate.UpdatePowerType(f,on_show)
+    f = f.parent
+
     -- get unit's primary power type
     local power_type = select(2,UnitPowerType(f.unit))
     local power_max = UnitPowerMax(f.unit,power_type)
@@ -38,12 +39,20 @@ function ele:Show(f)
 
     f.state.power_type = power_type
 
+    if not on_show then
+        addon:DispatchMessage('PowerTypeUpdate', f)
+    end
+
     -- and update display
-    f.handler:UpdatePower(true)
+    f.handler:UpdatePower(on_show)
+end
+-- messages ####################################################################
+function ele:Show(f)
+    f.handler:UpdatePowerType(true)
 end
 -- events ######################################################################
 function ele:PowerTypeEvent(event,f)
-    self:Show(f)
+    f.handler:UpdatePowerType()
 end
 function ele:PowerEvent(event,f)
     f.handler:UpdatePower()
