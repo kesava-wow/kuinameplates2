@@ -3,5 +3,6 @@
 * add an author/version string to the config interface for debugging
 * add option to change auras sorting method
 * make castbar spell icon more square
-* the size of the default clickbox/overlap/stacking area is now updated to fit frame size settings
+* update size of the clickbox/overlap/stacking area to fit frame size settings
 * disable auras whitelist by default until I update it a bit more
+* fix auras timer_threshold doesn't apply on load if set to -1
