@@ -313,8 +313,15 @@ do
         local hb_height = f.bg:GetHeight()-2
 
         if f.PowerBar:IsShown() then
-            hb_height = (hb_height-POWER_BAR_HEIGHT)-1
-            f.PowerBar:SetHeight(POWER_BAR_HEIGHT)
+            local pb_height = POWER_BAR_HEIGHT
+
+            if pb_height >= (hb_height-1) then
+                -- reduce height so that healthbar is at least 1 pixel
+                pb_height = hb_height - 2
+            end
+
+            hb_height = (hb_height-pb_height)-1
+            f.PowerBar:SetHeight(pb_height)
         end
 
         f.HealthBar:SetHeight(hb_height)

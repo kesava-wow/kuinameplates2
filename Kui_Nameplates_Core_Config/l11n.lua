@@ -51,7 +51,7 @@ opt.tooltips = {
     frame_height = 'Height of the standard nameplates',
     frame_width_minus = 'Width of nameplates used on mobs flagged as "minus" (previously referred to as trivial)',
     frame_height_minus = 'Height of nameplates used on mobs flagged as "minus" (previously referred to as trivial), as well as nameless frames (i.e. "unimportant" units)',
-    powerbar_height = 'Height of the power bar. Note that this will look broken if you make it larger than the frame actually supports',
+    powerbar_height = 'Height of the power bar. Will not increase beyond frame height',
 
     auras_on_personal = 'Show auras on your character\'s nameplate if it is enabled',
     auras_whitelist = 'Use KuiSpellList to filter spells. You can use the extra addon KuiSpellListConfig from Curse to customise this list',
