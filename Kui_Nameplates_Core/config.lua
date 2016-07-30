@@ -294,6 +294,7 @@ local function configChangedAuras()
 end
 configChanged.auras_whitelist = configChangedAuras
 configChanged.auras_pulsate = configChangedAuras
+configChanged.auras_sort = configChangedAuras
 configChanged.auras_time_threshold = configChangedAuras
 configChanged.auras_minimum_length = configChangedAuras
 configChanged.auras_maximum_length = configChangedAuras

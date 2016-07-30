@@ -442,7 +442,7 @@ local function AuraFrame_ArrangeButtons(self)
 end
 local function AuraFrame_SetSort(self,sort_f)
     if type(sort_f) == 'number' then
-        -- sorting function index
+        -- get sorting function from index
         if type(sort_lookup[sort_f]) == 'function' then
             self.sort = sort_lookup[sort_f]
         else
@@ -453,6 +453,7 @@ local function AuraFrame_SetSort(self,sort_f)
     end
 
     if not self.sort then
+        -- or set default
         self.sort = index_sort
     end
 end

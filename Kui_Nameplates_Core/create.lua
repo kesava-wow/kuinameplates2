@@ -997,6 +997,8 @@ do
                 af.timer_threshold = timer_threshold
                 af.squareness = self.profile.auras_icon_squareness
 
+                af:SetSort(self.profile.auras_sort)
+
                 -- force size update
                 af.__width = nil
             end
