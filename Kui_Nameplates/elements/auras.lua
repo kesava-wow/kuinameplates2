@@ -457,6 +457,22 @@ local function AuraFrame_SetSort(self,sort_f)
         self.sort = index_sort
     end
 end
+local function AuraFrame_SetWhitelist(self,list,kui)
+    if kui then
+        if not whitelist then
+            -- initialise KuiSpellList whitelist
+            spelllist = LibStub('KuiSpellList-1.0')
+            spelllist.RegisterChanged(ele,'WhitelistChanged')
+            ele:WhitelistChanged()
+        end
+
+        self.whitelist = whitelist
+    elseif type(list) == 'table' then
+        self.whitelist = list
+    else
+        self.whitelist = nil
+    end
+end
 local function AuraFrame_OnHide(self)
     -- hide all buttons
     self:HideAllButtons()
@@ -479,6 +495,7 @@ local aura_meta = {
     HideAllButtons = AuraFrame_HideAllButtons,
     ArrangeButtons = AuraFrame_ArrangeButtons,
     SetSort        = AuraFrame_SetSort,
+    SetWhitelist   = AuraFrame_SetWhitelist,
 }
 local function CreateAuraFrame(parent)
     local auraframe = CreateFrame('Frame',nil,parent)
@@ -538,11 +555,10 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
     new_frame.icon_height = floor(new_frame.size * new_frame.squareness)
     new_frame.icon_ratio = (1 - (new_frame.icon_height / new_frame.size)) / 2
 
-    if new_frame.kui_whitelist and not whitelist then
-        -- initialise KuiSpellList whitelist
-        spelllist = LibStub('KuiSpellList-1.0')
-        spelllist.RegisterChanged(ele,'WhitelistChanged')
-        ele:WhitelistChanged()
+    if new_frame.kui_whitelist then
+        new_frame:SetWhitelist(nil,true)
+    else
+        new_frame:SetWhitelist(new_frame.whitelist,nil)
     end
 
     -- insert into frame list

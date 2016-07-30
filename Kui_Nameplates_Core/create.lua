@@ -993,12 +993,12 @@ do
         for k,f in addon:Frames() do
             if f.Auras and f.Auras.frames and f.Auras.frames[1] then
                 local af = f.Auras.frames[1]
-                af.kui_whitelist = self.profile.auras_whitelist
                 af.pulsate = self.profile.auras_pulsate
                 af.timer_threshold = timer_threshold
                 af.squareness = self.profile.auras_icon_squareness
 
                 af:SetSort(self.profile.auras_sort)
+                af:SetWhitelist(nil,self.profile.auras_whitelist)
 
                 -- force size update
                 af.__width = nil
