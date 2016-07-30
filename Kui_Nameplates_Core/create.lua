@@ -290,7 +290,7 @@ end
 function core:CreateBackground(f)
     local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
     bg:SetTexture(kui.m.t.solid)
-    bg:SetVertexColor(0,0,0,.8)
+    bg:SetVertexColor(0,0,0,.9)
 
     f.bg = bg
     f.UpdateFrameSize = UpdateFrameSize
