@@ -83,6 +83,7 @@ local default_config = {
     auras_enabled = true,
     auras_whitelist = false,
     auras_pulsate = true,
+    auras_sort = 2,
     auras_time_threshold = 20,
     auras_minimum_length = 0,
     auras_maximum_length = -1,
