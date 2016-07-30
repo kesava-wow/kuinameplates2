@@ -195,6 +195,7 @@ castbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-30)
 
 -- auras #######################################################################
 local auras_enabled = auras:CreateCheckBox('auras_enabled')
+local auras_on_personal = auras:CreateCheckBox('auras_on_personal')
 local auras_sort = auras:CreateDropDown('auras_sort')
 local auras_whitelist = auras:CreateCheckBox('auras_whitelist')
 local auras_pulsate = auras:CreateCheckBox('auras_pulsate')
@@ -214,17 +215,18 @@ local auras_icon_squareness = auras:CreateSlider('auras_icon_squareness',0.5,1)
 auras_icon_squareness:SetValueStep(.1)
 
 auras_enabled:SetPoint('TOPLEFT',10,-17)
-auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
-auras_whitelist:SetPoint('TOPLEFT',auras_enabled,'BOTTOMLEFT')
+auras_on_personal:SetPoint('TOPLEFT',auras_enabled,'BOTTOMLEFT')
+auras_whitelist:SetPoint('TOPLEFT',auras_on_personal,'BOTTOMLEFT')
 auras_pulsate:SetPoint('TOPLEFT',auras_whitelist,'BOTTOMLEFT')
-auras_time_threshold:SetPoint('LEFT',auras_pulsate,'RIGHT',184,5)
+auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
+auras_time_threshold:SetPoint('LEFT',auras_whitelist,'RIGHT',184,5)
 
-auras_filtering_sep:SetPoint('TOP',0,-130)
-auras_minimum_length:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT',0,-70)
+auras_filtering_sep:SetPoint('TOP',0,-150)
+auras_minimum_length:SetPoint('TOPLEFT',10,-180)
 auras_maximum_length:SetPoint('LEFT',auras_minimum_length,'RIGHT',20,0)
 
 auras_icons_sep:SetPoint('TOP',0,-230)
-auras_icon_normal_size:SetPoint('TOPLEFT',auras_minimum_length,'BOTTOMLEFT',0,-70)
+auras_icon_normal_size:SetPoint('TOPLEFT',10,-260)
 auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
 auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
 
