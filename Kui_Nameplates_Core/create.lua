@@ -49,13 +49,18 @@ local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local AURAS_ON_PERSONAL
 
+local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
+local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
+
 local FRAME_GLOW_SIZE = 8
 
 -- common globals
 local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,strlen,pairs,ipairs,floor,unpack =
+      UnitHealth,UnitHealthMax,strlen,strformat,    pairs,ipairs,floor,
+      ceil,unpack =
       UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,strlen,pairs,ipairs,floor,unpack
+      UnitHealth,UnitHealthMax,strlen,string.format,pairs,ipairs,floor,
+      ceil,unpack
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -180,6 +185,10 @@ do
 
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
+        HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
+        HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
+        HEALTH_TEXT_HOSTILE_MAX = self.profile.health_text_hostile_max
+        HEALTH_TEXT_HOSTILE_DMG = self.profile.health_text_hostile_dmg
 
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
     end
@@ -450,13 +459,52 @@ do
 end
 -- health text #################################################################
 do
+    local function GetHealthDisplay(f,key)
+        if type(key) ~= 'number' or key >= 5 or key <= 0 then return '' end
+
+        if key == 1 then
+            return kui.num(f.state.health_cur)
+        elseif key == 2 then
+            return kui.num(f.state.health_max)
+        elseif key == 3 then
+            local v = f.state.health_per
+            if v < 1 then
+                return strformat('%.1f', v)
+            else
+                return ceil(v)
+            end
+        else
+            local v = kui.num(f.state.health_deficit)
+            if v > 0 then
+                return '-'..v
+            else
+                return v
+            end
+        end
+    end
+
     local function UpdateHealthText(f)
         if f.state.nameonly then return end
         if not SHOW_HEALTH_TEXT or f.state.minus or f.state.player then
             f.HealthText:Hide()
         else
-            local cur,_,max = f.HealthBar:GetValue(),f.HealthBar:GetMinMaxValues()
-            f.HealthText:SetText(kui.num(cur))
+            local disp
+
+            if f.state.friend then
+                if f.state.health_cur ~= f.state.health_max then
+                    disp = GetHealthDisplay(f,HEALTH_TEXT_FRIEND_DMG)
+                else
+                    disp = GetHealthDisplay(f,HEALTH_TEXT_FRIEND_MAX)
+                end
+            else
+                if f.state.health_cur ~= f.state.health_max then
+                    disp = GetHealthDisplay(f,HEALTH_TEXT_HOSTILE_DMG)
+                else
+                    disp = GetHealthDisplay(f,HEALTH_TEXT_HOSTILE_MAX)
+                end
+            end
+
+            f.HealthText:SetText(disp)
             f.HealthText:ClearAllPoints()
 
             if f.state.no_name then
