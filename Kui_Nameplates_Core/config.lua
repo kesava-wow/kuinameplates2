@@ -58,6 +58,11 @@ local default_config = {
     name_vertical_offset = -2,
     bot_vertical_offset = -3,
 
+    health_text_friend_max = 5,
+    health_text_friend_dmg = 4,
+    health_text_hostile_max = 5,
+    health_text_hostile_dmg = 3,
+
     colour_hated = {.7,.2,.1},
     colour_neutral = {1,.8,0},
     colour_friendly = {.2,.6,.1},
