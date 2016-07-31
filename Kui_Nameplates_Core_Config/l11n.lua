@@ -47,6 +47,11 @@ opt.tooltips = {
     name_vertical_offset = 'Vertical offset of the name text',
     bot_vertical_offset = 'Vertical offset of the level and health text strings',
 
+    health_text_friend_max = 'Health text format used on friendly units at full health',
+    health_text_friend_dmg = 'Health text format used on damaged friendly units',
+    health_text_hostile_max = 'Health text format used on hostile units at full health',
+    health_text_hostile_dmg = 'Health text format used on damaged hostile units',
+
     frame_width = 'Width of the standard nameplates',
     frame_height = 'Height of the standard nameplates',
     frame_width_minus = 'Width of nameplates used on mobs flagged as "minus" (previously referred to as trivial)',
@@ -145,6 +150,12 @@ opt.titles = {
     text_vertical_offset = 'Text v.offset',
     name_vertical_offset = 'Name v.offset',
     bot_vertical_offset = 'Level/health v.offset',
+
+    health_text_sep = 'Health text',
+    health_text_friend_max = 'Max. health friend',
+    health_text_friend_dmg = 'Damaged friend',
+    health_text_hostile_max = 'Max. health hostile',
+    health_text_hostile_dmg = 'Damaged hostile',
 
     frame_width = 'Frame width',
     frame_height = 'Frame height',
