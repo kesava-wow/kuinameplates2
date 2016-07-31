@@ -13,8 +13,8 @@ KuiNameplatesCore = addon:Layout()
 local core = KuiNameplatesCore
 
 -- positioned and "shown" on the player's frame when/if it is shown
-KuiNameplatesPlayerAnchor = CreateFrame('Frame')
-KuiNameplatesPlayerAnchor:Hide()
+local anchor = CreateFrame('Frame','KuiNameplatesPlayerAnchor')
+anchor:Hide()
 
 if not core then
     -- another layout is already loaded
@@ -45,8 +45,8 @@ function core:Show(f)
     f.state.enemy = UnitIsEnemy('player',f.unit)
 
     if f.state.player then
-        KuiNameplatesPlayerAnchor:SetAllPoints(f)
-        KuiNameplatesPlayerAnchor:Show()
+        anchor:SetAllPoints(f)
+        anchor:Show()
     end
 
     -- go into nameonly mode if desired
@@ -84,8 +84,8 @@ function core:Show(f)
 end
 function core:Hide(f)
     if f.state.player then
-        KuiNameplatesPlayerAnchor:ClearAllPoints()
-        KuiNameplatesPlayerAnchor:Hide()
+        anchor:ClearAllPoints()
+        anchor:Hide()
     end
 
     self:NameOnlyUpdate(f,true)
