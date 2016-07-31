@@ -474,12 +474,7 @@ do
                 return ceil(v)
             end
         else
-            local v = kui.num(f.state.health_deficit)
-            if v > 0 then
-                return '-'..v
-            else
-                return v
-            end
+            return '-'..kui.num(f.state.health_deficit)
         end
     end
 
