@@ -25,6 +25,8 @@ opt.tooltips = {
     nameonly_damaged_friends = 'Use nameonly mode, even on damaged friendly frames. Their name will be coloured as a percentage of their health',
     nameonly_enemies = 'Use nameonly mode on unattackable enemies (not including enemy players under effects such as Ice Block)',
 
+    target_arrows = 'Show arrows around your current target. These inherit the target glow colour',
+
     fade_alpha = 'Opacity of faded frames',
     fade_speed = 'Speed of the frame fading animation, where 1 is slowest and 0 is instant',
     fade_all = 'Fade all frames out by default, rather than in',
