@@ -337,18 +337,12 @@ do
         local e_name = name and frame_name..name..'EditBox' or nil
         width,height = width or 150,height or 20
 
-        print(e_name)
-
         local box = CreateFrame('EditBox',e_name,parent)
         box:SetMultiLine(multiline==true)
         box:SetAutoFocus(false)
         box:SetFontObject('ChatFontNormal')
         box:SetSize(width,height)
         box.env = name
-
-        local scroll = CreateFrame('ScrollFrame',nil,parent,'UIPanelScrollFrameTemplate')
-        scroll:SetSize(width,height)
-        scroll:SetScrollChild(box)
 
         local bg = CreateFrame('Frame',nil,parent)
         bg:SetBackdrop({
@@ -359,20 +353,29 @@ do
         })
         bg:SetBackdropColor(.1, .1 , .1, .3)
         bg:SetBackdropBorderColor(.5, .5, .5)
-        bg:SetPoint('TOPLEFT', scroll, -10, 10)
-        bg:SetPoint('BOTTOMRIGHT', scroll, 30, -10)
+        box.bg = bg
 
-        scroll:SetScript('OnMouseDown', function(self)
-            self:GetScrollChild():SetFocus()
-        end)
+        if multiline then
+            local scroll = CreateFrame('ScrollFrame',nil,parent,'UIPanelScrollFrameTemplate')
+            scroll:SetSize(width,height)
+            scroll:SetScrollChild(box)
+            box.scroll = scroll
+
+            scroll:SetScript('OnMouseDown', function(self)
+                self:GetScrollChild():SetFocus()
+            end)
+
+            bg:SetPoint('TOPLEFT', scroll, -10, 10)
+            bg:SetPoint('BOTTOMRIGHT', scroll, 30, -10)
+        else
+            bg:SetPoint('TOPLEFT', box, -10, 10)
+            bg:SetPoint('BOTTOMRIGHT', box, 30, -10)
+        end
 
         box:SetScript('OnShow',GenericOnShow)
         box:SetScript('OnEnable',OnEnable)
         box:SetScript('OnDisable',OnDisable)
         box:SetScript('OnEscapePressed',EditBoxOnEscapePressed)
-
-        box.scroll = scroll
-        box.bg = bg
 
         if name and type(parent.elements) == 'table' then
             parent.elements[name] = container
