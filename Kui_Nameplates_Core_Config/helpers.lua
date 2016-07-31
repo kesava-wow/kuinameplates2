@@ -118,6 +118,8 @@ do
 
         if type(self.initialize) ~= 'function' then return end
         self:initialize()
+
+        GenericOnShow(self)
     end
 
     local function DropDownEnable(self)
