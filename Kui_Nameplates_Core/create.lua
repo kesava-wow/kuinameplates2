@@ -4,21 +4,30 @@
 -- All rights reserved
 --------------------------------------------------------------------------------
 -- element create/update functions
--- layers ----------------------------------------------------------------------
+-- draw layers -----------------------------------------------------------------
 --
+-- HealthBar/CastBar ###########################################################
 -- ARTWORK
+-- spark = 7
 -- target arrows = 3
 -- spell shield = 2
--- healthbar highlight = 1
 -- spell icon = 1
--- spell icon background = 0
-
+-- highlight = 1
+-- health bar = 0
+-- cast bar = 0
+--
+-- Frame #######################################################################
+-- ARTWORK
+-- raid icon = 2
+-- spell icon bg = 0
+--
 -- BACKGROUND
 -- healthbar fill background = 2
--- healthbar background = 1
+-- frame background = 1
 -- castbar background = 1
 -- threat brackets = 0
--- frame/target glow = -5
+-- frame glow = -5
+-- target glow = -5
 --
 --------------------------------------------------------------------------------
 local folder,ns=...
@@ -827,8 +836,7 @@ do
         spellshield:SetVertexColor(.5, .5, .7)
 
         -- spark
-        local spark = castbar:CreateTexture(nil, 'ARTWORK')
-        spark:SetDrawLayer('ARTWORK', 7)
+        local spark = castbar:CreateTexture(nil, 'ARTWORK', nil, 7)
         spark:SetVertexColor(1,1,.8)
         spark:SetTexture('Interface\\AddOns\\Kui_Media\\t\\spark')
         spark:SetPoint('CENTER', castbar:GetRegions(), 'RIGHT', 1, 0)
