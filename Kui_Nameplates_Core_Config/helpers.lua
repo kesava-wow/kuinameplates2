@@ -332,6 +332,54 @@ do
         return container
     end
 end
+do
+    function opt.CreateEditBox(parent,name,multiline,width,height)
+        local e_name = name and frame_name..name..'EditBox' or nil
+        width,height = width or 150,height or 20
+
+        print(e_name)
+
+        local box = CreateFrame('EditBox',e_name,parent)
+        box:SetMultiLine(multiline==true)
+        box:SetAutoFocus(false)
+        box:SetFontObject('ChatFontNormal')
+        box:SetSize(width,height)
+        box.env = name
+
+        local scroll = CreateFrame('ScrollFrame',nil,parent,'UIPanelScrollFrameTemplate')
+        scroll:SetSize(width,height)
+        scroll:SetScrollChild(box)
+
+        local bg = CreateFrame('Frame',nil,parent)
+        bg:SetBackdrop({
+            bgFile = 'Interface\\ChatFrame\\ChatFrameBackground',
+            edgeFile = 'Interface\\Tooltips\\UI-Tooltip-border',
+            edgeSize = 16,
+            insets = { left = 4, right = 4, top = 4, bottom = 4 }
+        })
+        bg:SetBackdropColor(.1, .1 , .1, .3)
+        bg:SetBackdropBorderColor(.5, .5, .5)
+        bg:SetPoint('TOPLEFT', scroll, -10, 10)
+        bg:SetPoint('BOTTOMRIGHT', scroll, 30, -10)
+
+        scroll:SetScript('OnMouseDown', function(self)
+            self:GetScrollChild():SetFocus()
+        end)
+
+        box:SetScript('OnShow',GenericOnShow)
+        box:SetScript('OnEnable',OnEnable)
+        box:SetScript('OnDisable',OnDisable)
+        box:SetScript('OnEscapePressed',EditBoxOnEscapePressed)
+
+        box.scroll = scroll
+        box.bg = bg
+
+        if name and type(parent.elements) == 'table' then
+            parent.elements[name] = container
+        end
+        return box
+    end
+end
 function opt.CreateSeperator(parent,name)
     local line = parent:CreateTexture(nil,'ARTWORK')
     line:SetTexture('interface/buttons/white8x8')
@@ -381,6 +429,7 @@ do
         CreateSlider = opt.CreateSlider,
         CreateColourPicker = opt.CreateColourPicker,
         CreateSeperator = opt.CreateSeperator,
+        CreateEditBox = opt.CreateEditBox,
 
         HidePage = HidePage,
         ShowPage = ShowPage
