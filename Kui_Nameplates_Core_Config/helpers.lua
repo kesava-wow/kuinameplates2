@@ -119,6 +119,18 @@ do
         if type(self.initialize) ~= 'function' then return end
         self:initialize()
     end
+
+    local function DropDownEnable(self)
+        self.labelText:SetFontObject('GameFontNormalSmall')
+        self.valueText:SetFontObject('GameFontHighlightSmall')
+        self.button:Enable()
+    end
+    local function DropDownDisable(self)
+        self.labelText:SetFontObject('GameFontDisableSmall')
+        self.valueText:SetFontObject('GameFontDisableSmall')
+        self.button:Disable()
+    end
+
     function opt.CreateDropDown(parent, name, width)
         local dd = pcdd:New(
             parent,
@@ -135,6 +147,10 @@ do
         dd.OnEnter = OnEnter
         dd.OnLeave = OnLeave
         dd.OnValueChanged = DropDownOnChanged
+
+        -- replace phanx helpers to override the font
+        dd.Enable = DropDownEnable
+        dd.Disable = DropDownDisable
 
         if name and type(parent.elements) == 'table' then
             parent.elements[name] = dd
@@ -199,13 +215,13 @@ do
     end
     local function SliderOnDisable(self)
         self.display:Disable()
-        self.display:SetAlpha(.5)
-        OnDisable(self)
+        self.display:SetFontObject('GameFontDisableSmall')
+        self.label:SetFontObject('GameFontDisable')
     end
     local function SliderOnEnable(self)
         self.display:Enable()
-        self.display:SetAlpha(1)
-        OnEnable(self)
+        self.display:SetFontObject('GameFontHighlightSmall')
+        self.label:SetFontObject('GameFontNormal')
     end
     function opt.CreateSlider(parent, name, min, max)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
