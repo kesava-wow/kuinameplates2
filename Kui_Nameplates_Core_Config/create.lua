@@ -180,6 +180,36 @@ health_text:SetPoint('TOPLEFT',level_text,'BOTTOMLEFT')
 
 hidenamesCheck.enabled = function(p) return p.name_text end
 
+local health_text_SelectTable = {
+    'Current |cff888888(145k)',
+    'Maximum |cff888888(156k)',
+    'Percent |cff888888(93)',
+    'Deficit |cff888888(-10.9k)',
+    'Blank |cff888888(  )'
+}
+
+local health_text_sep = text:CreateSeperator('health_text_sep')
+local health_text_friend_max = text:CreateDropDown('health_text_friend_max')
+local health_text_friend_dmg = text:CreateDropDown('health_text_friend_dmg')
+local health_text_hostile_max = text:CreateDropDown('health_text_hostile_max')
+local health_text_hostile_dmg = text:CreateDropDown('health_text_hostile_dmg')
+
+health_text_friend_max.SelectTable = health_text_SelectTable
+health_text_friend_dmg.SelectTable = health_text_SelectTable
+health_text_hostile_max.SelectTable = health_text_SelectTable
+health_text_hostile_dmg.SelectTable = health_text_SelectTable
+
+health_text_sep:SetPoint('TOP',0,-250)
+health_text_friend_max:SetPoint('TOPLEFT',10,-270)
+health_text_friend_dmg:SetPoint('LEFT',health_text_friend_max,'RIGHT',10,0)
+health_text_hostile_max:SetPoint('TOPLEFT',health_text_friend_max,'BOTTOMLEFT',0,0)
+health_text_hostile_dmg:SetPoint('LEFT',health_text_hostile_max,'RIGHT',10,0)
+
+health_text_friend_max.enabled = function(p) return p.health_text end
+health_text_friend_dmg.enabled = health_text_friend_max.enabled
+health_text_hostile_max.enabled = health_text_friend_max.enabled
+health_text_hostile_dmg.enabled = health_text_friend_max.enabled
+
 -- frame sizes #################################################################
 local frame_width = framesizes:CreateSlider('frame_width',20,200)
 local frame_height = framesizes:CreateSlider('frame_height',3,40)
