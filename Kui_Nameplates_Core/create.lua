@@ -8,23 +8,24 @@
 --
 -- HealthBar/CastBar ###########################################################
 -- ARTWORK
--- spark = 7
+-- castbar spark = 7
+-- raid icon (bar) = 6
 -- target arrows = 3
 -- spell shield = 2
+-- health bar highlight = 1
 -- spell icon = 1
--- highlight = 1
 -- health bar = 0
 -- cast bar = 0
 --
 -- Frame #######################################################################
 -- ARTWORK
--- raid icon = 2
--- spell icon bg = 0
+-- raid icon (nameonly) = 1
 --
 -- BACKGROUND
 -- healthbar fill background = 2
 -- frame background = 1
 -- castbar background = 1
+-- spell icon bg = 1
 -- threat brackets = 0
 -- frame glow = -5
 -- target glow = -5
@@ -812,7 +813,7 @@ do
         spellname:SetWordWrap()
 
         -- spell icon
-        local spelliconbg = f:CreateTexture(nil, 'ARTWORK', nil, 0)
+        local spelliconbg = f:CreateTexture(nil, 'BACKGROUND', nil, 1)
         spelliconbg:SetTexture(kui.m.t.solid)
         spelliconbg:SetVertexColor(0,0,0,.8)
         spelliconbg:SetPoint('BOTTOMRIGHT', bg, 'BOTTOMLEFT', -1, 0)
@@ -911,8 +912,12 @@ do
         f.RaidIcon:ClearAllPoints()
 
         if f.state.nameonly then
+            f.RaidIcon:SetParent(f)
+            f.RaidIcon:SetDrawLayer('ARTWORK',1)
             f.RaidIcon:SetPoint('LEFT',f.NameText,f.NameText:GetStringWidth()+2,0)
         else
+            f.RaidIcon:SetParent(f.HealthBar)
+            f.RaidIcon:SetDrawLayer('ARTWORK',6)
             f.RaidIcon:SetPoint('LEFT',f.HealthBar,'RIGHT',5,0)
         end
 
@@ -921,7 +926,7 @@ do
         end
     end
     function core:CreateRaidIcon(f)
-        local raidicon = f:CreateTexture(nil,'ARTWORK',nil,2)
+        local raidicon = f:CreateTexture()
         raidicon:SetTexture('interface/targetingframe/ui-raidtargetingicons')
         raidicon:SetSize(26,26)
 
