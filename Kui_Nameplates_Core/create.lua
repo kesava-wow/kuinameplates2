@@ -1025,7 +1025,7 @@ do
         button.cd:SetShadowColor(0,0,0,1)
 
         button.count:ClearAllPoints()
-        button.count:SetPoint('BOTTOMRIGHT',2,-2+TEXT_VERTICAL_OFFSET)
+        button.count:SetPoint('BOTTOMRIGHT',4,-2+TEXT_VERTICAL_OFFSET)
         button.count:SetShadowOffset(1,-1)
         button.count:SetShadowColor(0,0,0,1)
 
