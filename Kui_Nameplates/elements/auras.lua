@@ -267,7 +267,7 @@ local function CreateAuraButton(parent)
 
         local count = button:CreateFontString(nil,'OVERLAY')
         count:SetFont(FONT, FONT_SIZE_COUNT, FONT_FLAGS)
-        count:SetPoint('BOTTOMRIGHT',2,-2)
+        count:SetPoint('BOTTOMRIGHT',4,-2)
         count:Hide()
 
         button.icon   = icon
