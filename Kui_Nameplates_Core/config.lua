@@ -310,11 +310,6 @@ configChanged.auras_icon_squareness = configChangedAuras
 
 function configChanged.classpowers_enable(v)
     if v then
-        if not addon.ClassPowersFrame then
-            -- if classpowers is disabled by configLoaded, it won't be enabled
-            -- to recieve the Initialised message. So re-run it.
-            addon:GetPlugin('ClassPowers'):Initialised()
-        end
         addon:GetPlugin('ClassPowers'):Enable()
     else
         addon:GetPlugin('ClassPowers'):Disable()

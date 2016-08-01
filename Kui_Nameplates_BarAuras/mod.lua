@@ -155,6 +155,4 @@ function mod:Initialise()
 
     self:AddCallback('Auras','ArrangeButtons',ArrangeButtons)
     self:AddCallback('Auras','PostCreateAuraButton',PostCreateAuraButton)
-
-    self:RegisterMessage('Initialised')
 end

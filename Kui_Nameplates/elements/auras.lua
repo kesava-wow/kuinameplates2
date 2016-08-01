@@ -650,6 +650,4 @@ function ele:Initialise()
     self:RegisterCallback('PostCreateAuraButton')
     self:RegisterCallback('PostCreateAuraFrame')
     self:RegisterCallback('DisplayAura',true)
-
-    self:RegisterMessage('Initialised')
 end

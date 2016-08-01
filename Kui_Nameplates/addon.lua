@@ -116,11 +116,17 @@ local function OnEvent(self,event,...)
         end
     end
 
+    -- initialise the layout
     if type(self.layout.Initialise) == 'function' then
         self.layout:Initialise()
     end
 
-    addon:DispatchMessage('Initialised')
+    -- fire layout initialised to plugins
+    for k,plugin in ipairs(self.plugins) do
+        if type(plugin.Initialised) == 'function' then
+            plugin:Initialised()
+        end
+    end
 end
 ------------------------------------------- initialise addon scripts & events --
 addon:SetScript('OnEvent',OnEvent)

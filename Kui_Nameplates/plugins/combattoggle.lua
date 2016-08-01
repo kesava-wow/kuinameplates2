@@ -53,6 +53,4 @@ end
 function mod:OnEnable()
     self:RegisterEvent('PLAYER_REGEN_DISABLED')
     self:RegisterEvent('PLAYER_REGEN_ENABLED')
-
-    self:RegisterMessage('Initialised')
 end

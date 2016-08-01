@@ -487,6 +487,4 @@ function ele:Initialise()
     self:RegisterCallback('PostRuneUpdate')
     self:RegisterCallback('PostPowerUpdate')
     self:RegisterCallback('PostPositionFrame')
-
-    self:RegisterMessage('Initialised')
 end
