@@ -1020,7 +1020,7 @@ do
     function core.Auras_PostCreateAuraButton(button)
         -- move text slightly for our font
         button.cd:ClearAllPoints()
-        button.cd:SetPoint('CENTER',1,TEXT_VERTICAL_OFFSET)
+        button.cd:SetPoint('TOPLEFT',-1,1+TEXT_VERTICAL_OFFSET)
         button.cd:SetShadowOffset(1,-1)
         button.cd:SetShadowColor(0,0,0,1)
 
