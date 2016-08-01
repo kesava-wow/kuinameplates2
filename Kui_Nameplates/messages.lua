@@ -10,14 +10,18 @@ local addon = KuiNameplates
 local k,listener,plugin,_
 local listeners = {}
 
+if addon.debug_messages then
+    addon.MESSAGE_LISTENERS = listeners
+end
+
 function addon:DispatchMessage(message, ...)
     if listeners[message] then
-        if addon.debug_messages then
-            addon:print('dispatch m:'..message)
-        end
-
         for i,listener_tbl in ipairs(listeners[message]) do
             local listener,func = unpack(listener_tbl)
+
+            if addon.debug_messages then
+                addon:print('dispatch m:'..message..' > '..(listener.name or 'nil'))
+            end
 
             if type(func) == 'string' and type(listener[func]) == 'function' then
                 func = listener[func]
@@ -107,6 +111,10 @@ function message.RegisterMessage(table,message,func)
     end
 
     if pluginHasMessage(table,message) then return end
+
+    if addon.debug_messages and table.name then
+        addon:print(table.name..' registered m:'..message)
+    end
 
     if not listeners[message] then
         listeners[message] = {}
