@@ -15,7 +15,7 @@ addon.debug = true
 --@end-alpha@
 --@debug@
 --addon.debug_units = true
-addon.debug_messages = true
+--addon.debug_messages = true
 --addon.draw_frames = true
 --@end-debug@
 
