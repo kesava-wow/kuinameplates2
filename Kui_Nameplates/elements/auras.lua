@@ -540,6 +540,13 @@ local function CreateAuraFrame(parent)
 
     ele:RunCallback('PostCreateAuraFrame',auraframe)
 
+    if addon.draw_frames then
+        auraframe:SetBackdrop({
+            bgFile='interface/buttons/white8x8'
+        })
+        auraframe:SetBackdropColor(1,1,1,.5)
+    end
+
     return auraframe
 end
 -- whitelist ###################################################################
