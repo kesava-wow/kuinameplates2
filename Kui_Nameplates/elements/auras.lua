@@ -263,11 +263,11 @@ local function CreateAuraButton(parent)
 
         local cd = button:CreateFontString(nil,'OVERLAY')
         cd:SetFont(FONT, FONT_SIZE_CD, FONT_FLAGS)
-        cd:SetPoint('CENTER')
+        cd:SetPoint('TOPLEFT',-2,2)
 
         local count = button:CreateFontString(nil,'OVERLAY')
         count:SetFont(FONT, FONT_SIZE_COUNT, FONT_FLAGS)
-        count:SetPoint('BOTTOMRIGHT', 2, -2)
+        count:SetPoint('BOTTOMRIGHT',2,-2)
         count:Hide()
 
         button.icon   = icon

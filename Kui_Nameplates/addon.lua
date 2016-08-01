@@ -122,6 +122,7 @@ local function OnEvent(self,event,...)
     end
 
     -- fire layout initialised to plugins
+    -- for plugins to fetch values from the layout, etc
     for k,plugin in ipairs(self.plugins) do
         if type(plugin.Initialised) == 'function' then
             plugin:Initialised()

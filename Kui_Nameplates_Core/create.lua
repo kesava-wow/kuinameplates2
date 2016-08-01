@@ -1018,14 +1018,14 @@ do
         f.UpdateAuras = UpdateAuras
     end
     function core.Auras_PostCreateAuraButton(button)
-        -- move text slightly for our font
+        -- move text to obey our settings
         button.cd:ClearAllPoints()
-        button.cd:SetPoint('TOPLEFT',-1,1+TEXT_VERTICAL_OFFSET)
+        button.cd:SetPoint('TOPLEFT',-2,2+TEXT_VERTICAL_OFFSET)
         button.cd:SetShadowOffset(1,-1)
         button.cd:SetShadowColor(0,0,0,1)
 
         button.count:ClearAllPoints()
-        button.count:SetPoint('BOTTOMRIGHT',3,-2+TEXT_VERTICAL_OFFSET)
+        button.count:SetPoint('BOTTOMRIGHT',2,-2+TEXT_VERTICAL_OFFSET)
         button.count:SetShadowOffset(1,-1)
         button.count:SetShadowColor(0,0,0,1)
 

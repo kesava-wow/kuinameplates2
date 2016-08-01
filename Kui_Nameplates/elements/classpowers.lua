@@ -463,11 +463,12 @@ function ele:Initialised()
     if  type(addon.layout.ClassPowers) ~= 'table' or
         not powers[class]
     then
+        -- layout didn't initialise us, or this class has no special power
         self:Disable()
         return
     end
 
-    -- icon frame container
+    -- create icon frame container
     cpf = CreateFrame('Frame')
     cpf:SetPoint('CENTER')
     cpf:Hide()
@@ -475,6 +476,7 @@ function ele:Initialised()
     addon.ClassPowersFrame = cpf
 
     if self.enabled then
+        -- call this again since it's blocked until Initialised runs
         self:OnEnable()
     end
 end
