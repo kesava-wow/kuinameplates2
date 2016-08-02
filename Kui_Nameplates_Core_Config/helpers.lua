@@ -242,12 +242,18 @@ do
 
         local display = CreateFrame('EditBox',nil,slider)
         display:SetFontObject('GameFontHighlightSmall')
-        display:SetHeight(10)
-        display:SetPoint('TOP',slider,'BOTTOM')
-        display:SetPoint('LEFT',slider.Low,'RIGHT')
-        display:SetPoint('RIGHT',slider.High,'LEFT')
+        display:SetSize(50,15)
+        display:SetPoint('TOP',slider,'BOTTOM',0,1)
         display:SetJustifyH('CENTER')
         display:SetAutoFocus(false)
+        display:SetBackdrop({
+            bgFile='interface/buttons/white8x8',
+            edgeFile='interface/buttons/white8x8',
+            edgeSize=1
+        })
+        display:SetBackdropBorderColor(1,1,1,.2)
+        display:SetBackdropColor(0,0,0,.5)
+
         display:SetScript('OnEnterPressed',SliderEditBoxOnEnterPressed)
         display:SetScript('OnEscapePressed',SliderEditBoxOnEscapePressed)
 
