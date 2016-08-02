@@ -223,10 +223,11 @@ do
         self:HighlightText()
     end
     local function EditBox_OnEscapePressed(self)
-        -- revert to previous value
         self:ClearFocus()
         self:HighlightText(0,0)
-        SliderOnChanged(self:GetParent())
+
+        -- revert to current value
+        SliderOnShow(self:GetParent())
     end
     local function EditBox_OnEnterPressed(self)
         -- dumb-verify input
