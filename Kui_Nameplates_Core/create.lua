@@ -972,12 +972,14 @@ do
             return
         end
 
+        self.size = size
         self.num_per_row = minus and 4 or 5
 
         -- re-set frame width
         AuraFrame_SetDesiredWidth(self)
         AuraFrame_SetFrameWidth(self)
 
+        -- resize & re-arrange buttons
         self:SetIconSize(size)
     end
 
