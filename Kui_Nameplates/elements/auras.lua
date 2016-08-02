@@ -61,6 +61,9 @@
     PostCreateAuraFrame(auraframe)
         Called after an aura frame is created.
 
+    PostUpdateAuraFrame(auraframe)
+        Called after a shown aura frame is updated (buttons arranged, etc).
+
     DisplayAura(name,spellid,duration)
         Can be used to arbitrarily filter auras.
 
@@ -320,6 +323,7 @@ local function AuraFrame_Update(self)
 
     if self.visible and self.visible > 0 then
         self:Show()
+        ele:RunCallback('PostUpdateAuraFrame',self)
     else
         self:Hide()
     end
@@ -465,6 +469,30 @@ local function AuraFrame_ArrangeButtons(self)
         end
     end
 end
+local function AuraFrame_SetIconSize(self,size)
+    -- set icon size and related variables, update buttons
+    if not size then
+        size = 24
+    end
+
+    self.size = size
+    self.icon_height = floor(size * self.squareness)
+    self.icon_ratio = (1 - (self.icon_height / size)) / 2
+
+    if type(self.buttons) == 'table' then
+        -- update existing buttons
+        for k,button in ipairs(self.buttons) do
+            button:SetWidth(size)
+            button:SetHeight(self.icon_height)
+            button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
+        end
+
+        if self.visible and self.visible > 0 then
+            -- re-arrange visible buttons
+            self:ArrangeButtons()
+        end
+    end
+end
 local function AuraFrame_SetSort(self,sort_f)
     if type(sort_f) == 'number' then
         -- get sorting function from index
@@ -505,7 +533,6 @@ end
 -- aura frame creation #########################################################
 -- aura frame metatable
 local aura_meta = {
-    size       = 24,
     squareness = .7,
     x_spacing  = 0,
     y_spacing  = 0,
@@ -521,6 +548,7 @@ local aura_meta = {
     HideButton     = AuraFrame_HideButton,
     HideAllButtons = AuraFrame_HideAllButtons,
     ArrangeButtons = AuraFrame_ArrangeButtons,
+    SetIconSize    = AuraFrame_SetIconSize,
     SetSort        = AuraFrame_SetSort,
     SetWhitelist   = AuraFrame_SetWhitelist,
 }
@@ -586,8 +614,7 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
 
     new_frame.row_point = row_growth_points[new_frame.row_growth]
 
-    new_frame.icon_height = floor(new_frame.size * new_frame.squareness)
-    new_frame.icon_ratio = (1 - (new_frame.icon_height / new_frame.size)) / 2
+    new_frame:SetIconSize(new_frame.size)
 
     if new_frame.kui_whitelist then
         new_frame:SetWhitelist(nil,true)
@@ -656,5 +683,6 @@ function ele:Initialise()
     self:RegisterCallback('CreateAuraButton',true)
     self:RegisterCallback('PostCreateAuraButton')
     self:RegisterCallback('PostCreateAuraFrame')
+    self:RegisterCallback('PostUpdateAuraFrame')
     self:RegisterCallback('DisplayAura',true)
 end
