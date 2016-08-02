@@ -161,14 +161,19 @@ do
     end
 end
 do
-    local function SliderSetConfig(self,value)
+    local function SliderSetConfig(self,v)
         if not self:IsEnabled() then return end
         if self.env and opt.config then
-            opt.config:SetConfig(self.env,value or self:GetValue())
+            opt.config:SetConfig(self.env,v or self:GetValue())
         end
     end
 
     local function SliderOnChanged(self,v)
+        -- copy value to display text
+        if not v then
+            v = self:GetValue()
+        end
+
         -- round value for display to hide floating point errors
         local r_v = string.format('%.4f',v)
         r_v = string.gsub(r_v,'0+$','')
@@ -203,25 +208,6 @@ do
         self.Low:SetText(min)
         self.High:SetText(max)
     end
-    local function SliderEditBoxOnEscapePressed(self)
-        -- revert to previous value
-        self:ClearFocus()
-        SliderOnChanged(self:GetParent())
-    end
-    local function SliderEditBoxOnEnterPressed(self)
-        self:ClearFocus()
-        -- dumb-verify input
-        local v = tonumber(self:GetText())
-
-        if v then
-            -- display change
-            self:GetParent():SetValue(v)
-            -- push to config
-            SliderSetConfig(self:GetParent(),v)
-        else
-            SliderEditBoxOnEscapePressed(self)
-        end
-    end
     local function SliderOnDisable(self)
         self.display:Disable()
         self.display:SetFontObject('GameFontDisableSmall')
@@ -232,6 +218,33 @@ do
         self.display:SetFontObject('GameFontHighlightSmall')
         self.label:SetFontObject('GameFontNormal')
     end
+
+    local function EditBox_OnFocusGained(self)
+        self:HighlightText()
+    end
+    local function EditBox_OnEscapePressed(self)
+        -- revert to previous value
+        self:ClearFocus()
+        self:HighlightText(0,0)
+        SliderOnChanged(self:GetParent())
+    end
+    local function EditBox_OnEnterPressed(self)
+        -- dumb-verify input
+        local v = tonumber(self:GetText())
+
+        if v then
+            -- display change
+            self:GetParent():SetValue(v)
+            -- push to config
+            SliderSetConfig(self:GetParent(),v)
+        else
+            EditBox_OnEscapePressed(self)
+        end
+
+        -- re-grab focus
+        self:SetFocus()
+    end
+
     function opt.CreateSlider(parent, name, min, max)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
         slider:SetWidth(190)
@@ -261,8 +274,9 @@ do
         display:SetBackdropBorderColor(1,1,1,.2)
         display:SetBackdropColor(0,0,0,.5)
 
-        display:SetScript('OnEnterPressed',SliderEditBoxOnEnterPressed)
-        display:SetScript('OnEscapePressed',SliderEditBoxOnEscapePressed)
+        display:SetScript('OnEditFocusGained',EditBox_OnFocusGained)
+        display:SetScript('OnEnterPressed',EditBox_OnEnterPressed)
+        display:SetScript('OnEscapePressed',EditBox_OnEscapePressed)
 
         slider.orig_SetMinMaxValues = slider.SetMinMaxValues
         slider.SetMinMaxValues = SliderSetMinMaxValues
