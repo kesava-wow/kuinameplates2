@@ -6,6 +6,7 @@
 * add option to centre-align aura icons
 * add option to change size of power bar
 * add options to change health text
+* slider edit-boxes can now be used to override the min/max values
 * class powers on target is now enabled by default
 * change position of text on auras
 * increase default power bar size slightly
@@ -14,3 +15,5 @@
 * disable auras whitelist by default until I update it a bit more
 * fix auras timer_threshold doesn't apply on load if set to -1
 * fix auras being out of alignment by 1 pixel. gasp!
+* fix bug where you can't cancel deleting/resetting a profile. whoops.
+* fix timeless auras aren't filtered correctly by "maximum effect length"
