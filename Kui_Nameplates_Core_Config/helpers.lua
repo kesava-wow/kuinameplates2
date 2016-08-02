@@ -914,8 +914,10 @@ function opt:Initialise()
     p_delete:SetPoint('TOPRIGHT',-10,-26)
     p_delete:SetText('Delete profile')
     p_delete:SetSize(110,22)
-    p_delete.callback = function(accept)
-        opt.config:DeleteProfile(opt.config.csv.profile)
+    p_delete.callback = function(self,accept)
+        if accept then
+            opt.config:DeleteProfile(opt.config.csv.profile)
+        end
     end
     p_delete:SetScript('OnShow',ProfileButtonOnShow)
     p_delete:SetScript('OnClick',function(self)
@@ -939,8 +941,10 @@ function opt:Initialise()
     p_reset:SetPoint('RIGHT',p_rename,'LEFT',-5,0)
     p_reset:SetText('Reset profile')
     p_reset:SetSize(115,22)
-    p_reset.callback = function(accept)
-        opt.config:ResetProfile(opt.config.csv.profile)
+    p_reset.callback = function(self,accept)
+        if accept then
+            opt.config:ResetProfile(opt.config.csv.profile)
+        end
     end
     p_reset:SetScript('OnClick',function(self)
         opt.Popup:ShowPage(
