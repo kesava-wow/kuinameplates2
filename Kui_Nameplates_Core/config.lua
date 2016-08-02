@@ -90,6 +90,7 @@ local default_config = {
     auras_on_personal = true,
     auras_whitelist = false,
     auras_pulsate = true,
+    auras_centre = false,
     auras_sort = 2,
     auras_time_threshold = 60,
     auras_minimum_length = 0,
@@ -300,6 +301,7 @@ local function configChangedAuras()
 end
 configChanged.auras_whitelist = configChangedAuras
 configChanged.auras_pulsate = configChangedAuras
+configChanged.auras_centre = configChangedAuras
 configChanged.auras_sort = configChangedAuras
 configChanged.auras_time_threshold = configChangedAuras
 configChanged.auras_minimum_length = configChangedAuras

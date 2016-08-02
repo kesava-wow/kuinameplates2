@@ -231,6 +231,7 @@ local auras_on_personal = auras:CreateCheckBox('auras_on_personal')
 local auras_sort = auras:CreateDropDown('auras_sort')
 local auras_whitelist = auras:CreateCheckBox('auras_whitelist')
 local auras_pulsate = auras:CreateCheckBox('auras_pulsate')
+local auras_centre = auras:CreateCheckBox('auras_centre')
 local auras_time_threshold = auras:CreateSlider('auras_time_threshold',-1,180)
 
 auras_sort.SelectTable = {'Aura index','Time remaining'}
@@ -250,15 +251,16 @@ auras_enabled:SetPoint('TOPLEFT',10,-17)
 auras_on_personal:SetPoint('TOPLEFT',auras_enabled,'BOTTOMLEFT')
 auras_whitelist:SetPoint('TOPLEFT',auras_on_personal,'BOTTOMLEFT')
 auras_pulsate:SetPoint('TOPLEFT',auras_whitelist,'BOTTOMLEFT')
+auras_centre:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT')
 auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
 auras_time_threshold:SetPoint('LEFT',auras_whitelist,'RIGHT',184,5)
 
-auras_filtering_sep:SetPoint('TOP',0,-150)
-auras_minimum_length:SetPoint('TOPLEFT',10,-180)
+auras_filtering_sep:SetPoint('TOP',0,-170)
+auras_minimum_length:SetPoint('TOPLEFT',10,-200)
 auras_maximum_length:SetPoint('LEFT',auras_minimum_length,'RIGHT',20,0)
 
-auras_icons_sep:SetPoint('TOP',0,-230)
-auras_icon_normal_size:SetPoint('TOPLEFT',10,-260)
+auras_icons_sep:SetPoint('TOP',0,-250)
+auras_icon_normal_size:SetPoint('TOPLEFT',10,-280)
 auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
 auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
 

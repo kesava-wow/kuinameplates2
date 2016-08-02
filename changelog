@@ -12,3 +12,4 @@
 * update size of the clickbox/overlap/stacking area to fit frame size settings
 * disable auras whitelist by default until I update it a bit more
 * fix auras timer_threshold doesn't apply on load if set to -1
+* fix auras being out of alignment by 1 pixel. gasp!

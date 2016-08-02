@@ -1069,6 +1069,7 @@ do
 
         AURAS_NORMAL_SIZE = self.profile.auras_icon_normal_size
         AURAS_MINUS_SIZE = self.profile.auras_icon_minus_size
+        AURAS_CENTRED = self.profile.auras_centre
 
         local timer_threshold = self.profile.auras_time_threshold
         if timer_threshold < 0 then
