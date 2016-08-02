@@ -1045,10 +1045,15 @@ do
         end
     end
     function core.Auras_DisplayAura(name,spellid,duration)
-        if AURAS_MIN_LENGTH and duration <= AURAS_MIN_LENGTH then
+        if  AURAS_MIN_LENGTH and
+            duration ~= 0 and duration <= AURAS_MIN_LENGTH
+        then
             return false
         end
-        if AURAS_MAX_LENGTH and duration > AURAS_MAX_LENGTH then
+
+        if  AURAS_MAX_LENGTH and
+            (duration == 0 or duration > AURAS_MAX_LENGTH)
+        then
             return false
         end
 
