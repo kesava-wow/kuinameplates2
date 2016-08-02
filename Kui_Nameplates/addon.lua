@@ -14,6 +14,7 @@ addon.MAJOR=2
 addon.debug = true
 --@end-alpha@
 --@debug@
+addon.debug_config = true
 --addon.debug_units = true
 --addon.debug_messages = true
 --addon.draw_frames = true

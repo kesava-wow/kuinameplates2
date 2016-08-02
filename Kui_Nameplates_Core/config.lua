@@ -415,6 +415,10 @@ function core:InitialiseConfig()
             end
         end
 
+        if addon.debug and addon.debug_config then
+            kui.print(self:GetActiveProfile())
+        end
+
         for i,f in addon:Frames() do
             -- hide and re-show frames
             if f:IsShown() then
