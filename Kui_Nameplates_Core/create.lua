@@ -983,18 +983,16 @@ do
         self:SetIconSize(size)
     end
 
-    local function UpdateAuras(f,on_show)
-        if on_show then
-            -- enable/disable on personal frame
-            if not AURAS_ON_PERSONAL and f.state.player then
-                f.Auras.frames[1]:Disable()
-            else
-                f.Auras.frames[1]:Enable(true)
-            end
+    local function UpdateAuras(f)
+        -- enable/disable on personal frame
+        if not AURAS_ON_PERSONAL and f.state.player then
+            f.Auras.frames[1]:Disable()
         else
-            -- set auras to normal/minus sizes
-            AuraFrame_SetIconSize(f.Auras.frames[1],f.state.minus)
+            f.Auras.frames[1]:Enable(true)
         end
+
+        -- set auras to normal/minus sizes
+        AuraFrame_SetIconSize(f.Auras.frames[1],f.state.minus)
     end
     function core:CreateAuras(f)
         local auras = f.handler:CreateAuraFrame({

@@ -75,7 +75,7 @@ function core:Show(f)
     -- enable/disable castbar
     f:UpdateCastBar()
     -- enable/disable auras
-    f:UpdateAuras(true)
+    f:UpdateAuras()
 
     if f.TargetArrows then
         -- show/hide target arrows
