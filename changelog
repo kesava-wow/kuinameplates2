@@ -3,6 +3,7 @@
 * add an author/version string to the config interface for debugging
 * add option to change auras sorting method
 * add option to show/hide auras on personal nameplate
+* add option to centre-align aura icons
 * add option to change size of power bar
 * add options to change health text
 * class powers on target is now enabled by default
