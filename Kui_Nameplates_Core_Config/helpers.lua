@@ -161,25 +161,32 @@ do
     end
 end
 do
-    local function SliderOnShow(self)
-        if not opt.profile then return end
-        if self.env and opt.profile[self.env] then
-            self:SetValue(opt.profile[self.env])
+    local function SliderSetConfig(self,value)
+        if not self:IsEnabled() then return end
+        if self.env and opt.config then
+            opt.config:SetConfig(self.env,value or self:GetValue())
         end
-
-        GenericOnShow(self)
     end
-    local function SliderOnChanged(self)
-        local r_v = string.format('%.4f',self:GetValue())
+
+    local function SliderOnChanged(self,v)
+        -- round value for display to hide floating point errors
+        local r_v = string.format('%.4f',v)
         r_v = string.gsub(r_v,'0+$','')
         r_v = string.gsub(r_v,'%.$','')
         self.display:SetText(r_v)
     end
-    local function SliderOnManualChange(self)
-        if not self:IsEnabled() then return end
-        if self.env and opt.config then
-            opt.config:SetConfig(self.env,self:GetValue())
+    local function SliderOnShow(self)
+        if not opt.profile then return end
+        if self.env and opt.profile[self.env] then
+            self:SetValue(opt.profile[self.env])
+            -- set text to correct value if outside min/max
+            SliderOnChanged(self,opt.profile[self.env])
         end
+
+        GenericOnShow(self)
+    end
+    local function SliderOnMouseUp(self)
+        SliderSetConfig(self)
     end
     local function SliderOnMouseWheel(self,delta)
         if not self:IsEnabled() then return end
@@ -189,7 +196,7 @@ do
             delta = -self:GetValueStep()
         end
         self:SetValue(self:GetValue()+delta)
-        SliderOnManualChange(self)
+        SliderSetConfig(self)
     end
     local function SliderSetMinMaxValues(self,min,max)
         self:orig_SetMinMaxValues(min,max)
@@ -210,7 +217,7 @@ do
             -- display change
             self:GetParent():SetValue(v)
             -- push to config
-            SliderOnManualChange(self:GetParent())
+            SliderSetConfig(self:GetParent(),v)
         else
             SliderEditBoxOnEscapePressed(self)
         end
@@ -270,7 +277,7 @@ do
         slider:HookScript('OnDisable',SliderOnDisable)
         slider:HookScript('OnShow',SliderOnShow)
         slider:HookScript('OnValueChanged',SliderOnChanged)
-        slider:HookScript('OnMouseUp',SliderOnManualChange)
+        slider:HookScript('OnMouseUp',SliderOnMouseUp)
         slider:HookScript('OnMouseWheel',SliderOnMouseWheel)
 
         slider:SetValueStep(1)
