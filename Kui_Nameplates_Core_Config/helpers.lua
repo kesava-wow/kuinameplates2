@@ -222,9 +222,6 @@ do
     local function EditBox_OnFocusGained(self)
         self:HighlightText()
     end
-    local function EditBox_OnFocusLost(self)
-        self:HighlightText(0,0)
-    end
     local function EditBox_OnEscapePressed(self)
         self:ClearFocus()
         self:HighlightText(0,0)
@@ -279,7 +276,7 @@ do
         display:SetBackdropColor(0,0,0,.5)
 
         display:SetScript('OnEditFocusGained',EditBox_OnFocusGained)
-        display:SetScript('OnEditFocusLost',EditBox_OnFocusLost)
+        display:SetScript('OnEditFocusLost',EditBox_OnEscapePressed)
         display:SetScript('OnEnterPressed',EditBox_OnEnterPressed)
         display:SetScript('OnEscapePressed',EditBox_OnEscapePressed)
 
