@@ -941,16 +941,29 @@ do
     local AURAS_MINUS_SIZE
     local AURAS_MIN_LENGTH
     local AURAS_MAX_LENGTH
+    local AURAS_CENTRED
 
     local function AuraFrame_SetFrameWidth(self)
         self:SetWidth(self.__width)
         self:SetPoint(
             'BOTTOMLEFT',
-            self.parent.HealthBar,
+            self.parent.bg,
             'TOPLEFT',
             floor((self.parent.bg:GetWidth() - self.__width) / 2),
             15
         )
+    end
+    local function AuraFrame_SetDesiredWidth(self)
+        if AURAS_CENTRED and
+           self.visible and
+           self.visible < self.num_per_row
+        then
+            self.__width = (self.size * self.visible) + ((1 * self.visible) - 1)
+        else
+            self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
+        end
+
+        AuraFrame_SetFrameWidth(self)
     end
     local function AuraFrame_SetIconSize(self,minus)
         local size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
@@ -959,28 +972,13 @@ do
             return
         end
 
-        -- re-set frame vars
-        self.size = size
-        self.icon_height = floor(size * self.squareness)
-        self.icon_ratio = (1 - (self.icon_height / size)) / 2
         self.num_per_row = minus and 4 or 5
 
         -- re-set frame width
-        self.__width = (size * self.num_per_row) + (self.num_per_row - 1)
+        AuraFrame_SetDesiredWidth(self)
         AuraFrame_SetFrameWidth(self)
 
-        if not addon.BarAuras then
-            -- set buttons to new size
-            for k,button in ipairs(self.buttons) do
-                button:SetWidth(size)
-                button:SetHeight(self.icon_height)
-                button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
-            end
-
-            if self.visible and self.visible > 0 then
-                self:ArrangeButtons()
-            end
-        end
+        self:SetIconSize(size)
     end
 
     local function UpdateAuras(f,on_show)
@@ -1011,12 +1009,15 @@ do
             sort = self.profile.auras_sort,
         })
         -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
+        -- frame width & point set by AuraFrame_SetFrameWidth < _SetIconSize
 
         auras:SetFrameLevel(0)
         auras:SetHeight(10)
 
         f.UpdateAuras = UpdateAuras
     end
+
+    -- calbacks
     function core.Auras_PostCreateAuraButton(button)
         -- move text to obey our settings
         button.cd:ClearAllPoints()
@@ -1035,6 +1036,14 @@ do
 
         core.AurasButton_SetFont(button)
     end
+    function core.Auras_PostUpdateAuraFrame(frame)
+        if AURAS_CENTRED then
+            -- with auras centred, we need to update the frame size each time a
+            -- new button is made visible
+            AuraFrame_SetDesiredWidth(frame)
+            AuraFrame_SetFrameWidth(frame)
+        end
+    end
     function core.Auras_DisplayAura(name,spellid,duration)
         if AURAS_MIN_LENGTH and duration <= AURAS_MIN_LENGTH then
             return false
@@ -1046,6 +1055,7 @@ do
         return true
     end
 
+    -- config changed
     function core:SetAurasConfig()
         AURAS_MIN_LENGTH = self.profile.auras_minimum_length
         if AURAS_MIN_LENGTH == 0 then
