@@ -582,11 +582,11 @@ do
             if f.NameOnlyGlow then
                 if f.state.target then
                     f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                    f.NameOnlyGlow:SetAlpha(.9)
+                    f.NameOnlyGlow:SetAlpha(.8)
                     f.NameOnlyGlow:Show()
                 elseif f.state.glowing then
                     f.NameOnlyGlow:SetVertexColor(unpack(f.state.glow_colour))
-                    f.NameOnlyGlow:SetAlpha(.5)
+                    f.NameOnlyGlow:SetAlpha(.6)
                     f.NameOnlyGlow:Show()
                 else
                     f.NameOnlyGlow:Hide()
