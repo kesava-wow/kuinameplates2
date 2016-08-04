@@ -1122,7 +1122,7 @@ do
 end
 -- class powers ################################################################
 function core.ClassPowers_PostPositionFrame(cpf,parent)
-    if not parent or not cpf:IsShown() then return end
+    if not parent or not cpf or not cpf:IsShown() then return end
 
     -- change position in nameonly mode/on the player's nameplate
     if parent.state.nameonly then
@@ -1275,8 +1275,8 @@ do
             f:UpdateTargetArrows()
         end
 
-        if f.NameOnlyGlow then
-            -- update classpowers position
+        if f.NameOnlyGlow and addon.ClassPowersFrame then
+            -- force-update classpowers position
             plugin_classpowers:TargetUpdate(f)
         end
     end
