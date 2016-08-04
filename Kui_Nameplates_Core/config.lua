@@ -181,11 +181,7 @@ function configChanged.fade_speed(v)
 end
 
 local function configChangedCombatAction()
-    -- push vars to layout
-    core.CombatToggle = {
-        hostile = core.profile.combat_hostile,
-        friendly = core.profile.combat_friendly
-    }
+    core:configChangedCombatAction()
 end
 configChanged.combat_hostile = configChangedCombatAction
 configChanged.combat_friendly = configChangedCombatAction
@@ -403,8 +399,6 @@ local function configLoadedFadeRule()
     configChangedFadeRule(nil,true)
 end
 configLoaded.fade_all = configLoadedFadeRule
-
-configLoaded.combat_hostile = configChangedCombatAction
 
 configLoaded.execute_enabled = configChanged.execute_enabled
 configLoaded.execute_colour = configChanged.execute_colour

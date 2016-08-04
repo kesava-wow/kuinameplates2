@@ -222,15 +222,21 @@ function core:configChangedTextOffset()
 end
 function core:configChangedTargetArrows()
     for k,f in addon:Frames() do
-        if core.profile.target_arrows then
+        if self.profile.target_arrows then
             if f.TargetArrows then
                 f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                f.TargetArrows:SetSize(core.profile.target_arrows_size)
+                f.TargetArrows:SetSize(self.profile.target_arrows_size)
             else
-                core:CreateTargetArrows(f)
+                self:CreateTargetArrows(f)
             end
         end
     end
+end
+function core:configChangedCombatAction()
+    self.CombatToggle = {
+        hostile = self.profile.combat_hostile,
+        friendly = self.profile.combat_friendly
+    }
 end
 do
     function core.AurasButton_SetFont(button)
@@ -1407,7 +1413,7 @@ function core:InitialiseElements()
     plugin_fading = addon:GetPlugin('Fading')
     plugin_classpowers = addon:GetPlugin('ClassPowers')
 
-    self.CombatToggle = {}
+    self:configChangedCombatAction()
 
     self.Auras = {}
 
