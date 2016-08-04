@@ -20,10 +20,12 @@ opt.tooltips = {
 
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
-    nameonly = 'Hide the healthbars of friendly or unattackable units',
+    nameonly = 'Hide the healthbars of friendly or unattackable units. While in nameonly mode, name text is coloured as a percentage of health',
     nameonly_no_font_style = 'Hide text outline when in nameonly mode (by setting the font style to nil)',
-    nameonly_damaged_friends = 'Use nameonly mode, even on damaged friendly frames. Their name will be coloured as a percentage of their health',
+    nameonly_damaged_friends = 'Use nameonly mode even on damaged friendly frames',
     nameonly_enemies = 'Use nameonly mode on unattackable enemies (not including enemy players under effects such as Ice Block)',
+    nameonly_target = 'Also use nameonly mode on your target',
+    nameonly_all_enemies = 'Use nameonly mode on all enemies',
 
     target_arrows = 'Show arrows around your current target. These inherit the target glow colour',
 
