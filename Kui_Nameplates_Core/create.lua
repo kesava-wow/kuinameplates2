@@ -1201,12 +1201,15 @@ function core:ShowNameUpdate(f)
 end
 -- nameonly ####################################################################
 do
-    local NAMEONLY_NO_FONT_STYLE,NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_FRIENDS
+    local NAMEONLY_NO_FONT_STYLE,NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_FRIENDS,
+    NAMEONLY_ALL_ENEMIES,NAMEONLY_TARGET
 
     function core:configChangedNameOnly()
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
-        NAMEONLY_ENEMIES = self.profile.nameonly_enemies
         NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
+        NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
+        NAMEONLY_ENEMIES = NAMEONLY_ALL_ENEMIES or self.profile.nameonly_enemies
+        NAMEONLY_TARGET = self.profile.nameonly_target
     end
 
     function core:NameOnlyUpdateFunctions(f)
@@ -1338,9 +1341,9 @@ do
             -- don't show on player frame
             not f.state.player and
             -- don't show on target
-            not f.state.target and
+            (NAMEONLY_TARGET or not f.state.target) and
             -- don't show on attackable units
-            not UnitCanAttack('player',f.unit) and
+            (NAMEONLY_ALL_ENEMIES or not UnitCanAttack('player',f.unit)) and
             -- more complex filters;
             not UnattackableEnemyPlayer(f) and
             not EnemyAndDisabled(f) and

@@ -120,7 +120,7 @@ function core:GainedTarget(f)
     f.state.target = true
 
     -- disable nameonly on target
-    self:NameOnlyUpdate(f,true)
+    self:NameOnlyUpdate(f)
     -- show name on target
     self:ShowNameUpdate(f)
 

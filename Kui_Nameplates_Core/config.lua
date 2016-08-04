@@ -300,6 +300,8 @@ function configChanged.nameonly_no_font_style()
 end
 configChanged.nameonly_damaged_friends = configChanged.nameonly
 configChanged.nameonly_enemies = configChanged.nameonly
+configChanged.nameonly_all_enemies = configChanged.nameonly
+configChanged.nameonly_target = configChanged.nameonly
 
 function configChanged.auras_enabled(v)
     if v then
@@ -374,6 +376,8 @@ configChanged.target_arrows_size = configChanged.target_arrows
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
 configLoaded.fade_speed = configChanged.fade_speed
+
+configLoaded.nameonly = configChanged.nameonly
 
 configLoaded.colour_hated = configChangedReactionColour
 
