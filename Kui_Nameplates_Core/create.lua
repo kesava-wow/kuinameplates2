@@ -580,7 +580,7 @@ do
             f.TargetGlow:Hide()
 
             if f.NameOnlyGlow then
-                if f.state.target then
+                if f.state.target and core.profile.target_glow then
                     f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                     f.NameOnlyGlow:SetAlpha(.8)
                     f.NameOnlyGlow:Show()
