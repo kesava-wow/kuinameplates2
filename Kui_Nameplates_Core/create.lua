@@ -1210,6 +1210,26 @@ do
         NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
         NAMEONLY_ENEMIES = NAMEONLY_ALL_ENEMIES or self.profile.nameonly_enemies
         NAMEONLY_TARGET = self.profile.nameonly_target
+
+        if NAMEONLY_ALL_ENEMIES or NAMEONLY_TARGET then
+            -- create target/threat glow
+            for k,f in addon:Frames() do
+                core:CreateNameOnlyGlow(f)
+            end
+        end
+    end
+
+    function core:CreateNameOnlyGlow(f)
+        if not NAMEONLY_ALL_ENEMIES and not NAMEONLY_TARGET then return end
+        if f.NameOnlyGlow then return end
+
+        local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
+        g:SetTexture('interface/addons/kui_media/t/spark')
+        g:SetPoint('TOPLEFT',f.NameText,-20,8)
+        g:SetPoint('BOTTOMRIGHT',f.NameText,20,-8)
+        --g:Hide()
+
+        f.NameOnlyGlow = g
     end
 
     function core:NameOnlyUpdateFunctions(f)

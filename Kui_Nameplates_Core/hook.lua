@@ -38,6 +38,7 @@ function core:Create(f)
     self:CreateThreatBrackets(f)
     self:CreateStateIcon(f)
     self:CreateRaidIcon(f)
+    self:CreateNameOnlyGlow(f)
 end
 function core:Show(f)
     f.state.player = UnitIsUnit(f.unit,'player')
