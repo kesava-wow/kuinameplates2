@@ -287,7 +287,16 @@ configChanged.font_face = configChangedFontOption
 configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
 configChanged.font_style = configChangedFontOption
-configChanged.nameonly_no_font_style = configChangedFontOption
+
+function configChanged.nameonly()
+    core:configChangedNameOnly()
+end
+function configChanged.nameonly_no_font_style()
+    core:configChangedNameOnly()
+    core:configChangedFontOption()
+end
+configChanged.nameonly_damaged_friends = configChanged.nameonly
+configChanged.nameonly_enemies = configChanged.nameonly
 
 function configChanged.auras_enabled(v)
     if v then

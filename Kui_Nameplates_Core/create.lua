@@ -53,8 +53,7 @@ local POWER_BAR_HEIGHT,CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
-local NAMEONLY_NO_FONT_STYLE,FADE_AVOID_NAMEONLY,NAMEONLY_ENEMIES
-local NAMEONLY_DAMAGED_FRIENDS,FADE_AVOID_RAIDICON
+local FADE_AVOID_NAMEONLY,FADE_AVOID_RAIDICON
 local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local AURAS_ON_PERSONAL
@@ -183,10 +182,6 @@ do
         FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
         FONT_SIZE_NORMAL = self.profile.font_size_normal
         FONT_SIZE_SMALL = self.profile.font_size_small
-
-        NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
-        NAMEONLY_ENEMIES = self.profile.nameonly_enemies
-        NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
 
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_AVOID_RAIDICON = self.profile.fade_avoid_raidicon
@@ -1204,6 +1199,14 @@ function core:ShowNameUpdate(f)
 end
 -- nameonly ####################################################################
 do
+    local NAMEONLY_NO_FONT_STYLE,NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_FRIENDS
+
+    function core:configChangedNameOnly()
+        NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
+        NAMEONLY_ENEMIES = self.profile.nameonly_enemies
+        NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
+    end
+
     function core:NameOnlyUpdateFunctions(f)
         -- update elements affected by nameonly
         f:UpdateNameText()
