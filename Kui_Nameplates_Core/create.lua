@@ -596,6 +596,10 @@ do
             return
         end
 
+        if f.NameOnlyGlow then
+            f.NameOnlyGlow:Hide()
+        end
+
         f.ThreatGlow:Show()
 
         if f.state.target and core.profile.target_glow then
