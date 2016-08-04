@@ -57,7 +57,7 @@
     PostRuneUpdate
         Called after updating rune icon cooldown frames for death knights.
 
-    PostPositionFrame
+    PostPositionFrame(cpf,parent)
         Called after positioning the icon container frame.
 
 ]]
@@ -296,7 +296,7 @@ local function PositionFrame()
         cpf:Hide()
     end
 
-    ele:RunCallback('PostPositionFrame')
+    ele:RunCallback('PostPositionFrame',cpf,frame)
 end
 -- mod functions ###############################################################
 function ele:UpdateConfig()

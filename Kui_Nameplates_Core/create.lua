@@ -39,6 +39,8 @@ local core = KuiNameplatesCore
 
 -- frame fading plugin - called by some update functions
 local plugin_fading
+-- class powers plugin - called by NameOnlyUpdateFunctions
+local plugin_classpowers
 
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
 local CLASS_COLOURS = {
@@ -1109,18 +1111,21 @@ do
     end
 end
 -- class powers ################################################################
-function core.ClassPowers_PostPositionFrame()
-    if not addon.ClassPowersFrame:IsShown() then return end
-    if UnitIsUnit(addon.ClassPowersFrame:GetParent().unit,'player') then
-        -- change position when on the player's nameplate
-        addon.ClassPowersFrame:ClearAllPoints()
-        addon.ClassPowersFrame:SetPoint(
-            'CENTER',
-            addon.ClassPowersFrame:GetParent().HealthBar,
-            'TOP',
-            0,
-            1
-        )
+function core.ClassPowers_PostPositionFrame(cpf,parent)
+    if not parent or not cpf:IsShown() then return end
+
+    -- change position in nameonly mode/on the player's nameplate
+    if parent.state.nameonly then
+        cpf:ClearAllPoints()
+
+        if parent.GuildText and parent.state.guild_text then
+            cpf:SetPoint('TOP',parent.NameText,'BOTTOM',0,0)
+        else
+            cpf:SetPoint('TOP',parent.GuildText,'BOTTOM',0,0)
+        end
+    elseif parent.state.player then
+        cpf:ClearAllPoints()
+        cpf:SetPoint('CENTER',parent.HealthBar,'TOP',0,1)
     end
 end
 -- threat brackets #############################################################
@@ -1256,7 +1261,13 @@ do
         f:UpdateCastBar()
 
         if f.TargetArrows then
+            -- show/hide arrows
             f:UpdateTargetArrows()
+        end
+
+        if f.NameOnlyGlow then
+            -- update classpowers position
+            plugin_classpowers:TargetUpdate(f)
         end
     end
 
@@ -1390,6 +1401,7 @@ end
 -- init elements ###############################################################
 function core:InitialiseElements()
     plugin_fading = addon:GetPlugin('Fading')
+    plugin_classpowers = addon:GetPlugin('ClassPowers')
 
     self.CombatToggle = {}
 
