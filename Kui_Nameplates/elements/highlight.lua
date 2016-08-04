@@ -32,7 +32,7 @@ function addon.Nameplate.HighlightShow(f)
     if f.state.highlight then return end
     f.state.highlight = true
 
-    if f.elements.Highlight then
+    if f.elements.Highlight and not UnitIsUnit(f.unit,'target') then
         f.Highlight:Show()
     end
 
@@ -62,6 +62,16 @@ end
 function ele:Hide(f)
     f.handler:HighlightHide()
 end
+function ele:GainedTarget(f)
+    if f.elements.Highlight and f.state.highlight then
+        f.Highlight:Hide()
+    end
+end
+function ele:LostTarget(f)
+    if f.elements.Highlight and f.state.highlight then
+        f.Highlight:Show()
+    end
+end
 -- events ######################################################################
 function ele:UPDATE_MOUSEOVER_UNIT(event)
     local f = C_NamePlate.GetNamePlateForUnit('mouseover')
@@ -74,5 +84,7 @@ end
 function ele:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
+    self:RegisterMessage('GainedTarget')
+    self:RegisterMessage('LostTarget')
     self:RegisterEvent('UPDATE_MOUSEOVER_UNIT')
 end

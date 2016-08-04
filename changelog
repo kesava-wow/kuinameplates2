@@ -2,3 +2,4 @@
 * add option to enable nameonly mode on the target
 * add target/threat glow to nameonly mode
 * fix combat toggle options don't apply on login
+* mouseover highlight no longer shows on target
