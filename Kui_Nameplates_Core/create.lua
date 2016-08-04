@@ -390,7 +390,9 @@ do
                 -- player class colour
                 f.NameText:SetTextColor(GetClassColour(f))
             else
-                if f.state.reaction >= 4 then
+                if not UnitCanAttack('player',f.unit) and
+                   f.state.reaction >= 4
+                then
                     -- friendly colour
                     f.NameText:SetTextColor(.6,1,.6)
                     f.GuildText:SetTextColor(.8,.9,.8,.9)
