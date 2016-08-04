@@ -1123,9 +1123,9 @@ function core.ClassPowers_PostPositionFrame(cpf,parent)
         cpf:ClearAllPoints()
 
         if parent.GuildText and parent.state.guild_text then
-            cpf:SetPoint('TOP',parent.NameText,'BOTTOM',0,0)
+            cpf:SetPoint('TOP',parent.GuildText,'BOTTOM',0,-3)
         else
-            cpf:SetPoint('TOP',parent.GuildText,'BOTTOM',0,0)
+            cpf:SetPoint('TOP',parent.NameText,'BOTTOM',0,-3)
         end
     elseif parent.state.player then
         cpf:ClearAllPoints()
