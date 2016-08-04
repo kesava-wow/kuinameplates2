@@ -109,6 +109,8 @@ opt.titles = {
     nameonly_no_font_style = 'No text outline',
     nameonly_damaged_friends = 'On damaged friends',
     nameonly_enemies = 'On unattackable enemies',
+    nameonly_target = 'On target',
+    nameonly_all_enemies = 'On enemies',
 
     glow_as_shadow = 'Show frame shadow',
     state_icons = 'Show state icons',
