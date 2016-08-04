@@ -1,19 +1,3 @@
-* add execute range (low health) plugin
-* add target arrows
-* add an author/version string to the config interface for debugging
-* add option to change auras sorting method
-* add option to show/hide auras on personal nameplate
-* add option to centre-align aura icons
-* add option to change size of power bar
-* add options to change health text
-* slider edit-boxes can now be used to override the min/max values
-* class powers on target is now enabled by default
-* change position of text on auras
-* increase default power bar size slightly
-* make castbar spell icon more square
-* update size of the clickbox/overlap/stacking area to fit frame size settings
-* disable auras whitelist by default until I update it a bit more
-* fix auras timer_threshold doesn't apply on load if set to -1
-* fix auras being out of alignment by 1 pixel. gasp!
-* fix bug where you can't cancel deleting/resetting a profile. whoops.
-* fix timeless auras aren't filtered correctly by "maximum effect length"
+* add option to enable nameonly mode on all enemies
+* add option to enable nameonly mode on the target
+* add target/threat glow to nameonly mode
