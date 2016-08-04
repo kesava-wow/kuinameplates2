@@ -577,6 +577,20 @@ do
             f.ThreatGlow:Hide()
             f.TargetGlow:Hide()
 
+            if f.NameOnlyGlow then
+                if f.state.target then
+                    f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+                    f.NameOnlyGlow:SetAlpha(.9)
+                    f.NameOnlyGlow:Show()
+                elseif f.state.glowing then
+                    f.NameOnlyGlow:SetVertexColor(unpack(f.state.glow_colour))
+                    f.NameOnlyGlow:SetAlpha(.5)
+                    f.NameOnlyGlow:Show()
+                else
+                    f.NameOnlyGlow:Hide()
+                end
+            end
+
             return
         end
 
@@ -1227,7 +1241,7 @@ do
         g:SetTexture('interface/addons/kui_media/t/spark')
         g:SetPoint('TOPLEFT',f.NameText,-20,8)
         g:SetPoint('BOTTOMRIGHT',f.NameText,20,-8)
-        --g:Hide()
+        g:Hide()
 
         f.NameOnlyGlow = g
     end
