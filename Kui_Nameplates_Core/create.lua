@@ -1353,14 +1353,12 @@ do
     end
 
     local function UnattackableEnemyPlayer(f)
-        -- don't show on unattackable enemy players (ice block etc)
-        return UnitIsPlayer(f.unit) and f.state.enemy
+        -- never activate for enemy players
+        return not NAMEONLY_ALL_ENEMIES and UnitIsPlayer(f.unit) and f.state.enemy
     end
     local function EnemyAndDisabled(f)
-        if not NAMEONLY_ENEMIES and f.state.enemy then
-            -- don't show on unattackble enemies
-            return true
-        end
+        -- don't show on unattackble enemies
+        return not NAMEONLY_ENEMIES and f.state.enemy
     end
     local function FriendAndDisabled(f)
         if not NAMEONLY_DAMAGED_FRIENDS and f.state.friend then
