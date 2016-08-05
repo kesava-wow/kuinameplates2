@@ -46,6 +46,8 @@ local default_config = {
     fade_all = false,
     fade_alpha = .5,
     fade_speed = .5,
+    fade_friendly_npc = false,
+    fade_neutral_enemy = false,
     fade_avoid_nameonly = true,
     fade_avoid_raidicon = true,
 
@@ -195,7 +197,7 @@ local function configChangedFadeRule(v,on_load)
     end
 
     if core.profile.fade_all then
-        plugin:RemoveFadeRule(2)
+        plugin:RemoveFadeRule(3)
     end
 
     if core.profile.fade_avoid_nameonly then
@@ -213,8 +215,26 @@ local function configChangedFadeRule(v,on_load)
     else
         core:UnregisterMessage('RaidIconUpdate')
     end
+
+    if core.profile.fade_neutral_enemy then
+        plugin:AddFadeRule(function(f)
+            return f.state.reaction == 4 and
+                   not UnitIsPlayer(f.unit) and
+                   UnitCanAttack('player',f.unit) and -1
+       end,3)
+    end
+
+    if core.profile.fade_friendly_npc then
+        plugin:AddFadeRule(function(f)
+            return f.state.reaction >= 4 and
+                   not UnitIsPlayer(f.unit) and
+                   not UnitCanAttack('player',f.unit) and -1
+        end,3)
+    end
 end
 configChanged.fade_all = configChangedFadeRule
+configChanged.fade_friendly_npc = configChangedFadeRule
+configChanged.fade_neutral_enemy = configChangedFadeRule
 configChanged.fade_avoid_nameonly = configChangedFadeRule
 configChanged.fade_avoid_raidicon = configChangedFadeRule
 

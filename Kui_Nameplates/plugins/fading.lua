@@ -40,7 +40,13 @@ local function GetDesiredAlpha(frame)
     for i,f in pairs(fade_rules) do
         if f then
             local a = f(frame)
-            if a then return a end
+            if a then
+                if a < 0 then
+                    return mod.faded_alpha
+                else
+                    return a
+                end
+            end
         end
     end
 
@@ -84,20 +90,20 @@ function mod:ResetFadeRules()
         function(f)
             return UnitIsUnit(f.unit,'player') and 1
         end,
+        function(f)
+            return f.handler:IsTarget() and 1
+        end,
         function()
             return not target_exists and 1
         end,
-        function(f)
-            return f.handler:IsTarget() and 1
-        end
     }
 
     -- let plugins re/add their own rules
     mod:RunCallback('FadeRulesReset')
 end
-function mod:AddFadeRule(func)
+function mod:AddFadeRule(func,i)
     if type(func) ~= 'function' then return end
-    tinsert(fade_rules,func)
+    tinsert(fade_rules,i or #fade_rules+1,func)
     return #fade_rules
 end
 function mod:RemoveFadeRule(index)

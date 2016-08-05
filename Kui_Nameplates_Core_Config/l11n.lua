@@ -29,11 +29,13 @@ opt.tooltips = {
 
     target_arrows = 'Show arrows around your current target. These inherit the target glow colour',
 
-    fade_alpha = 'Opacity of faded frames',
+    fade_alpha = 'Opacity of faded frames. Note that if set to 0 (i.e. frames are invisible), invisible nameplates will still be clickable. Addons cannot arbitrarily disable nameplate clickboxes',
     fade_speed = 'Speed of the frame fading animation, where 1 is slowest and 0 is instant',
     fade_all = 'Fade all frames out by default, rather than in',
     fade_avoid_nameonly = 'Don\'t fade nameplates which are currently in nameonly mode',
     fade_avoid_raidicon = 'Don\'t fade nameplates which have a raid icon visible',
+    fade_friendly_npc = 'Fade friendly NPC nameplates by default (including those in nameonly mode)',
+    fade_neutral_enemy = 'Fade attackable neutral nameplates by default (including those in nameonly mode)',
 
     colour_self_class = 'Use your class colour on your personal nameplate',
     colour_self = 'The health bar colour of your personal nameplate',
@@ -125,6 +127,8 @@ opt.titles = {
     fade_alpha = 'Faded alpha',
     fade_speed = 'Fade animation speed',
     fade_all = 'Fade by default',
+    fade_friendly_npc = 'Fade friendly NPCs',
+    fade_neutral_enemy = 'Fade neutral enemies',
     fade_avoid_nameonly = 'Avoid nameonly',
     fade_avoid_raidicon = 'Avoid raid icon',
 
