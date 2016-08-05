@@ -211,7 +211,7 @@ local function configChangedFadeRule(v,on_load)
     if core.profile.fade_avoid_raidicon then
         plugin:AddFadeRule(function(f)
             return f.RaidIcon:IsShown() and 1
-        end)
+        end,3)
 
         -- force an alpha update whenever a raid icon is added/removed
         core:RegisterMessage('RaidIconUpdate')
@@ -223,7 +223,7 @@ local function configChangedFadeRule(v,on_load)
         plugin:AddFadeRule(function(f)
             return f.state.reaction == 4 and
                    UnitCanAttack('player',f.unit) and -1
-       end,3)
+       end, core.profile.fade_avoid_raidicon and 4 or 3)
     end
 
     if core.profile.fade_friendly_npc then
@@ -231,13 +231,13 @@ local function configChangedFadeRule(v,on_load)
             return f.state.reaction >= 4 and
                    not UnitIsPlayer(f.unit) and
                    not UnitCanAttack('player',f.unit) and -1
-        end,3)
+        end, core.profile.fade_avoid_raidicon and 4 or 3)
     end
 
     if core.profile.fade_untracked then
         plugin:AddFadeRule(function(f)
             return f.state.no_name and -1
-        end,3)
+        end, core.profile.fade_avoid_raidicon and 4 or 3)
     end
 end
 configChanged.fade_all = configChangedFadeRule
