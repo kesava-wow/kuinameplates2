@@ -197,6 +197,7 @@ local function configChangedFadeRule(v,on_load)
     end
 
     if core.profile.fade_all then
+        -- remove target_exists rule
         plugin:RemoveFadeRule(3)
     end
 
@@ -211,6 +212,7 @@ local function configChangedFadeRule(v,on_load)
             return f.RaidIcon:IsShown() and 1
         end)
 
+        -- force an alpha update whenever a raid icon is added/removed
         core:RegisterMessage('RaidIconUpdate')
     else
         core:UnregisterMessage('RaidIconUpdate')
