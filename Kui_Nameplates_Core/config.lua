@@ -48,6 +48,7 @@ local default_config = {
     fade_speed = .5,
     fade_friendly_npc = false,
     fade_neutral_enemy = false,
+    fade_untracked = false,
     fade_avoid_nameonly = true,
     fade_avoid_raidicon = true,
 
@@ -232,10 +233,17 @@ local function configChangedFadeRule(v,on_load)
                    not UnitCanAttack('player',f.unit) and -1
         end,3)
     end
+
+    if core.profile.fade_untracked then
+        plugin:AddFadeRule(function(f)
+            return f.state.no_name and -1
+        end,3)
+    end
 end
 configChanged.fade_all = configChangedFadeRule
 configChanged.fade_friendly_npc = configChangedFadeRule
 configChanged.fade_neutral_enemy = configChangedFadeRule
+configChanged.fade_untracked = configChangedFadeRule
 configChanged.fade_avoid_nameonly = configChangedFadeRule
 configChanged.fade_avoid_raidicon = configChangedFadeRule
 

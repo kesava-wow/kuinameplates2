@@ -78,6 +78,7 @@ local fade_speed = general:CreateSlider('fade_speed',0,1)
 local fade_all = general:CreateCheckBox('fade_all')
 local fade_friendly_npc = general:CreateCheckBox('fade_friendly_npc')
 local fade_neutral_enemy = general:CreateCheckBox('fade_neutral_enemy')
+local fade_untracked = general:CreateCheckBox('fade_untracked')
 local fade_avoid_nameonly = general:CreateCheckBox('fade_avoid_nameonly')
 local fade_avoid_raidicon = general:CreateCheckBox('fade_avoid_raidicon')
 
@@ -90,8 +91,9 @@ fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
 fade_all:SetPoint('TOPLEFT',15,-350)
 fade_friendly_npc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_neutral_enemy:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
-fade_avoid_nameonly:SetPoint('LEFT',fade_neutral_enemy,'RIGHT',190,0)
-fade_avoid_raidicon:SetPoint('TOPLEFT',fade_neutral_enemy,'BOTTOMLEFT')
+fade_untracked:SetPoint('LEFT',fade_neutral_enemy,'RIGHT',190,0)
+fade_avoid_nameonly:SetPoint('TOPLEFT',fade_neutral_enemy,'BOTTOMLEFT')
+fade_avoid_raidicon:SetPoint('LEFT',fade_avoid_nameonly,'RIGHT',190,0)
 
 target_glow_colour.enabled = function(p) return p.target_glow end
 
