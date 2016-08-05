@@ -32,7 +32,9 @@ function addon.Nameplate.HighlightShow(f)
     if f.state.highlight then return end
     f.state.highlight = true
 
-    if f.elements.Highlight and not UnitIsUnit(f.unit,'target') then
+    if f.elements.Highlight and
+       (f.unit and not UnitIsUnit(f.unit,'target'))
+    then
         f.Highlight:Show()
     end
 
