@@ -219,7 +219,6 @@ local function configChangedFadeRule(v,on_load)
     if core.profile.fade_neutral_enemy then
         plugin:AddFadeRule(function(f)
             return f.state.reaction == 4 and
-                   not UnitIsPlayer(f.unit) and
                    UnitCanAttack('player',f.unit) and -1
        end,3)
     end
