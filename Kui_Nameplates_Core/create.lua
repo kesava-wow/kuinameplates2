@@ -1214,7 +1214,7 @@ do
 end
 -- name show/hide ##############################################################
 function core:ShowNameUpdate(f)
-    if f.state.nameonly then return end
+    if not FADE_UNTRACKED and f.state.nameonly then return end
 
     if f.state.player or not SHOW_NAME_TEXT then
         f.state.no_name = true
