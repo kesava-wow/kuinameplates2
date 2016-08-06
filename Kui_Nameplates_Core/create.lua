@@ -63,7 +63,7 @@ local AURAS_ON_PERSONAL
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
 
-local FRAME_GLOW_SIZE = 8
+local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET
 
 -- common globals
 local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
@@ -169,6 +169,10 @@ do
         FRAME_WIDTH_MINUS = self.profile.frame_width_minus
         FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
         POWER_BAR_HEIGHT = self.profile.powerbar_height
+
+        FRAME_GLOW_SIZE = self.profile.frame_glow_size
+        FRAME_GLOW_TEXTURE_INSET = .01 * (FRAME_GLOW_SIZE / 4)
+
         CASTBAR_HEIGHT = self.profile.castbar_height
         CASTBAR_COLOUR = self.profile.castbar_colour
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
@@ -546,10 +550,10 @@ function core:CreateGuildText(f)
 end
 -- frame glow ##################################################################
 do
-    -- frame glow texture coords
+    -- frame glow texture coords (assuming a size of 0)
     local glow_coords = {
-        { .05, .95,  0,  .24 }, -- top
-        { .05, .95, .76,  1 },  -- bottom
+        { .03, .97,  0,  .24 }, -- top
+        { .03, .97, .76,  1 },  -- bottom
         {  0,  .04,  0,   1 },  -- left
         { .96,  1,   0,   1 }   -- right
     }
@@ -572,10 +576,20 @@ do
         end
     end
     function glow_prototype:SetSize(...)
+        local size = ...
+        if not tonumber(size) then return end
+
         for i,side in ipairs(self.sides) do
             if i > 2 then
+                side:SetTexCoord(unpack(glow_coords[i]))
                 side:SetWidth(...)
             else
+                side:SetTexCoord(
+                    glow_coords[i][1] + FRAME_GLOW_TEXTURE_INSET,
+                    glow_coords[i][2] - FRAME_GLOW_TEXTURE_INSET,
+                    glow_coords[i][3],
+                    glow_coords[i][4]
+                )
                 side:SetHeight(...)
             end
         end
@@ -635,10 +649,10 @@ do
         local glow = { sides = {} }
         setmetatable(glow,glow_prototype)
 
-        for side,coords in ipairs(glow_coords) do
+        for i=1,4 do
             side = f:CreateTexture(nil,'BACKGROUND',nil,-5)
             side:SetTexture(MEDIA..'frameglow')
-            side:SetTexCoord(unpack(coords))
+            -- texcoord set by SetSize
 
             tinsert(glow.sides,side)
         end

@@ -398,6 +398,14 @@ end
 configChanged.target_glow_colour = configChanged.target_arrows
 configChanged.target_arrows_size = configChanged.target_arrows
 
+function configChanged.frame_glow_size(v)
+    for k,f in addon:Frames() do
+        if f.ThreatGlow then
+            f.ThreatGlow:SetSize(v)
+        end
+    end
+end
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
