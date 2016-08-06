@@ -33,6 +33,7 @@ local state_icons = general:CreateCheckBox('state_icons')
 local target_glow = general:CreateCheckBox('target_glow')
 local target_glow_colour = general:CreateColourPicker('target_glow_colour')
 local target_arrows = general:CreateCheckBox('target_arrows')
+local frame_glow_size = general:CreateSlider('frame_glow_size',5,15)
 local target_arrows_size = general:CreateSlider('target_arrows_size',20,60)
 
 combat_hostile.SelectTable = {'Do nothing','Hide','Show'}
@@ -45,8 +46,10 @@ glow_as_shadow:SetPoint('TOPLEFT',10,-60)
 state_icons:SetPoint('LEFT',glow_as_shadow,'RIGHT',190,0)
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',220,0)
-target_arrows:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT',0,-15)
-target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,0)
+target_arrows:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT')
+
+frame_glow_size:SetPoint('TOPLEFT',target_arrows,'BOTTOMLEFT',0,-20)
+target_arrows_size:SetPoint('LEFT',frame_glow_size,'RIGHT',20,0)
 
 target_arrows_size.enabled = function(p) return p.target_arrows end
 
@@ -64,8 +67,8 @@ nameonly_damaged_friends.enabled = nameonly_no_font_style.enabled
 nameonly_all_enemies.enabled = nameonly_no_font_style.enabled
 nameonly_target.enabled = nameonly_no_font_style.enabled
 
-nameonly_sep:SetPoint('TOP',0,-185)
-nameonlyCheck:SetPoint('TOPLEFT',10,-195)
+nameonly_sep:SetPoint('TOP',0,-215)
+nameonlyCheck:SetPoint('TOPLEFT',10,-230)
 nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
 nameonly_target:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
 nameonly_damaged_friends:SetPoint('LEFT',nameonly_target,'RIGHT',190,0)
@@ -85,10 +88,10 @@ local fade_avoid_raidicon = general:CreateCheckBox('fade_avoid_raidicon')
 fade_alpha:SetValueStep(.05)
 fade_speed:SetValueStep(.05)
 
-fade_rules_sep:SetPoint('TOP',0,-290)
-fade_alpha:SetPoint('TOPLEFT',10,-315)
+fade_rules_sep:SetPoint('TOP',0,-330)
+fade_alpha:SetPoint('TOPLEFT',10,-355)
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-fade_all:SetPoint('TOPLEFT',15,-350)
+fade_all:SetPoint('TOPLEFT',15,-390)
 fade_friendly_npc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_neutral_enemy:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
 fade_untracked:SetPoint('LEFT',fade_neutral_enemy,'RIGHT',190,0)

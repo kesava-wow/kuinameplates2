@@ -34,6 +34,7 @@ local default_config = {
     target_glow = true,
     target_glow_colour = { .3, .7, 1, 1 },
     target_arrows = false,
+    frame_glow_size = 8,
     target_arrows_size = 33,
 
     nameonly = true,
