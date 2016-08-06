@@ -33,7 +33,7 @@ local state_icons = general:CreateCheckBox('state_icons')
 local target_glow = general:CreateCheckBox('target_glow')
 local target_glow_colour = general:CreateColourPicker('target_glow_colour')
 local target_arrows = general:CreateCheckBox('target_arrows')
-local frame_glow_size = general:CreateSlider('frame_glow_size',5,15)
+local frame_glow_size = general:CreateSlider('frame_glow_size',4,16)
 local target_arrows_size = general:CreateSlider('target_arrows_size',20,60)
 
 combat_hostile.SelectTable = {'Do nothing','Hide','Show'}
