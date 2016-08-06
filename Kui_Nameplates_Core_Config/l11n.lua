@@ -28,6 +28,7 @@ opt.tooltips = {
     nameonly_all_enemies = 'Use nameonly mode on all enemies',
 
     target_arrows = 'Show arrows around your current target. These inherit the target glow colour',
+    frame_glow_size = 'Size of the frame glow used for target highlighting and threat indication',
 
     fade_alpha = 'Opacity of faded frames. Note that if set to 0 (i.e. frames are invisible), invisible nameplates will still be clickable. Addons cannot arbitrarily disable nameplate clickboxes',
     fade_speed = 'Speed of the frame fading animation, where 1 is slowest and 0 is instant',
@@ -122,6 +123,7 @@ opt.titles = {
     target_glow = 'Show target glow',
     target_glow_colour = 'Target glow colour',
     target_arrows = 'Show target arrows',
+    frame_glow_size = 'Frame glow size',
     target_arrows_size = 'Target arrow size',
 
     fade_rules_sep = 'Frame fading',
