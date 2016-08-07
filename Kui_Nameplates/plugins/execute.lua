@@ -71,7 +71,10 @@ function mod:HealthColourChange(f,caller)
             end
         end
 
-        f.state.in_execute_range = true
+        if not f.state.in_execute_range then
+            f.state.in_execute_range = true
+            addon:DispatchMessage('ExecuteUpdate',f,true)
+        end
 
     elseif f.state.in_execute_range then
         f.state.execute_range_coloured = nil
@@ -86,6 +89,8 @@ function mod:HealthColourChange(f,caller)
 
             addon:DispatchMessage('HealthColourChange', f, mod)
         end
+
+        addon:DispatchMessage('ExecuteUpdate',f,false)
     end
 end
 -- events ######################################################################
