@@ -16,6 +16,7 @@ local general     = opt:CreateConfigPage('general')
 local healthbars  = opt:CreateConfigPage('healthbars')
 local castbars    = opt:CreateConfigPage('castbars')
 local text        = opt:CreateConfigPage('text')
+local nameonly    = opt:CreateConfigPage('nameonly')
 local framesizes  = opt:CreateConfigPage('framesizes')
 local auras       = opt:CreateConfigPage('auras')
 local threat      = opt:CreateConfigPage('threat')
@@ -53,28 +54,6 @@ target_arrows_size:SetPoint('LEFT',frame_glow_size,'RIGHT',20,0)
 
 target_arrows_size.enabled = function(p) return p.target_arrows end
 
-local nameonly_sep = general:CreateSeperator('nameonly_sep')
-local nameonlyCheck = general:CreateCheckBox('nameonly')
-local nameonly_no_font_style = general:CreateCheckBox('nameonly_no_font_style')
-local nameonly_damaged_friends = general:CreateCheckBox('nameonly_damaged_friends')
-local nameonly_enemies = general:CreateCheckBox('nameonly_enemies')
-local nameonly_all_enemies = general:CreateCheckBox('nameonly_all_enemies')
-local nameonly_target = general:CreateCheckBox('nameonly_target')
-
-nameonly_no_font_style.enabled = function(p) return p.nameonly end
-nameonly_enemies.enabled = function(p) return p.nameonly and not p.nameonly_all_enemies end
-nameonly_damaged_friends.enabled = nameonly_no_font_style.enabled
-nameonly_all_enemies.enabled = nameonly_no_font_style.enabled
-nameonly_target.enabled = nameonly_no_font_style.enabled
-
-nameonly_sep:SetPoint('TOP',0,-215)
-nameonlyCheck:SetPoint('TOPLEFT',10,-230)
-nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
-nameonly_target:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
-nameonly_damaged_friends:SetPoint('LEFT',nameonly_target,'RIGHT',190,0)
-nameonly_all_enemies:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT')
-nameonly_enemies:SetPoint('LEFT',nameonly_all_enemies,'RIGHT',190,0)
-
 local fade_rules_sep = general:CreateSeperator('fade_rules_sep')
 local fade_alpha = general:CreateSlider('fade_alpha',0,1)
 local fade_speed = general:CreateSlider('fade_speed',0,1)
@@ -88,10 +67,10 @@ local fade_avoid_raidicon = general:CreateCheckBox('fade_avoid_raidicon')
 fade_alpha:SetValueStep(.05)
 fade_speed:SetValueStep(.05)
 
-fade_rules_sep:SetPoint('TOP',0,-330)
-fade_alpha:SetPoint('TOPLEFT',10,-355)
+fade_rules_sep:SetPoint('TOP',0,-220)
+fade_alpha:SetPoint('TOPLEFT',10,-245)
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-fade_all:SetPoint('TOPLEFT',15,-390)
+fade_all:SetPoint('TOPLEFT',15,-280)
 fade_friendly_npc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_neutral_enemy:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
 fade_untracked:SetPoint('LEFT',fade_neutral_enemy,'RIGHT',190,0)
@@ -224,6 +203,28 @@ health_text_friend_max.enabled = function(p) return p.health_text end
 health_text_friend_dmg.enabled = health_text_friend_max.enabled
 health_text_hostile_max.enabled = health_text_friend_max.enabled
 health_text_hostile_dmg.enabled = health_text_friend_max.enabled
+
+-- nameonly ####################################################################
+local nameonlyCheck = nameonly:CreateCheckBox('nameonly')
+local nameonly_no_font_style = nameonly:CreateCheckBox('nameonly_no_font_style')
+local nameonly_damaged_friends = nameonly:CreateCheckBox('nameonly_damaged_friends')
+local nameonly_enemies = nameonly:CreateCheckBox('nameonly_enemies')
+local nameonly_all_enemies = nameonly:CreateCheckBox('nameonly_all_enemies')
+local nameonly_target = nameonly:CreateCheckBox('nameonly_target')
+
+nameonly_no_font_style.enabled = function(p) return p.nameonly end
+nameonly_enemies.enabled = function(p) return p.nameonly and not p.nameonly_all_enemies end
+nameonly_damaged_friends.enabled = nameonly_no_font_style.enabled
+nameonly_all_enemies.enabled = nameonly_no_font_style.enabled
+nameonly_target.enabled = nameonly_no_font_style.enabled
+
+nameonlyCheck:SetPoint('TOPLEFT',10,-10)
+nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
+
+nameonly_target:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
+nameonly_all_enemies:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT')
+nameonly_enemies:SetPoint('LEFT',nameonly_all_enemies,'RIGHT',190,0)
+nameonly_damaged_friends:SetPoint('TOPLEFT',nameonly_all_enemies,'BOTTOMLEFT')
 
 -- frame sizes #################################################################
 local frame_width = framesizes:CreateSlider('frame_width',20,200)
