@@ -39,6 +39,8 @@ opt.tooltips = {
     fade_friendly_npc = 'Fade friendly NPC nameplates by default (including those in name-only mode)',
     fade_neutral_enemy = 'Fade attackable neutral nameplates by default (including those in name-only mode)',
     fade_untracked = 'Fade non-tracked nameplates by default (including those in name-only mode). Whether or not a unit is tracked can by set by changing the "NPC Names" dropdown in the default interface options under Esc > Interface > Names',
+    fade_avoid_execute_friend = 'Don\'t fade friendly nameplates in execute range (set in the "Health bars" page)',
+    fade_avoid_execute_hostile = 'Don\'t fade hostile nameplates in execute range (set in the "Health bars" page)',
 
     colour_self_class = 'Use your class colour on your personal nameplate',
     colour_self = 'The health bar colour of your personal nameplate',
@@ -135,6 +137,8 @@ opt.titles = {
     fade_untracked = 'Fade non-tracked units',
     fade_avoid_nameonly = 'Avoid name-only',
     fade_avoid_raidicon = 'Avoid raid icon',
+    fade_avoid_execute_friend = 'Avoid low health friends',
+    fade_avoid_execute_hostile = 'Avoid low health enemies',
 
     reaction_colour_sep = 'Colours',
     colour_hated = 'Hated',
