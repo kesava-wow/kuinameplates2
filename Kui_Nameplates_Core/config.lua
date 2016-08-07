@@ -228,14 +228,14 @@ local function configChangedFadeRule(v,on_load)
         if core.profile.fade_avoid_execute_friend then
             plugin:AddFadeRule(function(f)
                 return f.state.friend and
-                       f.state.execute_range_coloured and 1
+                       f.state.in_execute_range and 1
             end,21)
         end
 
         if core.profile.fade_avoid_execute_hostile then
             plugin:AddFadeRule(function(f)
                 return not f.state.friend and
-                       f.state.execute_range_coloured and 1
+                       f.state.in_execute_range and 1
             end,21)
         end
 
