@@ -222,11 +222,34 @@ local function configChangedFadeRule(v,on_load)
         core:UnregisterMessage('RaidIconUpdate')
     end
 
+    if  core.profile.fade_avoid_execute_friend or
+        core.profile.fade_avoid_execute_hostile
+    then
+        if core.profile.fade_avoid_execute_friend then
+            plugin:AddFadeRule(function(f)
+                return f.state.friend and
+                       f.state.execute_range_coloured and 1
+            end,21)
+        end
+
+        if core.profile.fade_avoid_execute_hostile then
+            plugin:AddFadeRule(function(f)
+                return not f.state.friend and
+                       f.state.execute_range_coloured and 1
+            end,21)
+        end
+
+        -- force alpha update when entering/leaving execute range
+        core:RegisterEvent('UNIT_HEALTH_FREQUENT')
+    else
+        core:UnregisterEvent('UNIT_HEALTH_FREQUENT')
+    end
+
     if core.profile.fade_neutral_enemy then
         plugin:AddFadeRule(function(f)
             return f.state.reaction == 4 and
                    UnitCanAttack('player',f.unit) and -1
-       end,21)
+       end,25)
     end
 
     if core.profile.fade_friendly_npc then
@@ -234,13 +257,13 @@ local function configChangedFadeRule(v,on_load)
             return f.state.reaction >= 4 and
                    not UnitIsPlayer(f.unit) and
                    not UnitCanAttack('player',f.unit) and -1
-        end,21)
+        end,25)
     end
 
     if core.profile.fade_untracked then
         plugin:AddFadeRule(function(f)
             return f.state.no_name and -1
-        end,21)
+        end,25)
     end
 end
 configChanged.fade_all = configChangedFadeRule
@@ -249,6 +272,8 @@ configChanged.fade_neutral_enemy = configChangedFadeRule
 configChanged.fade_untracked = configChangedFadeRule
 configChanged.fade_avoid_nameonly = configChangedFadeRule
 configChanged.fade_avoid_raidicon = configChangedFadeRule
+configChanged.fade_avoid_execute_friend = configChangedFadeRule
+configChanged.fade_avoid_execute_hostile = configChangedFadeRule
 
 local function configChangedTextOffset()
     core:configChangedTextOffset()
