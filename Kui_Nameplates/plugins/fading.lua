@@ -37,9 +37,9 @@ local function FrameFade(frame,to)
     })
 end
 local function GetDesiredAlpha(frame)
-    for i,f in pairs(fade_rules) do
-        if f then
-            local a = f(frame)
+    for i,f_t in pairs(fade_rules) do
+        if f_t then
+            local a = f_t[2](frame)
             if a then
                 if a < 0 then
                     return mod.faded_alpha
@@ -87,24 +87,32 @@ end
 function mod:ResetFadeRules()
     -- reset to default fade rules
     fade_rules = {
-        function(f)
-            return UnitIsUnit(f.unit,'player') and 1
-        end,
-        function(f)
-            return f.handler:IsTarget() and 1
-        end,
-        function()
-            return not target_exists and 1
-        end,
+        { 10, function(f) return UnitIsUnit(f.unit,'player') and 1 end },
+        { 20, function(f) return f.handler:IsTarget() and 1 end },
+        { 100, function() return not target_exists and 1 end },
     }
 
     -- let plugins re/add their own rules
     mod:RunCallback('FadeRulesReset')
 end
-function mod:AddFadeRule(func,i)
-    if type(func) ~= 'function' then return end
-    tinsert(fade_rules,i or #fade_rules+1,func)
-    return #fade_rules
+function mod:AddFadeRule(func,priority)
+    if type(func) ~= 'function' or not tonumber(priority) then return end
+
+    local inserted
+
+    for k,f_t in ipairs(fade_rules) do
+        if priority < f_t[1] then
+            tinsert(fade_rules,k,{priority,func})
+            inserted = true
+            break
+        end
+    end
+
+    if not inserted then
+        tinsert(fade_rules,{priority,func})
+    end
+
+    return inserted
 end
 function mod:RemoveFadeRule(index)
     fade_rules[index] = nil
