@@ -402,6 +402,7 @@ end
 function configChanged.execute_enabled(v)
     if v then
         addon:GetPlugin('Execute'):Enable()
+        configChanged.execute_percent()
     else
         addon:GetPlugin('Execute'):Disable()
     end
