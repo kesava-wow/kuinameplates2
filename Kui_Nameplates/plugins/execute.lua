@@ -70,8 +70,12 @@ function mod:HealthColourChange(f,caller)
                 f.HealthBar:SetStatusBarColor(unpack(self.colour))
             end
         end
-    elseif f.state.execute_range_coloured then
+
+        f.state.in_execute_range = true
+
+    elseif f.state.in_execute_range then
         f.state.execute_range_coloured = nil
+        f.state.in_execute_range = nil
 
         if CanOverwriteHealthColor(f) then
             f.state.health_colour_priority = nil
