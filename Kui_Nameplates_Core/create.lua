@@ -55,7 +55,7 @@ local POWER_BAR_HEIGHT,CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
-local FADE_AVOID_NAMEONLY,FADE_AVOID_RAIDICON,FADE_UNTRACKED
+local FADE_AVOID_NAMEONLY,FADE_UNTRACKED
 local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local AURAS_ON_PERSONAL
@@ -190,7 +190,6 @@ do
         FONT_SIZE_SMALL = self.profile.font_size_small
 
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
-        FADE_AVOID_RAIDICON = self.profile.fade_avoid_raidicon
         FADE_UNTRACKED = self.profile.fade_untracked
 
         SHOW_STATE_ICONS = self.profile.state_icons
@@ -957,10 +956,6 @@ do
             f.RaidIcon:SetParent(f.HealthBar)
             f.RaidIcon:SetDrawLayer('ARTWORK',6)
             f.RaidIcon:SetPoint('LEFT',f.HealthBar,'RIGHT',5,0)
-        end
-
-        if FADE_AVOID_RAIDICON then
-            plugin_fading:UpdateFrame(f)
         end
     end
     function core:CreateRaidIcon(f)

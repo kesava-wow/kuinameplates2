@@ -240,9 +240,9 @@ local function configChangedFadeRule(v,on_load)
         end
 
         -- force alpha update when entering/leaving execute range
-        core:RegisterEvent('UNIT_HEALTH_FREQUENT')
+        core:RegisterMessage('ExecuteUpdate')
     else
-        core:UnregisterEvent('UNIT_HEALTH_FREQUENT')
+        core:UnregisterMessage('ExecuteUpdate')
     end
 
     if core.profile.fade_neutral_enemy then

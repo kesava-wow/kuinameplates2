@@ -12,14 +12,16 @@ local kui = LibStub('Kui-1.0')
 KuiNameplatesCore = addon:Layout()
 local core = KuiNameplatesCore
 
--- positioned and "shown" on the player's frame when/if it is shown
-local anchor = CreateFrame('Frame','KuiNameplatesPlayerAnchor')
-anchor:Hide()
-
 if not core then
     -- another layout is already loaded
     return
 end
+
+-- positioned and "shown" on the player's frame when/if it is shown
+local anchor = CreateFrame('Frame','KuiNameplatesPlayerAnchor')
+anchor:Hide()
+
+local plugin_fading
 -- messages ####################################################################
 function core:Create(f)
     self:CreateBackground(f)
@@ -146,7 +148,11 @@ function core:ClassificationChanged(f)
 end
 function core:RaidIconUpdate(f)
     -- registered by configChanged, fade_avoid_raidicon
-    f:UpdateRaidIcon()
+    plugin_fading:UpdateFrame(f)
+end
+function core:ExecuteUpdate(f)
+    -- registered by configChanged, fade_avoid_execute_friend/hostile
+    plugin_fading:UpdateFrame(f)
 end
 -- events ######################################################################
 function core:QUESTLINE_UPDATE()
@@ -209,4 +215,6 @@ function core:Initialise()
 
     -- set element configuration tables
     self:InitialiseElements()
+
+    plugin_fading = addon:GetPlugin('Fading')
 end
