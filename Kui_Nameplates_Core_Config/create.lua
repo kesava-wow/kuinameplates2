@@ -71,12 +71,14 @@ fade_speed:SetValueStep(.05)
 
 fade_rules_sep:SetPoint('TOP',0,-220)
 fade_alpha:SetPoint('TOPLEFT',10,-245)
+
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
 fade_all:SetPoint('TOPLEFT',15,-280)
 fade_friendly_npc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_neutral_enemy:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
 fade_untracked:SetPoint('LEFT',fade_neutral_enemy,'RIGHT',190,0)
-fade_avoid_nameonly:SetPoint('TOPLEFT',fade_neutral_enemy,'BOTTOMLEFT')
+
+fade_avoid_nameonly:SetPoint('TOPLEFT',fade_neutral_enemy,'BOTTOMLEFT',0,-20)
 fade_avoid_raidicon:SetPoint('LEFT',fade_avoid_nameonly,'RIGHT',190,0)
 fade_avoid_execute_friend:SetPoint('TOPLEFT',fade_avoid_nameonly,'BOTTOMLEFT')
 fade_avoid_execute_hostile:SetPoint('LEFT',fade_avoid_execute_friend,'RIGHT',190,0)
