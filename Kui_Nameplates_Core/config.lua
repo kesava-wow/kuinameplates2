@@ -42,7 +42,7 @@ local default_config = {
     nameonly_damaged_friends = true,
     nameonly_enemies = true,
     nameonly_all_enemies = false,
-    nameonly_target = false,
+    nameonly_target = true,
 
     fade_all = false,
     fade_alpha = .5,
