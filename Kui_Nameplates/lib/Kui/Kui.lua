@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 19
+local MAJOR, MINOR = 'Kui-1.0', 20
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -192,6 +192,7 @@ kui.CreateFontString = function(parent, args)
 end
 -- Format numbers
 kui.num = function(num)
+    if not num then return end
     if num < THOUSAND then
         return floor(num)
     elseif num >= TRILLION then
