@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 24
+local MAJOR, MINOR = 'KuiSpellList-1.0', 25
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -168,18 +168,23 @@ local auras = {
     WARRIOR = {
         SELF = {
             [871] = true,    -- shield wall
+            [1719] = true,   -- battle cry
             [12975] = true,  -- last stand
             [18499] = true,  -- berserker rage
             [23920] = true,  -- spell reflection
             [107574] = true, -- avatar
             [114030] = true, -- vigilance
             [132404] = true, -- shield block
+            [184364] = true, -- enraged regeneration
             [190456] = true, -- ignore pain
+            [202539] = true, -- frenzy
             [202602] = true, -- into the fray
+            [206333] = true, -- taste for blood
             [227744] = true, -- ravager
         },
         HELPFUL = {
             [3411] = true,   -- intervene
+            [97463] = true,  -- commanding shout
             [223658] = true, -- safeguard
         },
         HARMFUL = {
