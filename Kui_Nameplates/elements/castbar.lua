@@ -105,7 +105,7 @@ end
 function ele:CastStart(event,f,unit)
     local name,text,texture,startTime,endTime,notInterruptible
     if event == 'UNIT_SPELLCAST_CHANNEL_START' then
-        name,_,text,texture,startTime,endTime,_,_,notInterruptible = UnitChannelInfo(unit)
+        name,_,text,texture,startTime,endTime,_,notInterruptible = UnitChannelInfo(unit)
     else
         name,_,text,texture,startTime,endTime,_,_,notInterruptible = UnitCastingInfo(unit)
     end
