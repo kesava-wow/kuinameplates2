@@ -95,6 +95,7 @@ local colours = {
     MONK        = { .3, 1, .9 },
     WARLOCK     = { 1, .5, 1 },
     overflow    = { 1, .3, .3 },
+    inactive    = { .5, .5, .5, .5 },
 }
 
 local ICON_SIZE
@@ -176,8 +177,7 @@ local function CreateIcon()
                 self.glow:Show()
             end
             icon.Inactive = function(self)
-                self:SetVertexColor(unpack(colours[class]))
-                self:SetAlpha(.5)
+                self:SetVertexColor(unpack(colours.inactive))
                 self.glow:Hide()
             end
             icon.ActiveOverflow = function(self)
