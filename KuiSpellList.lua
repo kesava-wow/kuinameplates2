@@ -175,6 +175,7 @@ local auras = {
             [107574] = true, -- avatar
             [114030] = true, -- vigilance
             [132404] = true, -- shield block
+            [184362] = true, -- enrage
             [184364] = true, -- enraged regeneration
             [190456] = true, -- ignore pain
             [202539] = true, -- frenzy
