@@ -166,9 +166,21 @@ local auras = {
         }
     },
     WARRIOR = {
+        SELF = {
+            [871] = true,    -- shield wall
+            [12975] = true,  -- last stand
+            [18499] = true,  -- berserker rage
+            [23920] = true,  -- spell reflection
+            [107574] = true, -- avatar
+            [114030] = true, -- vigilance
+            [132404] = true, -- shield block
+            [190456] = true, -- ignore pain
+            [202602] = true, -- into the fray
+            [227744] = true, -- ravager
+        },
         HELPFUL = {
             [3411] = true,   -- intervene
-            [114030] = true, -- vigilance
+            [223658] = true, -- safeguard
         },
         HARMFUL = {
             [167105] = true, -- colossus smash again
