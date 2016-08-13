@@ -73,7 +73,7 @@ local powers = {
     PALADIN     = { [3] = SPELL_POWER_HOLY_POWER },
     ROGUE       = SPELL_POWER_COMBO_POINTS,
     MAGE        = { [1] = SPELL_POWER_ARCANE_CHARGES },
-    MONK        = { [3] = SPELL_POWER_CHI },
+    MONK        = { [1] = 'stagger', [3] = SPELL_POWER_CHI },
     WARLOCK     = SPELL_POWER_SOUL_SHARDS,
 }
 -- tags returned by the UNIT_POWER and UNIT_MAXPOWER events
@@ -85,6 +85,11 @@ local power_tags = {
     [SPELL_POWER_CHI]            = 'CHI',
     [SPELL_POWER_SOUL_SHARDS]    = 'SOUL_SHARDS'
 }
+-- power types which rneder as a bar
+local bar_powers = {
+    ['stagger'] = true,
+    [POWER_TYPE_MANA] = true
+}
 -- icon config
 local colours = {
     DEATHKNIGHT = { 1, .2, .3 },
@@ -95,8 +100,13 @@ local colours = {
     MONK        = { .3, 1, .9 },
     WARLOCK     = { 1, .5, 1 },
     overflow    = { 1, .3, .3 },
-    inactive    = { .5, .5, .5, .5 },
+    inactive    = { .5, .5, .5, .5 }
 }
+
+-- stagger colours
+local STAGGER_GREEN = { .52, 1, .52 }
+local STAGGER_YELLOW = { 1, .98, .72 }
+local STAGGER_RED = { 1, .42, .72 }
 
 local ICON_SIZE
 local ICON_SPACING
@@ -192,8 +202,44 @@ local function CreateIcon()
 
     return icon
 end
-local function CreateIcons()
+local function CreateBar()
+    local bar = CreateFrame('StatusBar',nil,cpf)
+    --bar:SetStatusBarTexture(BAR_TEXTURE)
+    bar:SetStatusBarTexture('interface/buttons/white8x8')
+    --bar:SetSize(BAR_WIDTH,BAR_HEIGHT)
+    bar:SetSize(50,3)
+
+    bar:SetBackdrop({
+        bgFile='interface/buttons/white8x8',
+        insets={top=-1,right=-1,bottom=-1,left=-1}
+    })
+    bar:SetBackdropColor(0,0,0,.8)
+
+    bar:SetPoint('CENTER')
+
+    return bar
+end
+local function UpdateIcons()
     -- create/destroy icons based on player power max
+
+    if bar_powers[power_type] then
+        if cpf.icons then
+            -- destroy existing icons
+            for i,icon in ipairs(cpf.icons) do
+                icon:Hide()
+                cpf.icons[i] = nil
+            end
+        end
+
+        cpf.bar = CreateBar()
+
+        return
+    elseif cpf.bar then
+        -- destroy power bar
+        cpf.bar:Hide()
+        cpf.bar = nil
+    end
+
     local power_max
 
     if class == 'ROGUE' and IsTalentKnown(ANTICIPATION_TALENT_ID) then
@@ -374,12 +420,20 @@ function ele:PowerInit()
         power_type = powers[class]
     end
 
-    if power_type then
-        power_type_tag = power_tags[power_type]
+    if class == 'MONK' and (not power_type or power_type ~= 'stagger') then
+        self:UnregisterEvent('UNIT_ABSORB_AMOUNT_CHANGED')
+        self:UnregisterEvent('UNIT_MAXHEALTH')
+    end
 
+    if power_type then
         if class == 'DEATHKNIGHT' then
             self:RegisterEvent('RUNE_POWER_UPDATE','RuneUpdate')
+        elseif power_type == 'stagger' then
+            self:RegisterEvent('UNIT_ABSORB_AMOUNT_CHANGED','StaggerUpdate')
+            self:RegisterEvent('UNIT_MAXHEALTH','StaggerUpdate')
         else
+            power_type_tag = power_tags[power_type]
+
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
             self:RegisterEvent('UNIT_MAXPOWER','PowerEvent')
             self:RegisterEvent('UNIT_POWER','PowerEvent')
@@ -388,10 +442,10 @@ function ele:PowerInit()
         self:RegisterMessage('Show','TargetUpdate')
         self:RegisterMessage('HealthColourChange','TargetUpdate')
 
-        CreateIcons()
+        UpdateIcons()
 
         -- set initial state
-        if class ~= 'DEATHKNIGHT' then
+        if power_type ~= 'stagger' and class ~= 'DEATHKNIGHT' then
             PowerUpdate()
         end
 
@@ -428,13 +482,31 @@ function ele:RuneUpdate(event,rune_id,energise)
 
     self:RunCallback('PostRuneUpdate')
 end
+function ele:StaggerUpdate(event)
+    if not cpf.bar then return end
+
+    local max = UnitHealthMax('player')
+    local cur = UnitStagger('player')
+    local per = cur / max
+
+    cpf.bar:SetMinMaxValues(0,max)
+    cpf.bar:SetValue(cur)
+
+    if per > STAGGER_RED_TRANSITION then
+        cpf.bar:SetStatusBarColor(unpack(STAGGER_RED))
+    elseif per > STAGGER_YELLOW_TRANSITION then
+        cpf.bar:SetStatusBarColor(unpack(STAGGER_YELLOW))
+    else
+        cpf.bar:SetStatusBarColor(unpack(STAGGER_GREEN))
+    end
+end
 function ele:PowerEvent(event,unit,power_type_rcv)
     -- validate power events + passthrough to PowerUpdate
     if unit ~= 'player' then return end
     if power_type_rcv ~= power_type_tag then return end
 
     if event == 'UNIT_MAXPOWER' then
-        CreateIcons()
+        UpdateIcons()
     end
 
     PowerUpdate()
@@ -470,6 +542,7 @@ function ele:Initialised()
 
     -- create icon frame container
     cpf = CreateFrame('Frame')
+    cpf:SetSize(2,2)
     cpf:SetPoint('CENTER')
     cpf:Hide()
 
