@@ -1437,6 +1437,7 @@ function core:InitialiseElements()
         icon_texture = MEDIA..'combopoint-round',
         glow_texture = MEDIA..'combopoint-glow',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
+        bar_texture = BAR_TEXTURE,
         point = { 'CENTER','bg','BOTTOM',0,1 }
     }
 

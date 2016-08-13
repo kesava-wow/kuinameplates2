@@ -13,6 +13,7 @@
         icon_texture = texture of class power icons
         icon_glow_texture = texture of class power glow
         cd_texture = cooldown spiral texture
+        bar_texture = texture of class power bars
         frame_point = {
             position of the class powers container frame
             1 = point
@@ -203,19 +204,24 @@ local function CreateIcon()
     return icon
 end
 local function CreateBar()
-    local bar = CreateFrame('StatusBar',nil,cpf)
-    --bar:SetStatusBarTexture(BAR_TEXTURE)
-    bar:SetStatusBarTexture('interface/buttons/white8x8')
-    --bar:SetSize(BAR_WIDTH,BAR_HEIGHT)
-    bar:SetSize(50,3)
+    local bar = ele:RunCallback('CreateBar')
 
-    bar:SetBackdrop({
-        bgFile='interface/buttons/white8x8',
-        insets={top=-1,right=-1,bottom=-1,left=-1}
-    })
-    bar:SetBackdropColor(0,0,0,.8)
+    if not bar then
+        bar = CreateFrame('StatusBar',nil,cpf)
+        bar:SetStatusBarTexture(BAR_TEXTURE)
+        --bar:SetSize(BAR_WIDTH,BAR_HEIGHT)
+        bar:SetSize(50,3)
 
-    bar:SetPoint('CENTER')
+        bar:SetBackdrop({
+            bgFile='interface/buttons/white8x8',
+            insets={top=-1,right=-1,bottom=-1,left=-1}
+        })
+        bar:SetBackdropColor(0,0,0,.8)
+
+        bar:SetPoint('CENTER')
+    end
+
+    ele:RunCallback('PostCreateBar',bar)
 
     return bar
 end
@@ -358,6 +364,7 @@ function ele:UpdateConfig()
     ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
     ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
     CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
+    BAR_TEXTURE       = addon.layout.ClassPowers.bar_texture
     FRAME_POINT       = addon.layout.ClassPowers.point
 
     if on_target then
@@ -558,6 +565,8 @@ function ele:Initialise()
     self:RegisterCallback('PositionIcons')
     self:RegisterCallback('CreateIcon',true)
     self:RegisterCallback('PostCreateIcon')
+    self:RegisterCallback('CreateBar',true)
+    self:RegisterCallback('PostCreateBar')
     self:RegisterCallback('PostIconsCreated')
     self:RegisterCallback('PostRuneUpdate')
     self:RegisterCallback('PostPowerUpdate')
