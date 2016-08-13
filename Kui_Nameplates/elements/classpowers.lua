@@ -508,14 +508,12 @@ function ele:RuneUpdate(event,rune_id,energise)
 
     self:RunCallback('PostRuneUpdate')
 end
-function ele:StaggerUpdate(event)
+function ele:StaggerUpdate()
     if not cpf.bar then return end
 
     local max = UnitHealthMax('player')
     local cur = UnitStagger('player')
-    if max == 0 or cur == 0 then return end
-
-    local per = cur / max
+    local per = (max == 0 or cur == 0 and 0) or (cur / max)
 
     if per == 0 then
         cpf.bar:Hide()
