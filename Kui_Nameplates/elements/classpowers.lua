@@ -273,7 +273,7 @@ local function PositionFrame()
         frame = frame and frame.kui or nil
     end
 
-    if not frame then
+    if not FRAME_POINT or not frame then
         cpf:Hide()
         return
     end
