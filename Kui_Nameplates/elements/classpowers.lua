@@ -240,6 +240,7 @@ local function UpdateIcons()
     end
 
     if bar_powers[power_type] then
+        -- create/update power bar
         if cpf.icons then
             -- destroy existing icons
             for i,icon in ipairs(cpf.icons) do
@@ -248,42 +249,48 @@ local function UpdateIcons()
             end
         end
 
-        cpf.bar = CreateBar()
+        if not cpf.bar then
+            cpf.bar = CreateBar()
+        end
+
         cpf.bar:SetMinMaxValues(0,power_max)
 
         return
-    elseif cpf.bar then
-        -- destroy power bar
-        cpf.bar:Hide()
-        cpf.bar = nil
-    end
+    else
+        -- create/update power icons
+        if cpf.bar then
+            -- destroy power bar
+            cpf.bar:Hide()
+            cpf.bar = nil
+        end
 
-    if cpf.icons then
-        if #cpf.icons > power_max then
-            -- destroy overflowing icons if powermax has decreased
-            for i,icon in ipairs(cpf.icons) do
-                if i > power_max then
-                    icon:Hide()
-                    cpf.icons[i] = nil
+        if cpf.icons then
+            if #cpf.icons > power_max then
+                -- destroy overflowing icons if powermax has decreased
+                for i,icon in ipairs(cpf.icons) do
+                    if i > power_max then
+                        icon:Hide()
+                        cpf.icons[i] = nil
+                    end
+                end
+            elseif #cpf.icons < power_max then
+                -- create new icons
+                for i=#cpf.icons+1,power_max do
+                    cpf.icons[i] = CreateIcon()
                 end
             end
-        elseif #cpf.icons < power_max then
-            -- create new icons
-            for i=#cpf.icons+1,power_max do
+        else
+            -- create initial icons
+            cpf.icons = {}
+            for i=1,power_max do
                 cpf.icons[i] = CreateIcon()
             end
         end
-    else
-        -- create initial icons
-        cpf.icons = {}
-        for i=1,power_max do
-            cpf.icons[i] = CreateIcon()
-        end
+
+        PositionIcons()
+
+        ele:RunCallback('PostIconsCreated')
     end
-
-    PositionIcons()
-
-    ele:RunCallback('PostIconsCreated')
 end
 local function PowerUpdate()
     -- toggle icons based on current power
