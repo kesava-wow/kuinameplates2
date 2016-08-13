@@ -515,15 +515,21 @@ function ele:StaggerUpdate(event)
     local cur = UnitStagger('player')
     local per = cur / max
 
-    cpf.bar:SetMinMaxValues(0,max)
-    cpf.bar:SetValue(cur)
-
-    if per > STAGGER_RED_TRANSITION then
-        cpf.bar:SetStatusBarColor(unpack(STAGGER_RED))
-    elseif per > STAGGER_YELLOW_TRANSITION then
-        cpf.bar:SetStatusBarColor(unpack(STAGGER_YELLOW))
+    if per == 0 then
+        cpf.bar:Hide()
     else
-        cpf.bar:SetStatusBarColor(unpack(STAGGER_GREEN))
+        cpf.bar:SetMinMaxValues(0,max)
+        cpf.bar:SetValue(cur)
+
+        if per > STAGGER_RED_TRANSITION then
+            cpf.bar:SetStatusBarColor(unpack(STAGGER_RED))
+        elseif per > STAGGER_YELLOW_TRANSITION then
+            cpf.bar:SetStatusBarColor(unpack(STAGGER_YELLOW))
+        else
+            cpf.bar:SetStatusBarColor(unpack(STAGGER_GREEN))
+        end
+
+        cpf.bar:Show()
     end
 end
 function ele:PowerEvent(event,unit,power_type_rcv)
