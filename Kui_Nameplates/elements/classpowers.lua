@@ -513,6 +513,8 @@ function ele:StaggerUpdate(event)
 
     local max = UnitHealthMax('player')
     local cur = UnitStagger('player')
+    if max == 0 or cur == 0 then return end
+
     local per = cur / max
 
     if per == 0 then
