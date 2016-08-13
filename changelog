@@ -1,4 +1,1 @@
-* add option to avoid fading low health units
-* name-only mode on target is now enabled by default
-* inactive class power icons are now grey
-* fix channels aren't correctly recognised as uninterruptible
+* add stagger to class powers
