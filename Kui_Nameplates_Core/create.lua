@@ -1291,7 +1291,7 @@ do
 
         if f.NameOnlyGlow and addon.ClassPowersFrame then
             -- force-update classpowers position
-            plugin_classpowers:TargetUpdate(f)
+            plugin_classpowers:TargetUpdate()
         end
     end
 

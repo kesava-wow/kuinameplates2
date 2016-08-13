@@ -22,6 +22,7 @@ local anchor = CreateFrame('Frame','KuiNameplatesPlayerAnchor')
 anchor:Hide()
 
 local plugin_fading
+local plugin_classpowers
 -- messages ####################################################################
 function core:Create(f)
     self:CreateBackground(f)
@@ -46,11 +47,6 @@ function core:Show(f)
     f.state.player = UnitIsUnit(f.unit,'player')
     f.state.friend = UnitIsFriend('player',f.unit)
     f.state.enemy = UnitIsEnemy('player',f.unit)
-
-    if f.state.player then
-        anchor:SetAllPoints(f)
-        anchor:Show()
-    end
 
     -- go into nameonly mode if desired
     self:NameOnlyUpdate(f)
@@ -83,6 +79,15 @@ function core:Show(f)
     if f.TargetArrows then
         -- show/hide target arrows
         f:UpdateTargetArrows()
+    end
+
+    if f.state.player then
+        anchor:SetAllPoints(f)
+        anchor:Show()
+
+        -- force class powers position update
+        -- as our post function uses state.player
+        plugin_classpowers:TargetUpdate()
     end
 end
 function core:Hide(f)
@@ -217,4 +222,5 @@ function core:Initialise()
     self:InitialiseElements()
 
     plugin_fading = addon:GetPlugin('Fading')
+    plugin_classpowers = addon:GetPlugin('ClassPowers')
 end
