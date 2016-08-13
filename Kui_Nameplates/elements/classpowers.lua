@@ -78,6 +78,7 @@ local powers = {
     MAGE        = { [1] = SPELL_POWER_ARCANE_CHARGES },
     MONK        = { [1] = 'stagger', [3] = SPELL_POWER_CHI },
     WARLOCK     = SPELL_POWER_SOUL_SHARDS,
+    --PRIEST      = SPELL_POWER_MANA,
 }
 -- tags returned by the UNIT_POWER and UNIT_MAXPOWER events
 local power_tags = {
@@ -86,15 +87,17 @@ local power_tags = {
     [SPELL_POWER_HOLY_POWER]     = 'HOLY_POWER',
     [SPELL_POWER_ARCANE_CHARGES] = 'ARCANE_CHARGES',
     [SPELL_POWER_CHI]            = 'CHI',
-    [SPELL_POWER_SOUL_SHARDS]    = 'SOUL_SHARDS'
+    [SPELL_POWER_SOUL_SHARDS]    = 'SOUL_SHARDS',
+    --[SPELL_POWER_MANA]           = 'MANA',
 }
 -- power types which rneder as a bar
 local bar_powers = {
     ['stagger'] = true,
-    [POWER_TYPE_MANA] = true
+    --[SPELL_POWER_MANA] = true
 }
 -- icon config
 local colours = {
+    --PRIEST      = { 0,0,1 },
     DEATHKNIGHT = { 1, .2, .3 },
     DRUID       = { 1, 1, .1 },
     PALADIN     = { 1, 1, .1 },
@@ -220,7 +223,7 @@ local function CreateBar()
         })
         bar:SetBackdropColor(0,0,0,.8)
 
-        bar:SetPoint('CENTER',0,1)
+        bar:SetPoint('CENTER',0,-1)
     end
 
     ele:RunCallback('PostCreateBar',bar)
@@ -229,6 +232,12 @@ local function CreateBar()
 end
 local function UpdateIcons()
     -- create/destroy icons based on player power max
+    local power_max
+    if class == 'ROGUE' and IsTalentKnown(ANTICIPATION_TALENT_ID) then
+        power_max = 5
+    else
+        power_max = UnitPowerMax('player',power_type)
+    end
 
     if bar_powers[power_type] then
         if cpf.icons then
@@ -240,20 +249,13 @@ local function UpdateIcons()
         end
 
         cpf.bar = CreateBar()
+        cpf.bar:SetMinMaxValues(0,power_max)
 
         return
     elseif cpf.bar then
         -- destroy power bar
         cpf.bar:Hide()
         cpf.bar = nil
-    end
-
-    local power_max
-
-    if class == 'ROGUE' and IsTalentKnown(ANTICIPATION_TALENT_ID) then
-        power_max = 5
-    else
-        power_max = UnitPowerMax('player',power_type)
     end
 
     if cpf.icons then
@@ -287,7 +289,9 @@ local function PowerUpdate()
     -- toggle icons based on current power
     local cur = UnitPower('player',power_type)
 
-    if cur > #cpf.icons then
+    if cpf.bar then
+        cpf.bar:SetValue(cur)
+    elseif cur > #cpf.icons then
         -- colour with overflow
         cur = cur - #cpf.icons
         for i,icon in ipairs(cpf.icons) do
