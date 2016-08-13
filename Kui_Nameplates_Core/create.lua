@@ -1151,7 +1151,7 @@ end
 function core.ClassPowers_CreateBar()
     local bar = CreateStatusBar(addon.ClassPowersFrame)
     bar:SetSize(50,3)
-    bar:SetPoint('CENTER')
+    bar:SetPoint('CENTER',0,-1)
 
     bar.fill:SetParent(bar)
     bar.fill:SetDrawLayer('BACKGROUND',2)

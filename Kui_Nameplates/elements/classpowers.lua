@@ -13,7 +13,9 @@
         icon_texture = texture of class power icons
         icon_glow_texture = texture of class power glow
         cd_texture = cooldown spiral texture
-        bar_texture = texture of class power bars
+        bar_texture = texture of class power bar
+        bar_width = width of class power bar
+        bar_height = height of class power bar
         frame_point = {
             position of the class powers container frame
             1 = point
@@ -114,6 +116,7 @@ local ICON_SPACING
 local ICON_TEXTURE
 local ICON_GLOW_TEXTURE
 local CD_TEXTURE
+local BAR_TEXTURE,BAR_WIDTH,BAR_HEIGHT
 local FRAME_POINT
 
 local ANTICIPATION_TALENT_ID=19240
@@ -209,8 +212,7 @@ local function CreateBar()
     if not bar then
         bar = CreateFrame('StatusBar',nil,cpf)
         bar:SetStatusBarTexture(BAR_TEXTURE)
-        --bar:SetSize(BAR_WIDTH,BAR_HEIGHT)
-        bar:SetSize(50,3)
+        bar:SetSize(BAR_WIDTH,BAR_HEIGHT)
 
         bar:SetBackdrop({
             bgFile='interface/buttons/white8x8',
@@ -218,7 +220,7 @@ local function CreateBar()
         })
         bar:SetBackdropColor(0,0,0,.8)
 
-        bar:SetPoint('CENTER')
+        bar:SetPoint('CENTER',0,1)
     end
 
     ele:RunCallback('PostCreateBar',bar)
@@ -365,6 +367,8 @@ function ele:UpdateConfig()
     ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
     CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
     BAR_TEXTURE       = addon.layout.ClassPowers.bar_texture
+    BAR_WIDTH         = addon.layout.ClassPowers.bar_width or 50
+    BAR_HEIGHT        = addon.layout.ClassPowers.bar_height or 3
     FRAME_POINT       = addon.layout.ClassPowers.point
 
     if on_target then
