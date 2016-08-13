@@ -90,7 +90,7 @@ local power_tags = {
     [SPELL_POWER_SOUL_SHARDS]    = 'SOUL_SHARDS',
     --[SPELL_POWER_MANA]           = 'MANA',
 }
--- power types which rneder as a bar
+-- power types which render as a bar
 local bar_powers = {
     ['stagger'] = true,
     --[SPELL_POWER_MANA] = true
@@ -460,7 +460,9 @@ function ele:PowerInit()
         UpdateIcons()
 
         -- set initial state
-        if power_type ~= 'stagger' and class ~= 'DEATHKNIGHT' then
+        if power_type == 'stagger' then
+            self:StaggerUpdate()
+        elseif class ~= 'DEATHKNIGHT' then
             PowerUpdate()
         end
 
