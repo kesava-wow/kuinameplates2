@@ -428,6 +428,8 @@ function ele:PLAYER_ENTERING_WORLD()
 end
 function ele:PowerInit()
     -- get current power type, register events
+    power_type_tag = nil
+
     if type(powers[class]) == 'table' then
         local spec = GetSpecialization()
         power_type = powers[class][spec]
