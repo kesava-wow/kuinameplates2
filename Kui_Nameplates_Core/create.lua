@@ -1148,6 +1148,22 @@ function core.ClassPowers_PostPositionFrame(cpf,parent)
         cpf:SetPoint('CENTER',parent.HealthBar,'TOP',0,1)
     end
 end
+function core.ClassPowers_CreateBar()
+    local bar = CreateStatusBar(addon.ClassPowersFrame)
+    bar:SetSize(50,3)
+    bar:SetPoint('CENTER')
+
+    bar.fill:SetParent(bar)
+    bar.fill:SetDrawLayer('BACKGROUND',2)
+
+    bar:SetBackdrop({
+        bgFile=kui.m.t.solid,
+        insets={top=-1,right=-1,bottom=-1,left=-1}
+    })
+    bar:SetBackdropColor(0,0,0,.9)
+
+    return bar
+end
 -- threat brackets #############################################################
 do
     local TB_TEXTURE = MEDIA..'threat-bracket'

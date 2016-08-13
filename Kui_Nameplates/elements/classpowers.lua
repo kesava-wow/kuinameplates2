@@ -107,7 +107,7 @@ local colours = {
 -- stagger colours
 local STAGGER_GREEN = { .52, 1, .52 }
 local STAGGER_YELLOW = { 1, .98, .72 }
-local STAGGER_RED = { 1, .42, .72 }
+local STAGGER_RED = { 1, .42, .42 }
 
 local ICON_SIZE
 local ICON_SPACING
