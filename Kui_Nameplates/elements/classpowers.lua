@@ -53,6 +53,13 @@
     PostIconsCreated
         Called after icons are created.
 
+    CreateBar
+        Can be used to replace the built in function which creates a status bar
+        for bar-style power types, such as stagger.
+
+    PostCreateBar
+        Called after the power bar is created.
+
     PostPowerUpdate
         Called after icons are set to active or inactive.
 
