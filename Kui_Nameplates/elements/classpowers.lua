@@ -63,7 +63,7 @@
     PostPowerUpdate
         Called after icons are set to active or inactive.
 
-    PostRuneUpdate(icon)
+    PostRuneUpdate(icon,rune_id)
         Called after updating rune icon cooldown frames for death knights.
 
     PostPositionFrame(cpf,parent)
@@ -487,7 +487,7 @@ function ele:RuneUpdate(event,rune_id,energise)
         icon.cd:Show()
     end
 
-    self:RunCallback('PostRuneUpdate',icon)
+    self:RunCallback('PostRuneUpdate',icon,rune_id)
 end
 function ele:StaggerUpdate()
     if not cpf.bar then return end
