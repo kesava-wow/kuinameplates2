@@ -128,6 +128,8 @@ local default_config = {
     classpowers_enable = true,
     classpowers_on_target = true,
     classpowers_size = 10,
+    classpowers_bar_width = 50,
+    classpowers_bar_height = 3,
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()
@@ -384,20 +386,20 @@ function configChanged.classpowers_enable(v)
         addon:GetPlugin('ClassPowers'):Disable()
     end
 end
-function configChanged.classpowers_size(v)
-    core.ClassPowers.icon_size = v
+local function configChangedClassPowers()
+    core.ClassPowers.on_target = core.config.classpowers_on_target
+    core.ClassPowers.icon_size = core.config.classpowers_size
+    core.ClassPowers.bar_width = core.config.classpowers_bar_width
+    core.ClassPowers.bar_height = core.config.classpowers_bar_height
 
     if addon:GetPlugin('ClassPowers').enabled then
         addon:GetPlugin('ClassPowers'):UpdateConfig()
     end
 end
-function configChanged.classpowers_on_target(v)
-    core.ClassPowers.on_target = v
-
-    if addon:GetPlugin('ClassPowers').enabled then
-        addon:GetPlugin('ClassPowers'):UpdateConfig()
-    end
-end
+configChanged.classpowers_size = configChangedClassPowers
+configChanged.classpowers_on_target = configChangedClassPowers
+configChanged.classpowers_bar_width = configChangedClassPowers
+configChanged.classpowers_bar_height = configChangedClassPowers
 
 function configChanged.execute_enabled(v)
     if v then

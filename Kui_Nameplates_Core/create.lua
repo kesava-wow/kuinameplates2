@@ -1510,6 +1510,8 @@ function core:InitialiseElements()
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
         icon_size = self.profile.classpowers_size or 10,
+        bar_width = self.profile.classpowers_bar_width,
+        bar_height = self.profile.classpowers_bar_height,
         icon_texture = MEDIA..'combopoint-round',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
         bar_texture = BAR_TEXTURE,
