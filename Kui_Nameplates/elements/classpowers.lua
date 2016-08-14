@@ -170,6 +170,7 @@ local function CreateIcon()
             cd:SetSwipeTexture(CD_TEXTURE)
             cd:SetAllPoints(icon)
             cd:SetDrawEdge(false)
+            cd:SetDrawBling(false)
             cd:SetHideCountdownNumbers(true)
             icon.cd = cd
         else
@@ -481,8 +482,14 @@ function ele:RuneUpdate(event,rune_id,energise)
     if not icon then return end
 
     if charged or energise then
+        icon:SetVertexColor(unpack(colours.DEATHKNIGHT))
+        icon:SetAlpha(1)
+
         icon.cd:Hide()
     else
+        icon:SetVertexColor(unpack(colours.inactive))
+        icon:SetAlpha(1)
+
         icon.cd:SetCooldown(startTime, duration)
         icon.cd:Show()
     end
