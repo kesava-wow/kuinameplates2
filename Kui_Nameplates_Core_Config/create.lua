@@ -344,7 +344,10 @@ local classpowers_enable = classpowers:CreateCheckBox('classpowers_enable')
 local classpowers_on_target = classpowers:CreateCheckBox('classpowers_on_target')
 local classpowers_size = classpowers:CreateSlider('classpowers_size',5,20)
 local classpowers_bar_width = classpowers:CreateSlider('classpowers_bar_width',10,100)
-local classpowers_bar_height = classpowers:CreateSlider('classpowers_bar_height',1,10)
+local classpowers_bar_height = classpowers:CreateSlider('classpowers_bar_height',1,11)
+
+classpowers_bar_width:SetValueStep(2)
+classpowers_bar_height:SetValueStep(2)
 
 classpowers_enable:SetPoint('TOPLEFT',10,-10)
 classpowers_on_target:SetPoint('LEFT',classpowers_enable,'RIGHT',190,0)

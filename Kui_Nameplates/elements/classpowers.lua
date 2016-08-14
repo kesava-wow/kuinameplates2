@@ -401,6 +401,12 @@ function ele:UpdateConfig()
             PositionIcons()
             PositionFrame()
         end
+
+        if cpf.bar then
+            -- update bar
+            cpf.bar:SetStatusBarTexture(BAR_TEXTURE)
+            cpf.bar:SetSize(BAR_WIDTH,BAR_HEIGHT)
+        end
     end
 end
 -- messages ####################################################################

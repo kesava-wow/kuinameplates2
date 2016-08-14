@@ -280,6 +280,11 @@ do
             UpdateStatusBar(f.HealthBar)
             UpdateStatusBar(f.PowerBar)
         end
+
+        if addon.ClassPowersFrame then
+            UpdateStatusBar(addon.ClassPowersFrame.bar)
+            self.ClassPowers.bar_texture = BAR_TEXTURE
+        end
     end
 end
 function core:SetBarAnimation()
@@ -1150,7 +1155,10 @@ function core.ClassPowers_PostPositionFrame(cpf,parent)
 end
 function core.ClassPowers_CreateBar()
     local bar = CreateStatusBar(addon.ClassPowersFrame)
-    bar:SetSize(50,3)
+    bar:SetSize(
+        core.profile.classpowers_bar_width,
+        core.profile.classpowers_bar_height
+    )
     bar:SetPoint('CENTER',0,-1)
 
     bar.fill:SetParent(bar)

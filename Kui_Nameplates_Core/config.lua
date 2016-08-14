@@ -387,10 +387,10 @@ function configChanged.classpowers_enable(v)
     end
 end
 local function configChangedClassPowers()
-    core.ClassPowers.on_target = core.config.classpowers_on_target
-    core.ClassPowers.icon_size = core.config.classpowers_size
-    core.ClassPowers.bar_width = core.config.classpowers_bar_width
-    core.ClassPowers.bar_height = core.config.classpowers_bar_height
+    core.ClassPowers.on_target = core.profile.classpowers_on_target
+    core.ClassPowers.icon_size = core.profile.classpowers_size
+    core.ClassPowers.bar_width = core.profile.classpowers_bar_width
+    core.ClassPowers.bar_height = core.profile.classpowers_bar_height
 
     if addon:GetPlugin('ClassPowers').enabled then
         addon:GetPlugin('ClassPowers'):UpdateConfig()
