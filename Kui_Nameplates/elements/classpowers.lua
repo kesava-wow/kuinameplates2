@@ -11,7 +11,6 @@
         icon_size = size of class power icons
         icon_spacing = space between icons
         icon_texture = texture of class power icons
-        icon_glow_texture = texture of class power glow
         cd_texture = cooldown spiral texture
         bar_texture = texture of class power bar
         bar_width = width of class power bar
@@ -57,7 +56,7 @@
     PostPowerUpdate
         Called after icons are set to active or inactive.
 
-    PostRuneUpdate
+    PostRuneUpdate(icon)
         Called after updating rune icon cooldown frames for death knights.
 
     PostPositionFrame(cpf,parent)
@@ -117,7 +116,6 @@ local STAGGER_RED = { 1, .42, .42 }
 local ICON_SIZE
 local ICON_SPACING
 local ICON_TEXTURE
-local ICON_GLOW_TEXTURE
 local CD_TEXTURE
 local BAR_TEXTURE,BAR_WIDTH,BAR_HEIGHT
 local FRAME_POINT
@@ -149,11 +147,6 @@ local function PositionIcons()
         pv = icon
     end
 end
-local function Icon_SetVertexColor(icon,...)
-    -- also set glow colour
-    icon.glow:SetVertexColor(...)
-    orig_SetVertexColor(icon,...)
-end
 local function CreateIcon()
     -- create individual icon
     local icon = ele:RunCallback('CreateIcon')
@@ -162,21 +155,6 @@ local function CreateIcon()
         icon = cpf:CreateTexture(nil,'ARTWORK',nil,1)
         icon:SetTexture(ICON_TEXTURE)
         icon:SetSize(ICON_SIZE,ICON_SIZE)
-
-        -- TODO glow should probably just be a layout thing
-        local ig = cpf:CreateTexture(nil,'ARTWORK',nil,0)
-        ig:SetTexture(ICON_GLOW_TEXTURE)
-        ig:SetSize(ICON_SIZE+10,ICON_SIZE+10)
-        ig:SetPoint('CENTER',icon)
-        ig:SetAlpha(.8)
-
-        icon.glow = ig
-
-        if not orig_SetVertexColor then
-            orig_SetVertexColor = icon.SetVertexColor
-        end
-        icon.SetVertexColor = Icon_SetVertexColor
-
         icon:SetVertexColor(unpack(colours[class]))
 
         if class == 'DEATHKNIGHT' then
@@ -191,16 +169,13 @@ local function CreateIcon()
             icon.Active = function(self)
                 self:SetVertexColor(unpack(colours[class]))
                 self:SetAlpha(1)
-                self.glow:Show()
             end
             icon.Inactive = function(self)
                 self:SetVertexColor(unpack(colours.inactive))
-                self.glow:Hide()
             end
             icon.ActiveOverflow = function(self)
                 self:SetVertexColor(unpack(colours.overflow))
                 self:SetAlpha(1)
-                self.glow:Show()
             end
         end
     end
@@ -375,7 +350,6 @@ function ele:UpdateConfig()
     ICON_SIZE         = addon.layout.ClassPowers.icon_size or 10
     ICON_SPACING      = addon.layout.ClassPowers.icon_spacing or 1
     ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
-    ICON_GLOW_TEXTURE = addon.layout.ClassPowers.glow_texture
     CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
     BAR_TEXTURE       = addon.layout.ClassPowers.bar_texture
     BAR_WIDTH         = addon.layout.ClassPowers.bar_width or 50
@@ -410,9 +384,6 @@ function ele:UpdateConfig()
             for k,i in ipairs(cpf.icons) do
                 i:SetSize(ICON_SIZE,ICON_SIZE)
                 i:SetTexture(ICON_TEXTURE)
-
-                i.glow:SetSize(ICON_SIZE+10,ICON_SIZE+10)
-                i.glow:SetTexture(ICON_GLOW_TEXTURE)
 
                 if i.cd then
                     i.cd:SetSwipeTexture(CD_TEXTURE)
@@ -499,14 +470,12 @@ function ele:RuneUpdate(event,rune_id,energise)
 
     if charged or energise then
         icon.cd:Hide()
-        icon.glow:Show()
     else
         icon.cd:SetCooldown(startTime, duration)
         icon.cd:Show()
-        icon.glow:Hide()
     end
 
-    self:RunCallback('PostRuneUpdate')
+    self:RunCallback('PostRuneUpdate',icon)
 end
 function ele:StaggerUpdate()
     if not cpf.bar then return end

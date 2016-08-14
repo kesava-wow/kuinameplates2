@@ -1164,6 +1164,66 @@ function core.ClassPowers_CreateBar()
 
     return bar
 end
+do
+    local orig_SetVertexColor,orig_Active,orig_Inactive,orig_ActiveOverflow,
+          orig_Hide
+
+    local function Icon_SetVertexColor(icon,...)
+        -- also set glow colour
+        icon.glow:SetVertexColor(...)
+        icon.glow:SetAlpha(.8)
+
+        orig_SetVertexColor(icon,...)
+    end
+    local function Icon_Active(icon)
+        orig_Active(icon)
+        icon.glow:Show()
+    end
+    local function Icon_Inactive(icon)
+        orig_Inactive(icon)
+        icon.glow:Hide()
+    end
+    local function Icon_ActiveOverflow(icon)
+        orig_ActiveOverflow(icon)
+        icon.glow:Show()
+    end
+    local function Icon_Hide(icon)
+        orig_Hide(icon)
+        icon.glow:Hide()
+    end
+
+    function core.ClassPowers_PostCreateIcon(icon)
+        -- add icon glow
+        local ig = addon.ClassPowersFrame:CreateTexture(nil,'ARTWORK',nil,0)
+        ig:SetTexture(MEDIA..'combopoint-glow')
+        ig:SetPoint('TOPLEFT',icon,-5,5)
+        ig:SetPoint('BOTTOMRIGHT',icon,5,-5)
+        ig:SetVertexColor(icon:GetVertexColor())
+        ig:Hide()
+
+        icon.glow = ig
+
+        -- function overloads
+        orig_Hide = icon.Hide
+        orig_Active = icon.Active
+        orig_Inactive = icon.Inactive
+        orig_ActiveOverflow = icon.ActiveOverflow
+        orig_SetVertexColor = icon.SetVertexColor
+
+        icon.Hide = Icon_Hide
+        icon.Active = Icon_Active
+        icon.Inactive = Icon_Inactive
+        icon.ActiveOverflow = Icon_ActiveOverflow
+        icon.SetVertexColor = Icon_SetVertexColor
+    end
+end
+function core.ClassPowers_PostRuneUpdate(icon)
+    if icon.cd:IsShown() then
+        icon.glow:Hide()
+    else
+        icon.glow:Show()
+    end
+end
 -- threat brackets #############################################################
 do
     local TB_TEXTURE = MEDIA..'threat-bracket'
@@ -1451,7 +1511,6 @@ function core:InitialiseElements()
         on_target = self.profile.classpowers_on_target,
         icon_size = self.profile.classpowers_size or 10,
         icon_texture = MEDIA..'combopoint-round',
-        glow_texture = MEDIA..'combopoint-glow',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
         bar_texture = BAR_TEXTURE,
         point = { 'CENTER','bg','BOTTOM',0,1 }
