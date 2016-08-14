@@ -97,6 +97,8 @@ opt.tooltips = {
     classpowers_enable = 'Show your class\' special resource, such as combo points, holy power, etc.',
     classpowers_on_target = 'Show on the frame of your target, rather than on the personal nameplate',
     classpowers_size = 'Size of the class powers icons',
+    classpowers_bar_width = 'Width of the class power bar (used for stagger)',
+    classpowers_bar_height = 'Height of the class power bar (used for stagger)',
 }
 opt.titles = {
     profile = 'Profile',
@@ -219,4 +221,6 @@ opt.titles = {
     classpowers_enable = 'Show class resources',
     classpowers_on_target = 'Show on target',
     classpowers_size = 'Icon size',
+    classpowers_bar_width = 'Bar width',
+    classpowers_bar_height = 'Bar height',
 }
