@@ -449,7 +449,12 @@ function ele:PowerInit()
         -- set initial state
         if power_type == 'stagger' then
             self:StaggerUpdate()
-        elseif class ~= 'DEATHKNIGHT' then
+        elseif class == 'DEATHKNIGHT' then
+            for i=1,6 do
+                self:RuneUpdate(nil,i)
+            end
+        else
+            -- icon/generic bar powers
             PowerUpdate()
         end
 
