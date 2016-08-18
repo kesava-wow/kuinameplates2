@@ -5,7 +5,7 @@ local kui = LibStub('Kui-1.0')
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateLevel(f)
     f = f.parent
-    f.state.level = UnitLevel(f.unit) or 0
+    f.state.level = UnitEffectiveLevel(f.unit) or 0
 
     if f.elements.LevelText then
         local l,cl,d = kui.UnitLevel(f.unit)
