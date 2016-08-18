@@ -1,3 +1,4 @@
 * add stagger to class powers
 * charging runes are now grey
 * fix runes sometimes flash upon recharging
+* use UnitEffectiveLevel instead of UnitLevel
