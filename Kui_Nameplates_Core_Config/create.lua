@@ -369,6 +369,7 @@ function classpowers_colour:Get()
     if opt.profile[self.env] then
         self.block:SetBackdropColor(unpack(opt.profile[self.env]))
     else
+        self.block:SetBackdropColor(.5,.5,.5)
         self:Disable()
     end
 end
