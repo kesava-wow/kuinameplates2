@@ -379,6 +379,9 @@ function ele:UpdateConfig()
         if addon.layout.ClassPowers.colours.overflow then
             colours.overflow = addon.layout.ClassPowers.colours.overflow
         end
+        if addon.layout.ClassPowers.colours.inactive then
+            colours.inactive = addon.layout.ClassPowers.colours.inactive
+        end
     end
 
     ICON_SIZE = ICON_SIZE * addon.uiscale

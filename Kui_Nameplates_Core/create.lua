@@ -1523,7 +1523,8 @@ function core:InitialiseElements()
         icon_texture = MEDIA..'combopoint-round',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
         bar_texture = BAR_TEXTURE,
-        point = { 'CENTER','bg','BOTTOM',0,1 }
+        point = { 'CENTER','bg','BOTTOM',0,1 },
+        colours = {}
     }
 
     local plugin_pb = addon:GetPlugin('PowerBar')

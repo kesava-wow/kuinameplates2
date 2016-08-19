@@ -411,6 +411,29 @@ configChanged.classpowers_on_target = configChangedClassPowers
 configChanged.classpowers_bar_width = configChangedClassPowers
 configChanged.classpowers_bar_height = configChangedClassPowers
 
+local function configChangedClassPowersColour()
+    local class = select(2,UnitClass('player'))
+    if core.profile['classpowers_colour_'..strlower(class)] then
+        core.ClassPowers.colours[class] =  core.profile['classpowers_colour_'..strlower(class)]
+    end
+
+    core.ClassPowers.colours.overflow = core.profile.classpowers_colour_overflow
+    core.ClassPowers.colours.inactive = core.profile.classpowers_colour_inactive
+
+    if addon:GetPlugin('ClassPowers').enabled then
+        addon:GetPlugin('ClassPowers'):UpdateConfig()
+    end
+end
+configChanged.classpowers_colour_deathknight = configChangedClassPowersColour
+configChanged.classpowers_colour_druid = configChangedClassPowersColour
+configChanged.classpowers_colour_paladin = configChangedClassPowersColour
+configChanged.classpowers_colour_rogue = configChangedClassPowersColour
+configChanged.classpowers_colour_mage = configChangedClassPowersColour
+configChanged.classpowers_colour_monk = configChangedClassPowersColour
+configChanged.classpowers_colour_warlock = configChangedClassPowersColour
+configChanged.classpowers_colour_overflow = configChangedClassPowersColour
+configChanged.classpowers_colour_inactive = configChangedClassPowersColour
+
 function configChanged.execute_enabled(v)
     if v then
         addon:GetPlugin('Execute'):Enable()
