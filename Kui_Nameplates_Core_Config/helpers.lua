@@ -70,11 +70,10 @@ do
         GenericOnShow(self)
     end
 
-    function opt.CreateCheckBox(parent, name, callback)
+    function opt.CreateCheckBox(parent, name)
         local check = CreateFrame('CheckButton', frame_name..name..'Check', parent, 'OptionsBaseCheckButtonTemplate')
 
         check.env = name
-        check.callback = callback
         check:SetScript('OnClick',CheckBoxOnClick)
         check:SetScript('OnShow',CheckBoxOnShow)
 
