@@ -378,6 +378,14 @@ function classpowers_colour:Set(col)
     self:Hide()
     self:Show()
 end
+classpowers_colour:SetScript('OnEnter',function(self)
+    -- force tooltip to use classpowers_colour env
+    GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
+    GameTooltip:SetWidth(200)
+    GameTooltip:AddLine(opt.titles['classpowers_colour'])
+    GameTooltip:AddLine(opt.tooltips['classpowers_colour'],1,1,1,true)
+    GameTooltip:Show()
+end)
 
 -- LSM dropdowns ###############################################################
 function bar_texture:initialize()

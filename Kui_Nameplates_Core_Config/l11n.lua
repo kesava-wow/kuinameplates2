@@ -99,6 +99,9 @@ opt.tooltips = {
     classpowers_size = 'Size of the class powers icons',
     classpowers_bar_width = 'Width of the class power bar (used for stagger)',
     classpowers_bar_height = 'Height of the class power bar (used for stagger)',
+    classpowers_colour = 'Colour of the class powers icons for the current class',
+    classpowers_colour_overflow = 'Colour of class powers "overflow" (ala Anticipation on a rogue)',
+    classpowers_colour_inactive = 'Colour of inactive class power icons',
 }
 opt.titles = {
     profile = 'Profile',
@@ -223,4 +226,7 @@ opt.titles = {
     classpowers_size = 'Icon size',
     classpowers_bar_width = 'Bar width',
     classpowers_bar_height = 'Bar height',
+    classpowers_colour = 'Icon colour',
+    classpowers_colour_overflow = 'Overflow colour',
+    classpowers_colour_inactive = 'Inactive colour',
 }
