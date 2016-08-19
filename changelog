@@ -2,4 +2,5 @@
 * add options to change class powers icon colours
 * charging runes are now grey
 * fix runes sometimes flash upon recharging
+* fix guild text wouldn't correctly show on a newly created target frame
 * use UnitEffectiveLevel instead of UnitLevel
