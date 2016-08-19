@@ -44,6 +44,17 @@ local function GenericOnShow(self)
 end
 -- element creation helpers ####################################################
 do
+    local function Get(self)
+        if self.env then
+            self:SetChecked(opt.profile[self.env])
+        end
+    end
+    local function Set(self)
+        if self.env and opt.config then
+            opt.config:SetConfig(self.env,self:GetChecked())
+        end
+    end
+
     local function CheckBoxOnClick(self)
         if self:GetChecked() then
             PlaySound("igMainMenuOptionCheckBoxOn")
@@ -51,20 +62,11 @@ do
             PlaySound("igMainMenuOptionCheckBoxOff")
         end
 
-        if self.env and opt.config then
-            opt.config:SetConfig(self.env,self:GetChecked())
-        end
-
-        if self.callback then
-            self:callback()
-        end
+        self:Set()
     end
     local function CheckBoxOnShow(self)
         if not opt.profile then return end
-        if self.env then
-            self:SetChecked(opt.profile[self.env])
-        end
-
+        self:Get()
         GenericOnShow(self)
     end
 
@@ -85,6 +87,9 @@ do
         check.label:SetText(opt.titles[name] or name or 'Checkbox')
         check.label:SetPoint('LEFT', check, 'RIGHT')
 
+        check.Get = Get
+        check.Set = Set
+
         if name and type(parent.elements) == 'table' then
             parent.elements[name] = check
         end
@@ -92,10 +97,18 @@ do
     end
 end
 do
-    local function DropDownOnChanged(self,value,text)
+    local function Get(self)
+        if type(self.initialize) ~= 'function' then return end
+        self:initialize()
+    end
+    local function Set(self,v)
         if self.env and opt.config then
-            opt.config:SetConfig(self.env,value)
+            opt.config:SetConfig(self.env,v)
         end
+    end
+
+    local function DropDownOnChanged(self,v)
+        self:Set(v)
     end
     local function DropDownGenericInit(self)
         local list = {}
@@ -116,9 +129,7 @@ do
             self.initialize = DropDownGenericInit
         end
 
-        if type(self.initialize) ~= 'function' then return end
-        self:initialize()
-
+        self:Get()
         GenericOnShow(self)
     end
 
@@ -154,6 +165,9 @@ do
         dd.Enable = DropDownEnable
         dd.Disable = DropDownDisable
 
+        dd.Get = Get
+        dd.Set = Set
+
         if name and type(parent.elements) == 'table' then
             parent.elements[name] = dd
         end
@@ -161,13 +175,6 @@ do
     end
 end
 do
-    local function SliderSetConfig(self,v)
-        if not self:IsEnabled() then return end
-        if self.env and opt.config then
-            opt.config:SetConfig(self.env,v or self:GetValue())
-        end
-    end
-
     local function SliderOnChanged(self,v)
         -- copy value to display text
         if not v then
@@ -180,18 +187,28 @@ do
         r_v = string.gsub(r_v,'%.$','')
         self.display:SetText(r_v)
     end
-    local function SliderOnShow(self)
-        if not opt.profile then return end
+
+    local function Get(self)
         if self.env and opt.profile[self.env] then
             self:SetValue(opt.profile[self.env])
             -- set text to correct value if outside min/max
             SliderOnChanged(self,opt.profile[self.env])
         end
+    end
+    local function Set(self,v)
+        if not self:IsEnabled() then return end
+        if self.env and opt.config then
+            opt.config:SetConfig(self.env,v or self:GetValue())
+        end
+    end
 
+    local function SliderOnShow(self)
+        if not opt.profile then return end
+        self:Get()
         GenericOnShow(self)
     end
     local function SliderOnMouseUp(self)
-        SliderSetConfig(self)
+        self:Set()
     end
     local function SliderOnMouseWheel(self,delta)
         if not self:IsEnabled() then return end
@@ -201,7 +218,7 @@ do
             delta = -self:GetValueStep()
         end
         self:SetValue(self:GetValue()+delta)
-        SliderSetConfig(self)
+        self:Set()
     end
     local function SliderSetMinMaxValues(self,min,max)
         self:orig_SetMinMaxValues(min,max)
@@ -237,7 +254,7 @@ do
             -- display change
             self:GetParent():SetValue(v)
             -- push to config
-            SliderSetConfig(self:GetParent(),v)
+            self:GetParent():Set(v)
         else
             EditBox_OnEscapePressed(self)
         end
@@ -296,6 +313,9 @@ do
         slider:HookScript('OnMouseUp',SliderOnMouseUp)
         slider:HookScript('OnMouseWheel',SliderOnMouseWheel)
 
+        slider.Get = Get
+        slider.Set = Set
+
         slider:SetValueStep(1)
         slider:SetMinMaxValues(min or 0, max or 100)
 
@@ -306,20 +326,23 @@ do
     end
 end
 do
-    local function ColourPickerOnShow(self)
-        if not opt.profile then return end
+    local function Get(self)
         if self.env and opt.profile[self.env] then
             self.block:SetBackdropColor(unpack(opt.profile[self.env]))
         end
+    end
+    local function Set(self,col)
+        opt.config:SetConfig(self.env,col)
+    end
 
+    local function ColourPickerOnShow(self)
+        if not opt.profile then return end
+        self:Get()
         GenericOnShow(self)
     end
     local function ColourPickerOnClick(self)
         opt.Popup.pages['colour_picker'].colour_picker = self
         opt.Popup:ShowPage('colour_picker')
-    end
-    local function ColourPickerOnSet(self,col)
-        opt.config:SetConfig(self.env,col)
     end
 
     function opt.CreateColourPicker(parent,name)
@@ -353,7 +376,9 @@ do
         container:SetScript('OnClick',ColourPickerOnClick)
         container:SetScript('OnEnter',OnEnter)
         container:SetScript('OnLeave',OnLeave)
-        container.Set = ColourPickerOnSet
+
+        container.Get = Get
+        container.Set = Set -- called by popup
 
         if name and type(parent.elements) == 'table' then
             parent.elements[name] = container
@@ -713,12 +738,19 @@ do
         slider:GetParent().text:SetText(text)
     end
     local function ColourPicker_OnShow(self)
-        if not self.colour_picker then
+        if not self.colour_picker or
+           not self.colour_picker.env
+        then
             opt.Popup:Hide()
             return
         end
 
         local val = opt.profile[self.colour_picker.env]
+
+        if not val then
+            opt.Popup:Hide()
+            return
+        end
 
         if #val == 4 then
             self.o:Show()
