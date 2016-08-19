@@ -1524,8 +1524,16 @@ function core:InitialiseElements()
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
         bar_texture = BAR_TEXTURE,
         point = { 'CENTER','bg','BOTTOM',0,1 },
-        colours = {}
+        colours = {
+            overflow = self.profile.classpowers_colour_overflow,
+            inactive = self.profile.classpowers_colour_inactive,
+        }
     }
+
+    local class = select(2,UnitClass('player'))
+    if self.profile['classpowers_colour_'..strlower(class)] then
+        self.ClassPowers.colours[class] = self.profile['classpowers_colour_'..strlower(class)]
+    end
 
     local plugin_pb = addon:GetPlugin('PowerBar')
     if plugin_pb then
