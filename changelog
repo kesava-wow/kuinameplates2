@@ -1,6 +1,7 @@
 * add stagger to class powers
 * add options to change class powers icon colours
 * charging runes are now grey
+* frame glow size now also affects the nameonly target/threat glow
 * fix runes sometimes flash upon recharging
 * fix guild text wouldn't correctly show on a newly created target frame
 * use UnitEffectiveLevel instead of UnitLevel
