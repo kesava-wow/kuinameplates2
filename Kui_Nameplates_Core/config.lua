@@ -466,6 +466,9 @@ function configChanged.frame_glow_size(v)
         if f.ThreatGlow then
             f.ThreatGlow:SetSize(v)
         end
+        if f.UpdateNameOnlyGlowSize then
+            f:UpdateNameOnlyGlowSize()
+        end
     end
 end
 

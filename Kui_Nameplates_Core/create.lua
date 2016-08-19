@@ -1346,17 +1346,29 @@ do
         end
     end
 
-    function core:CreateNameOnlyGlow(f)
-        if not NAMEONLY_ALL_ENEMIES and not NAMEONLY_TARGET then return end
-        if f.NameOnlyGlow then return end
+    do
+        local function UpdateNameOnlyGlowSize(f)
+            local g = f.NameOnlyGlow
+            if not g then return end
 
-        local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-        g:SetTexture('interface/addons/kui_media/t/spark')
-        g:SetPoint('TOPLEFT',f.NameText,-20,8)
-        g:SetPoint('BOTTOMRIGHT',f.NameText,20,-8)
-        g:Hide()
+            g:SetPoint('TOPLEFT',f.NameText,
+                -12-FRAME_GLOW_SIZE,  FRAME_GLOW_SIZE)
+            g:SetPoint('BOTTOMRIGHT',f.NameText,
+                 12+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
+        end
+        function core:CreateNameOnlyGlow(f)
+            if not NAMEONLY_ALL_ENEMIES and not NAMEONLY_TARGET then return end
+            if f.NameOnlyGlow then return end
 
-        f.NameOnlyGlow = g
+            local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
+            g:SetTexture('interface/addons/kui_media/t/spark')
+            g:Hide()
+
+            f.NameOnlyGlow = g
+            f.UpdateNameOnlyGlowSize = UpdateNameOnlyGlowSize
+
+            f:UpdateNameOnlyGlowSize()
+        end
     end
 
     function core:NameOnlyUpdateFunctions(f)
