@@ -130,17 +130,16 @@ local default_config = {
     classpowers_size = 10,
     classpowers_bar_width = 50,
     classpowers_bar_height = 3,
-    classpowers_colour = {
-        DEATHKNIGHT = {1,.2,.3},
-        DRUID = {1,1,.1},
-        PALADIN = {1,1,.1},
-        ROGUE = {1,1,.1},
-        MAGE = {.5,.5,1},
-        MONK = {.3,1,.9},
-        WARLOCK = {1,.5,1},
-    },
-    classpowers_colour_overflow = {1,.3,.3},
-    classpowers_colour_inactive = {.5,.5,.5,.5},
+
+    classpowers_colour_deathknight = {1,.2,.3},
+    classpowers_colour_druid       = {1,1,.1},
+    classpowers_colour_paladin     = {1,1,.1},
+    classpowers_colour_rogue       = {1,1,.1},
+    classpowers_colour_mage        = {.5,.5,1},
+    classpowers_colour_monk        = {.3,1,.9},
+    classpowers_colour_warlock     = {1,.5,1},
+    classpowers_colour_overflow    = {1,.3,.3},
+    classpowers_colour_inactive    = {.5,.5,.5,.5},
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()

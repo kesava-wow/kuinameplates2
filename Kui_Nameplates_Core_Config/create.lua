@@ -342,7 +342,7 @@ tankmode_other_colour:SetPoint('LEFT',tankmode_trans_colour,'RIGHT')
 -- classpowers #################################################################
 local classpowers_enable = classpowers:CreateCheckBox('classpowers_enable')
 local classpowers_on_target = classpowers:CreateCheckBox('classpowers_on_target')
-local classpowers_colour = classpowers:CreateColourPicker('classpowers_color')
+local classpowers_colour = classpowers:CreateColourPicker('classpowers_colour')
 local classpowers_size = classpowers:CreateSlider('classpowers_size',5,20)
 local classpowers_bar_width = classpowers:CreateSlider('classpowers_bar_width',10,100)
 local classpowers_bar_height = classpowers:CreateSlider('classpowers_bar_height',1,11)
@@ -357,31 +357,21 @@ classpowers_size:SetPoint('TOPLEFT',classpowers_colour,'BOTTOMLEFT',0,-20)
 classpowers_bar_width:SetPoint('TOPLEFT',classpowers_size,'BOTTOMLEFT',0,-30)
 classpowers_bar_height:SetPoint('LEFT',classpowers_bar_width,'RIGHT',20,0)
 
-function classpowers_colour.enabled(p)
-    local class = select(2,UnitClass('player'))
-    return p.classpowers_colour and p.classpowers_colour[class]
-end
 function classpowers_colour:Get()
-    -- get the colour for the current class
-    if not opt.profile.classpowers_colour then return end
     local class = select(2,UnitClass('player'))
+    self.env = 'classpowers_colour_'..strlower(class)
 
-    if opt.profile.classpowers_colour[class] then
-        self.block:SetBackdropColor(unpack(opt.profile.classpowers_colour[class]))
+    if opt.profile[self.env] then
+        self.block:SetBackdropColor(unpack(opt.profile[self.env]))
     else
-        self.block:SetBackdropColor(.5,.5,.5)
+        self:Disable()
     end
 end
 function classpowers_colour:Set(col)
-    if not opt.profile.classpowers_colour then return end
-    local class = select(2,UnitClass('player'))
-
-    if opt.profile.classpowers_colour[class] then
-        local t = opt.profile.classpowers_colour
-        t[class] = col
-
-        opt.config:SetConfig('classpowers_colour',t)
-    end
+    opt.config:SetConfig(self.env,col)
+    -- manually re-run OnShow since our env doesn't match the element name
+    self:Hide()
+    self:Show()
 end
 
 -- LSM dropdowns ###############################################################
