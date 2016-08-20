@@ -1,6 +1,6 @@
 -- listen for target changes and fire target messages
 local addon = KuiNameplates
-local ele = addon:NewElement('Target',200)
+local ele = addon:NewElement('Target')
 
 local target
 -- local functions #############################################################

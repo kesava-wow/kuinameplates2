@@ -91,6 +91,13 @@ function core:Show(f)
             plugin_classpowers:TargetUpdate()
         end
     end
+
+    f.state.core_shown = true
+
+    -- run GainedTarget only after we've initialised everything
+    if f.handler:IsTarget() then
+        self:GainedTarget(f)
+    end
 end
 function core:Hide(f)
     if f.state.player then
@@ -127,6 +134,7 @@ function core:CastBarHide(f)
     f:HideCastBar()
 end
 function core:GainedTarget(f)
+    if not f.state.core_shown then return end
     f.state.target = true
 
     -- disable nameonly on target
