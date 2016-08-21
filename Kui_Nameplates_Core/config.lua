@@ -219,7 +219,7 @@ local function configChangedFadeRule(v,on_load)
 
     if core.profile.fade_avoid_nameonly then
         plugin:AddFadeRule(function(f)
-            return f.state.nameonly and 1
+            return f.IN_NAMEONLY and 1
         end,30)
     end
 

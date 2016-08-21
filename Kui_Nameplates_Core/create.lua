@@ -400,7 +400,7 @@ end
 -- name text ###################################################################
 do
     local function UpdateNameText(f)
-        if f.state.nameonly then
+        if f.IN_NAMEONLY then
             f.NameText:Show()
 
             if UnitIsPlayer(f.unit) then
@@ -458,7 +458,7 @@ end
 -- level text ##################################################################
 do
     local function UpdateLevelText(f)
-        if f.state.nameonly then return end
+        if f.IN_NAMEONLY then return end
         if not core.profile.level_text or f.state.minus or f.state.player then
             f.LevelText:Hide()
         else
@@ -503,7 +503,7 @@ do
     end
 
     local function UpdateHealthText(f)
-        if f.state.nameonly then return end
+        if f.IN_NAMEONLY then return end
         if not SHOW_HEALTH_TEXT or f.state.minus or f.state.player then
             f.HealthText:Hide()
         else
@@ -600,7 +600,7 @@ do
     end
     -- update
     local function UpdateFrameGlow(f)
-        if f.state.nameonly then
+        if f.IN_NAMEONLY then
             f.ThreatGlow:Hide()
             f.TargetGlow:Hide()
 
@@ -697,7 +697,7 @@ end
 -- target arrows ###############################################################
 do
     local function UpdateTargetArrows(f)
-        if f.state.nameonly or not core.profile.target_arrows then
+        if f.IN_NAMEONLY or not core.profile.target_arrows then
             f.TargetArrows:Hide()
             return
         end
@@ -794,7 +794,7 @@ do
         f.SpellShield:Hide()
     end
     local function UpdateCastBar(f)
-        if f.state.nameonly then
+        if f.IN_NAMEONLY then
             f.handler:DisableElement('CastBar')
         else
             if CASTBAR_SHOW_ICON then
@@ -919,7 +919,7 @@ do
 
     local function UpdateStateIcon(f)
         if  not SHOW_STATE_ICONS or
-            f.state.nameonly or
+            f.IN_NAMEONLY or
             (f.elements.LevelText and f.LevelText:IsShown())
         then
             f.StateIcon:Hide()
@@ -953,7 +953,7 @@ do
     local function UpdateRaidIcon(f)
         f.RaidIcon:ClearAllPoints()
 
-        if f.state.nameonly then
+        if f.IN_NAMEONLY then
             f.RaidIcon:SetParent(f)
             f.RaidIcon:SetDrawLayer('ARTWORK',1)
             f.RaidIcon:SetPoint('LEFT',f.NameText,f.NameText:GetStringWidth()+2,0)
@@ -1140,7 +1140,7 @@ function core.ClassPowers_PostPositionFrame(cpf,parent)
     if not parent or not cpf or not cpf:IsShown() then return end
 
     -- change position in nameonly mode/on the player's nameplate
-    if parent.state.nameonly then
+    if parent.IN_NAMEONLY then
         cpf:ClearAllPoints()
 
         if parent.GuildText and parent.state.guild_text then
@@ -1266,7 +1266,7 @@ do
     end
     -- update
     local function UpdateThreatBrackets(f)
-        if not core.profile.threat_brackets or f.state.nameonly then
+        if not core.profile.threat_brackets or f.IN_NAMEONLY then
             f.ThreatBrackets:Hide()
             return
         end
@@ -1307,7 +1307,7 @@ do
 end
 -- name show/hide ##############################################################
 function core:ShowNameUpdate(f)
-    if not FADE_UNTRACKED and f.state.nameonly then return end
+    if not FADE_UNTRACKED and f.IN_NAMEONLY then return end
 
     if f.state.player or not SHOW_NAME_TEXT then
         f.state.no_name = true
@@ -1392,8 +1392,8 @@ do
     end
 
     local function NameOnlyEnable(f)
-        if f.state.nameonly then return end
-        f.state.nameonly = true
+        if f.IN_NAMEONLY then return end
+        f.IN_NAMEONLY = true
 
         f.bg:Hide()
         f.HealthBar:Hide()
@@ -1428,8 +1428,8 @@ do
         end
     end
     local function NameOnlyDisable(f)
-        if not f.state.nameonly then return end
-        f.state.nameonly = nil
+        if not f.IN_NAMEONLY then return end
+        f.IN_NAMEONLY = nil
 
         f.NameText:SetText(f.state.name)
         f.NameText:SetTextColor(1,1,1,1)
@@ -1458,7 +1458,7 @@ do
     end
     function core:NameOnlySetNameTextToHealth(f)
         -- set name text colour to approximate health
-        if not f.state.nameonly then return end
+        if not f.IN_NAMEONLY then return end
 
         if f.state.health_cur and f.state.health_cur > 0 and
            f.state.health_max and f.state.health_max > 0
