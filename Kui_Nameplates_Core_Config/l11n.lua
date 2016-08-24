@@ -46,7 +46,7 @@ opt.tooltips = {
     colour_self = 'The health bar colour of your personal nameplate',
 
     execute_enabled = 'Recolour health bars when units are within execute range',
-    execute_auto = 'Automatically detect the appropriate execute range from your talents',
+    execute_auto = 'Automatically detect the appropriate execute range from your talents, defaulting to 20% on a character with no execute',
     execute_colour = 'Colour to use within execute range',
     execute_percent = 'Manually set execute range',
 
@@ -69,6 +69,7 @@ opt.tooltips = {
     frame_height_minus = 'Height of nameplates used on mobs flagged as "minus" (previously referred to as trivial), as well as nameless frames (i.e. "unimportant" units)',
     powerbar_height = 'Height of the power bar. Will not increase beyond frame height',
 
+    auras_enabled = 'Show auras that you cast on nameplates - buffs on friends, debuffs on enemies',
     auras_on_personal = 'Show auras on your character\'s nameplate if it is enabled',
     auras_whitelist = 'Use KuiSpellList to filter spells. You can use the extra addon KuiSpellListConfig from Curse to customise this list',
     auras_pulsate = 'Pulsate icons when they are about to expire',
@@ -188,7 +189,7 @@ opt.titles = {
     powerbar_height = 'Power bar height',
     castbar_height = 'Cast bar height',
 
-    auras_enabled = 'Show auras',
+    auras_enabled = 'Show own auras',
     auras_on_personal = 'Show on personal frame',
     auras_whitelist = 'Use whitelist',
     auras_pulsate = 'Pulsate icons',
