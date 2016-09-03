@@ -29,6 +29,7 @@ local default_config = {
     bar_animation = 3,
     combat_hostile = 1,
     combat_friendly = 1,
+    ignore_uiscale = false,
     glow_as_shadow = true,
     state_icons = true,
     target_glow = true,
@@ -472,6 +473,12 @@ function configChanged.frame_glow_size(v)
     end
 end
 
+function configChanged.ignore_uiscale(v)
+    addon.IGNORE_UISCALE = v
+    addon:UI_SCALE_CHANGED()
+    QueueClickboxUpdate()
+end
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
@@ -507,6 +514,11 @@ configLoaded.fade_all = configLoadedFadeRule
 configLoaded.execute_enabled = configChanged.execute_enabled
 configLoaded.execute_colour = configChanged.execute_colour
 configLoaded.execute_percent = configChanged.execute_percent
+
+function configLoaded.ignore_uiscale(v)
+    addon.IGNORE_UISCALE = v
+    addon:UI_SCALE_CHANGED()
+end
 
 -- init config #################################################################
 function core:InitialiseConfig()

@@ -22,6 +22,7 @@ addon.debug_config = true
 
 -- kui nameplate container frame size
 addon.uiscale = .71 -- updated upon reload
+addon.IGNORE_UISCALE = nil
 addon.width,addon.height = 140,40
 
 local framelist = {}
@@ -80,8 +81,11 @@ function addon:PLAYER_LEAVING_WORLD()
     end
 end
 function addon:UI_SCALE_CHANGED()
-    self.uiscale = UIParent:GetEffectiveScale()
-    --self.uiscale = 768/tonumber(string.match(({GetScreenResolutions()})[GetCurrentResolution()],"%d+x(%d+)"))
+    if self.IGNORE_UISCALE then
+        self.uiscale = 768/tonumber(string.match(({GetScreenResolutions()})[GetCurrentResolution()],"%d+x(%d+)"))
+    else
+        self.uiscale = UIParent:GetEffectiveScale()
+    end
 
     if #framelist > 0 then
         for i,f in self:Frames() do
