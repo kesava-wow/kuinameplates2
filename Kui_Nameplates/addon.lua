@@ -81,10 +81,22 @@ function addon:PLAYER_LEAVING_WORLD()
     end
 end
 function addon:UI_SCALE_CHANGED()
+    self.uiscale = UIParent:GetEffectiveScale()
+
     if self.IGNORE_UISCALE then
-        self.uiscale = 768/tonumber(string.match(({GetScreenResolutions()})[GetCurrentResolution()],"%d+x(%d+)"))
-    else
-        self.uiscale = UIParent:GetEffectiveScale()
+        local resolutions = {GetScreenResolutions()}
+        local resolution = GetCurrentResolution()
+
+        if #resolutions > 0 and resolution > 0 then
+            local resolution_text = resolutions[resolution]
+
+            if resolution_text then
+                resolution_text = tonumber(string.match(resolution_text,"%d+x(%d+)"))
+            end
+            if resolution_text then
+                self.uiscale = 768 / resolution_text
+            end
+        end
     end
 
     if #framelist > 0 then
