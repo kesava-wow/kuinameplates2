@@ -29,6 +29,7 @@ opt.pages[1]:ShowPage()
 -- general #####################################################################
 local combat_hostile = general:CreateDropDown('combat_hostile')
 local combat_friendly = general:CreateDropDown('combat_friendly')
+local ignore_uiscale = general:CreateCheckBox('ignore_uiscale')
 local glow_as_shadow = general:CreateCheckBox('glow_as_shadow')
 local state_icons = general:CreateCheckBox('state_icons')
 local target_glow = general:CreateCheckBox('target_glow')
@@ -43,7 +44,8 @@ combat_friendly.SelectTable = {'Do nothing','Hide','Show'}
 combat_hostile:SetPoint('TOPLEFT',10,-10)
 combat_friendly:SetPoint('LEFT',combat_hostile,'RIGHT',10,0)
 
-glow_as_shadow:SetPoint('TOPLEFT',10,-60)
+ignore_uiscale:SetPoint('TOPLEFT',10,-60)
+glow_as_shadow:SetPoint('TOPLEFT',ignore_uiscale,'BOTTOMLEFT')
 state_icons:SetPoint('LEFT',glow_as_shadow,'RIGHT',190,0)
 target_glow:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT')
 target_glow_colour:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',220,0)
@@ -69,11 +71,11 @@ local fade_avoid_execute_hostile = general:CreateCheckBox('fade_avoid_execute_ho
 fade_alpha:SetValueStep(.05)
 fade_speed:SetValueStep(.05)
 
-fade_rules_sep:SetPoint('TOP',0,-220)
-fade_alpha:SetPoint('TOPLEFT',10,-245)
+fade_rules_sep:SetPoint('TOP',0,-235)
+fade_alpha:SetPoint('TOPLEFT',10,-260)
 
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-fade_all:SetPoint('TOPLEFT',15,-280)
+fade_all:SetPoint('TOPLEFT',15,-295)
 fade_friendly_npc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_neutral_enemy:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
 fade_untracked:SetPoint('LEFT',fade_neutral_enemy,'RIGHT',190,0)

@@ -19,6 +19,7 @@ opt.tooltips = {
     combat_hostile = 'Action to take on hostile frames upon entering combat. Will be inverted upon leaving combat',
     combat_friendly = 'Action to take on friendly frames upon entering combat. Will be inverted upon leaving combat',
 
+    ignore_uiscale = 'Ignore the default UI\'s scaling. This allows nameplates to retain pixel-perfectness regardless of resolution, unless you manually resize the game window',
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
     nameonly = 'Hide the healthbars of friendly or unattackable units. While in name-only mode, name text is coloured as a percentage of health',
@@ -118,6 +119,8 @@ opt.titles = {
 
     combat_hostile = 'Combat action: hostile',
     combat_friendly = 'Combat action: friendly',
+
+    ignore_uiscale = 'Ignore UI scale',
 
     nameonly = 'Use name-only mode',
     nameonly_no_font_style = 'No text outline',
