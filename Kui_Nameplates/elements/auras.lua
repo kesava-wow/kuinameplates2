@@ -626,6 +626,8 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
     if not f.Auras or not f.Auras.frames then
         f.Auras = { frames = {} }
     end
+
+    new_frame.id = #f.Auras.frames+1
     tinsert(f.Auras.frames,new_frame)
 
     return new_frame

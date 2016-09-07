@@ -1060,7 +1060,7 @@ do
         f.UpdateAuras = UpdateAuras
     end
 
-    -- calbacks
+    -- callbacks
     function core.Auras_PostCreateAuraButton(button)
         -- move text to obey our settings
         button.cd:ClearAllPoints()
@@ -1080,7 +1080,7 @@ do
         core.AurasButton_SetFont(button)
     end
     function core.Auras_PostUpdateAuraFrame(frame)
-        if AURAS_CENTRED then
+        if frame.id == 1 and AURAS_CENTRED then
             -- with auras centred, we need to update the frame size each time a
             -- new button is made visible
             AuraFrame_SetDesiredWidth(frame)
