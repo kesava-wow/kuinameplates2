@@ -93,6 +93,8 @@ local default_config = {
     frame_height = 13,
     frame_width_minus = 72,
     frame_height_minus = 9,
+    frame_width_personal = 132,
+    frame_height_personal = 13,
     castbar_height = 5,
     powerbar_height = 3,
 

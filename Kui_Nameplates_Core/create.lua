@@ -51,6 +51,7 @@ local CLASS_COLOURS = {
 
 -- config locals
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
+local FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL
 local POWER_BAR_HEIGHT,CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
@@ -168,6 +169,8 @@ do
         FRAME_HEIGHT = self.profile.frame_height
         FRAME_WIDTH_MINUS = self.profile.frame_width_minus
         FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
+        FRAME_WIDTH_PERSONAL = self.profile.frame_width_personal
+        FRAME_HEIGHT_PERSONAL = self.profile.frame_height_personal
         POWER_BAR_HEIGHT = self.profile.powerbar_height
 
         FRAME_GLOW_SIZE = self.profile.frame_glow_size
@@ -300,6 +303,8 @@ local function UpdateFrameSize(f)
     -- set frame size and position
     if f.state.minus then
         f.bg:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
+    elseif f.state.player then
+        f.bg:SetSize(FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL)
     else
         f.bg:SetSize(FRAME_WIDTH,FRAME_HEIGHT)
     end
