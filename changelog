@@ -1,3 +1,4 @@
 * add options to change size of the personal nameplate
 * show true level in instanced pvp
 * enabled centre align auras by default
+* don't process threat list of players/pets
