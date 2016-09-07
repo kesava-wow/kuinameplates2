@@ -51,7 +51,3 @@ function ele:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
 end
-function ele:Initialise()
-    -- force enable threat on nameplates
-    SetCVar('threatWarning',3)
-end
