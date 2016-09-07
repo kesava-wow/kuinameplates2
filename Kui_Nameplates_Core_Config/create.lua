@@ -246,11 +246,11 @@ local powerbar_height = framesizes:CreateSlider('powerbar_height',1,20)
 
 frame_width:SetPoint('TOPLEFT',10,-30)
 frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
-frame_width_minus:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-30)
-frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
-frame_width_personal:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-30)
+frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-30)
 frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
-castbar_height:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-60)
+frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-30)
+frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
+castbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-60)
 powerbar_height:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
 
 -- auras #######################################################################
