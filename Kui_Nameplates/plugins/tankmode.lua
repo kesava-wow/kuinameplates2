@@ -4,9 +4,9 @@ local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('TankMode')
 
 local GetNumGroupMembers,UnitIsUnit,UnitIsFriend,UnitExists,UnitInParty,
-      UnitInRaid,UnitGroupRolesAssigned =
+      UnitInRaid,UnitGroupRolesAssigned,UnitIsPlayer,UnitPlayerControlled =
       GetNumGroupMembers,UnitIsUnit,UnitIsFriend,UnitExists,UnitInParty,
-      UnitInRaid,UnitGroupRolesAssigned
+      UnitInRaid,UnitGroupRolesAssigned,UnitIsPlayer,UnitPlayerControlled
 
 local force_enable,spec_enabled,offtank_enable
 -- local functions #############################################################
@@ -34,7 +34,9 @@ function mod:SetForceEnable(b)
 end
 -- messages ####################################################################
 function mod:Show(f)
-    self:UNIT_THREAT_LIST_UPDATE(nil,f,f.unit)
+    if not UnitIsPlayer(f.unit) and not UnitPlayerControlled(f.unit) then
+        self:UNIT_THREAT_LIST_UPDATE(nil,f,f.unit)
+    end
 end
 function mod:HealthColourChange(f,caller)
     if caller and caller == self then return end
