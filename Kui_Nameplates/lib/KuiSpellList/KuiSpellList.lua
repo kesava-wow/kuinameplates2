@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 25
+local MAJOR, MINOR = 'KuiSpellList-1.0', 26
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -22,6 +22,7 @@ local auras = {
             [61336] = true, -- survival instincts
             [22812] = true, -- barkskin
             [192083] = true, -- mark of ursol
+            [213680] = true, -- guardian of elune
         },
         HELPFUL = {
             [774] = true, -- rejuvenation
@@ -40,6 +41,7 @@ local auras = {
             [1822] = true, -- rake
             [155722] = true, -- rake 6.0
             [8921] = true, -- moonfire
+            [155625] = true, -- moonfire cat
             [164812] = true, -- moonfire
             [77758] = true, -- bear thrash
             [192090] = true, -- bear thrash 7.0
