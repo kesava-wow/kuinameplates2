@@ -68,6 +68,8 @@ opt.tooltips = {
     frame_height = 'Height of the standard nameplates',
     frame_width_minus = 'Width of nameplates used on mobs flagged as "minus" (previously referred to as trivial)',
     frame_height_minus = 'Height of nameplates used on mobs flagged as "minus" (previously referred to as trivial), as well as nameless frames (i.e. "unimportant" units)',
+    frame_width_personal = 'Width of the personal nameplate (enabled by Esc > Interface > Names > Personal Resource Display)',
+    frame_height_personal = 'Height of the personal nameplate (enabled by Esc > Interface > Names > Personal Resource Display)',
     powerbar_height = 'Height of the power bar. Will not increase beyond frame height',
 
     auras_enabled = 'Show auras that you cast on nameplates - buffs on friends, debuffs on enemies',
@@ -189,6 +191,8 @@ opt.titles = {
     frame_height = 'Frame height',
     frame_width_minus = 'Minus frame width',
     frame_height_minus = 'Minus frame height',
+    frame_width_personal = 'Personal frame width',
+    frame_height_personal = 'Personal frame height',
     powerbar_height = 'Power bar height',
     castbar_height = 'Cast bar height',
 
