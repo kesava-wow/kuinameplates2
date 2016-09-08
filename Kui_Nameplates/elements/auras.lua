@@ -21,6 +21,7 @@
 
     frame_def is a table which may contain the following values:
     frame_def = {
+        id = key for this frame in the [nameplate].Auras.frames table
         size = icon size
         squareness = icon width/height ratio
         point = {
@@ -627,8 +628,8 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
         f.Auras = { frames = {} }
     end
 
-    new_frame.id = #f.Auras.frames+1
-    tinsert(f.Auras.frames,new_frame)
+    new_frame.id = new_frame.id or #f.Auras.frames+1
+    f.Auras.frames[new_frame.id] = new_frame
 
     return new_frame
 end
@@ -638,7 +639,7 @@ function ele:Show(f)
 end
 function ele:Hide(f)
     if not f.Auras then return end
-    for i,frame in ipairs(f.Auras.frames) do
+    for i,frame in pairs(f.Auras.frames) do
         frame:Hide()
     end
 end
@@ -646,7 +647,7 @@ end
 function ele:UNIT_FACTION(event,f)
     -- update each aura frame on this nameplate
     if not f.Auras then return end
-    for _,auras_frame in ipairs(f.Auras.frames) do
+    for _,auras_frame in pairs(f.Auras.frames) do
         auras_frame:FactionUpdate()
         auras_frame:Update()
     end
@@ -654,7 +655,7 @@ end
 function ele:UNIT_AURA(event,f)
     -- update each aura frame on this nameplate
     if not f.Auras then return end
-    for _,auras_frame in ipairs(f.Auras.frames) do
+    for _,auras_frame in pairs(f.Auras.frames) do
         auras_frame:Update()
     end
 end

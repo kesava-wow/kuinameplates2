@@ -211,9 +211,9 @@ function core:configChangedFrameSize()
     for k,f in addon:Frames() do
         f:UpdateCastbarSize()
 
-        if f.Auras and f.Auras.frames and f.Auras.frames[1] then
+        if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
             -- force auras frame size update
-            f.Auras.frames[1].__width = nil
+            f.Auras.frames.core_dynamic.__width = nil
         end
     end
 end
@@ -222,8 +222,11 @@ function core:configChangedTextOffset()
         f:UpdateNameTextPosition()
         f:UpdateSpellNamePosition()
 
-        for _,button in pairs(f.Auras.frames[1].buttons) do
-            self.Auras_PostCreateAuraButton(button)
+        if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
+            -- update aura text
+            for _,button in pairs(f.Auras.frames.core_dynamic.buttons) do
+                self.Auras_PostCreateAuraButton(button)
+            end
         end
     end
 end
@@ -260,8 +263,10 @@ do
             UpdateFontObject(f.HealthText)
             UpdateFontObject(f.LevelText)
 
-            for _,button in pairs(f.Auras.frames[1].buttons) do
-                self.AurasButton_SetFont(button)
+            if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
+                for _,button in pairs(f.Auras.frames.core_dynamic.buttons) do
+                    self.AurasButton_SetFont(button)
+                end
             end
         end
     end
@@ -1029,16 +1034,17 @@ do
     local function UpdateAuras(f)
         -- enable/disable on personal frame
         if not AURAS_ON_PERSONAL and f.state.player then
-            f.Auras.frames[1]:Disable()
+            f.Auras.frames.core_dynamic:Disable()
         else
-            f.Auras.frames[1]:Enable(true)
+            f.Auras.frames.core_dynamic:Enable(true)
         end
 
         -- set auras to normal/minus sizes
-        AuraFrame_SetIconSize(f.Auras.frames[1],f.state.minus)
+        AuraFrame_SetIconSize(f.Auras.frames.core_dynamic,f.state.minus)
     end
     function core:CreateAuras(f)
         local auras = f.handler:CreateAuraFrame({
+            id = 'core_dynamic',
             max = 10,
             point = {'BOTTOMLEFT','LEFT','RIGHT'},
             x_spacing = 1,
@@ -1080,7 +1086,7 @@ do
         core.AurasButton_SetFont(button)
     end
     function core.Auras_PostUpdateAuraFrame(frame)
-        if frame.id == 1 and AURAS_CENTRED then
+        if frame.id == 'core_dynamic' and AURAS_CENTRED then
             -- with auras centred, we need to update the frame size each time a
             -- new button is made visible
             AuraFrame_SetDesiredWidth(frame)
@@ -1125,17 +1131,20 @@ do
         end
 
         for k,f in addon:Frames() do
-            if f.Auras and f.Auras.frames and f.Auras.frames[1] then
-                local af = f.Auras.frames[1]
-                af.pulsate = self.profile.auras_pulsate
-                af.timer_threshold = timer_threshold
-                af.squareness = self.profile.auras_icon_squareness
+            if f.Auras and f.Auras.frames then
+                local af = f.Auras.frames.core_dynamic
 
-                af:SetSort(self.profile.auras_sort)
-                af:SetWhitelist(nil,self.profile.auras_whitelist)
+                if af then
+                    af.pulsate = self.profile.auras_pulsate
+                    af.timer_threshold = timer_threshold
+                    af.squareness = self.profile.auras_icon_squareness
 
-                -- force size update
-                af.__width = nil
+                    af:SetSort(self.profile.auras_sort)
+                    af:SetWhitelist(nil,self.profile.auras_whitelist)
+
+                    -- force size update
+                    af.__width = nil
+                end
             end
         end
     end
