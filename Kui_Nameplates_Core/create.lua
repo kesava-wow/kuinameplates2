@@ -60,6 +60,7 @@ local FADE_AVOID_NAMEONLY,FADE_UNTRACKED
 local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local AURAS_ON_PERSONAL
+local GUILD_TEXT_PLAYERS
 
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
@@ -205,6 +206,8 @@ do
         HEALTH_TEXT_HOSTILE_DMG = self.profile.health_text_hostile_dmg
 
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
+
+        GUILD_TEXT_PLAYERS = self.profile.guild_text_players
     end
 end
 function core:configChangedFrameSize()
@@ -413,20 +416,20 @@ do
         if f.IN_NAMEONLY then
             f.NameText:Show()
 
+            if not UnitCanAttack('player',f.unit) and
+               f.state.reaction >= 4
+            then
+                -- friendly colour
+                f.NameText:SetTextColor(.6,1,.6)
+                f.GuildText:SetTextColor(.8,.9,.8,.9)
+            else
+                f.NameText:SetTextColor(1,.4,.3)
+                f.GuildText:SetTextColor(1,.8,.7,.9)
+            end
+
             if UnitIsPlayer(f.unit) then
                 -- player class colour
                 f.NameText:SetTextColor(GetClassColour(f))
-            else
-                if not UnitCanAttack('player',f.unit) and
-                   f.state.reaction >= 4
-                then
-                    -- friendly colour
-                    f.NameText:SetTextColor(.6,1,.6)
-                    f.GuildText:SetTextColor(.8,.9,.8,.9)
-                else
-                    f.NameText:SetTextColor(1,.4,.3)
-                    f.GuildText:SetTextColor(1,.8,.7,.9)
-                end
             end
 
             -- set name text colour to health
@@ -555,11 +558,13 @@ end
 -- npc guild text ##############################################################
 do
     local function UpdateGuildText(f)
-        if f.IN_NAMEONLY and f.state.guild_text then
+        if not f.IN_NAMEONLY or not f.state.guild_text or
+           (UnitIsPlayer(f.unit) and not GUILD_TEXT_PLAYERS)
+        then
+            f.GuildText:Hide()
+        else
             f.GuildText:SetText(f.state.guild_text)
             f.GuildText:Show()
-        else
-            f.GuildText:Hide()
         end
     end
     function core:CreateGuildText(f)
