@@ -43,6 +43,10 @@ function mod:HealthColourChange(f,caller)
     self:GlowColourChange(f)
 end
 function mod:GlowColourChange(f)
+    if UnitIsPlayer(f.unit) or UnitPlayerControlled(f.unit) then
+        return
+    end
+
     -- tank mode health bar colours
     if self.enabled and spec_enabled and
         ((f.state.threat and f.state.threat > 0) or
