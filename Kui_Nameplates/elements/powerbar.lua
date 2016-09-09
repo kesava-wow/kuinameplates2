@@ -6,18 +6,9 @@ function addon.Nameplate.UpdatePower(f,on_show)
     f = f.parent
     if f.elements.PowerBar then
         if f.state.power_type then
-            local power_type = f.state.power_type
-
-            f.PowerBar:SetMinMaxValues(0,UnitPowerMax(f.unit,power_type))
-            f.PowerBar:SetValue(UnitPower(f.unit,power_type))
-
-            if ele.colours[power_type] then
-                f.PowerBar:SetStatusBarColor(unpack(ele.colours[power_type]))
-            else
-                f.PowerBar:SetStatusBarColor(unpack(ele.colours['MANA']))
-            end
+            f.PowerBar:SetMinMaxValues(0,UnitPowerMax(f.unit,f.state.power_type))
+            f.PowerBar:SetValue(UnitPower(f.unit,f.state.power_type))
         else
-            f.PowerBar:SetStatusBarColor(0,0,0)
             f.PowerBar:SetValue(0)
         end
 
@@ -39,12 +30,45 @@ function addon.Nameplate.UpdatePowerType(f,on_show)
 
     f.state.power_type = power_type
 
+    if f.elements.PowerBar then
+        -- update bar colour
+        if power_type then
+            local colour = ele.colours[power_type] or ele.colours['MANA']
+            f.PowerBar:SetStatusBarColor(unpack(colour))
+
+            if f.PowerBar.Spark then
+                f.PowerBar.Spark:SetVertexColor(
+                    colour[1]+.3,
+                    colour[2]+.3,
+                    colour[3]+.3
+                )
+            end
+        else
+            f.PowerBar:SetStatusBarColor(0,0,0)
+        end
+    end
+
     if not on_show then
         addon:DispatchMessage('PowerTypeUpdate', f)
     end
 
-    -- and update display
+    -- and bar values
     f.handler:UpdatePower(on_show)
+end
+-- local functions #############################################################
+local function FadeSpark(bar)
+    local val,max = bar:GetValue(),select(2,bar:GetMinMaxValues())
+    local show_val = (max / 100) * 80
+
+    if val == 0 or val == max then
+        bar.Spark:Hide()
+    elseif val < show_val then
+        bar.Spark:SetAlpha(1)
+        bar.Spark:Show()
+    else
+        bar.Spark:SetAlpha(1 - ((val - show_val) / (max - show_val)))
+        bar.Spark:Show()
+    end
 end
 -- messages ####################################################################
 function ele:Show(f)
@@ -58,9 +82,31 @@ function ele:PowerEvent(event,f)
     f.handler:UpdatePower()
 end
 -- enable/disable per frame ####################################################
+function ele:PostRegister(f)
+    if f.PowerBar and f.PowerBar.GetStatusBarTexture and
+        not f.PowerBar.__NoSpark
+    then
+        -- create spark
+        local bar = f.PowerBar
+        local texture = bar:GetStatusBarTexture()
+        local spark = bar:CreateTexture(nil,'OVERLAY')
+        spark:SetTexture('interface/addons/kui_media/t/spark')
+        spark:SetWidth(8)
+
+        spark:SetPoint('TOP',texture,'TOPRIGHT',-1,4)
+        spark:SetPoint('BOTTOM',texture,'BOTTOMRIGHT',-1,-4)
+
+        bar.Spark = spark
+
+        if not f.PowerBar.__NoSparkFade then
+            bar:HookScript('OnValueChanged',FadeSpark)
+            bar:HookScript('OnMinMaxChanged',FadeSpark)
+        end
+    end
+end
 function ele:EnableOnFrame(frame)
     frame.PowerBar:Show()
-    frame.handler:UpdatePower(true)
+    frame.handler:UpdatePowerType(true)
 end
 function ele:DisableOnFrame(frame)
     frame.PowerBar:Hide()
