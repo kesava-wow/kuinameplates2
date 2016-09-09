@@ -30,13 +30,13 @@ end
 local function ColourHealthBar(f)
     if CanOverwriteHealthColor(f) then
         f.state.tank_mode_coloured = true
-        f.state.health_colour_priority = self.priority
+        f.state.health_colour_priority = mod.priority
 
         if f.elements.HealthBar then
             if f.state.threat and f.state.threat > 0 then
-                f.HealthBar:SetStatusBarColor(unpack(self.colours[f.state.threat]))
+                f.HealthBar:SetStatusBarColor(unpack(mod.colours[f.state.threat]))
             elseif f.state.tank_mode_offtank then
-                f.HealthBar:SetStatusBarColor(unpack(self.colours[3]))
+                f.HealthBar:SetStatusBarColor(unpack(mod.colours[3]))
             end
         end
     end

@@ -4,3 +4,6 @@
 * show true level in instanced pvp
 * enabled centre align auras by default
 * don't process threat list of players/pets
+
+Beta:
+* fix stupid mistake with tankmode.lua changes
