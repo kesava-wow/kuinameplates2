@@ -45,6 +45,7 @@ local default_config = {
     nameonly_all_enemies = false,
     nameonly_target = true,
     guild_text_players = false,
+    title_text_players = false,
 
     fade_all = false,
     fade_alpha = .5,
