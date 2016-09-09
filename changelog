@@ -1,5 +1,6 @@
 * add options to change size of the personal nameplate
-* add option to show guild text on players
+* add option to show guild text on players in name-only mode
+* add option to show title text on players in name-only mode
 * show true level in instanced pvp
 * enabled centre align auras by default
 * don't process threat list of players/pets
