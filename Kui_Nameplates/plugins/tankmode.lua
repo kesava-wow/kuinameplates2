@@ -27,6 +27,35 @@ local function CanOverwriteHealthColor(f)
     return not f.state.health_colour_priority or
            f.state.health_colour_priority <= mod.priority
 end
+local function ColourHealthBar(f)
+    if CanOverwriteHealthColor(f) then
+        f.state.tank_mode_coloured = true
+        f.state.health_colour_priority = self.priority
+
+        if f.elements.HealthBar then
+            if f.state.threat and f.state.threat > 0 then
+                f.HealthBar:SetStatusBarColor(unpack(self.colours[f.state.threat]))
+            elseif f.state.tank_mode_offtank then
+                f.HealthBar:SetStatusBarColor(unpack(self.colours[3]))
+            end
+        end
+    end
+end
+local function UncolourHealthBar(f)
+    if not f.state.tank_mode_coloured then return end
+    f.state.tank_mode_coloured = nil
+
+    if CanOverwriteHealthColor(f) then
+        -- return to colour provided by HealthBar element
+        f.state.health_colour_priority = nil
+
+        if f.elements.HealthBar then
+            f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
+        end
+
+        addon:DispatchMessage('HealthColourChange', f, mod)
+    end
+end
 -- mod functions ###############################################################
 function mod:SetForceEnable(b)
     force_enable = b == true
@@ -44,6 +73,7 @@ function mod:HealthColourChange(f,caller)
 end
 function mod:GlowColourChange(f)
     if UnitIsPlayer(f.unit) or UnitPlayerControlled(f.unit) then
+        UncolourHealthBar(f)
         return
     end
 
@@ -53,32 +83,10 @@ function mod:GlowColourChange(f)
         f.state.tank_mode_offtank)
     then
         -- mod is enabled and frame has an active threat state
-        if CanOverwriteHealthColor(f) then
-            f.state.tank_mode_coloured = true
-            f.state.health_colour_priority = self.priority
-
-            if f.elements.HealthBar then
-                if f.state.threat and f.state.threat > 0 then
-                    f.HealthBar:SetStatusBarColor(unpack(self.colours[f.state.threat]))
-                elseif f.state.tank_mode_offtank then
-                    f.HealthBar:SetStatusBarColor(unpack(self.colours[3]))
-                end
-            end
-        end
-    elseif f.state.tank_mode_coloured then
+        ColourHealthBar(f)
+    else
         -- mod is disabled or frame no longer has a coloured threat state
-        f.state.tank_mode_coloured = nil
-
-        if CanOverwriteHealthColor(f) then
-            -- return to colour provided by HealthBar element
-            f.state.health_colour_priority = nil
-
-            if f.elements.HealthBar then
-                f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
-            end
-
-            addon:DispatchMessage('HealthColourChange', f, mod)
-        end
+        UncolourHealthBar(f)
     end
 end
 -- events ######################################################################
