@@ -553,14 +553,25 @@ do
     end
 end
 -- npc guild text ##############################################################
-function core:CreateGuildText(f)
-    local guildtext = CreateFontString(f,FONT_SIZE_SMALL)
-    guildtext:SetPoint('TOP',f.NameText,'BOTTOM', 0, -2)
-    guildtext:SetShadowOffset(1,-1)
-    guildtext:SetShadowColor(0,0,0,1)
-    guildtext:Hide()
+do
+    local function UpdateGuildText(f)
+        if f.IN_NAMEONLY and f.state.guild_text then
+            f.GuildText:SetText(f.state.guild_text)
+            f.GuildText:Show()
+        else
+            f.GuildText:Hide()
+        end
+    end
+    function core:CreateGuildText(f)
+        local guildtext = CreateFontString(f,FONT_SIZE_SMALL)
+        guildtext:SetPoint('TOP',f.NameText,'BOTTOM', 0, -2)
+        guildtext:SetShadowOffset(1,-1)
+        guildtext:SetShadowColor(0,0,0,1)
+        guildtext:Hide()
 
-    f.GuildText = guildtext
+        f.GuildText = guildtext
+        f.UpdateGuildText = UpdateGuildText
+    end
 end
 -- frame glow ##################################################################
 do
@@ -1393,6 +1404,7 @@ do
         f:UpdateStateIcon()
         f:UpdateRaidIcon()
         f:UpdateCastBar()
+        f:UpdateGuildText()
 
         if f.TargetArrows then
             -- show/hide arrows
@@ -1420,12 +1432,10 @@ do
         f.NameText:ClearAllPoints()
         f.NameText:SetParent(f)
 
-        if f.state.guild_text then
-            f.GuildText:SetShadowOffset(1,-1)
-            f.GuildText:SetShadowColor(0,0,0,1)
-            f.GuildText:SetText(f.state.guild_text)
-            f.GuildText:Show()
+        f.GuildText:SetShadowOffset(1,-1)
+        f.GuildText:SetShadowColor(0,0,0,1)
 
+        if f.state.guild_text then
             f.NameText:SetPoint('CENTER',.5,6)
         else
             f.NameText:SetPoint('CENTER',.5,0)
@@ -1452,11 +1462,8 @@ do
         f.NameText:SetParent(f.HealthBar)
         f:UpdateNameTextPosition()
 
-        if f.GuildText:IsShown() then
-            f.GuildText:SetTextColor(1,1,1,1)
-            f.GuildText:SetShadowColor(0,0,0,0)
-            f.GuildText:Hide()
-        end
+        f.GuildText:SetTextColor(1,1,1,1)
+        f.GuildText:SetShadowColor(0,0,0,0)
 
         f.bg:Show()
         f.HealthBar:Show()
