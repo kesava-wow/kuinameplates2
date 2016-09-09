@@ -75,6 +75,8 @@ function core:Show(f)
     f:UpdateCastBar()
     -- enable/disable auras
     f:UpdateAuras()
+    -- set guild text
+    f:UpdateGuildText()
 
     if f.TargetArrows then
         -- show/hide target arrows
