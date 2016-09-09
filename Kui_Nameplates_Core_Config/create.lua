@@ -219,6 +219,7 @@ local nameonly_damaged_friends = nameonly:CreateCheckBox('nameonly_damaged_frien
 local nameonly_enemies = nameonly:CreateCheckBox('nameonly_enemies')
 local nameonly_all_enemies = nameonly:CreateCheckBox('nameonly_all_enemies')
 local nameonly_target = nameonly:CreateCheckBox('nameonly_target')
+local guild_text_players = nameonly:CreateCheckBox('guild_text_players')
 
 nameonly_no_font_style.enabled = function(p) return p.nameonly end
 nameonly_enemies.enabled = function(p) return p.nameonly and not p.nameonly_all_enemies end
@@ -229,10 +230,12 @@ nameonly_target.enabled = nameonly_no_font_style.enabled
 nameonlyCheck:SetPoint('TOPLEFT',10,-10)
 nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
 
-nameonly_target:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
+nameonly_target:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT',0,-20)
 nameonly_all_enemies:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT')
 nameonly_enemies:SetPoint('LEFT',nameonly_all_enemies,'RIGHT',190,0)
 nameonly_damaged_friends:SetPoint('TOPLEFT',nameonly_all_enemies,'BOTTOMLEFT')
+
+guild_text_players:SetPoint('TOPLEFT',nameonly_damaged_friends,'BOTTOMLEFT',0,-20)
 
 -- frame sizes #################################################################
 local frame_width = framesizes:CreateSlider('frame_width',20,200)
