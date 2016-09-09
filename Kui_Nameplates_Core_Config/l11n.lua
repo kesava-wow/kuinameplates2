@@ -29,6 +29,7 @@ opt.tooltips = {
     nameonly_target = 'Also use name-only mode on your target',
     nameonly_all_enemies = 'Use name-only mode on all enemies',
     guild_text_players = 'Show guilds on players in name-only mode',
+    title_text_players = 'Show players\' titles in name-only mode',
 
     target_arrows = 'Show arrows around your current target. These inherit the target glow colour',
     frame_glow_size = 'Size of the frame glow used for target highlighting and threat indication',
@@ -132,6 +133,7 @@ opt.titles = {
     nameonly_target = 'On target',
     nameonly_all_enemies = 'On enemies',
     guild_text_players = 'Show player guilds',
+    title_text_players = 'Show player titles',
 
     glow_as_shadow = 'Show frame shadow',
     state_icons = 'Show state icons',
