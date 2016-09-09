@@ -45,6 +45,10 @@ function addon.Nameplate.UpdatePowerType(f,on_show)
             end
         else
             f.PowerBar:SetStatusBarColor(0,0,0)
+
+            if f.PowerBar.Spark then
+                f.PowerBar.Spark:Hide()
+            end
         end
     end
 
