@@ -9,11 +9,13 @@
 -- HealthBar/CastBar ###########################################################
 -- ARTWORK
 -- castbar spark = 7
+-- powerbar spark = 7
 -- raid icon (bar) = 6
 -- target arrows = 3
 -- spell shield = 2
 -- health bar highlight = 1
 -- spell icon = 1
+-- power bar = 0
 -- health bar = 0
 -- cast bar = 0
 --
@@ -78,9 +80,33 @@ local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
 -- helper functions ############################################################
 local CreateStatusBar
 do
+    local function FadeSpark(bar)
+        local val,max = bar:GetValue(),select(2,bar:GetMinMaxValues())
+        local show_val = (max / 100) * 80
+
+        if val == 0 or val == max then
+            bar.spark:Hide()
+        elseif val < show_val then
+            bar.spark:SetAlpha(1)
+            bar.spark:Show()
+        else
+            bar.spark:SetAlpha(1 - ((val - show_val) / (max - show_val)))
+            bar.spark:Show()
+        end
+    end
+
     local function FilledBar_SetStatusBarColor(self,...)
         self:orig_SetStatusBarColor(...)
         self.fill:SetVertexColor(...)
+
+        if self.spark then
+            local col = {...}
+            self.spark:SetVertexColor(
+                col[1]+.3,
+                col[2]+.3,
+                col[3]+.3
+            )
+        end
     end
     local function FilledBar_Show(self)
         self:orig_Show()
@@ -90,7 +116,8 @@ do
         self:orig_Hide()
         self.fill:Hide()
     end
-    function CreateStatusBar(parent)
+
+    function CreateStatusBar(parent,spark)
         local bar = CreateFrame('StatusBar',nil,parent)
         bar:SetStatusBarTexture(BAR_TEXTURE)
         bar:SetFrameLevel(0)
@@ -110,6 +137,21 @@ do
 
         bar.orig_Hide = bar.Hide
         bar.Hide = FilledBar_Hide
+
+        if spark then
+            local texture = bar:GetStatusBarTexture()
+            local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)
+            spark:SetTexture('interface/addons/kui_media/t/spark')
+            spark:SetWidth(8)
+
+            spark:SetPoint('TOP',texture,'TOPRIGHT',-1,4)
+            spark:SetPoint('BOTTOM',texture,'BOTTOMRIGHT',-1,-4)
+
+            bar.spark = spark
+
+            bar:HookScript('OnValueChanged',FadeSpark)
+            bar:HookScript('OnMinMaxChanged',FadeSpark)
+        end
 
         return bar
     end
@@ -395,13 +437,15 @@ do
             f.handler:DisableElement('PowerBar')
         end
 
+            f.handler:EnableElement('PowerBar')
+
         if not on_show then
             -- update health bar height
             f:UpdateMainBars()
         end
     end
     function core:CreatePowerBar(f)
-        local powerbar = CreateStatusBar(f.HealthBar)
+        local powerbar = CreateStatusBar(f.HealthBar,true)
         powerbar:SetPoint('TOPLEFT',f.HealthBar,'BOTTOMLEFT',0,-1)
         powerbar:SetPoint('RIGHT',f.bg,-1,0)
 
