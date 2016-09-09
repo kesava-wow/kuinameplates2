@@ -565,6 +565,9 @@ do
         else
             f.GuildText:SetText(f.state.guild_text)
             f.GuildText:Show()
+
+            -- shift name text up in nameonly mode
+            f.NameText:SetPoint('CENTER',.5,6)
         end
     end
     function core:CreateGuildText(f)
@@ -1434,19 +1437,14 @@ do
 
         f.NameText:SetShadowOffset(1,-1)
         f.NameText:SetShadowColor(0,0,0,1)
-        f.NameText:ClearAllPoints()
         f.NameText:SetParent(f)
+        f.NameText:ClearAllPoints()
+        f.NameText:SetPoint('CENTER',.5,0)
+        f.NameText:Show()
 
         f.GuildText:SetShadowOffset(1,-1)
         f.GuildText:SetShadowColor(0,0,0,1)
 
-        if f.state.guild_text then
-            f.NameText:SetPoint('CENTER',.5,6)
-        else
-            f.NameText:SetPoint('CENTER',.5,0)
-        end
-
-        f.NameText:Show()
 
         if NAMEONLY_NO_FONT_STYLE then
             f.NameText:SetFont(FONT,FONT_SIZE_NORMAL,nil)
