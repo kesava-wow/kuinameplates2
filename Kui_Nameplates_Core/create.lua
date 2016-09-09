@@ -437,8 +437,6 @@ do
             f.handler:DisableElement('PowerBar')
         end
 
-            f.handler:EnableElement('PowerBar')
-
         if not on_show then
             -- update health bar height
             f:UpdateMainBars()
