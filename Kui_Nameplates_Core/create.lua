@@ -60,7 +60,7 @@ local FADE_AVOID_NAMEONLY,FADE_UNTRACKED
 local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local AURAS_ON_PERSONAL
-local GUILD_TEXT_PLAYERS
+local GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
 
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
@@ -208,6 +208,7 @@ do
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
 
         GUILD_TEXT_PLAYERS = self.profile.guild_text_players
+        TITLE_TEXT_PLAYERS = self.profile.title_text_players
     end
 end
 function core:configChangedFrameSize()
@@ -414,6 +415,12 @@ end
 do
     local function UpdateNameText(f)
         if f.IN_NAMEONLY then
+            if TITLE_TEXT_PLAYERS then
+                -- override name with title
+                f.state.name = UnitPVPName(f.unit)
+                f.NameText:SetText(f.state.name)
+            end
+
             f.NameText:Show()
 
             if not UnitCanAttack('player',f.unit) and
@@ -435,6 +442,11 @@ do
             -- set name text colour to health
             core:NameOnlySetNameTextToHealth(f)
         elseif SHOW_NAME_TEXT then
+            if TITLE_TEXT_PLAYERS then
+                -- reset name to title-less
+                f.handler:UpdateName()
+            end
+
             if  not f.state.player and
                 UnitIsPlayer(f.unit) and
                 f.state.friend
