@@ -340,6 +340,10 @@ local function AuraFrame_FactionUpdate(self)
             self.filter = 'PLAYER HARMFUL'
         end
     end
+
+    if addon.debug then
+        assert(self.filter ~= nil)
+    end
 end
 local function AuraFrame_GetAuras(self)
     for i=1,40 do
