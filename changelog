@@ -1,7 +1,8 @@
 * add options to change size of the personal nameplate
 * add option to show guild text on players in name-only mode
 * add option to show title text on players in name-only mode
+* add roboto condensed bold as an available font (assuming no other addon has added it)
 * add spark to powerbar
 * show true level in instanced pvp
-* enabled centre align auras by default
-* don't process threat list of players/pets
+* enable centre align auras by default
+* fix players could be off-tank coloured
