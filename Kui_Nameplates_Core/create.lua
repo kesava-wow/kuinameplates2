@@ -459,7 +459,7 @@ do
         if f.IN_NAMEONLY then
             if TITLE_TEXT_PLAYERS then
                 -- override name with title
-                f.state.name = UnitPVPName(f.unit)
+                f.state.name = UnitPVPName(f.unit) or UnitName(f.unit)
                 f.NameText:SetText(f.state.name)
             end
 
