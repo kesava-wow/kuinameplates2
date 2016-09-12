@@ -61,7 +61,10 @@ end
 function mod:HealthColourChange(f,caller)
     if caller and caller == self then return end
 
-    if f.state.health_cur > 0 and f.state.health_per <= execute_range then
+    if not UnitIsTapDenied(f.unit) and
+       f.state.health_cur > 0 and
+       f.state.health_per <= execute_range
+    then
         if CanOverwriteHealthColor(f) then
             f.state.execute_range_coloured = true
             f.state.health_colour_priority = self.priority
