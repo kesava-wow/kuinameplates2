@@ -8,3 +8,4 @@
 * fix players could be off-tank coloured
 * fix execute colour shows on tapped units
 * fix reload required for KuiSpellList changes to take effect
+* fix combo points aren't shown for druids with feral affinity
