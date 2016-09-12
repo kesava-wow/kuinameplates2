@@ -497,8 +497,6 @@ function ele:PowerInit()
         self:UnregisterEvent('RUNE_POWER_UPDATE')
 
         self:UnregisterMessage('Show')
-        self:UnregisterMessage('GainedTarget')
-        self:UnregisterMessage('LostTarget')
         self:UnregisterMessage('HealthColourChange')
 
         cpf:Hide()
