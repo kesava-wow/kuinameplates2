@@ -74,7 +74,7 @@ local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Auras')
 
 local FONT,FONT_SIZE_CD,FONT_SIZE_COUNT,FONT_FLAGS
-local spelllist,whitelist,class
+local spelllist,kui_whitelist,class
 
 -- time below which to show decimal places
 local DECIMAL_THRESHOLD = 1
@@ -352,7 +352,9 @@ local function AuraFrame_GetAuras(self)
 --            'test',nil,'interface/icons/inv_dhmount',0,0,100,GetTime()+100,nil,nil,nil,math.random(1,100000)
         if not name then break end
 
-        self:DisplayButton(name,icon,spellid,count,duration,expiration,i)
+        if self:SpellIsInWhitelist(spellid,name) then
+            self:DisplayButton(spellid,name,icon,count,duration,expiration,i)
+        end
     end
 end
 local function AuraFrame_GetButton(self,spellid)
@@ -374,14 +376,16 @@ local function AuraFrame_GetButton(self,spellid)
     tinsert(self.buttons, button)
     return button
 end
-local function AuraFrame_DisplayButton(self,name,icon,spellid,count,duration,expiration,index)
-    if  self.whitelist and
-        not self.whitelist[spellid] and not self.whitelist[strlower(name)]
-    then
-        -- not in whitelist
-        return
+local function AuraFrame_SpellIsInWhitelist(self,spellid,name)
+    if self.kui_whitelist then
+        return kui_whitelist[spellid] or kui_whitelist[strlower(name)]
+    elseif self.whitelist then
+        return self.whitelist[spellid] or self.whitelist[strlower(name)]
+    else
+        return true
     end
-
+end
+local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,index)
     if ele:RunCallback('DisplayAura',name,spellid,duration) == false then
         -- blocked by callback
         return
@@ -517,17 +521,20 @@ local function AuraFrame_SetSort(self,sort_f)
 end
 local function AuraFrame_SetWhitelist(self,list,kui)
     if kui then
-        if not whitelist then
+        if not kui_whitelist then
             -- initialise KuiSpellList whitelist
             spelllist = LibStub('KuiSpellList-1.0')
             spelllist.RegisterChanged(ele,'WhitelistChanged')
             ele:WhitelistChanged()
         end
 
-        self.whitelist = whitelist
+        self.kui_whitelist = true
+        self.whitelist = nil
     elseif type(list) == 'table' then
+        self.kui_whitelist = nil
         self.whitelist = list
     else
+        self.kui_whitelist = nil
         self.whitelist = nil
     end
 end
@@ -556,6 +563,7 @@ local aura_meta = {
     SetIconSize    = AuraFrame_SetIconSize,
     SetSort        = AuraFrame_SetSort,
     SetWhitelist   = AuraFrame_SetWhitelist,
+    SpellIsInWhitelist = AuraFrame_SpellIsInWhitelist,
 }
 local function CreateAuraFrame(parent)
     local auraframe = CreateFrame('Frame',nil,parent)
@@ -584,7 +592,7 @@ local function CreateAuraFrame(parent)
 end
 -- whitelist ###################################################################
 function ele:WhitelistChanged()
-    whitelist = spelllist.GetImportantSpells(class)
+    kui_whitelist = spelllist.GetImportantSpells(class)
 end
 -- prototype additions #########################################################
 function addon.Nameplate.CreateAuraFrame(f,frame_def)
