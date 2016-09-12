@@ -307,6 +307,11 @@ local function PowerUpdate()
     ele:RunCallback('PostPowerUpdate')
 end
 local function PositionFrame()
+    if not power_type then
+        cpf:Hide()
+        return
+    end
+
     local frame
 
     if on_target then
@@ -417,7 +422,6 @@ function ele:UpdateConfig()
 end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
-    if not power_type then return end
     PositionFrame()
 end
 -- events ######################################################################
