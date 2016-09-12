@@ -128,6 +128,9 @@ local BAR_TEXTURE,BAR_WIDTH,BAR_HEIGHT
 local FRAME_POINT
 
 local ANTICIPATION_TALENT_ID=19240
+local BALANCE_FERAL_AFFINITY_TALENT_ID=22155
+local GUARDIAN_FERAL_AFFINITY_TALENT_ID=22156
+local RESTO_FERAL_AFFINITY_TALENT_ID=22367
 -- local functions #############################################################
 local function IsTalentKnown(id)
     return select(10,GetTalentInfoByID(id))
@@ -414,6 +417,7 @@ function ele:UpdateConfig()
 end
 -- messages ####################################################################
 function ele:TargetUpdate(f)
+    if not power_type then return end
     PositionFrame()
 end
 -- events ######################################################################
@@ -428,6 +432,22 @@ function ele:PowerInit()
     if type(powers[class]) == 'table' then
         local spec = GetSpecialization()
         power_type = powers[class][spec]
+
+        if class == 'DRUID' and (
+           (spec == 1 and IsTalentKnown(BALANCE_FERAL_AFFINITY_TALENT_ID)) or
+           (spec == 3 and IsTalentKnown(GUARDIAN_FERAL_AFFINITY_TALENT_ID)) or
+           (spec == 4 and IsTalentKnown(RESTO_FERAL_AFFINITY_TALENT_ID))
+           )
+        then
+            self:RegisterEvent('UPDATE_SHAPESHIFT_FORM')
+
+            local form = GetShapeshiftForm()
+            if form and form == 2 then
+                power_type = SPELL_POWER_COMBO_POINTS
+            end
+        else
+            self:UnregisterEvent('UPDATE_SHAPESHIFT_FORM')
+        end
     else
         power_type = powers[class]
     end
@@ -539,6 +559,9 @@ function ele:PowerEvent(event,unit,power_type_rcv)
     end
 
     PowerUpdate()
+end
+function ele:UPDATE_SHAPESHIFT_FORM()
+    self:PowerInit()
 end
 -- register ####################################################################
 function ele:OnEnable()
