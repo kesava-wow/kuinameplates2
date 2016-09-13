@@ -10,3 +10,4 @@
 * fix reload required for KuiSpellList changes to take effect
 * fix combo points aren't shown for druids with feral affinity
 * fix class powers could be re-shown while in the wrong spec if on personal frame
+* fix other player names could be hidden

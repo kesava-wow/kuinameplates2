@@ -71,11 +71,11 @@ local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET
 
 -- common globals
 local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,strlen,strformat,    pairs,ipairs,floor,
-      ceil,unpack =
+      UnitHealth,UnitHealthMax,UnitShouldDisplayName,strlen,strformat,    pairs,
+      ipairs,floor,ceil,unpack =
       UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,strlen,string.format,pairs,ipairs,floor,
-      ceil,unpack
+      UnitHealth,UnitHealthMax,UnitShouldDisplayName,strlen,string.format,pairs,
+      ipairs,floor,ceil,unpack
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -1402,7 +1402,8 @@ function core:ShowNameUpdate(f)
         not core.profile.hide_names or
         f.state.target or
         f.state.threat or
-        UnitShouldDisplayName(f.unit)
+        UnitShouldDisplayName(f.unit) or
+        UnitIsPlayer(f.unit)
     then
         f.state.no_name = nil
     else
