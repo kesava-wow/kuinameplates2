@@ -61,6 +61,8 @@ local function ButtonUpdateCooldown(button,duration,expiration)
 end
 -- callbacks ###################################################################
 function ArrangeButtons(self)
+    if not self.BarAuras then return end
+
     -- arrange in single column
     table.sort(self.buttons,auras_sort)
 
@@ -90,6 +92,8 @@ function ArrangeButtons(self)
     end
 end
 local function PostCreateAuraButton(button)
+    if not button.parent.BarAuras then return end
+
     -- add status bar and name
     local bar = CreateFrame('StatusBar',nil,button)
     bar:SetPoint('TOPLEFT',button.icon,'TOPRIGHT',1,0)
@@ -130,6 +134,7 @@ local function PostCreateAuraButton(button)
     button.count:ClearAllPoints()
     button.count:SetPoint('RIGHT',button.icon,'LEFT',-3,-.5)
     button.count:SetJustifyH('RIGHT')
+    button.count.fontobject_small = nil
 
     button:SetHeight(14)
 
@@ -147,12 +152,20 @@ local function PostCreateAuraButton(button)
     button.bar = bar
     button.name = name
 end
--- register ####################################################################
-function mod:Initialised()
+local function AuraFrame_OnUpdate(frame)
+    -- enforce frame size & position
+    frame:SetPoint('BOTTOMLEFT',frame.parent.bg,'TOPLEFT',0,15)
+    frame:SetPoint('BOTTOMRIGHT',frame.parent.bg,'TOPRIGHT')
 end
+local function PostCreateAuraFrame(frame)
+    if frame.id == 'core_dynamic' then
+        frame.BarAuras = true
+        frame:HookScript('OnUpdate',AuraFrame_OnUpdate)
+    end
+end
+-- register ####################################################################
 function mod:Initialise()
-    addon.BarAuras = true
-
     self:AddCallback('Auras','ArrangeButtons',ArrangeButtons)
     self:AddCallback('Auras','PostCreateAuraButton',PostCreateAuraButton)
+    self:AddCallback('Auras','PostCreateAuraFrame',PostCreateAuraFrame)
 end

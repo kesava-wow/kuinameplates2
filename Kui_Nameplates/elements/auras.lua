@@ -579,8 +579,6 @@ local function CreateAuraFrame(parent)
     auraframe.buttons = {}
     auraframe.spellids = {}
 
-    ele:RunCallback('PostCreateAuraFrame',auraframe)
-
     if addon.draw_frames then
         auraframe:SetBackdrop({
             bgFile='interface/buttons/white8x8'
@@ -642,6 +640,8 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
 
     new_frame.id = new_frame.id or #f.Auras.frames+1
     f.Auras.frames[new_frame.id] = new_frame
+
+    ele:RunCallback('PostCreateAuraFrame',new_frame)
 
     return new_frame
 end

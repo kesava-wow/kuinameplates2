@@ -1152,10 +1152,6 @@ do
         button.count:SetShadowOffset(1,-1)
         button.count:SetShadowColor(0,0,0,1)
 
-        if not addon.BarAuras then
-            button.count.fontobject_small = true
-        end
-
         core.AurasButton_SetFont(button)
     end
     function core.Auras_PostUpdateAuraFrame(frame)
