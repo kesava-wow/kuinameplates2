@@ -227,6 +227,8 @@ nameonly_enemies.enabled = function(p) return p.nameonly and not p.nameonly_all_
 nameonly_damaged_friends.enabled = nameonly_no_font_style.enabled
 nameonly_all_enemies.enabled = nameonly_no_font_style.enabled
 nameonly_target.enabled = nameonly_no_font_style.enabled
+guild_text_players.enabled = nameonly_no_font_style.enabled
+title_text_players.enabled = nameonly_no_font_style.enabled
 
 nameonlyCheck:SetPoint('TOPLEFT',10,-10)
 nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)

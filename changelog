@@ -1,1 +1,3 @@
 * execute range defaults to 25% for feral druids without sabertooth
+* fix default "friendly players" and "enemy players" name toggles aren't obeyed
+* fix "hide non-tracked names" must be enabled for "fade non-tracked units" to work
