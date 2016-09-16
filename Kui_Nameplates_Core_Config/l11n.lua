@@ -41,7 +41,7 @@ opt.tooltips = {
     fade_avoid_raidicon = 'Don\'t fade nameplates which have a raid icon visible',
     fade_friendly_npc = 'Fade friendly NPC nameplates by default (including those in name-only mode)',
     fade_neutral_enemy = 'Fade attackable neutral nameplates by default (including those in name-only mode)',
-    fade_untracked = 'Fade non-tracked nameplates by default (including those in name-only mode). Whether or not a unit is tracked can by set by changing the "NPC Names" dropdown in the default interface options under Esc > Interface > Names',
+    fade_untracked = 'Fade non-tracked nameplates by default (including those in name-only mode). Whether or not a unit is tracked can by set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names',
     fade_avoid_execute_friend = 'Don\'t fade friendly nameplates in execute range (set in the "Health bars" page)',
     fade_avoid_execute_hostile = 'Don\'t fade hostile nameplates in execute range (set in the "Health bars" page)',
 
@@ -53,7 +53,7 @@ opt.tooltips = {
     execute_colour = 'Colour to use within execute range',
     execute_percent = 'Manually set execute range',
 
-    hide_names = 'Whether or not a unit is tracked can be set by changing the "NPC Names" dropdown in the default interface options under Esc > Interface > Names. Note that this does not affect name-only mode',
+    hide_names = 'Whether or not a unit is tracked can be set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names. Note that this does not affect name-only mode',
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
     font_size_normal = 'Standard font size (name, etc)',
     font_size_small = 'Smaller font size (vendor, spell name, etc)',
