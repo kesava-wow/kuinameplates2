@@ -1,13 +1,1 @@
-* add options to change size of the personal nameplate
-* add option to show guild text on players in name-only mode
-* add option to show title text on players in name-only mode
-* add roboto condensed bold as an available font (assuming no other addon has added it)
-* add spark to powerbar
-* show true level in instanced pvp
-* enable centre align auras by default
-* fix players could be off-tank coloured
-* fix execute colour shows on tapped units
-* fix reload required for KuiSpellList changes to take effect
-* fix combo points aren't shown for druids with feral affinity
-* fix class powers could be re-shown while in the wrong spec if on personal frame
-* fix other player names could be hidden
+* execute range defaults to 25% for feral druids without sabertooth
