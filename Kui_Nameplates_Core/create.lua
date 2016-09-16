@@ -1391,16 +1391,24 @@ end
 function core:ShowNameUpdate(f)
     if not FADE_UNTRACKED and f.IN_NAMEONLY then return end
 
-    if f.state.player or not SHOW_NAME_TEXT then
-        f.state.no_name = true
-    elseif
-        not core.profile.hide_names or
-        f.state.target or
-        f.state.threat or
-        UnitShouldDisplayName(f.unit)
+    if f.state.target or
+       f.state.threat or
+       UnitShouldDisplayName(f.unit)
     then
+        f.state.tracked = true
         f.state.no_name = nil
     else
+        f.state.tracked = nil
+        f.state.no_name = true
+    end
+
+    if not core.profile.hide_names then
+        f.state.no_name = nil
+    end
+
+    if f.state.player or
+       not SHOW_NAME_TEXT
+    then
         f.state.no_name = true
     end
 

@@ -280,7 +280,7 @@ local function configChangedFadeRule(v,on_load)
 
     if core.profile.fade_untracked then
         plugin:AddFadeRule(function(f)
-            return f.state.no_name and -1
+            return not f.state.tracked and -1
         end,25)
     end
 end
