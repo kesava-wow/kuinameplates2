@@ -133,7 +133,7 @@ local default_config = {
 
     classpowers_enable = true,
     classpowers_on_target = true,
-    classpowers_size = 10,
+    classpowers_size = 11,
     classpowers_bar_width = 50,
     classpowers_bar_height = 3,
 
