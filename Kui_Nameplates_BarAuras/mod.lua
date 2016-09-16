@@ -164,6 +164,23 @@ local function PostCreateAuraButton(button)
     button.cd.SetFont = Bar_SetFont
     button.cd:SetFont(button.cd:GetFont())
 end
+local function AuraFrame_SetIconSize(frame)
+    frame.size = 14
+    frame.icon_height = frame.size
+    frame.icon_ratio = 0
+
+    if type(frame.buttons) == 'table' then
+        for k,b in ipairs(frame.buttons) do
+            b:SetWidth(frame.size)
+            b:SetHeight(frame.size)
+            b.icon:SetTexCoord(.1,.9,.1,.9)
+        end
+
+        if frame.visible and frame.visible > 0 then
+            frame:ArrangeButtons()
+        end
+    end
+end
 local function AuraFrame_OnUpdate(frame)
     -- enforce frame size & position
     frame:SetPoint('BOTTOMLEFT',frame.parent.bg,'TOPLEFT',0,15)
@@ -174,6 +191,8 @@ local function PostCreateAuraFrame(frame)
         frame.BarAuras = true
         frame.squareness = 1
         frame.size = 12
+
+        frame.SetIconSize = AuraFrame_SetIconSize
         frame:HookScript('OnUpdate',AuraFrame_OnUpdate)
     end
 end

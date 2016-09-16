@@ -481,7 +481,7 @@ end
 local function AuraFrame_SetIconSize(self,size)
     -- set icon size and related variables, update buttons
     if not size then
-        size = 24
+        size = self.size or 24
     end
 
     self.size = size
@@ -625,7 +625,7 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
 
     new_frame.row_point = row_growth_points[new_frame.row_growth]
 
-    new_frame:SetIconSize(new_frame.size)
+    new_frame:SetIconSize()
 
     if new_frame.kui_whitelist then
         new_frame:SetWhitelist(nil,true)
