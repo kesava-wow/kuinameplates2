@@ -1397,8 +1397,7 @@ function core:ShowNameUpdate(f)
         not core.profile.hide_names or
         f.state.target or
         f.state.threat or
-        UnitShouldDisplayName(f.unit) or
-        UnitIsPlayer(f.unit)
+        UnitShouldDisplayName(f.unit)
     then
         f.state.no_name = nil
     else
