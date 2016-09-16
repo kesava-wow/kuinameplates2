@@ -298,7 +298,6 @@ do
     function core.AurasButton_SetFont(button)
         UpdateFontObject(button.cd)
         UpdateFontObject(button.count)
-        UpdateFontObject(button.name)
     end
     function core:configChangedFontOption()
         -- update font objects

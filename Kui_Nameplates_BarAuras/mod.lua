@@ -2,7 +2,9 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BarAuras',101)
 
+local orig_SetFont
 local orig_UpdateCooldown
+
 local auras_sort = function(a,b)
     -- we have to recreate this base sorting function to maintain
     -- definitive sorting, since we're replacing ArrangeButtons
@@ -59,6 +61,10 @@ local function ButtonUpdateCooldown(button,duration,expiration)
     -- set aura name
     button.name:SetText(button.spellid and GetSpellInfo(button.spellid) or nil)
 end
+local function Bar_SetFont(fs,font,size)
+    orig_SetFont(fs,font,size,nil)
+    fs:GetParent():GetParent().name:SetFont(font,size,nil)
+end
 -- callbacks ###################################################################
 function ArrangeButtons(self)
     if not self.BarAuras then return end
@@ -103,6 +109,7 @@ local function PostCreateAuraButton(button)
     bar:SetStatusBarColor(.3,.4,.8)
     bar:SetMinMaxValues(0,10)
     bar:Hide()
+    button.bar = bar
 
     local spark = bar:CreateTexture(nil,'ARTWORK')
     spark:SetDrawLayer('ARTWORK',3)
@@ -115,13 +122,13 @@ local function PostCreateAuraButton(button)
     bar:HookScript('OnValueChanged',FadeSpark)
 
     local name = bar:CreateFontString(nil,'OVERLAY')
-    name:SetFont(button.cd:GetFont())
     name:SetPoint('LEFT',bar,1,-.5)
     name:SetPoint('RIGHT',button.cd,'LEFT',-2,0)
     name:SetJustifyH('LEFT')
     name:SetShadowOffset(1,-1)
     name:SetShadowColor(0,0,0,1)
     name:SetWordWrap()
+    button.name = name
 
     bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',2)
 
@@ -129,6 +136,8 @@ local function PostCreateAuraButton(button)
     button.cd:ClearAllPoints()
     button.cd:SetPoint('RIGHT',-1,-.5)
     button.cd:SetJustifyH('RIGHT')
+    button.cd:SetShadowOffset(1,-1)
+    button.cd:SetShadowColor(0,0,0,1)
 
     button.count:SetParent(bar)
     button.count:ClearAllPoints()
@@ -146,11 +155,14 @@ local function PostCreateAuraButton(button)
     if not orig_UpdateCooldown then
         orig_UpdateCooldown = button.UpdateCooldown
     end
-
     button.UpdateCooldown = ButtonUpdateCooldown
 
-    button.bar = bar
-    button.name = name
+    if not orig_SetFont then
+        orig_SetFont = button.cd.SetFont
+    end
+    -- bind to also set font of name text and remove outline
+    button.cd.SetFont = Bar_SetFont
+    button.cd:SetFont(button.cd:GetFont())
 end
 local function AuraFrame_OnUpdate(frame)
     -- enforce frame size & position
