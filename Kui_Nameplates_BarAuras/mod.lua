@@ -28,6 +28,8 @@ local function FadeSpark(self,val)
 end
 -- function replacements #######################################################
 local function ButtonUpdate(self)
+    if not self.expiration then return end
+
     local remaining = self.expiration - GetTime()
 
     -- also update bar
@@ -55,7 +57,9 @@ local function ButtonUpdateCooldown(button,duration,expiration)
         button.bar:Show()
         button:HookScript('OnUpdate',ButtonUpdate)
     else
-        button.bar:Hide()
+        button.bar:Show()
+        button.bar:SetValue(10)
+        button.bar.spark:SetAlpha(0)
     end
 
     -- set aura name
