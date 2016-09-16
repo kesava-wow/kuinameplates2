@@ -160,6 +160,8 @@ end
 local function PostCreateAuraFrame(frame)
     if frame.id == 'core_dynamic' then
         frame.BarAuras = true
+        frame.squareness = 1
+        frame.size = 12
         frame:HookScript('OnUpdate',AuraFrame_OnUpdate)
     end
 end
