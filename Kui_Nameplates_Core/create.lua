@@ -58,7 +58,7 @@ local POWER_BAR_HEIGHT,CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
-local FADE_AVOID_NAMEONLY,FADE_UNTRACKED
+local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
 local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local AURAS_ON_PERSONAL
@@ -237,6 +237,7 @@ do
 
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_UNTRACKED = self.profile.fade_untracked
+        FADE_AVOID_TRACKED = self.profile.fade_avoid_tracked
 
         SHOW_STATE_ICONS = self.profile.state_icons
 
@@ -1389,7 +1390,12 @@ do
 end
 -- name show/hide ##############################################################
 function core:ShowNameUpdate(f)
-    if not FADE_UNTRACKED and f.IN_NAMEONLY then return end
+    if  not FADE_UNTRACKED and
+        not FADE_AVOID_TRACKED and
+        f.IN_NAMEONLY
+    then
+        return
+    end
 
     if f.state.target or
        f.state.threat or
@@ -1412,7 +1418,7 @@ function core:ShowNameUpdate(f)
         f.state.no_name = true
     end
 
-    if FADE_UNTRACKED then
+    if FADE_UNTRACKED or FADE_AVOID_TRACKED then
         plugin_fading:UpdateFrame(f)
     end
 end
