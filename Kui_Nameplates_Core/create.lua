@@ -62,7 +62,7 @@ local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
 local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local AURAS_ON_PERSONAL
-local GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
+local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
 
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
@@ -250,6 +250,7 @@ do
 
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
 
+        GUILD_TEXT_NPCS = self.profile.guild_text_npcs
         GUILD_TEXT_PLAYERS = self.profile.guild_text_players
         TITLE_TEXT_PLAYERS = self.profile.title_text_players
     end
@@ -613,7 +614,7 @@ end
 do
     local function UpdateGuildText(f)
         if not f.IN_NAMEONLY or not f.state.guild_text or
-           (UnitIsPlayer(f.unit) and not GUILD_TEXT_PLAYERS)
+           ((UnitIsPlayer(f.unit) and not GUILD_TEXT_PLAYERS) or not GUILD_TEXT_NPCS)
         then
             f.GuildText:Hide()
         else

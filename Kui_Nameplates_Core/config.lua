@@ -45,6 +45,7 @@ local default_config = {
     nameonly_enemies = true,
     nameonly_all_enemies = false,
     nameonly_target = true,
+    guild_text_npcs = true,
     guild_text_players = false,
     title_text_players = false,
 
