@@ -221,6 +221,7 @@ local nameonly_damaged_friends = nameonly:CreateCheckBox('nameonly_damaged_frien
 local nameonly_enemies = nameonly:CreateCheckBox('nameonly_enemies')
 local nameonly_all_enemies = nameonly:CreateCheckBox('nameonly_all_enemies')
 local nameonly_target = nameonly:CreateCheckBox('nameonly_target')
+local guild_text_npcs = nameonly:CreateCheckBox('guild_text_npcs')
 local guild_text_players = nameonly:CreateCheckBox('guild_text_players')
 local title_text_players = nameonly:CreateCheckBox('title_text_players')
 
@@ -229,6 +230,7 @@ nameonly_enemies.enabled = function(p) return p.nameonly and not p.nameonly_all_
 nameonly_damaged_friends.enabled = nameonly_no_font_style.enabled
 nameonly_all_enemies.enabled = nameonly_no_font_style.enabled
 nameonly_target.enabled = nameonly_no_font_style.enabled
+guild_text_npcs.enabled = nameonly_no_font_style.enabled
 guild_text_players.enabled = nameonly_no_font_style.enabled
 title_text_players.enabled = nameonly_no_font_style.enabled
 
@@ -240,7 +242,8 @@ nameonly_all_enemies:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT')
 nameonly_enemies:SetPoint('LEFT',nameonly_all_enemies,'RIGHT',190,0)
 nameonly_damaged_friends:SetPoint('TOPLEFT',nameonly_all_enemies,'BOTTOMLEFT')
 
-guild_text_players:SetPoint('TOPLEFT',nameonly_damaged_friends,'BOTTOMLEFT',0,-20)
+guild_text_npcs:SetPoint('TOPLEFT',nameonly_damaged_friends,'BOTTOMLEFT',0,-20)
+guild_text_players:SetPoint('TOPLEFT',guild_text_npcs,'BOTTOMLEFT')
 title_text_players:SetPoint('LEFT',guild_text_players,'RIGHT',190,0)
 
 -- frame sizes #################################################################

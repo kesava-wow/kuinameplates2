@@ -28,6 +28,7 @@ opt.tooltips = {
     nameonly_enemies = 'Use name-only mode on unattackable enemies (not including enemy players under effects such as Ice Block)',
     nameonly_target = 'Also use name-only mode on your target',
     nameonly_all_enemies = 'Use name-only mode on all enemies',
+    guild_text_npcs = 'Show NPCs titles, such as Quartermaster, etc.',
     guild_text_players = 'Show guilds on players in name-only mode',
     title_text_players = 'Show players\' titles in name-only mode',
 
@@ -133,6 +134,7 @@ opt.titles = {
     nameonly_enemies = 'On unattackable enemies',
     nameonly_target = 'On target',
     nameonly_all_enemies = 'On enemies',
+    guild_text_npcs = 'Show NPC titles',
     guild_text_players = 'Show player guilds',
     title_text_players = 'Show player titles',
 

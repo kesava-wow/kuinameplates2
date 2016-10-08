@@ -614,7 +614,8 @@ end
 do
     local function UpdateGuildText(f)
         if not f.IN_NAMEONLY or not f.state.guild_text or
-           ((UnitIsPlayer(f.unit) and not GUILD_TEXT_PLAYERS) or not GUILD_TEXT_NPCS)
+           (not GUILD_TEXT_PLAYERS and UnitIsPlayer(f.unit)) or
+           (not GUILD_TEXT_NPCS and not UnitIsPlayer(f.unit))
         then
             f.GuildText:Hide()
         else
