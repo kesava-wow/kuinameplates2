@@ -67,6 +67,7 @@ local fade_avoid_nameonly = general:CreateCheckBox('fade_avoid_nameonly')
 local fade_avoid_raidicon = general:CreateCheckBox('fade_avoid_raidicon')
 local fade_avoid_execute_friend = general:CreateCheckBox('fade_avoid_execute_friend')
 local fade_avoid_execute_hostile = general:CreateCheckBox('fade_avoid_execute_hostile')
+local fade_avoid_tracked = general:CreateCheckBox('fade_avoid_tracked')
 
 fade_alpha:SetValueStep(.05)
 fade_speed:SetValueStep(.05)
@@ -84,6 +85,7 @@ fade_avoid_nameonly:SetPoint('TOPLEFT',fade_neutral_enemy,'BOTTOMLEFT',0,-20)
 fade_avoid_raidicon:SetPoint('LEFT',fade_avoid_nameonly,'RIGHT',190,0)
 fade_avoid_execute_friend:SetPoint('TOPLEFT',fade_avoid_nameonly,'BOTTOMLEFT')
 fade_avoid_execute_hostile:SetPoint('LEFT',fade_avoid_execute_friend,'RIGHT',190,0)
+fade_avoid_tracked:SetPoint('TOPLEFT',fade_avoid_execute_friend,'BOTTOMLEFT')
 
 target_glow_colour.enabled = function(p) return p.target_glow end
 

@@ -58,7 +58,7 @@ local default_config = {
     fade_avoid_raidicon = true,
     fade_avoid_execute_friend = false,
     fade_avoid_execute_hostile = false,
-    fade_avoid_tracked = true,
+    fade_avoid_tracked = false,
 
     font_face = DEFAULT_FONT,
     font_style = 2,
