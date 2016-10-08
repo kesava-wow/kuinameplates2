@@ -683,6 +683,12 @@ do
             end
         end
     end
+    function glow_prototype:SetAlpha(...)
+        for _,side in ipairs(self.sides) do
+            side:SetAlpha(...)
+        end
+    end
+
     -- update
     local function UpdateFrameGlow(f)
         if f.IN_NAMEONLY then
@@ -714,12 +720,15 @@ do
 
         if f.state.target and core.profile.target_glow then
             -- target glow colour
+            f.ThreatGlow:SetAlpha(1)
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+
             f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetGlow:Show()
         else
             if f.state.glowing then
                 -- threat glow colour
+                f.ThreatGlow:SetAlpha(1)
                 f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
             else
                 if core.profile.glow_as_shadow then

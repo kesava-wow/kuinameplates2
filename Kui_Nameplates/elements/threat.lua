@@ -37,6 +37,7 @@ function ele:UNIT_THREAT_LIST_UPDATE(event,f,unit)
 
         if f.elements.ThreatGlow then
             f.ThreatGlow:Show()
+            f.ThreatGlow:SetAlpha(1)
             f.ThreatGlow:SetVertexColor(unpack(threat_colour))
         end
 
