@@ -1,3 +1,4 @@
 * add option to avoid fading tracked or in-combat nameplates
 * add option to hide NPC "title" text
 * fix disabling "show frame shadow" causes threat glow to sometimes not appear
+* fix for ptr (doesn't affect live)
