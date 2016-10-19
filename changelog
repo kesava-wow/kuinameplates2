@@ -1,3 +1,4 @@
+* add aura filter which mimics the default UI's, showing stuns, silences, etc. cast by any player (enabled by default)
 * add option to avoid fading tracked or in-combat nameplates
 * add option to hide NPC "title" text
 * fix disabling "show frame shadow" causes threat glow to sometimes not appear
