@@ -78,6 +78,7 @@ opt.tooltips = {
 
     auras_enabled = 'Show auras that you cast on nameplates - buffs on friends, debuffs on enemies',
     auras_on_personal = 'Show auras on your character\'s nameplate if it is enabled',
+    auras_vanilla_filter = 'Use the default UI\'s filter for auras on enemy nameplates, showing things such as other players\' stuns, silences, etc., along with important player casts as usual.|n|nNote that the KSLC whitelist is ignored for enemies when this is enabled.',
     auras_whitelist = 'Use KuiSpellList to filter spells. You can use the extra addon KuiSpellListConfig from Curse to customise this list',
     auras_pulsate = 'Pulsate icons when they are about to expire',
     auras_centre = 'Align icons to horizontal centre relative to the frame, rather than left',
@@ -206,6 +207,7 @@ opt.titles = {
 
     auras_enabled = 'Show own auras',
     auras_on_personal = 'Show on personal frame',
+    auras_vanilla_filter = 'Use default UI filter',
     auras_whitelist = 'Use whitelist',
     auras_pulsate = 'Pulsate icons',
     auras_centre = 'Centre align icons',
