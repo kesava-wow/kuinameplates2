@@ -1219,6 +1219,7 @@ do
                     af.pulsate = self.profile.auras_pulsate
                     af.timer_threshold = timer_threshold
                     af.squareness = self.profile.auras_icon_squareness
+                    af.vanilla_filter = self.profile.auras_vanilla_filter
 
                     af:SetSort(self.profile.auras_sort)
                     af:SetWhitelist(nil,self.profile.auras_whitelist)

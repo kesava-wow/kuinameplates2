@@ -105,6 +105,7 @@ local default_config = {
 
     auras_enabled = true,
     auras_on_personal = true,
+    auras_vanilla_filter = true,
     auras_whitelist = false,
     auras_pulsate = true,
     auras_centre = true,
@@ -399,6 +400,7 @@ end
 local function configChangedAuras()
     core:SetAurasConfig()
 end
+configChanged.auras_vanilla_filter = configChangedAuras
 configChanged.auras_whitelist = configChangedAuras
 configChanged.auras_pulsate = configChangedAuras
 configChanged.auras_centre = configChangedAuras
