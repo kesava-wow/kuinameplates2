@@ -297,12 +297,12 @@ auras_centre:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT')
 auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
 auras_time_threshold:SetPoint('LEFT',auras_whitelist,'RIGHT',184,5)
 
-auras_filtering_sep:SetPoint('TOP',0,-170)
-auras_minimum_length:SetPoint('TOPLEFT',10,-200)
+auras_filtering_sep:SetPoint('TOP',0,-190)
+auras_minimum_length:SetPoint('TOPLEFT',10,-220)
 auras_maximum_length:SetPoint('LEFT',auras_minimum_length,'RIGHT',20,0)
 
-auras_icons_sep:SetPoint('TOP',0,-250)
-auras_icon_normal_size:SetPoint('TOPLEFT',10,-280)
+auras_icons_sep:SetPoint('TOP',0,-270)
+auras_icon_normal_size:SetPoint('TOPLEFT',10,-300)
 auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
 auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
 
