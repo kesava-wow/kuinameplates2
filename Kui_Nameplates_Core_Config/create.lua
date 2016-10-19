@@ -306,8 +306,6 @@ auras_icon_normal_size:SetPoint('TOPLEFT',10,-280)
 auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
 auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
 
-auras_whitelist.enabled = function(p) return p.auras_vanilla_filter end
-
 -- cast bars ###################################################################
 local castbar_enable = castbars:CreateCheckBox('castbar_enable')
 local castbar_colour = castbars:CreateColourPicker('castbar_colour')
