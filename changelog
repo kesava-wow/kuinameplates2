@@ -1,5 +1,7 @@
 * add aura filter which mimics the default UI's, showing stuns, silences, etc. cast by any player (enabled by default) - since this causes the whitelist to be ignored, this is a pretty big change to the old default behaviour of auras, but it more closely resembles what the default UI does.
 * add option to avoid fading tracked or in-combat nameplates
 * add option to hide NPC "title" text
+* add option to class-colour friendly names in bar-display mode (enabled by default)
+* add option to class-colour enemy names in bar-display mode (disabled by default)
 * fix disabling "show frame shadow" causes threat glow to sometimes not appear
 * fix for ptr (doesn't affect live)
