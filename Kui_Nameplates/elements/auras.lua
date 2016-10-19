@@ -337,7 +337,9 @@ local function AuraFrame_FactionUpdate(self)
         if UnitIsFriend('player',self.parent.unit) then
             self.filter = 'PLAYER HELPFUL'
         else
-            self.filter = 'PLAYER HARMFUL'
+            self.filter = self.vanilla_filter and
+                'HARMFUL|INCLUDE_NAME_PLATE_ONLY' or
+                'PLAYER HARMFUL'
         end
     end
 
@@ -347,13 +349,22 @@ local function AuraFrame_FactionUpdate(self)
 end
 local function AuraFrame_GetAuras(self)
     for i=1,40 do
-        local name,_,icon,count,_,duration,expiration,_,_,_,spellid =
-            UnitAura(self.parent.unit, i, self.filter)
---            'test',nil,'interface/icons/inv_dhmount',0,0,100,GetTime()+100,nil,nil,nil,math.random(1,100000)
-        if not name then break end
+        if self.vanilla_filter and self.filter == 'HARMFUL|INCLUDE_NAME_PLATE_ONLY' then
+            -- imitate filter from default nameplates, ignore whitelist
+            local name,_,icon,count,_,duration,expiration,caster,_,nameplateShowPersonal,spellid,_,_,_,nameplateShowAll =
+                UnitAura(self.parent.unit, i, self.filter)
 
-        if self:SpellIsInWhitelist(spellid,name) then
-            self:DisplayButton(spellid,name,icon,count,duration,expiration,i)
+            if self:ShouldShowAura(name,caster,nameplateShowPersonal,nameplateShowAll,duration) then
+                self:DisplayButton(spellid,name,icon,count,duration,expiration,i)
+            end
+        else
+            -- use customisable whitelist
+            local name,_,icon,count,_,duration,expiration,_,_,_,spellid =
+                UnitAura(self.parent.unit, i, self.filter)
+
+            if self:SpellIsInWhitelist(spellid,name) then
+                self:DisplayButton(spellid,name,icon,count,duration,expiration,i)
+            end
         end
     end
 end
@@ -377,6 +388,7 @@ local function AuraFrame_GetButton(self,spellid)
     return button
 end
 local function AuraFrame_SpellIsInWhitelist(self,spellid,name)
+    if not spellid or not name then return end
     if self.kui_whitelist then
         return kui_whitelist[spellid] or kui_whitelist[strlower(name)]
     elseif self.whitelist then
@@ -384,6 +396,10 @@ local function AuraFrame_SpellIsInWhitelist(self,spellid,name)
     else
         return true
     end
+end
+local function AuraFrame_ShouldShowAura(self,name,caster,nameplateShowPersonal,nameplateShowAll,duration)
+    if not name then return end
+    return nameplateShowAll or (nameplateShowPersonal and (caster == 'player' or caster == 'pet' or caster == 'vehicle'))
 end
 local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,index)
     if ele:RunCallback('DisplayAura',name,spellid,duration) == false then
@@ -564,6 +580,7 @@ local aura_meta = {
     SetSort        = AuraFrame_SetSort,
     SetWhitelist   = AuraFrame_SetWhitelist,
     SpellIsInWhitelist = AuraFrame_SpellIsInWhitelist,
+    ShouldShowAura = AuraFrame_ShouldShowAura,
 }
 local function CreateAuraFrame(parent)
     local auraframe = CreateFrame('Frame',nil,parent)
