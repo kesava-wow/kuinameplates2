@@ -63,6 +63,7 @@ local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local AURAS_ON_PERSONAL
 local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
+local CLASS_COLOUR_FRIENDLY_NAMES,CLASS_COLOUR_ENEMY_NAMES
 
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
@@ -243,6 +244,8 @@ do
 
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
+        CLASS_COLOUR_FRIENDLY_NAMES = self.profile.class_colour_friendly_names
+        CLASS_COLOUR_ENEMY_NAMES = self.profile.class_colour_enemy_names
         HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
         HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
         HEALTH_TEXT_HOSTILE_MAX = self.profile.health_text_hostile_max
@@ -490,15 +493,17 @@ do
                 f.handler:UpdateName()
             end
 
-            if  not f.state.player and
-                UnitIsPlayer(f.unit) and
-                f.state.friend
-            then
-                -- friendly player class colour
-                f.NameText:SetTextColor(GetClassColour(f))
-            else
-                -- white by default
-                f.NameText:SetTextColor(1,1,1,1)
+            -- white name text by default
+            f.NameText:SetTextColor(1,1,1,1)
+
+            if not f.state.player and UnitIsPlayer(f.unit) then
+                if f.state.friend then
+                    if CLASS_COLOUR_FRIENDLY_NAMES then
+                        f.NameText:SetTextColor(GetClassColour(f))
+                    end
+                elseif CLASS_COLOUR_ENEMY_NAMES then
+                    f.NameText:SetTextColor(GetClassColour(f))
+                end
             end
 
             if f.state.no_name then

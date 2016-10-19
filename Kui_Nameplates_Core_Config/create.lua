@@ -150,6 +150,8 @@ local font_size_normal = text:CreateSlider('font_size_normal',1,20)
 local font_size_small = text:CreateSlider('font_size_small',1,20)
 local name_text = text:CreateCheckBox('name_text')
 local hidenamesCheck = text:CreateCheckBox('hide_names')
+local class_colour_friendly_names = text:CreateCheckBox('class_colour_friendly_names')
+local class_colour_enemy_names = text:CreateCheckBox('class_colour_enemy_names')
 local level_text = text:CreateCheckBox('level_text')
 local health_text = text:CreateCheckBox('health_text')
 local text_vertical_offset = text:CreateSlider('text_vertical_offset',-20,20)
@@ -179,7 +181,11 @@ bot_vertical_offset:SetPoint('LEFT',name_vertical_offset,'RIGHT',20,0)
 
 name_text:SetPoint('TOPLEFT',text_vertical_offset,'BOTTOMLEFT',0,-20)
 hidenamesCheck:SetPoint('LEFT',name_text,'RIGHT',190,0)
-level_text:SetPoint('TOPLEFT',name_text,'BOTTOMLEFT')
+
+class_colour_friendly_names:SetPoint('TOPLEFT',name_text,'BOTTOMLEFT')
+class_colour_enemy_names:SetPoint('LEFT',class_colour_friendly_names,'RIGHT',190,0)
+
+level_text:SetPoint('TOPLEFT',class_colour_friendly_names,'BOTTOMLEFT')
 health_text:SetPoint('TOPLEFT',level_text,'BOTTOMLEFT')
 
 hidenamesCheck.enabled = function(p) return p.name_text end
@@ -203,8 +209,8 @@ health_text_friend_dmg.SelectTable = health_text_SelectTable
 health_text_hostile_max.SelectTable = health_text_SelectTable
 health_text_hostile_dmg.SelectTable = health_text_SelectTable
 
-health_text_sep:SetPoint('TOP',0,-250)
-health_text_friend_max:SetPoint('TOPLEFT',10,-270)
+health_text_sep:SetPoint('TOP',0,-270)
+health_text_friend_max:SetPoint('TOPLEFT',10,-290)
 health_text_friend_dmg:SetPoint('LEFT',health_text_friend_max,'RIGHT',10,0)
 health_text_hostile_max:SetPoint('TOPLEFT',health_text_friend_max,'BOTTOMLEFT',0,0)
 health_text_hostile_dmg:SetPoint('LEFT',health_text_hostile_max,'RIGHT',10,0)

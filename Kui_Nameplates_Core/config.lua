@@ -72,6 +72,8 @@ local default_config = {
     text_vertical_offset = -1.5,
     name_vertical_offset = -2,
     bot_vertical_offset = -3,
+    class_colour_friendly_names = true,
+    class_colour_enemy_names = false,
 
     health_text_friend_max = 5,
     health_text_friend_dmg = 4,
