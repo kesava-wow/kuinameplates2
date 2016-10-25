@@ -4,4 +4,4 @@
 * add option to class-colour friendly names in bar-display mode (enabled by default)
 * add option to class-colour enemy names in bar-display mode (disabled by default)
 * fix disabling "show frame shadow" causes threat glow to sometimes not appear
-* fix for ptr (doesn't affect live)
+* fix for 7.1
