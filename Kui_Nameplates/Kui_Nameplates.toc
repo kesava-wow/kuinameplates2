@@ -1,4 +1,4 @@
-## Interface: 70000
+## Interface: 70100
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates
 ## Notes: Kesava's nameplate framework.|nRemember to enable Kui Nameplates Core (or a compatible layout), too!
