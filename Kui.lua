@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 22
+local MAJOR, MINOR = 'Kui-1.0', 23
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -23,9 +23,10 @@ kui.m = {
         innerShade  = media .. 't\\innerShade',
 
         -- progress bars
-        bar     = media .. 't\\bar',
-        oldbar  = media .. 't\\bar-old',
-        sbar    = media .. 't\\barSmall',
+        bar       = media .. 't\\bar',
+        oldbar    = media .. 't\\bar-old',
+        sbar      = media .. 't\\bar-small',
+        brightbar = media .. 't\\bar-bright',
 
         empty = media..'t\\empty',
     },
