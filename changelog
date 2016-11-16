@@ -1,2 +1,3 @@
 * add a brighter status bar texture to the dropdown, "Kui status bar (brighter)". The default is unchanged.
 * change default font to Roboto Condensed Bold for it's support for non-latin characters and similarity in WoW to FrancoisOne.
+* add flame shock to KuiSpellList. Not late at all.
