@@ -123,6 +123,7 @@ local STAGGER_RED = { 1, .42, .42 }
 local ICON_SIZE
 local ICON_SPACING
 local ICON_TEXTURE
+local GLOW_TEXTURE
 local CD_TEXTURE
 local BAR_TEXTURE,BAR_WIDTH,BAR_HEIGHT
 local FRAME_POINT
@@ -157,6 +158,14 @@ local function PositionIcons()
         pv = icon
     end
 end
+local function Icon_SetVertexColor(self,...)
+    -- also set glow colour
+    orig_SetVertexColor(self,...)
+
+    if self.glow then
+        self.glow:SetVertexColor(...)
+    end
+end
 local function CreateIcon()
     -- create individual icon
     local icon = ele:RunCallback('CreateIcon')
@@ -165,10 +174,25 @@ local function CreateIcon()
         icon = cpf:CreateTexture(nil,'ARTWORK',nil,1)
         icon:SetTexture(ICON_TEXTURE)
         icon:SetSize(ICON_SIZE,ICON_SIZE)
-        icon:SetVertexColor(unpack(colours[class]))
+
+        if not orig_SetVertexColor then
+            orig_SetVertexColor = icon.SetVertexColor
+        end
+        icon.SetVertexColor = Icon_SetVertexColor
+
+        if GLOW_TEXTURE then
+            -- create icon glow if a texture is set
+            local ig = cpf:CreateTexture(nil,'ARTWORK',nil,0)
+            ig:SetTexture(GLOW_TEXTURE)
+            ig:SetPoint('TOPLEFT',icon,-5,5)
+            ig:SetPoint('BOTTOMRIGHT',icon,5,-5)
+            ig:Hide()
+
+            icon.glow = ig
+        end
 
         if class == 'DEATHKNIGHT' then
-            -- also create a cooldown frame for runes
+            -- create a cooldown frame for runes
             local cd = CreateFrame('Cooldown',nil,cpf,'CooldownFrameTemplate')
             cd:SetSwipeTexture(CD_TEXTURE)
             cd:SetAllPoints(icon)
@@ -293,13 +317,30 @@ local function PowerUpdate()
             else
                 icon:Active()
             end
+
+            if icon.glow then
+                icon.glow:Show()
+            end
         end
     else
+        local at_max = cur == #cpf.icons
         for i,icon in ipairs(cpf.icons) do
-            if i <= cur then
+            if at_max then
                 icon:Active()
+
+                if icon.glow then
+                    icon.glow:Show()
+                end
             else
-                icon:Inactive()
+                if i <= cur then
+                    icon:Active()
+                else
+                    icon:Inactive()
+                end
+
+                if icon.glow then
+                    icon.glow:Hide()
+                end
             end
         end
     end
@@ -366,6 +407,7 @@ function ele:UpdateConfig()
     ICON_SIZE         = addon.layout.ClassPowers.icon_size or 10
     ICON_SPACING      = addon.layout.ClassPowers.icon_spacing or 1
     ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
+    GLOW_TEXTURE      = addon.layout.ClassPowers.icon_glow_texture
     CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
     BAR_TEXTURE       = addon.layout.ClassPowers.bar_texture
     BAR_WIDTH         = addon.layout.ClassPowers.bar_width or 50
@@ -403,6 +445,10 @@ function ele:UpdateConfig()
             for k,i in ipairs(cpf.icons) do
                 i:SetSize(ICON_SIZE,ICON_SIZE)
                 i:SetTexture(ICON_TEXTURE)
+
+                if i.glow then
+                    i.glow:SetTexture(GLOW_TEXTURE)
+                end
 
                 if i.cd then
                     i.cd:SetSwipeTexture(CD_TEXTURE)
@@ -510,19 +556,27 @@ function ele:RuneUpdate(event,rune_id,energise)
     -- set cooldown on rune icons
     local startTime, duration, charged = GetRuneCooldown(rune_id)
     local icon = cpf.icons[rune_id]
-    if not icon then return end
+    if not icon or not icon.cd then return end
 
     if charged or energise then
         icon:SetVertexColor(unpack(colours.DEATHKNIGHT))
         icon:SetAlpha(1)
 
         icon.cd:Hide()
+
+        if icon.glow then
+            icon.glow:Show()
+        end
     else
         icon:SetVertexColor(unpack(colours.inactive))
         icon:SetAlpha(1)
 
         icon.cd:SetCooldown(startTime, duration)
         icon.cd:Show()
+
+        if icon.glow then
+            icon.glow:Hide()
+        end
     end
 
     self:RunCallback('PostRuneUpdate',icon,rune_id)
