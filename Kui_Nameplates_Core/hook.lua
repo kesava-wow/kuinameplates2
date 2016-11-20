@@ -219,8 +219,6 @@ function core:Initialise()
     self:AddCallback('Auras','DisplayAura',self.Auras_DisplayAura)
     self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
     self:AddCallback('ClassPowers','CreateBar',self.ClassPowers_CreateBar)
-    self:AddCallback('ClassPowers','PostCreateIcon',self.ClassPowers_PostCreateIcon)
-    self:AddCallback('ClassPowers','PostRuneUpdate',self.ClassPowers_PostRuneUpdate)
 
     -- update layout's locals with configuration
     self:SetLocals()
