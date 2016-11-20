@@ -1,3 +1,6 @@
+package-as:
+    Kui_Nameplates
+
 manual-changelog:
     filename: changelog
     markup-type: creole
@@ -6,7 +9,6 @@ enable-nolib-creation:
     no
 
 move-folders:
-    kuinameplates: Kui_Nameplates
     Kui_Nameplates/Kui_Media: Kui_Media
     Kui_Nameplates/Kui_Nameplates_Core: Kui_Nameplates_Core
     Kui_Nameplates/Kui_Nameplates_Core_Config: Kui_Nameplates_Core_Config
