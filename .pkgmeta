@@ -6,10 +6,10 @@ enable-nolib-creation:
     no
 
 move-folders:
-    kuinameplates/Kui_Media: Kui_Media
-    kuinameplates/Kui_Nameplates_Core: Kui_Nameplates_Core
-    kuinameplates/Kui_Nameplates_Core_Config: Kui_Nameplates_Core_Config
-    kuinameplates/Kui_Nameplates: Kui_Nameplates
+    kuinameplates: Kui_Nameplates
+    Kui_Nameplates/Kui_Media: Kui_Media
+    Kui_Nameplates/Kui_Nameplates_Core: Kui_Nameplates_Core
+    Kui_Nameplates/Kui_Nameplates_Core_Config: Kui_Nameplates_Core_Config
 
 ignore:
     - .gitignore
