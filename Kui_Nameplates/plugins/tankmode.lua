@@ -72,15 +72,19 @@ function mod:HealthColourChange(f,caller)
     self:GlowColourChange(f)
 end
 function mod:GlowColourChange(f)
-    if UnitIsPlayer(f.unit) or UnitPlayerControlled(f.unit) then
+    if  UnitIsPlayer(f.unit) or
+        UnitPlayerControlled(f.unit) or
+        UnitIsTapDenied(f.unit)
+    then
         UncolourHealthBar(f)
         return
     end
 
     -- tank mode health bar colours
     if self.enabled and spec_enabled and
-        ((f.state.threat and f.state.threat > 0) or
-        f.state.tank_mode_offtank)
+        ( (f.state.threat and f.state.threat > 0) or
+          f.state.tank_mode_offtank
+        )
     then
         -- mod is enabled and frame has an active threat state
         ColourHealthBar(f)
