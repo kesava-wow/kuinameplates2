@@ -459,6 +459,19 @@ do
 end
 -- name text ###################################################################
 do
+    local function SetNameTextPlayerColor(f)
+        -- override colour based on config
+        if not f.state.player and UnitIsPlayer(f.unit) then
+            if f.state.friend then
+                if CLASS_COLOUR_FRIENDLY_NAMES then
+                    f.NameText:SetTextColor(GetClassColour(f))
+                end
+            elseif CLASS_COLOUR_ENEMY_NAMES then
+                f.NameText:SetTextColor(GetClassColour(f))
+            end
+        end
+    end
+
     local function UpdateNameText(f)
         if f.IN_NAMEONLY then
             if TITLE_TEXT_PLAYERS then
@@ -469,21 +482,20 @@ do
 
             f.NameText:Show()
 
+            -- reaction colour
             if not UnitCanAttack('player',f.unit) and
                f.state.reaction >= 4
             then
-                -- friendly colour
+                -- friendly
                 f.NameText:SetTextColor(.6,1,.6)
                 f.GuildText:SetTextColor(.8,.9,.8,.9)
             else
+                -- hostile
                 f.NameText:SetTextColor(1,.4,.3)
                 f.GuildText:SetTextColor(1,.8,.7,.9)
             end
 
-            if UnitIsPlayer(f.unit) then
-                -- player class colour
-                f.NameText:SetTextColor(GetClassColour(f))
-            end
+            SetNameTextPlayerColor(f)
 
             -- set name text colour to health
             core:NameOnlySetNameTextToHealth(f)
@@ -495,16 +507,7 @@ do
 
             -- white name text by default
             f.NameText:SetTextColor(1,1,1,1)
-
-            if not f.state.player and UnitIsPlayer(f.unit) then
-                if f.state.friend then
-                    if CLASS_COLOUR_FRIENDLY_NAMES then
-                        f.NameText:SetTextColor(GetClassColour(f))
-                    end
-                elseif CLASS_COLOUR_ENEMY_NAMES then
-                    f.NameText:SetTextColor(GetClassColour(f))
-                end
-            end
+            SetNameTextPlayerColor(f)
 
             if f.state.no_name then
                 f.NameText:Hide()
