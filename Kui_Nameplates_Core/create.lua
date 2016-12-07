@@ -490,9 +490,15 @@ do
                 f.NameText:SetTextColor(.6,1,.6)
                 f.GuildText:SetTextColor(.8,.9,.8,.9)
             else
-                -- hostile
-                f.NameText:SetTextColor(1,.4,.3)
-                f.GuildText:SetTextColor(1,.8,.7,.9)
+                if f.state.reaction == 4 then
+                    -- neutral, attackable
+                    f.NameText:SetTextColor(1,1,.4)
+                    f.GuildText:SetTextColor(1,1,.8,.9)
+                else
+                    -- hostile
+                    f.NameText:SetTextColor(1,.4,.3)
+                    f.GuildText:SetTextColor(1,.8,.7,.9)
+                end
             end
 
             SetNameTextPlayerColor(f)
