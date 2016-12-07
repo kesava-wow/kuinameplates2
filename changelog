@@ -3,4 +3,5 @@
 * add flame shock to KuiSpellList. Not late at all.
 * the class power icons now glow at max power, rather than always
 * tank mode now ignores tapped units
+* the class colour name checkboxes in /knp > text now also affect nameonly mode
 * fix class powers sometimes disappear upon zoning into/out of instanced PVP
