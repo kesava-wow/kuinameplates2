@@ -62,8 +62,8 @@ opt.tooltips = {
     text_vertical_offset = 'Vertical offset applied to all strings. Used as some fonts render at odd vertical positions in WoW. Note that this value ends in .5 by default as this helps to reduce vertical jittering when frames are moving',
     name_vertical_offset = 'Vertical offset of the name text',
     bot_vertical_offset = 'Vertical offset of the level and health text strings',
-    class_colour_friendly_names = 'Colour the names of friendly players by their class.|n|nThis does not affect name-only mode.',
-    class_colour_enemy_names = 'Colour the names of enemy players by their class.|n|nThis does not affect name-only mode.',
+    class_colour_friendly_names = 'Colour the names of friendly players by their class.',
+    class_colour_enemy_names = 'Colour the names of enemy players by their class.',
 
     health_text_friend_max = 'Health text format used on friendly units at full health',
     health_text_friend_dmg = 'Health text format used on damaged friendly units',
