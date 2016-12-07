@@ -24,6 +24,7 @@ opt.tooltips = {
 
     nameonly = 'Hide the healthbars of friendly or unattackable units. While in name-only mode, name text is coloured as a percentage of health',
     nameonly_no_font_style = 'Hide text outline when in name-only mode (by setting the font style to nil)',
+    nameonly_health_colour = 'Partially colour text to represent health percentage',
     nameonly_damaged_friends = 'Use name-only mode even on damaged friendly frames',
     nameonly_enemies = 'Use name-only mode on unattackable enemies (not including enemy players under effects such as Ice Block)',
     nameonly_target = 'Also use name-only mode on your target',
@@ -133,6 +134,7 @@ opt.titles = {
 
     nameonly = 'Use name-only mode',
     nameonly_no_font_style = 'No text outline',
+    nameonly_health_colour = 'Health colour',
     nameonly_damaged_friends = 'On damaged friends',
     nameonly_enemies = 'On unattackable enemies',
     nameonly_target = 'On target',

@@ -1392,7 +1392,7 @@ end
 -- nameonly ####################################################################
 do
     local NAMEONLY_NO_FONT_STYLE,NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_FRIENDS,
-    NAMEONLY_ALL_ENEMIES,NAMEONLY_TARGET
+    NAMEONLY_ALL_ENEMIES,NAMEONLY_TARGET,NAMEONLY_HEALTH_COLOUR
 
     function core:configChangedNameOnly()
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
@@ -1400,6 +1400,7 @@ do
         NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
         NAMEONLY_ENEMIES = NAMEONLY_ALL_ENEMIES or self.profile.nameonly_enemies
         NAMEONLY_TARGET = self.profile.nameonly_target
+        NAMEONLY_HEALTH_COLOUR = self.profile.nameonly_health_colour
 
         if NAMEONLY_ALL_ENEMIES or NAMEONLY_TARGET then
             -- create target/threat glow
@@ -1512,7 +1513,7 @@ do
     end
     function core:NameOnlySetNameTextToHealth(f)
         -- set name text colour to approximate health
-        if not f.IN_NAMEONLY then return end
+        if not f.IN_NAMEONLY or not NAMEONLY_HEALTH_COLOUR then return end
 
         if f.state.health_cur and f.state.health_cur > 0 and
            f.state.health_max and f.state.health_max > 0

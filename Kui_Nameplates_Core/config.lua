@@ -42,6 +42,7 @@ local default_config = {
 
     nameonly = true,
     nameonly_no_font_style = false,
+    nameonly_health_colour = true,
     nameonly_damaged_friends = true,
     nameonly_enemies = true,
     nameonly_all_enemies = false,
@@ -392,6 +393,7 @@ configChanged.nameonly_damaged_friends = configChanged.nameonly
 configChanged.nameonly_enemies = configChanged.nameonly
 configChanged.nameonly_all_enemies = configChanged.nameonly
 configChanged.nameonly_target = configChanged.nameonly
+configChanged.nameonly_health_colour = configChanged.nameonly
 
 function configChanged.auras_enabled(v)
     if v then
