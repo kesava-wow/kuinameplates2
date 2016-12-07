@@ -4,4 +4,5 @@
 * the class power icons now glow at max power, rather than always
 * tank mode now ignores tapped units
 * the class colour name checkboxes in /knp > text now also affect nameonly mode
+* neutral attackable units now have yellow names in nameonly mode
 * fix class powers sometimes disappear upon zoning into/out of instanced PVP
