@@ -472,7 +472,9 @@ function ele:TargetUpdate(f)
 end
 -- events ######################################################################
 function ele:PLAYER_ENTERING_WORLD()
-    -- update icons upon zoning. just in case.
+    -- Update icons after zoning to workaround UnitPowerMax returning 0 when
+    -- zoning into/out of instanced PVP (#125)
+    UpdateIcons()
     PowerUpdate()
 end
 function ele:PowerInit()
@@ -628,7 +630,12 @@ function ele:OnEnable()
     end
 
     self:UpdateConfig()
+
+    -- This event is sometimes spammed upon entering/leaving instanced PVP.
+    -- It's always called at least once, and during this first call,
+    -- UnitPowerMax returns 0 for some reason. (#125)
     self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
+
     self:PowerInit()
 end
 function ele:OnDisable()
