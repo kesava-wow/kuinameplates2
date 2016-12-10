@@ -38,8 +38,8 @@ local target_arrows = general:CreateCheckBox('target_arrows')
 local frame_glow_size = general:CreateSlider('frame_glow_size',4,16)
 local target_arrows_size = general:CreateSlider('target_arrows_size',20,60)
 
-combat_hostile.SelectTable = {'Do nothing','Hide','Show'}
-combat_friendly.SelectTable = {'Do nothing','Hide','Show'}
+combat_hostile.SelectTable = {'Do nothing','Hide, then show','Show, then hide'}
+combat_friendly.SelectTable = combat_hostile.SelectTable
 
 combat_hostile:SetPoint('TOPLEFT',10,-10)
 combat_friendly:SetPoint('LEFT',combat_hostile,'RIGHT',10,0)
