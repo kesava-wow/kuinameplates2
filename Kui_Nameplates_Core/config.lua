@@ -167,7 +167,10 @@ local function UpdateClickboxSize()
         C_NamePlate.SetNamePlateEnemySize(width,height)
     end
 
-    C_NamePlate.SetNamePlateSelfSize(width,height)
+    C_NamePlate.SetNamePlateSelfSize(
+        (core.profile.frame_width_personal * addon.uiscale) + 10,
+        (core.profile.frame_height_personal * addon.uiscale) + 20
+    )
 end
 local function QueueClickboxUpdate()
     cc:QueueFunction(UpdateClickboxSize)

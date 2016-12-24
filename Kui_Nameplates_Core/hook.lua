@@ -21,6 +21,11 @@ end
 local anchor = CreateFrame('Frame','KuiNameplatesPlayerAnchor')
 anchor:Hide()
 
+if addon.draw_frames then
+    anchor:SetBackdrop({ edgeFile = kui.m.t.solid, edgeSize = 1 })
+    anchor:SetBackdropBorderColor(0,0,1)
+end
+
 local plugin_fading
 local plugin_classpowers
 -- messages ####################################################################
