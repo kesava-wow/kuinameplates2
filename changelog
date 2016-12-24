@@ -1,9 +1,3 @@
-* add a brighter status bar texture to the dropdown, "Kui status bar (brighter)". The default is unchanged.
-* change default font to Roboto Condensed Bold for it's support for non-latin characters and similarity in WoW to FrancoisOne.
-* add flame shock to KuiSpellList. Not late at all.
-* add option to disable nameonly text health colouring
-* the class power icons now glow at max power, rather than always
-* tank mode now ignores tapped units
-* the class colour name checkboxes in /knp > text now also affect nameonly mode
-* neutral attackable units now have yellow names in nameonly mode
-* fix class powers sometimes disappear upon zoning into/out of instanced PVP
+* update kui container frame size according to size config
+* possibly fix some pixel-positioning issues with the personal frame anchor (KuiNameplatesPlayerAnchor)
+* fix personal frame clickbox doesn't update according to personal frame size config
