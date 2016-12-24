@@ -357,10 +357,13 @@ end
 local function UpdateFrameSize(f)
     -- set frame size and position
     if f.state.minus then
+        f:SetSize(FRAME_WIDTH_MINUS+10,FRAME_HEIGHT_MINUS+20)
         f.bg:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
     elseif f.state.player then
+        f:SetSize(FRAME_WIDTH_PERSONAL+10,FRAME_HEIGHT_PERSONAL+20)
         f.bg:SetSize(FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL)
     else
+        f:SetSize(FRAME_WIDTH+10,FRAME_HEIGHT+20)
         f.bg:SetSize(FRAME_WIDTH,FRAME_HEIGHT)
     end
 
@@ -369,8 +372,8 @@ local function UpdateFrameSize(f)
     end
 
     -- calculate point to remain pixel-perfect
-    f.x = floor((addon.width / 2) - (f.bg:GetWidth() / 2))
-    f.y = floor((addon.height / 2) - (f.bg:GetHeight() / 2))
+    f.x = floor((f:GetWidth() / 2) - (f.bg:GetWidth() / 2))
+    f.y = floor((f:GetHeight() / 2) - (f.bg:GetHeight() / 2))
 
     f.bg:SetPoint('BOTTOMLEFT',f.x,f.y)
 
