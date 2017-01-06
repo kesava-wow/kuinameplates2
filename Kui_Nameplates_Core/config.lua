@@ -247,7 +247,7 @@ local function configChangedFadeRule(v,on_load)
 
     if core.profile.fade_avoid_raidicon then
         plugin:AddFadeRule(function(f)
-            return f.RaidIcon:IsShown() and 1
+            return f.RaidIcon and f.RaidIcon:IsShown() and 1
         end,1)
 
         -- force an alpha update whenever a raid icon is added/removed
