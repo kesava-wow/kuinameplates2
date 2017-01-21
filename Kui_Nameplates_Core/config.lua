@@ -40,6 +40,10 @@ local default_config = {
     frame_glow_size = 8,
     target_arrows_size = 33,
 
+    clickthrough_self = false,
+    clickthrough_friend = false,
+    clickthrough_enemy = false,
+
     nameonly = true,
     nameonly_no_font_style = false,
     nameonly_health_colour = true,
@@ -509,6 +513,15 @@ function configChanged.ignore_uiscale(v)
     QueueClickboxUpdate()
 end
 
+function configChangedClickthrough()
+    C_NamePlate.SetNamePlateSelfClickThrough(core.profile.clickthrough_self)
+    C_NamePlate.SetNamePlateFriendlyClickThrough(core.profile.clickthrough_friend)
+    C_NamePlate.SetNamePlateEnemyClickThrough(core.profile.clickthrough_enemy)
+end
+configChanged.clickthrough_self = configChangedClickthrough
+configChanged.clickthrough_friend = configChangedClickthrough
+configChanged.clickthrough_enemy = configChangedClickthrough
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
@@ -527,6 +540,10 @@ configLoaded.level_text = configChanged.level_text
 
 configLoaded.auras_enabled = configChanged.auras_enabled
 configLoaded.auras_whitelist = configChangedAuras
+
+configLoaded.clickthrough_self = configChangedClickthrough
+configLoaded.clickthrough_friend = configChangedClickthrough
+configLoaded.clickthrough_enemy = configChangedClickthrough
 
 function configLoaded.classpowers_enable(v)
     if v then

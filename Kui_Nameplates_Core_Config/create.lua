@@ -56,6 +56,16 @@ target_arrows_size:SetPoint('LEFT',frame_glow_size,'RIGHT',20,0)
 
 target_arrows_size.enabled = function(p) return p.target_arrows end
 
+local clickthrough_sep = general:CreateSeperator('clickthrough_sep')
+local clickthrough_self = general:CreateCheckBox('clickthrough_self')
+local clickthrough_friend = general:CreateCheckBox('clickthrough_friend')
+local clickthrough_enemy = general:CreateCheckBox('clickthrough_enemy')
+
+clickthrough_sep:SetPoint('TOP',0,-245)
+clickthrough_self:SetPoint('TOPLEFT',15,-(245+15))
+clickthrough_friend:SetPoint('TOPLEFT',(15+125),-(245+15))
+clickthrough_enemy:SetPoint('TOPLEFT',(15+125*2),-(245+15))
+
 local fade_rules_sep = general:CreateSeperator('fade_rules_sep')
 local fade_alpha = general:CreateSlider('fade_alpha',0,1)
 local fade_speed = general:CreateSlider('fade_speed',0,1)
@@ -72,11 +82,11 @@ local fade_avoid_tracked = general:CreateCheckBox('fade_avoid_tracked')
 fade_alpha:SetValueStep(.05)
 fade_speed:SetValueStep(.05)
 
-fade_rules_sep:SetPoint('TOP',0,-235)
-fade_alpha:SetPoint('TOPLEFT',10,-260)
+fade_rules_sep:SetPoint('TOP',0,-320)
+fade_alpha:SetPoint('TOPLEFT',10,-(320+25))
 
 fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-fade_all:SetPoint('TOPLEFT',15,-295)
+fade_all:SetPoint('TOPLEFT',15,-(320+60))
 fade_friendly_npc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
 fade_neutral_enemy:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
 fade_untracked:SetPoint('LEFT',fade_neutral_enemy,'RIGHT',190,0)
