@@ -1,5 +1,1 @@
-* update kui container frame size according to size config
-* possibly fix some pixel-positioning issues with the personal frame anchor (KuiNameplatesPlayerAnchor)
-* fix personal frame clickbox doesn't update according to personal frame size config
-* clarify combat action dropdowns (behaviour is unchanged)
-* clarify "use whitelist" and "use default ui filter" tooltips (behaviour is unchanged)
+* add options to enable click-through of friendly, enemy or personal nameplates
