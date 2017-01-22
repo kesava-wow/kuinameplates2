@@ -52,7 +52,7 @@ local function GetExecuteRange()
         end
     end
 
-    if pvp_talents[class] then
+    if UnitIsPVP('player') and pvp_talents[class] then
         for id,v in pairs(pvp_talents[class]) do
             if IsTalentKnown(id,true) then
                 r = v
@@ -126,6 +126,7 @@ end
 function mod:OnEnable()
     self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
     self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
+    self:RegisterEvent('PLAYER_FLAGS_CHANGED','PLAYER_SPECIALIZATION_CHANGED')
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('Show','HealthColourChange')
 
