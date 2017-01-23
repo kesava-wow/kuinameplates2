@@ -63,8 +63,8 @@ local clickthrough_enemy = general:CreateCheckBox('clickthrough_enemy')
 
 clickthrough_sep:SetPoint('TOP',0,-245)
 clickthrough_self:SetPoint('TOPLEFT',15,-(245+15))
-clickthrough_friend:SetPoint('TOPLEFT',(15+125),-(245+15))
-clickthrough_enemy:SetPoint('TOPLEFT',(15+125*2),-(245+15))
+clickthrough_friend:SetPoint('TOPLEFT',(15+155),-(245+15))
+clickthrough_enemy:SetPoint('TOPLEFT',(15+155*2),-(245+15))
 
 local fade_rules_sep = general:CreateSeperator('fade_rules_sep')
 local fade_alpha = general:CreateSlider('fade_alpha',0,1)

@@ -137,8 +137,8 @@ opt.titles = {
     ignore_uiscale = 'Ignore UI scale',
 
     clickthrough_sep = 'Clickthrough frames',
-    clickthrough_self = 'Self',
-    clickthrough_friend = 'Friend',
+    clickthrough_self = 'Personal',
+    clickthrough_friend = 'Friendly',
     clickthrough_enemy = 'Enemy',
 
     nameonly = 'Use name-only mode',
