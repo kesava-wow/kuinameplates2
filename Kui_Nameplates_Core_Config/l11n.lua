@@ -22,6 +22,10 @@ opt.tooltips = {
     ignore_uiscale = 'Ignore the default UI\'s scaling. This allows nameplates to retain pixel-perfectness regardless of resolution.',
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
+    clickthrough_self = 'Disable the click-box of your personal nameplate',
+    clickthrough_friend = 'Disable the click-box of friendly nameplates',
+    clickthrough_enemy = 'Disable the click-box of enemy nameplates',
+
     nameonly = 'Hide the healthbars of friendly or unattackable units. While in name-only mode, name text is coloured as a percentage of health',
     nameonly_no_font_style = 'Hide text outline when in name-only mode (by setting the font style to nil)',
     nameonly_health_colour = 'Partially colour text to represent health percentage',
@@ -131,6 +135,11 @@ opt.titles = {
     combat_friendly = 'Combat action: friendly',
 
     ignore_uiscale = 'Ignore UI scale',
+
+    clickthrough_sep = 'Clickthrough frames',
+    clickthrough_self = 'Self',
+    clickthrough_friend = 'Friend',
+    clickthrough_enemy = 'Enemy',
 
     nameonly = 'Use name-only mode',
     nameonly_no_font_style = 'No text outline',
