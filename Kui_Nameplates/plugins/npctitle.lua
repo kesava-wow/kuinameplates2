@@ -28,7 +28,7 @@ function mod:Show(f)
 
         tooltip:Hide()
 
-        if not gtext or gtext:find('^Level ') then return end
+        if not gtext or gtext:find('^'..LEVEL..' ') then return end
         f.state.guild_text = gtext
     end
 end
