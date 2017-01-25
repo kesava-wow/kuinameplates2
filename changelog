@@ -1,3 +1,6 @@
 * add options to enable click-through of friendly, enemy or personal nameplates
-* fix pvp flag was ignored when checking pvp talents for execute range
 * "ignore uiscale" works in a manually resized window thanks to a new function in 7.1
+* fix pvp flag was ignored when checking pvp talents for execute range
+* fix "show on personal frame" re-shows auras on the personal frame when the module is disabled
+* fix npc title text shows level on languages other than english
+* fix media settings are ignored if the addon which provides the file is loaded after KNP
