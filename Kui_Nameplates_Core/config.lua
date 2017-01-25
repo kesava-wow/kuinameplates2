@@ -402,15 +402,17 @@ configChanged.nameonly_all_enemies = configChanged.nameonly
 configChanged.nameonly_target = configChanged.nameonly
 configChanged.nameonly_health_colour = configChanged.nameonly
 
+local function configChangedAuras()
+    core:SetAurasConfig()
+end
 function configChanged.auras_enabled(v)
     if v then
         addon:GetPlugin('Auras'):Enable()
     else
         addon:GetPlugin('Auras'):Disable()
     end
-end
-local function configChangedAuras()
-    core:SetAurasConfig()
+
+    configChangedAuras()
 end
 configChanged.auras_vanilla_filter = configChangedAuras
 configChanged.auras_whitelist = configChangedAuras
@@ -423,6 +425,7 @@ configChanged.auras_maximum_length = configChangedAuras
 configChanged.auras_icon_normal_size = configChangedAuras
 configChanged.auras_icon_minus_size = configChangedAuras
 configChanged.auras_icon_squareness = configChangedAuras
+configChanged.auras_on_personal = configChangedAuras
 
 function configChanged.classpowers_enable(v)
     if v then

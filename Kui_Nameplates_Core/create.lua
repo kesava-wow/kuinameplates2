@@ -61,7 +61,6 @@ local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
 local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
-local AURAS_ON_PERSONAL
 local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
 local CLASS_COLOUR_FRIENDLY_NAMES,CLASS_COLOUR_ENEMY_NAMES
 
@@ -250,8 +249,6 @@ do
         HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
         HEALTH_TEXT_HOSTILE_MAX = self.profile.health_text_hostile_max
         HEALTH_TEXT_HOSTILE_DMG = self.profile.health_text_hostile_dmg
-
-        AURAS_ON_PERSONAL = self.profile.auras_on_personal
 
         GUILD_TEXT_NPCS = self.profile.guild_text_npcs
         GUILD_TEXT_PLAYERS = self.profile.guild_text_players
@@ -1091,6 +1088,8 @@ do
     local AURAS_MIN_LENGTH
     local AURAS_MAX_LENGTH
     local AURAS_CENTRED
+    local AURAS_ON_PERSONAL
+    local AURAS_ENABLED
 
     local function AuraFrame_SetFrameWidth(self)
         self:SetWidth(self.__width)
@@ -1136,7 +1135,7 @@ do
         -- enable/disable on personal frame
         if not AURAS_ON_PERSONAL and f.state.player then
             f.Auras.frames.core_dynamic:Disable()
-        else
+        elseif AURAS_ENABLED then
             f.Auras.frames.core_dynamic:Enable(true)
         end
 
@@ -1222,6 +1221,9 @@ do
         AURAS_NORMAL_SIZE = self.profile.auras_icon_normal_size
         AURAS_MINUS_SIZE = self.profile.auras_icon_minus_size
         AURAS_CENTRED = self.profile.auras_centre
+
+        AURAS_ENABLED = self.profile.auras_enabled
+        AURAS_ON_PERSONAL = self.profile.auras_on_personal
 
         local timer_threshold = self.profile.auras_time_threshold
         if timer_threshold < 0 then
