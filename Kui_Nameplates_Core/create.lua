@@ -201,9 +201,14 @@ do
     local ANIM_ASSOC = {
         nil,'smooth','cutaway'
     }
+    local function UpdateMediaLocals()
+        BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,core.profile.bar_texture)
+        FONT = LSM:Fetch(LSM.MediaType.FONT,core.profile.font_face)
+    end
     function core:SetLocals()
         -- set config locals to reduce table lookup
-        BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,self.profile.bar_texture)
+        UpdateMediaLocals()
+
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
@@ -229,7 +234,6 @@ do
         NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
         BOT_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset
 
-        FONT = LSM:Fetch(LSM.MediaType.FONT,self.profile.font_face)
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
         FONT_SIZE_NORMAL = self.profile.font_size_normal
@@ -253,6 +257,14 @@ do
         GUILD_TEXT_NPCS = self.profile.guild_text_npcs
         GUILD_TEXT_PLAYERS = self.profile.guild_text_players
         TITLE_TEXT_PLAYERS = self.profile.title_text_players
+    end
+    function core:LSMMediaRegistered(msg,mediatype,key)
+        -- callback registered in config.lua:InitialiseConfig
+        if mediatype == LSM.MediaType.STATUSBAR and key == self.profile.bar_texture or
+           mediatype == LSM.MediaType.FONT and key == self.profile.font_face
+        then
+            UpdateMediaLocals()
+        end
     end
 end
 function core:configChangedFrameSize()
