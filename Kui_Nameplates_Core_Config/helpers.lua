@@ -590,91 +590,6 @@ do
         self:Show()
     end
 
-    -- new profile #############################################################
-    local function NewProfile_OnShow(self)
-        self.editbox:SetText('')
-        self.editbox:SetFocus()
-    end
-    local function NewProfile_OnEnterPressed(self)
-        opt.Popup.Okay:Click()
-    end
-    local function NewProfile_OnEscapePressed(self)
-        opt.Popup.Cancel:Click()
-    end
-    local function CreatePopupPage_NewProfile()
-        local new_profile = CreateFrame('Frame',nil,opt.Popup)
-        new_profile:SetAllPoints(opt.Popup)
-        new_profile:Hide()
-        new_profile.size = { 400,150 }
-
-        function new_profile:callback(accept)
-            if accept then
-                -- create and activate the new profile
-                opt.config:SetProfile(self.editbox:GetText())
-            end
-        end
-
-        local label = new_profile:CreateFontString(nil,'ARTWORK','GameFontNormal')
-        label:SetText(opt.titles['new_profile_label'])
-        label:SetPoint('CENTER',0,20)
-
-        local profile_name = CreateFrame('EditBox',nil,new_profile,'InputBoxTemplate')
-        profile_name:SetAutoFocus(false)
-        profile_name:EnableMouse(true)
-        profile_name:SetMaxLetters(50)
-        profile_name:SetPoint('CENTER')
-        profile_name:SetSize(150,30)
-
-        new_profile.editbox = profile_name
-
-        new_profile:SetScript('OnShow',NewProfile_OnShow)
-        profile_name:SetScript('OnEnterPressed',NewProfile_OnEnterPressed)
-        profile_name:SetScript('OnEscapePressed',NewProfile_OnEscapePressed)
-
-        opt.Popup.pages.new_profile = new_profile
-    end
-
-    -- rename profile ##########################################################
-    local function RenameProfile_OnShow(self)
-        self.editbox:SetText(opt.config.csv.profile)
-        self.editbox:SetFocus()
-        self.label:SetText(string.format(
-            opt.titles['rename_profile_label'],
-            opt.config.csv.profile
-        ))
-    end
-    local function CreatePopupPage_RenameProfile()
-        local pg = CreateFrame('Frame',nil,opt.Popup)
-        pg:SetAllPoints(opt.Popup)
-        pg:Hide()
-        pg.size = { 400,150 }
-
-        function pg:callback(accept)
-            if accept then
-                opt.config:RenameProfile(opt.config.csv.profile,pg.editbox:GetText())
-            end
-        end
-
-        local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
-        label:SetPoint('CENTER',0,20)
-
-        local profile_name = CreateFrame('EditBox',nil,pg,'InputBoxTemplate')
-        profile_name:SetAutoFocus(false)
-        profile_name:EnableMouse(true)
-        profile_name:SetMaxLetters(50)
-        profile_name:SetPoint('CENTER')
-        profile_name:SetSize(150,30)
-
-        pg.label = label
-        pg.editbox = profile_name
-
-        pg:SetScript('OnShow',RenameProfile_OnShow)
-        profile_name:SetScript('OnEnterPressed',NewProfile_OnEnterPressed)
-        profile_name:SetScript('OnEscapePressed',NewProfile_OnEscapePressed)
-
-        opt.Popup.pages.rename_profile = pg
-    end
-
     -- text-entry dialog (rename, copy, new) ###################################
     local function TextEntry_OnShow(self)
         self.editbox:SetFocus()
@@ -919,9 +834,7 @@ do
 
         self.Popup = popup
 
-        CreatePopupPage_NewProfile()
         CreatePopupPage_ColourPicker()
-        CreatePopupPage_RenameProfile()
         CreatePopupPage_ConfirmDialog()
         CreatePopupPage_TextEntry()
 
