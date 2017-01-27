@@ -3,7 +3,7 @@
 -- By Kesava @ curse.com.
 -- All rights reserved.
 --]]
-local MAJOR, MINOR = 'KuiConfig-1.0', 4
+local MAJOR, MINOR = 'KuiConfig-1.0', 5
 local kc = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kc then
@@ -103,15 +103,30 @@ function config_meta:GetProfile(profile_name)
 end
 
 --[[
--- delete named profile and switch to default
+-- delete named profile
+-- no_set: if true, don't swtich to default profile
 --]]
-function config_meta:DeleteProfile(profile_name)
+function config_meta:DeleteProfile(profile_name,no_set)
     if not profile_name then return end
 
     _G[self.gsv_name].profiles[profile_name] = nil
     self.gsv.profiles[profile_name] = nil
 
-    self:SetProfile('default')
+    if not no_set then
+        self:SetProfile('default')
+    end
+end
+
+--[[
+-- copy named profile to given name
+--]]
+function config_meta:CopyProfile(profile_name,new_name)
+    if not profile_name or not new_name or new_name == '' then return end
+
+    _G[self.gsv_name].profiles[new_name] = self:GetProfile(profile_name)
+    self.gsv.profiles[new_name] = _G[self.gsv_name].profiles[new_name]
+
+    self:SetProfile(new_name)
 end
 
 --[[
@@ -120,11 +135,11 @@ end
 function config_meta:RenameProfile(profile_name,new_name)
     if not profile_name or not new_name or new_name == '' then return end
 
-    _G[self.gsv_name].profiles[new_name] = self:GetProfile(profile_name)
-    self.gsv.profiles[new_name] = _G[self.gsv_name].profiles[new_name]
+    -- copy the profile to the new name
+    self:CopyProfile(profile_name,new_name)
 
-    self:DeleteProfile(profile_name)
-    self:SetProfile(new_name)
+    -- delete the old name
+    self:DeleteProfile(profile_name,true)
 end
 
 --[[
