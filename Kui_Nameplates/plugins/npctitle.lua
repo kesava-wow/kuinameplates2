@@ -7,6 +7,7 @@ local UnitIsPlayer,UnitIsOtherPlayersPet,GetGuildInfo=
 
 local tooltip = CreateFrame('GameTooltip','KNPNPCTitleTooltip',UIParent,'GameTooltipTemplate')
 local cb_tooltips
+local pattern
 
 -- messages ####################################################################
 function mod:Show(f)
@@ -28,7 +29,9 @@ function mod:Show(f)
 
         tooltip:Hide()
 
-        if not gtext or gtext:find('^'..LEVEL..' ') then return end
+        -- ignore strings matching TOOLTIP_UNIT_LEVEL
+        if not gtext or gtext:find(pattern) then return end
+
         f.state.guild_text = gtext
     end
 end
@@ -37,6 +40,11 @@ function mod:CVAR_UPDATE()
     cb_tooltips = GetCVarBool('colorblindmode')
 end
 -- register ####################################################################
+function mod:Initialise()
+    -- generate matching pattern for locale
+    -- replace %s (format substitution) with match-digits
+    pattern = "^"..TOOLTIP_UNIT_LEVEL:gsub("%%s","%%d+").."$"
+end
 function mod:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterEvent('CVAR_UPDATE')
