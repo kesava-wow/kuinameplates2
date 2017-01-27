@@ -916,9 +916,9 @@ function opt:Initialise()
 
     local p_delete = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
     p_delete:SetPoint('TOPRIGHT',-10,-26)
-    p_delete:SetText('Delete profile')
-    p_delete:SetSize(110,22)
-    p_delete.callback = function(self,accept)
+    p_delete:SetText(opt.titles['delete_profile_title'])
+    p_delete:SetSize(109,22)
+    p_delete.callback = function(page,accept)
         if accept then
             opt.config:DeleteProfile(opt.config.csv.profile)
         end
@@ -934,8 +934,8 @@ function opt:Initialise()
 
     local p_rename = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
     p_rename:SetPoint('RIGHT',p_delete,'LEFT',-5,0)
-    p_rename:SetText('Rename profile')
-    p_rename:SetSize(115,22)
+    p_rename:SetText(opt.titles['rename_profile_title'])
+    p_rename:SetSize(109,22)
     p_rename.callback = function(page,accept)
         if accept then
             opt.config:RenameProfile(opt.config.csv.profile,page.editbox:GetText())
@@ -956,9 +956,9 @@ function opt:Initialise()
 
     local p_reset = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
     p_reset:SetPoint('RIGHT',p_rename,'LEFT',-5,0)
-    p_reset:SetText('Reset profile')
-    p_reset:SetSize(115,22)
-    p_reset.callback = function(self,accept)
+    p_reset:SetText(opt.titles['reset_profile_title'])
+    p_reset:SetSize(109,22)
+    p_reset.callback = function(page,accept)
         if accept then
             opt.config:ResetProfile(opt.config.csv.profile)
         end
@@ -967,6 +967,24 @@ function opt:Initialise()
         opt.Popup:ShowPage(
             'confirm_dialog',
             string.format(opt.titles.reset_profile_label,opt.config.csv.profile),
+            self.callback
+        )
+    end)
+
+    local p_copy = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
+    p_copy:SetPoint('RIGHT',p_reset,'LEFT',-5,0)
+    p_copy:SetText(opt.titles['copy_profile_title'])
+    p_copy:SetSize(109,22)
+    p_copy.callback = function(page,accept)
+        if accept then
+            opt.config:CopyProfile(opt.config.csv.profile,page.editbox:GetText())
+        end
+    end
+    p_copy:SetScript('OnClick',function(self)
+        opt.Popup:ShowPage(
+            'text_entry',
+            opt.titles['copy_profile_label'],
+            nil,
             self.callback
         )
     end)
