@@ -675,6 +675,52 @@ do
         opt.Popup.pages.rename_profile = pg
     end
 
+    -- text-entry dialog (rename, copy, new) ###################################
+    local function TextEntry_OnShow(self)
+        self.editbox:SetFocus()
+    end
+    local function TextEntry_PostShow(self,desc,default,callback)
+        self.callback = nil
+        self.label:SetText('')
+        self.editbox:SetText('')
+
+        if callback then self.callback = callback end
+        if desc     then self.label:SetText(desc) end
+        if default  then self.editbox:SetText(default) end
+    end
+    local function TextEntry_OnEnterPressed(self)
+        opt.Popup.Okay:Click()
+    end
+    local function TextEntry_OnEscapePressed(self)
+        opt.Popup.Cancel:Click()
+    end
+    local function CreatePopupPage_TextEntry()
+        local pg = CreateFrame('Frame',nil,opt.Popup)
+        pg:SetAllPoints(opt.Popup)
+        pg:Hide()
+        pg.size = { 400,150 }
+
+        local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
+        label:SetPoint('CENTER',0,20)
+
+        local text = CreateFrame('EditBox',nil,pg,'InputBoxTemplate')
+        text:SetAutoFocus(false)
+        text:EnableMouse(true)
+        text:SetMaxLetters(50)
+        text:SetPoint('CENTER')
+        text:SetSize(150,30)
+
+        pg.label = label
+        pg.editbox = text
+        pg.PostShow = TextEntry_PostShow
+
+        pg:SetScript('OnShow',TextEntry_OnShow)
+        text:SetScript('OnEnterPressed',TextEntry_OnEnterPressed)
+        text:SetScript('OnEscapePressed',TextEntry_OnEscapePressed)
+
+        opt.Popup.pages.text_entry = pg
+    end
+
     -- confirm dialog ##########################################################
     local function ConfirmDialog_PostShow(self,desc,callback)
         self.label:SetText('')
@@ -877,6 +923,7 @@ do
         CreatePopupPage_ColourPicker()
         CreatePopupPage_RenameProfile()
         CreatePopupPage_ConfirmDialog()
+        CreatePopupPage_TextEntry()
 
         opt:HookScript('OnHide',function(self)
             self.Popup:Hide()
@@ -888,7 +935,12 @@ local CreateProfileDropDown
 do
     local function OnValueChanged(self,value,text)
         if value and value == 'new_profile' then
-            opt.Popup:ShowPage('new_profile')
+            opt.Popup:ShowPage(
+                'text_entry',
+                opt.titles['new_profile_label'],
+                nil,
+                self.new_profile_callback
+            )
         else
             opt.config:SetProfile(text)
         end
@@ -923,6 +975,10 @@ do
 
         p_dd.initialize = initialize
         p_dd.OnValueChanged = OnValueChanged
+
+        p_dd.new_profile_callback = function(page,accept)
+            opt.config:SetProfile(page.editbox:GetText())
+        end
 
         p_dd:HookScript('OnShow',function(self)
             self:initialize()
@@ -965,9 +1021,22 @@ function opt:Initialise()
     p_rename:SetPoint('RIGHT',p_delete,'LEFT',-5,0)
     p_rename:SetText('Rename profile')
     p_rename:SetSize(115,22)
+    p_rename.callback = function(page,accept)
+        if accept then
+            opt.config:RenameProfile(opt.config.csv.profile,page.editbox:GetText())
+        end
+    end
     p_rename:SetScript('OnShow',ProfileButtonOnShow)
     p_rename:SetScript('OnClick',function(self)
-        opt.Popup:ShowPage('rename_profile')
+        opt.Popup:ShowPage(
+            'text_entry',
+            string.format(
+                opt.titles['rename_profile_label'],
+                opt.config.csv.profile
+            ),
+            opt.config.csv.profile,
+            self.callback
+        )
     end)
 
     local p_reset = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
