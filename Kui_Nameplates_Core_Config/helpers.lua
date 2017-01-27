@@ -890,7 +890,9 @@ do
         p_dd.OnValueChanged = OnValueChanged
 
         p_dd.new_profile_callback = function(page,accept)
-            opt.config:SetProfile(page.editbox:GetText())
+            if accept then
+                opt.config:SetProfile(page.editbox:GetText())
+            end
         end
 
         p_dd:HookScript('OnShow',function(self)
