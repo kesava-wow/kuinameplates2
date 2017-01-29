@@ -236,6 +236,8 @@ local nameonly_no_font_style = nameonly:CreateCheckBox('nameonly_no_font_style')
 local nameonly_health_colour = nameonly:CreateCheckBox('nameonly_health_colour')
 local nameonly_damaged_friends = nameonly:CreateCheckBox('nameonly_damaged_friends')
 local nameonly_enemies = nameonly:CreateCheckBox('nameonly_enemies')
+local nameonly_neutral = nameonly:CreateCheckBox('nameonly_neutral')
+local nameonly_in_combat = nameonly:CreateCheckBox('nameonly_in_combat')
 local nameonly_all_enemies = nameonly:CreateCheckBox('nameonly_all_enemies')
 local nameonly_target = nameonly:CreateCheckBox('nameonly_target')
 local guild_text_npcs = nameonly:CreateCheckBox('guild_text_npcs')
@@ -245,9 +247,11 @@ local title_text_players = nameonly:CreateCheckBox('title_text_players')
 nameonly_no_font_style.enabled = function(p) return p.nameonly end
 nameonly_health_colour.enabled = nameonly_no_font_style.enabled
 nameonly_enemies.enabled = function(p) return p.nameonly and not p.nameonly_all_enemies end
+nameonly_neutral.enabled = nameonly_enemies.enabled
 nameonly_damaged_friends.enabled = nameonly_no_font_style.enabled
 nameonly_all_enemies.enabled = nameonly_no_font_style.enabled
 nameonly_target.enabled = nameonly_no_font_style.enabled
+nameonly_in_combat.enabled = nameonly_no_font_style.enabled
 guild_text_npcs.enabled = nameonly_no_font_style.enabled
 guild_text_players.enabled = nameonly_no_font_style.enabled
 title_text_players.enabled = nameonly_no_font_style.enabled
@@ -257,11 +261,14 @@ nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
 nameonly_health_colour:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
 
 nameonly_target:SetPoint('TOPLEFT',nameonly_health_colour,'BOTTOMLEFT',0,-20)
-nameonly_all_enemies:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT')
-nameonly_enemies:SetPoint('LEFT',nameonly_all_enemies,'RIGHT',190,0)
-nameonly_damaged_friends:SetPoint('TOPLEFT',nameonly_all_enemies,'BOTTOMLEFT')
+nameonly_damaged_friends:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT')
+nameonly_in_combat:SetPoint('TOPLEFT',nameonly_damaged_friends,'BOTTOMLEFT')
 
-guild_text_npcs:SetPoint('TOPLEFT',nameonly_damaged_friends,'BOTTOMLEFT',0,-20)
+nameonly_all_enemies:SetPoint('LEFT',nameonly_target,'RIGHT',190,0)
+nameonly_enemies:SetPoint('TOPLEFT',nameonly_all_enemies,'BOTTOMLEFT')
+nameonly_neutral:SetPoint('TOPLEFT',nameonly_enemies,'BOTTOMLEFT')
+
+guild_text_npcs:SetPoint('TOPLEFT',nameonly_in_combat,'BOTTOMLEFT',0,-20)
 guild_text_players:SetPoint('TOPLEFT',guild_text_npcs,'BOTTOMLEFT')
 title_text_players:SetPoint('LEFT',guild_text_players,'RIGHT',190,0)
 

@@ -50,7 +50,9 @@ local default_config = {
     nameonly_damaged_friends = true,
     nameonly_enemies = true,
     nameonly_all_enemies = false,
+    nameonly_neutral = true,
     nameonly_target = true,
+    nameonly_in_combat = false,
     guild_text_npcs = true,
     guild_text_players = false,
     title_text_players = false,
@@ -401,6 +403,8 @@ configChanged.nameonly_enemies = configChanged.nameonly
 configChanged.nameonly_all_enemies = configChanged.nameonly
 configChanged.nameonly_target = configChanged.nameonly
 configChanged.nameonly_health_colour = configChanged.nameonly
+configChanged.nameonly_neutral = configChanged.nameonly
+configChanged.nameonly_in_combat = configChanged.nameonly
 
 local function configChangedAuras()
     core:SetAurasConfig()

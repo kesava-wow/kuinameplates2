@@ -1409,11 +1409,8 @@ end
 -- nameonly ####################################################################
 do
     local NAMEONLY_NO_FONT_STYLE,NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_FRIENDS,
-    NAMEONLY_ALL_ENEMIES,NAMEONLY_TARGET,NAMEONLY_HEALTH_COLOUR
-
-    -- TODO
-    local NAMEONLY_ON_NEUTRAL = true
-    local NAMEONLY_NOT_IN_COMBAT = true
+    NAMEONLY_ALL_ENEMIES,NAMEONLY_TARGET,NAMEONLY_HEALTH_COLOUR,
+    NAMEONLY_ON_NEUTRAL,NAMEONLY_IN_COMBAT
 
     function core:configChangedNameOnly()
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
@@ -1422,6 +1419,8 @@ do
         NAMEONLY_ENEMIES = NAMEONLY_ALL_ENEMIES or self.profile.nameonly_enemies
         NAMEONLY_TARGET = self.profile.nameonly_target
         NAMEONLY_HEALTH_COLOUR = self.profile.nameonly_health_colour
+        NAMEONLY_ON_NEUTRAL = self.profile.nameonly_neutral
+        NAMEONLY_IN_COMBAT = self.profile.nameonly_in_combat
 
         if NAMEONLY_ALL_ENEMIES or NAMEONLY_TARGET then
             -- create target/threat glow
@@ -1584,7 +1583,7 @@ do
     end
     local function AffectingCombat(f)
         if (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
-           NAMEONLY_NOT_IN_COMBAT and
+           not NAMEONLY_IN_COMBAT and
            f.state.threat
         then
             -- don't show on units in combat with the player
@@ -1607,7 +1606,7 @@ do
 
     function core:NameOnlyCombatUpdate(f)
         if  (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
-            NAMEONLY_NOT_IN_COMBAT
+            not NAMEONLY_IN_COMBAT
         then
             self:NameOnlyUpdate(f)
             self:NameOnlyUpdateFunctions(f)
