@@ -26,9 +26,8 @@ function ele:TargetEvent()
 
     if UnitExists('target') then
         local new_target = C_NamePlate.GetNamePlateForUnit('target')
-        if new_target then
+        if new_target and new_target.kui and new_target.kui.unit then
             -- target has a visible frame
-            target = new_target.kui
             GainedTarget(new_target.kui)
         end
     end
@@ -37,14 +36,12 @@ end
 function ele:Show(f)
     if f.handler:IsTarget() then
         -- target's frame was shown
-        target = f
         GainedTarget(f)
     end
 end
 function ele:Hide(f)
     if f == target then
         -- target's frame was hidden
-        target = nil
         LostTarget(f)
     end
 end
