@@ -1585,7 +1585,7 @@ do
     local function AffectingCombat(f)
         if (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
            NAMEONLY_NOT_IN_COMBAT and
-           UnitAffectingCombat(f.unit,'player') -- TODO this is late, use the threat table instead
+           f.state.threat
         then
             -- don't show on units in combat with the player
             return true
