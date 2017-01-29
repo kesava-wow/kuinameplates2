@@ -1,13 +1,10 @@
 * "ignore uiscale" now works in a manually resized window thanks to a new function in 7.1
 * add options to enable click-through of friendly, enemy or personal nameplates
-* add option to use name-only mode specifically on neutral enemies
-* add option to keep name-only mode active on units which are affecting combat with you
+* add option to use name-only mode specifically on neutral enemies (enabled by default)
+* add option to keep name-only mode active on units which are affecting combat with you (disabled by default)
 * add "copy profile" button
-* disable name-only mode on units which are affecting combat with you by default
 * fix pvp flag was ignored when checking pvp talents for execute range
 * fix "show on personal frame" re-shows auras on the personal frame when the module is disabled
 * fix npc title text shows level on languages other than english
 * fix media settings are ignored if the addon which provides the file is loaded after KNP
 * fix class power icon's glow alpha is sometimes incorrect
-
-
