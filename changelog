@@ -6,3 +6,4 @@
 * fix npc title text shows level on languages other than english
 * fix media settings are ignored if the addon which provides the file is loaded after KNP
 * fix class power icon's glow alpha is sometimes incorrect
+
