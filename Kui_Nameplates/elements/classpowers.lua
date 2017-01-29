@@ -164,6 +164,7 @@ local function Icon_SetVertexColor(self,...)
 
     if self.glow then
         self.glow:SetVertexColor(...)
+        self.glow:SetAlpha(.5)
     end
 end
 local function CreateIcon()
