@@ -183,6 +183,9 @@ function core:QUESTLINE_UPDATE()
     end
 end
 function core:UNIT_THREAT_LIST_UPDATE(event,f)
+    -- enable/disable nameonly if enabled on enemies
+    self:NameOnlyCombatUpdate(f)
+
     -- update to show name of units which are in combat with the player
     self:ShowNameUpdate(f)
     f:UpdateFrameSize()

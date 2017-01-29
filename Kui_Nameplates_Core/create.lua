@@ -1411,6 +1411,10 @@ do
     local NAMEONLY_NO_FONT_STYLE,NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_FRIENDS,
     NAMEONLY_ALL_ENEMIES,NAMEONLY_TARGET,NAMEONLY_HEALTH_COLOUR
 
+    -- TODO
+    local NAMEONLY_ON_NEUTRAL = true
+    local NAMEONLY_NOT_IN_COMBAT = true
+
     function core:configChangedNameOnly()
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
         NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
@@ -1571,6 +1575,24 @@ do
             end
         end
     end
+    local function AffectingCombat(f)
+        if (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
+           NAMEONLY_NOT_IN_COMBAT and
+           UnitAffectingCombat(f.unit,'player')
+        then
+            -- don't show on units in combat with the player
+            return true
+        end
+    end
+
+    function core:NameOnlyCombatUpdate(f)
+        if  (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
+            NAMEONLY_NOT_IN_COMBAT
+        then
+            self:NameOnlyUpdate(f)
+            self:NameOnlyUpdateFunctions(f)
+        end
+    end
     function core:NameOnlyUpdate(f,hide)
         if  not hide and self.profile.nameonly and
             -- don't show on player frame
@@ -1580,6 +1602,7 @@ do
             -- don't show on attackable units
             (NAMEONLY_ALL_ENEMIES or not UnitCanAttack('player',f.unit)) and
             -- more complex filters;
+            not AffectingCombat(f) and
             not UnattackableEnemyPlayer(f) and
             not EnemyAndDisabled(f) and
             not FriendAndDisabled(f)
