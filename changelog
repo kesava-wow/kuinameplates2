@@ -1,6 +1,9 @@
+* "ignore uiscale" now works in a manually resized window thanks to a new function in 7.1
 * add options to enable click-through of friendly, enemy or personal nameplates
+* add option to use name-only mode specifically on neutral enemies
+* add option to keep name-only mode active on units which are affecting combat with you
 * add "copy profile" button
-* "ignore uiscale" works in a manually resized window thanks to a new function in 7.1
+* disable name-only mode on units which are affecting combat with you by default
 * fix pvp flag was ignored when checking pvp talents for execute range
 * fix "show on personal frame" re-shows auras on the personal frame when the module is disabled
 * fix npc title text shows level on languages other than english
