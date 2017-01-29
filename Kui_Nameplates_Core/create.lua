@@ -1584,10 +1584,14 @@ do
     local function AffectingCombat(f)
         if (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
            not NAMEONLY_IN_COMBAT and
-           f.state.threat
+           (f.state.threat or (f.state.enemy and UnitIsPlayer(f.unit)))
         then
-            -- don't show on units in combat with the player
+            -- if NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL is enabled and
+            -- NAMEONLY_IN_COMBAT is disabled and
+            -- we are in the unit's threat table or
+            -- the unit is an enemy player;
             return true
+            -- disable on this frame
         end
     end
     local function AttackableUnitAndEnabled(f)
