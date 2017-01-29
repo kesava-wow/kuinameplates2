@@ -2,9 +2,9 @@ local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local LSM = LibStub('LibSharedMedia-3.0')
 
-local version = opt:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightSmall')
-version:SetAlpha(.7)
-version:SetPoint('TOPRIGHT',-12,-12)
+local version = opt:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
+version:SetAlpha(.5)
+version:SetPoint('TOPRIGHT',-12,-10)
 version:SetText(string.format(
     opt.titles.version,
     'KuiNameplates','Kesava','@project-version@'
