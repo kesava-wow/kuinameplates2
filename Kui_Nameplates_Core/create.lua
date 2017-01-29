@@ -1564,8 +1564,15 @@ do
         return not NAMEONLY_ALL_ENEMIES and UnitIsPlayer(f.unit) and f.state.enemy
     end
     local function EnemyAndDisabled(f)
-        -- don't show on unattackble enemies
-        return not NAMEONLY_ENEMIES and f.state.enemy
+        -- don't show on unattackable enemies
+        if (not NAMEONLY_ENEMIES and not NAMEONLY_ALL_ENEMIES) and
+           f.state.enemy
+        then
+            -- if NAMEONLY_{ALL_,}ENEMIES is disabled and
+            -- this frame is an enemy;
+            return true
+            -- return we're disabled on this frame
+        end
     end
     local function FriendAndDisabled(f)
         if not NAMEONLY_DAMAGED_FRIENDS and f.state.friend then
@@ -1578,10 +1585,23 @@ do
     local function AffectingCombat(f)
         if (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
            NAMEONLY_NOT_IN_COMBAT and
-           UnitAffectingCombat(f.unit,'player')
+           UnitAffectingCombat(f.unit,'player') -- TODO this is late, use the threat table instead
         then
             -- don't show on units in combat with the player
             return true
+        end
+    end
+    local function AttackableUnitAndEnabled(f)
+        -- don't show on attackable units
+        if (NAMEONLY_ALL_ENEMIES or not UnitCanAttack('player',f.unit)) or
+           (NAMEONLY_ON_NEUTRAL and f.state.reaction == 4)
+        then
+            -- NAMEONLY_ALL_ENEMIES is enabled or
+            -- unit cannot be attacked or
+            -- ( NAMEONLY_ON_NEUTRAL is enabled and
+            --   unit is neutral )
+            return true
+            -- return we're enabled on this frame
         end
     end
 
@@ -1599,9 +1619,8 @@ do
             not f.state.player and
             -- don't show on target
             (NAMEONLY_TARGET or not f.state.target) and
-            -- don't show on attackable units
-            (NAMEONLY_ALL_ENEMIES or not UnitCanAttack('player',f.unit)) and
             -- more complex filters;
+            AttackableUnitAndEnabled(f) and
             not AffectingCombat(f) and
             not UnattackableEnemyPlayer(f) and
             not EnemyAndDisabled(f) and
