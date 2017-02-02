@@ -1581,15 +1581,17 @@ do
             end
         end
     end
-    local function AffectingCombat(f)
+    local function EnemyAffectingCombat(f)
         if (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
            not NAMEONLY_IN_COMBAT and
-           (f.state.threat or (f.state.enemy and UnitIsPlayer(f.unit)))
+           f.state.enemy and
+           (f.state.threat or UnitIsPlayer(f.unit))
         then
             -- if NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL is enabled and
             -- NAMEONLY_IN_COMBAT is disabled and
+            -- this is an enemy frame and
             -- we are in the unit's threat table or
-            -- the unit is an enemy player;
+            -- the unit is a player;
             return true
             -- disable on this frame
         end
@@ -1624,7 +1626,7 @@ do
             (NAMEONLY_TARGET or not f.state.target) and
             -- more complex filters;
             AttackableUnitAndEnabled(f) and
-            not AffectingCombat(f) and
+            not EnemyAffectingCombat(f) and
             not UnattackableEnemyPlayer(f) and
             not EnemyAndDisabled(f) and
             not FriendAndDisabled(f)
