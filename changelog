@@ -1,3 +1,9 @@
+* fix potential issue where friendly nameplates could be rarely taken out of name-only mode while in combat. maybe.
+* disable name-only on neutrals by default because it's confusing people
+* update KuiSpellList
+
+2.14.5
+~~~~~~
 * "ignore uiscale" now works in a manually resized window thanks to a new function in 7.1
 * add options to enable click-through of friendly, enemy or personal nameplates
 * add option to use name-only mode specifically on neutral enemies (enabled by default)
