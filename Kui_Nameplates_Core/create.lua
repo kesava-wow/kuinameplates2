@@ -1559,13 +1559,15 @@ do
     end
 
     local function UnattackableEnemyPlayer(f)
-        -- never activate for enemy players
-        return not NAMEONLY_ALL_ENEMIES and UnitIsPlayer(f.unit) and f.state.enemy
+        -- don't show on enemy players
+        return not NAMEONLY_ALL_ENEMIES and
+               UnitIsPlayer(f.unit) and
+               f.state.reaction <= 4
     end
     local function EnemyAndDisabled(f)
-        -- don't show on unattackable enemies
+        -- don't show on enemies
         if (not NAMEONLY_ENEMIES and not NAMEONLY_ALL_ENEMIES) and
-           f.state.enemy
+           f.state.reaction <= 4
         then
             -- if NAMEONLY_{ALL_,}ENEMIES is disabled and
             -- this frame is an enemy;
@@ -1584,7 +1586,7 @@ do
     local function EnemyAffectingCombat(f)
         if (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
            not NAMEONLY_IN_COMBAT and
-           f.state.enemy and
+           f.state.reaction <= 4 and
            (f.state.threat or UnitIsPlayer(f.unit))
         then
             -- if NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL is enabled and
