@@ -70,9 +70,12 @@ end
 function mod:SetExecuteRange(to)
     if type(to) == 'number' then
         self:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
+        self:UnregisterEvent('PLAYER_FLAGS_CHANGED')
         execute_range = to
     else
         self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
+        self:RegisterEvent('PLAYER_FLAGS_CHANGED','PLAYER_SPECIALIZATION_CHANGED')
+
         self:PLAYER_SPECIALIZATION_CHANGED()
     end
 end
@@ -125,12 +128,10 @@ end
 -- register ####################################################################
 function mod:OnEnable()
     self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
-    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
-    self:RegisterEvent('PLAYER_FLAGS_CHANGED','PLAYER_SPECIALIZATION_CHANGED')
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('Show','HealthColourChange')
 
-    self:PLAYER_SPECIALIZATION_CHANGED()
+    self:SetExecuteRange()
 end
 function mod:Initialise()
     class = select(2,UnitClass('player'))

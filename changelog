@@ -1,4 +1,5 @@
 * fix combat status is ignored by name-only mode on some neutral units (training dummies notwithstanding, since they don't have a threat table)
+* fix custom execute range is ignored when PVP flags change
 * clarify tooltip for name-only in combat option (behaviour unchanged)
 
 2.14.5.2:
