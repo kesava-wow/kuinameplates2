@@ -29,3 +29,4 @@ plugins/npctitle.lua
 plugins/tankmode.lua
 plugins/combattoggle.lua
 plugins/execute.lua
+plugins/bossmods.lua
