@@ -4,7 +4,6 @@ local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BossMods')
 
 local active_boss_auras
-local bw_loader
 local plugin_ct
 
 -- callbacks ###################################################################
@@ -92,19 +91,18 @@ function mod:Create(f)
 end
 -- register ####################################################################
 function mod:OnEnable()
-    bw_loader = BigWigsLoader
-
-    if bw_loader then
+    local BigWigsLoader = BigWigsLoader
+    if BigWigsLoader then
         self:RegisterMessage('Show')
         self:RegisterMessage('Hide')
         self:RegisterMessage('Create')
 
         plugin_ct = addon:GetPlugin('CombatToggle')
 
-        bw_loader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
-        bw_loader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
+        BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
+        BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
 
-        bw_loader.RegisterMessage(mod,'BigWigs_ShowNameplateAura')
-        bw_loader.RegisterMessage(mod,'BigWigs_HideNameplateAura')
+        BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura')
+        BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura')
     end
 end
