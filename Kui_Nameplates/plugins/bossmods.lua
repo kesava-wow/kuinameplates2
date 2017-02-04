@@ -23,6 +23,9 @@ do
         if not InCombatLockdown() then
             SetCVar('nameplateShowFriends',prev_val)
             plugin_ct:PLAYER_REGEN_ENABLED()
+
+            -- TODO won't restore to previous setting if this is triggered
+            -- during combat + CombatToggle isn't set up
         end
     end
 end
