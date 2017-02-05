@@ -73,7 +73,7 @@ do
     -- Duration is used to draw a cooldown on the icon
     --     If left nil, icon is treated as timeless
     -- The icon will not be hidden until HideNameplateAura is called
-    function mod:BigWigs_ShowNameplateAura(sender,guid,icon,duration)
+    function mod:BigWigs_ShowNameplateAura(msg,sender,guid,icon,duration)
         -- store to show/hide when relevant frame's visibility changes
         if not active_boss_auras then
             active_boss_auras = {}
@@ -84,7 +84,7 @@ do
         -- immediately show if they already have a frame
         ShowNameplateAura(GetFrameByGUID(guid), active_boss_auras[guid])
     end
-    function mod:BigWigs_HideNameplateAura(sender,guid)
+    function mod:BigWigs_HideNameplateAura(msg,sender,guid)
         if active_boss_auras then
             -- remove from guid list
             active_boss_auras[guid] = nil
@@ -154,10 +154,10 @@ function mod:OnEnable()
             end)
 
             DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,...)
-                mod:BigWigs_ShowNameplateAura(nil,...)
+                mod:BigWigs_ShowNameplateAura(msg,nil,...)
             end)
             DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,...)
-                mod:BigWigs_HideNameplateAura(nil,...)
+                mod:BigWigs_HideNameplateAura(msg,nil,...)
             end)
         end
     end
