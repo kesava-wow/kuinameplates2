@@ -15,26 +15,43 @@ local function GetFrameByGUID(guid)
         end
     end
 end
+
+local function ShowNameplateAura(f, icon_tbl)
+    if not f or not icon_tbl or not f.BossModIcon then return end
+
+    f.BossModIcon:SetTexture(icon_tbl[1])
+    f.BossModIcon:Show()
+end
+local function HideNameplateAura(f)
+    if not f or not f.BossModIcon then return end
+
+    f.BossModIcon:Hide()
+end
 -- callbacks ###################################################################
 do
+    -- Show/hide friendly nameplates ###########################################
+    -- these should not be called during combat
+    -- DisableFriendlyNameplates also wipes boss auras
     local prev_val
     function mod:BigWigs_EnableFriendlyNameplates()
-        -- override CombatToggle
-        plugin_ct:PLAYER_REGEN_DISABLED()
         plugin_ct:Disable()
 
-        prev_val = GetCVar('nameplateShowFriends')
-        SetCVar('nameplateShowFriends',1)
+        if not InCombatLockdown() then
+            -- skip CombatToggle into combat mode
+            plugin_ct:PLAYER_REGEN_DISABLED()
+
+            prev_val = GetCVar('nameplateShowFriends')
+            SetCVar('nameplateShowFriends',1)
+        end
     end
     function mod:BigWigs_DisableFriendlyNameplates()
         plugin_ct:Enable()
 
         if not InCombatLockdown() then
             SetCVar('nameplateShowFriends',prev_val)
-            plugin_ct:PLAYER_REGEN_ENABLED()
 
-            -- TODO won't restore to previous setting if this is triggered
-            -- during combat + CombatToggle isn't set up
+            -- restore CombatToggle's desired out-of-combat settings
+            plugin_ct:PLAYER_REGEN_ENABLED()
         end
 
         -- we're assuming this is out of combat after the end of a boss, so we
@@ -49,31 +66,30 @@ do
     end
 end
 
-function mod:BigWigs_ShowNameplateAura(guid,icon,duration)
-    -- store icon so we can show/hide icons if the frame isn't already visible
-    if not active_boss_auras then
-        active_boss_auras = {}
-    end
+do
+    -- Show/hide icon on nameplate belonging to given GUID #####################
+    -- Duration is used to draw a cooldown on the icon
+    --     If left nil, icon is treated as timeless
+    -- The icon will not be hidden until HideNameplateAura is called
+    function mod:BigWigs_ShowNameplateAura(guid,icon,duration)
+        -- store to show/hide when relevant frame's visibility changes
+        if not active_boss_auras then
+            active_boss_auras = {}
+        end
 
-    active_boss_auras[guid] = icon
+        active_boss_auras[guid] = {icon,duration}
 
-    -- immediately show if they already have a frame
-    local f = GetFrameByGUID(guid)
-    if f and f.BossModIcon then
-        f.BossModIcon:SetTexture(icon)
-        f.BossModIcon:Show()
+        -- immediately show if they already have a frame
+        ShowNameplateAura(GetFrameByGUID(guid), active_boss_auras[guid])
     end
-end
-function mod:BigWigs_HideNameplateAura(guid)
-    if active_boss_auras then
-        -- remove from guid list
-        active_boss_auras[guid] = nil
-    end
+    function mod:BigWigs_HideNameplateAura(guid)
+        if active_boss_auras then
+            -- remove from guid list
+            active_boss_auras[guid] = nil
+        end
 
-    -- immediately hide
-    local f = GetFrameByGUID(guid)
-    if f and f.BossModIcon then
-        f.BossModIcon:Hide()
+        -- immediately hide
+        HideNameplateAura(GetFrameByGUID(guid))
     end
 end
 -- messages ####################################################################
@@ -81,15 +97,15 @@ function mod:Show(f)
     if not active_boss_auras then return end
 
     local guid = UnitGUID(f.unit)
-    local icon = active_boss_auras[guid]
+    if not guid then return end
 
-    if icon then
-        f.BossModIcon:SetTexture(icon)
-        f.BossModIcon:Show()
-    end
+    local icon_tbl = active_boss_auras[guid]
+    if not icon_tbl then return end
+
+    ShowNameplateAura(f,icon_tbl)
 end
 function mod:Hide(f)
-    f.BossModIcon:Hide()
+    HideNameplateAura(f)
 end
 function mod:Create(f)
     -- TODO create icon for testing
