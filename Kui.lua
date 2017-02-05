@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 23
+local MAJOR, MINOR = 'Kui-1.0', 25
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -6,11 +6,7 @@ if not kui then
     return
 end
 
-local TRILLION=1000000000000
-local BILLION=1000000000
-local MILLION=1000000
-local THOUSAND=1000
---------------------------------------------------------------- media / files --
+-- media #######################################################################
 local media = "Interface\\AddOns\\Kui_Media\\"
 kui.m = {
     t = {
@@ -36,14 +32,19 @@ kui.m = {
         roboto   = media..'f\\roboto.ttf',
     },
 }
------------------------------------------------------------------- var tables --
+-- other locals ################################################################
+local TRILLION=1000000000000
+local BILLION=1000000000
+local MILLION=1000000
+local THOUSAND=1000
+
 local ct = { -- classification table
     elite     = { '+',  'elite'      },
     rare      = { 'r',  'rare'       },
     rareelite = { 'r+', 'rare elite' },
     worldboss = { 'b',  'boss'       }
 }
-------------------------------------------------------------------- functions --
+-- functions ###################################################################
 kui.table_to_string = function(tbl,depth)
     if depth and depth >= 3 then
         return '{ ... }'
@@ -78,6 +79,7 @@ kui.print = function(...)
     end
     print(GetTime()..': '..(msg or 'nil'))
 end
+-- unit helpers ################################################################
 kui.GetClassColour = function(class, str)
     if not class then
         class = select(2, UnitClass('player'))
@@ -147,6 +149,7 @@ kui.UnitLevel = function(unit, long, real)
 
     return level, classification, diff
 end
+-- frame helpers ###############################################################
 kui.ModifyFontFlags = function(fs, io, flag)
     local font, size, flags = fs:GetFont()
     local flagStart,flagEnd = strfind(flags, flag)
@@ -192,7 +195,7 @@ kui.CreateFontString = function(parent, args)
 
     return ob
 end
--- Format numbers
+-- generic helpers #############################################################
 kui.num = function(num)
     if not num then return end
     if num < THOUSAND then
@@ -207,7 +210,6 @@ kui.num = function(num)
         return string.format('%.1fk', num/THOUSAND)
     end
 end
--- Format times (given in seconds)
 kui.FormatTime = function(s)
     if s > 86400 then
         -- days
@@ -224,7 +226,6 @@ kui.FormatTime = function(s)
 
     return floor(s), s - floor(s)
 end
--- Pluralise a word pertaining to a value
 kui.Pluralise = function(word, value, with)
     if value == 1 then
         return word
@@ -232,7 +233,7 @@ kui.Pluralise = function(word, value, with)
         return word .. (with and with or 's')
     end
 end
--- substr for utf8 characters (which are somtimes longer than 1 byte)
+-- substr for utf8 characters ##################################################
 do
     local function chsize(char)
         if not char then
@@ -247,7 +248,6 @@ do
             return 1
         end
     end
-    -- substr for utf8 characters (which are somtimes longer than 1 byte)
     kui.utf8sub = function(str, startChar, numChars)
         numChars = numChars or #str
 
@@ -269,8 +269,7 @@ do
         return str:sub(startIndex, currentIndex - 1)
     end
 end
--- Frame fading functions
--- (without the taint of UIFrameFade & the lag of AnimationGroups)
+-- Frame fading functions ######################################################
 kui.frameFadeFrame = CreateFrame('Frame')
 kui.FADEFRAMES = {}
 
