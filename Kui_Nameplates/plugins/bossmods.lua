@@ -134,6 +134,7 @@ function mod:OnEnable()
 
         plugin_ct = addon:GetPlugin('CombatToggle')
 
+        -- TODO conflict if both are enabled
         if BigWigsLoader then
             BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
             BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
@@ -150,11 +151,11 @@ function mod:OnEnable()
                 mod:BigWigs_DisableFriendlyNameplates()
             end)
 
-            DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,guid,texture,duration)
-                mod:BigWigs_ShowNameplateAura(guid,texture,duration)
+            DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,...)
+                mod:BigWigs_ShowNameplateAura(...)
             end)
-            DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,guid,texture)
-                mod:BigWigs_HideNameplateAura(guid)
+            DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,...)
+                mod:BigWigs_HideNameplateAura(...)
             end)
         end
     end
