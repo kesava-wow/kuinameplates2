@@ -10,10 +10,8 @@ KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
 addon.MAJOR=2
 
---@alpha@
-addon.debug = true
---@end-alpha@
 --@debug@
+addon.debug = true
 --addon.debug_config = true
 --addon.debug_units = true
 --addon.debug_messages = true
