@@ -549,8 +549,6 @@ configLoaded.auras_enabled = configChanged.auras_enabled
 configLoaded.auras_whitelist = configChangedAuras
 
 configLoaded.clickthrough_self = configChangedClickthrough
-configLoaded.clickthrough_friend = configChangedClickthrough
-configLoaded.clickthrough_enemy = configChangedClickthrough
 
 function configLoaded.classpowers_enable(v)
     if v then
