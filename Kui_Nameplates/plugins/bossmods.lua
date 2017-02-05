@@ -1,4 +1,6 @@
--- boss mod callback handlers
+-- Boss mod callback handlers
+-- Please contact me on Curse or IRC (freenode, #wowace) if you want me to
+-- add support for your messages.
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BossMods')
@@ -71,7 +73,7 @@ do
     -- Duration is used to draw a cooldown on the icon
     --     If left nil, icon is treated as timeless
     -- The icon will not be hidden until HideNameplateAura is called
-    function mod:BigWigs_ShowNameplateAura(guid,icon,duration)
+    function mod:BigWigs_ShowNameplateAura(sender,guid,icon,duration)
         -- store to show/hide when relevant frame's visibility changes
         if not active_boss_auras then
             active_boss_auras = {}
@@ -82,7 +84,7 @@ do
         -- immediately show if they already have a frame
         ShowNameplateAura(GetFrameByGUID(guid), active_boss_auras[guid])
     end
-    function mod:BigWigs_HideNameplateAura(guid)
+    function mod:BigWigs_HideNameplateAura(sender,guid)
         if active_boss_auras then
             -- remove from guid list
             active_boss_auras[guid] = nil
@@ -116,7 +118,7 @@ function mod:Create(f)
     icon:SetSize(30,30)
 
     icon:SetPoint('BOTTOMLEFT',f,'TOPLEFT',
-        (f:GetWidth() / 2) - (icon:GetWidth() / 2),
+        floor((f:GetWidth() / 2) - (icon:GetWidth() / 2)),
         10)
 
     icon:Hide()
@@ -152,10 +154,10 @@ function mod:OnEnable()
             end)
 
             DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,...)
-                mod:BigWigs_ShowNameplateAura(...)
+                mod:BigWigs_ShowNameplateAura(nil,...)
             end)
             DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,...)
-                mod:BigWigs_HideNameplateAura(...)
+                mod:BigWigs_HideNameplateAura(nil,...)
             end)
         end
     end
