@@ -34,6 +34,9 @@ addon.plugins = {}
 --------------------------------------------------------------------------------
 function addon:print(msg)
     if not addon.debug or not msg then return end
+    if type(msg) == 'table' then
+        msg = kui.table_to_string(msg)
+    end
     print('|cff666666KNP2 '..GetTime()..':|r '..tostring(msg))
 end
 function addon:Frames()
@@ -107,6 +110,10 @@ local function OnEvent(self,event,...)
         -- throw missing layout
         print('|cff9966ffKui Nameplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
         return
+    end
+
+    if self.debug then
+        print('|cff9966ffKui Nameplates|r: You are using an alpha release and may see debug messages in chat.')
     end
 
     -- initialise plugins & elements

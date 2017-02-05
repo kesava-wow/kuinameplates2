@@ -8,6 +8,7 @@
 local folder,ns = ...
 local knp = KuiNameplates
 local category = 'Kui |cff9966ffNameplates Core'
+local kui = LibStub('Kui-1.0')
 local kc = LibStub('KuiConfig-1.0')
 
 -- category container
@@ -47,6 +48,12 @@ SLASH_KUINAMEPLATESCORE1 = '/knp'
 SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
 function SlashCmdList.KUINAMEPLATESCORE(msg)
+    if msg == 'dump-config' then
+        kui.print(KuiNameplatesCore.config.csv)
+        kui.print(KuiNameplatesCore.config:GetActiveProfile())
+        return
+    end
+
     -- 6.2.2: call twice to force it to open to the correct frame
     InterfaceOptionsFrame_OpenToCategory(category)
     InterfaceOptionsFrame_OpenToCategory(category)
