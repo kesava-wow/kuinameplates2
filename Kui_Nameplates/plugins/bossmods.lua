@@ -21,7 +21,16 @@ end
 local function ShowNameplateAura(f, icon_tbl)
     if not f or not icon_tbl or not f.BossModIcon then return end
 
-    f.BossModIcon:SetTexture(icon_tbl[1])
+    local texture,start,expiry = unpack(icon_tbl)
+    if not texture then return end
+
+    if addon.debug and expiry then
+        print('AURA CALLBACK DEBUG')
+        print('started at '..start)
+        print('expires in '..(expiry - GetTime())..' (at '..expiry..')')
+    end
+
+    f.BossModIcon:SetTexture(texture)
     f.BossModIcon:Show()
 end
 local function HideNameplateAura(f)
@@ -79,7 +88,11 @@ do
             active_boss_auras = {}
         end
 
-        active_boss_auras[guid] = {icon,duration and GetTime() + duration or nil}
+        active_boss_auras[guid] = {
+            icon,
+            duration and GetTime(),
+            duration and GetTime()+duration
+        }
 
         -- immediately show if they already have a frame
         ShowNameplateAura(GetFrameByGUID(guid), active_boss_auras[guid])
