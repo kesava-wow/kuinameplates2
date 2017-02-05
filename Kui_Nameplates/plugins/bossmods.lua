@@ -21,11 +21,6 @@ end
 local function ShowNameplateAura(f, icon_tbl)
     if not f or not icon_tbl or not f.BossModIcon then return end
 
-    if addon.debug and icon_tbl[2] then
-        print('AURA CALLBACK DEBUG shown icon expires at '..icon_tbl[2])
-        print('in '..(icon_tbl[2]-GetTime()))
-    end
-
     f.BossModIcon:SetTexture(icon_tbl[1])
     f.BossModIcon:Show()
 end
