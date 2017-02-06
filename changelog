@@ -1,1 +1,7 @@
-* add support for experimental messages sent by DBM/BigWigs
+Alpha notes
+
+feb-06:
+- add config elements for bossmod module (nyi)
+
+feb-05:
+- add support for experimental messages sent by DBM and BigWigs
