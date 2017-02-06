@@ -150,15 +150,15 @@ function mod:OnEnable()
         plugin_ct = addon:GetPlugin('CombatToggle')
 
         -- TODO conflict if both are enabled
+        -- temporarily ignore one until both have settings
+        -- DBM.Options.DontShowNameplateIcons
         if BigWigsLoader then
             BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
             BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
 
             BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura')
             BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura')
-        end
-
-        if DBM then
+        elseif DBM then
             DBM:RegisterCallback('BossMod_EnableFriendlyNameplates',function()
                 mod:BigWigs_EnableFriendlyNameplates()
             end)
