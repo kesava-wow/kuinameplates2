@@ -164,7 +164,7 @@ local default_config = {
     bossmod_control_friendly = true,
     bossmod_icon_size = 30,
     bossmod_x_offset = 0,
-    bossmod_y_offset = 10,
+    bossmod_y_offset = 30,
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()
