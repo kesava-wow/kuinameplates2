@@ -11,6 +11,7 @@ opt.page_names = {
     auras       = 'Auras',
     classpowers = 'Class powers',
     threat      = 'Threat',
+    bossmod     = 'Boss mods',
 }
 opt.tooltips = {
     bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
@@ -123,6 +124,9 @@ opt.tooltips = {
 
     bossmod_enable = 'Boss mod addons can communicate with nameplate addons to display extra information on nameplates in relevant encounters, such as important buffs or debuffs cast by bosses.',
     bossmod_control_friendly = 'Boss mod addons can send a message to nameplate addons informing them to keep friendly nameplates enabled during an encounter, ignoring other settings like automatic combat toggling, so that extra information can be displayed on friendly players.|n|n|cffff6666If you disable this option and you do not have friendly nameplates enabled, boss mods will not be able to show you this data.',
+    bossmod_icon_size = 'Size of the boss aura icon',
+    bossmod_x_offset = 'Horizontal offset of the boss aura icon',
+    bossmod_y_offset = 'Vertical offset of the boss aura icon',
 }
 opt.titles = {
     profile = 'Profile',
@@ -277,5 +281,7 @@ opt.titles = {
 
     bossmod_enable = 'Enable boss mod communication module',
     bossmod_control_friendly = 'Allow boss mods to control visibility of friendly nameplates',
+    bossmod_icon_size = 'Icon size',
+    bossmod_x_offset = 'Horizontal offset',
+    bossmod_y_offset = 'Vertical offset',
 }
-
