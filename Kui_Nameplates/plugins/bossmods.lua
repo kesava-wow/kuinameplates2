@@ -30,7 +30,7 @@ local function ShowNameplateAura(f, icon_tbl)
         print('expires in '..(expiry - GetTime())..' (at '..expiry..')')
     end
 
-    f.BossModIcon:SetTexture(texture)
+    f.BossModIcon.tex:SetTexture(texture)
     f.BossModIcon:Show()
 end
 local function HideNameplateAura(f)
@@ -137,18 +137,25 @@ function mod:Hide(f)
     HideNameplateAura(f)
 end
 function mod:Create(f)
-    -- TODO create icon for testing
-    -- size & position in layout
-    -- possibly also want stacks, cd frame?
-    local icon = f:CreateTexture(nil,'ARTWORK',nil,1)
-    icon:SetTexture('interface/buttons/white8x8')
-    icon:SetSize(30,30)
+    local icon = CreateFrame('Frame',nil,f)
+    icon:SetSize(30,30) -- TODO layout config
+    icon:Hide()
 
+    local tex = icon:CreateTexture(nil,'ARTWORK')
+    tex:SetTexCoord(.1,.9,.1,.9)
+    tex:SetAllPoints(icon)
+
+    local cd = CreateFrame('Cooldown',nil,icon,'CooldownFrameTemplate')
+    cd:SetAllPoints(tex)
+    cd:SetDrawBling(false)
+
+    -- TODO layout config
     icon:SetPoint('BOTTOMLEFT',f,'TOPLEFT',
         floor((f:GetWidth() / 2) - (icon:GetWidth() / 2)),
         10)
 
-    icon:Hide()
+    icon.tex = tex
+    icon.cd = cd
 
     f.BossModIcon = icon
 end
