@@ -107,7 +107,7 @@ do
     --     If left nil, icon is treated as timeless
     -- The icon will not be hidden until HideNameplateAura is called
     function mod:BigWigs_ShowNameplateAura(msg,sender,guid,icon,duration)
-        if not self.enabled then return end
+        if not self.enabled or not guid or not icon then return end
 
         -- store to show/hide when relevant frame's visibility changes
         if not active_boss_auras then
@@ -245,7 +245,6 @@ do
     end
 end
 -- register ####################################################################
--- TODO OnDisable
 function mod:OnEnable()
     if not initialised then return end
     if BigWigsLoader or DBM then

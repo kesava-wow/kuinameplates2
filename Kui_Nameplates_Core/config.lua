@@ -526,7 +526,7 @@ function configChanged.ignore_uiscale(v)
     QueueClickboxUpdate()
 end
 
-function configChangedClickthrough()
+local function configChangedClickthrough()
     C_NamePlate.SetNamePlateSelfClickThrough(core.profile.clickthrough_self)
     C_NamePlate.SetNamePlateFriendlyClickThrough(core.profile.clickthrough_friend)
     C_NamePlate.SetNamePlateEnemyClickThrough(core.profile.clickthrough_enemy)
@@ -535,7 +535,14 @@ configChanged.clickthrough_self = configChangedClickthrough
 configChanged.clickthrough_friend = configChangedClickthrough
 configChanged.clickthrough_enemy = configChangedClickthrough
 
-function configChangedBossMod()
+configChanged.bossmod_enable = function(v)
+    if v then
+        addon:GetPlugin('BossMods'):Enable()
+    else
+        addon:GetPlugin('BossMods'):Disable()
+    end
+end
+local function configChangedBossMod()
     core.BossModIcon.icon_size = core.profile.bossmod_icon_size
     core.BossModIcon.icon_x_offset = core.profile.bossmod_x_offset
     core.BossModIcon.icon_y_offset = core.profile.bossmod_y_offset
@@ -545,7 +552,6 @@ function configChangedBossMod()
         addon:GetPlugin('BossMods'):UpdateConfig()
     end
 end
-configChanged.bossmod_enable = configChangedBossMod
 configChanged.bossmod_control_friendly = configChangedBossMod
 configChanged.bossmod_icon_size = configChangedBossMod
 configChanged.bossmod_x_offset = configChangedBossMod
@@ -580,14 +586,6 @@ function configLoaded.classpowers_enable(v)
     end
 end
 
-function configLoaded.bossmod_enable(v)
-    if v then
-        addon:GetPlugin('BossMods'):Enable()
-    else
-        addon:GetPlugin('BossMods'):Disable()
-    end
-end
-
 local function configLoadedFadeRule()
     configChangedFadeRule(nil,true)
 end
@@ -601,6 +599,8 @@ function configLoaded.ignore_uiscale(v)
     addon.IGNORE_UISCALE = v
     addon:UI_SCALE_CHANGED()
 end
+
+configLoaded.bossmod_enable = configChanged.bossmod_enable
 
 -- init config #################################################################
 function core:InitialiseConfig()
