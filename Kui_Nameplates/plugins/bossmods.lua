@@ -24,10 +24,9 @@ local function ShowNameplateAura(f, icon_tbl)
     local texture,start,expiry = unpack(icon_tbl)
     if not texture then return end
 
-    if addon.debug and expiry then
-        print('AURA CALLBACK DEBUG')
-        print('started at '..start)
-        print('expires in '..(expiry - GetTime())..' (at '..expiry..')')
+    if start and expiry then
+        f.BossModIcon.cd:SetCooldown(start,expiry-start)
+        f.BossModIcon.cd:Show()
     end
 
     f.BossModIcon.tex:SetTexture(texture)
@@ -138,6 +137,7 @@ function mod:Hide(f)
 end
 function mod:Create(f)
     local icon = CreateFrame('Frame',nil,f)
+    icon:SetFrameStrata('LOW') -- above all nameplates
     icon:SetSize(30,30) -- TODO layout config
     icon:Hide()
 
@@ -147,7 +147,11 @@ function mod:Create(f)
 
     local cd = CreateFrame('Cooldown',nil,icon,'CooldownFrameTemplate')
     cd:SetAllPoints(tex)
+    cd:SetReverse(true)
+    cd:SetDrawEdge(false)
     cd:SetDrawBling(false)
+    cd:SetHideCountdownNumbers(true)
+    cd.noCooldownCount = true
 
     -- TODO layout config
     icon:SetPoint('BOTTOMLEFT',f,'TOPLEFT',
