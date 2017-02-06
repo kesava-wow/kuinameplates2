@@ -6,6 +6,7 @@ local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BossMods')
 
 local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET = 30,0,0
+local CONTROL_FRIENDLY = true
 
 local initialised
 local active_boss_auras
@@ -47,6 +48,8 @@ do
     -- DisableFriendlyNameplates also wipes boss auras
     local prev_val
     function mod:BigWigs_EnableFriendlyNameplates()
+        if not self.enabled or not CONTROL_FRIENDLY then return end
+
         plugin_ct:Disable()
 
         if addon.debug then
@@ -65,6 +68,8 @@ do
         end
     end
     function mod:BigWigs_DisableFriendlyNameplates()
+        if not self.enabled or not CONTROL_FRIENDLY then return end
+
         plugin_ct:Enable()
 
         if addon.debug then
@@ -176,9 +181,10 @@ function mod:UpdateConfig()
     if not self.enabled then return end
 
     if type(addon.layout.BossModIcon) == 'table' then
-        ICON_SIZE = addon.layout.BossModIcon.icon_size or 30
-        ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or 0
-        ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or 0
+        ICON_SIZE = addon.layout.BossModIcon.icon_size or ICON_SIZE
+        ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or ICON_X_OFFSET
+        ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_Y_OFFSET
+        CONTROL_FRIENDLY = addon.layout.BossModIcon.control_friendly or CONTROL_FRIENDLY
     end
 
     for i,f in addon:Frames() do

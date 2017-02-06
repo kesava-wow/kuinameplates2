@@ -539,6 +539,7 @@ function configChangedBossMod()
     core.BossModIcon.icon_size = core.profile.bossmod_icon_size
     core.BossModIcon.icon_x_offset = core.profile.bossmod_x_offset
     core.BossModIcon.icon_y_offset = core.profile.bossmod_y_offset
+    core.BossModIcon.control_friendly = core.profile.bossmod_control_friendly
 
     if addon:GetPlugin('BossMods').enabled then
         addon:GetPlugin('BossMods'):UpdateConfig()
