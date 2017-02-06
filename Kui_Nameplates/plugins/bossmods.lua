@@ -163,6 +163,8 @@ do
 
             BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura')
             BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura')
+
+            return true
         end,
         ['DBM'] = function()
             DBM:RegisterCallback('BossMod_EnableFriendlyNameplates',function()
@@ -178,17 +180,20 @@ do
             DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,...)
                 mod:BigWigs_HideNameplateAura(msg,nil,...)
             end)
+
+            return true
         end,
     }
     function RegisterAddon(name)
         if registered and not addon.debug then return end
         if cb_registrar[name] then
-            if addon.debug then
-                addon:print('registering '..name)
-            end
+            if cb_registrar[name]() then
+                if addon.debug then
+                    addon:print('registered '..name)
+                end
 
-            registered = name
-            return cb_registrar[name]()
+                registered = name
+            end
         end
     end
 end
