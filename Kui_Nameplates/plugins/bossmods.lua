@@ -41,6 +41,15 @@ local function HideNameplateAura(f)
 
     f.BossModIcon:Hide()
 end
+local function HideAllAuras()
+    active_boss_auras = nil
+
+    for k,f in addon:Frames() do
+        if f:IsShown() then
+            f.BossModIcon:Hide()
+        end
+    end
+end
 -- callbacks ###################################################################
 do
     -- Show/hide friendly nameplates ###########################################
@@ -88,13 +97,7 @@ do
 
         -- we're assuming this is out of combat after the end of a boss, so we
         -- can also use it to clear all auras
-        active_boss_auras = nil
-
-        for k,f in addon:Frames() do
-            if f:IsShown() then
-                f.BossModIcon:Hide()
-            end
-        end
+        HideAllAuras()
     end
 end
 
@@ -104,6 +107,8 @@ do
     --     If left nil, icon is treated as timeless
     -- The icon will not be hidden until HideNameplateAura is called
     function mod:BigWigs_ShowNameplateAura(msg,sender,guid,icon,duration)
+        if not self.enabled then return end
+
         -- store to show/hide when relevant frame's visibility changes
         if not active_boss_auras then
             active_boss_auras = {}
@@ -119,6 +124,8 @@ do
         ShowNameplateAura(GetFrameByGUID(guid), active_boss_auras[guid])
     end
     function mod:BigWigs_HideNameplateAura(msg,sender,guid)
+        if not self.enabled then return end
+
         if active_boss_auras then
             -- remove from guid list
             active_boss_auras[guid] = nil
@@ -269,6 +276,9 @@ function mod:OnEnable()
             RegisterAddon('DBM')
         end
     end
+end
+function mod:OnDisable()
+    HideAllAuras()
 end
 function mod:Initialised()
     initialised = true
