@@ -442,6 +442,12 @@ bossmod_icon_size = bossmod:CreateSlider('bossmod_icon_size',10,100)
 bossmod_x_offset = bossmod:CreateSlider('bossmod_x_offset',-200,200)
 bossmod_y_offset = bossmod:CreateSlider('bossmod_y_offset',-200,200)
 
+local function bossmod_enabled(p) return p.bossmod_enable end
+bossmod_control_friendly.enabled = bossmod_enabled
+bossmod_icon_size.enabled = bossmod_enabled
+bossmod_x_offset.enabled = bossmod_enabled
+bossmod_y_offset.enabled = bossmod_enabled
+
 bossmod_enable:SetPoint('TOPLEFT',10,-10)
 bossmod_control_friendly:SetPoint('TOPLEFT',bossmod_enable,'BOTTOMLEFT')
 
