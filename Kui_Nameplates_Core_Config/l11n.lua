@@ -273,5 +273,5 @@ opt.titles = {
     classpowers_colour_inactive = 'Inactive colour',
 
     bossmod_enable = 'Enable boss mod communication module',
-    bossmod_control_friendly = 'Allow boss mods to control friendly nameplate visibility'
+    bossmod_control_friendly = 'Allow boss mods to control visibility of friendly nameplates',
 }
