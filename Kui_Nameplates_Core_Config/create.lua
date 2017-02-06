@@ -151,7 +151,7 @@ colour_self.enabled = function(p) return not p.colour_self_class end
 colour_enemy_player.enabled = function(p) return not p.colour_enemy_class end
 
 execute_auto.enabled = function(p) return p.execute_enabled end
-execute_colour.enabled = function(p) return p.execute_enabled end
+execute_colour.enabled = execute_auto.enabled
 execute_percent.enabled = function(p) return p.execute_enabled and not p.execute_auto end
 
 -- text ########################################################################
@@ -355,13 +355,13 @@ castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT')
 castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
 
 castbar_colour.enabled = function(p) return p.castbar_enable end
-castbar_unin_colour.enabled = function(p) return p.castbar_enable end
-castbar_personal.enabled = function(p) return p.castbar_enable end
-castbar_icon.enabled = function(p) return p.castbar_enable end
-castbar_name.enabled = function(p) return p.castbar_enable end
-castbar_all.enabled = function(p) return p.castbar_enable end
+castbar_unin_colour.enabled = castbar_colour.enabled
+castbar_personal.enabled = castbar_colour.enabled
+castbar_icon.enabled = castbar_colour.enabled
+castbar_name.enabled = castbar_colour.enabled
+castbar_all.enabled = castbar_colour.enabled
 castbar_friend.enabled = function(p) return p.castbar_enable and p.castbar_showall end
-castbar_enemy.enabled = function(p) return p.castbar_enable and p.castbar_showall end
+castbar_enemy.enabled = castbar_friend.enabled
 
 -- threat ######################################################################
 local tankmodeCheck = threat:CreateCheckBox('tank_mode')
@@ -373,9 +373,9 @@ local tankmode_trans_colour = threat:CreateColourPicker('tankmode_trans_colour')
 local tankmode_other_colour = threat:CreateColourPicker('tankmode_other_colour')
 
 tankmode_force_enable.enabled = function(p) return p.tank_mode end
-tankmode_tank_colour.enabled = function(p) return p.tank_mode end
-tankmode_trans_colour.enabled = function(p) return p.tank_mode end
-tankmode_other_colour.enabled = function(p) return p.tank_mode end
+tankmode_tank_colour.enabled = tankmode_force_enable.enabled
+tankmode_trans_colour.enabled = tankmode_force_enable.enabled
+tankmode_other_colour.enabled = tankmode_force_enable.enabled
 
 tankmodeCheck:SetPoint('TOPLEFT',10,-10)
 tankmode_force_enable:SetPoint('LEFT',tankmodeCheck,'RIGHT',190,0)
