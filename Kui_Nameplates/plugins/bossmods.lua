@@ -5,8 +5,9 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BossMods')
 
-local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET
+local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET = 30,0,0
 
+local initialised
 local active_boss_auras
 local plugin_ct
 
@@ -166,7 +167,7 @@ function mod:UpdateIcon(f)
     -- set size, position based on config
     if not f.BossModIcon then return end
 
-    f.BossModIcon:SetSize(ICON_SIZE)
+    f.BossModIcon:SetSize(ICON_SIZE,ICON_SIZE)
     f.BossModIcon:SetPoint('BOTTOMLEFT', f, 'TOPLEFT',
         floor((f:GetWidth() / 2) - (ICON_SIZE / 2)) + ICON_X_OFFSET,
         ICON_Y_OFFSET)
@@ -174,14 +175,10 @@ end
 function mod:UpdateConfig()
     if not self.enabled then return end
 
-    ICON_SIZE = 30
-    ICON_X_OFFSET = 0
-    ICON_Y_OFFSET = 10
-
     if type(addon.layout.BossModIcon) == 'table' then
-        ICON_SIZE = addon.layout.BossModIcon.icon_size or ICON_SIZE
-        ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or ICON_X_OFFSET
-        ICON_y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_y_OFFSET
+        ICON_SIZE = addon.layout.BossModIcon.icon_size or 30
+        ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or 0
+        ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or 0
     end
 
     for i,f in addon:Frames() do
@@ -235,7 +232,9 @@ do
     end
 end
 -- register ####################################################################
+-- TODO OnDisable
 function mod:OnEnable()
+    if not initialised then return end
     if BigWigsLoader or DBM then
         self:RegisterMessage('Show')
         self:RegisterMessage('Hide')
@@ -263,5 +262,16 @@ function mod:OnEnable()
         if DBM then
             RegisterAddon('DBM')
         end
+    end
+end
+function mod:Initialised()
+    initialised = true
+
+    if addon.layout.BossModIcon then
+        -- re-enable to get config from layout table
+        self:OnEnable()
+    else
+        -- layout didn't initialise us
+        self:Disable()
     end
 end

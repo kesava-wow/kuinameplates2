@@ -1674,4 +1674,10 @@ function core:InitialiseElements()
         -- set custom power colours
         plugin_pb.colours['MANA'] = { .30, .37, .74 }
     end
+
+    self.BossModIcon = {
+        icon_size = self.profile.bossmod_icon_size,
+        icon_x_offset = self.profile.bossmod_x_offset,
+        icon_y_offset = self.profile.bossmod_y_offset
+    }
 end

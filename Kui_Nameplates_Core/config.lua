@@ -535,6 +535,21 @@ configChanged.clickthrough_self = configChangedClickthrough
 configChanged.clickthrough_friend = configChangedClickthrough
 configChanged.clickthrough_enemy = configChangedClickthrough
 
+function configChangedBossMod()
+    core.BossModIcon.icon_size = core.profile.bossmod_icon_size
+    core.BossModIcon.icon_x_offset = core.profile.bossmod_x_offset
+    core.BossModIcon.icon_y_offset = core.profile.bossmod_y_offset
+
+    if addon:GetPlugin('BossMods').enabled then
+        addon:GetPlugin('BossMods'):UpdateConfig()
+    end
+end
+configChanged.bossmod_enable = configChangedBossMod
+configChanged.bossmod_control_friendly = configChangedBossMod
+configChanged.bossmod_icon_size = configChangedBossMod
+configChanged.bossmod_x_offset = configChangedBossMod
+configChanged.bossmod_y_offset = configChangedBossMod
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
@@ -561,6 +576,14 @@ function configLoaded.classpowers_enable(v)
         addon:GetPlugin('ClassPowers'):Enable()
     else
         addon:GetPlugin('ClassPowers'):Disable()
+    end
+end
+
+function configLoaded.bossmod_enable(v)
+    if v then
+        addon:GetPlugin('BossMods'):Enable()
+    else
+        addon:GetPlugin('BossMods'):Disable()
     end
 end
 
