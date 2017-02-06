@@ -124,7 +124,7 @@ do
         ShowNameplateAura(GetFrameByGUID(guid), active_boss_auras[guid])
     end
     function mod:BigWigs_HideNameplateAura(msg,sender,guid)
-        if not self.enabled then return end
+        if not self.enabled or not guid then return end
 
         if active_boss_auras then
             -- remove from guid list
