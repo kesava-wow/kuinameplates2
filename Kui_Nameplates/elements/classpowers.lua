@@ -200,6 +200,7 @@ local function CreateIcon()
             cd:SetDrawEdge(false)
             cd:SetDrawBling(false)
             cd:SetHideCountdownNumbers(true)
+            cd.noCooldownCount = true
             icon.cd = cd
         else
             icon.Active = function(self)
