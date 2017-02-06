@@ -47,6 +47,13 @@ do
     function mod:BigWigs_EnableFriendlyNameplates()
         plugin_ct:Disable()
 
+        if addon.debug then
+            addon:print('received EnableFriendlyNameplates')
+            if InCombatLockdown() then
+                addon:print('during combat')
+            end
+        end
+
         if not InCombatLockdown() then
             -- skip CombatToggle into combat mode
             plugin_ct:PLAYER_REGEN_DISABLED()
@@ -57,6 +64,13 @@ do
     end
     function mod:BigWigs_DisableFriendlyNameplates()
         plugin_ct:Enable()
+
+        if addon.debug then
+            addon:print('received DisableFriendlyNameplates')
+            if InCombatLockdown() then
+                addon:print('during combat')
+            end
+        end
 
         if not InCombatLockdown() then
             SetCVar('nameplateShowFriends',prev_val)
@@ -138,27 +152,19 @@ function mod:Create(f)
 
     f.BossModIcon = icon
 end
--- register ####################################################################
-function mod:OnEnable()
-    local BigWigsLoader = BigWigsLoader
-    local DBM = DBM
-    if BigWigsLoader or DBM then
-        self:RegisterMessage('Show')
-        self:RegisterMessage('Hide')
-        self:RegisterMessage('Create')
-
-        plugin_ct = addon:GetPlugin('CombatToggle')
-
-        -- TODO conflict if both are enabled
-        -- temporarily ignore one until both have settings
-        -- DBM.Options.DontShowNameplateIcons
-        if BigWigsLoader then
+-- callback registrars for different addons ####################################
+local RegisterAddon
+do
+    local registered
+    local cb_registrar = {
+        ['BigWigs'] = function()
             BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
             BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
 
             BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura')
             BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura')
-        elseif DBM then
+        end,
+        ['DBM'] = function()
             DBM:RegisterCallback('BossMod_EnableFriendlyNameplates',function()
                 mod:BigWigs_EnableFriendlyNameplates()
             end)
@@ -172,6 +178,38 @@ function mod:OnEnable()
             DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,...)
                 mod:BigWigs_HideNameplateAura(msg,nil,...)
             end)
+        end,
+    }
+    function RegisterAddon(name)
+        if registered and not addon.debug then return end
+        if cb_registrar[name] then
+            if addon.debug then
+                addon:print('registering '..name)
+            end
+
+            registered = name
+            return cb_registrar[name]()
+        end
+    end
+end
+-- register ####################################################################
+function mod:OnEnable()
+    if BigWigsLoader or DBM then
+        self:RegisterMessage('Show')
+        self:RegisterMessage('Hide')
+        self:RegisterMessage('Create')
+
+        plugin_ct = addon:GetPlugin('CombatToggle')
+
+        -- TODO conflict if both are enabled
+        -- temporarily ignore one until both have settings
+        -- DBM.Options.DontShowNameplateIcons
+        if BigWigsLoader then
+            RegisterAddon('BigWigs')
+        end
+
+        if DBM then
+            RegisterAddon('DBM')
         end
     end
 end
