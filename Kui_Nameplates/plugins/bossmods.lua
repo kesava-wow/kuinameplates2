@@ -5,6 +5,8 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BossMods')
 
+local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET
+
 local active_boss_auras
 local plugin_ct
 
@@ -138,7 +140,6 @@ end
 function mod:Create(f)
     local icon = CreateFrame('Frame',nil,f)
     icon:SetFrameStrata('LOW') -- above all nameplates
-    icon:SetSize(30,30) -- TODO layout config
     icon:Hide()
 
     local tex = icon:CreateTexture(nil,'ARTWORK')
@@ -153,15 +154,40 @@ function mod:Create(f)
     cd:SetHideCountdownNumbers(true)
     cd.noCooldownCount = true
 
-    -- TODO layout config
-    icon:SetPoint('BOTTOMLEFT',f,'TOPLEFT',
-        floor((f:GetWidth() / 2) - (icon:GetWidth() / 2)),
-        10)
-
     icon.tex = tex
     icon.cd = cd
 
     f.BossModIcon = icon
+
+    self:UpdateIcon(f)
+end
+-- mod functions ###############################################################
+function mod:UpdateIcon(f)
+    -- set size, position based on config
+    if not f.BossModIcon then return end
+
+    f.BossModIcon:SetSize(ICON_SIZE)
+    f.BossModIcon:SetPoint('BOTTOMLEFT', f, 'TOPLEFT',
+        floor((f:GetWidth() / 2) - (ICON_SIZE / 2)) + ICON_X_OFFSET,
+        ICON_Y_OFFSET)
+end
+function mod:UpdateConfig()
+    if not self.enabled then return end
+
+    ICON_SIZE = 30
+    ICON_X_OFFSET = 0
+    ICON_Y_OFFSET = 10
+
+    if type(addon.layout.BossModIcon) == 'table' then
+        ICON_SIZE = addon.layout.BossModIcon.icon_size or ICON_SIZE
+        ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or ICON_X_OFFSET
+        ICON_y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_y_OFFSET
+    end
+
+    for i,f in addon:Frames() do
+        -- update icons on existing frames
+        self:UpdateIcon(f)
+    end
 end
 -- callback registrars for different addons ####################################
 local RegisterAddon
@@ -215,8 +241,18 @@ function mod:OnEnable()
         self:RegisterMessage('Hide')
         self:RegisterMessage('Create')
 
+        self:UpdateConfig()
+
+        for i,f in addon:Frames() do
+            -- create on existing frames
+            if not f.BossModIcon then
+                self:Create(f)
+            end
+        end
+
         plugin_ct = addon:GetPlugin('CombatToggle')
 
+        -- Register addon callbacks
         -- TODO conflict if both are enabled
         -- temporarily ignore one until both have settings
         -- DBM.Options.DontShowNameplateIcons
