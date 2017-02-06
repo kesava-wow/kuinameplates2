@@ -159,6 +159,12 @@ local default_config = {
     classpowers_colour_warlock     = {1,.5,1},
     classpowers_colour_overflow    = {1,.3,.3},
     classpowers_colour_inactive    = {.5,.5,.5,.5},
+
+    bossmod_enable = true,
+    bossmod_control_friendly = true,
+    bossmod_icon_size = 30,
+    bossmod_x_offset = 0,
+    bossmod_y_offset = 10,
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()

@@ -21,6 +21,7 @@ local framesizes  = opt:CreateConfigPage('framesizes')
 local auras       = opt:CreateConfigPage('auras')
 local threat      = opt:CreateConfigPage('threat')
 local classpowers = opt:CreateConfigPage('classpowers')
+local bossmod     = opt:CreateConfigPage('bossmod')
 
 -- show inital page
 opt.pages[1]:ShowPage()
@@ -433,6 +434,20 @@ classpowers_colour:SetScript('OnEnter',function(self)
     GameTooltip:AddLine(opt.tooltips['classpowers_colour'],1,1,1,true)
     GameTooltip:Show()
 end)
+
+-- bossmod #####################################################################
+bossmod_enable = bossmod:CreateCheckBox('bossmod_enable')
+bossmod_control_friendly = bossmod:CreateCheckBox('bossmod_control_friendly')
+bossmod_icon_size = bossmod:CreateSlider('bossmod_icon_size',10,100)
+bossmod_x_offset = bossmod:CreateSlider('bossmod_x_offset',-200,200)
+bossmod_y_offset = bossmod:CreateSlider('bossmod_y_offset',-200,200)
+
+bossmod_enable:SetPoint('TOPLEFT',10,-10)
+bossmod_control_friendly:SetPoint('TOPLEFT',bossmod_enable,'BOTTOMLEFT')
+
+bossmod_icon_size:SetPoint('TOP',0,-100)
+bossmod_x_offset:SetPoint('TOPLEFT',10,-160)
+bossmod_y_offset:SetPoint('LEFT',bossmod_x_offset,'RIGHT',20,0)
 
 -- LSM dropdowns ###############################################################
 function bar_texture:initialize()
