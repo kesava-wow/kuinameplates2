@@ -191,7 +191,7 @@ function mod:UpdateConfig()
         ICON_SIZE = addon.layout.BossModIcon.icon_size or ICON_SIZE
         ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or ICON_X_OFFSET
         ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_Y_OFFSET
-        CONTROL_FRIENDLY = addon.layout.BossModIcon.control_friendly or CONTROL_FRIENDLY
+        CONTROL_FRIENDLY = addon.layout.BossModIcon.control_friendly
     end
 
     for i,f in addon:Frames() do
