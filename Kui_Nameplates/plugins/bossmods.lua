@@ -21,15 +21,35 @@ local function GetFrameByGUID(guid)
         end
     end
 end
+local function aura_OnUpdate(self,elapsed)
+    self.cd_elap = (self.cd_elap or 0) - elapsed
+    if self.cd_elap <= 0 then
+        self.remaining = self.expiry - GetTime()
 
+        if self.remaining <= 0 then
+            self.cd:SetText(0)
+            self:SetScript('OnUpdate',nil)
+            return
+        end
+
+        if self.remaining <= 2 then
+            self.cd_elap = .05
+        else
+            self.cd_elap = .5
+        end
+
+        self.cd:SetText(format("%.f",self.remaining))
+    end
+end
 local function ShowNameplateAura(f, icon_tbl)
     if not f or not icon_tbl or not f.BossModIcon then return end
 
-    local texture,start,expiry = unpack(icon_tbl)
+    local texture,expiry = unpack(icon_tbl)
     if not texture then return end
 
-    if start and expiry then
-        f.BossModIcon.cd:SetCooldown(start,expiry-start)
+    if expiry then
+        f.BossModIcon.expiry = expiry
+        f.BossModIcon:SetScript('OnUpdate',aura_OnUpdate)
         f.BossModIcon.cd:Show()
     end
 
@@ -39,7 +59,13 @@ end
 local function HideNameplateAura(f)
     if not f or not f.BossModIcon then return end
 
+    f.BossModIcon:SetScript('OnUpdate',nil)
     f.BossModIcon:Hide()
+
+    f.BossModIcon.cd_elap = nil
+    f.BossModIcon.remaining = nil
+    f.BossModIcon.expiry = nil
+    f.BossModIcon.cd:Hide()
 end
 local function HideAllAuras()
     active_boss_auras = nil
@@ -122,7 +148,6 @@ do
 
         active_boss_auras[guid] = {
             icon,
-            duration and GetTime(),
             duration and GetTime()+duration
         }
 
@@ -158,20 +183,18 @@ function mod:Hide(f)
 end
 function mod:Create(f)
     local icon = CreateFrame('Frame',nil,f)
-    icon:SetFrameStrata('LOW') -- above all nameplates
+    icon:SetFrameLevel(0)
     icon:Hide()
 
     local tex = icon:CreateTexture(nil,'ARTWORK')
     tex:SetTexCoord(.1,.9,.1,.9)
     tex:SetAllPoints(icon)
 
-    local cd = CreateFrame('Cooldown',nil,icon,'CooldownFrameTemplate')
-    cd:SetAllPoints(tex)
-    cd:SetReverse(true)
-    cd:SetDrawEdge(false)
-    cd:SetDrawBling(false)
-    cd:SetHideCountdownNumbers(true)
-    cd.noCooldownCount = true
+    local cd = icon:CreateFontString(nil,'OVERLAY')
+    cd:SetTextColor(1,1,0)
+    cd:SetFont('Fonts\\FRIZQT__.TTF',18,'OUTLINE')
+    cd:SetPoint('TOPLEFT',-4,4)
+    cd:Hide()
 
     icon.tex = tex
     icon.cd = cd
@@ -179,6 +202,8 @@ function mod:Create(f)
     f.BossModIcon = icon
 
     self:UpdateIcon(f)
+
+    mod:RunCallback('PostCreateaAura',icon)
 end
 -- mod functions ###############################################################
 function mod:UpdateIcon(f)
@@ -295,4 +320,7 @@ function mod:Initialised()
         -- layout didn't initialise us
         self:Disable()
     end
+end
+function mod:Initialise()
+    self:RegisterCallback('PostCreateaAura')
 end
