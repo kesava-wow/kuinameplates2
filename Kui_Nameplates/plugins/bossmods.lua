@@ -303,12 +303,12 @@ function mod:OnEnable()
         -- TODO conflict if both are enabled
         -- temporarily ignore one until both have settings
         -- DBM.Options.DontShowNameplateIcons
-        if BigWigsLoader then
-            RegisterAddon('BigWigs')
-        end
-
         if DBM then
             RegisterAddon('DBM')
+        end
+
+        if BigWigsLoader then
+            RegisterAddon('BigWigs')
         end
     end
 end
