@@ -56,6 +56,15 @@ do
     -- these should not be called during combat
     -- DisableFriendlyNameplates also wipes boss auras
     local prev_val
+    local function DisableFriendlyNameplates()
+        mod:UnregisterEvent('PLAYER_REGEN_ENABLED')
+
+        SetCVar('nameplateShowFriends',prev_val)
+
+        -- restore CombatToggle's desired out-of-combat settings
+        plugin_ct:Enable()
+        plugin_ct:PLAYER_REGEN_ENABLED()
+    end
     function mod:BigWigs_EnableFriendlyNameplates()
         if not self.enabled or not CONTROL_FRIENDLY then return end
 
@@ -79,8 +88,6 @@ do
     function mod:BigWigs_DisableFriendlyNameplates()
         if not self.enabled or not CONTROL_FRIENDLY then return end
 
-        plugin_ct:Enable()
-
         if addon.debug then
             addon:print('received DisableFriendlyNameplates')
             if InCombatLockdown() then
@@ -88,15 +95,14 @@ do
             end
         end
 
-        if not InCombatLockdown() then
-            SetCVar('nameplateShowFriends',prev_val)
-
-            -- restore CombatToggle's desired out-of-combat settings
-            plugin_ct:PLAYER_REGEN_ENABLED()
+        if InCombatLockdown() then
+            -- wait until after combat to reset display
+            self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableFriendlyNameplates)
+        else
+            DisableFriendlyNameplates()
         end
 
-        -- we're assuming this is out of combat after the end of a boss, so we
-        -- can also use it to clear all auras
+        -- immediately clear all auras
         HideAllAuras()
     end
 end
