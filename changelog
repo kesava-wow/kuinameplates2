@@ -1,13 +1,2 @@
-Alpha notes
-
-feb-07:
-- (bossmods) delay DisableFriendlyNameplates until out of combat
-- (bossmods) use CD text on instead of CooldownFrames due to overlap
-- (bossmods) revert icons overlap all nameplates
-- (bossmods) increase default size
-
-feb-06:
-- add config elements for bossmod module
-
-feb-05:
-- add support for experimental messages sent by DBM and BigWigs
+* add support for messages sent by boss mods in certain encounters (configurable in /knp > boss mods)
+* fix runes using OmniCC animations
