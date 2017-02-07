@@ -7,6 +7,7 @@ local mod = addon:NewPlugin('BossMods')
 
 local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET = 30,0,0
 local CONTROL_FRIENDLY = true
+local DECIMAL_THRESHOLD = 1
 
 local initialised
 local active_boss_auras
@@ -32,13 +33,17 @@ local function aura_OnUpdate(self,elapsed)
             return
         end
 
-        if self.remaining <= 2 then
+        if self.remaining <= DECIMAL_THRESHOLD+1 then
             self.cd_elap = .05
         else
             self.cd_elap = .5
         end
 
-        self.cd:SetText(format("%.f",self.remaining))
+        if self.remaining <= DECIMAL_THRESHOLD then
+            self.cd:SetText(format("%.1f",self.remaining))
+        else
+            self.cd:SetText(format("%.f",self.remaining))
+        end
     end
 end
 local function ShowNameplateAura(f, icon_tbl)
