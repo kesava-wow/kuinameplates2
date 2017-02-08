@@ -23,6 +23,13 @@ local function GetFrameByGUID(guid)
         end
     end
 end
+local function GetFrameByName(name)
+    -- wrapper for GetNamePlateForUnit, return kui frame
+    local f = GetNamePlateForUnit(name)
+    if f then
+        return f.kui
+    end
+end
 local function aura_OnUpdate(self,elapsed)
     self.cd_elap = (self.cd_elap or 0) - elapsed
     if self.cd_elap <= 0 then
@@ -167,7 +174,7 @@ do
             guid_was_used = true
         else
             ShowNameplateAura(
-                GetNamePlateForUnit(name),
+                GetFrameByName(name),
                 active_boss_auras[name]
             )
         end
@@ -184,7 +191,7 @@ do
         if msg == 'guid' then
             HideNameplateAura(GetFrameByGUID(name))
         else
-            HideNameplateAura(GetNamePlateForUnit(name))
+            HideNameplateAura(GetFrameByName(name))
         end
     end
 end
