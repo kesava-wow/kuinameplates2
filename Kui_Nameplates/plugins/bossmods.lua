@@ -12,7 +12,7 @@
     -   Should be fired out of the combat lockdown at the beginning of a fight.
 
     During an encounter:
-    _ShowNameplateAura(is_guid, nil, unitname or unitguid, texture, duration)
+    _ShowNameplateAura(is_guid, nil, unitname or unitguid, texture, duration, desaturate)
     -   Called throughout an encounter to inform the nameplate addon to show
         the given icon on the nameplate which matches the given name or guid.
     -   If guid is used, first argument should be the string "guid".
@@ -121,8 +121,14 @@ end
 local function ShowNameplateAura(f, icon_tbl)
     if not f or not icon_tbl or not f.BossModIcon then return end
 
-    local texture,expiry = unpack(icon_tbl)
+    local texture,desaturate,expiry = unpack(icon_tbl)
     if not texture then return end
+
+    f.BossModIcon.tex:SetTexture(texture)
+
+    if desaturate then
+        f.BossModIcon.tex:SetDesaturated(true)
+    end
 
     if expiry then
         f.BossModIcon.expiry = expiry
@@ -130,7 +136,6 @@ local function ShowNameplateAura(f, icon_tbl)
         f.BossModIcon.cd:Show()
     end
 
-    f.BossModIcon.tex:SetTexture(texture)
     f.BossModIcon:Show()
 end
 local function HideNameplateAura(f)
@@ -218,7 +223,7 @@ do
     -- The icon will not be hidden until HideNameplateAura is called.
     -- Name only works with friendly players in your party.
     -- GUID can be given instead of name, but this requies a table iteration.
-    function mod:BigWigs_ShowNameplateAura(msg,sender,name,icon,duration)
+    function mod:BigWigs_ShowNameplateAura(msg,sender,name,icon,duration,desaturate)
         if not self.enabled or not name or not icon then return end
 
         if guid_was_used and msg ~= 'guid' then
@@ -234,6 +239,7 @@ do
 
         active_boss_auras[name] = {
             icon,
+            desaturate,
             duration and GetTime()+duration
         }
 
