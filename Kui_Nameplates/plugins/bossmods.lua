@@ -158,13 +158,16 @@ do
     end
     function mod:BigWigs_DisableFriendlyNameplates()
         if not self.enabled or not CONTROL_FRIENDLY then return end
-        if not enable_was_called then return end
 
-        if InCombatLockdown() then
-            -- wait until after combat to reset display
-            self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableFriendlyNameplates)
-        else
-            DisableFriendlyNameplates()
+        if enable_was_called then
+            if InCombatLockdown() then
+                -- wait until after combat to reset display
+                self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableFriendlyNameplates)
+            else
+                DisableFriendlyNameplates()
+            end
+
+            enable_was_called = nil
         end
 
         -- immediately clear all auras
@@ -229,6 +232,10 @@ end
 -- messages ####################################################################
 function mod:Show(f)
     if not active_boss_auras or not num_hidden_auras then return end
+
+    if addon.debug then
+        addon:print('BossMods parsed OnShow ('..num_hidden_auras..' hidden)')
+    end
 
     if guid_was_used then
         local guid = UnitGUID(f.unit)
