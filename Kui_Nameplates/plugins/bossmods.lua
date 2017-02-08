@@ -1,6 +1,42 @@
--- Boss mod callback handlers
--- Please contact me on Curse or IRC (freenode, #wowace) if you want me to
--- add support for your messages.
+--[[
+    Boss mod callback handlers
+    Please contact me on Curse or IRC (freenode, #wowace) if you want me to
+    add support for your messages.
+
+    Expected order of calls:
+
+    At the beginning of an encounter:
+    _EnableFriendlyNameplates
+    -   Used to tell the nameplate addon to keep friendly nameplates enabled
+        during an encounter so that you can show icons on them.
+    -   Should be fired out of the combat lockdown at the beginning of a fight.
+
+    During an encounter:
+    _ShowNameplateAura(is_guid, nil, unitname or unitguid, texture, duration)
+    -   Called throughout an encounter to inform the nameplate addon to show
+        the given icon on the nameplate which matches the given name or guid.
+    -   If guid is used, first argument should be the string "guid".
+        However, once a guid is used instead of a name, subsequent calls using
+        names will be ignored. Your addon should always use one or the other.
+        Name is more efficient, but can only be used on friendly party members.
+    -   Passing "duration" (number) will show a timer on the aura. Otherwise
+        auras will be treated as timeless. When this duration expires, the aura
+        will NOT be hidden. You must still call _HideNameplateAura.
+
+    _HideNameplateAura(is_guid, nil, name)
+    -   Hide the currently active icon on the nameplate matching the given name
+        or guid, if there is one.
+
+    At the end of an encounter:
+    _DisableFriendlyNameplates
+    -   Tell the nameplate addon to restore friendly nameplate visibility to
+        whatever it was before _EnableFriendlyNameplates was called, and enable
+        automatic handling such as combat toggling.
+    -   Can be called during combat; the insutruction will be delayed until
+        combat ends.
+    -   Also immediately hides all auras.
+
+]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BossMods')
