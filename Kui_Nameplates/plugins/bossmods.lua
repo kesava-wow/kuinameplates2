@@ -10,7 +10,8 @@ local CONTROL_FRIENDLY = true
 local DECIMAL_THRESHOLD = 1
 
 local initialised
-local active_boss_auras
+local active_boss_auras, guid_was_used, any_auras_hidden
+local GetNamePlateForUnit
 local plugin_ct
 
 -- local functions #############################################################
@@ -73,13 +74,15 @@ local function HideNameplateAura(f)
     f.BossModIcon.cd:Hide()
 end
 local function HideAllAuras()
-    active_boss_auras = nil
-
     for k,f in addon:Frames() do
         if f:IsShown() then
-            f.BossModIcon:Hide()
+            HideNameplateAura(f)
         end
     end
+
+    wipe(active_boss_auras)
+    any_auras_hidden = nil
+    guid_was_used = nil
 end
 -- callbacks ###################################################################
 do
@@ -139,52 +142,78 @@ do
 end
 
 do
-    -- Show/hide icon on nameplate belonging to given GUID #####################
-    -- Duration is used to draw a cooldown on the icon
-    --     If left nil, icon is treated as timeless
-    -- The icon will not be hidden until HideNameplateAura is called
-    function mod:BigWigs_ShowNameplateAura(msg,sender,guid,icon,duration)
-        if not self.enabled or not guid or not icon then return end
+    -- Show/hide icon on nameplate belonging to given name #####################
+    -- Duration is used to draw a cooldown on the icon;
+    --     If left nil, the icon is treated as timeless.
+    -- The icon will not be hidden until HideNameplateAura is called.
+    -- Name only works with friendly players in your party.
+    -- GUID can be given instead of name, but this requies a table iteration.
+    function mod:BigWigs_ShowNameplateAura(msg,sender,name,icon,duration)
+        if not self.enabled or not name or not icon then return end
 
         -- store to show/hide when relevant frame's visibility changes
         if not active_boss_auras then
             active_boss_auras = {}
         end
 
-        active_boss_auras[guid] = {
+        active_boss_auras[name] = {
             icon,
             duration and GetTime()+duration
         }
 
         -- immediately show if they already have a frame
-        ShowNameplateAura(GetFrameByGUID(guid), active_boss_auras[guid])
+        if msg == 'guid' then
+            ShowNameplateAura(GetFrameByGUID(name),active_boss_auras[name])
+            guid_was_used = true
+        else
+            ShowNameplateAura(
+                GetNamePlateForUnit(name),
+                active_boss_auras[name]
+            )
+        end
     end
-    function mod:BigWigs_HideNameplateAura(msg,sender,guid)
-        if not self.enabled or not guid then return end
+    function mod:BigWigs_HideNameplateAura(msg,sender,name)
+        if not self.enabled or not name then return end
 
         if active_boss_auras then
-            -- remove from guid list
-            active_boss_auras[guid] = nil
+            -- remove from name list
+            active_boss_auras[name] = nil
         end
 
         -- immediately hide
-        HideNameplateAura(GetFrameByGUID(guid))
+        if msg == 'guid' then
+            HideNameplateAura(GetFrameByGUID(name))
+        else
+            HideNameplateAura(GetNamePlateForUnit(name))
+        end
     end
 end
 -- messages ####################################################################
 function mod:Show(f)
-    if not active_boss_auras then return end
+    if not active_boss_auras or not any_auras_hidden then return end
 
-    local guid = UnitGUID(f.unit)
-    if not guid then return end
+    local icon_tbl
+    if guid_was_used then
+        local guid = UnitGUID(f.unit)
+        if not guid then return end
 
-    local icon_tbl = active_boss_auras[guid]
+        icon_tbl = active_boss_auras[guid]
+    else
+        local name = GetUnitName(f.unit,true)
+        if not name then return end
+
+        icon_tbl = active_boss_auras[name]
+    end
+
     if not icon_tbl then return end
 
     ShowNameplateAura(f,icon_tbl)
 end
 function mod:Hide(f)
-    HideNameplateAura(f)
+    if f.BossModIcon and f.BossModIcon:IsShown() then
+        HideNameplateAura(f)
+        any_auras_hidden = true
+    end
 end
 function mod:Create(f)
     local icon = CreateFrame('Frame',nil,f)
@@ -258,10 +287,10 @@ do
             end)
 
             DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,...)
-                mod:BigWigs_ShowNameplateAura(msg,nil,...)
+                mod:BigWigs_ShowNameplateAura('guid',nil,...)
             end)
             DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,...)
-                mod:BigWigs_HideNameplateAura(msg,nil,...)
+                mod:BigWigs_HideNameplateAura('guid',nil,...)
             end)
 
             return true
@@ -297,6 +326,7 @@ function mod:OnEnable()
             end
         end
 
+        GetNamePlateForUnit = C_NamePlate.GetNamePlateForUnit
         plugin_ct = addon:GetPlugin('CombatToggle')
 
         -- Register addon callbacks

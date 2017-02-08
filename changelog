@@ -1,2 +1,5 @@
-* add support for messages sent by boss mods in certain encounters (configurable in /knp > boss mods)
-* fix runes using OmniCC animations
+Alpha notes
+
+feb-08:
+- (Boss mods) BigWigs now sends names instead of GUIDs, so handle that
+- this release is completely untested
