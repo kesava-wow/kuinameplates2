@@ -185,6 +185,12 @@ do
     function mod:BigWigs_ShowNameplateAura(msg,sender,name,icon,duration)
         if not self.enabled or not name or not icon then return end
 
+        if guid_was_used and msg ~= 'guid' then
+            -- ignore non-guid calls once guid has been used
+            addon:print('name was given but was expecting guid')
+            return
+        end
+
         -- store to show/hide when relevant frame's visibility changes
         if not active_boss_auras then
             active_boss_auras = {}
@@ -233,9 +239,7 @@ end
 function mod:Show(f)
     if not active_boss_auras or not num_hidden_auras then return end
 
-    if addon.debug then
-        addon:print('BossMods parsed OnShow ('..num_hidden_auras..' hidden)')
-    end
+    addon:print('BossMods parsed OnShow ('..num_hidden_auras..' hidden)')
 
     if guid_was_used then
         local guid = UnitGUID(f.unit)
