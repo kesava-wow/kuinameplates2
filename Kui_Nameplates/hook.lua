@@ -22,6 +22,8 @@ local function FrameOnUpdate(self)
 end
 ----------------------------------------------------------------------- Sizer --
 local function SizerOnSizeChanged(self,x,y)
+    -- If you're poking around here trying to find what's causing the extra CPU
+    -- usage, this is it.
     self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
 end
 ------------------------------------------------------------ Nameplate hooker --
