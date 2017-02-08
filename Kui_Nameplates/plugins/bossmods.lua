@@ -125,7 +125,7 @@ do
     -- Show/hide friendly nameplates ###########################################
     -- these should not be called during combat
     -- DisableFriendlyNameplates also wipes boss auras
-    local prev_val
+    local prev_val,enable_was_called
     local function DisableFriendlyNameplates()
         mod:UnregisterEvent('PLAYER_REGEN_ENABLED')
 
@@ -137,6 +137,7 @@ do
     end
     function mod:BigWigs_EnableFriendlyNameplates()
         if not self.enabled or not CONTROL_FRIENDLY then return end
+        enable_was_called = true
 
         plugin_ct:Disable()
 
@@ -154,18 +155,10 @@ do
             prev_val = GetCVar('nameplateShowFriends')
             SetCVar('nameplateShowFriends',1)
         end
-
-        -- TODO store this was called
     end
     function mod:BigWigs_DisableFriendlyNameplates()
         if not self.enabled or not CONTROL_FRIENDLY then return end
-
-        if addon.debug then
-            addon:print('received DisableFriendlyNameplates')
-            if InCombatLockdown() then
-                addon:print('during combat')
-            end
-        end
+        if not enable_was_called then return end
 
         if InCombatLockdown() then
             -- wait until after combat to reset display
