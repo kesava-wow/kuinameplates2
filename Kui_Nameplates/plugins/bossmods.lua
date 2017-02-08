@@ -310,10 +310,6 @@ do
     function mod:BigWigs_HideNameplateAura(msg,sender,name,icon)
         if not self.enabled or not name then return end
 
-        if active_boss_auras then
-            active_boss_auras[name] = nil
-        end
-
         -- remove from name list
         RemoveActiveAura(name,icon)
 
