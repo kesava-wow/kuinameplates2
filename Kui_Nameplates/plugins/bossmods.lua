@@ -87,7 +87,10 @@ local function HideAllAuras()
         end
     end
 
-    wipe(active_boss_auras)
+    if active_boss_auras then
+        wipe(active_boss_auras)
+    end
+
     any_auras_hidden = nil
     guid_was_used = nil
 end
