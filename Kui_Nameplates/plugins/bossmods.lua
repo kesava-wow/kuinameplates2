@@ -10,7 +10,8 @@ local CONTROL_FRIENDLY = true
 local DECIMAL_THRESHOLD = 1
 
 local initialised
-local active_boss_auras, guid_was_used, any_auras_hidden
+local active_boss_auras, guid_was_used
+local hidden_auras, num_hidden_auras
 local GetNamePlateForUnit
 local plugin_ct
 
@@ -28,6 +29,33 @@ local function GetFrameByName(name)
     local f = GetNamePlateForUnit(name)
     if f then
         return f.kui
+    end
+end
+local function AddToHiddenAuras(name)
+    -- maintain a list of auras which are currently off-screen for efficiency
+    if not hidden_auras then
+        hidden_auras = {}
+        num_hidden_auras = nil
+    end
+
+    hidden_auras[name] = true
+
+    if num_hidden_auras then
+        num_hidden_auras = num_hidden_auras + 1
+    else
+        num_hidden_auras = 1
+    end
+end
+local function RemoveFromHiddenAuras(name)
+    if not hidden_auras or not hidden_auras[name] then return end
+    hidden_auras[name] = nil
+
+    if num_hidden_auras then
+        num_hidden_auras = num_hidden_auras - 1
+
+        if num_hidden_auras <= 0 then
+            num_hidden_auras = nil
+        end
     end
 end
 local function aura_OnUpdate(self,elapsed)
@@ -87,12 +115,10 @@ local function HideAllAuras()
         end
     end
 
-    if active_boss_auras then
-        wipe(active_boss_auras)
-    end
-
-    any_auras_hidden = nil
+    active_boss_auras = nil
     guid_was_used = nil
+    hidden_auras = nil
+    num_hidden_auras = nil
 end
 -- callbacks ###################################################################
 do
@@ -128,6 +154,8 @@ do
             prev_val = GetCVar('nameplateShowFriends')
             SetCVar('nameplateShowFriends',1)
         end
+
+        -- TODO store this was called
     end
     function mod:BigWigs_DisableFriendlyNameplates()
         if not self.enabled or not CONTROL_FRIENDLY then return end
@@ -172,14 +200,18 @@ do
         }
 
         -- immediately show if they already have a frame
+        local f
         if msg == 'guid' then
-            ShowNameplateAura(GetFrameByGUID(name),active_boss_auras[name])
+            f = GetFrameByGUID(name)
             guid_was_used = true
         else
-            ShowNameplateAura(
-                GetFrameByName(name),
-                active_boss_auras[name]
-            )
+            f = GetFrameByName(name)
+        end
+
+        if f then
+            ShowNameplateAura(f,active_boss_auras[name])
+        else
+            AddToHiddenAuras(name)
         end
     end
     function mod:BigWigs_HideNameplateAura(msg,sender,name)
@@ -189,6 +221,9 @@ do
             -- remove from name list
             active_boss_auras[name] = nil
         end
+
+        -- remove from hidden_auras if disabled while hidden
+        RemoveFromHiddenAuras(name)
 
         -- immediately hide
         if msg == 'guid' then
@@ -200,29 +235,31 @@ do
 end
 -- messages ####################################################################
 function mod:Show(f)
-    if not active_boss_auras or not any_auras_hidden then return end
+    if not active_boss_auras or not num_hidden_auras then return end
 
-    local icon_tbl
     if guid_was_used then
         local guid = UnitGUID(f.unit)
-        if not guid then return end
 
-        icon_tbl = active_boss_auras[guid]
+        RemoveFromHiddenAuras(guid)
+        ShowNameplateAura(f,active_boss_auras[guid])
     else
+        if not UnitIsPlayer(f.unit) then return end
+
         local name = GetUnitName(f.unit,true)
-        if not name then return end
 
-        icon_tbl = active_boss_auras[name]
+        RemoveFromHiddenAuras(name)
+        ShowNameplateAura(f,active_boss_auras[name])
     end
-
-    if not icon_tbl then return end
-
-    ShowNameplateAura(f,icon_tbl)
 end
 function mod:Hide(f)
     if f.BossModIcon and f.BossModIcon:IsShown() then
         HideNameplateAura(f)
-        any_auras_hidden = true
+
+        if guid_was_used then
+            AddToHiddenAuras(UnitGUID(f.unit))
+        else
+            AddToHiddenAuras(GetUnitName(f.unit,true))
+        end
     end
 end
 function mod:Create(f)
