@@ -1,6 +1,7 @@
 Alpha notes
 
 feb-08:
+- (boss mods) base logic for multiple auras. should really just make some way of hooking into the aura plugin but OH WELL
 - (boss mods) fix nil error if disable-friendly-nameplates message is called before any auras are shown
 
 - (Boss mods) BigWigs now sends names instead of GUIDs, so handle that

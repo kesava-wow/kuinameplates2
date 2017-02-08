@@ -94,6 +94,52 @@ local function RemoveFromHiddenAuras(name)
         end
     end
 end
+local function AddActiveAura(name,icon_tbl)
+    if not active_boss_auras then
+        active_boss_auras = {}
+    end
+
+    if not active_boss_auras[name] then
+        active_boss_auras[name] = {}
+    end
+
+    if #active_boss_auras[name] > 0 then
+        -- need to check for overwrite
+        for i,this_tbl in pairs(active_boss_auras[name]) do
+            if this_tbl[1] == icon_tbl[1] then
+                -- this is an overwrite
+                active_boss_auras[name][i] = icon_tbl
+                return
+            end
+        end
+    end
+
+    -- this is a new icon
+    tinsert(active_boss_auras[name], icon_tbl)
+
+    if addon.debug then
+        kui.print(active_boss_auras)
+    end
+end
+local function RemoveActiveAura(name,icon)
+    if not active_boss_auras then return end
+    if not active_boss_auras[name] then return end
+
+    if icon then
+        -- remove specific icon
+        if #active_boss_auras[name] == 0 then return end
+
+        for i,this_tbl in pairs(active_boss_auras[name]) do
+            if this_tbl[1] == icon then
+                tremove(active_boss_auras[name],i)
+                return
+            end
+        end
+    else
+        -- remove any
+        active_boss_auras[name] = nil
+    end
+end
 local function aura_OnUpdate(self,elapsed)
     self.cd_elap = (self.cd_elap or 0) - elapsed
     if self.cd_elap <= 0 then
@@ -125,18 +171,24 @@ local function ShowNameplateAura(f, icon_tbl)
     if not texture then return end
 
     f.BossModIcon.tex:SetTexture(texture)
-
-    if desaturate then
-        f.BossModIcon.tex:SetDesaturated(true)
-    end
+    f.BossModIcon.tex:SetDesaturated(desaturate)
 
     if expiry then
         f.BossModIcon.expiry = expiry
+        f.BossModIcon.cd_elap = nil
         f.BossModIcon:SetScript('OnUpdate',aura_OnUpdate)
         f.BossModIcon.cd:Show()
     end
 
     f.BossModIcon:Show()
+end
+local function ShowNameplateAuras(f, auras_tbl)
+    if not f or not auras_tbl or not f.BossModIcon then return end
+    if #auras_tbl == 0 then return end
+
+    for i,icon_tbl in ipairs(auras_tbl) do
+        ShowNameplateAura(f,icon_tbl)
+    end
 end
 local function HideNameplateAura(f)
     if not f or not f.BossModIcon then return end
@@ -233,15 +285,11 @@ do
         end
 
         -- store to show/hide when relevant frame's visibility changes
-        if not active_boss_auras then
-            active_boss_auras = {}
-        end
-
-        active_boss_auras[name] = {
+        AddActiveAura(name, {
             icon,
             desaturate,
             duration and GetTime()+duration
-        }
+        })
 
         -- immediately show if they already have a frame
         local f
@@ -253,18 +301,21 @@ do
         end
 
         if f then
-            ShowNameplateAura(f,active_boss_auras[name])
+            ShowNameplateAuras(f,active_boss_auras[name])
         else
+            -- state an aura is hidden on this name
             AddToHiddenAuras(name)
         end
     end
-    function mod:BigWigs_HideNameplateAura(msg,sender,name)
+    function mod:BigWigs_HideNameplateAura(msg,sender,name,icon)
         if not self.enabled or not name then return end
 
         if active_boss_auras then
-            -- remove from name list
             active_boss_auras[name] = nil
         end
+
+        -- remove from name list
+        RemoveActiveAura(name,icon)
 
         -- remove from hidden_auras if disabled while hidden
         RemoveFromHiddenAuras(name)
@@ -287,14 +338,14 @@ function mod:Show(f)
         local guid = UnitGUID(f.unit)
 
         RemoveFromHiddenAuras(guid)
-        ShowNameplateAura(f,active_boss_auras[guid])
+        ShowNameplateAuras(f,active_boss_auras[guid])
     else
         if not UnitIsPlayer(f.unit) then return end
 
         local name = GetUnitName(f.unit,true)
 
         RemoveFromHiddenAuras(name)
-        ShowNameplateAura(f,active_boss_auras[name])
+        ShowNameplateAuras(f,active_boss_auras[name])
     end
 end
 function mod:Hide(f)
