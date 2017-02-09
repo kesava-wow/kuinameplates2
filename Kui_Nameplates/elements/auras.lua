@@ -570,6 +570,7 @@ local function ExternalAuraFrame_AddAura(self,uid,icon,count,duration,expiration
     end
 
     self:DisplayButton(uid,nil,icon,count,duration,expiration)
+    self:ArrangeButtons()
 end
 local function ExternalAuraFrame_RemoveAura(self,uid,icon)
     if not icon then return end
