@@ -448,6 +448,9 @@ local function AuraFrame_HideAllButtons(self)
     for _,button in ipairs(self.buttons) do
         self:HideButton(button)
     end
+
+    self.visible = nil
+    self:Hide()
 end
 local function AuraFrame_ArrangeButtons(self)
     if ele:RunCallback('ArrangeButtons',self) then
