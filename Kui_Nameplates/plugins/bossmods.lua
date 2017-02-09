@@ -149,8 +149,10 @@ local function ShowNameplateAura(f, icon_tbl)
     local texture,desaturate,expiration = unpack(icon_tbl)
     if not texture then return end
 
-    -- TODO desaturate
-    f.BossModAuraFrame:AddAura(nil,texture,nil,nil,expiration)
+    local button = f.BossModAuraFrame:AddAura(nil,texture,nil,nil,expiration)
+    if button then
+        button.icon:SetDesaturated(desaturate)
+    end
 end
 local function ShowNameplateAuras(f, auras_tbl)
     if not f or not auras_tbl or not f.BossModAuraFrame then return end
