@@ -256,6 +256,10 @@ do
             return
         end
 
+        if msg == 'guid' then
+            guid_was_used = true
+        end
+
         -- store to show/hide when relevant frame's visibility changes
         AddActiveAura(name, {
             icon,
@@ -263,15 +267,8 @@ do
             duration and GetTime()+duration
         })
 
-        -- immediately show if they already have a frame
-        local f
-        if msg == 'guid' then
-            f = GetFrameByGUID(name)
-            guid_was_used = true
-        else
-            f = GetFrameByName(name)
-        end
-
+        -- immediately show new aura if frame is currently visible
+        local f = guid_was_used and GetFrameByGUID(name) or GetFrameByName(name)
         if f then
             ShowNameplateAuras(f,active_boss_auras[name])
         else
@@ -285,11 +282,17 @@ do
         -- remove from name list
         RemoveActiveAura(name,icon)
 
-        -- remove from hidden_auras if disabled while hidden
-        RemoveFromHiddenAuras(name)
+        if  not active_boss_auras or
+            not active_boss_auras[name] or
+            #active_boss_auras[name] == 0
+        then
+            -- remove from hidden_auras if disabled while hidden and no more
+            -- auras are present on this name
+            RemoveFromHiddenAuras(name)
+        end
 
         -- immediately hide
-        if msg == 'guid' then
+        if guid_was_used then
             HideNameplateAura(GetFrameByGUID(name),icon)
         else
             HideNameplateAura(GetFrameByName(name),icon)
