@@ -72,6 +72,9 @@ local function AddToHiddenAuras(name)
     if not hidden_auras then
         hidden_auras = {}
         num_hidden_auras = nil
+    elseif hidden_auras[name] then
+        -- already tracking hidden aura on this frame
+        return
     end
 
     hidden_auras[name] = true
