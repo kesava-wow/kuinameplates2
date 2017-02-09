@@ -165,41 +165,25 @@ local function aura_OnUpdate(self,elapsed)
     end
 end
 local function ShowNameplateAura(f, icon_tbl)
-    if not f or not icon_tbl or not f.BossModIcon then return end
+    if not f or not icon_tbl or not f.BossModAuraFrame then return end
 
     local texture,desaturate,expiry = unpack(icon_tbl)
     if not texture then return end
 
-    f.BossModIcon.tex:SetTexture(texture)
-    f.BossModIcon.tex:SetDesaturated(desaturate)
-
-    if expiry then
-        f.BossModIcon.expiry = expiry
-        f.BossModIcon.cd_elap = nil
-        f.BossModIcon:SetScript('OnUpdate',aura_OnUpdate)
-        f.BossModIcon.cd:Show()
-    end
-
-    f.BossModIcon:Show()
+    -- TODO desaturate
+    f.BossModAuraFrame:AddAura(nil,texture,nil,expiry)
 end
 local function ShowNameplateAuras(f, auras_tbl)
-    if not f or not auras_tbl or not f.BossModIcon then return end
+    if not f or not auras_tbl or not f.BossModAuraFrame then return end
     if #auras_tbl == 0 then return end
 
     for i,icon_tbl in ipairs(auras_tbl) do
         ShowNameplateAura(f,icon_tbl)
     end
 end
-local function HideNameplateAura(f)
-    if not f or not f.BossModIcon then return end
-
-    f.BossModIcon:SetScript('OnUpdate',nil)
-    f.BossModIcon:Hide()
-
-    f.BossModIcon.cd_elap = nil
-    f.BossModIcon.remaining = nil
-    f.BossModIcon.expiry = nil
-    f.BossModIcon.cd:Hide()
+local function HideNameplateAura(f,icon)
+    if not f or not f.BossModAuraFrame then return end
+    f.BossModAuraFrame:HideAllButtons()
 end
 local function HideAllAuras()
     for k,f in addon:Frames() do
@@ -345,7 +329,10 @@ function mod:Show(f)
     end
 end
 function mod:Hide(f)
-    if f.BossModIcon and f.BossModIcon:IsShown() then
+    if  f.BossModAuraFrame and
+        f.BossModAuraFrame.visible and
+        f.BossModAuraFrame.visible > 0
+    then
         HideNameplateAura(f)
 
         if guid_was_used then
@@ -356,37 +343,29 @@ function mod:Hide(f)
     end
 end
 function mod:Create(f)
-    local icon = CreateFrame('Frame',nil,f)
-    icon:SetFrameLevel(0)
-    icon:Hide()
-
-    local tex = icon:CreateTexture(nil,'ARTWORK')
-    tex:SetTexCoord(.1,.9,.1,.9)
-    tex:SetAllPoints(icon)
-
-    local cd = icon:CreateFontString(nil,'OVERLAY')
-    cd:SetTextColor(1,1,0)
-    cd:SetFont('Fonts\\FRIZQT__.TTF',18,'OUTLINE')
-    cd:SetPoint('TOPLEFT',-4,4)
-    cd:Hide()
-
-    icon.tex = tex
-    icon.cd = cd
-
-    f.BossModIcon = icon
-
-    self:UpdateIcon(f)
-
-    mod:RunCallback('PostCreateaAura',icon)
+    f.BossModAuraFrame = f.handler:CreateAuraFrame({
+        id = 'bossmods_external',
+        size = ICON_SIZE,
+        max = 3,
+        rows = 1,
+        x_spacing = 1,
+        squareness = 1,
+        pulsate = false,
+        external = true,
+        point = {'BOTTOMLEFT','LEFT','RIGHT'}
+    })
+    self:UpdateFrame(f)
 end
 -- mod functions ###############################################################
-function mod:UpdateIcon(f)
+function mod:UpdateFrame(f)
     -- set size, position based on config
-    if not f.BossModIcon then return end
+    if not f.BossModAuraFrame then return end
 
-    f.BossModIcon:SetSize(ICON_SIZE,ICON_SIZE)
-    f.BossModIcon:SetPoint('BOTTOMLEFT', f, 'TOPLEFT',
-        floor((f:GetWidth() / 2) - (ICON_SIZE / 2)) + ICON_X_OFFSET,
+    local width = (ICON_SIZE * 3) + (1 * 2)
+    f.BossModAuraFrame:SetSize(width,1)
+    f.BossModAuraFrame:SetIconSize(ICON_SIZE)
+    f.BossModAuraFrame:SetPoint('BOTTOMLEFT', f, 'TOPLEFT',
+        floor((f:GetWidth() / 2) - (width / 2)) + ICON_X_OFFSET,
         ICON_Y_OFFSET)
 end
 function mod:UpdateConfig()
@@ -400,8 +379,8 @@ function mod:UpdateConfig()
     end
 
     for i,f in addon:Frames() do
-        -- update icons on existing frames
-        self:UpdateIcon(f)
+        -- update aura frame on existing frames
+        self:UpdateFrame(f)
     end
 end
 -- callback registrars for different addons ####################################
@@ -461,7 +440,7 @@ function mod:OnEnable()
 
         for i,f in addon:Frames() do
             -- create on existing frames
-            if not f.BossModIcon then
+            if not f.BossModAuraFrame then
                 self:Create(f)
             end
         end
@@ -497,5 +476,4 @@ function mod:Initialised()
     end
 end
 function mod:Initialise()
-    self:RegisterCallback('PostCreateaAura')
 end
