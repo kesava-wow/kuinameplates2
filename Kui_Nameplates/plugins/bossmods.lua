@@ -155,6 +155,9 @@ local function ShowNameplateAura(f, icon_tbl)
     if button then
         button.icon:SetDesaturated(desaturate)
     end
+
+    -- there is an aura active on this frame
+    f.BossModAuraFrame.is_active = true
 end
 local function ShowNameplateAuras(f, auras_tbl)
     if not f or not auras_tbl or not f.BossModAuraFrame then return end
@@ -171,6 +174,11 @@ local function HideNameplateAura(f,icon)
         f.BossModAuraFrame:HideAllButtons()
     else
         f.BossModAuraFrame:RemoveAura(nil,icon)
+    end
+
+    if not f.BossModAuraFrame:IsShown() then
+        -- there are no auras on this frame
+        f.BossModAuraFrame.is_active = nil
     end
 end
 local function HideAllAuras()
@@ -301,6 +309,7 @@ do
 end
 -- messages ####################################################################
 function mod:Show(f)
+    -- restore previously hidden auras, if any
     if not active_boss_auras or not num_hidden_auras then return end
 
     addon:print('BossMods parsed OnShow ('..num_hidden_auras..' hidden)')
@@ -320,8 +329,10 @@ function mod:Show(f)
     end
 end
 function mod:Hide(f)
-    if f.BossModAuraFrame and f.BossModAuraFrame:IsShown() then
+    -- hide currently active auras, if any
+    if f.BossModAuraFrame and f.BossModAuraFrame.is_active then
         HideNameplateAura(f)
+        f.BossModAuraFrame.is_active = nil
 
         if guid_was_used then
             AddToHiddenAuras(UnitGUID(f.unit))
