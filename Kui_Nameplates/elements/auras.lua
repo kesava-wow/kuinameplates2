@@ -562,6 +562,15 @@ local function AuraFrame_OnHide(self)
     self:HideAllButtons()
 end
 -- external aura frame functions ###############################################
+local function ExternalAuraFrame_UpdateVisibility(self)
+    -- show/frame based on visible auras
+    -- (_Update does this for standard frames)
+    if self.visible and self.visible > 0 then
+        self:Show()
+    else
+        self:Hide()
+    end
+end
 local function ExternalAuraFrame_AddAura(self,uid,icon,count,duration,expiration)
     if not icon then return end
     if not count then count = 1 end
@@ -574,6 +583,7 @@ local function ExternalAuraFrame_AddAura(self,uid,icon,count,duration,expiration
 
     self:DisplayButton(uid,nil,icon,count,duration,expiration)
     self:ArrangeButtons()
+    self:UpdateVisibility()
 
     return self.spellids[uid]
 end
@@ -584,6 +594,7 @@ local function ExternalAuraFrame_RemoveAura(self,uid,icon)
     if self.spellids[uid] then
         self:HideButton(self.spellids[uid])
         self:ArrangeButtons()
+        self:UpdateVisibility()
     end
 end
 -- aura frame creation #########################################################
@@ -684,6 +695,7 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
 
     if new_frame.external then
         -- mixin external-only functions
+        new_frame.UpdateVisibility = ExternalAuraFrame_UpdateVisibility
         new_frame.AddAura = ExternalAuraFrame_AddAura
         new_frame.RemoveAura = ExternalAuraFrame_RemoveAura
 
