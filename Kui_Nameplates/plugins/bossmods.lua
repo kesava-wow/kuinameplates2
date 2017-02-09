@@ -140,38 +140,14 @@ local function RemoveActiveAura(name,icon)
         active_boss_auras[name] = nil
     end
 end
-local function aura_OnUpdate(self,elapsed)
-    self.cd_elap = (self.cd_elap or 0) - elapsed
-    if self.cd_elap <= 0 then
-        self.remaining = self.expiry - GetTime()
-
-        if self.remaining <= 0 then
-            self.cd:SetText(0)
-            self:SetScript('OnUpdate',nil)
-            return
-        end
-
-        if self.remaining <= DECIMAL_THRESHOLD+1 then
-            self.cd_elap = .05
-        else
-            self.cd_elap = .5
-        end
-
-        if self.remaining <= DECIMAL_THRESHOLD then
-            self.cd:SetText(format("%.1f",self.remaining))
-        else
-            self.cd:SetText(format("%.f",self.remaining))
-        end
-    end
-end
 local function ShowNameplateAura(f, icon_tbl)
     if not f or not icon_tbl or not f.BossModAuraFrame then return end
 
-    local texture,desaturate,expiry = unpack(icon_tbl)
+    local texture,desaturate,expiration = unpack(icon_tbl)
     if not texture then return end
 
     -- TODO desaturate
-    f.BossModAuraFrame:AddAura(nil,texture,nil,expiry)
+    f.BossModAuraFrame:AddAura(nil,texture,nil,nil,expiration)
 end
 local function ShowNameplateAuras(f, auras_tbl)
     if not f or not auras_tbl or not f.BossModAuraFrame then return end
