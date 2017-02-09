@@ -36,6 +36,17 @@
         combat ends.
     -   Also immediately hides all auras.
 
+    TODO
+    - update this ^ shit to reflect multiple icons.
+    - larger font. obviously.
+    - align icons in centre (core_dynamic uses callback in core, should probably
+        make it an auraframe thing though)
+    - somes callbacks in core are locked to core_dynamic, might want to work
+        with this too.
+    - listen to aura calls from first addon to call _EnableFriendlyNameplates,
+        ignore others.
+    - bugginess when more than max icons are created.
+
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
