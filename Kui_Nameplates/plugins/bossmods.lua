@@ -194,10 +194,8 @@ local function HideAllAuras()
     num_hidden_auras = nil
 end
 -- callbacks ###################################################################
+-- show/hide friendly nameplates
 do
-    -- Show/hide friendly nameplates ###########################################
-    -- these should not be called during combat
-    -- DisableFriendlyNameplates also wipes boss auras
     local prev_val,enable_was_called
     local function DisableFriendlyNameplates()
         mod:UnregisterEvent('PLAYER_REGEN_ENABLED')
@@ -247,64 +245,58 @@ do
         HideAllAuras()
     end
 end
+-- show/hide icon on nameplate belonging to given name
+function mod:BigWigs_ShowNameplateAura(msg,sender,name,icon,duration,desaturate)
+    -- these should not be called during combat
+    -- DisableFriendlyNameplates also wipes boss auras
+    if not self.enabled or not name or not icon then return end
 
-do
-    -- Show/hide icon on nameplate belonging to given name #####################
-    -- Duration is used to draw a cooldown on the icon;
-    --     If left nil, the icon is treated as timeless.
-    -- The icon will not be hidden until HideNameplateAura is called.
-    -- Name only works with friendly players in your party.
-    -- GUID can be given instead of name, but this requies a table iteration.
-    function mod:BigWigs_ShowNameplateAura(msg,sender,name,icon,duration,desaturate)
-        if not self.enabled or not name or not icon then return end
-
-        if guid_was_used and msg ~= 'guid' then
-            -- ignore non-guid calls once guid has been used
-            addon:print('name was given but was expecting guid')
-            return
-        end
-
-        if msg == 'guid' then
-            guid_was_used = true
-        end
-
-        -- store to show/hide when relevant frame's visibility changes
-        AddActiveAura(name, {
-            icon,
-            desaturate,
-            duration and GetTime()+duration
-        })
-
-        -- immediately show new aura if frame is currently visible
-        local f = guid_was_used and GetFrameByGUID(name) or GetFrameByName(name)
-        if f then
-            ShowNameplateAuras(f,active_boss_auras[name])
-        else
-            -- state an aura is hidden on this name
-            AddToHiddenAuras(name)
-        end
+    if guid_was_used and msg ~= 'guid' then
+        -- ignore non-guid calls once guid has been used
+        addon:print('name was given but was expecting guid')
+        return
     end
-    function mod:BigWigs_HideNameplateAura(msg,sender,name,icon)
-        if not self.enabled or not name then return end
 
-        -- remove from name list
-        RemoveActiveAura(name,icon)
+    if msg == 'guid' then
+        guid_was_used = true
+    end
 
-        if  not active_boss_auras or
-            not active_boss_auras[name] or
-            #active_boss_auras[name] == 0
-        then
-            -- remove from hidden_auras if disabled while hidden and no more
-            -- auras are present on this name
-            RemoveFromHiddenAuras(name)
-        end
+    -- store to show/hide when relevant frame's visibility changes
+    AddActiveAura(name, {
+        icon,
+        desaturate,
+        duration and GetTime()+duration
+    })
 
-        -- immediately hide
-        if guid_was_used then
-            HideNameplateAura(GetFrameByGUID(name),icon)
-        else
-            HideNameplateAura(GetFrameByName(name),icon)
-        end
+    -- immediately show new aura if frame is currently visible
+    local f = guid_was_used and GetFrameByGUID(name) or GetFrameByName(name)
+    if f then
+        ShowNameplateAuras(f,active_boss_auras[name])
+    else
+        -- state an aura is hidden on this name
+        AddToHiddenAuras(name)
+    end
+end
+function mod:BigWigs_HideNameplateAura(msg,sender,name,icon)
+    if not self.enabled or not name then return end
+
+    -- remove from name list
+    RemoveActiveAura(name,icon)
+
+    if  not active_boss_auras or
+        not active_boss_auras[name] or
+        #active_boss_auras[name] == 0
+    then
+        -- remove from hidden_auras if disabled while hidden and no more
+        -- auras are present on this name
+        RemoveFromHiddenAuras(name)
+    end
+
+    -- immediately hide
+    if guid_was_used then
+        HideNameplateAura(GetFrameByGUID(name),icon)
+    else
+        HideNameplateAura(GetFrameByName(name),icon)
     end
 end
 -- messages ####################################################################
