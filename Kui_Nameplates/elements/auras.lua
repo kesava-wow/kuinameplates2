@@ -558,6 +558,27 @@ local function AuraFrame_OnHide(self)
     -- hide all buttons
     self:HideAllButtons()
 end
+-- external aura frame functions ###############################################
+local function ExternalAuraFrame_AddAura(self,uid,icon,count,duration,expiration)
+    if not icon then return end
+    if not count then count = 1 end
+    if not uid then uid = icon end
+
+    if duration and not expiration then
+        -- imply expiration
+        expiration = GetTime() + duration
+    end
+
+    self:DisplayButton(uid,nil,icon,count,duration,expiration)
+end
+local function ExternalAuraFrame_RemoveAura(self,uid,icon)
+    if not icon then return end
+    if not uid then uid = icon end
+
+    if self.spellids[uid] then
+        self:HideButton(self.spellids[uid])
+    end
+end
 -- aura frame creation #########################################################
 -- aura frame metatable
 local aura_meta = {
@@ -650,13 +671,31 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
         new_frame:SetWhitelist(new_frame.whitelist,nil)
     end
 
-    -- insert into frame list
-    if not f.Auras or not f.Auras.frames then
-        f.Auras = { frames = {} }
+    if not f.Auras then
+        f.Auras = {}
     end
 
-    new_frame.id = new_frame.id or #f.Auras.frames+1
-    f.Auras.frames[new_frame.id] = new_frame
+    if new_frame.external then
+        -- mixin external-only functions
+        new_frame.AddAura = ExternalAuraFrame_AddAura
+        new_frame.RemoveAura = ExternalAuraFrame_RemoveAura
+
+        -- insert into list of external frames
+        if not f.Auras.external_frames then
+            f.Auras.external_frames = {}
+        end
+
+        new_frame.id = new_frame.id or #f.Auras.external_frames+1
+        f.Auras.external_frames[new_frame.id] = new_frame
+    else
+        -- insert into frame list
+        if not f.Auras or not f.Auras.frames then
+            f.Auras = { frames = {} }
+        end
+
+        new_frame.id = new_frame.id or #f.Auras.frames+1
+        f.Auras.frames[new_frame.id] = new_frame
+    end
 
     ele:RunCallback('PostCreateAuraFrame',new_frame)
 
