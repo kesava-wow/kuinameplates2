@@ -77,6 +77,8 @@ local function AddToHiddenAuras(name)
         return
     end
 
+    addon:print(name..' was added to hidden_auras')
+
     hidden_auras[name] = true
 
     if num_hidden_auras then
@@ -164,7 +166,12 @@ local function ShowNameplateAuras(f, auras_tbl)
 end
 local function HideNameplateAura(f,icon)
     if not f or not f.BossModAuraFrame then return end
-    f.BossModAuraFrame:HideAllButtons()
+
+    if not icon then
+        f.BossModAuraFrame:HideAllButtons()
+    else
+        f.BossModAuraFrame:RemoveAura(nil,icon)
+    end
 end
 local function HideAllAuras()
     for k,f in addon:Frames() do
@@ -283,9 +290,9 @@ do
 
         -- immediately hide
         if msg == 'guid' then
-            HideNameplateAura(GetFrameByGUID(name))
+            HideNameplateAura(GetFrameByGUID(name),icon)
         else
-            HideNameplateAura(GetFrameByName(name))
+            HideNameplateAura(GetFrameByName(name),icon)
         end
     end
 end
@@ -310,10 +317,7 @@ function mod:Show(f)
     end
 end
 function mod:Hide(f)
-    if  f.BossModAuraFrame and
-        f.BossModAuraFrame.visible and
-        f.BossModAuraFrame.visible > 0
-    then
+    if f.BossModAuraFrame and f.BossModAuraFrame:IsShown() then
         HideNameplateAura(f)
 
         if guid_was_used then
