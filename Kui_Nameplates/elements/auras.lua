@@ -578,6 +578,7 @@ local function ExternalAuraFrame_RemoveAura(self,uid,icon)
 
     if self.spellids[uid] then
         self:HideButton(self.spellids[uid])
+        self:ArrangeButtons()
     end
 end
 -- aura frame creation #########################################################
