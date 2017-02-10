@@ -12,10 +12,10 @@
     -   Should be fired out of the combat lockdown at the beginning of a fight.
 
     During an encounter:
-    _ShowNameplateAura(is_guid, nil, unitname or unitguid, texture, duration, desaturate)
+    _ShowNameplateAura(is_guid, unitname or unitguid, texture, duration, desaturate)
     -   Called throughout an encounter to inform the nameplate addon to show
         the given icon on the nameplate which matches the given name or guid.
-    -   If guid is used, first argument should be the string "guid".
+    -   If guid is used, first argument should be true.
         However, once a guid is used instead of a name, subsequent calls using
         names will be ignored. Your addon should always use one or the other.
         Name is more efficient, but can only be used on friendly party members.
@@ -23,7 +23,7 @@
         auras will be treated as timeless. When this duration expires, the aura
         will NOT be hidden. You must still call _HideNameplateAura.
 
-    _HideNameplateAura(is_guid, nil, name)
+    _HideNameplateAura(is_guid, name)
     -   Hide the currently active icon on the nameplate matching the given name
         or guid, if there is one.
 
@@ -257,18 +257,18 @@ do
     end
 end
 -- show/hide icon on nameplate belonging to given name
-function mod:BigWigs_ShowNameplateAura(msg,sender,name,icon,duration,desaturate)
+function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate)
     -- these should not be called during combat
     -- DisableFriendlyNameplates also wipes boss auras
     if not self.enabled or not name or not icon then return end
 
-    if guid_was_used and msg ~= 'guid' then
+    if guid_was_used and not is_guid then
         -- ignore non-guid calls once guid has been used
         addon:print('name was given but was expecting guid')
         return
     end
 
-    if msg == 'guid' then
+    if is_guid then
         guid_was_used = true
     end
 
@@ -288,7 +288,7 @@ function mod:BigWigs_ShowNameplateAura(msg,sender,name,icon,duration,desaturate)
         AddToHiddenAuras(name)
     end
 end
-function mod:BigWigs_HideNameplateAura(msg,sender,name,icon)
+function mod:BigWigs_HideNameplateAura(is_guid,name,icon)
     if not self.enabled or not name then return end
 
     -- remove from name list
@@ -395,8 +395,12 @@ do
             BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
             BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
 
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura')
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura')
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura',function(msg,sender,...)
+                mod:BigWigs_ShowNameplateAura(nil,...)
+            end)
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura',function(msg,sender,...)
+                mod:BigWigs_HideNameplateAura(nil,...)
+            end)
 
             return true
         end,
@@ -409,10 +413,12 @@ do
             end)
 
             DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,unitType,...)
-                mod:BigWigs_ShowNameplateAura(unitType,nil,...)
+                unitType = unitType == 'guid' and true or nil
+                mod:BigWigs_ShowNameplateAura(unitType,...)
             end)
             DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,unitType,...)
-                mod:BigWigs_HideNameplateAura(unitType,nil,...)
+                unitType = unitType == 'guid' and true or nil
+                mod:BigWigs_HideNameplateAura(unitType,...)
             end)
 
             return true
