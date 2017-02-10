@@ -1099,7 +1099,6 @@ do
     local AURAS_MINUS_SIZE
     local AURAS_MIN_LENGTH
     local AURAS_MAX_LENGTH
-    local AURAS_CENTRED
     local AURAS_ON_PERSONAL
     local AURAS_ENABLED
 
@@ -1114,15 +1113,7 @@ do
         )
     end
     local function AuraFrame_SetDesiredWidth(self)
-        if AURAS_CENTRED and
-           self.visible and
-           self.visible < self.num_per_row
-        then
-            self.__width = (self.size * self.visible) + ((1 * self.visible) - 1)
-        else
-            self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
-        end
-
+        self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
         AuraFrame_SetFrameWidth(self)
     end
     local function AuraFrame_SetIconSize(self,minus)
@@ -1169,6 +1160,7 @@ do
             timer_threshold = self.profile.auras_time_threshold > 0 and self.profile.auras_time_threshold or nil,
             squareness = self.profile.auras_icon_squareness,
             sort = self.profile.auras_sort,
+            centred = self.profile.auras_centre,
         })
         -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
         -- frame width & point set by AuraFrame_SetFrameWidth < _SetIconSize
@@ -1193,14 +1185,6 @@ do
         button.count:SetShadowColor(0,0,0,1)
 
         core.AurasButton_SetFont(button)
-    end
-    function core.Auras_PostUpdateAuraFrame(frame)
-        if frame.id == 'core_dynamic' and AURAS_CENTRED then
-            -- with auras centred, we need to update the frame size each time a
-            -- new button is made visible
-            AuraFrame_SetDesiredWidth(frame)
-            AuraFrame_SetFrameWidth(frame)
-        end
     end
     function core.Auras_DisplayAura(name,spellid,duration)
         if  AURAS_MIN_LENGTH and
@@ -1232,7 +1216,6 @@ do
 
         AURAS_NORMAL_SIZE = self.profile.auras_icon_normal_size
         AURAS_MINUS_SIZE = self.profile.auras_icon_minus_size
-        AURAS_CENTRED = self.profile.auras_centre
 
         AURAS_ENABLED = self.profile.auras_enabled
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
@@ -1251,6 +1234,7 @@ do
                     af.timer_threshold = timer_threshold
                     af.squareness = self.profile.auras_icon_squareness
                     af.vanilla_filter = self.profile.auras_vanilla_filter
+                    af.centred = self.profile.auras_centre
 
                     af:SetSort(self.profile.auras_sort)
                     af:SetWhitelist(nil,self.profile.auras_whitelist)
