@@ -413,11 +413,11 @@ do
             end)
 
             DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,unitType,...)
-                unitType = unitType == 'guid' and true or nil
+                unitType = (unitType == true or unitType == 'guid') and true or nil
                 mod:BigWigs_ShowNameplateAura(unitType,...)
             end)
             DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,unitType,...)
-                unitType = unitType == 'guid' and true or nil
+                unitType = (unitType == true or unitType == 'guid') and true or nil
                 mod:BigWigs_HideNameplateAura(unitType,...)
             end)
 
