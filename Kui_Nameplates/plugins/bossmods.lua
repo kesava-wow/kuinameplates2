@@ -412,9 +412,14 @@ do
                 mod:BigWigs_DisableFriendlyNameplates()
             end)
 
-            DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,unitType,...)
+            DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,unitType,name,...)
                 unitType = (unitType == true or unitType == 'guid') and true or nil
-                mod:BigWigs_ShowNameplateAura(unitType,...)
+
+                -- TODO temporary, DBM still expects only one icon, so if it
+                -- tries to overwrite one which is already up, it'll make two
+                -- instead. So just remove any existing icons first.
+                mod:BigWigs_HideNameplateAura(unitType,name)
+                mod:BigWigs_ShowNameplateAura(unitType,name,...)
             end)
             DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,unitType,...)
                 unitType = (unitType == true or unitType == 'guid') and true or nil
