@@ -354,6 +354,7 @@ function mod:Create(f)
         squareness = 1,
         pulsate = false,
         external = true,
+        centred = true,
         point = {'BOTTOMLEFT','LEFT','RIGHT'}
     })
     self:UpdateFrame(f)
