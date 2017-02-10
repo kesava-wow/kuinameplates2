@@ -1,6 +1,9 @@
 Alpha notes
 
 feb-09:
+- Unless you are also using DBM's alpha, this release WILL BREAK COMPATIBILITY. This is why you shouldn't use betas. /slap.
+- Compatibility with previous BigWigs versions is retained. I think. Let me know.
+
 - (auras) centred auras now implemented in the aura module rather than callbacks in core
 - (boss mods) now uses what i've coined an "externally managed" aura frame, so it looks the same as other aura frames
 - (boss mods) improved tracking of hidden auras
