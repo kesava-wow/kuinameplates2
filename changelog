@@ -1,7 +1,12 @@
 Alpha notes
 
+feb-09:
+- (auras) centred auras now implemented in the aura module rather than callbacks in core
+- (boss mods) now uses what i've coined an "externally managed" aura frame, so it looks the same as other aura frames
+- (boss mods) improved tracking of hidden auras
+- (boss mods) fixed compatibility with latest dbm alpha
+
 feb-08:
 - (boss mods) base logic for multiple auras. should really just make some way of hooking into the aura plugin but OH WELL
 - (boss mods) fix nil error if disable-friendly-nameplates message is called before any auras are shown
-
 - (Boss mods) BigWigs now sends names instead of GUIDs, so handle that
