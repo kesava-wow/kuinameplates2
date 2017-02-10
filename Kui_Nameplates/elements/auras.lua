@@ -507,41 +507,43 @@ local function AuraFrame_ArrangeButtons(self)
         local row_i = 0
         local rows = ceil(self.visible / self.num_per_row)-1
         for _,button in ipairs(self.buttons) do
-            if not prev or (i % self.num_per_row) == 0 then
-                -- start of row
-                local visible_in_row =
-                    row_i < rows and
-                    self.num_per_row or
-                    self.visible - (self.num_per_row * rows)
+            if button.spellid and button:IsShown() then
+                if not prev or (i % self.num_per_row) == 0 then
+                    -- start of row
+                    local visible_in_row =
+                        row_i < rows and
+                        self.num_per_row or
+                        self.visible - (self.num_per_row * rows)
 
-                local row_width =
-                    (visible_in_row * self.size) +
-                    (self.x_spacing * (visible_in_row - 1))
+                    local row_width =
+                        (visible_in_row * self.size) +
+                        (self.x_spacing * (visible_in_row - 1))
 
-                local row_x =
-                    floor((self:GetWidth() - row_width) / 2) + 1
+                    local row_x =
+                        floor((self:GetWidth() - row_width) / 2) + 1
 
-                local row_y =
-                    (self.icon_height * row_i) +
-                    (self.y_spacing * row_i)
+                    local row_y =
+                        (self.icon_height * row_i) +
+                        (self.y_spacing * row_i)
 
-                if self.row_growth == 'DOWN' then
-                    row_y = -row_y
+                    if self.row_growth == 'DOWN' then
+                        row_y = -row_y
+                    end
+
+                    button:SetPoint(self.point[1],row_x,row_y)
+
+                    row_i = row_i + 1
+                else
+                    -- subsequent button in row
+                    button:SetPoint(
+                        self.point[2], prev, self.point[3],
+                        self.x_spacing, 0
+                    )
                 end
 
-                button:SetPoint(self.point[1],row_x,row_y)
-
-                row_i = row_i + 1
-            else
-                -- subsequent button in row
-                button:SetPoint(
-                    self.point[2], prev, self.point[3],
-                    self.x_spacing, 0
-                )
+                prev = button
+                i = i + 1
             end
-
-            prev = button
-            i = i + 1
         end
     end
 end
