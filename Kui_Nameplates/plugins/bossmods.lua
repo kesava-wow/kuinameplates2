@@ -408,11 +408,11 @@ do
                 mod:BigWigs_DisableFriendlyNameplates()
             end)
 
-            DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,...)
-                mod:BigWigs_ShowNameplateAura('guid',nil,...)
+            DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,unitType,...)
+                mod:BigWigs_ShowNameplateAura(unitType,nil,...)
             end)
-            DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,...)
-                mod:BigWigs_HideNameplateAura('guid',nil,...)
+            DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,unitType,...)
+                mod:BigWigs_HideNameplateAura(unitType,nil,...)
             end)
 
             return true
