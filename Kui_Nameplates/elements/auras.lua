@@ -468,32 +468,80 @@ local function AuraFrame_ArrangeButtons(self)
                 self.visible = self.visible + 1
                 button:ClearAllPoints()
 
-                if not prev then
-                    button:SetPoint(self.point[1])
-                    prev_row = button
-                else
-                    if  self.rows and self.rows > 1 and
-                        (self.visible - 1) % self.num_per_row == 0
-                    then
-                        button:SetPoint(
-                            self.row_point[1], prev_row, self.row_point[2],
-                            0, self.y_spacing
-                        )
+                -- if centred, we just need to count the number of buttons
+                -- visible to position them more efficiently later.
+                -- otherwise, set position in 1 iteration:
+                if not self.centred then
+                    if not prev then
+                        button:SetPoint(self.point[1])
                         prev_row = button
                     else
-                        button:SetPoint(
-                            self.point[2], prev, self.point[3],
-                            self.x_spacing, 0
-                        )
+                        if  self.rows and self.rows > 1 and
+                            (self.visible - 1) % self.num_per_row == 0
+                        then
+                            button:SetPoint(
+                                self.row_point[1], prev_row, self.row_point[2],
+                                0, self.y_spacing
+                            )
+                            prev_row = button
+                        else
+                            button:SetPoint(
+                                self.point[2], prev, self.point[3],
+                                self.x_spacing, 0
+                            )
+                        end
                     end
-
+                    prev = button
                 end
 
-                prev = button
                 button:Show()
             else
                 button:Hide()
             end
+        end
+    end
+
+    if self.centred and self.visible > 0 then
+        -- align buttons from centre of frame
+        local i = 0
+        local row_i = 0
+        local rows = ceil(self.visible / self.num_per_row)-1
+        for _,button in ipairs(self.buttons) do
+            if not prev or (i % self.num_per_row) == 0 then
+                -- start of row
+                local visible_in_row =
+                    row_i < rows and
+                    self.num_per_row or
+                    self.visible - (self.num_per_row * rows)
+
+                local row_width =
+                    (visible_in_row * self.size) +
+                    (self.x_spacing * (visible_in_row - 1))
+
+                local row_x =
+                    floor((self:GetWidth() - row_width) / 2) + 1
+
+                local row_y =
+                    (self.icon_height * row_i) +
+                    (self.y_spacing * row_i)
+
+                if self.row_growth == 'DOWN' then
+                    row_y = -row_y
+                end
+
+                button:SetPoint(self.point[1],row_x,row_y)
+
+                row_i = row_i + 1
+            else
+                -- subsequent button in row
+                button:SetPoint(
+                    self.point[2], prev, self.point[3],
+                    self.x_spacing, 0
+                )
+            end
+
+            prev = button
+            i = i + 1
         end
     end
 end
