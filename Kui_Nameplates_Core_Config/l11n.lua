@@ -127,6 +127,7 @@ opt.tooltips = {
     bossmod_icon_size = 'Size of the boss aura icon',
     bossmod_x_offset = 'Horizontal offset of the boss aura icon',
     bossmod_y_offset = 'Vertical offset of the boss aura icon',
+    bossmod_clickthrough = 'Disable the clickbox of friendly nameplates when they are automatically shown',
 }
 opt.titles = {
     profile = 'Profile',
@@ -284,4 +285,6 @@ opt.titles = {
     bossmod_icon_size = 'Icon size',
     bossmod_x_offset = 'Horizontal offset',
     bossmod_y_offset = 'Vertical offset',
+    bossmod_clickthrough = 'Enable clickthrough when automatically shown',
 }
+
