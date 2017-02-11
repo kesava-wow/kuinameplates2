@@ -51,6 +51,8 @@ local mod = addon:NewPlugin('BossMods')
 local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET = 30,0,0
 local CONTROL_FRIENDLY = true
 local DECIMAL_THRESHOLD = 1
+local CLICKTHROUGH = true
+local HIDE_FRAMES = true
 
 local initialised
 local active_boss_auras, guid_was_used
@@ -203,15 +205,21 @@ end
 -- callbacks ###################################################################
 -- show/hide friendly nameplates
 do
-    local prev_val,enable_was_called
+    local prev_show_friends,enable_was_called,disable_clickthrough
     local function DisableFriendlyNameplates()
         mod:UnregisterEvent('PLAYER_REGEN_ENABLED')
 
-        SetCVar('nameplateShowFriends',prev_val)
+        SetCVar('nameplateShowFriends',prev_show_friends)
 
         -- restore CombatToggle's desired out-of-combat settings
         plugin_ct:Enable()
         plugin_ct:PLAYER_REGEN_ENABLED()
+
+        if disable_clickthrough then
+            -- reset clickthrough
+            disable_clickthrough = nil
+            C_NamePlate.SetNamePlateFriendlyClickThrough(false)
+        end
     end
     function mod:BigWigs_EnableFriendlyNameplates()
         if not self.enabled or not CONTROL_FRIENDLY then return end
@@ -230,8 +238,17 @@ do
             -- skip CombatToggle into combat mode
             plugin_ct:PLAYER_REGEN_DISABLED()
 
-            prev_val = GetCVar('nameplateShowFriends')
-            SetCVar('nameplateShowFriends',1)
+            prev_show_friends = GetCVarBool('nameplateShowFriends')
+            SetCVar('nameplateShowFriends',true)
+
+            if  CLICKTHROUGH and
+                not prev_show_friends and
+                not C_NamePlate.GetNamePlateFriendlyClickThrough()
+            then
+                -- enable clickthrough when automatically shown
+                disable_clickthrough = true
+                C_NamePlate.SetNamePlateFriendlyClickThrough(true)
+            end
         end
     end
     function mod:BigWigs_DisableFriendlyNameplates()
@@ -375,6 +392,8 @@ function mod:UpdateConfig()
         ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or ICON_X_OFFSET
         ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_Y_OFFSET
         CONTROL_FRIENDLY = addon.layout.BossModIcon.control_friendly
+        CLICKTHROUGH = addon.layout.BossModIcon.clickthrough
+        HIDE_FRAMES = addon.layout.BossModIcon.hide_names
     end
 
     for i,f in addon:Frames() do
