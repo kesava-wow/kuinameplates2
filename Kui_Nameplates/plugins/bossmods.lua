@@ -169,7 +169,7 @@ local function ShowNameplateAura(f, icon_tbl)
     -- there is an aura active on this frame
     f.BossModAuraFrame.is_active = true
 
-    if HIDE_FRAMES then
+    if CLICKTHROUGH and HIDE_FRAMES then
         plugin_fading:UpdateFrame(f)
     end
 end
@@ -194,7 +194,7 @@ local function HideNameplateAura(f,icon)
         -- there are no auras on this frame
         f.BossModAuraFrame.is_active = nil
 
-        if HIDE_FRAMES then
+        if CLICKTHROUGH and HIDE_FRAMES then
             plugin_fading:UpdateFrame(f)
         end
     end
@@ -215,7 +215,7 @@ end
 local function Fading_FadeRulesReset()
     fade_rule_added = true
     plugin_fading:AddFadeRule(function(f)
-        if not HIDE_FRAMES then return end
+        if not CLICKTHROUGH or not HIDE_FRAMES then return end
         if not enable_was_called then return end
         if not f.BossModAuraFrame then return end
         if not UnitIsPlayer(f.unit) then return end
@@ -418,7 +418,7 @@ function mod:UpdateConfig()
         HIDE_FRAMES = addon.layout.BossModIcon.hide_frames
     end
 
-    if HIDE_FRAMES then
+    if CLICKTHROUGH and HIDE_FRAMES then
         if not fade_callback_added then
             self:AddCallback('Fading','FadeRulesReset',Fading_FadeRulesReset)
             fade_callback_added = true
