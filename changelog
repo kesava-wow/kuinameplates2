@@ -1,5 +1,8 @@
 Alpha notes
 
+feb-11:
+- (auras) PostCreateAuraButton + DisplayAura callbacks now include the aura frame as the first argument
+
 feb-09:
 - Unless you are also using DBM's alpha, this release WILL BREAK COMPATIBILITY. This is why you shouldn't use betas. /slap.
 - Compatibility with previous BigWigs versions is retained. I think. Let me know.

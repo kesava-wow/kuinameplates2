@@ -42,6 +42,7 @@
         kui_whitelist = initialise with whitelist from KuiSpellList
         pulsate = whether or not to pulsate icons with low time remaining
         timer_threshold = threshold below which to show timer text
+        centred = centre visible auras in the frame
     }
 
     Callbacks
@@ -56,7 +57,7 @@
         will be mixed-in to the returned frame which can then be edited via the
         PostCreateAuraButton callback.
 
-    PostCreateAuraButton(button)
+    PostCreateAuraButton(auraframe,button)
         Called after an aura button is created.
 
     PostCreateAuraFrame(auraframe)
@@ -65,7 +66,7 @@
     PostUpdateAuraFrame(auraframe)
         Called after a shown aura frame is updated (buttons arranged, etc).
 
-    DisplayAura(name,spellid,duration)
+    DisplayAura(auraframe,name,spellid,duration)
         Can be used to arbitrarily filter auras.
 
 ]]
@@ -286,7 +287,7 @@ local function CreateAuraButton(parent)
         button[k] = v
     end
 
-    ele:RunCallback('PostCreateAuraButton',button)
+    ele:RunCallback('PostCreateAuraButton',parent,button)
 
     return button
 end
@@ -402,7 +403,7 @@ local function AuraFrame_ShouldShowAura(self,name,caster,nameplateShowPersonal,n
     return nameplateShowAll or (nameplateShowPersonal and (caster == 'player' or caster == 'pet' or caster == 'vehicle'))
 end
 local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,index)
-    if ele:RunCallback('DisplayAura',name,spellid,duration) == false then
+    if ele:RunCallback('DisplayAura',self,name,spellid,duration) == false then
         -- blocked by callback
         return
     end
