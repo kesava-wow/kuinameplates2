@@ -448,7 +448,7 @@ bossmod_control_friendly.enabled = bossmod_enabled
 bossmod_icon_size.enabled = bossmod_enabled
 bossmod_x_offset.enabled = bossmod_enabled
 bossmod_y_offset.enabled = bossmod_enabled
-bossmod_clickthrough.enabled = bossmod_enabled
+bossmod_clickthrough.enabled = function(p) return p.bossmod_enable and p.bossmod_control_friendly end
 
 bossmod_enable:SetPoint('TOPLEFT',10,-10)
 bossmod_control_friendly:SetPoint('TOPLEFT',bossmod_enable,'BOTTOMLEFT')
