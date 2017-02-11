@@ -285,7 +285,7 @@ function core:configChangedTextOffset()
         if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
             -- update aura text
             for _,button in pairs(f.Auras.frames.core_dynamic.buttons) do
-                self.Auras_PostCreateAuraButton(button)
+                self.Auras_PostCreateAuraButton(f.Auras.frames.core_dynamic,button)
             end
         end
     end
@@ -1172,7 +1172,7 @@ do
     end
 
     -- callbacks
-    function core.Auras_PostCreateAuraButton(button)
+    function core.Auras_PostCreateAuraButton(frame,button)
         -- move text to obey our settings
         button.cd:ClearAllPoints()
         button.cd:SetPoint('TOPLEFT',-2,2+TEXT_VERTICAL_OFFSET)
@@ -1186,7 +1186,9 @@ do
 
         core.AurasButton_SetFont(button)
     end
-    function core.Auras_DisplayAura(name,spellid,duration)
+    function core.Auras_DisplayAura(frame,name,spellid,duration)
+        if frame.id ~= 'core_dynamic' then return end
+
         if  AURAS_MIN_LENGTH and
             duration ~= 0 and duration <= AURAS_MIN_LENGTH
         then
