@@ -491,5 +491,3 @@ function mod:Initialised()
         self:Disable()
     end
 end
-function mod:Initialise()
-end
