@@ -52,8 +52,8 @@ local mod = addon:NewPlugin('BossMods')
 local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET = 30,0,0
 local CONTROL_FRIENDLY = true
 local DECIMAL_THRESHOLD = 1
-local CLICKTHROUGH = true
-local HIDE_FRAMES = true
+local CLICKTHROUGH = false
+local HIDE_FRAMES = false
 
 local initialised, enable_was_called, fade_rule_added, fade_callback_added
 local active_boss_auras, guid_was_used
