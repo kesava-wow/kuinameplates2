@@ -55,8 +55,7 @@ local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = true
 local HIDE_FRAMES = true
 
-local initialised
-local enable_was_called
+local initialised, enable_was_called, fade_rule_added, fade_callback_added
 local active_boss_auras, guid_was_used
 local hidden_auras, num_hidden_auras
 local GetNamePlateForUnit
@@ -214,6 +213,7 @@ local function HideAllAuras()
 end
 -- callbacks ###################################################################
 local function Fading_FadeRulesReset()
+    fade_rule_added = true
     plugin_fading:AddFadeRule(function(f)
         if not HIDE_FRAMES then return end
         if not enable_was_called then return end
@@ -417,6 +417,17 @@ function mod:UpdateConfig()
         HIDE_FRAMES = addon.layout.BossModIcon.hide_frames
     end
 
+    if HIDE_FRAMES then
+        if not fade_callback_added then
+            self:AddCallback('Fading','FadeRulesReset',Fading_FadeRulesReset)
+            fade_callback_added = true
+        end
+
+        if not fade_rule_added then
+            Fading_FadeRulesReset()
+        end
+    end
+
     for i,f in addon:Frames() do
         -- update aura frame on existing frames
         self:UpdateFrame(f)
@@ -477,11 +488,13 @@ end
 function mod:OnEnable()
     if not initialised then return end
     if BigWigsLoader or DBM then
+        GetNamePlateForUnit = C_NamePlate.GetNamePlateForUnit
+        plugin_ct = addon:GetPlugin('CombatToggle')
+        plugin_fading = addon:GetPlugin('Fading')
+
         self:RegisterMessage('Show')
         self:RegisterMessage('Hide')
         self:RegisterMessage('Create')
-
-        self:AddCallback('Fading','FadeRulesReset',Fading_FadeRulesReset)
 
         self:UpdateConfig()
 
@@ -491,13 +504,6 @@ function mod:OnEnable()
                 self:Create(f)
             end
         end
-
-        GetNamePlateForUnit = C_NamePlate.GetNamePlateForUnit
-
-        plugin_ct = addon:GetPlugin('CombatToggle')
-
-        plugin_fading = addon:GetPlugin('Fading')
-        Fading_FadeRulesReset()
 
         -- Register addon callbacks
         -- TODO conflict if both are enabled
