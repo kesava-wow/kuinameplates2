@@ -42,7 +42,6 @@
     - listen to aura calls from first addon to call _EnableFriendlyNameplates,
         ignore others.
     - bugginess when more than max icons are created.
-    - options for HIDE_FRAMES, CLICKTHROUGH
 
 ]]
 local addon = KuiNameplates
@@ -53,13 +52,12 @@ local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET = 30,0,0
 local CONTROL_FRIENDLY = true
 local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
-local HIDE_FRAMES = false
 
-local initialised, enable_was_called, fade_rule_added, fade_callback_added
+local initialised, enable_was_called
 local active_boss_auras, guid_was_used
 local hidden_auras, num_hidden_auras
 local GetNamePlateForUnit
-local plugin_ct,plugin_fading
+local plugin_ct
 
 -- local functions #############################################################
 local function GetFrameByGUID(guid)
@@ -168,10 +166,6 @@ local function ShowNameplateAura(f, icon_tbl)
 
     -- there is an aura active on this frame
     f.BossModAuraFrame.is_active = true
-
-    if CLICKTHROUGH and HIDE_FRAMES then
-        plugin_fading:UpdateFrame(f)
-    end
 end
 local function ShowNameplateAuras(f, auras_tbl)
     if not f or not auras_tbl or not f.BossModAuraFrame then return end
@@ -193,10 +187,6 @@ local function HideNameplateAura(f,icon)
     if not f.BossModAuraFrame:IsShown() then
         -- there are no auras on this frame
         f.BossModAuraFrame.is_active = nil
-
-        if CLICKTHROUGH and HIDE_FRAMES then
-            plugin_fading:UpdateFrame(f)
-        end
     end
 end
 local function HideAllAuras()
@@ -212,22 +202,6 @@ local function HideAllAuras()
     num_hidden_auras = nil
 end
 -- callbacks ###################################################################
-local function Fading_FadeRulesReset()
-    fade_rule_added = true
-    plugin_fading:AddFadeRule(function(f)
-        if not CLICKTHROUGH or not HIDE_FRAMES then return end
-        if not enable_was_called then return end
-        if not f.BossModAuraFrame then return end
-        if not UnitIsPlayer(f.unit) then return end
-        if not UnitIsFriend('player',f.unit) then return end
-
-        if f.BossModAuraFrame:IsShown() then
-            return 1
-        else
-            return 0
-        end
-    end,21)
-end
 -- show/hide friendly nameplates
 do
     local prev_show_friends,disable_clickthrough
@@ -240,8 +214,6 @@ do
         plugin_ct:Enable()
         plugin_ct:PLAYER_REGEN_ENABLED()
 
-        plugin_fading:UpdateAllFrames()
-
         if disable_clickthrough then
             -- reset clickthrough
             disable_clickthrough = nil
@@ -253,7 +225,6 @@ do
         enable_was_called = true
 
         plugin_ct:Disable()
-        plugin_fading:UpdateAllFrames()
 
         if not InCombatLockdown() then
             -- skip CombatToggle into combat mode
@@ -415,18 +386,6 @@ function mod:UpdateConfig()
         ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_Y_OFFSET
         CONTROL_FRIENDLY = addon.layout.BossModIcon.control_friendly
         CLICKTHROUGH = addon.layout.BossModIcon.clickthrough
-        HIDE_FRAMES = addon.layout.BossModIcon.hide_frames
-    end
-
-    if CLICKTHROUGH and HIDE_FRAMES then
-        if not fade_callback_added then
-            self:AddCallback('Fading','FadeRulesReset',Fading_FadeRulesReset)
-            fade_callback_added = true
-        end
-
-        if not fade_rule_added then
-            Fading_FadeRulesReset()
-        end
     end
 
     for i,f in addon:Frames() do
@@ -491,7 +450,6 @@ function mod:OnEnable()
     if BigWigsLoader or DBM then
         GetNamePlateForUnit = C_NamePlate.GetNamePlateForUnit
         plugin_ct = addon:GetPlugin('CombatToggle')
-        plugin_fading = addon:GetPlugin('Fading')
 
         self:RegisterMessage('Show')
         self:RegisterMessage('Hide')
