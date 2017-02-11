@@ -391,6 +391,7 @@ function mod:Create(f)
         centred = true,
         point = {'BOTTOMLEFT','LEFT','RIGHT'}
     })
+    f.BossModAuraFrame:Hide()
     self:UpdateFrame(f)
 end
 -- mod functions ###############################################################
