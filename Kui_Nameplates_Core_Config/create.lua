@@ -436,11 +436,11 @@ classpowers_colour:SetScript('OnEnter',function(self)
 end)
 
 -- bossmod #####################################################################
-bossmod_enable = bossmod:CreateCheckBox('bossmod_enable')
-bossmod_control_friendly = bossmod:CreateCheckBox('bossmod_control_friendly')
-bossmod_icon_size = bossmod:CreateSlider('bossmod_icon_size',10,100)
-bossmod_x_offset = bossmod:CreateSlider('bossmod_x_offset',-200,200)
-bossmod_y_offset = bossmod:CreateSlider('bossmod_y_offset',-200,200)
+local bossmod_enable = bossmod:CreateCheckBox('bossmod_enable')
+local bossmod_control_friendly = bossmod:CreateCheckBox('bossmod_control_friendly')
+local bossmod_icon_size = bossmod:CreateSlider('bossmod_icon_size',10,100)
+local bossmod_x_offset = bossmod:CreateSlider('bossmod_x_offset',-200,200)
+local bossmod_y_offset = bossmod:CreateSlider('bossmod_y_offset',-200,200)
 local bossmod_clickthrough = bossmod:CreateCheckBox('bossmod_clickthrough')
 local bossmod_hide_frames = bossmod:CreateCheckBox('bossmod_hide_frames')
 
