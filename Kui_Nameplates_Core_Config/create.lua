@@ -441,18 +441,26 @@ bossmod_control_friendly = bossmod:CreateCheckBox('bossmod_control_friendly')
 bossmod_icon_size = bossmod:CreateSlider('bossmod_icon_size',10,100)
 bossmod_x_offset = bossmod:CreateSlider('bossmod_x_offset',-200,200)
 bossmod_y_offset = bossmod:CreateSlider('bossmod_y_offset',-200,200)
+local bossmod_clickthrough = bossmod:CreateCheckBox('bossmod_clickthrough')
+local bossmod_hide_frames = bossmod:CreateCheckBox('bossmod_hide_frames')
 
 local function bossmod_enabled(p) return p.bossmod_enable end
 bossmod_control_friendly.enabled = bossmod_enabled
 bossmod_icon_size.enabled = bossmod_enabled
 bossmod_x_offset.enabled = bossmod_enabled
 bossmod_y_offset.enabled = bossmod_enabled
+bossmod_clickthrough.enabled = bossmod_enabled
+function bossmod_hide_frames.enabled(p)
+    return p.bossmod_enable and p.bossmod_clickthrough
+end
 
 bossmod_enable:SetPoint('TOPLEFT',10,-10)
 bossmod_control_friendly:SetPoint('TOPLEFT',bossmod_enable,'BOTTOMLEFT')
+bossmod_clickthrough:SetPoint('TOPLEFT',bossmod_control_friendly,'BOTTOMLEFT')
+bossmod_hide_frames:SetPoint('TOPLEFT',bossmod_clickthrough,'BOTTOMLEFT')
 
-bossmod_icon_size:SetPoint('TOP',0,-100)
-bossmod_x_offset:SetPoint('TOPLEFT',10,-160)
+bossmod_icon_size:SetPoint('TOP',0,-150)
+bossmod_x_offset:SetPoint('TOPLEFT',10,-(150+60))
 bossmod_y_offset:SetPoint('LEFT',bossmod_x_offset,'RIGHT',20,0)
 
 -- LSM dropdowns ###############################################################

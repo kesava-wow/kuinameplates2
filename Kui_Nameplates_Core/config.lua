@@ -165,6 +165,8 @@ local default_config = {
     bossmod_icon_size = 40,
     bossmod_x_offset = 0,
     bossmod_y_offset = 30,
+    bossmod_clickthrough = false,
+    bossmod_hide_frames = false,
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()
@@ -547,6 +549,8 @@ local function configChangedBossMod()
     core.BossModIcon.icon_x_offset = core.profile.bossmod_x_offset
     core.BossModIcon.icon_y_offset = core.profile.bossmod_y_offset
     core.BossModIcon.control_friendly = core.profile.bossmod_control_friendly
+    core.BossModIcon.clickthrough = core.profile.bossmod_clickthrough
+    core.BossModIcon.hide_frames = core.profile.bossmod_hide_frames
 
     if addon:GetPlugin('BossMods').enabled then
         addon:GetPlugin('BossMods'):UpdateConfig()

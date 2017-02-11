@@ -1666,7 +1666,7 @@ function core:InitialiseElements()
         icon_x_offset = self.profile.bossmod_x_offset,
         icon_y_offset = self.profile.bossmod_y_offset,
         control_friendly = self.profile.bossmod_control_friendly,
-        clickthrough = true,
-        hide_frames = true,
+        clickthrough = self.profile.bossmod_clickthrough,
+        hide_frames = self.profile.bossmod_hide_frames,
     }
 end
