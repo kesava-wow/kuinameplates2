@@ -1,6 +1,7 @@
 Alpha notes
 
 feb-11:
+- (boss mods) option added to enable clickthrough when frames are automatically shown
 - (auras) PostCreateAuraButton + DisplayAura callbacks now include the aura frame as the first argument
 
 feb-09:
