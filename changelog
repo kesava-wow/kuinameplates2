@@ -1,19 +1,10 @@
-Alpha notes
+* add option to enable click-through on friendly nameplates when they are
+automatically shown (disabled by default)
+* boss mods can now display more than one aura
+* fix boss mods compatibility with DBM 7.1.14 and BigWigs 44
+* fix some issues related to tracking of boss auras on hidden frames
+* fix lua error if DisableFriendlyNameplates is sent before any auras are shown
 
-feb-11:
-- (boss mods) option added to enable clickthrough when frames are automatically shown
-- (auras) PostCreateAuraButton + DisplayAura callbacks now include the aura frame as the first argument
-
-feb-09:
-- Unless you are also using DBM's alpha, this release WILL BREAK COMPATIBILITY. This is why you shouldn't use betas. /slap.
-- Compatibility with previous BigWigs versions is retained. I think. Let me know.
-
-- (auras) centred auras now implemented in the aura module rather than callbacks in core
-- (boss mods) now uses what i've coined an "externally managed" aura frame, so it looks the same as other aura frames
-- (boss mods) improved tracking of hidden auras
-- (boss mods) fixed compatibility with latest dbm alpha
-
-feb-08:
-- (boss mods) base logic for multiple auras. should really just make some way of hooking into the aura plugin but OH WELL
-- (boss mods) fix nil error if disable-friendly-nameplates message is called before any auras are shown
-- (Boss mods) BigWigs now sends names instead of GUIDs, so handle that
+CALLBACK CHANGES
+- Auras:PostCreateAuraButton and Auras:DisplayAura now include the aura frame
+as the first argument
