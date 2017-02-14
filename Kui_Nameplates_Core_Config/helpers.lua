@@ -500,6 +500,11 @@ do
         f.scroll:SetPoint('BOTTOMRIGHT',self.PageBG,-26,4)
         f.scroll:SetScrollChild(f)
 
+        if f.scroll.ScrollBar then
+            f.scroll.ScrollBar:SetBackdrop({bgFile='interface/buttons/white8x8'})
+            f.scroll.ScrollBar:SetBackdropColor(0,0,0,.2)
+        end
+
         f:SetWidth(420)
         f:SetHeight(1)
 
