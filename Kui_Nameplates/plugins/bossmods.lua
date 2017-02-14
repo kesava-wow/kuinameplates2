@@ -54,7 +54,7 @@ local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
 local initialised
-local active_boss_auras, guid_was_used
+local active_boss_auras, guid_was_used, prev_show_friends
 local hidden_auras, num_hidden_auras
 local GetNamePlateForUnit
 local plugin_ct
@@ -112,7 +112,17 @@ do
             registered = name
 
             addon:print('BossMods registered '..name)
-            print('|cff9966ffKui Nameplates|r: '..name..' just sent a message instructing Kui Nameplates to forcibly enable friendly nameplates so that it can show you extra information on players during this encounter. You can disable this in /knp > boss mods.')
+
+            if  CONTROL_FRIENDLY and (not prev_show_friends or (
+                    type(addon.layout.CombatToggle) == 'table' and
+                    addon.layout.CombatToggle.friendly == 2
+                ))
+            then
+                -- XXX TEMPORARY until people get used to this (14th Feb)
+                -- (only print if plates were previously disabled or if
+                -- CombatToggle is set to hide friendly plates on combat)
+                print('|cff9966ffKui Nameplates|r: '..name..' just sent a message instructing Kui Nameplates to forcibly enable friendly nameplates so that it can show you extra information on players during this encounter. You can disable this in /knp > boss mods.')
+            end
         else
             addon:print('BossMods ignored registration for '..name)
         end
@@ -270,7 +280,7 @@ end
 -- callbacks ###################################################################
 -- show/hide friendly nameplates
 do
-    local prev_show_friends,disable_clickthrough
+    local disable_clickthrough
     local function DisableFriendlyNameplates()
         mod:UnregisterEvent('PLAYER_REGEN_ENABLED')
 
