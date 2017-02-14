@@ -103,14 +103,14 @@ local function OnEvent(self,event,...)
         return
     end
 
+    --@alpha@
+    print('|cff9966ffKui Nameplates|r: You are using an alpha release and may see debug messages in chat.')
+    --@end-alpha@
+
     if not self.layout then
         -- throw missing layout
         print('|cff9966ffKui Nameplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
         return
-    end
-
-    if self.debug then
-        print('|cff9966ffKui Nameplates|r: You are using an alpha release and may see debug messages in chat.')
     end
 
     -- initialise plugins & elements
