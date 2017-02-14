@@ -39,8 +39,6 @@
     TODO
     - update this ^ shit to reflect multiple icons.
     - larger font. obviously.
-    - listen to aura calls from first addon to call _EnableFriendlyNameplates,
-        ignore others.
     - bugginess when more than max icons are created.
 
 ]]
@@ -53,11 +51,9 @@ local CONTROL_FRIENDLY = true
 local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
-local initialised
-local active_boss_auras, guid_was_used, prev_show_friends
-local hidden_auras, num_hidden_auras
+local initialised,plugin_ct,active_boss_auras,guid_was_used,prev_show_friends,
+      hidden_auras,num_hidden_auras
 local GetNamePlateForUnit
-local plugin_ct
 
 -- callback registrars #########################################################
 local RegisterAddon,UnregisterAddon,registered
