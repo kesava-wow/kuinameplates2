@@ -1,10 +1,11 @@
-* add option to enable click-through on friendly nameplates when they are
-automatically shown (disabled by default)
-* boss mods can now display more than one aura
-* fix boss mods compatibility with DBM 7.1.14 and BigWigs 44
-* fix some issues related to tracking of boss auras on hidden frames
-* fix lua error if DisableFriendlyNameplates is sent before any auras are shown
+Alpha notes
 
-CALLBACK CHANGES
-- Auras:PostCreateAuraButton and Auras:DisplayAura now include the aura frame
-as the first argument
+14-feb:
+- (bossmods) a warning is shown in chat when friendly nameplates are
+automatically enabled
+- (bossmods) will now listen only to the first addon to call
+EnableFriendlyNameplates, callbacks are only registered as needed
+- (bossmods) fix issue where auras could stick after the end of an encounter if CONTROL_FRIENDLY was disabled
+- (framework) a warning is shown if you're using an alpha. which you are. good job!
+
+UNTESTED: Unregistering DBM callbacks
