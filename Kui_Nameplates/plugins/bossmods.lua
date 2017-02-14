@@ -110,7 +110,9 @@ do
         if not registered and type(cb_registrar[name]) == 'function' then
             cb_registrar[name](true)
             registered = name
+
             addon:print('BossMods registered '..name)
+            print('|cff9966ffKui Nameplates|r: '..name..' just sent a message instructing Kui Nameplates to forcibly enable friendly nameplates so that it can show you extra information on players during this encounter. You can disable this in /knp > boss mods.')
         else
             addon:print('BossMods ignored registration for '..name)
         end
