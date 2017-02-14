@@ -59,6 +59,57 @@ local hidden_auras, num_hidden_auras
 local GetNamePlateForUnit
 local plugin_ct
 
+-- callback registrars #########################################################
+local RegisterAddon
+do
+    local registered
+    local cb_registrar = {
+        ['BigWigs'] = function()
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
+
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura',function(msg,sender,...)
+                mod:BigWigs_ShowNameplateAura(nil,...)
+            end)
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura',function(msg,sender,...)
+                mod:BigWigs_HideNameplateAura(nil,...)
+            end)
+
+            return true
+        end,
+        ['DBM'] = function()
+            DBM:RegisterCallback('BossMod_EnableFriendlyNameplates',function()
+                mod:BigWigs_EnableFriendlyNameplates()
+            end)
+            DBM:RegisterCallback('BossMod_DisableFriendlyNameplates',function()
+                mod:BigWigs_DisableFriendlyNameplates()
+            end)
+
+            DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,unitType,...)
+                unitType = (unitType == true or unitType == 'guid') and true or nil
+                mod:BigWigs_ShowNameplateAura(unitType,...)
+            end)
+            DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,unitType,...)
+                unitType = (unitType == true or unitType == 'guid') and true or nil
+                mod:BigWigs_HideNameplateAura(unitType,...)
+            end)
+
+            return true
+        end,
+    }
+    function RegisterAddon(name)
+        if registered and not addon.debug then return end
+        if cb_registrar[name] then
+            if cb_registrar[name]() then
+                if addon.debug then
+                    addon:print('registered '..name)
+                end
+
+                registered = name
+            end
+        end
+    end
+end
 -- local functions #############################################################
 local function GetFrameByGUID(guid)
     -- TODO store guids => frames OnShow/Hide
@@ -220,7 +271,7 @@ do
             C_NamePlate.SetNamePlateFriendlyClickThrough(false)
         end
     end
-    function mod:BigWigs_EnableFriendlyNameplates()
+    function mod:BigWigs_EnableFriendlyNameplates(sender)
         if not self.enabled or not CONTROL_FRIENDLY then return end
         enable_was_called = true
 
@@ -243,7 +294,7 @@ do
             end
         end
     end
-    function mod:BigWigs_DisableFriendlyNameplates()
+    function mod:BigWigs_DisableFriendlyNameplates(sender)
         if not self.enabled or not CONTROL_FRIENDLY then return end
 
         if enable_was_called then
@@ -391,57 +442,6 @@ function mod:UpdateConfig()
     for i,f in addon:Frames() do
         -- update aura frame on existing frames
         self:UpdateFrame(f)
-    end
-end
--- callback registrars for different addons ####################################
-local RegisterAddon
-do
-    local registered
-    local cb_registrar = {
-        ['BigWigs'] = function()
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
-
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura',function(msg,sender,...)
-                mod:BigWigs_ShowNameplateAura(nil,...)
-            end)
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura',function(msg,sender,...)
-                mod:BigWigs_HideNameplateAura(nil,...)
-            end)
-
-            return true
-        end,
-        ['DBM'] = function()
-            DBM:RegisterCallback('BossMod_EnableFriendlyNameplates',function()
-                mod:BigWigs_EnableFriendlyNameplates()
-            end)
-            DBM:RegisterCallback('BossMod_DisableFriendlyNameplates',function()
-                mod:BigWigs_DisableFriendlyNameplates()
-            end)
-
-            DBM:RegisterCallback('BossMod_ShowNameplateAura',function(msg,unitType,...)
-                unitType = (unitType == true or unitType == 'guid') and true or nil
-                mod:BigWigs_ShowNameplateAura(unitType,...)
-            end)
-            DBM:RegisterCallback('BossMod_HideNameplateAura',function(msg,unitType,...)
-                unitType = (unitType == true or unitType == 'guid') and true or nil
-                mod:BigWigs_HideNameplateAura(unitType,...)
-            end)
-
-            return true
-        end,
-    }
-    function RegisterAddon(name)
-        if registered and not addon.debug then return end
-        if cb_registrar[name] then
-            if cb_registrar[name]() then
-                if addon.debug then
-                    addon:print('registered '..name)
-                end
-
-                registered = name
-            end
-        end
     end
 end
 -- register ####################################################################
