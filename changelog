@@ -7,5 +7,3 @@ automatically enabled
 EnableFriendlyNameplates, callbacks are only registered as needed
 - (bossmods) fix issue where auras could stick after the end of an encounter if CONTROL_FRIENDLY was disabled
 - (framework) a warning is shown if you're using an alpha. which you are. good job!
-
-UNTESTED: Unregistering DBM callbacks
