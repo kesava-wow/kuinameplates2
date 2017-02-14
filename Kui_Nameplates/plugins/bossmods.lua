@@ -130,8 +130,8 @@ do
     function UnregisterAddon()
         if registered and type(cb_registrar[registered]) == 'function' then
             cb_registrar[registered]()
-            registered = nil
             addon:print('BossMods un-registered '..registered)
+            registered = nil
         end
     end
 end
