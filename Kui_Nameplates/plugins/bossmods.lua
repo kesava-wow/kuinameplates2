@@ -285,28 +285,30 @@ do
         end
     end
     function mod:BigWigs_EnableFriendlyNameplates(msg)
-        if not self.enabled or not CONTROL_FRIENDLY then return end
+        if not self.enabled then return end
         if registered then
             addon:print('BossMods ignored duplicated Enable call ('..msg..')')
             return
         end
 
-        plugin_ct:Disable()
+        if CONTROL_FRIENDLY then
+            plugin_ct:Disable()
 
-        if not InCombatLockdown() then
-            -- skip CombatToggle into combat mode
-            plugin_ct:PLAYER_REGEN_DISABLED()
+            if not InCombatLockdown() then
+                -- skip CombatToggle into combat mode
+                plugin_ct:PLAYER_REGEN_DISABLED()
 
-            prev_show_friends = GetCVarBool('nameplateShowFriends')
-            SetCVar('nameplateShowFriends',true)
+                prev_show_friends = GetCVarBool('nameplateShowFriends')
+                SetCVar('nameplateShowFriends',true)
 
-            if  CLICKTHROUGH and
-                not prev_show_friends and
-                not C_NamePlate.GetNamePlateFriendlyClickThrough()
-            then
-                -- enable clickthrough when automatically shown
-                disable_clickthrough = true
-                C_NamePlate.SetNamePlateFriendlyClickThrough(true)
+                if  CLICKTHROUGH and
+                    not prev_show_friends and
+                    not C_NamePlate.GetNamePlateFriendlyClickThrough()
+                then
+                    -- enable clickthrough when automatically shown
+                    disable_clickthrough = true
+                    C_NamePlate.SetNamePlateFriendlyClickThrough(true)
+                end
             end
         end
 
@@ -318,15 +320,16 @@ do
         end
     end
     function mod:BigWigs_DisableFriendlyNameplates(msg)
-        if not self.enabled or not CONTROL_FRIENDLY then return end
-        if not registered then return end
+        if not self.enabled or not registered then return end
 
-        if InCombatLockdown() then
-            -- wait until after combat to reset display
-            self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableFriendlyNameplates)
-        else
-            -- immediately reset
-            DisableFriendlyNameplates()
+        if CONTROL_FRIENDLY then
+            if InCombatLockdown() then
+                -- wait until after combat to reset display
+                self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableFriendlyNameplates)
+            else
+                -- immediately reset
+                DisableFriendlyNameplates()
+            end
         end
 
         -- immediately clear all auras
