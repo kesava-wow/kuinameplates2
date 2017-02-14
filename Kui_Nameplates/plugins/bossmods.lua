@@ -53,14 +53,14 @@ local CONTROL_FRIENDLY = true
 local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
-local initialised, enable_was_called
+local initialised
 local active_boss_auras, guid_was_used
 local hidden_auras, num_hidden_auras
 local GetNamePlateForUnit
 local plugin_ct
 
 -- callback registrars #########################################################
-local RegisterAddon,UnregisterAddon
+local RegisterAddon,UnregisterAddon,registered
 do
     local function Wrapper_DBM_ShowAura(msg,unitType,...)
         unitType = (unitType == true or unitType == 'guid') and true or nil
@@ -70,11 +70,13 @@ do
         unitType = (unitType == true or unitType == 'guid') and true or nil
         mod:BigWigs_HideNameplateAura(unitType,...)
     end
+    local function Wrapper_DBM_DisableFriendly()
+        mod:BigWigs_DisableFriendlyNameplates()
+    end
 
     local cb_registrar = {
         ['BigWigs'] = function(r)
             if not BigWigsLoader then return end
-
             if r then
                 BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura',function(msg,sender,...)
                     mod:BigWigs_ShowNameplateAura(nil,...)
@@ -82,37 +84,43 @@ do
                 BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura',function(msg,sender,...)
                     mod:BigWigs_HideNameplateAura(nil,...)
                 end)
+                BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
             else
                 BigWigsLoader.UnregisterMessage(mod,'BigWigs_ShowNameplateAura')
                 BigWigsLoader.UnregisterMessage(mod,'BigWigs_HideNameplateAura')
+                BigWigsLoader.UnregisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
             end
-
-            return true
         end,
         ['DBM'] = function(r)
             if not DBM then return end
-
             if r then
                 DBM:RegisterCallback('BossMod_ShowNameplateAura',Wrapper_DBM_ShowAura)
                 DBM:RegisterCallback('BossMod_HideNameplateAura',Wrapper_DBM_HideAura)
+                DBM:RegisterCallback('BossMod_DisableFriendlyNameplates',Wrapper_DBM_DisableFriendly)
             else
                 DBM:UnregisterCallback('BossMod_ShowNameplateAura',Wrapper_DBM_ShowAura)
                 DBM:UnregisterCallback('BossMod_HideNameplateAura',Wrapper_DBM_HideAura)
+                DBM:UnregisterCallback('BossMod_DisableFriendlyNameplates',Wrapper_DBM_DisableFriendly)
             end
-
-            return true
         end,
     }
 
     function RegisterAddon(name)
-        if type(cb_registrar[name]) == 'function' then
-            addon:print('BossMods registering '..name)
-            return cb_registrar[name](true)
+        if not name then return end
+        if not registered and type(cb_registrar[name]) == 'function' then
+            cb_registrar[name](true)
+            registered = name
+            addon:print('BossMods registered '..name)
+        else
+            addon:print('BossMods ignored registration for '..name)
         end
     end
-    function UnregisterAddon(name)
-        addon:print('BossMods un-registering '..name)
-        return cb_registrar[name](false)
+    function UnregisterAddon()
+        if registered and type(cb_registrar[registered]) == 'function' then
+            cb_registrar[registered]()
+            registered = nil
+            addon:print('BossMods un-registered '..registered)
+        end
     end
 end
 -- local functions #############################################################
@@ -276,9 +284,12 @@ do
             C_NamePlate.SetNamePlateFriendlyClickThrough(false)
         end
     end
-    function mod:BigWigs_EnableFriendlyNameplates(sender)
+    function mod:BigWigs_EnableFriendlyNameplates(msg)
         if not self.enabled or not CONTROL_FRIENDLY then return end
-        enable_was_called = true
+        if registered then
+            addon:print('BossMods ignored duplicated Enable call ('..msg..')')
+            return
+        end
 
         plugin_ct:Disable()
 
@@ -298,23 +309,31 @@ do
                 C_NamePlate.SetNamePlateFriendlyClickThrough(true)
             end
         end
+
+        -- register show/hide aura callbacks
+        if msg == 'BigWigs_EnableFriendlyNameplates' then
+            RegisterAddon('BigWigs')
+        elseif msg == 'BossMod_EnableFriendlyNameplates' then
+            RegisterAddon('DBM')
+        end
     end
-    function mod:BigWigs_DisableFriendlyNameplates(sender)
+    function mod:BigWigs_DisableFriendlyNameplates(msg)
         if not self.enabled or not CONTROL_FRIENDLY then return end
+        if not registered then return end
 
-        if enable_was_called then
-            enable_was_called = nil
-
-            if InCombatLockdown() then
-                -- wait until after combat to reset display
-                self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableFriendlyNameplates)
-            else
-                DisableFriendlyNameplates()
-            end
+        if InCombatLockdown() then
+            -- wait until after combat to reset display
+            self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableFriendlyNameplates)
+        else
+            -- immediately reset
+            DisableFriendlyNameplates()
         end
 
         -- immediately clear all auras
         HideAllAuras()
+
+        -- unregister callbacks
+        UnregisterAddon()
     end
 end
 -- show/hide icon on nameplate belonging to given name
@@ -469,18 +488,14 @@ function mod:OnEnable()
             end
         end
 
-        -- register addons' Enable/Disable callbacks
+        -- register addons' Enable callbacks
         if DBM then
-            DBM:RegisterCallback('BossMod_EnableFriendlyNameplates',function()
-                mod:BigWigs_EnableFriendlyNameplates()
-            end)
-            DBM:RegisterCallback('BossMod_DisableFriendlyNameplates',function()
-                mod:BigWigs_DisableFriendlyNameplates()
+            DBM:RegisterCallback('BossMod_EnableFriendlyNameplates',function(...)
+                mod:BigWigs_EnableFriendlyNameplates(...)
             end)
         end
         if BigWigsLoader then
             BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
         end
     end
 end
