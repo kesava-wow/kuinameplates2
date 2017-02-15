@@ -301,12 +301,12 @@ do
 
         if CONTROL_FRIENDLY then
             plugin_ct:Disable()
+            prev_show_friends = GetCVarBool('nameplateShowFriends')
 
             if not InCombatLockdown() then
                 -- skip CombatToggle into combat mode
                 plugin_ct:PLAYER_REGEN_DISABLED()
 
-                prev_show_friends = GetCVarBool('nameplateShowFriends')
                 SetCVar('nameplateShowFriends',true)
 
                 if  CLICKTHROUGH and
