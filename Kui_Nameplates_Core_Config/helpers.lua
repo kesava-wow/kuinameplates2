@@ -70,7 +70,7 @@ do
         GenericOnShow(self)
     end
 
-    function opt.CreateCheckBox(parent, name)
+    function opt.CreateCheckBox(parent, name, small)
         local check = CreateFrame('CheckButton', frame_name..name..'Check', parent, 'OptionsBaseCheckButtonTemplate')
 
         check.env = name
@@ -82,7 +82,12 @@ do
         check:HookScript('OnEnable',OnEnable)
         check:HookScript('OnDisable',OnDisable)
 
-        check.label = parent:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
+        if small then
+            check.label = parent:CreateFontString(nil,'ARTWORK','GameFontHighlightSmall')
+        else
+            check.label = parent:CreateFontString(nil,'ARTWORK','GameFontHighlight')
+        end
+
         check.label:SetText(opt.titles[name] or name or 'Checkbox')
         check.label:SetPoint('LEFT', check, 'RIGHT')
 

@@ -70,8 +70,8 @@ opt.tooltips = {
     text_vertical_offset = 'Vertical offset applied to all strings. Used as some fonts render at odd vertical positions in WoW. Note that this value ends in .5 by default as this helps to reduce vertical jittering when frames are moving',
     name_vertical_offset = 'Vertical offset of the name text',
     bot_vertical_offset = 'Vertical offset of the level and health text strings',
-    class_colour_friendly_names = 'Colour the names of friendly players by their class.',
-    class_colour_enemy_names = 'Colour the names of enemy players by their class.',
+    class_colour_friendly_names = 'Colour the names of friendly players by their class. Also affects text in name-only mode.',
+    class_colour_enemy_names = 'Colour the names of enemy players by their class. Also affects text in name-only mode.',
 
     health_text_friend_max = 'Health text format used on friendly units at full health',
     health_text_friend_dmg = 'Health text format used on damaged friendly units',
@@ -237,7 +237,7 @@ opt.titles = {
     powerbar_height = 'Power bar height',
     castbar_height = 'Cast bar height',
 
-    auras_enabled = 'Show own auras',
+    auras_enabled = 'Show auras',
     auras_on_personal = 'Show on personal frame',
     auras_vanilla_filter = 'Use default UI filter',
     auras_whitelist = 'Use whitelist',
