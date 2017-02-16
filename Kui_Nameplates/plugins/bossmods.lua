@@ -52,7 +52,7 @@ local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
 local initialised,plugin_ct,active_boss_auras,guid_was_used,prev_show_friends,
-      hidden_auras,num_hidden_auras
+      hidden_auras,num_hidden_auras,enable_warned
 local GetNamePlateForUnit
 
 -- callback registrars #########################################################
@@ -109,15 +109,16 @@ do
 
             addon:print('BossMods registered '..name)
 
-            if  CONTROL_FRIENDLY and (not prev_show_friends or (
+            if  (CONTROL_FRIENDLY and (not prev_show_friends or (
                     type(addon.layout.CombatToggle) == 'table' and
                     addon.layout.CombatToggle.friendly == 2
-                ))
+                ))) and not enable_warned
             then
                 -- XXX TEMPORARY until people get used to this (14th Feb)
                 -- (only print if plates were previously disabled or if
                 -- CombatToggle is set to hide friendly plates on combat)
                 print('|cff9966ffKui Nameplates|r: '..name..' just sent a message instructing Kui Nameplates to forcibly enable friendly nameplates so that it can show you extra information on players during this encounter. You can disable this in /knp > boss mods.')
+                enable_warned = true
             end
         else
             addon:print('BossMods ignored registration for '..name)
@@ -506,7 +507,9 @@ function mod:OnEnable()
             end)
         end
         if BigWigsLoader then
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates',function(msg,sender,...)
+                mod:BigWigs_EnableFriendlyNameplates(...)
+            end)
         end
     end
 end

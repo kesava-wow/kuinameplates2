@@ -1,5 +1,8 @@
 Alpha notes
 
+16-feb:
+- (bossmods) will now only warn on enable once per session
+
 15-feb:
 - (bossmods) fix resetting nameplateShowFriends to an incorrect value if their visibility is modified by CombatToggle or if the Enable callback is sent during combat
 - some config elements have been ~moved around~
