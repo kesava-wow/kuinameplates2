@@ -1263,7 +1263,7 @@ function core.ClassPowers_PostPositionFrame(cpf,parent)
         end
     elseif parent.state.player then
         cpf:ClearAllPoints()
-        cpf:SetPoint('CENTER',parent.HealthBar,'TOP',0,1)
+        cpf:SetPoint('CENTER',parent.HealthBar,'TOP',0,9)
     end
 end
 function core.ClassPowers_CreateBar()
