@@ -11,10 +11,20 @@ local kui = LibStub('Kui-1.0')
 local WorldFrame = WorldFrame
 local select, strfind, setmetatable, floor
     = select, strfind, setmetatable, floor
+local UnitIsUnit = UnitIsUnit
 --------------------------------------------------------------------------------
 -------------------------------------------------------- Core script handlers --
 local function FrameOnHide(self)
     self.kui.handler:OnHide()
+end
+local function FrameOnShow(self)
+    if not addon.USE_BLIZZARD_PERSONAL or
+       not self.unit or
+       not UnitIsUnit(self.unit,'player')
+    then
+        -- hide blizzard's nameplate
+        self:Hide()
+    end
 end
 --------------------------------------------------------- frame level monitor --
 local function FrameOnUpdate(self)
@@ -59,6 +69,10 @@ function addon:HookNameplate(frame)
 
     frame.kui.handler = { parent = frame.kui }
     setmetatable(frame.kui.handler, self.Nameplate)
+
+    if frame.UnitFrame then
+        frame.UnitFrame:HookScript('OnShow',FrameOnShow)
+    end
 
     -- base frame
     frame:HookScript('OnHide',FrameOnHide)
