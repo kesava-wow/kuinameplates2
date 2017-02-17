@@ -21,7 +21,7 @@ addon.debug_config = true
 -- kui nameplate container frame size
 addon.uiscale = .71 -- updated upon reload
 addon.IGNORE_UISCALE = nil
-addon.USE_BLIZZARD_PERSONAL = true
+addon.USE_BLIZZARD_PERSONAL = nil
 addon.width,addon.height = 140,40
 
 local framelist = {}
