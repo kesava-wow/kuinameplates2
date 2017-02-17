@@ -28,6 +28,7 @@ local framelist = {}
 
 -- plugin & element vars
 local sort, tinsert = table.sort, tinsert
+local UnitIsUnit = UnitIsUnit
 local function PluginSort(a,b)
     return a.priority < b.priority
 end
