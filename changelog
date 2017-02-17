@@ -2,6 +2,7 @@ Alpha notes
 
 16-feb:
 - There is now an option to use blizzard's personal resource frame: /knp > general > "ignore personal nameplate". This also allows you to use blizzard's class resource display on the personal frame (not on targets).
+- change position of class powers on the personal frame, because it looked terrible where it used to be, but i never used it there so i just winged it.
 - (bossmods) will now only warn on enable once per session
 
 15-feb:
