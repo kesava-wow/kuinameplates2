@@ -404,6 +404,7 @@ classpowers_colour_inactive:SetPoint('LEFT',classpowers_colour_overflow,'RIGHT')
 classpowers_size:SetPoint('TOPLEFT',classpowers_colour,'BOTTOMLEFT',-4,-20)
 
 function classpowers_colour:Get()
+    -- get colour from current class
     local class = select(2,UnitClass('player'))
     self.env = 'classpowers_colour_'..strlower(class)
 
@@ -411,7 +412,6 @@ function classpowers_colour:Get()
         self.block:SetBackdropColor(unpack(opt.profile[self.env]))
     else
         self.block:SetBackdropColor(.5,.5,.5)
-        self:Disable()
     end
 end
 function classpowers_colour:Set(col)
@@ -432,7 +432,15 @@ end)
 local function classpowers_enabled(p) return p.classpowers_enable end
 classpowers_on_target.enabled = classpowers_enabled
 classpowers_size.enabled = classpowers_enabled
-classpowers_colour.enabled = classpowers_enabled
+
+local function classpowers_colour_enabled(p)
+    if classpowers_enabled(p) then
+        local class = select(2,UnitClass('player'))
+        local env = 'classpowers_colour_'..strlower(class)
+        if opt.profile[env] then return true end
+    end
+end
+classpowers_colour.enabled = classpowers_colour_enabled
 classpowers_colour_overflow.enabled = classpowers_enabled
 classpowers_colour_inactive.enabled = classpowers_enabled
 
