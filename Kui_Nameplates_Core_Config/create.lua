@@ -390,26 +390,18 @@ tankmode_other_colour:SetPoint('LEFT',tankmode_trans_colour,'RIGHT')
 
 -- classpowers #################################################################
 local classpowers_enable = classpowers:CreateCheckBox('classpowers_enable')
-local classpowers_on_target = classpowers:CreateCheckBox('classpowers_on_target')
+local classpowers_on_target = classpowers:CreateCheckBox('classpowers_on_target',true)
 local classpowers_size = classpowers:CreateSlider('classpowers_size',5,20)
-local classpowers_bar_width = classpowers:CreateSlider('classpowers_bar_width',10,100)
-local classpowers_bar_height = classpowers:CreateSlider('classpowers_bar_height',1,11)
 local classpowers_colour = classpowers:CreateColourPicker('classpowers_colour')
 local classpowers_colour_overflow = classpowers:CreateColourPicker('classpowers_colour_overflow')
 local classpowers_colour_inactive = classpowers:CreateColourPicker('classpowers_colour_inactive')
 
-classpowers_bar_width:SetValueStep(2)
-classpowers_bar_height:SetValueStep(2)
-
 classpowers_enable:SetPoint('TOPLEFT',10,-10)
-classpowers_on_target:SetPoint('LEFT',classpowers_enable,'RIGHT',190,0)
-classpowers_size:SetPoint('TOPLEFT',classpowers_enable,'BOTTOMLEFT',0,-20)
-classpowers_bar_width:SetPoint('TOPLEFT',classpowers_size,'BOTTOMLEFT',0,-30)
-classpowers_bar_height:SetPoint('LEFT',classpowers_bar_width,'RIGHT',20,0)
-
-classpowers_colour:SetPoint('TOPLEFT',15,-150)
-classpowers_colour_overflow:SetPoint('TOPLEFT',classpowers_colour,'BOTTOMLEFT')
-classpowers_colour_inactive:SetPoint('TOPLEFT',classpowers_colour_overflow,'BOTTOMLEFT')
+classpowers_on_target:SetPoint('TOPLEFT',classpowers_enable,'BOTTOMLEFT',10,0)
+classpowers_colour:SetPoint('TOPLEFT',classpowers_on_target,'BOTTOMLEFT',-6,-10)
+classpowers_colour_overflow:SetPoint('LEFT',classpowers_colour,'RIGHT')
+classpowers_colour_inactive:SetPoint('LEFT',classpowers_colour_overflow,'RIGHT')
+classpowers_size:SetPoint('TOPLEFT',classpowers_colour,'BOTTOMLEFT',-4,-20)
 
 function classpowers_colour:Get()
     local class = select(2,UnitClass('player'))
@@ -436,6 +428,27 @@ classpowers_colour:SetScript('OnEnter',function(self)
     GameTooltip:AddLine(opt.tooltips['classpowers_colour'],1,1,1,true)
     GameTooltip:Show()
 end)
+
+local function classpowers_enabled(p) return p.classpowers_enable end
+classpowers_on_target.enabled = classpowers_enabled
+classpowers_size.enabled = classpowers_enabled
+classpowers_colour.enabled = classpowers_enabled
+classpowers_colour_overflow.enabled = classpowers_enabled
+classpowers_colour_inactive.enabled = classpowers_enabled
+
+if select(2,UnitClass('player')) == 'MONK' then
+    local classpowers_bar_width = classpowers:CreateSlider('classpowers_bar_width',10,100)
+    local classpowers_bar_height = classpowers:CreateSlider('classpowers_bar_height',1,11)
+
+    classpowers_bar_width:SetValueStep(2)
+    classpowers_bar_height:SetValueStep(2)
+
+    classpowers_bar_width:SetPoint('TOPLEFT',classpowers_size,'BOTTOMLEFT',0,-30)
+    classpowers_bar_height:SetPoint('LEFT',classpowers_bar_width,'RIGHT',20,0)
+
+    classpowers_bar_width.enabled = classpowers_enabled
+    classpowers_bar_height.enabled = classpowers_enabled
+end
 
 -- bossmod #####################################################################
 local bossmod_enable = bossmod:CreateCheckBox('bossmod_enable')
