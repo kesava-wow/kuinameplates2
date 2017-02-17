@@ -21,6 +21,7 @@ addon.debug_config = true
 -- kui nameplate container frame size
 addon.uiscale = .71 -- updated upon reload
 addon.IGNORE_UISCALE = nil
+addon.USE_BLIZZARD_PERSONAL = true
 addon.width,addon.height = 140,40
 
 local framelist = {}
@@ -55,7 +56,17 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
         self:print('unit |cff88ff88added|r: '..unit..' ('..UnitName(unit)..')')
     end
 
-    f.kui.handler:OnUnitAdded(unit)
+    if self.USE_BLIZZARD_PERSONAL and UnitIsUnit(unit,'player') then
+        if f.UnitFrame then
+            f.UnitFrame:Show()
+        end
+    else
+        if f.UnitFrame then
+            f.UnitFrame:Hide()
+        end
+
+        f.kui.handler:OnUnitAdded(unit)
+    end
 end
 function addon:NAME_PLATE_UNIT_REMOVED(unit)
     local f = C_NamePlate.GetNamePlateForUnit(unit)

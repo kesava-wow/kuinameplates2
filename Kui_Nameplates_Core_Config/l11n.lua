@@ -21,6 +21,7 @@ opt.tooltips = {
     combat_friendly = 'Action to take on friendly frames upon entering and leaving combat.',
 
     ignore_uiscale = 'Ignore the default UI\'s scaling. This allows nameplates to retain pixel-perfectness regardless of resolution.',
+    use_blizzard_personal = 'Don\'t skin the personal nameplate or its class powers.|n|nWhen using this option the size of the personal frame can still be adjusted with the "personal..." sliders under "Frame sizes", however a UI reload is required for it to take full effect.|n|nIn order for this frame to display, you must check the option "Personal Resource Display" under Esc > Interface > Names > Unit Nameplates. In order to show unmodified class resources on it, uncheck the option "Show Special Resources on Targets" on the same page.',
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
     clickthrough_self = 'Disable the click-box of your personal nameplate',
@@ -150,6 +151,7 @@ opt.titles = {
     combat_friendly = 'Combat action: friendly',
 
     ignore_uiscale = 'Ignore UI scale',
+    use_blizzard_personal = 'Ignore personal nameplate',
 
     clickthrough_sep = 'Clickthrough frames',
     clickthrough_self = 'Personal',

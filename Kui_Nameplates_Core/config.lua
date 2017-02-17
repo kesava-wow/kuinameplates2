@@ -39,6 +39,7 @@ local default_config = {
     target_arrows = false,
     frame_glow_size = 8,
     target_arrows_size = 33,
+    use_blizzard_personal = false,
 
     clickthrough_self = false,
     clickthrough_friend = false,
@@ -527,6 +528,10 @@ function configChanged.ignore_uiscale(v)
     QueueClickboxUpdate()
 end
 
+function configChanged.use_blizzard_personal(v)
+    addon.USE_BLIZZARD_PERSONAL = v
+end
+
 local function configChangedClickthrough()
     C_NamePlate.SetNamePlateSelfClickThrough(core.profile.clickthrough_self)
     C_NamePlate.SetNamePlateFriendlyClickThrough(core.profile.clickthrough_friend)
@@ -601,6 +606,8 @@ function configLoaded.ignore_uiscale(v)
     addon.IGNORE_UISCALE = v
     addon:UI_SCALE_CHANGED()
 end
+
+configLoaded.use_blizzard_personal = configChanged.use_blizzard_personal
 
 configLoaded.bossmod_enable = configChanged.bossmod_enable
 

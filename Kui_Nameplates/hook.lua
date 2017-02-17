@@ -46,14 +46,6 @@ function addon:HookNameplate(frame)
     sizer:SetScript('OnSizeChanged',SizerOnSizeChanged)
     sizer.f = frame.kui
 
-    -- hide blizzard's nameplate
-    if frame.UnitFrame then
-        frame.UnitFrame:Hide()
-        frame.UnitFrame:HookScript('OnShow',function(self)
-            self:Hide()
-        end)
-    end
-
     frame.kui:SetScale(self.uiscale)
     frame.kui:SetSize(self.width,self.height)
 
