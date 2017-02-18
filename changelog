@@ -1,19 +1,7 @@
-Alpha notes
-
-16-feb:
-- There is now an option to use blizzard's personal resource frame: /knp > general > "ignore personal nameplate". This also allows you to use blizzard's class resource display on the personal frame (not on targets).
-- change position of class powers on the personal frame, because it looked terrible where it used to be, but i never used it there so i just winged it.
-- clean up the class powers config page a bit (those bar size sliders won't appear unless you're actually playing a monk now)
-- (bossmods) will now only warn on enable once per session
-
-15-feb:
-- (bossmods) fix resetting nameplateShowFriends to an incorrect value if their visibility is modified by CombatToggle or if the Enable callback is sent during combat
-- some config elements have been ~moved around~
-
-14-feb:
-- (bossmods) a warning is shown in chat when friendly nameplates are
-automatically enabled
-- (bossmods) will now listen only to the first addon to call
-EnableFriendlyNameplates, callbacks are only registered as needed
-- (bossmods) fix issue where auras could stick after the end of an encounter if CONTROL_FRIENDLY was disabled
-- (framework) a warning is shown if you're using an alpha. which you are. good job!
+* add option to use blizzard's personal resource frame: /knp > general > "ignore personal nameplate" (disabled by default)
+- this also allows the use of blizzard's class resource display on the personal frame (read the tooltip)
+* change position of class powers on personal frame (kui only)
+* (boss mods) warn the player once per session when friendly nameplates are automatically enabled
+* (boss mods) be more graceful if both BigWigs and DBM are installed and enabled
+* (boss mods) fix friendly nameplate display sometimes being reset to incorrect value
+* (boss mods) fix issue where auras could stick after the end of an encounter if CONTROL_FRIENDLY is disabled
