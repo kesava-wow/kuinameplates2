@@ -21,20 +21,22 @@ function addon.Nameplate.UpdatePowerType(f,on_show)
     f = f.parent
 
     -- get unit's primary power type
-    local power_type = select(2,UnitPowerType(f.unit))
-    local power_max = UnitPowerMax(f.unit,power_type)
+    local power_index,power_name = UnitPowerType(f.unit)
+    local power_max = UnitPowerMax(f.unit,power_index)
 
     if power_max == 0 then
-        power_type = nil
+        power_index = nil
     end
 
-    f.state.power_type = power_type
+    f.state.power_type = power_index
 
     if f.elements.PowerBar then
         -- update bar colour
-        if power_type then
-            local colour = ele.colours[power_type] or ele.colours['MANA']
-            f.PowerBar:SetStatusBarColor(unpack(colour))
+        if power_index then
+            f.PowerBar:SetStatusBarColor(unpack(
+                ele.colours[power_name or power_index] or
+                ele.colours['MANA']
+            ))
         else
             f.PowerBar:SetStatusBarColor(0,0,0)
             f.PowerBar:SetValue(0)
