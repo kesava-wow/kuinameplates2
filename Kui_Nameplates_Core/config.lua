@@ -159,7 +159,7 @@ local default_config = {
     classpowers_colour_monk        = {.3,1,.9},
     classpowers_colour_warlock     = {1,.5,1},
     classpowers_colour_overflow    = {1,.3,.3},
-    classpowers_colour_inactive    = {.5,.5,.5,.5},
+    classpowers_colour_inactive    = {.5,.5,.5},
 
     bossmod_enable = true,
     bossmod_control_friendly = true,
