@@ -247,6 +247,8 @@ local function UpdateIcons()
     local power_max
     if class == 'ROGUE' and IsTalentKnown(ANTICIPATION_TALENT_ID) then
         power_max = 5
+    elseif class == 'PALADIN' then
+        power_max = 3
     else
         power_max = UnitPowerMax('player',power_type)
     end

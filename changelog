@@ -3,3 +3,4 @@ Alpha notes
 feb-20
 * fix on PTR (power bar lua errors)
 * fix the unmodified personal nameplate is rendered beneath all other nameplates
+* only show 3 class power icons on ret paladins, and highlight at 3
