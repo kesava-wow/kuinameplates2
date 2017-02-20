@@ -1,7 +1,4 @@
-* add option to use blizzard's personal resource frame: /knp > general > "ignore personal nameplate" (disabled by default)
-- this also allows the use of blizzard's class resource display on the personal frame (read the tooltip)
-* change position of class powers on personal frame (kui only)
-* (boss mods) warn the player once per session when friendly nameplates are automatically enabled
-* (boss mods) be more graceful if both BigWigs and DBM are installed and enabled
-* (boss mods) fix friendly nameplate display sometimes being reset to incorrect value
-* (boss mods) fix issue where auras could stick after the end of an encounter if CONTROL_FRIENDLY is disabled
+Alpha notes
+
+feb-20
+* fix on PTR (power bar lua errors)
