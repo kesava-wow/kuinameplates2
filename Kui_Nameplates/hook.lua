@@ -12,7 +12,29 @@ local WorldFrame = WorldFrame
 local select, strfind, setmetatable, floor
     = select, strfind, setmetatable, floor
 local UnitIsUnit = UnitIsUnit
+
 --------------------------------------------------------------------------------
+---------------------------------------- personal frame frame-strata enforcer --
+local PersonalFrameFixer = CreateFrame('Frame')
+PersonalFrameFixer:Hide()
+do
+    local function OnUpdate(self)
+        if not self.frame:IsShown() then
+            self:SetScript('OnUpdate',nil)
+            self.frame = nil
+            self:Hide()
+            return
+        end
+
+        self.frame:SetFrameStrata('BACKGROUND')
+    end
+    function PersonalFrameFixer:SetFrame(frame)
+        if not frame then return end
+        self.frame = frame:GetParent()
+        self:SetScript('OnUpdate',OnUpdate)
+        self:Show()
+    end
+end
 -------------------------------------------------------- Core script handlers --
 local function FrameOnHide(self)
     self.kui.handler:OnHide()
@@ -24,11 +46,13 @@ local function FrameOnShow(self)
     then
         -- hide blizzard's nameplate
         self:Hide()
+    else
+        -- personal frame: enforce frame strata
+        PersonalFrameFixer:SetFrame(self)
     end
 end
 --------------------------------------------------------- frame level monitor --
 local function FrameOnUpdate(self)
-    self:SetFrameStrata('BACKGROUND')
     self.kui:SetFrameLevel(self:GetFrameLevel())
 end
 ----------------------------------------------------------------------- Sizer --
