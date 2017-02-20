@@ -2,3 +2,4 @@ Alpha notes
 
 feb-20
 * fix on PTR (power bar lua errors)
+* fix the unmodified personal nameplate is rendered beneath all other nameplates

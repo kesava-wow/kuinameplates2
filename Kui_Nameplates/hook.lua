@@ -28,6 +28,7 @@ local function FrameOnShow(self)
 end
 --------------------------------------------------------- frame level monitor --
 local function FrameOnUpdate(self)
+    self:SetFrameStrata('BACKGROUND')
     self.kui:SetFrameLevel(self:GetFrameLevel())
 end
 ----------------------------------------------------------------------- Sizer --
