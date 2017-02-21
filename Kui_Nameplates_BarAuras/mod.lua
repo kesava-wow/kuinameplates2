@@ -71,7 +71,7 @@ local function Bar_SetFont(fs,font,size)
 end
 -- callbacks ###################################################################
 function ArrangeButtons(self)
-    if not self.BarAuras then return end
+    if self.id ~= 'core_dynamic' then return end
 
     -- arrange in single column
     table.sort(self.buttons,auras_sort)
@@ -100,9 +100,11 @@ function ArrangeButtons(self)
             end
         end
     end
+
+    return true
 end
-local function PostCreateAuraButton(button)
-    if not button.parent.BarAuras then return end
+local function PostCreateAuraButton(frame,button)
+    if frame.id ~= 'core_dynamic' then return end
 
     -- add status bar and name
     local bar = CreateFrame('StatusBar',nil,button)
@@ -192,7 +194,6 @@ local function AuraFrame_OnUpdate(frame)
 end
 local function PostCreateAuraFrame(frame)
     if frame.id == 'core_dynamic' then
-        frame.BarAuras = true
         frame.squareness = 1
         frame.size = 12
 

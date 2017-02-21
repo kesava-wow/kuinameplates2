@@ -51,6 +51,8 @@
     ArrangeButtons(auraframe)
         Used to replace the built in ArrangeButtons function which arranges the
         aura buttons in the aura frame whenever they are updated.
+        If false (or nil) is returned, the built-in ArrangeButtons function will
+        still be run.
 
     CreateAuraButton(auraframe)
         Used to replace the built in CreateAuraButton function. Button functions
@@ -820,7 +822,7 @@ function ele:Initialised()
 end
 function ele:Initialise()
     -- register callbacks
-    self:RegisterCallback('ArrangeButtons')
+    self:RegisterCallback('ArrangeButtons',true)
     self:RegisterCallback('CreateAuraButton',true)
     self:RegisterCallback('PostCreateAuraButton')
     self:RegisterCallback('PostCreateAuraFrame')
