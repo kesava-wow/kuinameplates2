@@ -1,5 +1,10 @@
 Alpha notes
 
+feb-21
+* add option to disable threat glow
+* off tank colours will now only be used if the player is actually in a tanking specialisation when force tank mode is active
+* add option to force off-tank detection to get the old behaviour back
+
 feb-20
 * fix on PTR (power bar lua errors)
 * fix the unmodified personal nameplate is rendered beneath all other nameplates
