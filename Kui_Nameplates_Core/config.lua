@@ -140,6 +140,7 @@ local default_config = {
 
     tank_mode = true,
     tankmode_force_enable = false,
+    tankmode_force_offtank = false,
     threat_brackets = false,
     frame_glow_threat = true,
     tankmode_tank_colour = { 0, 1, 0 },
@@ -202,6 +203,10 @@ end
 function configChanged.tankmode_force_enable(v)
     local ele = addon:GetPlugin('TankMode')
     ele:SetForceEnable(v)
+end
+function configChanged.tankmode_force_offtank(v)
+    local ele = addon:GetPlugin('TankMode')
+    ele:SetForceOffTank(v)
 end
 
 function configChanged.castbar_enable(v)
@@ -576,6 +581,7 @@ configLoaded.colour_hated = configChangedReactionColour
 
 configLoaded.tank_mode = configChanged.tank_mode
 configLoaded.tankmode_force_enable = configChanged.tankmode_force_enable
+configLoaded.tankmode_force_offtank = configChanged.tankmode_force_offtank
 configLoaded.tankmode_tank_colour = configChangedTankColour
 
 configLoaded.castbar_enable = configChanged.castbar_enable

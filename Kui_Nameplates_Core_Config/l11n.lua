@@ -109,6 +109,7 @@ opt.tooltips = {
 
     tank_mode = 'Recolour the health bars of units you are actively tanking when in a tanking specialisation',
     tankmode_force_enable = 'Always use tank mode, even if you\'re not currently in a tanking specialisation',
+    tankmode_force_offtank = 'Colour bars being tanked by other players, even if you\'re not currently in a tanking specialisation. Still requires tank mode itself to be active.',
     threat_brackets = 'Show triangles around nameplates to indicate threat status',
     frame_glow_threat = 'Change the colour of the frame glow to indicate threat status',
     tankmode_tank_colour = 'Health bar colour to use when securely tanking',
@@ -268,12 +269,13 @@ opt.titles = {
 
     tank_mode = 'Enable tank mode',
     tankmode_force_enable = 'Force tank mode',
+    tankmode_force_offtank = 'Force off-tank detection',
     threat_brackets = 'Show threat brackets',
     frame_glow_threat = 'Show threat glow',
     tankmode_colour_sep = 'Tank mode bar colours',
     tankmode_tank_colour = 'Tanking',
     tankmode_trans_colour = 'Transitional',
-    tankmode_other_colour = 'Offtank',
+    tankmode_other_colour = 'Off-tank',
 
     classpowers_enable = 'Show class resources',
     classpowers_on_target = 'Show on target',

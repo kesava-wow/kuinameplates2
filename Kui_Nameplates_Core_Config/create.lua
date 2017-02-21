@@ -368,6 +368,7 @@ castbar_enemy.enabled = castbar_friend.enabled
 -- threat ######################################################################
 local tankmodeCheck = threat:CreateCheckBox('tank_mode')
 local tankmode_force_enable = threat:CreateCheckBox('tankmode_force_enable',true)
+local tankmode_force_offtank = threat:CreateCheckBox('tankmode_force_offtank',true)
 local threatbracketsCheck = threat:CreateCheckBox('threat_brackets')
 local tankmode_colour_sep = threat:CreateSeperator('tankmode_colour_sep')
 local tankmode_tank_colour = threat:CreateColourPicker('tankmode_tank_colour')
@@ -375,18 +376,25 @@ local tankmode_trans_colour = threat:CreateColourPicker('tankmode_trans_colour')
 local tankmode_other_colour = threat:CreateColourPicker('tankmode_other_colour')
 local frame_glow_threat = threat:CreateCheckBox('frame_glow_threat')
 
-tankmode_force_enable.enabled = function(p) return p.tank_mode end
+tankmode_force_enable.enabled = function(p)
+    return p.tank_mode
+end
+tankmode_force_offtank.enabled = function(p)
+    return p.tank_mode and p.tankmode_force_enable
+end
+
 tankmode_tank_colour.enabled = tankmode_force_enable.enabled
 tankmode_trans_colour.enabled = tankmode_force_enable.enabled
 tankmode_other_colour.enabled = tankmode_force_enable.enabled
 
 tankmodeCheck:SetPoint('TOPLEFT',10,-10)
 tankmode_force_enable:SetPoint('TOPLEFT',tankmodeCheck,'BOTTOMLEFT',10,0)
+tankmode_force_offtank:SetPoint('TOPLEFT',tankmode_force_enable,'BOTTOMLEFT')
 threatbracketsCheck:SetPoint('LEFT',tankmodeCheck,'RIGHT',190,0)
 frame_glow_threat:SetPoint('TOPLEFT',threatbracketsCheck,'BOTTOMLEFT')
 
-tankmode_colour_sep:SetPoint('TOP',0,-90)
-tankmode_tank_colour:SetPoint('TOPLEFT',15,-110)
+tankmode_colour_sep:SetPoint('TOP',0,-110)
+tankmode_tank_colour:SetPoint('TOPLEFT',15,-130)
 tankmode_trans_colour:SetPoint('LEFT',tankmode_tank_colour,'RIGHT')
 tankmode_other_colour:SetPoint('LEFT',tankmode_trans_colour,'RIGHT')
 
