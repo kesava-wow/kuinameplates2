@@ -128,7 +128,7 @@ local function PostCreateAuraButton(frame,button)
     bar:HookScript('OnValueChanged',FadeSpark)
 
     local name = bar:CreateFontString(nil,'OVERLAY')
-    name:SetPoint('LEFT',bar,1,-.5)
+    name:SetPoint('LEFT',bar,1,.5)
     name:SetPoint('RIGHT',button.cd,'LEFT',-2,0)
     name:SetJustifyH('LEFT')
     name:SetShadowOffset(1,-1)
@@ -140,14 +140,14 @@ local function PostCreateAuraButton(frame,button)
 
     button.cd:SetParent(bar)
     button.cd:ClearAllPoints()
-    button.cd:SetPoint('RIGHT',-1,-.5)
+    button.cd:SetPoint('RIGHT',-1,.5)
     button.cd:SetJustifyH('RIGHT')
     button.cd:SetShadowOffset(1,-1)
     button.cd:SetShadowColor(0,0,0,1)
 
     button.count:SetParent(bar)
     button.count:ClearAllPoints()
-    button.count:SetPoint('RIGHT',button.icon,'LEFT',-3,-.5)
+    button.count:SetPoint('RIGHT',button.icon,'LEFT',-3,.5)
     button.count:SetJustifyH('RIGHT')
     button.count.fontobject_small = nil
 
