@@ -4,6 +4,7 @@ feb-21
 * add option to disable threat glow
 * off tank colours will now only be used if the player is actually in a tanking specialisation when force tank mode is active
 * add option to force off-tank detection to get the old behaviour back
+* fix boss mods compatibility with latest BigWigs alpha (while retaining compatibility with previous versions)
 
 feb-20
 * fix on PTR (power bar lua errors)
