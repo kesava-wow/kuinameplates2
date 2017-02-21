@@ -149,19 +149,19 @@ local function GetFrameByName(name)
         return f.kui
     end
 end
-local function AddToHiddenAuras(name)
+local function AddToHiddenAuras(guid)
     -- maintain a list of auras which are currently off-screen for efficiency
     if not hidden_auras then
         hidden_auras = {}
         num_hidden_auras = nil
-    elseif hidden_auras[name] then
+    elseif hidden_auras[guid] then
         -- already tracking hidden aura on this frame
         return
     end
 
-    addon:print(name..' was added to hidden_auras')
+    addon:print(guid..' was added to hidden_auras')
 
-    hidden_auras[name] = true
+    hidden_auras[guid] = true
 
     if num_hidden_auras then
         num_hidden_auras = num_hidden_auras + 1
@@ -169,9 +169,9 @@ local function AddToHiddenAuras(name)
         num_hidden_auras = 1
     end
 end
-local function RemoveFromHiddenAuras(name)
-    if not hidden_auras or not hidden_auras[name] then return end
-    hidden_auras[name] = nil
+local function RemoveFromHiddenAuras(guid)
+    if not hidden_auras or not hidden_auras[guid] then return end
+    hidden_auras[guid] = nil
 
     if num_hidden_auras then
         num_hidden_auras = num_hidden_auras - 1
@@ -181,50 +181,50 @@ local function RemoveFromHiddenAuras(name)
         end
     end
 end
-local function AddActiveAura(name,icon_tbl)
+local function AddActiveAura(guid,icon_tbl)
     if not active_boss_auras then
         active_boss_auras = {}
     end
 
-    if not active_boss_auras[name] then
-        active_boss_auras[name] = {}
+    if not active_boss_auras[guid] then
+        active_boss_auras[guid] = {}
     end
 
-    if #active_boss_auras[name] > 0 then
+    if #active_boss_auras[guid] > 0 then
         -- need to check for overwrite
-        for i,this_tbl in pairs(active_boss_auras[name]) do
+        for i,this_tbl in pairs(active_boss_auras[guid]) do
             if this_tbl[1] == icon_tbl[1] then
                 -- this is an overwrite
-                active_boss_auras[name][i] = icon_tbl
+                active_boss_auras[guid][i] = icon_tbl
                 return
             end
         end
     end
 
     -- this is a new icon
-    tinsert(active_boss_auras[name], icon_tbl)
+    tinsert(active_boss_auras[guid], icon_tbl)
 
     if addon.debug then
         kui.print(active_boss_auras)
     end
 end
-local function RemoveActiveAura(name,icon)
+local function RemoveActiveAura(guid,icon)
     if not active_boss_auras then return end
-    if not active_boss_auras[name] then return end
+    if not active_boss_auras[guid] then return end
 
     if icon then
         -- remove specific icon
-        if #active_boss_auras[name] == 0 then return end
+        if #active_boss_auras[guid] == 0 then return end
 
-        for i,this_tbl in pairs(active_boss_auras[name]) do
+        for i,this_tbl in pairs(active_boss_auras[guid]) do
             if this_tbl[1] == icon then
-                tremove(active_boss_auras[name],i)
+                tremove(active_boss_auras[guid],i)
                 return
             end
         end
     else
         -- remove any
-        active_boss_auras[name] = nil
+        active_boss_auras[guid] = nil
     end
 end
 local function ShowNameplateAura(f, icon_tbl)
@@ -355,8 +355,15 @@ function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate)
     -- DisableFriendlyNameplates also wipes boss auras
     if not self.enabled or not name or not icon then return end
 
+    if addon.debug and not is_guid and not UnitGUID(name) then
+        addon:print('could not match name '..name..' to unit')
+    end
+
+    local guid = is_guid and name or UnitGUID(name)
+    if not guid then return end
+
     -- store to show/hide when relevant frame's visibility changes
-    AddActiveAura(name, {
+    AddActiveAura(guid, {
         icon,
         desaturate,
         duration and GetTime()+duration
@@ -365,29 +372,28 @@ function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate)
     -- immediately show new aura if frame is currently visible
     local f = is_guid and GetFrameByGUID(name) or GetFrameByName(name)
     if f then
-        ShowNameplateAuras(f,active_boss_auras[name])
-
-        if is_guid then
-            f.BossModAuraFrame.unit_type = 2
-        end
+        ShowNameplateAuras(f,active_boss_auras[guid])
     else
         -- state an aura is hidden on this name
-        AddToHiddenAuras(name)
+        AddToHiddenAuras(guid)
     end
 end
 function mod:BigWigs_HideNameplateAura(is_guid,name,icon)
     if not self.enabled or not name then return end
 
+    local guid = is_guid and name or UnitGUID(name)
+    if not guid then return end
+
     -- remove from name list
-    RemoveActiveAura(name,icon)
+    RemoveActiveAura(guid,icon)
 
     if  not active_boss_auras or
-        not active_boss_auras[name] or
-        #active_boss_auras[name] == 0
+        not active_boss_auras[guid] or
+        #active_boss_auras[guid] == 0
     then
         -- remove from hidden_auras if disabled while hidden and no more
-        -- auras are present on this name
-        RemoveFromHiddenAuras(name)
+        -- auras are present with this guid
+        RemoveFromHiddenAuras(guid)
     end
 
     -- immediately hide
@@ -404,36 +410,16 @@ function mod:Show(f)
 
     addon:print('BossMods parsed OnShow ('..num_hidden_auras..' hidden)')
 
-    local name = GetUnitName(frame.unit)
-    local aura_name = hidden_auras[name] and name
-
-    if not aura_name then
-        local guid = UnitGUID(frame.unit)
-        aura_name = hidden_auras[guid] and guid
-
-        if aura_name then
-            f.BossModAuraFrame.unit_type = 2
-        end
-    end
-
-    if aura_name then
-        RemoveFromHiddenAuras(aura_name)
-        ShowNameplateAuras(f,active_boss_auras[aura_name])
+    local guid = UnitGUID(f.unit)
+    if hidden_auras[guid] then
+        RemoveFromHiddenAuras(guid)
+        ShowNameplateAuras(f,active_boss_auras[guid])
     end
 end
 function mod:Hide(f)
     -- hide currently active auras, if any
     if f.BossModAuraFrame and f.BossModAuraFrame.is_active then
-        if  f.BossModAuraFrame.unit_type and
-            f.BossModAuraFrame.unit_type == 2
-        then
-            -- guid
-            AddToHiddenAuras(UnitGUID(f.unit))
-        else
-            -- name
-            AddToHiddenAuras(GetUnitName(f.unit,true))
-        end
-
+        AddToHiddenAuras(UnitGUID(f.unit))
         HideNameplateAura(f)
     end
 end
