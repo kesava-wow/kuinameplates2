@@ -51,7 +51,7 @@ local CONTROL_FRIENDLY = true
 local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
-local initialised,plugin_ct,active_boss_auras,guid_was_used,prev_show_friends,
+local initialised,plugin_ct,active_boss_auras,prev_show_friends,
       hidden_auras,num_hidden_auras,enable_warned
 local GetNamePlateForUnit
 local select = select
@@ -261,6 +261,7 @@ local function HideNameplateAura(f,icon)
     if not f.BossModAuraFrame:IsShown() then
         -- there are no auras on this frame
         f.BossModAuraFrame.is_active = nil
+        f.BossModAuraFrame.unit_type = nil
     end
 end
 local function HideAllAuras()
@@ -271,7 +272,6 @@ local function HideAllAuras()
     end
 
     active_boss_auras = nil
-    guid_was_used = nil
     hidden_auras = nil
     num_hidden_auras = nil
 end
@@ -355,16 +355,6 @@ function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate)
     -- DisableFriendlyNameplates also wipes boss auras
     if not self.enabled or not name or not icon then return end
 
-    if guid_was_used and not is_guid then
-        -- ignore non-guid calls once guid has been used
-        addon:print('name was given but was expecting guid')
-        return
-    end
-
-    if is_guid then
-        guid_was_used = true
-    end
-
     -- store to show/hide when relevant frame's visibility changes
     AddActiveAura(name, {
         icon,
@@ -373,9 +363,13 @@ function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate)
     })
 
     -- immediately show new aura if frame is currently visible
-    local f = guid_was_used and GetFrameByGUID(name) or GetFrameByName(name)
+    local f = is_guid and GetFrameByGUID(name) or GetFrameByName(name)
     if f then
         ShowNameplateAuras(f,active_boss_auras[name])
+
+        if is_guid then
+            f.BossModAuraFrame.unit_type = 2
+        end
     else
         -- state an aura is hidden on this name
         AddToHiddenAuras(name)
@@ -397,7 +391,7 @@ function mod:BigWigs_HideNameplateAura(is_guid,name,icon)
     end
 
     -- immediately hide
-    if guid_was_used then
+    if is_guid then
         HideNameplateAura(GetFrameByGUID(name),icon)
     else
         HideNameplateAura(GetFrameByName(name),icon)
@@ -410,31 +404,37 @@ function mod:Show(f)
 
     addon:print('BossMods parsed OnShow ('..num_hidden_auras..' hidden)')
 
-    if guid_was_used then
-        local guid = UnitGUID(f.unit)
+    local name = GetUnitName(frame.unit)
+    local aura_name = hidden_auras[name] and name
 
-        RemoveFromHiddenAuras(guid)
-        ShowNameplateAuras(f,active_boss_auras[guid])
-    else
-        if not UnitIsPlayer(f.unit) then return end
+    if not aura_name then
+        local guid = UnitGUID(frame.unit)
+        aura_name = hidden_auras[guid] and guid
 
-        local name = GetUnitName(f.unit,true)
+        if aura_name then
+            f.BossModAuraFrame.unit_type = 2
+        end
+    end
 
-        RemoveFromHiddenAuras(name)
-        ShowNameplateAuras(f,active_boss_auras[name])
+    if aura_name then
+        RemoveFromHiddenAuras(aura_name)
+        ShowNameplateAuras(f,active_boss_auras[aura_name])
     end
 end
 function mod:Hide(f)
     -- hide currently active auras, if any
     if f.BossModAuraFrame and f.BossModAuraFrame.is_active then
-        HideNameplateAura(f)
-        f.BossModAuraFrame.is_active = nil
-
-        if guid_was_used then
+        if  f.BossModAuraFrame.unit_type and
+            f.BossModAuraFrame.unit_type == 2
+        then
+            -- guid
             AddToHiddenAuras(UnitGUID(f.unit))
         else
+            -- name
             AddToHiddenAuras(GetUnitName(f.unit,true))
         end
+
+        HideNameplateAura(f)
     end
 end
 function mod:Create(f)
