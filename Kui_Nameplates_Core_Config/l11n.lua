@@ -109,7 +109,8 @@ opt.tooltips = {
 
     tank_mode = 'Recolour the health bars of units you are actively tanking when in a tanking specialisation',
     tankmode_force_enable = 'Always use tank mode, even if you\'re not currently in a tanking specialisation',
-    threat_brackets = 'Show triangles around nameplates which indicate threat status (this does not require tank mode to be active)',
+    threat_brackets = 'Show triangles around nameplates to indicate threat status',
+    frame_glow_threat = 'Change the colour of the frame glow to indicate threat status',
     tankmode_tank_colour = 'Health bar colour to use when securely tanking',
     tankmode_trans_colour = 'Health bar colour to use when gaining or losing threat',
     tankmode_other_colour = 'Health bar colour to use when another tank is tanking. This requires the other tank to be in your group and to have their group role set to tank',
@@ -268,6 +269,7 @@ opt.titles = {
     tank_mode = 'Enable tank mode',
     tankmode_force_enable = 'Force tank mode',
     threat_brackets = 'Show threat brackets',
+    frame_glow_threat = 'Show threat glow',
     tankmode_colour_sep = 'Bar colours',
     tankmode_tank_colour = 'Tanking',
     tankmode_trans_colour = 'Transitional',

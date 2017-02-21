@@ -373,6 +373,7 @@ local tankmode_colour_sep = threat:CreateSeperator('tankmode_colour_sep')
 local tankmode_tank_colour = threat:CreateColourPicker('tankmode_tank_colour')
 local tankmode_trans_colour = threat:CreateColourPicker('tankmode_trans_colour')
 local tankmode_other_colour = threat:CreateColourPicker('tankmode_other_colour')
+local frame_glow_threat = threat:CreateCheckBox('frame_glow_threat')
 
 tankmode_force_enable.enabled = function(p) return p.tank_mode end
 tankmode_tank_colour.enabled = tankmode_force_enable.enabled
@@ -380,8 +381,9 @@ tankmode_trans_colour.enabled = tankmode_force_enable.enabled
 tankmode_other_colour.enabled = tankmode_force_enable.enabled
 
 tankmodeCheck:SetPoint('TOPLEFT',10,-10)
-threatbracketsCheck:SetPoint('LEFT',tankmodeCheck,'RIGHT',190,0)
 tankmode_force_enable:SetPoint('TOPLEFT',tankmodeCheck,'BOTTOMLEFT',10,0)
+threatbracketsCheck:SetPoint('LEFT',tankmodeCheck,'RIGHT',190,0)
+frame_glow_threat:SetPoint('TOPLEFT',threatbracketsCheck,'BOTTOMLEFT')
 
 tankmode_colour_sep:SetPoint('TOP',0,-90)
 tankmode_tank_colour:SetPoint('TOPLEFT',15,-110)

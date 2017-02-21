@@ -67,7 +67,7 @@ local CLASS_COLOUR_FRIENDLY_NAMES,CLASS_COLOUR_ENEMY_NAMES
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
 
-local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET
+local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET,FRAME_GLOW_THREAT
 
 -- common globals
 local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
@@ -223,6 +223,7 @@ do
 
         FRAME_GLOW_SIZE = self.profile.frame_glow_size
         FRAME_GLOW_TEXTURE_INSET = .01 * (FRAME_GLOW_SIZE / 4)
+        FRAME_GLOW_THREAT = self.profile.frame_glow_threat
 
         CASTBAR_HEIGHT = self.profile.castbar_height
         CASTBAR_COLOUR = self.profile.castbar_colour
@@ -726,7 +727,7 @@ do
                     f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                     f.NameOnlyGlow:SetAlpha(.8)
                     f.NameOnlyGlow:Show()
-                elseif f.state.glowing then
+                elseif FRAME_GLOW_THREAT and f.state.glowing then
                     f.NameOnlyGlow:SetVertexColor(unpack(f.state.glow_colour))
                     f.NameOnlyGlow:SetAlpha(.6)
                     f.NameOnlyGlow:Show()
@@ -752,7 +753,7 @@ do
             f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetGlow:Show()
         else
-            if f.state.glowing then
+            if FRAME_GLOW_THREAT and f.state.glowing then
                 -- threat glow colour
                 f.ThreatGlow:SetAlpha(1)
                 f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
