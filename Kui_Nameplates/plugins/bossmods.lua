@@ -508,9 +508,7 @@ function mod:OnEnable()
             end)
         end
         if BigWigsLoader then
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates',function(...)
-                mod:BigWigs_EnableFriendlyNameplates(...)
-            end)
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
         end
     end
 end
