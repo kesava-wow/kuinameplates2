@@ -54,6 +54,7 @@ local CLICKTHROUGH = false
 local initialised,plugin_ct,active_boss_auras,guid_was_used,prev_show_friends,
       hidden_auras,num_hidden_auras,enable_warned
 local GetNamePlateForUnit
+local select = select
 
 -- callback registrars #########################################################
 local RegisterAddon,UnregisterAddon,registered
@@ -75,10 +76,10 @@ do
             if not BigWigsLoader then return end
             if r then
                 BigWigsLoader.RegisterMessage(mod,'BigWigs_ShowNameplateAura',function(msg,sender,...)
-                    mod:BigWigs_ShowNameplateAura(nil,...)
+                    mod:BigWigs_ShowNameplateAura(select(5,...),...)
                 end)
                 BigWigsLoader.RegisterMessage(mod,'BigWigs_HideNameplateAura',function(msg,sender,...)
-                    mod:BigWigs_HideNameplateAura(nil,...)
+                    mod:BigWigs_HideNameplateAura(select(3,...),...)
                 end)
                 BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
             else
@@ -507,7 +508,7 @@ function mod:OnEnable()
             end)
         end
         if BigWigsLoader then
-            BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates',function(msg,sender,...)
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates',function(...)
                 mod:BigWigs_EnableFriendlyNameplates(...)
             end)
         end
