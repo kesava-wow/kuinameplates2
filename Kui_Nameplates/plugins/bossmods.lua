@@ -355,12 +355,11 @@ function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate)
     -- DisableFriendlyNameplates also wipes boss auras
     if not self.enabled or not name or not icon then return end
 
-    if addon.debug and not is_guid and not UnitGUID(name) then
-        addon:print('could not match name '..name..' to unit')
-    end
-
     local guid = is_guid and name or UnitGUID(name)
-    if not guid then return end
+    if not guid then
+        addon:print('bossmods show discarded unmatched name: '..name)
+        return
+    end
 
     -- store to show/hide when relevant frame's visibility changes
     AddActiveAura(guid, {
@@ -382,7 +381,10 @@ function mod:BigWigs_HideNameplateAura(is_guid,name,icon)
     if not self.enabled or not name then return end
 
     local guid = is_guid and name or UnitGUID(name)
-    if not guid then return end
+    if not guid then
+        addon:print('bossmods hide discarded unmatched name: '..name)
+        return
+    end
 
     -- remove from name list
     RemoveActiveAura(guid,icon)
