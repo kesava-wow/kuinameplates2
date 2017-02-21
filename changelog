@@ -5,6 +5,8 @@ feb-21
 * off tank colours will now only be used if the player is actually in a tanking specialisation when force tank mode is active
 * add option to force off-tank detection to get the old behaviour back
 * fix boss mods compatibility with latest BigWigs alpha (while retaining compatibility with previous versions)
+* boss mods can now switch between sending GUIDs and names at will. This means nothing to you.
+* BarAuras and simple-aura-mods have been fixed, if you know where to get them.
 
 feb-20
 * fix on PTR (power bar lua errors)
