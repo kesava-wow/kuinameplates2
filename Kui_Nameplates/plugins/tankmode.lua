@@ -8,7 +8,7 @@ local GetNumGroupMembers,UnitIsUnit,UnitIsFriend,UnitExists,UnitInParty,
       GetNumGroupMembers,UnitIsUnit,UnitIsFriend,UnitExists,UnitInParty,
       UnitInRaid,UnitGroupRolesAssigned,UnitIsPlayer,UnitPlayerControlled
 
-local force_enable,spec_enabled,offtank_enable
+local force_enable,force_offtank,spec_enabled,offtank_enable
 -- local functions #############################################################
 local function UpdateFrames()
     -- update threat colour on currently visible frames
@@ -60,6 +60,11 @@ end
 function mod:SetForceEnable(b)
     force_enable = b == true
     self:SpecUpdate()
+end
+function mod:SetForceOffTank(b)
+    force_offtank = b == true
+    self:GroupUpdate(nil,true)
+    UpdateFrames()
 end
 -- messages ####################################################################
 function mod:Show(f)
@@ -140,7 +145,7 @@ function mod:SpecUpdate()
 end
 function mod:GroupUpdate(event,no_update)
     -- enable/disable off-tank detection
-    if GetNumGroupMembers() > 0 and spec_enabled then
+    if GetNumGroupMembers() > 0 and (spec_enabled or force_offtank) then
         if not offtank_enable then
             offtank_enable = true
 
