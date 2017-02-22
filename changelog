@@ -3,6 +3,7 @@ Alpha notes
 feb-22
 * (boss mods) Enable/DisableHostileNameplates callbacks have been added:
 * boss mods can now also forcibly enable hostile nameplates (currently used by DBM on trilliax). The clickthrough and visibility options under /knp > boss mods have also been updated for this.
+* this change has reset the "allow boss mods to control visbility" option back to enabled, because it was renamed. Sorry about that.
 
 feb-21
 * add option to disable threat glow
