@@ -323,6 +323,12 @@ do
     -- callback wrappers:
     local function Callback_EnableNameplates(sender,hostile)
         if not self.enabled then return end
+
+        if registered and sender ~= registered then
+            addon:print('BossMods ignored Enable call from '..sender..' (expecting '..registered')')
+            return
+        end
+
         if  (hostile and registered_hostile) or
             (not hostile and registered_friendly)
         then
