@@ -164,7 +164,7 @@ local default_config = {
     classpowers_colour_inactive    = {.5,.5,.5},
 
     bossmod_enable = true,
-    bossmod_control_friendly = true,
+    bossmod_control_visibility = true,
     bossmod_icon_size = 40,
     bossmod_x_offset = 0,
     bossmod_y_offset = 30,
@@ -558,14 +558,14 @@ local function configChangedBossMod()
     core.BossModIcon.icon_size = core.profile.bossmod_icon_size
     core.BossModIcon.icon_x_offset = core.profile.bossmod_x_offset
     core.BossModIcon.icon_y_offset = core.profile.bossmod_y_offset
-    core.BossModIcon.control_friendly = core.profile.bossmod_control_friendly
+    core.BossModIcon.control_visibility = core.profile.bossmod_control_visibility
     core.BossModIcon.clickthrough = core.profile.bossmod_clickthrough
 
     if addon:GetPlugin('BossMods').enabled then
         addon:GetPlugin('BossMods'):UpdateConfig()
     end
 end
-configChanged.bossmod_control_friendly = configChangedBossMod
+configChanged.bossmod_control_visibility = configChangedBossMod
 configChanged.bossmod_icon_size = configChangedBossMod
 configChanged.bossmod_x_offset = configChangedBossMod
 configChanged.bossmod_y_offset = configChangedBossMod

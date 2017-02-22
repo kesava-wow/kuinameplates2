@@ -1666,7 +1666,7 @@ function core:InitialiseElements()
         icon_size = self.profile.bossmod_icon_size,
         icon_x_offset = self.profile.bossmod_x_offset,
         icon_y_offset = self.profile.bossmod_y_offset,
-        control_friendly = self.profile.bossmod_control_friendly,
+        control_visibility = self.profile.bossmod_control_visibility,
         clickthrough = self.profile.bossmod_clickthrough,
     }
 end

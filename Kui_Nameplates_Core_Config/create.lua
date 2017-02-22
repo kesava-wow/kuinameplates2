@@ -470,22 +470,22 @@ end
 
 -- bossmod #####################################################################
 local bossmod_enable = bossmod:CreateCheckBox('bossmod_enable')
-local bossmod_control_friendly = bossmod:CreateCheckBox('bossmod_control_friendly')
+local bossmod_control_visibility = bossmod:CreateCheckBox('bossmod_control_visibility')
 local bossmod_icon_size = bossmod:CreateSlider('bossmod_icon_size',10,100)
 local bossmod_x_offset = bossmod:CreateSlider('bossmod_x_offset',-200,200)
 local bossmod_y_offset = bossmod:CreateSlider('bossmod_y_offset',-200,200)
 local bossmod_clickthrough = bossmod:CreateCheckBox('bossmod_clickthrough',true)
 
 local function bossmod_enabled(p) return p.bossmod_enable end
-bossmod_control_friendly.enabled = bossmod_enabled
+bossmod_control_visibility.enabled = bossmod_enabled
 bossmod_icon_size.enabled = bossmod_enabled
 bossmod_x_offset.enabled = bossmod_enabled
 bossmod_y_offset.enabled = bossmod_enabled
-bossmod_clickthrough.enabled = function(p) return p.bossmod_enable and p.bossmod_control_friendly end
+bossmod_clickthrough.enabled = function(p) return p.bossmod_enable and p.bossmod_control_visibility end
 
 bossmod_enable:SetPoint('TOPLEFT',10,-10)
-bossmod_control_friendly:SetPoint('TOPLEFT',bossmod_enable,'BOTTOMLEFT',0,-10)
-bossmod_clickthrough:SetPoint('TOPLEFT',bossmod_control_friendly,'BOTTOMLEFT',10,0)
+bossmod_control_visibility:SetPoint('TOPLEFT',bossmod_enable,'BOTTOMLEFT',0,-10)
+bossmod_clickthrough:SetPoint('TOPLEFT',bossmod_control_visibility,'BOTTOMLEFT',10,0)
 
 bossmod_icon_size:SetPoint('TOP',0,-125)
 bossmod_x_offset:SetPoint('TOPLEFT',10,-(125+60))
