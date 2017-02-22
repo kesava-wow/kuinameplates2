@@ -420,9 +420,9 @@ do
         end
     end
     function mod:BigWigs_EnableHostileNameplates(msg)
-        if msg == 'BigWigs_EnableFriendlyNameplates' then
+        if msg == 'BigWigs_EnableHostileNameplates' then
             Callback_EnableNameplates('BigWigs',true)
-        elseif msg == 'BossMod_EnableFriendlyNameplates' then
+        elseif msg == 'BossMod_EnableHostileNameplates' then
             Callback_EnableNameplates('DBM',true)
         end
     end
