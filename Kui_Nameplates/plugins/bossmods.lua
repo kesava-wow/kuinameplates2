@@ -322,7 +322,7 @@ do
 
     -- callback wrappers:
     local function Callback_EnableNameplates(sender,hostile)
-        if not self.enabled then return end
+        if not mod.enabled then return end
 
         if registered and sender ~= registered then
             addon:print('BossMods ignored Enable call from '..sender..' (expecting '..registered')')
@@ -386,12 +386,12 @@ do
         RegisterAddon(sender)
     end
     local function Callback_DisableNameplates()
-        if not self.enabled or not registered then return end
+        if not mod.enabled or not registered then return end
 
         if CONTROL_VISIBILITY then
             if InCombatLockdown() then
                 -- wait until after combat to reset display
-                self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableNameplates)
+                mod:RegisterEvent('PLAYER_REGEN_ENABLED',DisableNameplates)
             else
                 -- immediately reset
                 DisableNameplates()
