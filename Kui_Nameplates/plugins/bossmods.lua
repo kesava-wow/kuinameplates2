@@ -125,7 +125,7 @@ do
                 -- XXX TEMPORARY until people get used to this (14th Feb)
                 -- (only print if plates were previously disabled or if
                 -- CombatToggle is set to hide friendly plates on combat)
-                print('|cff9966ffKui Nameplates|r: '..name..' just sent a message instructing Kui Nameplates to forcibly enable friendly nameplates so that it can show you extra information on players during this encounter. You can disable this in /knp > boss mods.')
+                print('|cff9966ffKui Nameplates|r: '..name..' just sent a message instructing Kui Nameplates to forcibly enable nameplates so that it can show you extra information on them during this encounter. You can disable this in /knp > boss mods.')
                 enable_warned = true
             end
         else
