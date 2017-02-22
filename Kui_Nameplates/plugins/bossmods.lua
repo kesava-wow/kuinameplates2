@@ -118,10 +118,9 @@ do
 
             addon:print('BossMods registered '..name)
 
-            if  (CONTROL_VISIBILITY and (not prev_show_friends or (
-                    type(addon.layout.CombatToggle) == 'table' and
-                    addon.layout.CombatToggle.friendly == 2
-                ))) and not enable_warned
+            if  CONTROL_VISIBILITY and
+                (not prev_show_enemies or not prev_show_friends) and
+                not enable_warned
             then
                 -- XXX TEMPORARY until people get used to this (14th Feb)
                 -- (only print if plates were previously disabled or if
