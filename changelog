@@ -1,5 +1,9 @@
 Alpha notes
 
+feb-22
+* (boss mods) Enable/DisableHostileNameplates callbacks have been added:
+* boss mods can now also forcibly enable hostile nameplates (currently used by DBM on trilliax). The clickthrough and visibility options under /knp > boss mods have also been updated for this.
+
 feb-21
 * add option to disable threat glow
 * off tank colours will now only be used if the player is actually in a tanking specialisation when force tank mode is active
