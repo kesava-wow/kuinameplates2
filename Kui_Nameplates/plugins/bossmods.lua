@@ -300,7 +300,7 @@ do
             enabled_hostile = nil
         end
         if enabled_friendly then
-            SetCVar('nameplateShowEnemies',prev_show_friends)
+            SetCVar('nameplateShowFriends',prev_show_friends)
             enabled_friendly = nil
         end
 
@@ -342,6 +342,8 @@ do
             registered_friendly = true
         end
 
+        addon:print('BossMods received Enable from '..sender..(hostile and ', hostile' or ''))
+
         if CONTROL_VISIBILITY then
             plugin_ct:Disable()
 
@@ -349,7 +351,7 @@ do
                 prev_show_enemies = GetCVarBool('nameplateShowEnemies')
                 enabled_hostile = true
             elseif not hostile and not enabled_friendly then
-                prev_show_friends = GetCVarBool('nameplateShowEnemies')
+                prev_show_friends = GetCVarBool('nameplateShowFriends')
                 enabled_friendly = true
             end
 
