@@ -47,12 +47,13 @@ local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BossMods')
 
 local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET = 30,0,0
-local CONTROL_FRIENDLY = true
+local CONTROL_VISIBILITY = true
 local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
-local initialised,plugin_ct,active_boss_auras,prev_show_friends,
-      hidden_auras,num_hidden_auras,enable_warned
+local initialised,plugin_ct,active_boss_auras
+local hidden_auras,num_hidden_auras,enable_warned
+local prev_show_enemies,prev_show_friends
 local GetNamePlateForUnit
 local select = select
 
@@ -70,6 +71,9 @@ do
     local function Wrapper_DBM_DisableFriendly()
         mod:BigWigs_DisableFriendlyNameplates()
     end
+    local function Wrapper_DBM_DisableHostile()
+        mod:BigWigs_DisableHostileNameplates()
+    end
 
     local cb_registrar = {
         ['BigWigs'] = function(r)
@@ -82,10 +86,12 @@ do
                     mod:BigWigs_HideNameplateAura(select(3,...),...)
                 end)
                 BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
+                BigWigsLoader.RegisterMessage(mod,'BigWigs_DisableHostileNameplates')
             else
                 BigWigsLoader.UnregisterMessage(mod,'BigWigs_ShowNameplateAura')
                 BigWigsLoader.UnregisterMessage(mod,'BigWigs_HideNameplateAura')
                 BigWigsLoader.UnregisterMessage(mod,'BigWigs_DisableFriendlyNameplates')
+                BigWigsLoader.UnregisterMessage(mod,'BigWigs_DisableHostileNameplates')
             end
         end,
         ['DBM'] = function(r)
@@ -94,10 +100,12 @@ do
                 DBM:RegisterCallback('BossMod_ShowNameplateAura',Wrapper_DBM_ShowAura)
                 DBM:RegisterCallback('BossMod_HideNameplateAura',Wrapper_DBM_HideAura)
                 DBM:RegisterCallback('BossMod_DisableFriendlyNameplates',Wrapper_DBM_DisableFriendly)
+                DBM:RegisterCallback('BossMod_DisableHostileNameplates',Wrapper_DBM_DisableHostile)
             else
                 DBM:UnregisterCallback('BossMod_ShowNameplateAura',Wrapper_DBM_ShowAura)
                 DBM:UnregisterCallback('BossMod_HideNameplateAura',Wrapper_DBM_HideAura)
                 DBM:UnregisterCallback('BossMod_DisableFriendlyNameplates',Wrapper_DBM_DisableFriendly)
+                DBM:UnregisterCallback('BossMod_DisableHostileNameplates',Wrapper_DBM_DisableHostile)
             end
         end,
     }
@@ -110,7 +118,7 @@ do
 
             addon:print('BossMods registered '..name)
 
-            if  (CONTROL_FRIENDLY and (not prev_show_friends or (
+            if  (CONTROL_VISIBILITY and (not prev_show_friends or (
                     type(addon.layout.CombatToggle) == 'table' and
                     addon.layout.CombatToggle.friendly == 2
                 ))) and not enable_warned
@@ -278,75 +286,144 @@ end
 -- callbacks ###################################################################
 -- show/hide friendly nameplates
 do
-    local disable_clickthrough
-    local function DisableFriendlyNameplates()
+    local disable_enemy_clickthrough,disable_friendly_clickthrough,
+          enabled_hostile,enabled_friendly,
+          registered_hostile,registered_friendly
+
+    -- helpers:
+    local function DisableNameplates()
         mod:UnregisterEvent('PLAYER_REGEN_ENABLED')
 
-        SetCVar('nameplateShowFriends',prev_show_friends)
+        -- reset visibility
+        if enabled_hostile then
+            SetCVar('nameplateShowEnemies',prev_show_enemies)
+            enabled_hostile = nil
+        end
+        if enabled_friendly then
+            SetCVar('nameplateShowEnemies',prev_show_friends)
+            enabled_friendly = nil
+        end
 
         -- restore CombatToggle's desired out-of-combat settings
         plugin_ct:Enable()
         plugin_ct:PLAYER_REGEN_ENABLED()
 
-        if disable_clickthrough then
-            -- reset clickthrough
-            disable_clickthrough = nil
+        -- reset clickthrough
+        if disable_enemy_clickthrough then
+            C_NamePlate.SetNamePlateEnemyClickThrough(false)
+            disable_enemy_clickthrough = nil
+        end
+        if disable_friendly_clickthrough then
             C_NamePlate.SetNamePlateFriendlyClickThrough(false)
+            disable_friendly_clickthrough = nil
         end
     end
-    function mod:BigWigs_EnableFriendlyNameplates(msg)
+
+
+    -- callback wrappers:
+    local function Callback_EnableNameplates(sender,hostile)
         if not self.enabled then return end
-        if registered then
-            addon:print('BossMods ignored duplicated Enable call ('..msg..')')
+        if  (hostile and registered_hostile) or
+            (not hostile and registered_friendly)
+        then
+            addon:print('BossMods ignored duplicated Enable call from '..sender)
             return
         end
 
-        if CONTROL_FRIENDLY then
+        if hostile then
+            registered_hostile = true
+        else
+            registered_friendly = true
+        end
+
+        if CONTROL_VISIBILITY then
             plugin_ct:Disable()
-            prev_show_friends = GetCVarBool('nameplateShowFriends')
+
+            if hostile and not enabled_hostile then
+                prev_show_enemies = GetCVarBool('nameplateShowEnemies')
+                enabled_hostile = true
+            elseif not hostile and not enabled_friendly then
+                prev_show_friends = GetCVarBool('nameplateShowEnemies')
+                enabled_friendly = true
+            end
 
             if not InCombatLockdown() then
                 -- skip CombatToggle into combat mode
                 plugin_ct:PLAYER_REGEN_DISABLED()
 
-                SetCVar('nameplateShowFriends',true)
+                if hostile then
+                    SetCVar('nameplateShowEnemies',true)
+                else
+                    SetCVar('nameplateShowFriends',true)
+                end
 
-                if  CLICKTHROUGH and
-                    not prev_show_friends and
-                    not C_NamePlate.GetNamePlateFriendlyClickThrough()
-                then
-                    -- enable clickthrough when automatically shown
-                    disable_clickthrough = true
-                    C_NamePlate.SetNamePlateFriendlyClickThrough(true)
+                if CLICKTHROUGH then
+                    if hostile then
+                        if  not prev_show_enemies and
+                            not C_NamePlate.GetNamePlateEnemyClickThrough()
+                        then
+                            disable_enemy_clickthrough = true
+                            C_NamePlate.SetNamePlateEnemyClickThrough(true)
+                        end
+                    else
+                        if  not prev_show_friends and
+                            not C_NamePlate.GetNamePlateFriendlyClickThrough()
+                        then
+                            disable_friendly_clickthrough = true
+                            C_NamePlate.SetNamePlateFriendlyClickThrough(true)
+                        end
+                    end
                 end
             end
         end
 
-        -- register show/hide aura callbacks
-        if msg == 'BigWigs_EnableFriendlyNameplates' then
-            RegisterAddon('BigWigs')
-        elseif msg == 'BossMod_EnableFriendlyNameplates' then
-            RegisterAddon('DBM')
-        end
+        RegisterAddon(sender)
     end
-    function mod:BigWigs_DisableFriendlyNameplates(msg)
+    local function Callback_DisableNameplates()
         if not self.enabled or not registered then return end
 
-        if CONTROL_FRIENDLY then
+        if CONTROL_VISIBILITY then
             if InCombatLockdown() then
                 -- wait until after combat to reset display
-                self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableFriendlyNameplates)
+                self:RegisterEvent('PLAYER_REGEN_ENABLED',DisableNameplates)
             else
                 -- immediately reset
-                DisableFriendlyNameplates()
+                DisableNameplates()
             end
         end
+
+        -- doesn't mmake sense to only disable friendly or hostile since we
+        -- can't do it in combat anyway:
+        registered_hostile = nil
+        registered_friendly = nil
 
         -- immediately clear all auras
         HideAllAuras()
 
         -- unregister callbacks
         UnregisterAddon()
+    end
+
+    -- callback handlers:
+    function mod:BigWigs_EnableFriendlyNameplates(msg)
+        if msg == 'BigWigs_EnableFriendlyNameplates' then
+            Callback_EnableNameplates('BigWigs')
+        elseif msg == 'BossMod_EnableFriendlyNameplates' then
+            Callback_EnableNameplates('DBM')
+        end
+    end
+    function mod:BigWigs_EnableHostileNameplates(msg)
+        if msg == 'BigWigs_EnableFriendlyNameplates' then
+            Callback_EnableNameplates('BigWigs',true)
+        elseif msg == 'BossMod_EnableFriendlyNameplates' then
+            Callback_EnableNameplates('DBM',true)
+        end
+    end
+    function mod:BigWigs_DisableFriendlyNameplates()
+        Callback_DisableNameplates()
+    end
+    function mod:BigWigs_DisableHostileNameplates()
+        Callback_DisableNameplates()
     end
 end
 -- show/hide icon on nameplate belonging to given name
@@ -460,7 +537,7 @@ function mod:UpdateConfig()
         ICON_SIZE = addon.layout.BossModIcon.icon_size or ICON_SIZE
         ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or ICON_X_OFFSET
         ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_Y_OFFSET
-        CONTROL_FRIENDLY = addon.layout.BossModIcon.control_friendly
+        CONTROL_VISIBILITY = addon.layout.BossModIcon.control_visibility
         CLICKTHROUGH = addon.layout.BossModIcon.clickthrough
     end
 
@@ -494,9 +571,13 @@ function mod:OnEnable()
             DBM:RegisterCallback('BossMod_EnableFriendlyNameplates',function(...)
                 mod:BigWigs_EnableFriendlyNameplates(...)
             end)
+            DBM:RegisterCallback('BossMod_EnableHostileNameplates',function(...)
+                mod:BigWigs_EnableHostileNameplates(...)
+            end)
         end
         if BigWigsLoader then
             BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableFriendlyNameplates')
+            BigWigsLoader.RegisterMessage(mod,'BigWigs_EnableHostileNameplates')
         end
     end
 end
