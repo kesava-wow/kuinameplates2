@@ -26,7 +26,9 @@ do
             return
         end
 
-        self.frame:SetFrameStrata('BACKGROUND')
+        if not InCombatLockdown() then
+            self.frame:SetFrameStrata('BACKGROUND')
+        end
     end
     function PersonalFrameFixer:SetFrame(frame)
         if not frame then return end
