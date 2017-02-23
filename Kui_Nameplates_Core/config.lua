@@ -159,9 +159,9 @@ local default_config = {
     classpowers_colour_rogue       = {1,1,.1},
     classpowers_colour_mage        = {.5,.5,1},
     classpowers_colour_monk        = {.3,1,.9},
-    classpowers_colour_warlock     = {1,.5,1},
+    classpowers_colour_warlock     = {.9,.6,1},
     classpowers_colour_overflow    = {1,.3,.3},
-    classpowers_colour_inactive    = {.5,.5,.5},
+    classpowers_colour_inactive    = {.5,.5,.5,.7},
 
     bossmod_enable = true,
     bossmod_control_visibility = true,
