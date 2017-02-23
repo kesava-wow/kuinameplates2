@@ -1,25 +1,9 @@
-Alpha notes
-
-feb-23
-* inactive & warlock class colours have been slightly changed again
-* revert "fix" to blizzard's personal nameplate frame strata as it causes taint during combat
-
-feb-22
-* (boss mods) Enable/disable hostile & friendly nameplates needs to be tested again. Boss mod auras need a focus test in general due to the changes made yesterday.
-* todays changes reset the "allow boss mods to control visbility" option back to enabled, because it was renamed. Sorry about that.
-
-* (boss mods) Enable/DisableHostileNameplates callbacks have been added:
-* boss mods can now also forcibly enable hostile nameplates (currently used by DBM on trilliax). The clickthrough and visibility options under /knp > boss mods have also been updated for this.
-
-feb-21
+* this update resets the "allow boss mods to control visibility of nameplates" option back to enabled, because it was renamed. Sorry about that.
+* boss mods can now forcibly enable hostile nameplates, too. This can be disabled by unchecking /knp > boss mods > "allow boss mods to control visibility..."
+* off tank colouring will now only be used if the player is actually in a tanking specialisation when force tank mode is active
+* inactive & warlock default class power colours have been changed slightly, again
+* show only 3 class power icons on ret paladins, rather than 5
 * add option to disable threat glow
-* off tank colours will now only be used if the player is actually in a tanking specialisation when force tank mode is active
-* add option to force off-tank detection to get the old behaviour back
-* fix boss mods compatibility with latest BigWigs alpha (while retaining compatibility with previous versions)
-* boss mods can now switch between sending GUIDs and names at will. This means nothing to you.
-* BarAuras and simple-aura-mods have been fixed, if you know where to get them.
-
-feb-20
-* fix on PTR (power bar lua errors)
-* fix the unmodified personal nameplate is rendered beneath all other nameplates
-* only show 3 class power icons on ret paladins, and highlight at 3
+* add option to force off-tank colouring while not playing as a tank
+* fix boss mods compatibility with future versions of BigWigs (magic)
+* fix compatibility with PTR
