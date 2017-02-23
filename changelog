@@ -2,6 +2,7 @@ Alpha notes
 
 feb-23
 * inactive & warlock class colours have been slightly changed again
+* revert "fix" to blizzard's personal nameplate frame strata as it causes taint during combat
 
 feb-22
 * (boss mods) Enable/disable hostile & friendly nameplates needs to be tested again. Boss mod auras need a focus test in general due to the changes made yesterday.
