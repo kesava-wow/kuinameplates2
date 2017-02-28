@@ -72,7 +72,7 @@
 ]]
 local addon = KuiNameplates
 local ele = addon:NewElement('ClassPowers')
-local class, power_type, power_type_tag, highlight_at, cpf, initialised
+local _,class,power_type,power_type_tag,highlight_at,cpf,initialised
 local on_target
 local orig_SetVertexColor
 -- power types by class/spec
@@ -132,6 +132,8 @@ local ANTICIPATION_TALENT_ID=19240
 local BALANCE_FERAL_AFFINITY_TALENT_ID=22155
 local GUARDIAN_FERAL_AFFINITY_TALENT_ID=22156
 local RESTO_FERAL_AFFINITY_TALENT_ID=22367
+local FIRES_OF_JUSTICE_SPELL_ID=209785
+local FIRES_OF_JUSTICE_NAME
 -- local functions #############################################################
 local function IsTalentKnown(id)
     return select(10,GetTalentInfoByID(id))
@@ -349,6 +351,11 @@ local function PowerUpdate()
         end
     end
 
+    if class == 'PALADIN' and cur > 0 and highlight_at == 2 then
+        -- colour first icon red to show fires of justice
+        cpf.icons[1]:ActiveOverflow()
+    end
+
     ele:RunCallback('PostPowerUpdate')
 end
 local function PositionFrame()
@@ -491,8 +498,14 @@ function ele:PowerInit()
         power_type = powers[class][spec]
 
         if class == 'PALADIN' then
-            -- ret paladin; highlight at 3 holy power
-            highlight_at = 3
+            if power_type then
+                -- ret paladin; watch for fires of justice procs
+                FIRES_OF_JUSTICE_NAME = GetSpellInfo(FIRES_OF_JUSTICE_SPELL_ID)
+                self:RegisterEvent('UNIT_AURA','Paladin_WatchFiresOfJustice')
+                highlight_at = 3
+            else
+                self:UnregisterEvent('UNIT_AURA')
+            end
         elseif class == 'DRUID' and (
            (spec == 1 and IsTalentKnown(BALANCE_FERAL_AFFINITY_TALENT_ID)) or
            (spec == 3 and IsTalentKnown(GUARDIAN_FERAL_AFFINITY_TALENT_ID)) or
@@ -630,6 +643,16 @@ function ele:PowerEvent(event,unit,power_type_rcv)
 end
 function ele:UPDATE_SHAPESHIFT_FORM()
     self:PowerInit()
+end
+function ele:Paladin_WatchFiresOfJustice(_,unit)
+    if unit ~= 'player' then return end
+    if UnitBuff(unit,FIRES_OF_JUSTICE_NAME) then
+        highlight_at = 2
+    else
+        highlight_at = 3
+    end
+
+    PowerUpdate()
 end
 -- register ####################################################################
 function ele:OnEnable()
