@@ -1,9 +1,5 @@
-* this update resets the "allow boss mods to control visibility of nameplates" option back to enabled, because it was renamed. Sorry about that.
-* boss mods can now forcibly enable hostile nameplates, too. This can be disabled by unchecking /knp > boss mods > "allow boss mods to control visibility..."
-* off tank colouring will now only be used if the player is actually in a tanking specialisation when force tank mode is active
-* inactive & warlock default class power colours have been changed slightly, again
-* show only 3 class power icons on ret paladins, rather than 5
-* add option to disable threat glow
-* add option to force off-tank colouring while not playing as a tank
-* fix boss mods compatibility with future versions of BigWigs (magic)
-* fix compatibility with PTR
+Alpha notes
+
+28-feb:
+* ret paladins have 5 class power icons again, they now glow when you have 3 or 5
+* the first class power icon now turns red with fires of justice procs (and the icons will glow when you have 2 holy power instead of 3)
