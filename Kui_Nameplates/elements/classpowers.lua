@@ -72,7 +72,7 @@
 ]]
 local addon = KuiNameplates
 local ele = addon:NewElement('ClassPowers')
-local class, power_type, power_type_tag, cpf, initialised
+local class, power_type, power_type_tag, highlight_at, cpf, initialised
 local on_target
 local orig_SetVertexColor
 -- power types by class/spec
@@ -247,8 +247,6 @@ local function UpdateIcons()
     local power_max
     if class == 'ROGUE' and IsTalentKnown(ANTICIPATION_TALENT_ID) then
         power_max = 5
-    elseif class == 'PALADIN' then
-        power_max = 3
     else
         power_max = UnitPowerMax('player',power_type)
     end
@@ -342,7 +340,9 @@ local function PowerUpdate()
                     icon:Inactive()
                 end
 
-                if icon.glow then
+                if highlight_at and i <= highlight_at and cur >= highlight_at then
+                    icon.glow:Show()
+                elseif icon.glow then
                     icon.glow:Hide()
                 end
             end
@@ -484,17 +484,23 @@ end
 function ele:PowerInit()
     -- get current power type, register events
     power_type_tag = nil
+    highlight_at = nil
 
     if type(powers[class]) == 'table' then
         local spec = GetSpecialization()
         power_type = powers[class][spec]
 
-        if class == 'DRUID' and (
+        if class == 'PALADIN' then
+            -- ret paladin; highlight at 3 holy power
+            highlight_at = 3
+        elseif class == 'DRUID' and (
            (spec == 1 and IsTalentKnown(BALANCE_FERAL_AFFINITY_TALENT_ID)) or
            (spec == 3 and IsTalentKnown(GUARDIAN_FERAL_AFFINITY_TALENT_ID)) or
            (spec == 4 and IsTalentKnown(RESTO_FERAL_AFFINITY_TALENT_ID))
            )
         then
+            -- if feral affinity is known, we need to watch for shapeshifts
+            -- into cat form
             self:RegisterEvent('UPDATE_SHAPESHIFT_FORM')
 
             local form = GetShapeshiftForm()
