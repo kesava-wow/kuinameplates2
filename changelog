@@ -1,5 +1,2 @@
-Alpha notes
-
-28-feb:
-* ret paladins have 5 class power icons again, they now glow when you have 3 or 5
-* the first class power icon now turns red with fires of justice procs (and the icons will glow when you have 2 holy power instead of 3)
+* ret paladins have 5 class power icons again (and the first icon turns red when you have a fire of justice proc)
+* add new BigWigs callbacks for raid testing
