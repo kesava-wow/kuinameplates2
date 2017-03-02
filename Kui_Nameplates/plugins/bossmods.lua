@@ -326,7 +326,6 @@ do
         end
     end
 
-
     -- callback wrappers:
     local function Callback_EnableNameplates(sender,hostile)
         if not mod.enabled then return end
