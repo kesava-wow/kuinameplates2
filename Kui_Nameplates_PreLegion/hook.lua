@@ -40,6 +40,8 @@ function layout:UNIT_LEVEL(event,f)
 end
 -- initialise ##################################################################
 function layout:Initialise()
+    print('|cff9966ffKui Nameplates|r: |cffff6666You are using Kui_Nameplates_PreLegion which is not updated by the Curse package.|r If you experience errors, check the repository on GitHub for updates.')
+
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')
     self:RegisterMessage('CastBarShow')

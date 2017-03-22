@@ -203,6 +203,8 @@ local function PostCreateAuraFrame(frame)
 end
 -- register ####################################################################
 function mod:Initialise()
+    print('|cff9966ffKui Nameplates|r: |cffff6666You are using Kui_Nameplates_BarAuras which is not updated by the Curse package.|r If you experience errors, check the repository on GitHub for updates.')
+
     self:AddCallback('Auras','ArrangeButtons',ArrangeButtons)
     self:AddCallback('Auras','PostCreateAuraButton',PostCreateAuraButton)
     self:AddCallback('Auras','PostCreateAuraFrame',PostCreateAuraFrame)
