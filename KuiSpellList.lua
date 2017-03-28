@@ -49,6 +49,7 @@ local auras = {
             [93402] = true, -- sunfire
             [164815] = true, -- sunfire
             [202347] = true, -- stellar flare
+            [197637] = true, -- stellar empowerment
         },
         CONTROL = {
             [339] = true, -- entangling roots
