@@ -249,6 +249,9 @@ local function UpdateIcons()
     local power_max
     if class == 'ROGUE' and IsTalentKnown(ANTICIPATION_TALENT_ID) then
         power_max = 5
+    elseif power_type == 'stagger' then
+        -- corrected by StaggerUpdate
+        power_max = 1
     else
         power_max = UnitPowerMax('player',power_type)
     end

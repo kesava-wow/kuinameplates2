@@ -1,1 +1,5 @@
+2.14.10.1:
+* fix lua error related to stagger on brewmaster monks
+
+2.14.10:
 * bump tocs to 7.2
