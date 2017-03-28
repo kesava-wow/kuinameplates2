@@ -1,4 +1,4 @@
-## Interface: 70000
+## Interface: 70200
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates|r PreLegion
 ## Version: @project-version@
