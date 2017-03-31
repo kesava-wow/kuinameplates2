@@ -1,4 +1,17 @@
--- fade nameplate frames based on current target
+--[[
+-- Fade nameplates based on rules
+--
+-- Return values:
+-- 1   = stop iterating, fade to 1
+-- 0   = stop iterating, fade to 0
+-- -1  = stop iterating, fade to mod.faded_alpha
+-- nil = continue to iterate fade rules table
+-- end = fade to mod.faded_alpha
+--
+-- Lower priority (1 < 100) = first execution.
+-- Rules which result in fading nameplates OUT should generally be between
+-- priority 20 and 100, as per the default fade rules set in :ResetFadeRules.
+-- ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Fading')
@@ -87,8 +100,11 @@ end
 function mod:ResetFadeRules()
     -- reset to default fade rules
     fade_rules = {
+        -- don't fade the personal nameplate
         { 10, function(f) return UnitIsUnit(f.unit,'player') and 1 end },
+        -- don't fade the target nameplate
         { 20, function(f) return f.handler:IsTarget() and 1 end },
+        -- fade in all nameplates if there is no target
         { 100, function() return not target_exists and 1 end },
     }
 
