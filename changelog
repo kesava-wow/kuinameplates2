@@ -1,3 +1,8 @@
+2.14.10.2:
+* kill off all out of date versions of BarAuras because people still haven't
+updated it. It's on the GitHub repo where you first got it (unless some silly
+person repackaged it without asking me. Don't do that).
+
 2.14.10.1:
 * fix lua error related to stagger on brewmaster monks
 
