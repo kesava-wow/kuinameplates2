@@ -12,6 +12,7 @@ Issues submitted [here](https://github.com/kesava-wow/kuinameplates2/issues) won
 When submitting an issue:
 - Separate distinct issues into multiple tickets. It's easier to work with that way.
 - If you've modified code, try to reproduce the issue without your modifications first, and tell me what you've changed.
+- Do this in chat: "/knp dump-config" and attach a screenshot of the output (or copy it if you have a chat-copying addon).
 - If reporting a spell missing from the Auras whitelist, please submit it to the [KuiSpellList repo](https://github.com/kesava-wow/kuispelllist/issues) instead.
 - Remember I'm human. Though I do main a Draenei.
 
