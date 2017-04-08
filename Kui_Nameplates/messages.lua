@@ -364,6 +364,12 @@ function addon:NewPlugin(name,priority,max_minor)
         return
     end
 
+    -- TODO TEMP legacy BarAuras
+    if name == 'BarAuras' and not max_minor then
+        error('Out of date plugin `BarAuras` ignored. Update it from the GitHub repository linked in the Curse description.')
+        return
+    end
+
     local pluginTable = {
         name = name,
         plugin = true,
