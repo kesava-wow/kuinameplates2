@@ -8,7 +8,7 @@
 -- initalise addon global
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
-addon.MAJOR=2
+addon.MAJOR,addon.MINOR = 2,1
 
 --@debug@
 addon.debug = true

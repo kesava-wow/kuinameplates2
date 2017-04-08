@@ -348,12 +348,19 @@ local function plugin_Disable(table)
     end
 end
 ------------------------------------------------------------ plugin registrar --
--- priority = any number. Defines the load order. Default of 5.
--- plugins with a higher priority are executed later (i.e. they override the
--- settings of any previous plugin)
-function addon:NewPlugin(name,priority)
+-- priority = Any number. Defines the load order. Default of 5.
+--            Plugins with a higher priority are executed later (i.e. they
+--            override the settings of any previous plugin)
+-- max_minor = Maximum addon minor version this plugin supports.
+--             Ignored if nil.
+function addon:NewPlugin(name,priority,max_minor)
     if not name then
-        addon:print('|cffff0000plugin with no name ignored')
+        error('Plugin with no name ignored')
+        return
+    end
+
+    if max_minor and self.MINOR > max_minor then
+        error('Out of date plugin `'..name..'` ignored')
         return
     end
 
