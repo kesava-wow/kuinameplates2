@@ -49,8 +49,10 @@ SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
 function SlashCmdList.KUINAMEPLATESCORE(msg)
     if msg == 'dump-config' then
-        kui.print(KuiNameplatesCore.config.csv)
-        kui.print(KuiNameplatesCore.config:GetActiveProfile())
+        local d = kui:DebugPopup()
+        d:AddText(KuiNameplatesCore.config.csv)
+        d:AddText(KuiNameplatesCore.config:GetActiveProfile())
+        d:Show()
         return
     end
 
