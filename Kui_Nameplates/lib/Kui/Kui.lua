@@ -296,6 +296,7 @@ local function CreateDebugPopup()
     end
 
     function p:AddText(v)
+        if not v then return end
         local m = p:GetText()
         if m ~= '' then
             m = m..'|n|n'
