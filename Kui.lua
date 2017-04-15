@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 25
+local MAJOR, MINOR = 'Kui-1.0', 26
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -268,6 +268,75 @@ do
 
         return str:sub(startIndex, currentIndex - 1)
     end
+end
+-- editbox debug popup #########################################################
+local debugpopup
+local function CreateDebugPopup()
+    local p = CreateFrame('EditBox','KuiDebugEditBox',UIParent)
+    p:SetFrameStrata('DIALOG')
+    p:SetMultiLine(true)
+    p:SetAutoFocus(true)
+    p:SetFontObject(ChatFontNormal)
+    p:SetSize(250,600)
+    p:Hide()
+
+    p.orig_Hide = p.Hide
+    function p:Hide()
+        self.ScrollFrame:Hide()
+        self.Background:Hide()
+        self:orig_Hide()
+    end
+
+    p.orig_Show = p.Show
+    function p:Show()
+        self.ScrollFrame:Show()
+        self.Background:Show()
+        self:orig_Show()
+    end
+
+    p:SetScript('OnEscapePressed',function(self)
+        self:ClearFocus()
+        self:Hide()
+        self.ScrollFrame:Hide()
+        self.Background:Hide()
+    end)
+
+    local s = CreateFrame('ScrollFrame','KuiDebugEditBoxScrollFrame',UIParent,'UIPanelScrollFrameTemplate')
+    s:SetFrameStrata('DIALOG')
+    s:SetSize(250,600)
+    s:SetPoint('CENTER')
+    s:SetScrollChild(p)
+    s:Hide()
+
+    s:SetScript('OnMouseDown',function(self)
+        self:GetScrollChild():SetFocus()
+    end)
+
+    local bg = CreateFrame('Frame',nil,UIParent)
+    bg:SetFrameStrata('DIALOG')
+    bg:SetBackdrop({
+        bgFile = 'Interface\\ChatFrame\\ChatFrameBackground',
+        edgeFile = 'Interface\\Tooltips\\UI-Tooltip-border',
+        edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+    })
+    bg:SetBackdropColor(.05,.05,.05,.8)
+    bg:SetBackdropBorderColor(.5,.5,.5)
+    bg:SetPoint('TOPLEFT',s,-10,10)
+    bg:SetPoint('BOTTOMRIGHT',s,30,-10)
+    bg:Hide()
+
+    p.ScrollFrame = s
+    p.Background = bg
+
+    debugpopup = p
+end
+kui.DebugPopup = function()
+    -- create/get and return reference to debug EditBox
+    if not debugpopup then
+        CreateDebugPopup()
+    end
+    return debugpopup
 end
 -- Frame fading functions ######################################################
 kui.frameFadeFrame = CreateFrame('Frame')
