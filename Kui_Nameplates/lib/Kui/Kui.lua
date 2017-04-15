@@ -282,6 +282,7 @@ local function CreateDebugPopup()
 
     p.orig_Hide = p.Hide
     function p:Hide()
+        self:SetText("")
         self.ScrollFrame:Hide()
         self.Background:Hide()
         self:orig_Hide()
@@ -292,6 +293,17 @@ local function CreateDebugPopup()
         self.ScrollFrame:Show()
         self.Background:Show()
         self:orig_Show()
+    end
+
+    function p:AddText(v)
+        local m = p:GetText()
+        if m ~= '' then
+            m = m..'|n|n'
+        end
+        if type(v) == 'table' then
+            v = kui.table_to_string(v)
+        end
+        p:SetText(m..v)
     end
 
     p:SetScript('OnEscapePressed',function(self)
@@ -336,6 +348,8 @@ kui.DebugPopup = function()
     if not debugpopup then
         CreateDebugPopup()
     end
+
+    debugpopup:Hide()
     return debugpopup
 end
 -- Frame fading functions ######################################################
