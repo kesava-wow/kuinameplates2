@@ -1,3 +1,6 @@
+2.14.10.3:
+* dump-config now opens an edit box for easier copying
+
 2.14.10.2:
 * kill off all out of date versions of BarAuras because people still haven't
 updated it. It's on the GitHub repo where you first got it (unless some silly
