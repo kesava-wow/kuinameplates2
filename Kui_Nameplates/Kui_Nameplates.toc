@@ -12,6 +12,7 @@ hook.lua
 
 elements/healthbar.lua
 elements/powerbar.lua
+elements/absorbbar.lua
 elements/castbar.lua
 elements/highlight.lua
 elements/classpowers.lua
