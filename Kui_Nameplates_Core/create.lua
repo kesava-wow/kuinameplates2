@@ -360,7 +360,12 @@ function core:SetBarAnimation()
     for i,f in addon:Frames() do
         f.handler:SetBarAnimation(f.HealthBar,BAR_ANIMATION)
         f.handler:SetBarAnimation(f.PowerBar,BAR_ANIMATION)
-        f.handler:SetBarAnimation(f.AbsorbBar,BAR_ANIMATION)
+
+        if BAR_ANIMATION == 'smooth' then
+            f.handler:SetBarAnimation(f.AbsorbBar,BAR_ANIMATION)
+        else
+            f.handler:SetBarAnimation(f.AbsorbBar,nil)
+        end
     end
 end
 -- #############################################################################
@@ -497,7 +502,10 @@ do
         spark:SetVertexColor(.3,.7,1)
         bar.spark = spark
 
-        f.handler:SetBarAnimation(bar,BAR_ANIMATION)
+        if BAR_ANIMATION == 'smooth' then
+            f.handler:SetBarAnimation(bar,BAR_ANIMATION)
+        end
+
         f.handler:RegisterElement('AbsorbBar',bar)
     end
 end

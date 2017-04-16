@@ -166,6 +166,7 @@ do
 end
 -- prototype additions #########################################################
 function addon.Nameplate.SetBarAnimation(f,bar,anim_id)
+    if not bar then return end
     f = f.parent
 
     if bar.animation and anims[bar.animation] then
