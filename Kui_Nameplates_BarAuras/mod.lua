@@ -1,6 +1,6 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('BarAuras',101,1)
+local mod = addon:NewPlugin('BarAuras',101,2)
 
 local orig_SetFont
 local orig_UpdateCooldown
