@@ -28,7 +28,11 @@ function addon.Nameplate.UpdateHealthColour(f,show)
             end
         elseif UnitIsFriend('player',f.unit) then
             -- friendly players
-            r,g,b = unpack(ele.colours.player)
+            if ele.colours.player then
+                r,g,b = unpack(ele.colours.player)
+            else
+                r,g,b = kui.GetClassColour(f.unit,2)
+            end
         else
             -- hostile players
             if ele.colours.enemy_player then
@@ -43,7 +47,12 @@ function addon.Nameplate.UpdateHealthColour(f,show)
             r,g,b = unpack(ele.colours.neutral)
         elseif react > 4 then
             -- friendly NPCs
-            r,g,b = unpack(ele.colours.friendly)
+            if UnitPlayerControlled(f.unit) and ele.colours.friendly_pet then
+                -- friendly pet
+                r,g,b = unpack(ele.colours.friendly_pet)
+            else
+                r,g,b = unpack(ele.colours.friendly)
+            end
         else
             -- hostile NPCs
             if UnitPlayerControlled(f.unit) and ele.colours.enemy_pet then
