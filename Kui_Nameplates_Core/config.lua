@@ -92,7 +92,9 @@ local default_config = {
     colour_hated = {.7,.2,.1},
     colour_neutral = {1,.8,0},
     colour_friendly = {.2,.6,.1},
+    colour_friendly_pet = {.2,.6,.1},
     colour_tapped = {.5,.5,.5},
+    colour_player_class = false,
     colour_player = {.2,.5,.9},
     colour_self_class = true,
     colour_self = {.2,.6,.1},
@@ -349,8 +351,8 @@ local function configChangedReactionColour()
     ele.colours.neutral = core.profile.colour_neutral
     ele.colours.friendly = core.profile.colour_friendly
     ele.colours.tapped = core.profile.colour_tapped
-    ele.colours.player = core.profile.colour_player
     ele.colours.enemy_pet = core.profile.colour_enemy_pet
+    ele.colours.friendly_pet = core.profile.colour_friendly_pet
 
     if core.profile.colour_self_class then
         ele.colours.self = nil
@@ -363,11 +365,19 @@ local function configChangedReactionColour()
     else
         ele.colours.enemy_player = core.profile.colour_enemy_player
     end
+
+    if core.profile.colour_player_class then
+        ele.colours.player = nil
+    else
+        ele.colours.player = core.profile.colour_player
+    end
 end
 configChanged.colour_hated = configChangedReactionColour
 configChanged.colour_neutral = configChangedReactionColour
 configChanged.colour_friendly = configChangedReactionColour
+configChanged.colour_friendly_pet = configChangedReactionColour
 configChanged.colour_tapped = configChangedReactionColour
+configChanged.colour_player_class = configChangedReactionColour
 configChanged.colour_player = configChangedReactionColour
 configChanged.colour_self_class = configChangedReactionColour
 configChanged.colour_self = configChangedReactionColour

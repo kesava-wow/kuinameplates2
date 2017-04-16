@@ -117,7 +117,9 @@ local colour_sep = healthbars:CreateSeperator('reaction_colour_sep')
 local colour_hated = healthbars:CreateColourPicker('colour_hated')
 local colour_neutral = healthbars:CreateColourPicker('colour_neutral')
 local colour_friendly = healthbars:CreateColourPicker('colour_friendly')
+local colour_friendly_pet = healthbars:CreateColourPicker('colour_friendly_pet')
 local colour_tapped = healthbars:CreateColourPicker('colour_tapped')
+local colour_player_class = healthbars:CreateCheckBox('colour_player_class')
 local colour_player = healthbars:CreateColourPicker('colour_player')
 local colour_self_class = healthbars:CreateCheckBox('colour_self_class')
 local colour_self = healthbars:CreateColourPicker('colour_self')
@@ -141,9 +143,12 @@ colour_hated:SetPoint('TOPLEFT',15,-190)
 colour_neutral:SetPoint('LEFT',colour_hated,'RIGHT')
 colour_friendly:SetPoint('LEFT',colour_neutral,'RIGHT')
 colour_tapped:SetPoint('TOPLEFT',colour_hated,'BOTTOMLEFT')
-colour_player:SetPoint('LEFT',colour_tapped,'RIGHT')
 
-colour_enemy_class:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,-15)
+colour_player_class:SetPoint('TOPLEFT',colour_tapped,'BOTTOMLEFT',-4,-15)
+colour_player:SetPoint('TOPLEFT',colour_player_class,'BOTTOMLEFT',4,0)
+colour_friendly_pet:SetPoint('LEFT',colour_player,'RIGHT',0,0)
+
+colour_enemy_class:SetPoint('TOPLEFT',colour_player,'BOTTOMLEFT',-4,-15)
 colour_enemy_player:SetPoint('TOPLEFT',colour_enemy_class,'BOTTOMLEFT',4,0)
 colour_enemy_pet:SetPoint('LEFT',colour_enemy_player,'RIGHT',0,0)
 
@@ -151,6 +156,7 @@ colour_self_class:SetPoint('TOPLEFT',colour_enemy_player,'BOTTOMLEFT',-4,-15)
 colour_self:SetPoint('TOPLEFT',colour_self_class,'BOTTOMLEFT',4,0)
 
 colour_self.enabled = function(p) return not p.colour_self_class end
+colour_player.enabled = function(p) return not p.colour_player_class end
 colour_enemy_player.enabled = function(p) return not p.colour_enemy_class end
 
 execute_auto.enabled = function(p) return p.execute_enabled end
