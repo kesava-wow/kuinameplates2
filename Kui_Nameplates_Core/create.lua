@@ -360,6 +360,7 @@ function core:SetBarAnimation()
     for i,f in addon:Frames() do
         f.handler:SetBarAnimation(f.HealthBar,BAR_ANIMATION)
         f.handler:SetBarAnimation(f.PowerBar,BAR_ANIMATION)
+        f.handler:SetBarAnimation(f.AbsorbBar,BAR_ANIMATION)
     end
 end
 -- #############################################################################
@@ -469,6 +470,35 @@ do
         f.handler:RegisterElement('PowerBar',powerbar)
 
         f.UpdatePowerBar = UpdatePowerBar
+    end
+end
+-- absorb bar ##################################################################
+do
+    function core:CreateAbsorbBar(f)
+        -- not using CreateStatusBar as we don't want a background
+        local bar = CreateFrame('StatusBar',nil,f.HealthBar)
+        bar:SetStatusBarTexture('interface/addons/kui_media/t/stippled-bar')
+        bar:SetAllPoints(f.HealthBar)
+        bar:SetFrameLevel(0)
+        bar:SetStatusBarColor(.3,.7,1)
+        bar:SetAlpha(.5)
+
+        local t = bar:GetStatusBarTexture()
+        t:SetDrawLayer('ARTWORK',1)
+        t:SetHorizTile(true)
+        t:SetVertTile(true)
+
+        -- spark for over-absorb highlighting
+        local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)
+        spark:SetTexture('interface/addons/kui_media/t/spark')
+        spark:SetWidth(8)
+        spark:SetPoint('TOP',bar,'TOPRIGHT',-1,4)
+        spark:SetPoint('BOTTOM',bar,'BOTTOMRIGHT',-1,-4)
+        spark:SetVertexColor(.3,.7,1)
+        bar.spark = spark
+
+        f.handler:SetBarAnimation(bar,BAR_ANIMATION)
+        f.handler:RegisterElement('AbsorbBar',bar)
     end
 end
 -- name text ###################################################################
