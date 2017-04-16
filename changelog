@@ -1,3 +1,5 @@
 2.14.11:
+* add option to class colour friendly player health bars
+* add option to change colour of friendly pets (if they ever turn up)
 * add absorb indication overlay to healthbar
 * dump-config now opens an edit box for easier copying
