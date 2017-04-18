@@ -2,6 +2,7 @@ ALPHA NOTES
 19-apr:
 * update l11n for new options
 * add light of t'uure to spell whitelist
+* alter size of dump-config popup
 
 2.14.11:
 * update whitelist
