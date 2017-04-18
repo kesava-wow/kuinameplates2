@@ -1,4 +1,10 @@
+ALPHA NOTES
+19-apr:
+* update l11n for new options
+* add light of t'uure to spell whitelist
+
 2.14.11:
+* update whitelist
 * add option to class colour friendly player health bars
 * add option to change colour of friendly pets (if they ever turn up)
 * add absorb indication overlay to healthbar
