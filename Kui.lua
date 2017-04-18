@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 26
+local MAJOR, MINOR = 'Kui-1.0', 27
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -277,7 +277,7 @@ local function CreateDebugPopup()
     p:SetMultiLine(true)
     p:SetAutoFocus(true)
     p:SetFontObject(ChatFontNormal)
-    p:SetSize(250,600)
+    p:SetSize(450,300)
     p:Hide()
 
     p.orig_Hide = p.Hide
@@ -316,7 +316,7 @@ local function CreateDebugPopup()
 
     local s = CreateFrame('ScrollFrame','KuiDebugEditBoxScrollFrame',UIParent,'UIPanelScrollFrameTemplate')
     s:SetFrameStrata('DIALOG')
-    s:SetSize(250,600)
+    s:SetSize(450,300)
     s:SetPoint('CENTER')
     s:SetScrollChild(p)
     s:Hide()
