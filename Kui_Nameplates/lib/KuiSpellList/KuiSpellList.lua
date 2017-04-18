@@ -303,7 +303,8 @@ local auras = {
             [214121] = true, -- body and mind
             [77489] = true,  -- echo of light
             [64901] = true,  -- symbol of hope
-            [194384] = true, -- attonement
+            [194384] = true, -- atonement
+            [208065] = true, -- light of t'uure
         },
         HARMFUL = {
             [2096] = true,   -- mind vision
