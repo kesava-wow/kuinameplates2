@@ -64,6 +64,9 @@ opt.tooltips = {
     execute_colour = 'Colour to use within execute range',
     execute_percent = 'Manually set execute range',
 
+    colour_friendly_pet = 'Note that friendly pets do not generally have nameplates rendered',
+    colour_player = 'The colour of other friendly players\' health bars',
+
     hide_names = 'Whether or not a unit is tracked can be set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names.|n|nThis does not affect name-only mode.',
     font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
     font_size_normal = 'Standard font size (name, etc)',
