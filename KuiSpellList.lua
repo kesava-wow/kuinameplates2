@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'KuiSpellList-1.0', 28
+local MAJOR, MINOR = 'KuiSpellList-1.0', 29
 local KuiSpellList = LibStub:NewLibrary(MAJOR, MINOR)
 local _
 
@@ -305,6 +305,7 @@ local auras = {
             [64901] = true,  -- symbol of hope
             [194384] = true, -- atonement
             [208065] = true, -- light of t'uure
+            [234711] = true, -- rammal's ulterior motive
         },
         HARMFUL = {
             [2096] = true,   -- mind vision
