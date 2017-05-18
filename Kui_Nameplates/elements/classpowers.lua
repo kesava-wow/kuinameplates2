@@ -77,29 +77,29 @@ local on_target
 local orig_SetVertexColor
 -- power types by class/spec
 local powers = {
-    DEATHKNIGHT = SPELL_POWER_RUNES,
-    DRUID       = { [2] = SPELL_POWER_COMBO_POINTS },
-    PALADIN     = { [3] = SPELL_POWER_HOLY_POWER },
-    ROGUE       = SPELL_POWER_COMBO_POINTS,
-    MAGE        = { [1] = SPELL_POWER_ARCANE_CHARGES },
-    MONK        = { [1] = 'stagger', [3] = SPELL_POWER_CHI },
-    WARLOCK     = SPELL_POWER_SOUL_SHARDS,
-    --PRIEST      = SPELL_POWER_MANA,
+    DEATHKNIGHT = Enum.PowerType.Runes,
+    DRUID       = { [2] = Enum.PowerType.ComboPoints },
+    PALADIN     = { [3] = Enum.PowerType.HolyPower },
+    ROGUE       = Enum.PowerType.ComboPoints,
+    MAGE        = { [1] = Enum.PowerType.ArcaneCharges },
+    MONK        = { [1] = 'stagger', [3] = Enum.PowerType.Chi },
+    WARLOCK     = Enum.PowerType.SoulShards,
+    --PRIEST      = Enum.PowerType.Mana,
 }
 -- tags returned by the UNIT_POWER and UNIT_MAXPOWER events
 local power_tags = {
-    [SPELL_POWER_RUNES]          = 'RUNES',
-    [SPELL_POWER_COMBO_POINTS]   = 'COMBO_POINTS',
-    [SPELL_POWER_HOLY_POWER]     = 'HOLY_POWER',
-    [SPELL_POWER_ARCANE_CHARGES] = 'ARCANE_CHARGES',
-    [SPELL_POWER_CHI]            = 'CHI',
-    [SPELL_POWER_SOUL_SHARDS]    = 'SOUL_SHARDS',
-    --[SPELL_POWER_MANA]           = 'MANA',
+    [Enum.PowerType.Runes]          = 'RUNES',
+    [Enum.PowerType.ComboPoints]   = 'COMBO_POINTS',
+    [Enum.PowerType.HolyPower]     = 'HOLY_POWER',
+    [Enum.PowerType.ArcaneCharges] = 'ARCANE_CHARGES',
+    [Enum.PowerType.Chi]            = 'CHI',
+    [Enum.PowerType.SoulShards]    = 'SOUL_SHARDS',
+    --[Enum.PowerType.Mana]           = 'MANA',
 }
 -- power types which render as a bar
 local bar_powers = {
     ['stagger'] = true,
-    --[SPELL_POWER_MANA] = true
+    --[Enum.PowerType.Mana] = true
 }
 -- icon config
 local colours = {
@@ -521,7 +521,7 @@ function ele:PowerInit()
 
             local form = GetShapeshiftForm()
             if form and form == 2 then
-                power_type = SPELL_POWER_COMBO_POINTS
+                power_type = Enum.PowerType.ComboPoints
             end
         else
             self:UnregisterEvent('UPDATE_SHAPESHIFT_FORM')
