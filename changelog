@@ -1,12 +1,6 @@
-ALPHA NOTES
-19-apr:
-* update l11n for new options
-* add light of t'uure to spell whitelist
-* alter size of dump-config popup
-
-2.14.11:
-* update whitelist
 * add option to class colour friendly player health bars
 * add option to change colour of friendly pets (if they ever turn up)
-* add absorb indication overlay to healthbar
 * dump-config now opens an edit box for easier copying
+* update whitelist
+* add light of t'uure to spell whitelist
+* add an absorb element (disabled in this release)
