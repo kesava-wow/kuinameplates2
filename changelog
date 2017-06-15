@@ -1,3 +1,4 @@
+* fix class powers for 7.2.5 (if they didn't alias that, anyway)
 * add option to class colour friendly player health bars
 * add option to change colour of friendly pets (if they ever turn up)
 * dump-config now opens an edit box for easier copying
