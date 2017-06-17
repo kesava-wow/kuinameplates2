@@ -604,8 +604,10 @@ function ele:PowerInit()
     end
 
     if power_type then
-        power_mod = UnitPowerDisplayMod(power_type) or 1
-        if class == 'WARLOCK' and GetSpecialization() == SPEC_WARLOCK_DESTRUCTION then
+        power_mod = UnitPowerDisplayMod(power_type)
+        if  class == 'WARLOCK' and
+            GetSpecialization() == SPEC_WARLOCK_DESTRUCTION
+        then
             power_display_partial = true
         else
             power_display_partial = nil
