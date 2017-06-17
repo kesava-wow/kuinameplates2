@@ -352,7 +352,7 @@ local function PowerUpdate()
     -- toggle icons based on current power
     local cur = UnitPower('player',power_type,true)
 
-    if power_mod > 1 then
+    if power_mod and power_mod > 1 then
         cur = cur / power_mod
     end
 
@@ -391,7 +391,7 @@ local function PowerUpdate()
                 else
                     if ICON_SPRITE and
                        power_display_partial and
-                       power_mod > 1
+                       (power_mod and power_mod > 1)
                     then
                         if i > ceil(cur) then
                             -- empty
@@ -598,19 +598,19 @@ function ele:PowerInit()
         power_type = powers[class]
     end
 
-    power_mod = UnitPowerDisplayMod(power_type) or 1
-    if class == 'WARLOCK' and GetSpecialization() == SPEC_WARLOCK_DESTRUCTION then
-        power_display_partial = true
-    else
-        power_display_partial = nil
-    end
-
     if class == 'MONK' and (not power_type or power_type ~= 'stagger') then
         self:UnregisterEvent('UNIT_ABSORB_AMOUNT_CHANGED')
         self:UnregisterEvent('UNIT_MAXHEALTH')
     end
 
     if power_type then
+        power_mod = UnitPowerDisplayMod(power_type) or 1
+        if class == 'WARLOCK' and GetSpecialization() == SPEC_WARLOCK_DESTRUCTION then
+            power_display_partial = true
+        else
+            power_display_partial = nil
+        end
+
         if class == 'DEATHKNIGHT' then
             self:RegisterEvent('RUNE_POWER_UPDATE','RuneUpdate')
         elseif power_type == 'stagger' then
