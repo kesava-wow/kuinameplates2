@@ -563,6 +563,8 @@ function ele:PowerInit()
     -- get current power type, register events
     power_type_tag = nil
     highlight_at = nil
+    power_mod = nil
+    power_display_partial = nil
 
     if type(powers[class]) == 'table' then
         local spec = GetSpecialization()
