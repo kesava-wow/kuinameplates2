@@ -1,3 +1,7 @@
+BETA:
+* add support for partially-filled class power icons (warlocks' soul fragments)
+
+2.14.11.1:
 * fix dropdown lists are sometimes beneath other config elements (again)
 
 2.14.11:
