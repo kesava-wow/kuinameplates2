@@ -1680,6 +1680,7 @@ function core:InitialiseElements()
         bar_width = self.profile.classpowers_bar_width,
         bar_height = self.profile.classpowers_bar_height,
         icon_texture = MEDIA..'combopoint-round',
+        icon_sprite = MEDIA..'combopoint',
         icon_glow_texture = MEDIA..'combopoint-glow',
         cd_texture = 'interface/playerframe/classoverlay-runecooldown',
         bar_texture = BAR_TEXTURE,

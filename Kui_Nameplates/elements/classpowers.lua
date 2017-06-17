@@ -73,6 +73,7 @@
 local addon = KuiNameplates
 local ele = addon:NewElement('ClassPowers')
 local _,class,power_type,power_type_tag,highlight_at,cpf,initialised
+local power_mod,power_display_partial
 local on_target
 local orig_SetVertexColor
 -- power types by class/spec
@@ -127,6 +128,7 @@ local GLOW_TEXTURE
 local CD_TEXTURE
 local BAR_TEXTURE,BAR_WIDTH,BAR_HEIGHT
 local FRAME_POINT
+local ICON_SPRITE
 
 local ANTICIPATION_TALENT_ID=19240
 local BALANCE_FERAL_AFFINITY_TALENT_ID=22155
@@ -169,19 +171,49 @@ local function Icon_SetVertexColor(self,...)
         self.glow:SetAlpha(.5)
     end
 end
+local function Icon_GraduateFill(self,val)
+    if not ICON_SPRITE or not val then return end
+    val = (val < 0 and 0) or (val > 1 and 1) or val
+
+    if val == 0 then
+        -- empty
+        self:SetTexCoord(.5,.75,.5,1)
+    elseif val == 1 then
+        -- full
+        self:SetTexCoord(0,.25,0,.5)
+    elseif val <= .16 then
+        self:SetTexCoord(.25,.5,0,.5)
+    elseif val <= .32 then
+        self:SetTexCoord(.5,.75,0,.5)
+    elseif val <= .48 then
+        self:SetTexCoord(.75,1,0,.5)
+    elseif val <= .64 then
+        self:SetTexCoord(0,.25,.5,1)
+    elseif val <= .8 then
+        self:SetTexCoord(.25,.5,.5,1)
+    end
+end
 local function CreateIcon()
     -- create individual icon
     local icon = ele:RunCallback('CreateIcon')
 
     if not icon then
         icon = cpf:CreateTexture(nil,'ARTWORK',nil,1)
-        icon:SetTexture(ICON_TEXTURE)
-        icon:SetSize(ICON_SIZE,ICON_SIZE)
 
         if not orig_SetVertexColor then
             orig_SetVertexColor = icon.SetVertexColor
         end
         icon.SetVertexColor = Icon_SetVertexColor
+        icon.GraduateFill = Icon_GraduateFill
+
+        if ICON_SPRITE then
+            icon:SetTexture(ICON_SPRITE)
+            icon:GraduateFill(1)
+        else
+            icon:SetTexture(ICON_TEXTURE)
+        end
+
+        icon:SetSize(ICON_SIZE,ICON_SIZE)
 
         if GLOW_TEXTURE then
             -- create icon glow if a texture is set
@@ -296,6 +328,13 @@ local function UpdateIcons()
                     cpf.icons[i] = CreateIcon()
                 end
             end
+
+            if ICON_SPRITE then
+                -- reset icons to filled
+                for i,icon in ipairs(cpf.icons) do
+                    icon:GraduateFill(1)
+                end
+            end
         else
             -- create initial icons
             cpf.icons = {}
@@ -311,7 +350,11 @@ local function UpdateIcons()
 end
 local function PowerUpdate()
     -- toggle icons based on current power
-    local cur = UnitPower('player',power_type)
+    local cur = UnitPower('player',power_type,true)
+
+    if power_mod > 1 then
+        cur = cur / power_mod
+    end
 
     if cpf.bar then
         cpf.bar:SetValue(cur)
@@ -325,6 +368,8 @@ local function PowerUpdate()
                 icon:Active()
             end
 
+            icon:GraduateFill(1)
+
             if icon.glow then
                 icon.glow:Show()
             end
@@ -334,6 +379,7 @@ local function PowerUpdate()
         for i,icon in ipairs(cpf.icons) do
             if at_max then
                 icon:Active()
+                icon:GraduateFill(1)
 
                 if icon.glow then
                     icon.glow:Show()
@@ -341,8 +387,24 @@ local function PowerUpdate()
             else
                 if i <= cur then
                     icon:Active()
+                    icon:GraduateFill(1)
                 else
-                    icon:Inactive()
+                    if ICON_SPRITE and
+                       power_display_partial and
+                       power_mod > 1
+                    then
+                        if i > ceil(cur) then
+                            -- empty
+                            icon:Inactive()
+                            icon:GraduateFill(0)
+                        else
+                            -- partially filled
+                            icon:Active()
+                            icon:GraduateFill(cur - floor(cur))
+                        end
+                    else
+                        icon:Inactive()
+                    end
                 end
 
                 if highlight_at and i <= highlight_at and cur >= highlight_at then
@@ -421,6 +483,7 @@ function ele:UpdateConfig()
     ICON_SIZE         = addon.layout.ClassPowers.icon_size or 10
     ICON_SPACING      = addon.layout.ClassPowers.icon_spacing or 1
     ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
+    ICON_SPRITE       = addon.layout.ClassPowers.icon_sprite
     GLOW_TEXTURE      = addon.layout.ClassPowers.icon_glow_texture
     CD_TEXTURE        = addon.layout.ClassPowers.cd_texture
     BAR_TEXTURE       = addon.layout.ClassPowers.bar_texture
@@ -458,7 +521,12 @@ function ele:UpdateConfig()
             -- update icons
             for k,i in ipairs(cpf.icons) do
                 i:SetSize(ICON_SIZE,ICON_SIZE)
-                i:SetTexture(ICON_TEXTURE)
+
+                if ICON_SPRITE then
+                    i:SetTexture(ICON_SPRITE)
+                else
+                    i:SetTexture(ICON_TEXTURE)
+                end
 
                 if i.glow then
                     i.glow:SetTexture(GLOW_TEXTURE)
@@ -528,6 +596,13 @@ function ele:PowerInit()
         end
     else
         power_type = powers[class]
+    end
+
+    power_mod = UnitPowerDisplayMod(power_type) or 1
+    if class == 'WARLOCK' and GetSpecialization() == SPEC_WARLOCK_DESTRUCTION then
+        power_display_partial = true
+    else
+        power_display_partial = nil
     end
 
     if class == 'MONK' and (not power_type or power_type ~= 'stagger') then
