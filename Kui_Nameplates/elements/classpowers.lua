@@ -614,15 +614,6 @@ function ele:PowerInit()
     end
 
     if power_type then
-        power_mod = UnitPowerDisplayMod(power_type)
-        if  class == 'WARLOCK' and
-            GetSpecialization() == SPEC_WARLOCK_DESTRUCTION
-        then
-            power_display_partial = true
-        else
-            power_display_partial = nil
-        end
-
         if class == 'DEATHKNIGHT' then
             self:RegisterEvent('RUNE_POWER_UPDATE','RuneUpdate')
 
@@ -637,7 +628,16 @@ function ele:PowerInit()
             self:RegisterEvent('UNIT_ABSORB_AMOUNT_CHANGED','StaggerUpdate')
             self:RegisterEvent('UNIT_MAXHEALTH','StaggerUpdate')
         else
+            power_mod = UnitPowerDisplayMod(power_type)
             power_type_tag = power_tags[power_type]
+
+            if  class == 'WARLOCK' and
+                GetSpecialization() == SPEC_WARLOCK_DESTRUCTION
+            then
+                power_display_partial = true
+            else
+                power_display_partial = nil
+            end
 
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
             self:RegisterEvent('UNIT_MAXPOWER','PowerEvent')
