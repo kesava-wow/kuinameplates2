@@ -695,6 +695,7 @@ function ele:RuneUpdate(event,rune_id,energise)
     else
         icon:SetVertexColor(unpack(colours.inactive))
         icon:SetAlpha(1)
+        icon:GraduateFill((GetTime() - startTime) / duration)
 
         icon.startTime = startTime
         icon.duration = duration
