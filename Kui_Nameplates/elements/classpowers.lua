@@ -181,16 +181,16 @@ local function Icon_GraduateFill(self,val)
     elseif val == 1 then
         -- full
         self:SetTexCoord(0,.25,0,.5)
-    elseif val <= .16 then
-        self:SetTexCoord(.25,.5,0,.5)
-    elseif val <= .32 then
-        self:SetTexCoord(.5,.75,0,.5)
-    elseif val <= .48 then
-        self:SetTexCoord(.75,1,0,.5)
-    elseif val <= .64 then
-        self:SetTexCoord(0,.25,.5,1)
-    elseif val <= .8 then
+    elseif val > .8 then
         self:SetTexCoord(.25,.5,.5,1)
+    elseif val > .6 then
+        self:SetTexCoord(0,.25,.5,1)
+    elseif val > .4 then
+        self:SetTexCoord(.75,1,0,.5)
+    elseif val > .2 then
+        self:SetTexCoord(.5,.75,0,.5)
+    elseif val > 0 then
+        self:SetTexCoord(.25,.5,0,.5)
     end
 end
 local function CreateIcon()
@@ -226,17 +226,7 @@ local function CreateIcon()
             icon.glow = ig
         end
 
-        if class == 'DEATHKNIGHT' then
-            -- create a cooldown frame for runes
-            local cd = CreateFrame('Cooldown',nil,cpf,'CooldownFrameTemplate')
-            cd:SetSwipeTexture(CD_TEXTURE)
-            cd:SetAllPoints(icon)
-            cd:SetDrawEdge(false)
-            cd:SetDrawBling(false)
-            cd:SetHideCountdownNumbers(true)
-            cd.noCooldownCount = true
-            icon.cd = cd
-        else
+        if class ~= 'DEATHKNIGHT' then
             icon.Active = function(self)
                 self:SetVertexColor(unpack(colours[class]))
                 self:SetAlpha(1)
@@ -471,6 +461,24 @@ local function PositionFrame()
 
     ele:RunCallback('PostPositionFrame',cpf,frame)
 end
+local function RuneDaemon_OnUpdate(self,elap)
+    self.elap = (self.elap or 0) + elap
+    if self.elap > .1 then
+        self.active = nil
+        self.elap = 0
+
+        for k,icon in ipairs(cpf.icons) do
+            if icon.startTime and icon.duration then
+                self.active = true
+                icon:GraduateFill((GetTime() - icon.startTime) / icon.duration)
+            end
+        end
+
+        if not self.active then
+            self:Hide()
+        end
+    end
+end
 -- mod functions ###############################################################
 function ele:UpdateConfig()
     -- get config from layout
@@ -617,6 +625,14 @@ function ele:PowerInit()
 
         if class == 'DEATHKNIGHT' then
             self:RegisterEvent('RUNE_POWER_UPDATE','RuneUpdate')
+
+            if not cpf.RuneDaemon then
+                -- create rune time-keeper
+                local r = CreateFrame('Frame',nil,cpf)
+                r:SetScript('OnUpdate',RuneDaemon_OnUpdate)
+                r:Hide()
+                cpf.RuneDaemon = r
+            end
         elseif power_type == 'stagger' then
             self:RegisterEvent('UNIT_ABSORB_AMOUNT_CHANGED','StaggerUpdate')
             self:RegisterEvent('UNIT_MAXHEALTH','StaggerUpdate')
@@ -663,13 +679,15 @@ function ele:RuneUpdate(event,rune_id,energise)
     -- set cooldown on rune icons
     local startTime, duration, charged = GetRuneCooldown(rune_id)
     local icon = cpf.icons[rune_id]
-    if not icon or not icon.cd then return end
+    if not icon then return end
 
     if charged or energise then
         icon:SetVertexColor(unpack(colours.DEATHKNIGHT))
         icon:SetAlpha(1)
+        icon:GraduateFill(1)
 
-        icon.cd:Hide()
+        icon.startTime = nil
+        icon.duration = nil
 
         if icon.glow then
             icon.glow:Show()
@@ -678,8 +696,9 @@ function ele:RuneUpdate(event,rune_id,energise)
         icon:SetVertexColor(unpack(colours.inactive))
         icon:SetAlpha(1)
 
-        icon.cd:SetCooldown(startTime, duration)
-        icon.cd:Show()
+        icon.startTime = startTime
+        icon.duration = duration
+        cpf.RuneDaemon:Show()
 
         if icon.glow then
             icon.glow:Hide()
