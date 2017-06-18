@@ -1,4 +1,8 @@
-BETA:
+BETA NOTES:
+18-jun:
+* use partially-filled class power icons for rune cooldowns, too
+
+17-jun:
 * add support for partially-filled class power icons (warlocks' soul fragments)
 
 2.14.11.1:
