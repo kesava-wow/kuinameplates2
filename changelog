@@ -1,11 +1,5 @@
-BETA NOTES:
-18-jun:
-* fix stagger
-* fix graduate fill was weighted against higher values
-* use partially-filled class power icons for rune cooldowns, too
-
-17-jun:
-* add support for partially-filled class power icons (warlocks' soul fragments)
+2.14.12:
+* add partially-filled class power icons, used for rune cooldowns and soul fragments
 
 2.14.11.1:
 * fix dropdown lists are sometimes beneath other config elements (again)
