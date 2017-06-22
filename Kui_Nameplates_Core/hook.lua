@@ -94,7 +94,7 @@ function core:Show(f)
         anchor:SetAllPoints()
         anchor:Show()
 
-        if addon.ClassPowersFrame then
+        if addon.ClassPowersFrame and plugin_classpowers.enabled then
             -- force class powers position update
             -- as our post function uses state.player
             plugin_classpowers:TargetUpdate()

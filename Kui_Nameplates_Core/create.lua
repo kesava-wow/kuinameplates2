@@ -1496,8 +1496,8 @@ do
             f:UpdateTargetArrows()
         end
 
-        if f.NameOnlyGlow and addon.ClassPowersFrame then
-            -- force-update classpowers position
+        if f.NameOnlyGlow and addon.ClassPowersFrame and plugin_classpowers.enabled then
+            -- force-update classpowers position (to run our post)
             plugin_classpowers:TargetUpdate()
         end
     end
