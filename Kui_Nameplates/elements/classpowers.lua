@@ -574,6 +574,12 @@ function ele:PowerInit()
     power_mod = nil
     power_display_partial = nil
 
+    self:UnregisterEvent('PLAYER_ENTERING_WORLD')
+    self:UnregisterEvent('UPDATE_SHAPESHIFT_FORM')
+    self:UnregisterEvent('RUNE_POWER_UPDATE')
+    cpf:UnregisterAllEvents()
+    self.UNIT_AURA_func = nil
+
     if type(powers[class]) == 'table' then
         local spec = GetSpecialization()
         power_type = powers[class][spec]
@@ -586,9 +592,6 @@ function ele:PowerInit()
 
                 cpf:RegisterUnitEvent('UNIT_AURA','player')
                 self.UNIT_AURA_func = self.Paladin_WatchFiresOfJustice
-            else
-                cpf:UnregisterEvent('UNIT_AURA')
-                self.UNIT_AURA_func = nil
             end
         elseif class == 'DRUID' and (
            (spec == 1 and IsTalentKnown(BALANCE_FERAL_AFFINITY_TALENT_ID)) or
@@ -604,16 +607,9 @@ function ele:PowerInit()
             if form and form == 2 then
                 power_type = Enum.PowerType.ComboPoints
             end
-        else
-            self:UnregisterEvent('UPDATE_SHAPESHIFT_FORM')
         end
     else
         power_type = powers[class]
-    end
-
-    if class == 'MONK' and (not power_type or power_type ~= 'stagger') then
-        cpf:UnregisterEvent('UNIT_ABSORB_AMOUNT_CHANGED')
-        cpf:UnregisterEvent('UNIT_MAXHEALTH')
     end
 
     if power_type then
@@ -667,12 +663,8 @@ function ele:PowerInit()
         -- set initial position
         PositionFrame()
     else
-        self:UnregisterEvent('PLAYER_ENTERING_WORLD')
-        cpf:UnregisterAllEvents()
-
         self:UnregisterMessage('Show')
         self:UnregisterMessage('HealthColourChange')
-
         cpf:Hide()
     end
 end
