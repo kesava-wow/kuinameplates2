@@ -5,9 +5,7 @@
 ## Dependencies: Kui_Nameplates_Core
 ## SavedVariables: KuiNameplatesCoreSaved
 ## SavedVariablesPerCharacter: KuiNameplatesCoreCharacterSaved
-## LoadManagers: AddonLoader
-## X-LoadOn-Slash: /knp, /kuinameplates
-## X-LoadOn-InterfaceOptions: Kui |cff9966ffNameplates Core
+## LoadManagers: Kui_Nameplates_Core
 
 lib\embeds.xml
 

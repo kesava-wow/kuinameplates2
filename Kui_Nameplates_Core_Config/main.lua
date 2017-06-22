@@ -7,42 +7,14 @@
 --------------------------------------------------------------------------------
 local folder,ns = ...
 local knp = KuiNameplates
-local category = 'Kui |cff9966ffNameplates Core'
 local kui = LibStub('Kui-1.0')
 local kc = LibStub('KuiConfig-1.0')
 
--- category container
-local opt = CreateFrame('Frame','KuiNameplatesCoreConfig',InterfaceOptionsFramePanelContainer)
-opt:Hide()
-opt.name = category
+-- reuse container created by core:Initialise
+local opt = KuiNameplatesCoreConfig
+assert(opt)
 opt.pages = {}
 
-if AddonLoader and AddonLoader.RemoveInterfaceOptions then
-    -- remove AddonLoader's fake category
-    AddonLoader:RemoveInterfaceOptions(category)
-
-    -- and nil its slash commands
-    SLASH_KUINAMEPLATES1 = nil
-    SLASH_KNP1 = nil
-    SlashCmdList.KUINAMEPLATES = nil
-    SlashCmdList.KNP = nil
-    hash_SlashCmdList["/kuinameplates"] = nil
-    hash_SlashCmdList["/knp"] = nil
-end
-
--- add to interface
-InterfaceOptions_AddCategory(opt)
-
--- 6.2.2: workaround for the category not populating correctly OnClick
-if AddonLoader and AddonLoader.RemoveInterfaceOptions then
-    local lastFrame = InterfaceOptionsFrame.lastFrame
-    InterfaceOptionsFrame.lastFrame = nil
-    InterfaceOptionsFrame_Show()
-    InterfaceOptionsFrame_OpenToCategory(category)
-    InterfaceOptionsFrame_OpenToCategory(category)
-    InterfaceOptionsFrame.lastFrame = lastFrame
-    lastFrame = nil
-end
 -- slash command ###############################################################
 SLASH_KUINAMEPLATESCORE1 = '/knp'
 SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
@@ -57,8 +29,8 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     end
 
     -- 6.2.2: call twice to force it to open to the correct frame
-    InterfaceOptionsFrame_OpenToCategory(category)
-    InterfaceOptionsFrame_OpenToCategory(category)
+    InterfaceOptionsFrame_OpenToCategory(opt.name)
+    InterfaceOptionsFrame_OpenToCategory(opt.name)
 end
 -- config handlers #############################################################
 function opt:ConfigChanged(config,k)

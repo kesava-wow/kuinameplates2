@@ -236,4 +236,59 @@ function core:Initialise()
 
     plugin_fading = addon:GetPlugin('Fading')
     plugin_classpowers = addon:GetPlugin('ClassPowers')
+
+    -- load on demand functions;
+    local opt
+    local function LoadConfig()
+        if IsAddOnLoaded('Kui_Nameplates_Core_Config') then return end
+        if InCombatLockdown() then
+            print('|cff9966ffKui Nameplates|r: Delaying configuration load until after combat ends.')
+            opt:RegisterEvent('PLAYER_REGEN_ENABLED')
+            return
+        end
+
+        opt:SetScript('OnShow',nil)
+        opt:SetScript('OnEvent',nil)
+        opt:UnregisterEvent('PLAYER_REGEN_ENABLED')
+
+        SLASH_KUINAMEPLATES_LOD1 = nil
+        SLASH_KUINAMEPLATES_LOD2 = nil
+        SlashCmdList.KUINAMEPLATES_LOD = nil
+        hash_SlashCmdList["/kuinameplates"] = nil
+        hash_SlashCmdList["/knp"] = nil
+
+        return LoadAddOn('Kui_Nameplates_Core_Config')
+    end
+
+    -- create slash commands
+    SLASH_KUINAMEPLATES_LOD1 = '/knp'
+    SLASH_KUINAMEPLATES_LOD2 = '/kuinameplates'
+    function SlashCmdList.KUINAMEPLATES_LOD(...)
+        if LoadConfig() then
+            -- passthrough command
+            SlashCmdList.KUINAMEPLATESCORE(...)
+        end
+    end
+
+    -- create options category
+    opt = CreateFrame('Frame','KuiNameplatesCoreConfig',InterfaceOptionsFramePanelContainer)
+    opt:Hide()
+    opt.name = 'Kui |cff9966ffNameplates Core'
+
+    opt:SetScript('OnShow',function(self)
+        if LoadConfig() then
+            -- re-trigger OnShow of config elements as page is already open
+            self:Hide()
+            self:Show()
+        end
+    end)
+    opt:SetScript('OnEvent',function(self,event)
+        if event == 'PLAYER_REGEN_ENABLED' then
+            LoadConfig()
+            InterfaceOptionsFrame_OpenToCategory(self.name)
+            InterfaceOptionsFrame_OpenToCategory(self.name)
+        end
+    end)
+
+    InterfaceOptions_AddCategory(opt)
 end
