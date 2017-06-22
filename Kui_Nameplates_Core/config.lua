@@ -548,14 +548,17 @@ function configChanged.use_blizzard_personal(v)
     addon.USE_BLIZZARD_PERSONAL = v
 end
 
-local function configChangedClickthrough()
+local function ClickthroughUpdate()
     C_NamePlate.SetNamePlateSelfClickThrough(core.profile.clickthrough_self)
     C_NamePlate.SetNamePlateFriendlyClickThrough(core.profile.clickthrough_friend)
     C_NamePlate.SetNamePlateEnemyClickThrough(core.profile.clickthrough_enemy)
 end
-configChanged.clickthrough_self = configChangedClickthrough
-configChanged.clickthrough_friend = configChangedClickthrough
-configChanged.clickthrough_enemy = configChangedClickthrough
+local function QueueClickthroughUpdate()
+    cc:QueueFunction(ClickthroughUpdate)
+end
+configChanged.clickthrough_self = QueueClickthroughUpdate
+configChanged.clickthrough_friend = QueueClickthroughUpdate
+configChanged.clickthrough_enemy = QueueClickthroughUpdate
 
 configChanged.bossmod_enable = function(v)
     if v then
