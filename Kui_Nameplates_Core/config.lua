@@ -603,7 +603,7 @@ configLoaded.level_text = configChanged.level_text
 configLoaded.auras_enabled = configChanged.auras_enabled
 configLoaded.auras_whitelist = configChangedAuras
 
-configLoaded.clickthrough_self = configChangedClickthrough
+configLoaded.clickthrough_self = QueueClickthroughUpdate
 
 function configLoaded.classpowers_enable(v)
     if v then

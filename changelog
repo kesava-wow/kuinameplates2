@@ -1,4 +1,7 @@
 BETA NOTES:
+23-jun:
+* fix clickthrough settings not correctly applied on load
+
 22-jun:
 * AddonLoader is no longer required for load-on-demand support of the config interface
 * fix config interface not populating correctly if triggered during combat
