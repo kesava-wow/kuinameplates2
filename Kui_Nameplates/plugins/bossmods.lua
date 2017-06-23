@@ -6,9 +6,9 @@
     Expected order of calls:
 
     At the beginning of an encounter:
-    _EnableFriendlyNameplates
-    -   Used to tell the nameplate addon to keep friendly nameplates enabled
-        during an encounter so that you can show icons on them.
+    _Enable{Friendly,Hostile}Nameplates
+    -   Used to tell the nameplate addon to keep friendly or hostile nameplates
+        enabled during an encounter so that you can show icons on them.
     -   Should be fired out of the combat lockdown at the beginning of a fight.
 
     During an encounter:
@@ -28,9 +28,9 @@
         or guid, if there is one.
 
     At the end of an encounter:
-    _DisableFriendlyNameplates
-    -   Tell the nameplate addon to restore friendly nameplate visibility to
-        whatever it was before _EnableFriendlyNameplates was called, and enable
+    _Disable{Friendly,Hostile}Nameplates
+    -   Tell the nameplate addon to restore friendly or hostile nameplate
+        visibility to whatever it was before _Enable was called, and enable
         automatic handling such as combat toggling.
     -   Can be called during combat; the insutruction will be delayed until
         combat ends.
@@ -40,7 +40,6 @@
     - update this ^ shit to reflect multiple icons.
     - larger font. obviously.
     - bugginess when more than max icons are created.
-
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
