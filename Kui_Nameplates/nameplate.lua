@@ -15,8 +15,6 @@ addon.Nameplate = {}
 addon.Nameplate.__index = addon.Nameplate
 
 -- Element registrar
--- TODO now that elements are external, element files should register which
--- elements they provide so that they can be called when disabled/enabled etc
 function addon.Nameplate.RegisterElement(frame, element_name, element_frame)
     frame = frame.parent
     if frame[element_name] then return end
@@ -29,6 +27,9 @@ function addon.Nameplate.RegisterElement(frame, element_name, element_frame)
         provider:PostRegister(frame,element_name)
     end
 end
+-- Disable/enable an element on a per-frame basis:
+-- XXX important to note that once an element is disabled, it must be manually
+-- re-enabled for that frame; it does not re-enable when a frame is re-used.
 function addon.Nameplate.DisableElement(frame, element_name)
     if not element_name then return end
     frame = frame.parent

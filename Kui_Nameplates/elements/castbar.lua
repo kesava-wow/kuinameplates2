@@ -86,14 +86,12 @@ function ele:Create(f)
     f.cast_state = {}
 end
 function ele:Show(f)
-    local name = UnitCastingInfo(f.unit)
-    if name then
+    if UnitCastingInfo(f.unit) then
         self:CastStart('UNIT_SPELLCAST_START',f,f.unit)
         return
     end
 
-    name = UnitChannelInfo(f.unit)
-    if name then
+    if UnitChannelInfo(f.unit) then
         self:CastStart('UNIT_SPELLCAST_CHANNEL_START',f,f.unit)
         return
     end
