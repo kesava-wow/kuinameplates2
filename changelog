@@ -1,4 +1,7 @@
 BETA NOTES:
+24-jun:
+* fix spell icon size is incorrect on newly created frames (possibly creating some lua errors in the process)
+
 23-jun:
 * fix clickthrough settings not correctly applied on load
 
