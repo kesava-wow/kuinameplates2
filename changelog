@@ -1,28 +1,6 @@
-BETA NOTES:
-24-jun:
-* fix spell icon size is incorrect on newly created frames (possibly creating some lua errors in the process)
-
-23-jun:
-* fix clickthrough settings not correctly applied on load
-
-22-jun:
 * AddonLoader is no longer required for load-on-demand support of the config interface
+* fix spell icon size is incorrect on newly created frames
 * fix config interface not populating correctly if triggered during combat
 * fix configChangedClickthrough tries to run during combat
 * fix class power icons are re-shown when disabled
 * fix warlocks' Soul Conduit refunds aren't displayed correctly
-
-2.14.12:
-* add partially-filled class power icons, used for rune cooldowns and soul fragments
-
-2.14.11.1:
-* fix dropdown lists are sometimes beneath other config elements (again)
-
-2.14.11:
-* fix class powers for 7.2.5 (if they didn't alias that, anyway)
-* add option to class colour friendly player health bars
-* add option to change colour of friendly pets (if they ever turn up)
-* dump-config now opens an edit box for easier copying
-* update whitelist
-* add light of t'uure to spell whitelist
-* add an absorb element (disabled in this release)
