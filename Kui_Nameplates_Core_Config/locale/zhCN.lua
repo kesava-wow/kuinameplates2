@@ -1,6 +1,5 @@
--- if locale == zhCN:
+if GetLocale() ~= "zhCN" then return end
 local opt = KuiNameplatesCoreConfig
-opt = opt or {}
 opt["page_names"] = {
     ["auras"] = "光环",
     ["bossmod"] = "Boss 模式",
