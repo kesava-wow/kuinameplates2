@@ -9,7 +9,9 @@
 
 lib\embeds.xml
 
+locale\enGB.lua
+locale\zhCN.lua
+
 main.lua
-l11n.lua
 helpers.lua
 create.lua

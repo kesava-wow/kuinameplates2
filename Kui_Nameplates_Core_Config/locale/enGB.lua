@@ -1,6 +1,4 @@
-local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
--- strings
 opt.page_names = {
     general     = 'General',
     healthbars  = 'Health bars',
@@ -298,4 +296,3 @@ opt.titles = {
     bossmod_y_offset = 'Vertical offset',
     bossmod_clickthrough = 'Enable clickthrough when automatically shown',
 }
-
