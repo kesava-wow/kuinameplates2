@@ -1,6 +1,4 @@
-* AddonLoader is no longer required for load-on-demand support of the config interface
-* fix spell icon size is incorrect on newly created frames
-* fix config interface not populating correctly if triggered during combat
-* fix configChangedClickthrough tries to run during combat
-* fix class power icons are re-shown when disabled
-* fix warlocks' Soul Conduit refunds aren't displayed correctly
+ALPHA NOTES
+01-jul
+* add user-contributed zhCN and zhTW localisations (will add a way to forcibly
+change the language later)
