@@ -11,6 +11,7 @@ lib\embeds.xml
 
 locale\enGB.lua
 locale\zhCN.lua
+locale\zhTW.lua
 
 main.lua
 helpers.lua
