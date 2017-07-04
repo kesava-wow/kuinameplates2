@@ -107,7 +107,7 @@ target_glow_colour.enabled = function(p) return p.target_glow end
 local bar_texture = healthbars:CreateDropDown('bar_texture')
 local bar_animation = healthbars:CreateDropDown('bar_animation')
 local absorb_enable = healthbars:CreateCheckBox('absorb_enable')
-local absorb_texture = healthbars:CreateDropDown('absorb_texture')
+local absorb_striped = healthbars:CreateCheckBox('absorb_striped')
 
 local execute_sep = healthbars:CreateSeperator('execute_sep')
 local execute_enabled = healthbars:CreateCheckBox('execute_enabled')
@@ -134,8 +134,8 @@ bar_animation.SelectTable = {'None','Smooth','Cutaway'}
 
 bar_texture:SetPoint('TOPLEFT',10,-10)
 bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',10,0)
-absorb_enable:SetPoint('TOPLEFT',bar_texture,'BOTTOMLEFT',0,-7)
-absorb_texture:SetPoint('TOPLEFT',bar_animation,'BOTTOMLEFT')
+absorb_enable:SetPoint('TOPLEFT',bar_texture,'BOTTOMLEFT',0,-5)
+absorb_striped:SetPoint('LEFT',absorb_enable,'RIGHT',190,0)
 
 execute_sep:SetPoint('TOP',0,-115)
 execute_enabled:SetPoint('TOPLEFT',15,-130)
@@ -160,6 +160,8 @@ colour_enemy_pet:SetPoint('LEFT',colour_enemy_player,'RIGHT',0,0)
 
 colour_self_class:SetPoint('TOPLEFT',colour_enemy_player,'BOTTOMLEFT',-4,-15)
 colour_self:SetPoint('TOPLEFT',colour_self_class,'BOTTOMLEFT',4,0)
+
+absorb_striped.enabled = function(p) return p.absorb_enable end
 
 colour_self.enabled = function(p) return not p.colour_self_class end
 colour_player.enabled = function(p) return not p.colour_player_class end
@@ -525,9 +527,6 @@ end
 
 bar_texture.initialize = bar_texture_initialise
 bar_texture.OnListButtonChanged = bar_texture_OnListButtonChanged
-
-absorb_texture.initialize = bar_texture_initialise
-absorb_texture.OnListButtonChanged = bar_texture_initialise
 
 function font_face:initialize()
     local list = {}
