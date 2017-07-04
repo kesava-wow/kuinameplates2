@@ -1,4 +1,8 @@
 ALPHA NOTES
+04-jul
+* re-enable the absorb element
+* add configuration for absorbs (in /knp > health bars)
+
 01-jul
 * add user-contributed zhCN and zhTW localisations (will add a way to forcibly
 change the language later)
