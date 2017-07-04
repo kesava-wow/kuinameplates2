@@ -390,6 +390,12 @@ configChanged.colour_enemy_player = configChangedReactionColour
 configChanged.colour_enemy_pet = configChangedReactionColour
 
 local function configChangedAbsorb()
+    if core.profile.absorb_enable then
+        addon:GetPlugin('AbsorbBar'):Enable()
+    else
+        addon:GetPlugin('AbsorbBar'):Disable()
+    end
+
     core:configChangedAbsorb()
 end
 configChanged.absorb_enable = configChangedAbsorb

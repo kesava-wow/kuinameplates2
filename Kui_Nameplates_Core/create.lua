@@ -490,16 +490,13 @@ do
         ABSORB_STRIPED = self.profile.absorb_striped
         ABSORB_COLOUR = self.profile.colour_absorb
 
-        for k,f in addon:Frames() do
-            if ABSORB_ENABLE then
+        if ABSORB_ENABLE then
+            for k,f in addon:Frames() do
                 if not f.AbsorbBar then
                     self:CreateAbsorbBar(f)
                 else
-                    f.handler:EnableElement('AbsorbBar')
                     f:UpdateAbsorbBar()
                 end
-            else
-                f.handler:DisableElement('AbsorbBar')
             end
         end
     end
