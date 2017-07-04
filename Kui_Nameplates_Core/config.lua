@@ -385,6 +385,13 @@ configChanged.colour_enemy_class = configChangedReactionColour
 configChanged.colour_enemy_player = configChangedReactionColour
 configChanged.colour_enemy_pet = configChangedReactionColour
 
+local function configChangedAbsorb()
+    core:configChangedAbsorb()
+end
+configChanged.absorb_enable = configChangedAbsorb
+configChanged.absorb_striped = configChangedAbsorb
+configChanged.colour_absorb = configChangedAbsorb
+
 local function configChangedTankColour()
     local ele = addon:GetPlugin('TankMode')
     ele.colours = {
@@ -591,6 +598,8 @@ configLoaded.fade_speed = configChanged.fade_speed
 configLoaded.nameonly = configChanged.nameonly
 
 configLoaded.colour_hated = configChangedReactionColour
+
+configLoaded.absorb_enable = configChanged.absorb_enable
 
 configLoaded.tank_mode = configChanged.tank_mode
 configLoaded.tankmode_force_enable = configChanged.tankmode_force_enable

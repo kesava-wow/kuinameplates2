@@ -348,6 +348,10 @@ do
             UpdateStatusBar(f.Highlight)
             UpdateStatusBar(f.HealthBar)
             UpdateStatusBar(f.PowerBar)
+
+            if f.UpdateAbsorbBar then
+                f:UpdateAbsorbBar()
+            end
         end
 
         if addon.ClassPowersFrame then
@@ -479,19 +483,53 @@ do
 end
 -- absorb bar ##################################################################
 do
+    local ABSORB_ENABLE,ABSORB_STRIPED,ABSORB_COLOUR
+
+    function core:configChangedAbsorb()
+        ABSORB_ENABLE = self.profile.absorb_enable
+        ABSORB_STRIPED = self.profile.absorb_striped
+        ABSORB_COLOUR = self.profile.colour_absorb
+
+        for k,f in addon:Frames() do
+            if ABSORB_ENABLE then
+                if not f.AbsorbBar then
+                    self:CreateAbsorbBar(f)
+                else
+                    f.handler:EnableElement('AbsorbBar')
+                    f:UpdateAbsorbBar()
+                end
+            else
+                f.handler:DisableElement('AbsorbBar')
+            end
+        end
+    end
+
+    local function UpdateAbsorbBar(f)
+        if not ABSORB_ENABLE then return end
+        if ABSORB_STRIPED then
+            f.AbsorbBar:SetStatusBarTexture(kui.m.t.stripebar)
+            f.AbsorbBar:GetStatusBarTexture():SetHorizTile(true)
+            f.AbsorbBar:GetStatusBarTexture():SetVertTile(true)
+        else
+            f.AbsorbBar:SetStatusBarTexture(BAR_TEXTURE)
+            f.AbsorbBar:GetStatusBarTexture():SetHorizTile(false)
+            f.AbsorbBar:GetStatusBarTexture():SetVertTile(false)
+        end
+
+        f.AbsorbBar:SetStatusBarColor(unpack(ABSORB_COLOUR))
+        f.AbsorbBar.spark:SetStatusBarColor(unpack(ABSORB_COLOUR))
+        f.AbsorbBar.spark:SetAlpha(1)
+    end
     function core:CreateAbsorbBar(f)
+        if not ABSORB_ENABLE then return end
+
         -- not using CreateStatusBar as we don't want a background
         local bar = CreateFrame('StatusBar',nil,f.HealthBar)
-        bar:SetStatusBarTexture('interface/addons/kui_media/t/stippled-bar')
         bar:SetAllPoints(f.HealthBar)
         bar:SetFrameLevel(0)
-        bar:SetStatusBarColor(.3,.7,1)
-        bar:SetAlpha(.5)
-
-        local t = bar:GetStatusBarTexture()
-        t:SetDrawLayer('ARTWORK',1)
-        t:SetHorizTile(true)
-        t:SetVertTile(true)
+        --bar:SetStatusBarColor(.3,.7,1)
+        --bar:SetAlpha(.5)
+        bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',1)
 
         -- spark for over-absorb highlighting
         local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)
@@ -499,14 +537,16 @@ do
         spark:SetWidth(8)
         spark:SetPoint('TOP',bar,'TOPRIGHT',-1,4)
         spark:SetPoint('BOTTOM',bar,'BOTTOMRIGHT',-1,-4)
-        spark:SetVertexColor(.3,.7,1)
         bar.spark = spark
 
         if BAR_ANIMATION == 'smooth' then
+            -- updated by core.SetBarAnimation (XXX twice?)
             f.handler:SetBarAnimation(bar,BAR_ANIMATION)
         end
 
         f.handler:RegisterElement('AbsorbBar',bar)
+        f.UpdateAbsorbBar = UpdateAbsorbBar
+        f:UpdateAbsorbBar()
     end
 end
 -- name text ###################################################################
