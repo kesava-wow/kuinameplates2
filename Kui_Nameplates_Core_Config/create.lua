@@ -137,10 +137,10 @@ bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',10,0)
 absorb_enable:SetPoint('TOPLEFT',bar_texture,'BOTTOMLEFT',0,-5)
 absorb_striped:SetPoint('LEFT',absorb_enable,'RIGHT',190,0)
 
-execute_sep:SetPoint('TOP',0,-115)
-execute_enabled:SetPoint('TOPLEFT',15,-130)
+execute_sep:SetPoint('TOP',0,-105)
+execute_enabled:SetPoint('TOPLEFT',15,-120)
 execute_colour:SetPoint('LEFT',execute_enabled,'RIGHT',190,0)
-execute_auto:SetPoint('TOPLEFT',execute_enabled,'BOTTOMLEFT')
+execute_auto:SetPoint('TOPLEFT',execute_enabled,'BOTTOMLEFT',0,-5)
 execute_percent:SetPoint('LEFT',execute_auto,'RIGHT',180,-5)
 
 colour_sep:SetPoint('TOP',0,-215)
