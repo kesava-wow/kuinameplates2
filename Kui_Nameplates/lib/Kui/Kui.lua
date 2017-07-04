@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 27
+local MAJOR, MINOR = 'Kui-1.0', 28
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -13,18 +13,16 @@ kui.m = {
         -- borders
         shadow  = media .. 't\\shadowBorder',
         rounded = media .. 't\\solidRoundedBorder',
-
         -- textures
         solid       = media .. 't\\solid',
         innerShade  = media .. 't\\innerShade',
-
+        empty       = media .. 't\\empty',
         -- progress bars
         bar       = media .. 't\\bar',
         oldbar    = media .. 't\\bar-old',
         sbar      = media .. 't\\bar-small',
         brightbar = media .. 't\\bar-bright',
-
-        empty = media..'t\\empty',
+        stripebar = media .. 't\\stippled-bar',
     },
     f = {
         yanone   = media..'f\\yanone.ttf',
