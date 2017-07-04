@@ -102,6 +102,10 @@ local default_config = {
     colour_enemy_player = {.7,.2,.1},
     colour_enemy_pet = {.7,.2,.1},
 
+    absorb_enable = true,
+    absorb_striped = true,
+    colour_absorb = {.3,.7,1,.5},
+
     execute_enabled = true,
     execute_auto = true,
     execute_percent = 20,
