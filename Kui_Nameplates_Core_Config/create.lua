@@ -162,6 +162,7 @@ colour_self_class:SetPoint('TOPLEFT',colour_enemy_player,'BOTTOMLEFT',-4,-15)
 colour_self:SetPoint('TOPLEFT',colour_self_class,'BOTTOMLEFT',4,0)
 
 absorb_striped.enabled = function(p) return p.absorb_enable end
+colour_absorb.enabled = function(p) return p.absorb_enable end
 
 colour_self.enabled = function(p) return not p.colour_self_class end
 colour_player.enabled = function(p) return not p.colour_player_class end
