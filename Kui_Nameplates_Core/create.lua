@@ -516,8 +516,9 @@ do
             f.AbsorbBar:GetStatusBarTexture():SetVertTile(false)
         end
 
+        f.AbsorbBar:GetStatusBarTexture():SetDrawLayer('ARTWORK',1)
         f.AbsorbBar:SetStatusBarColor(unpack(ABSORB_COLOUR))
-        f.AbsorbBar.spark:SetStatusBarColor(unpack(ABSORB_COLOUR))
+        f.AbsorbBar.spark:SetVertexColor(unpack(ABSORB_COLOUR))
         f.AbsorbBar.spark:SetAlpha(1)
     end
     function core:CreateAbsorbBar(f)
@@ -527,9 +528,6 @@ do
         local bar = CreateFrame('StatusBar',nil,f.HealthBar)
         bar:SetAllPoints(f.HealthBar)
         bar:SetFrameLevel(0)
-        --bar:SetStatusBarColor(.3,.7,1)
-        --bar:SetAlpha(.5)
-        bar:GetStatusBarTexture():SetDrawLayer('ARTWORK',1)
 
         -- spark for over-absorb highlighting
         local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)
