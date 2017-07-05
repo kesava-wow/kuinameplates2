@@ -57,6 +57,9 @@ opt.tooltips = {
     colour_self_class = 'Use your class colour on your personal nameplate',
     colour_self = 'The health bar colour of your personal nameplate',
 
+    absorb_enable = 'Show an absorb overlay on health bars',
+    absorb_striped = 'Use a striped texture for the absorb overlay. If unchecked, inherit the health bar texture',
+
     execute_enabled = 'Recolour health bars when units are within execute range',
     execute_auto = 'Automatically detect the appropriate execute range from your talents, defaulting to 20% on a character with no execute',
     execute_colour = 'Colour to use within execute range',
@@ -208,6 +211,10 @@ opt.titles = {
     colour_enemy_class = 'Class colour hostile players',
     colour_enemy_player = 'Hostile player',
     colour_enemy_pet = 'Hostile player pet',
+
+    absorb_enable = 'Show absorbs',
+    absorb_striped = 'Striped absorb texture',
+    colour_absorb = 'Absorb overlay',
 
     execute_sep = 'Execute range',
     execute_enabled = 'Enable execute range',
