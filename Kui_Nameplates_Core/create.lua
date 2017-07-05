@@ -504,16 +504,16 @@ do
     local function UpdateAbsorbBar(f)
         if not ABSORB_ENABLE then return end
         if ABSORB_STRIPED then
-            f.AbsorbBar:SetStatusBarTexture(kui.m.t.stripebar)
-            f.AbsorbBar:GetStatusBarTexture():SetHorizTile(true)
-            f.AbsorbBar:GetStatusBarTexture():SetVertTile(true)
+            f.AbsorbBar.t:SetTexture(kui.m.t.stripebar,true,true)
+            f.AbsorbBar.t:SetHorizTile(true)
+            f.AbsorbBar.t:SetVertTile(true)
         else
-            f.AbsorbBar:SetStatusBarTexture(BAR_TEXTURE)
-            f.AbsorbBar:GetStatusBarTexture():SetHorizTile(false)
-            f.AbsorbBar:GetStatusBarTexture():SetVertTile(false)
+            f.AbsorbBar.t:SetTexture(BAR_TEXTURE,false,false)
+            f.AbsorbBar.t:SetHorizTile(false)
+            f.AbsorbBar.t:SetVertTile(false)
         end
 
-        f.AbsorbBar:GetStatusBarTexture():SetDrawLayer('ARTWORK',1)
+        f.AbsorbBar.t:SetDrawLayer('ARTWORK',1)
         f.AbsorbBar:SetStatusBarColor(unpack(ABSORB_COLOUR))
         f.AbsorbBar.spark:SetVertexColor(unpack(ABSORB_COLOUR))
         f.AbsorbBar.spark:SetAlpha(1)
@@ -525,6 +525,9 @@ do
         local bar = CreateFrame('StatusBar',nil,f.HealthBar)
         bar:SetAllPoints(f.HealthBar)
         bar:SetFrameLevel(0)
+
+        bar.t = bar:CreateTexture(nil,'ARTWORK')
+        bar:SetStatusBarTexture(bar.t)
 
         -- spark for over-absorb highlighting
         local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)

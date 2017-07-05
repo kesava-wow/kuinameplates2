@@ -19,9 +19,6 @@ function addon.Nameplate.UpdateAbsorb(f)
                     f.AbsorbBar.spark:Hide()
                 end
             end
-
-            -- re-set the texture to (attempt to) fix tiling
-            f.AbsorbBar:SetStatusBarTexture(f.AbsorbBar:GetStatusBarTexture())
         else
             f.AbsorbBar:SetValue(0)
             f.AbsorbBar:Hide()
