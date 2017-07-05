@@ -1,4 +1,7 @@
 ALPHA NOTES
+05-jul
+* possibly fix absorb texture tiling issues
+
 04-jul
 * re-enable the absorb element
 * add configuration for absorbs (in /knp > health bars)
