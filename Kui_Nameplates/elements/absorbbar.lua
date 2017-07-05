@@ -6,8 +6,13 @@ function addon.Nameplate.UpdateAbsorb(f)
     f.state.absorbs = UnitGetTotalAbsorbs(f.unit) or 0
 
     if f.elements.AbsorbBar then
-        if f.state.health_max then
+        if f.state.health_max and f.state.absorbs > 0 then
+            f.AbsorbBar:SetMinMaxValues(0,f.state.health_max)
+            f.AbsorbBar:SetValue(f.state.absorbs)
+            f.AbsorbBar:Show()
+
             if f.AbsorbBar.spark then
+                -- show spark for over-absorbs
                 if f.state.absorbs > f.state.health_max then
                     f.AbsorbBar.spark:Show()
                 else
@@ -15,14 +20,14 @@ function addon.Nameplate.UpdateAbsorb(f)
                 end
             end
 
-            f.AbsorbBar:SetMinMaxValues(0,f.state.health_max)
-            f.AbsorbBar:SetValue(f.state.absorbs)
-            f.AbsorbBar:Show()
-
-            -- re-set the texture to fix tiling
+            -- re-set the texture to (attempt to) fix tiling
             f.AbsorbBar:SetStatusBarTexture(f.AbsorbBar:GetStatusBarTexture())
         else
+            f.AbsorbBar:SetValue(0)
             f.AbsorbBar:Hide()
+            if f.AbsorbBar.spark then
+                f.AbsorbBar.spark:Hide()
+            end
         end
     end
 end
