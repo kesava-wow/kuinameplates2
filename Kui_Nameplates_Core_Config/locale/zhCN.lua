@@ -239,6 +239,7 @@ opt.tooltips["health_text_friend_dmg"] = "友方玩家损血时的血量文字�
 opt.tooltips["health_text_friend_max"] = "友方玩家满血时的血量文字格式"
 opt.tooltips["health_text_hostile_dmg"] = "敌方玩家损血时的血量文字格式"
 opt.tooltips["health_text_hostile_max"] = "敌方玩家满血时的血量文字格式"
+opt.tooltips["hide_names"] = "你可以透过改变 Esc > 界面 > 姓名 > \“NPC名称\”下拉菜单的选项，来设定是否进行追踪。注意：此設定在名字模式不生效"
 opt.tooltips["ignore_uiscale"] = "忽略默认的界面缩放。这可以让姓名板维持精确的像素，不受解析度影响。"
 opt.tooltips["nameonly"] = "隐藏友方或不可攻击单位的姓名板。启用此模组时以血量百分比染色名字。"
 opt.tooltips["nameonly_all_enemies"] = "在所有敌方单位使用名字模式"
