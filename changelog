@@ -1,22 +1,2 @@
-ALPHA NOTES
-08-jul
-* update zhCN
-* update zhTW
-
-07-jul
-* update zhTW
-
-06-jul
-* update zhTW
-
-05-jul
-* possibly fix absorb texture tiling issues
-
-* update absorb config l11n
-
-04-jul
-* re-enable the absorb element
-* add configuration for absorbs (in /knp > health bars)
-
-01-jul
-* add user-contributed zhCN and zhTW localisations (will add a way to forcibly change the language later)
+* add user-contributed zhCN and zhTW localisations
+* add absorb display (and related options under /knp > health bars)
