@@ -669,6 +669,14 @@ do
             else
                 return ceil(v)
             end
+        elseif key == 5 then
+			local vv = f.state.health_per
+			if vv < 1 then
+                vv = strformat('%.1f', vv)
+            else
+                vv = ceil(vv)
+            end
+			return kui.num(f.state.health_cur)..'['..vv..'%]'
         else
             return '-'..kui.num(f.state.health_deficit)
         end
