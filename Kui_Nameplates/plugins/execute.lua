@@ -3,7 +3,7 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Execute',4)
 
-local class,execute_range
+local EquipScanQueue,class,execute_range
 
 local specs = {
     ['DRUID'] = {
@@ -16,7 +16,7 @@ local talents = {
         [22317] = 35
     },
     ['DRUID'] = {
-        [21714] = -1, -- sabertooth
+        [21714] = -1, -- sabertooth (overrides ferocious bite)
         [22155] = 25, -- feral affinity -> ferocious bite (balance)
         [22156] = 25, -- (guardian)
         [22367] = 25, -- (resto)
@@ -27,6 +27,9 @@ local pvp_talents = {
         [23] = 25,
         [1942] = 25
     }
+}
+local items = {
+    [132454] = 30, -- koralon's burning touch
 }
 
 -- local functions #############################################################
@@ -52,11 +55,20 @@ local function GetExecuteRange()
         end
     end
 
+    -- TODO use arena areas to find what event enables pvp abilities
     if UnitIsPVP('player') and pvp_talents[class] then
         for id,v in pairs(pvp_talents[class]) do
             if IsTalentKnown(id,true) then
                 r = v
             end
+        end
+    end
+
+    -- check equipped items
+    for slot_id=1,18 do
+        local item_id = GetInventoryItemID('player',slot_id)
+        if item_id and items[item_id] then
+            r = items[item_id]
         end
     end
 
@@ -66,16 +78,21 @@ local function CanOverwriteHealthColor(f)
     return not f.state.health_colour_priority or
            f.state.health_colour_priority <= mod.priority
 end
+local function EquipScanQueue_Update()
+    EquipScanQueue:Hide()
+    execute_range = GetExecuteRange()
+end
 -- mod functions ###############################################################
 function mod:SetExecuteRange(to)
     if type(to) == 'number' then
         self:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
         self:UnregisterEvent('PLAYER_FLAGS_CHANGED')
+        self:UnregisterEvent('PLAYER_EQUIPMENT_CHANGED')
         execute_range = to
     else
         self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
         self:RegisterEvent('PLAYER_FLAGS_CHANGED','PLAYER_SPECIALIZATION_CHANGED')
-
+        self:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
         self:PLAYER_SPECIALIZATION_CHANGED()
     end
 end
@@ -125,8 +142,17 @@ end
 function mod:PLAYER_SPECIALIZATION_CHANGED()
     execute_range = GetExecuteRange()
 end
+function mod:PLAYER_EQUIPMENT_CHANGED()
+    EquipScanQueue:Show()
+end
 -- register ####################################################################
 function mod:OnEnable()
+    if not EquipScanQueue then
+        EquipScanQueue = CreateFrame('Frame')
+        EquipScanQueue:Hide()
+        EquipScanQueue:SetScript('OnUpdate',EquipScanQueue_Update)
+    end
+
     self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('Show','HealthColourChange')
