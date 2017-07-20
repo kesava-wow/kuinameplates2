@@ -5,7 +5,6 @@
 --------------------------------------------------------------------------------
 -- Initialise addon events & begin to find nameplates
 --------------------------------------------------------------------------------
--- initalise addon global
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
 addon.MAJOR,addon.MINOR = 2,2
@@ -18,11 +17,14 @@ addon.debug = true
 --addon.draw_frames = true
 --@end-debug@
 
--- kui nameplate container frame size
-addon.uiscale = .71 -- updated upon reload
-addon.IGNORE_UISCALE = nil
-addon.USE_BLIZZARD_PERSONAL = nil
+-- updated by UI_SCALE_CHANGED:
+addon.uiscale = .71
+-- container frame size (i.e. don't change them):
 addon.width,addon.height = 140,40
+-- can be changed during run time:
+addon.IGNORE_UISCALE = nil
+-- should be set before nameplates are created, if desired:
+addon.USE_BLIZZARD_PERSONAL = nil
 
 local framelist = {}
 
