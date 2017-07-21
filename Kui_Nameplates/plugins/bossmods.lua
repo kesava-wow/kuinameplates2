@@ -56,7 +56,7 @@ local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
 local initialised,plugin_ct,active_boss_auras
-local hidden_auras,num_hidden_auras
+local hidden_auras,num_hidden_auras,enable_warned
 local prev_show_enemies,prev_show_friends
 local GetNamePlateForUnit
 local select = select
