@@ -51,7 +51,7 @@ local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
 local initialised,plugin_ct,active_boss_auras
-local hidden_auras,num_hidden_auras,enable_warned
+local hidden_auras,num_hidden_auras
 local prev_show_enemies,prev_show_friends
 local GetNamePlateForUnit
 local select = select
@@ -122,19 +122,7 @@ do
         if not registered and type(cb_registrar[name]) == 'function' then
             cb_registrar[name](true)
             registered = name
-
             addon:print('BossMods registered '..name)
-
-            if  CONTROL_VISIBILITY and
-                (not prev_show_enemies or not prev_show_friends) and
-                not enable_warned
-            then
-                -- XXX TEMPORARY until people get used to this (14th Feb)
-                -- (only print if plates were previously disabled or if
-                -- CombatToggle is set to hide friendly plates on combat)
-                print('|cff9966ffKui Nameplates|r: '..name..' just sent a message instructing Kui Nameplates to forcibly enable nameplates so that it can show you extra information on them during this encounter. You can disable this in /knp > boss mods.')
-                enable_warned = true
-            end
         else
             addon:print('BossMods ignored registration for '..name)
         end
