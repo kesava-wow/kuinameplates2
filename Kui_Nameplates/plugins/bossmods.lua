@@ -45,6 +45,11 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('BossMods')
 
+-- XXX placeholders for l11n-compatibility
+local L_SHOW_WARNING = '|cff9966ffKui Nameplates|r: %s just sent a message instructing Kui Nameplates to forcibly enable %s nameplates so that it can show you extra information on them during this encounter. You can disable this in /knp > boss mods.'
+local L_FRIENDLY = 'friendly'
+local L_HOSTILE = 'hostile'
+
 local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET = 30,0,0
 local CONTROL_VISIBILITY = true
 local DECIMAL_THRESHOLD = 1
@@ -117,7 +122,7 @@ do
         end,
     }
 
-    function RegisterAddon(name)
+    function RegisterAddon(name,hostile)
         if not name then return end
         if not registered and type(cb_registrar[name]) == 'function' then
             cb_registrar[name](true)
@@ -125,15 +130,16 @@ do
 
             addon:print('BossMods registered '..name)
 
-            if  CONTROL_VISIBILITY and
-                (not prev_show_enemies or not prev_show_friends) and
-                not enable_warned
-            then
-                -- XXX TEMPORARY until people get used to this (14th Feb)
-                -- (only print if plates were previously disabled or if
-                -- CombatToggle is set to hide friendly plates on combat)
-                print('|cff9966ffKui Nameplates|r: '..name..' just sent a message instructing Kui Nameplates to forcibly enable nameplates so that it can show you extra information on them during this encounter. You can disable this in /knp > boss mods.')
-                enable_warned = true
+            if CONTROL_VISIBILITY and not enable_warned then
+                if (hostile and not prev_show_enemies) or
+                   (not hostile and not prev_show_friends)
+                then
+                    print(string.format(
+                        L_SHOW_WARNING,
+                        name,(hostile and L_HOSTILE or L_FRIENDLY)
+                    ))
+                    enable_warned = true
+                end
             end
         else
             addon:print('BossMods ignored registration for '..name)
@@ -390,7 +396,7 @@ do
             end
         end
 
-        RegisterAddon(sender)
+        RegisterAddon(sender,hostile)
     end
     local function Callback_DisableNameplates()
         if not mod.enabled or not registered then return end
