@@ -1,2 +1,1 @@
-* add koralon's burning touch to auto-detect execute range for mages (30%)
-* fix boss mods enable warning fires even if you already have nameplates enabled
+* fix lua error related to the PlaySound function on 7.3 PTR

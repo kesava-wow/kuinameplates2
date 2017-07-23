@@ -2,6 +2,19 @@ local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
 local pcdd = LibStub('PhanxConfig-Dropdown')
+-- XXX temporary PlaySound compatibility for 7.2.5 -> 7.3
+local S_CHECKBOX_ON,S_CHECKBOX_OFF,S_MENU_OPEN,S_MENU_CLOSE
+if SOUNDKIT then
+    S_CHECKBOX_ON = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
+    S_CHECKBOX_OFF = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF
+    S_MENU_OPEN = SOUNDKIT.IG_MAINMENU_OPEN
+    S_MENU_CLOSE = SOUNDKIT.IG_MAINMENU_CLOSE
+else
+    S_CHECKBOX_ON = 'igMainMenuOptionCheckBoxOn'
+    S_CHECKBOX_OFF = 'igMainMenuOptionCheckBoxOff'
+    S_MENU_OPEN = 'igMainMenuOpen'
+    S_MENU_CLOSE = 'igMainMenuClose'
+end
 -- generic scripts #############################################################
 local function EditBoxOnEscapePressed(self)
     self:ClearFocus()
@@ -57,9 +70,9 @@ do
 
     local function CheckBoxOnClick(self)
         if self:GetChecked() then
-            PlaySound("igMainMenuOptionCheckBoxOn")
+            PlaySound(S_CHECKBOX_ON)
         else
-            PlaySound("igMainMenuOptionCheckBoxOff")
+            PlaySound(S_CHECKBOX_OFF)
         end
 
         self:Set()
@@ -534,7 +547,7 @@ end
 -- tab functions ###############################################################
 do
     local function OnClick(self)
-        PlaySound("igMainMenuOptionCheckBoxOn");
+        PlaySound(S_CHECKBOX_ON);
         self.child:ShowPage()
     end
     function opt:CreatePageTab(page)
@@ -558,10 +571,10 @@ end
 -- popup functions #############################################################
 do
     local function PopupOnShow(self)
-        PlaySound("igMainMenuOpen")
+        PlaySound(S_MENU_OPEN)
     end
     local function PopupOnHide(self)
-        PlaySound("igMainMenuClose")
+        PlaySound(S_MENU_CLOSE)
     end
     local function PopupOnKeyUp(self,kc)
         if kc == 'ENTER' then
