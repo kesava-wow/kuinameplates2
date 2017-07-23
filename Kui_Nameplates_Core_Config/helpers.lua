@@ -149,12 +149,6 @@ do
         self:Get()
         GenericOnShow(self)
     end
-    local function DropDownOnClick(self)
-        -- fix dropdown list frame strata
-        if self:GetParent() and self:GetParent().list then
-            self:GetParent().list:SetFrameStrata('TOOLTIP')
-        end
-    end
 
     local function DropDownEnable(self)
         self.labelText:SetFontObject('GameFontNormalSmall')
@@ -178,7 +172,6 @@ do
         dd.env = name
 
         dd:HookScript('OnShow',DropDownOnShow)
-        dd.button:HookScript('OnClick',DropDownOnClick)
 
         dd.OnEnter = OnEnter
         dd.OnLeave = OnLeave
