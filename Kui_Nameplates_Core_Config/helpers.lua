@@ -881,19 +881,27 @@ do
         end
     end
     local function initialize(self)
-        local list = {}
+        -- sort profiles alphabetically
+        local profiles_indexed = {}
+        for name in pairs(opt.config.gsv.profiles) do
+            tinsert(profiles_indexed,name)
+        end
+        table.sort(profiles_indexed,function(a,b)
+            return strlower(a) < strlower(b)
+        end)
 
-        -- create new profile button
+        -- create new profile button at top
+        local list = {}
         tinsert(list,{
             text = opt.titles['new_profile'],
             value = 'new_profile'
         })
 
         -- create profile buttons
-        for k,p in pairs(opt.config.gsv.profiles) do
+        for _,name in ipairs(profiles_indexed) do
             tinsert(list,{
-                text = k,
-                selected = k == opt.config.csv.profile
+                text = name,
+                selected = name == opt.config.csv.profile
             })
         end
 
