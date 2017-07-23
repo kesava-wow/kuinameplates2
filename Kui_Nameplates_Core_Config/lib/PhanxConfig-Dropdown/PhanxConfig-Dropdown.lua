@@ -2,7 +2,7 @@
 	PhanxConfig-Dropdown
 	Simple scrolling dropdown widget generator. Requires LibStub.
 	https://github.com/Phanx/PhanxConfig-Dropdown
-	Copyright (c) 2009-2015 Phanx <addons@phanx.net>. All rights reserved.
+	Copyright (c) 2009-2016 Phanx <addons@phanx.net>. All rights reserved.
 	Feel free to include copies of this file WITHOUT CHANGES inside World of
 	Warcraft addons that make use of it as a library, and feel free to use code
 	from this file in other projects as long as you DO NOT use my name or the
@@ -10,7 +10,7 @@
 	credits line -- any modified versions must be renamed to avoid conflicts.
 ----------------------------------------------------------------------]]
 
-local MINOR_VERSION = 20150128
+local MINOR_VERSION = 20160802
 
 local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Dropdown", MINOR_VERSION)
 if not lib then return end
@@ -248,6 +248,7 @@ function CreateList(dropdown) -- local
 	id = id + 1
 
 	local list = CreateFrame("Button", "PhanxConfigDropdown" .. id, dropdown)
+	list:SetFrameStrata("DIALOG")
 	list:SetToplevel(true)
 	list:Hide()
 
