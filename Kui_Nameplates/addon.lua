@@ -36,9 +36,9 @@ local function PluginSort(a,b)
 end
 addon.plugins = {}
 --------------------------------------------------------------------------------
-function addon:print(msg)
-    if not addon.debug or not msg then return end
-    print('KNP2','|cff666666'..GetTime()..'|r',tostring(msg))
+function addon:print(...)
+    if not addon.debug then return end
+    print('KNP2','|cff666666'..GetTime()..'|r',...)
 end
 function addon:Frames()
     return ipairs(framelist)
