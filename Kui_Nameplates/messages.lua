@@ -21,7 +21,7 @@ function addon:DispatchMessage(message, ...)
 
             if addon.debug_messages then
                 if not addon.DEBUG_IGNORE or not addon.DEBUG_IGNORE['m:'..message] then
-                    addon:print('p:'..(listener.priority or '?')..' m:'..message..' > '..(listener.name or 'nil'))
+                    addon:print('p:'..(listener.priority or '?')..' |cff88ff88m:'..message..'|r > '..(listener.name or 'nil'))
                 end
             end
 
@@ -85,7 +85,7 @@ local function event_frame_OnEvent(self,event,...)
 
                 if addon.debug_messages then
                     if not addon.DEBUG_IGNORE or not addon.DEBUG_IGNORE['e:'..event] then
-                        addon:print('p:'..(table.priority or '?')..' e:'..event..(unit and ' ['..unit..']' or '')..' > '..(table.name or 'nil'))
+                        addon:print('p:'..(table.priority or '?')..' |cffffff88e:'..event..(unit and ' |cff8888ff['..unit..']' or '')..'|r > '..(table.name or 'nil'))
                     end
                 end
             else

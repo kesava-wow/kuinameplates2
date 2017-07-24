@@ -28,6 +28,8 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
                 ['m:Create'] = true,
                 ['m:Show'] = true,
                 ['m:Hide'] = true,
+                ['e:UNIT_POWER_FREQUENT'] = true,
+                ['e:UNIT_HEALTH_FREQUENT'] = true,
             }
         end
         return
