@@ -20,7 +20,23 @@ SLASH_KUINAMEPLATESCORE1 = '/knp'
 SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
 function SlashCmdList.KUINAMEPLATESCORE(msg)
-    if msg == 'dump-config' then
+    if msg == 'debug' then
+        knp.debug = true
+        knp.debug_messages = not knp.debug_messages
+        if knp.debug_messages and not knp.DEBUG_IGNORE then
+            knp.DEBUG_IGNORE = {
+                ['m:Create'] = true,
+                ['m:Show'] = true,
+                ['m:Hide'] = true,
+            }
+        end
+        return
+    elseif knp.debug_messages and strfind(msg,'^debug%-ignore') then
+        local to_ignore = strmatch(msg,'^debug%-ignore (.-)%s*$')
+        knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
+        knp.DEBUG_IGNORE[to_ignore] = not knp.DEBUG_IGNORE[to_ignore]
+        return
+    elseif msg == 'dump-config' then
         local d = kui:DebugPopup()
         d:AddText(KuiNameplatesCore.config.csv)
         d:AddText(KuiNameplatesCore.config:GetActiveProfile())

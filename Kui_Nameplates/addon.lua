@@ -38,7 +38,7 @@ addon.plugins = {}
 --------------------------------------------------------------------------------
 function addon:print(msg)
     if not addon.debug or not msg then return end
-    print('|cff666666KNP2 '..GetTime()..':|r '..tostring(msg))
+    print('KNP2','|cff666666'..GetTime()..'|r',tostring(msg))
 end
 function addon:Frames()
     return ipairs(framelist)
