@@ -61,9 +61,9 @@ function addon:HookNameplate(frame)
 
     if self.draw_frames then
         -- debug; visible frame sizes
-        frame:SetBackdrop({ edgeFile = kui.m.t.solid, edgeSize = 1 })
-        frame:SetBackdropBorderColor(0,0,0)
-        frame.kui:SetBackdrop({ edgeFile = kui.m.t.solid, edgeSize = 1 })
+        frame:SetBackdrop({bgFile=kui.m.t.solid})
+        frame:SetBackdropColor(0,0,0)
+        frame.kui:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
         frame.kui:SetBackdropBorderColor(1,1,1)
     end
 

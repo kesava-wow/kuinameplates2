@@ -33,6 +33,25 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             }
         end
         return
+    elseif msg == 'debug-frames' then
+        knp.draw_frames = not knp.draw_frames
+        if knp.draw_frames then
+            KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
+            KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
+            for k,f in knp:Frames() do
+                f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
+                f:SetBackdropBorderColor(1,1,1)
+                f.parent:SetBackdrop({bgFile=kui.m.t.solid})
+                f.parent:SetBackdropColor(0,0,0)
+            end
+        else
+            KuiNameplatesPlayerAnchor:SetBackdrop(nil)
+            for k,f in knp:Frames() do
+                f:SetBackdrop(nil)
+                f.parent:SetBackdrop(nil)
+            end
+        end
+        return
     elseif knp.debug_messages and strfind(msg,'^debug%-ignore') then
         local to_ignore = strmatch(msg,'^debug%-ignore (.-)%s*$')
         knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
