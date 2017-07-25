@@ -1,3 +1,9 @@
 * sort profile dropdown alphabetically
 * resize KuiNameplatesPlayerAnchor slightly
 * fix lua error related to the PlaySound function on 7.3 PTR
+
+BETA NOTES
+
+25-jul
+* various debug slash commands (debug, debug-ignore, debug-frames)
+* command given to unloaded /knp while in combat will now be passed through upon leaving combat
