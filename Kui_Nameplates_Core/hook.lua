@@ -90,7 +90,7 @@ function core:Show(f)
 
     if f.state.player then
         anchor:SetParent(f)
-        anchor:SetAllPoints()
+        anchor:SetAllPoints(f.bg)
         anchor:Show()
 
         if addon.ClassPowersFrame and plugin_classpowers.enabled then
