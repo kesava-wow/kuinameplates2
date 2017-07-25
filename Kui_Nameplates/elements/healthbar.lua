@@ -26,17 +26,17 @@ function addon.Nameplate.UpdateHealthColour(f,show)
             else
                 r,g,b = kui.GetClassColour(f.unit,2)
             end
-        elseif UnitIsFriend('player',f.unit) then
-            -- friendly players
-            if ele.colours.player then
-                r,g,b = unpack(ele.colours.player)
+        elseif UnitCanAttack('player',f.unit) then
+            -- hostile players
+            if ele.colours.enemy_player then
+                r,g,b = unpack(ele.colours.enemy_player)
             else
                 r,g,b = kui.GetClassColour(f.unit,2)
             end
         else
-            -- hostile players
-            if ele.colours.enemy_player then
-                r,g,b = unpack(ele.colours.enemy_player)
+            -- friendly players
+            if ele.colours.player then
+                r,g,b = unpack(ele.colours.player)
             else
                 r,g,b = kui.GetClassColour(f.unit,2)
             end

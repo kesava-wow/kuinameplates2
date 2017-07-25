@@ -337,12 +337,12 @@ local function AuraFrame_FactionUpdate(self)
 
     if self.dynamic and self.parent.unit then
         -- update filter on faction change if dynamic
-        if UnitIsFriend('player',self.parent.unit) then
-            self.filter = 'PLAYER HELPFUL'
-        else
+        if UnitCanAttack('player',self.parent.unit) then
             self.filter = self.vanilla_filter and
                 'HARMFUL|INCLUDE_NAME_PLATE_ONLY' or
                 'PLAYER HARMFUL'
+        else
+            self.filter = 'PLAYER HELPFUL'
         end
     end
 
