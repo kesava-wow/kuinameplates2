@@ -656,7 +656,7 @@ end
 -- health text #################################################################
 do
     local function GetHealthDisplay(f,key)
-        if type(key) ~= 'number' or key >= 5 or key <= 0 then return '' end
+        if type(key) ~= 'number' or key >= 6 or key <= 0 then return '' end
 
         if key == 1 then
             return kui.num(f.state.health_cur)
@@ -669,6 +669,14 @@ do
             else
                 return ceil(v)
             end
+        elseif key == 5 then
+            local vv = f.state.health_per
+            if vv < 1 then
+                vv = strformat('%.1f', vv)
+            else
+                vv = ceil(vv)
+            end
+            return kui.num(f.state.health_cur)..'['..vv..'%]'
         else
             return '-'..kui.num(f.state.health_deficit)
         end

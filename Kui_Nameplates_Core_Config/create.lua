@@ -223,6 +223,7 @@ local health_text_SelectTable = {
     'Maximum |cff888888(156k)',
     'Percent |cff888888(93)',
     'Deficit |cff888888(-10.9k)',
+    'Current n Percent |cff888888(145k 93%)',
     'Blank |cff888888(  )'
 }
 
