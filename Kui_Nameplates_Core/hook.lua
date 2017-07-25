@@ -197,7 +197,7 @@ end
 -- #############################################################################
 local CreateLODHandler
 do
-    local opt
+    local opt,saved_command
     local function LoadConfig()
         if IsAddOnLoaded('Kui_Nameplates_Core_Config') then return end
         if InCombatLockdown() then
@@ -227,15 +227,20 @@ do
     end
     local function lod_OnEvent(self,event)
         if event == 'PLAYER_REGEN_ENABLED' then
-            LoadConfig()
-            InterfaceOptionsFrame_OpenToCategory(self.name)
-            InterfaceOptionsFrame_OpenToCategory(self.name)
+            if LoadConfig() then
+                SlashCmdList.KUINAMEPLATESCORE(saved_command)
+                saved_command = nil
+            end
         end
     end
-    local function lod_Slash(...)
+    local function lod_Slash(msg)
+        if InCombatLockdown() then
+            -- save command to passthrough upon leaving combat
+            saved_command = msg
+        end
         if LoadConfig() then
             -- passthrough command
-            SlashCmdList.KUINAMEPLATESCORE(...)
+            SlashCmdList.KUINAMEPLATESCORE(msg)
         end
     end
 
