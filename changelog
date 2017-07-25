@@ -1,2 +1,3 @@
 * sort profile dropdown alphabetically
+* resize KuiNameplatesPlayerAnchor slightly
 * fix lua error related to the PlaySound function on 7.3 PTR
