@@ -616,7 +616,6 @@ configLoaded.castbar_enable = configChanged.castbar_enable
 configLoaded.level_text = configChanged.level_text
 
 configLoaded.auras_enabled = configChanged.auras_enabled
-configLoaded.auras_pulsate = configChangedAuras
 
 configLoaded.clickthrough_self = QueueClickthroughUpdate
 
