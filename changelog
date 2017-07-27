@@ -1,6 +1,0 @@
-* sort profile dropdown alphabetically
-* resize KuiNameplatesPlayerAnchor slightly
-* fix lua error related to the PlaySound function on 7.3 PTR
-* fix auras doesn't switch back to debuffs after a possession effect ends
-* fix auras doesn't switch to debuffs in friendly duels
-* fix health bar colour is incorrect during friendly duels

@@ -1232,8 +1232,6 @@ do
             y_spacing = 1,
             rows = 2,
 
-            vanilla_filter = self.profile.auras_vanilla_filter,
-            kui_whitelist = self.profile.auras_whitelist,
             pulsate = self.profile.auras_pulsate,
             timer_threshold = self.profile.auras_time_threshold > 0 and self.profile.auras_time_threshold or nil,
             squareness = self.profile.auras_icon_squareness,
@@ -1313,11 +1311,9 @@ do
                     af.pulsate = self.profile.auras_pulsate
                     af.timer_threshold = timer_threshold
                     af.squareness = self.profile.auras_icon_squareness
-                    af.vanilla_filter = self.profile.auras_vanilla_filter
                     af.centred = self.profile.auras_centre
 
                     af:SetSort(self.profile.auras_sort)
-                    af:SetWhitelist(nil,self.profile.auras_whitelist)
 
                     -- force size update
                     af.__width = nil
