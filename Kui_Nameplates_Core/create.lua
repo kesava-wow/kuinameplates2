@@ -38,6 +38,7 @@ local folder,ns=...
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local LSM = LibStub('LibSharedMedia-3.0')
+local KSL = LibStub('KuiSpellList-2.0')
 local core = KuiNameplatesCore
 
 -- frame fading plugin - called by some update functions
@@ -1262,7 +1263,7 @@ do
 
         core.AurasButton_SetFont(button)
     end
-    function core.Auras_DisplayAura(frame,name,spellid,duration)
+    function core.Auras_DisplayAura(frame,name,spellid,duration,caster)
         if frame.id ~= 'core_dynamic' then return end
 
         if  AURAS_MIN_LENGTH and
@@ -1277,6 +1278,22 @@ do
             return 1
         end
 
+        if KSL then
+            -- force show if included by spell list (all casters or self)
+            if  KSL:SpellIncludedAll(spellid) or (
+                (caster == 'player' or caster == 'pet' or caster == 'vehicle') and
+                KSL:SpellIncludedOwn(spellid))
+            then
+                return 2
+            end
+
+            -- force hide if excluded by spell list
+            if KSL:SpellExcluded(spellid) then
+                return 1
+            end
+        end
+
+        -- process as normal
         return
     end
 
