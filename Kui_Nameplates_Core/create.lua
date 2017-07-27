@@ -1268,16 +1268,16 @@ do
         if  AURAS_MIN_LENGTH and
             duration ~= 0 and duration <= AURAS_MIN_LENGTH
         then
-            return false
+            return 1
         end
 
         if  AURAS_MAX_LENGTH and
             (duration == 0 or duration > AURAS_MAX_LENGTH)
         then
-            return false
+            return 1
         end
 
-        return true
+        return
     end
 
     -- config changed
