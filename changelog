@@ -4,9 +4,3 @@
 * fix auras doesn't switch back to debuffs after a possession effect ends
 * fix auras doesn't switch to debuffs in friendly duels
 * fix health bar colour is incorrect during friendly duels
-
-BETA NOTES
-
-25-jul
-* various debug slash commands (debug, debug-ignore, debug-frames)
-* command given to unloaded /knp while in combat will now be passed through upon leaving combat
