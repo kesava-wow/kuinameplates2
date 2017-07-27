@@ -5,3 +5,4 @@ in preparation for changing the way in which the aura filter can be edited.
 KuiSpellList isn't used anymore, so obviously KuiSpellListConfig will have no
 effect. Currently it filters in a way similar to the old "use default ui
 filter" option (i.e. shows other players' CCs, etc).
+* add koKR localisation contributed by yuk6196 (thanks!)
