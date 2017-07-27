@@ -1,5 +1,8 @@
 BETA NOTES
 27-jul
+* config page elements are created on-demand, rather than all at once (which
+should slightly reduce the pause when you first open the config interface)
+
 * aura options "use default ui filter" and "use whitelist" have been removed
 in preparation for changing the way in which the aura filter can be edited.
 KuiSpellList isn't used anymore, so obviously KuiSpellListConfig will have no
