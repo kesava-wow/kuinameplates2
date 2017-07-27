@@ -495,6 +495,16 @@ do
         self.scroll:Hide()
         self:Hide()
     end
+    local function PageOnShow(self)
+        if type(self.Initialise) == 'function' then
+            self:Initialise()
+            self.Initialise = nil
+
+            -- trigger initial OnShow of created elements
+            self:Hide()
+            self:Show()
+        end
+    end
 
     local page_proto = {
         CreateCheckBox = opt.CreateCheckBox,
@@ -509,6 +519,9 @@ do
     }
     function opt:CreateConfigPage(name)
         local f = CreateFrame('Frame',frame_name..name..'Page',self)
+        f:SetWidth(420)
+        f:SetHeight(1)
+        f:Hide()
         f.name = name
         f.elements = {}
 
@@ -522,9 +535,6 @@ do
             f.scroll.ScrollBar:SetBackdropColor(0,0,0,.2)
         end
 
-        f:SetWidth(420)
-        f:SetHeight(1)
-
         -- mixin page functions
         for k,v in pairs(page_proto) do
             f[k]=v
@@ -532,6 +542,8 @@ do
 
         self:CreatePageTab(f)
         f:HidePage()
+
+        f:SetScript('OnShow',PageOnShow)
 
         tinsert(self.pages,f)
         return f
