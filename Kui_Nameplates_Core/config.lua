@@ -122,8 +122,6 @@ local default_config = {
 
     auras_enabled = true,
     auras_on_personal = true,
-    auras_vanilla_filter = true,
-    auras_whitelist = false,
     auras_pulsate = true,
     auras_centre = true,
     auras_sort = 2,
@@ -459,8 +457,6 @@ function configChanged.auras_enabled(v)
 
     configChangedAuras()
 end
-configChanged.auras_vanilla_filter = configChangedAuras
-configChanged.auras_whitelist = configChangedAuras
 configChanged.auras_pulsate = configChangedAuras
 configChanged.auras_centre = configChangedAuras
 configChanged.auras_sort = configChangedAuras
@@ -620,7 +616,7 @@ configLoaded.castbar_enable = configChanged.castbar_enable
 configLoaded.level_text = configChanged.level_text
 
 configLoaded.auras_enabled = configChanged.auras_enabled
-configLoaded.auras_whitelist = configChangedAuras
+configLoaded.auras_pulsate = configChangedAuras
 
 configLoaded.clickthrough_self = QueueClickthroughUpdate
 
