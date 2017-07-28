@@ -380,12 +380,12 @@ function auras:Initialise()
     auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
     auras_time_threshold:SetPoint('LEFT',auras_pulsate,'RIGHT',184,5)
 
-    auras_filtering_sep:SetPoint('TOP',0,-190)
-    auras_minimum_length:SetPoint('TOPLEFT',10,-220)
+    auras_filtering_sep:SetPoint('TOP',0,-150)
+    auras_minimum_length:SetPoint('TOPLEFT',10,-180)
     auras_maximum_length:SetPoint('LEFT',auras_minimum_length,'RIGHT',20,0)
 
-    auras_icons_sep:SetPoint('TOP',0,-270)
-    auras_icon_normal_size:SetPoint('TOPLEFT',10,-300)
+    auras_icons_sep:SetPoint('TOP',0,-240)
+    auras_icon_normal_size:SetPoint('TOPLEFT',10,-270)
     auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
     auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
 end

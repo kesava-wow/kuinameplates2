@@ -403,44 +403,17 @@ do
     end
 end
 do
-    function opt.CreateEditBox(parent,name,multiline,width,height)
+    function opt.CreateEditBox(parent,name,width,height)
         local e_name = name and frame_name..name..'EditBox' or nil
-        width,height = width or 150,height or 20
+        width,height = width or 150, height or 30
 
-        local box = CreateFrame('EditBox',e_name,parent)
-        box:SetMultiLine(multiline==true)
+        local box = CreateFrame('EditBox',e_name,parent,'InputBoxTemplate')
+        box:SetMultiLine(false)
         box:SetAutoFocus(false)
+        box:EnableMouse(true)
         box:SetFontObject('ChatFontNormal')
         box:SetSize(width,height)
         box.env = name
-
-        local bg = CreateFrame('Frame',nil,parent)
-        bg:SetBackdrop({
-            bgFile = 'Interface\\ChatFrame\\ChatFrameBackground',
-            edgeFile = 'Interface\\Tooltips\\UI-Tooltip-border',
-            edgeSize = 16,
-            insets = { left = 4, right = 4, top = 4, bottom = 4 }
-        })
-        bg:SetBackdropColor(.1, .1 , .1, .3)
-        bg:SetBackdropBorderColor(.5, .5, .5)
-        box.bg = bg
-
-        if multiline then
-            local scroll = CreateFrame('ScrollFrame',nil,parent,'UIPanelScrollFrameTemplate')
-            scroll:SetSize(width,height)
-            scroll:SetScrollChild(box)
-            box.scroll = scroll
-
-            scroll:SetScript('OnMouseDown', function(self)
-                self:GetScrollChild():SetFocus()
-            end)
-
-            bg:SetPoint('TOPLEFT', scroll, -10, 10)
-            bg:SetPoint('BOTTOMRIGHT', scroll, 30, -10)
-        else
-            bg:SetPoint('TOPLEFT', box, -10, 10)
-            bg:SetPoint('BOTTOMRIGHT', box, 30, -10)
-        end
 
         box:SetScript('OnShow',GenericOnShow)
         box:SetScript('OnEnable',OnEnable)
