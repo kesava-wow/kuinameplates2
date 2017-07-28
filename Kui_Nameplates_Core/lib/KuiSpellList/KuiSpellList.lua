@@ -35,6 +35,15 @@ function l:AddSpell(spellid,include,all)
         exclude[spellid] = true
     end
 end
+function l:RemoveSpell(spellid,include,all)
+    if include and all then
+        include_all[spellid] = nil
+    elseif include then
+        include_own[spellid] = nil
+    else
+        exclude[spellid] = nil
+    end
+end
 function l:Import(list,include,all)
     if not list or type(list) ~= 'table' then return end
     if include and all then
