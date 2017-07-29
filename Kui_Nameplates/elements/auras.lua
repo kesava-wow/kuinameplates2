@@ -79,6 +79,9 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Auras')
 
+local strlower,tinsert,tsort,     pairs,ipairs =
+      strlower,tinsert,table.sort,pairs,ipairs
+
 local FONT,FONT_SIZE_CD,FONT_SIZE_COUNT,FONT_FLAGS
 
 -- DisplayAura callback return behaviour enums
@@ -360,7 +363,9 @@ local function AuraFrame_GetAuras(self)
               nps_own,spellid,_,_,_,nps_all =
               UnitAura(self.parent.unit,i,self.filter)
 
-        if self:ShouldShowAura(spellid,name,duration,caster,nps_own,nps_all) then
+        if name and spellid and
+           self:ShouldShowAura(spellid,strlower(name),duration,caster,nps_own,nps_all)
+        then
             self:DisplayButton(spellid,name,icon,count,duration,expiration,i)
         end
     end
@@ -398,7 +403,7 @@ local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,nps_ow
 
     if self.whitelist then
         -- only obey whitelist
-        return self.whitelist[spellid] or self.whitelist[strlower(name)]
+        return self.whitelist[spellid] or self.whitelist[name]
     else
         -- fallback to API's nameplate filter
         return nps_all or (nps_own and
@@ -456,7 +461,7 @@ local function AuraFrame_ArrangeButtons(self)
         return
     end
 
-    table.sort(self.buttons, auras_sort)
+    tsort(self.buttons, auras_sort)
 
     local prev,prev_row
     self.visible = 0
