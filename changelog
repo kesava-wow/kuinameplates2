@@ -1,4 +1,7 @@
 BETA NOTES
+29-jul
+* reimplement custom aura filtering. Use the beta of KuiSpellListConfig to customise the filter.
+
 27-jul
 * config page elements are created on-demand, rather than all at once (which
 should slightly reduce the pause when you first open the config interface)
