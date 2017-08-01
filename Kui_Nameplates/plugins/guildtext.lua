@@ -17,7 +17,7 @@ function mod:Show(f)
         local guild = GetGuildInfo(f.unit)
 
         if guild and guild ~= 0 then
-            f.state.guild_text = '<'..guild..'>'
+            f.state.guild_text = guild
         end
     elseif not UnitIsOtherPlayersPet(f.unit) then
         -- parse NPC tooltip
