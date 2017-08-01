@@ -26,7 +26,7 @@ elements/raidicon.lua
 
 plugins/animation.lua
 plugins/fading.lua
-plugins/npctitle.lua
+plugins/guildtext.lua
 plugins/tankmode.lua
 plugins/combattoggle.lua
 plugins/execute.lua

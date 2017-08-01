@@ -1,6 +1,6 @@
--- parse npc tooltips to get their "guild" name and provide to frame.state
+-- provide guild text (including npc "guilds") to frame.state
 local addon = KuiNameplates
-local mod = addon:NewPlugin('NPCTitle')
+local mod = addon:NewPlugin('GuildText')
 
 local UnitIsPlayer,UnitIsOtherPlayersPet,GetGuildInfo=
       UnitIsPlayer,UnitIsOtherPlayersPet,GetGuildInfo
@@ -20,6 +20,7 @@ function mod:Show(f)
             f.state.guild_text = '<'..guild..'>'
         end
     elseif not UnitIsOtherPlayersPet(f.unit) then
+        -- parse NPC tooltip
         tooltip:SetOwner(UIParent,ANCHOR_NONE)
         tooltip:SetUnit(f.unit)
 
@@ -58,6 +59,5 @@ end
 function mod:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterEvent('CVAR_UPDATE')
-
     self:CVAR_UPDATE()
 end
