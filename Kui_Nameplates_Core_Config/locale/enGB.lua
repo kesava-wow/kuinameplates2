@@ -251,6 +251,8 @@ opt.titles = {
 
     auras_enabled = 'Show auras',
     auras_on_personal = 'Show on personal frame',
+    auras_show_all_self = 'NYI Whitelist all own auras',
+    auras_hide_all_other = 'NYI Blacklist all other auras',
     auras_pulsate = 'Pulsate icons',
     auras_centre = 'Centre align icons',
     auras_sort = 'Sorting method',
