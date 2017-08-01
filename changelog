@@ -1,6 +1,12 @@
 BETA NOTES
+1-aug
+* add placeholder auras checkboxes for stuff and things
+* add slash-command shortcuts - i.e. type /knp auras or /knp a to open
+directly to the auras config page (this uses page names from the locale)
+
 29-jul
-* reimplement custom aura filtering. Use the beta of KuiSpellListConfig to customise the filter.
+* reimplement custom aura filtering. Use the beta of KuiSpellListConfig to
+customise the filter.
 
 27-jul
 * config page elements are created on-demand, rather than all at once (which
