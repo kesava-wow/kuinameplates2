@@ -491,6 +491,8 @@ do
         ShowPage = ShowPage
     }
     function opt:CreateConfigPage(name)
+        assert(name)
+
         local f = CreateFrame('Frame',frame_name..name..'Page',self)
         f:SetWidth(420)
         f:SetHeight(1)

@@ -63,6 +63,27 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         d:AddText(KuiNameplatesCore.config:GetActiveProfile())
         d:Show()
         return
+    elseif msg and msg ~= '' then
+        -- interpret msg as config page shortcut
+        msg = strlower(msg)
+
+        local found
+        for i,f in ipairs(opt.pages) do
+            local n = strlower(opt.page_names[f.name] or f.name)
+            if n == msg then
+                -- exact match
+                found = f
+                break
+            elseif not found and n:match('^'..msg) then
+                -- starts-with match
+                -- (continue searching for exact, don't look for more fuzzies)
+                found = f
+            end
+        end
+
+        if found then
+            found:ShowPage()
+        end
     end
 
     -- 6.2.2: call twice to force it to open to the correct frame
