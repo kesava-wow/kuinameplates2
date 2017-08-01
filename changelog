@@ -3,6 +3,8 @@ BETA NOTES
 * add placeholder auras checkboxes for stuff and things
 * add slash-command shortcuts - i.e. type /knp auras or /knp a to open
 directly to the auras config page (this uses page names from the locale)
+* remove brackets from around player guild text
+* increase default small font size slightly (from 9 to 10)
 
 29-jul
 * reimplement custom aura filtering. Use the beta of KuiSpellListConfig to
