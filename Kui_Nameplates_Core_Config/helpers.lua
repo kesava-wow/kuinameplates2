@@ -534,7 +534,7 @@ do
         local tab = CreateFrame('Button',frame_name..page.name..'PageTab',self.TabList,'OptionsListButtonTemplate')
         tab:SetScript('OnClick',OnClick)
         tab:SetText(self.page_names[page.name] or page.name or 'Tab')
-        tab:SetWidth(120)
+        tab:SetWidth(130)
 
         tab.child = page
         page.tab = tab
@@ -542,9 +542,9 @@ do
         local pt = #self.pages > 0 and self.pages[#self.pages].tab
 
         if pt then
-            tab:SetPoint('TOPLEFT',pt,'BOTTOMLEFT')
+            tab:SetPoint('TOPLEFT',pt,'BOTTOMLEFT',0,-1)
         else
-            tab:SetPoint('TOPLEFT',self.TabList,3,-3)
+            tab:SetPoint('TOPLEFT',self.TabList,6,-6)
         end
     end
 end
@@ -1034,15 +1034,8 @@ function opt:Initialise()
 
     -- create tab container
     local tablist = CreateFrame('Frame',frame_name..'TabList',self)
-    tablist:SetWidth(1)
-    tablist:SetHeight(1)
-
-    local scroll = CreateFrame('ScrollFrame',frame_name..'TabListScrollFrame',self,'UIPanelScrollFrameTemplate')
-    scroll:SetPoint('TOPLEFT',tl_bg,4,-4)
-    scroll:SetPoint('BOTTOMRIGHT',tl_bg,-26,4)
-    scroll:SetScrollChild(tablist)
-
-    tablist.Scroll = scroll
+    tablist:SetPoint('TOPLEFT',tl_bg,4,-4)
+    tablist:SetPoint('BOTTOMRIGHT',tl_bg,-4,4)
 
     self.TabList = tablist
     self.TabListBG = tl_bg
