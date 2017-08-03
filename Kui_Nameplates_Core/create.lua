@@ -1043,56 +1043,69 @@ do
         f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
         f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
     end
+
+    local function CreateSpellIcon(f)
+        local bg = f:CreateTexture(nil, 'BACKGROUND', nil, 1)
+        bg:SetTexture(kui.m.t.solid)
+        bg:SetVertexColor(0,0,0,.8)
+        bg:SetPoint('BOTTOMRIGHT', f.CastBar.bg, 'BOTTOMLEFT', -1, 0)
+        bg:SetPoint('TOPRIGHT', f.bg, 'TOPLEFT', -1, 0)
+        bg:Hide()
+
+        local icon = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 2)
+        icon:SetTexCoord(.1, .9, .2, .8)
+        icon:SetPoint('TOPLEFT', bg, 1, -1)
+        icon:SetPoint('BOTTOMRIGHT', bg, -1, 1)
+
+        icon.bg = bg
+
+        return icon
+    end
+    local function CreateSpellShield(f)
+        -- cast shield
+        local shield = f.HealthBar:CreateTexture(nil, 'ARTWORK', nil, 3)
+        shield:SetTexture(MEDIA..'Shield')
+        shield:SetTexCoord(0, .84375, 0, 1)
+        shield:SetSize(13.5, 16) -- 16 * .84375
+        shield:SetPoint('LEFT', f.CastBar.bg, -7, 0)
+        shield:SetVertexColor(.5, .5, .7)
+        shield:Hide()
+
+        return shield
+    end
+
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
         bg:SetPoint('TOPLEFT', f.bg, 'BOTTOMLEFT', 0, -1)
         bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
+        bg:Hide()
 
         local castbar = CreateStatusBar(f,true,nil,true)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
+        castbar:Hide()
+        castbar.bg = bg
 
         local spellname = CreateFontString(f.HealthBar,FONT_SIZE_SMALL)
         spellname:SetWordWrap()
+        spellname:Hide()
 
-        -- spell icon
-        local spelliconbg = f:CreateTexture(nil, 'BACKGROUND', nil, 1)
-        spelliconbg:SetTexture(kui.m.t.solid)
-        spelliconbg:SetVertexColor(0,0,0,.8)
-        spelliconbg:SetPoint('BOTTOMRIGHT', bg, 'BOTTOMLEFT', -1, 0)
-        spelliconbg:SetPoint('TOPRIGHT', f.bg, 'TOPLEFT', -1, 0)
+        -- register base elements
+        f.handler:RegisterElement('CastBar', castbar)
+        f.handler:RegisterElement('SpellName', spellname)
 
-        local spellicon = castbar:CreateTexture(nil, 'ARTWORK', nil, 2)
-        spellicon:SetTexCoord(.1, .9, .2, .8)
-        spellicon:SetPoint('TOPLEFT', spelliconbg, 1, -1)
-        spellicon:SetPoint('BOTTOMRIGHT', spelliconbg, -1, 1)
-
+        -- TODO create optional elements if enabled
+        -- create optional elements
+        local spellicon = CreateSpellIcon(f)
         if not CASTBAR_SHOW_ICON then
             spellicon:Hide()
         end
 
-        -- cast shield
-        local spellshield = f.HealthBar:CreateTexture(nil, 'ARTWORK', nil, 3)
-        spellshield:SetTexture(MEDIA..'Shield')
-        spellshield:SetTexCoord(0, .84375, 0, 1)
-        spellshield:SetSize(13.5, 16) -- 16 * .84375
-        spellshield:SetPoint('LEFT', bg, -7, 0)
-        spellshield:SetVertexColor(.5, .5, .7)
+        local spellshield = CreateSpellShield(f)
 
-        -- hide elements by default
-        bg:Hide()
-        castbar:Hide()
-        spelliconbg:Hide()
-        spellshield:Hide()
-        spellname:Hide()
-
-        castbar.bg = bg
-        spellicon.bg = spelliconbg
-
-        f.handler:RegisterElement('CastBar', castbar)
-        f.handler:RegisterElement('SpellName', spellname)
+        -- register optional elements
         f.handler:RegisterElement('SpellIcon', spellicon)
         f.handler:RegisterElement('SpellShield', spellshield)
 
