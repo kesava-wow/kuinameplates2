@@ -117,7 +117,7 @@ local default_config = {
     frame_height_minus = 9,
     frame_width_personal = 132,
     frame_height_personal = 13,
-    castbar_height = 5,
+    castbar_height = 6,
     powerbar_height = 3,
 
     auras_enabled = true,
@@ -133,7 +133,7 @@ local default_config = {
     auras_icon_squareness = .7,
 
     castbar_enable = true,
-    castbar_colour = {.6,.6,.75},
+    castbar_colour = {.75,.75,.9},
     castbar_unin_colour = {.8,.3,.3},
     castbar_showpersonal = false,
     castbar_icon = true,
