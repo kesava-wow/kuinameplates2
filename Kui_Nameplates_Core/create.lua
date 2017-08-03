@@ -99,7 +99,10 @@ do
 
     local function FilledBar_SetStatusBarColor(self,...)
         self:orig_SetStatusBarColor(...)
-        self.fill:SetVertexColor(...)
+
+        if self.fill then
+            self.fill:SetVertexColor(...)
+        end
 
         if self.spark then
             local col = {...}
@@ -119,26 +122,25 @@ do
         self.fill:Hide()
     end
 
-    function CreateStatusBar(parent,spark)
+    function CreateStatusBar(parent,spark,no_fill,no_fade_spark)
         local bar = CreateFrame('StatusBar',nil,parent)
         bar:SetStatusBarTexture(BAR_TEXTURE)
         bar:SetFrameLevel(0)
 
-        local fill = parent:CreateTexture(nil,'BACKGROUND',nil,2)
-        fill:SetTexture(BAR_TEXTURE)
-        fill:SetAllPoints(bar)
-        fill:SetAlpha(.2)
+        if not no_fill then
+            local fill = parent:CreateTexture(nil,'BACKGROUND',nil,2)
+            fill:SetTexture(BAR_TEXTURE)
+            fill:SetAllPoints(bar)
+            fill:SetAlpha(.2)
 
-        bar.fill = fill
+            bar.fill = fill
 
-        bar.orig_SetStatusBarColor = bar.SetStatusBarColor
-        bar.SetStatusBarColor = FilledBar_SetStatusBarColor
+            bar.orig_Show = bar.Show
+            bar.Show = FilledBar_Show
 
-        bar.orig_Show = bar.Show
-        bar.Show = FilledBar_Show
-
-        bar.orig_Hide = bar.Hide
-        bar.Hide = FilledBar_Hide
+            bar.orig_Hide = bar.Hide
+            bar.Hide = FilledBar_Hide
+        end
 
         if spark then
             local texture = bar:GetStatusBarTexture()
@@ -151,8 +153,15 @@ do
 
             bar.spark = spark
 
-            bar:HookScript('OnValueChanged',FadeSpark)
-            bar:HookScript('OnMinMaxChanged',FadeSpark)
+            if not no_fade_spark then
+                bar:HookScript('OnValueChanged',FadeSpark)
+                bar:HookScript('OnMinMaxChanged',FadeSpark)
+            end
+        end
+
+        if not no_fill or spark then
+            bar.orig_SetStatusBarColor = bar.SetStatusBarColor
+            bar.SetStatusBarColor = FilledBar_SetStatusBarColor
         end
 
         return bar
@@ -522,10 +531,8 @@ do
     function core:CreateAbsorbBar(f)
         if not ABSORB_ENABLE then return end
 
-        -- not using CreateStatusBar as we don't want a background
-        local bar = CreateFrame('StatusBar',nil,f.HealthBar)
+        local bar = CreateStatusBar(f.HealthBar,nil,true)
         bar:SetAllPoints(f.HealthBar)
-        bar:SetFrameLevel(0)
 
         bar.t = bar:CreateTexture(nil,'ARTWORK')
         bar:SetStatusBarTexture(bar.t)
@@ -1035,7 +1042,6 @@ do
     local function UpdateCastbarSize(f)
         f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
         f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
-        f.CastBar.spark:SetHeight(CASTBAR_HEIGHT+4)
     end
     function core:CreateCastBar(f)
         local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
@@ -1044,9 +1050,7 @@ do
         bg:SetPoint('TOPLEFT', f.bg, 'BOTTOMLEFT', 0, -1)
         bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
 
-        local castbar = CreateFrame('StatusBar', nil, f)
-        castbar:SetFrameLevel(0)
-        castbar:SetStatusBarTexture(BAR_TEXTURE)
+        local castbar = CreateStatusBar(f,true,nil,true)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
@@ -1077,13 +1081,6 @@ do
         spellshield:SetPoint('LEFT', bg, -7, 0)
         spellshield:SetVertexColor(.5, .5, .7)
 
-        -- spark
-        local spark = castbar:CreateTexture(nil, 'ARTWORK', nil, 7)
-        spark:SetVertexColor(1,1,.8)
-        spark:SetTexture('Interface\\AddOns\\Kui_Media\\t\\spark')
-        spark:SetPoint('CENTER', castbar:GetRegions(), 'RIGHT', 1, 0)
-        spark:SetWidth(6)
-
         -- hide elements by default
         bg:Hide()
         castbar:Hide()
@@ -1092,7 +1089,6 @@ do
         spellname:Hide()
 
         castbar.bg = bg
-        castbar.spark = spark
         spellicon.bg = spelliconbg
 
         f.handler:RegisterElement('CastBar', castbar)
