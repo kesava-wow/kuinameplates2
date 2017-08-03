@@ -1,4 +1,4 @@
---if GetLocale() ~= 'ruRU' then return end
+if GetLocale() ~= 'ruRU' then return end
 local opt = KuiNameplatesCoreConfig
 opt.page_names["auras"] = "Ауры"
 opt.page_names["bossmod"] = "Босс моды"
