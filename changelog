@@ -1,4 +1,8 @@
 BETA NOTES
+3-aug
+* remove the config tab list scroll bar because that wasn't going to be useful
+for quite some time
+
 1-aug
 * add placeholder auras checkboxes for stuff and things
 * add slash-command shortcuts - i.e. type /knp auras or /knp a to open
