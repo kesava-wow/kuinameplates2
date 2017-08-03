@@ -125,6 +125,8 @@ local default_config = {
     auras_pulsate = true,
     auras_centre = true,
     auras_sort = 2,
+    auras_show_all_self = false,
+    auras_hide_all_other = false,
     auras_time_threshold = 60,
     auras_minimum_length = 0,
     auras_maximum_length = -1,
@@ -467,6 +469,8 @@ configChanged.auras_icon_normal_size = configChangedAuras
 configChanged.auras_icon_minus_size = configChangedAuras
 configChanged.auras_icon_squareness = configChangedAuras
 configChanged.auras_on_personal = configChangedAuras
+configChanged.auras_show_all_self = configChangedAuras
+configChanged.auras_hide_all_other = configChangedAuras
 
 function configChanged.classpowers_enable(v)
     if v then

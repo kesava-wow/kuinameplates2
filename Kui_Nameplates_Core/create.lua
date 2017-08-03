@@ -1176,6 +1176,7 @@ do
     local AURAS_MAX_LENGTH
     local AURAS_ON_PERSONAL
     local AURAS_ENABLED
+    local AURAS_SHOW_ALL_SELF,AURAS_HIDE_ALL_OTHER
 
     local function AuraFrame_SetFrameWidth(self)
         self:SetWidth(self.__width)
@@ -1289,6 +1290,20 @@ do
             end
         end
 
+        if AURAS_SHOW_ALL_SELF or AURAS_HIDE_ALL_OTHER then
+            if caster == 'player' or caster == 'pet' or caster == 'vehicle' then
+                if AURAS_SHOW_ALL_SELF then
+                    -- show all casts from the player
+                    return 2
+                end
+            else
+                if AURAS_HIDE_ALL_OTHER then
+                    -- hide all other players' casts (CC, etc.)
+                    return 1
+                end
+            end
+        end
+
         -- process as normal
         return
     end
@@ -1310,6 +1325,9 @@ do
 
         AURAS_ENABLED = self.profile.auras_enabled
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
+
+        AURAS_SHOW_ALL_SELF = self.profile.auras_show_all_self
+        AURAS_HIDE_ALL_OTHER = self.profile.auras_hide_all_other
 
         local timer_threshold = self.profile.auras_time_threshold
         if timer_threshold < 0 then
