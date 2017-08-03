@@ -13,6 +13,7 @@ locale\enGB.lua
 locale\zhCN.lua
 locale\zhTW.lua
 locale\koKR.lua
+locale\ruRU.lua
 
 main.lua
 helpers.lua
