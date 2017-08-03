@@ -2,6 +2,8 @@ BETA NOTES
 3-aug
 * remove the config tab list scroll bar because that wasn't going to be useful
 for quite some time
+* increase default castbar height slightly
+* brighten default castbar colour slightly
 
 1-aug
 * add placeholder auras checkboxes for stuff and things
