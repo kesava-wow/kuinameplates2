@@ -1,4 +1,8 @@
 BETA NOTES
+4-aug
+* update ruRU
+* add Roboto Condensed Bold to ruRU clients and use it by default
+
 3-aug
 * remove the config tab list scroll bar because that wasn't going to be useful
 for quite some time
