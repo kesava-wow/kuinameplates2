@@ -260,6 +260,7 @@ opt.titles = {
     auras_hide_all_other = 'Blacklist all other auras',
     auras_filtering_sep = 'Filtering',
     auras_time_threshold = 'Timer threshold',
+    auras_kslc_hint = 'KuiSpellListConfig from Curse can be used to whitelist or blacklist auras from any caster.',
     auras_minimum_length = 'Minimum effect length',
     auras_maximum_length = 'Maximum effect length',
     auras_icons_sep = 'Icons',

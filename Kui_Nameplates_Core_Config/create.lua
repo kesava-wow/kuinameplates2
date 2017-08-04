@@ -3,7 +3,7 @@ local opt = KuiNameplatesCoreConfig
 local LSM = LibStub('LibSharedMedia-3.0')
 
 local version = opt:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-version:SetAlpha(.5)
+version:SetTextColor(.5,.5,.5)
 version:SetPoint('TOPRIGHT',-12,-10)
 version:SetText(string.format(
     opt.titles.version,
@@ -364,6 +364,11 @@ function auras:Initialise()
 
     auras_sort.SelectTable = {'Aura index','Time remaining'}
 
+    local auras_kslc_hint = self:CreateFontString(nil,'ARTWORK','GameFontHighlight')
+    auras_kslc_hint:SetTextColor(.7,.7,.7)
+    auras_kslc_hint:SetWidth(300)
+    auras_kslc_hint:SetText(opt.titles['auras_kslc_hint'] or 'Text')
+
     local auras_filtering_sep = self:CreateSeperator('auras_filtering_sep')
     local auras_minimum_length = self:CreateSlider('auras_minimum_length',0,60)
     local auras_maximum_length = self:CreateSlider('auras_maximum_length',-1,1800)
@@ -383,13 +388,14 @@ function auras:Initialise()
     auras_centre:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT')
     auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
     auras_time_threshold:SetPoint('LEFT',auras_show_all_self,'RIGHT',184,5)
+    auras_kslc_hint:SetPoint('TOP',0,-190)
 
-    auras_filtering_sep:SetPoint('TOP',0,-210)
-    auras_minimum_length:SetPoint('TOPLEFT',10,-240)
+    auras_filtering_sep:SetPoint('TOP',0,-250)
+    auras_minimum_length:SetPoint('TOPLEFT',10,-280)
     auras_maximum_length:SetPoint('LEFT',auras_minimum_length,'RIGHT',20,0)
 
-    auras_icons_sep:SetPoint('TOP',0,-300)
-    auras_icon_normal_size:SetPoint('TOPLEFT',10,-330)
+    auras_icons_sep:SetPoint('TOP',0,-340)
+    auras_icon_normal_size:SetPoint('TOPLEFT',10,-370)
     auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
     auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
 end
