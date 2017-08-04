@@ -20,6 +20,7 @@ BETA NOTES
 * update ruRU
 * update koKR
 * add Roboto Condensed Bold to ruRU clients and use it by default
+* add a text hint for KSLC to the auras page
 
 3-aug
 * remove the config tab list scroll bar because that wasn't going to be useful
