@@ -366,7 +366,7 @@ function auras:Initialise()
 
     local auras_kslc_hint = self:CreateFontString(nil,'ARTWORK','GameFontHighlight')
     auras_kslc_hint:SetTextColor(.7,.7,.7)
-    auras_kslc_hint:SetWidth(300)
+    auras_kslc_hint:SetWidth(350)
     auras_kslc_hint:SetText(opt.titles['auras_kslc_hint'] or 'Text')
 
     local auras_filtering_sep = self:CreateSeperator('auras_filtering_sep')
