@@ -14,16 +14,18 @@ local cc = CreateFrame('Frame')
 -- add media to LSM ############################################################
 LSM:Register(LSM.MediaType.FONT,'Yanone Kaffesatz Bold',kui.m.f.yanone)
 LSM:Register(LSM.MediaType.FONT,'FrancoisOne',kui.m.f.francois)
-LSM:Register(LSM.MediaType.FONT,'Roboto Condensed Bold',kui.m.f.roboto)
+LSM:Register(LSM.MediaType.FONT,'Roboto Condensed Bold',kui.m.f.roboto,
+    LSM.LOCALE_BIT_western + LSM.LOCALE_BIT_ruRU)
 
 LSM:Register(LSM.MediaType.STATUSBAR, 'Kui status bar', kui.m.t.bar)
 LSM:Register(LSM.MediaType.STATUSBAR, 'Kui status bar (brighter)', kui.m.t.brightbar)
 LSM:Register(LSM.MediaType.STATUSBAR, 'Kui shaded bar', kui.m.t.oldbar)
 
 local locale = GetLocale()
-local latin  = (locale ~= 'zhCN' and locale ~= 'zhTW' and locale ~= 'koKR' and locale ~= 'ruRU')
+local font_support = locale ~= 'zhCN' and locale ~= 'zhTW' and locale ~= 'koKR'
 
-local DEFAULT_FONT = latin and 'Roboto Condensed Bold' or LSM:GetDefault(LSM.MediaType.FONT)
+local DEFAULT_FONT = font_support and 'Roboto Condensed Bold' or
+                     LSM:GetDefault(LSM.MediaType.FONT)
 local DEFAULT_BAR = 'Kui status bar'
 -- default configuration #######################################################
 local default_config = {
