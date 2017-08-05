@@ -83,6 +83,40 @@ L["titles"] = {
 	["combat_hostile"] = "전투 행동: 적대적",
 	["copy_profile_label"] = "새로운 프로필의 이름을 입력하세요",
 	["copy_profile_title"] = "프로필 복사",
+--Translation missing
+	["dd_auras_sort_index"] = "Aura index",
+--Translation missing
+	["dd_auras_sort_time"] = "Time remaining",
+--Translation missing
+	["dd_bar_animation_cutaway"] = "Cutaway",
+--Translation missing
+	["dd_bar_animation_smooth"] = "Smooth",
+--Translation missing
+	["dd_combat_toggle_hide"] = "Hide, then show",
+--Translation missing
+	["dd_combat_toggle_nothing"] = "Do nothing",
+--Translation missing
+	["dd_combat_toggle_show"] = "Show, then hide",
+--Translation missing
+	["dd_font_style_monochrome"] = "Monochrome",
+--Translation missing
+	["dd_font_style_none"] = "None",
+--Translation missing
+	["dd_font_style_outline"] = "Outline",
+--Translation missing
+	["dd_font_style_shadow"] = "Shadow",
+--Translation missing
+	["dd_font_style_shadowandoutline"] = "Shadow+Outline",
+--Translation missing
+	["dd_health_text_blank"] = "Blank",
+--Translation missing
+	["dd_health_text_current"] = "Current",
+--Translation missing
+	["dd_health_text_deficit"] = "Deficit",
+--Translation missing
+	["dd_health_text_maximum"] = "Maximum",
+--Translation missing
+	["dd_health_text_percent"] = "Percent",
 	["delete_profile_label"] = "|cffffffff%s|r 프로필을 삭제할까요?",
 	["delete_profile_title"] = "프로필 삭제",
 	["execute_auto"] = "범위 자동 감지",

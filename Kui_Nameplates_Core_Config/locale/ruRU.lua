@@ -83,6 +83,40 @@ L["titles"] = {
 	["combat_hostile"] = "Боевое действие: враждебное",
 	["copy_profile_label"] = "Введите имя для нового профиля",
 	["copy_profile_title"] = "Копир. профиль",
+--Translation missing
+	["dd_auras_sort_index"] = "Aura index",
+--Translation missing
+	["dd_auras_sort_time"] = "Time remaining",
+--Translation missing
+	["dd_bar_animation_cutaway"] = "Cutaway",
+--Translation missing
+	["dd_bar_animation_smooth"] = "Smooth",
+--Translation missing
+	["dd_combat_toggle_hide"] = "Hide, then show",
+--Translation missing
+	["dd_combat_toggle_nothing"] = "Do nothing",
+--Translation missing
+	["dd_combat_toggle_show"] = "Show, then hide",
+--Translation missing
+	["dd_font_style_monochrome"] = "Monochrome",
+--Translation missing
+	["dd_font_style_none"] = "None",
+--Translation missing
+	["dd_font_style_outline"] = "Outline",
+--Translation missing
+	["dd_font_style_shadow"] = "Shadow",
+--Translation missing
+	["dd_font_style_shadowandoutline"] = "Shadow+Outline",
+--Translation missing
+	["dd_health_text_blank"] = "Blank",
+--Translation missing
+	["dd_health_text_current"] = "Current",
+--Translation missing
+	["dd_health_text_deficit"] = "Deficit",
+--Translation missing
+	["dd_health_text_maximum"] = "Maximum",
+--Translation missing
+	["dd_health_text_percent"] = "Percent",
 	["delete_profile_label"] = "Удалить профиль |cffffffff%s|r?",
 	["delete_profile_title"] = "Удалить профиль",
 	["execute_auto"] = "Авто-определение диапазона",
