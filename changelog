@@ -16,6 +16,10 @@ directly to the auras config page (this uses page names from the locale)
 * add Roboto Condensed Bold to ruRU clients and use it by default
 
 BETA NOTES
+5-aug (requires a game restart)
+* alter the localisation format to make it easier for me to import stuff
+* update ruRU
+
 4-aug
 * update ruRU
 * update koKR
