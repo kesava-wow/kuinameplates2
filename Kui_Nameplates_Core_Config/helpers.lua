@@ -2,6 +2,8 @@ local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
 local pcdd = LibStub('PhanxConfig-Dropdown')
+local L = opt:GetLocale()
+
 -- XXX temporary PlaySound compatibility for 7.2.5 -> 7.3
 local S_CHECKBOX_ON,S_CHECKBOX_OFF,S_MENU_OPEN,S_MENU_CLOSE
 if SOUNDKIT then
@@ -15,6 +17,7 @@ else
     S_MENU_OPEN = 'igMainMenuOpen'
     S_MENU_CLOSE = 'igMainMenuClose'
 end
+
 -- generic scripts #############################################################
 local function EditBoxOnEscapePressed(self)
     self:ClearFocus()
@@ -23,12 +26,12 @@ local function OnEnter(self)
     GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
     GameTooltip:SetWidth(200)
     GameTooltip:AddLine(
-        self.env and (opt.titles[self.env] or self.env) or
+        self.env and (L.titles[self.env] or self.env) or
         self.label and self.label:GetText()
     )
 
-    if self.env and opt.tooltips[self.env] then
-        GameTooltip:AddLine(opt.tooltips[self.env], 1,1,1,true)
+    if self.env and L.tooltips[self.env] then
+        GameTooltip:AddLine(L.tooltips[self.env], 1,1,1,true)
     end
 
     GameTooltip:Show()
@@ -101,7 +104,7 @@ do
             check.label = parent:CreateFontString(nil,'ARTWORK','GameFontHighlight')
         end
 
-        check.label:SetText(opt.titles[name] or name or 'Checkbox')
+        check.label:SetText(L.titles[name] or name or 'Checkbox')
         check.label:SetPoint('LEFT', check, 'RIGHT')
 
         check.Get = Get
@@ -164,7 +167,7 @@ do
     function opt.CreateDropDown(parent, name, width)
         local dd = pcdd:New(
             parent,
-            opt.titles[name] or name or 'DropDown'
+            L.titles[name] or name or 'DropDown'
         )
         dd.labelText:SetFontObject('GameFontNormalSmall')
         dd:SetWidth(width or 200)
@@ -291,7 +294,7 @@ do
         -- TODO inc/dec buttons
 
         local label = slider:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
-        label:SetText(opt.titles[name] or name or 'Slider')
+        label:SetText(L.titles[name] or name or 'Slider')
         label:SetPoint('BOTTOM',slider,'TOP')
 
         local display = CreateFrame('EditBox',nil,slider)
@@ -380,7 +383,7 @@ do
         block:SetPoint('LEFT')
 
         local label = container:CreateFontString(nil,'ARTWORK','GameFontHighlight')
-        label:SetText(opt.titles[name] or name or 'Colour picker')
+        label:SetText(L.titles[name] or name or 'Colour picker')
         label:SetPoint('LEFT',block,'RIGHT',5,0)
 
         container.block = block
@@ -439,7 +442,7 @@ function opt.CreateSeperator(parent,name)
     shadow:SetPoint('BOTTOM',line,'TOP')
 
     local label = parent:CreateFontString(nil,'ARTWORK','GameFontNormal')
-    label:SetText(opt.titles[name] or name or 'Seperator')
+    label:SetText(L.titles[name] or name or 'Seperator')
     label:SetPoint('CENTER',line,0,10)
 
     line.label = label
@@ -533,7 +536,7 @@ do
     function opt:CreatePageTab(page)
         local tab = CreateFrame('Button',frame_name..page.name..'PageTab',self.TabList,'OptionsListButtonTemplate')
         tab:SetScript('OnClick',OnClick)
-        tab:SetText(self.page_names[page.name] or page.name or 'Tab')
+        tab:SetText(L.page_names[page.name] or page.name or 'Tab')
         tab:SetWidth(130)
 
         tab.child = page
@@ -859,7 +862,7 @@ do
         if value and value == 'new_profile' then
             opt.Popup:ShowPage(
                 'text_entry',
-                opt.titles['new_profile_label'],
+                L.titles['new_profile_label'],
                 nil,
                 self.new_profile_callback
             )
@@ -880,7 +883,7 @@ do
         -- create new profile button at top
         local list = {}
         tinsert(list,{
-            text = opt.titles['new_profile'],
+            text = L.titles['new_profile'],
             value = 'new_profile'
         })
 
@@ -896,7 +899,7 @@ do
         self:SetValue(opt.config.csv.profile)
     end
     function CreateProfileDropDown()
-        p_dd = pcdd:New(opt,opt.titles['profile'])
+        p_dd = pcdd:New(opt,L.titles['profile'])
         p_dd.labelText:SetFontObject('GameFontNormalSmall')
         p_dd:SetWidth(152)
         p_dd:SetHeight(40)
@@ -933,7 +936,7 @@ function opt:Initialise()
 
     local p_delete = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
     p_delete:SetPoint('TOPRIGHT',-10,-26)
-    p_delete:SetText(opt.titles['delete_profile_title'])
+    p_delete:SetText(L.titles['delete_profile_title'])
     p_delete:SetSize(109,22)
     p_delete.callback = function(page,accept)
         if accept then
@@ -944,14 +947,14 @@ function opt:Initialise()
     p_delete:SetScript('OnClick',function(self)
         opt.Popup:ShowPage(
             'confirm_dialog',
-            string.format(opt.titles.delete_profile_label,opt.config.csv.profile),
+            string.format(L.titles.delete_profile_label,opt.config.csv.profile),
             self.callback
         )
     end)
 
     local p_rename = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
     p_rename:SetPoint('RIGHT',p_delete,'LEFT',-5,0)
-    p_rename:SetText(opt.titles['rename_profile_title'])
+    p_rename:SetText(L.titles['rename_profile_title'])
     p_rename:SetSize(109,22)
     p_rename.callback = function(page,accept)
         if accept then
@@ -963,7 +966,7 @@ function opt:Initialise()
         opt.Popup:ShowPage(
             'text_entry',
             string.format(
-                opt.titles['rename_profile_label'],
+                L.titles['rename_profile_label'],
                 opt.config.csv.profile
             ),
             opt.config.csv.profile,
@@ -973,7 +976,7 @@ function opt:Initialise()
 
     local p_reset = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
     p_reset:SetPoint('RIGHT',p_rename,'LEFT',-5,0)
-    p_reset:SetText(opt.titles['reset_profile_title'])
+    p_reset:SetText(L.titles['reset_profile_title'])
     p_reset:SetSize(109,22)
     p_reset.callback = function(page,accept)
         if accept then
@@ -983,14 +986,14 @@ function opt:Initialise()
     p_reset:SetScript('OnClick',function(self)
         opt.Popup:ShowPage(
             'confirm_dialog',
-            string.format(opt.titles.reset_profile_label,opt.config.csv.profile),
+            string.format(L.titles.reset_profile_label,opt.config.csv.profile),
             self.callback
         )
     end)
 
     local p_copy = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
     p_copy:SetPoint('RIGHT',p_reset,'LEFT',-5,0)
-    p_copy:SetText(opt.titles['copy_profile_title'])
+    p_copy:SetText(L.titles['copy_profile_title'])
     p_copy:SetSize(109,22)
     p_copy.callback = function(page,accept)
         if accept then
@@ -1000,7 +1003,7 @@ function opt:Initialise()
     p_copy:SetScript('OnClick',function(self)
         opt.Popup:ShowPage(
             'text_entry',
-            opt.titles['copy_profile_label'],
+            L.titles['copy_profile_label'],
             nil,
             self.callback
         )

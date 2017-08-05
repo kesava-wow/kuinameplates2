@@ -65,11 +65,12 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         return
     elseif msg and msg ~= '' then
         -- interpret msg as config page shortcut
+        local L = opt:GetLocale()
         msg = strlower(msg)
 
         local found
         for i,f in ipairs(opt.pages) do
-            local n = strlower(opt.page_names[f.name] or f.name)
+            local n = strlower(L.page_names[f.name] or f.name)
             if n == msg then
                 -- exact match
                 found = f
@@ -89,6 +90,19 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     -- 6.2.2: call twice to force it to open to the correct frame
     InterfaceOptionsFrame_OpenToCategory(opt.name)
     InterfaceOptionsFrame_OpenToCategory(opt.name)
+end
+-- locale ######################################################################
+do
+    local L = {}
+    function opt:Locale(region)
+        assert(type(region) == 'string')
+        if region == 'enGB' or region == GetLocale() then
+            return L
+        end
+    end
+    function opt:GetLocale()
+        return L
+    end
 end
 -- config handlers #############################################################
 function opt:ConfigChanged(config,k)

@@ -1,12 +1,13 @@
 local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local LSM = LibStub('LibSharedMedia-3.0')
+local L = opt:GetLocale()
 
 local version = opt:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
 version:SetTextColor(.5,.5,.5)
 version:SetPoint('TOPRIGHT',-12,-10)
 version:SetText(string.format(
-    opt.titles.version,
+    L.titles.version,
     'KuiNameplates','Kesava','@project-version@'
 ))
 
@@ -367,7 +368,7 @@ function auras:Initialise()
     local auras_kslc_hint = self:CreateFontString(nil,'ARTWORK','GameFontHighlight')
     auras_kslc_hint:SetTextColor(.7,.7,.7)
     auras_kslc_hint:SetWidth(350)
-    auras_kslc_hint:SetText(opt.titles['auras_kslc_hint'] or 'Text')
+    auras_kslc_hint:SetText(L.titles['auras_kslc_hint'] or 'Text')
 
     local auras_filtering_sep = self:CreateSeperator('auras_filtering_sep')
     local auras_minimum_length = self:CreateSlider('auras_minimum_length',0,60)
@@ -498,11 +499,12 @@ function classpowers:Initialise()
         self:Show()
     end
     classpowers_colour:SetScript('OnEnter',function(self)
-        -- force tooltip to use classpowers_colour env
+        -- force tooltip to use classpowers_colour env, since we change the
+        -- env based on the player class
         GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
         GameTooltip:SetWidth(200)
-        GameTooltip:AddLine(opt.titles['classpowers_colour'])
-        GameTooltip:AddLine(opt.tooltips['classpowers_colour'],1,1,1,true)
+        GameTooltip:AddLine(L.titles['classpowers_colour'])
+        GameTooltip:AddLine(L.tooltips['classpowers_colour'],1,1,1,true)
         GameTooltip:Show()
     end)
 
