@@ -42,7 +42,11 @@ function general:Initialise()
     local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
 
-    combat_hostile.SelectTable = {'Do nothing','Hide, then show','Show, then hide'}
+    combat_hostile.SelectTable = {
+        L.titles.dd_combat_toggle_nothing,
+        L.titles.dd_combat_toggle_hide,
+        L.titles.dd_combat_toggle_show,
+    }
     combat_friendly.SelectTable = combat_hostile.SelectTable
 
     combat_hostile:SetPoint('TOPLEFT',10,-10)
@@ -133,7 +137,11 @@ function healthbars:Initialise()
     local colour_enemy_player = self:CreateColourPicker('colour_enemy_player')
     local colour_enemy_pet = self:CreateColourPicker('colour_enemy_pet')
 
-    bar_animation.SelectTable = {'None','Smooth','Cutaway'}
+    bar_animation.SelectTable = {
+        L.titles.dd_font_style_none,
+        L.titles.dd_bar_animation_smooth,
+        L.titles.dd_bar_animation_cutaway
+    }
 
     bar_texture:SetPoint('TOPLEFT',10,-10)
     bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',10,0)
@@ -210,7 +218,13 @@ function text:Initialise()
     local name_vertical_offset = self:CreateSlider('name_vertical_offset',-20,20)
     local bot_vertical_offset = self:CreateSlider('bot_vertical_offset',-20,20)
 
-    font_style.SelectTable = { 'None','Outline','Shadow','Shadow+Outline','Monochrome' }
+    font_style.SelectTable = {
+        L.titles.dd_font_style_none,
+        L.titles.dd_font_style_outline,
+        L.titles.dd_font_style_shadow,
+        L.titles.dd_font_style_shadowandoutline,
+        L.titles.dd_font_style_monochrome,
+    }
 
     text_vertical_offset:SetWidth(120)
     text_vertical_offset:SetValueStep(.5)
@@ -242,11 +256,11 @@ function text:Initialise()
     hidenamesCheck.enabled = function(p) return p.name_text end
 
     local health_text_SelectTable = {
-        'Current |cff888888(145k)',
-        'Maximum |cff888888(156k)',
-        'Percent |cff888888(93)',
-        'Deficit |cff888888(-10.9k)',
-        'Blank |cff888888(  )'
+        L.titles.dd_health_text_current..' |cff888888(145k)',
+        L.titles.dd_health_text_maximum..' |cff888888(156k)',
+        L.titles.dd_health_text_percent..' |cff888888(93)',
+        L.titles.dd_health_text_deficit..' |cff888888(-10.9k)',
+        L.titles.dd_health_text_blank..' |cff888888(  )'
     }
 
     local health_text_sep = text:CreateSeperator('health_text_sep')
@@ -363,7 +377,10 @@ function auras:Initialise()
     local auras_hide_all_other = self:CreateCheckBox('auras_hide_all_other')
     local auras_time_threshold = self:CreateSlider('auras_time_threshold',-1,180)
 
-    auras_sort.SelectTable = {'Aura index','Time remaining'}
+    auras_sort.SelectTable = {
+        L.titles.dd_auras_sort_index,
+        L.titles.dd_auras_sort_time,
+    }
 
     local auras_kslc_hint = self:CreateFontString(nil,'ARTWORK','GameFontHighlight')
     auras_kslc_hint:SetTextColor(.7,.7,.7)
