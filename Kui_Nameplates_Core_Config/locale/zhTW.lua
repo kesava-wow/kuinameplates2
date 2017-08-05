@@ -20,14 +20,20 @@ L["titles"] = {
 	["auras_centre"] = "置中對齊圖示",
 	["auras_enabled"] = "啟用",
 	["auras_filtering_sep"] = "過濾",
+--Translation missing
+	["auras_hide_all_other"] = "Blacklist all other auras",
 	["auras_icon_minus_size"] = "圖示尺寸(次要)",
 	["auras_icon_normal_size"] = "圖示尺寸(標準)",
 	["auras_icon_squareness"] = "長寬比例",
 	["auras_icons_sep"] = "圖示",
+--Translation missing
+	["auras_kslc_hint"] = "KuiSpellListConfig from Curse can be used to whitelist or blacklist auras from any caster.",
 	["auras_maximum_length"] = "最大顯示秒數",
 	["auras_minimum_length"] = "最小顯示秒數",
 	["auras_on_personal"] = "在個人資源上顯示",
 	["auras_pulsate"] = "閃爍圖示",
+--Translation missing
+	["auras_show_all_self"] = "Whitelist all own auras",
 	["auras_sort"] = "排序方式",
 	["auras_time_threshold"] = "計時器閾值",
 	["bar_animation"] = "血條動畫",
@@ -167,6 +173,8 @@ L["tooltips"] = {
 	["absorb_striped"] = "在吸收盾上使用條紋材質。如果未勾選，繼承血條材質",
 	["auras_centre"] = "水平置中對齊框架上的圖示，而非靠左對齊",
 	["auras_enabled"] = "在名條上顯示你施放的光環：友方顯示增益，敵方顯示減益",
+--Translation missing
+	["auras_hide_all_other"] = "Do not show any auras cast by other players (such as CC or slows).|n|nNote that this option is applied after the KuiSpellList filter, so you can still use |cffffff88KuiSpellListConfig from Curse|r to alter the spells displayed.",
 	["auras_icon_minus_size"] = "次要單位名條的圖示大小",
 	["auras_icon_normal_size"] = "標準單位名條的圖示大小",
 	["auras_icon_squareness"] = "光環圖示的長寬比例，設為1代表是正方形",
@@ -174,6 +182,8 @@ L["tooltips"] = {
 	["auras_minimum_length"] = "不顯示秒數低於此數值的光環",
 	["auras_on_personal"] = "如果啟用，在個人資源上顯示你的光環",
 	["auras_pulsate"] = "快要結束時閃爍圖標",
+--Translation missing
+	["auras_show_all_self"] = "Show all auras which you cast, rather than just those flagged as important by Blizzard.|n|nNote that this option is applied after the KuiSpellList filter, so you can still use |cffffff88KuiSpellListConfig from Curse|r to alter the spells displayed.",
 	["auras_time_threshold"] = "當光環的剩餘秒數少於這個數值時，顯示倒數文字。設定為 -1 可使倒數計時總是顯示",
 	["bar_animation"] = "血量/能量條變化的動畫方式",
 	["bar_texture"] = "狀態條使用的材質(由LibSharedMedia提供)",
