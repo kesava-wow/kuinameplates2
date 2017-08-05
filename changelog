@@ -18,6 +18,7 @@ directly to the auras config page (this uses page names from the locale)
 BETA NOTES
 5-aug (requires a game restart)
 * alter the localisation format to make it easier for me to import stuff
+* add localisation support for dropdown values
 * update ruRU
 
 4-aug
