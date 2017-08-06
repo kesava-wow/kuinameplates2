@@ -83,40 +83,23 @@ L["titles"] = {
 	["combat_hostile"] = "전투 행동: 적대적",
 	["copy_profile_label"] = "새로운 프로필의 이름을 입력하세요",
 	["copy_profile_title"] = "프로필 복사",
---Translation missing
-	["dd_auras_sort_index"] = "Aura index",
---Translation missing
-	["dd_auras_sort_time"] = "Time remaining",
---Translation missing
-	["dd_bar_animation_cutaway"] = "Cutaway",
---Translation missing
-	["dd_bar_animation_smooth"] = "Smooth",
---Translation missing
-	["dd_combat_toggle_hide"] = "Hide, then show",
---Translation missing
-	["dd_combat_toggle_nothing"] = "Do nothing",
---Translation missing
-	["dd_combat_toggle_show"] = "Show, then hide",
---Translation missing
-	["dd_font_style_monochrome"] = "Monochrome",
---Translation missing
-	["dd_font_style_none"] = "None",
---Translation missing
-	["dd_font_style_outline"] = "Outline",
---Translation missing
-	["dd_font_style_shadow"] = "Shadow",
---Translation missing
-	["dd_font_style_shadowandoutline"] = "Shadow+Outline",
---Translation missing
-	["dd_health_text_blank"] = "Blank",
---Translation missing
-	["dd_health_text_current"] = "Current",
---Translation missing
-	["dd_health_text_deficit"] = "Deficit",
---Translation missing
-	["dd_health_text_maximum"] = "Maximum",
---Translation missing
-	["dd_health_text_percent"] = "Percent",
+	["dd_auras_sort_index"] = "효과 순번",
+	["dd_auras_sort_time"] = "남은 시간",
+	["dd_bar_animation_cutaway"] = "전환",
+	["dd_bar_animation_smooth"] = "부드러운",
+	["dd_combat_toggle_hide"] = "숨기기, 종료 후 표시",
+	["dd_combat_toggle_nothing"] = "아무것도 안 함",
+	["dd_combat_toggle_show"] = "표시, 종료 후 숨기기",
+	["dd_font_style_monochrome"] = "모노크롬",
+	["dd_font_style_none"] = "없음",
+	["dd_font_style_outline"] = "외곽선",
+	["dd_font_style_shadow"] = "그림자",
+	["dd_font_style_shadowandoutline"] = "그림자+외곽선",
+	["dd_health_text_blank"] = "빈 칸",
+	["dd_health_text_current"] = "현재",
+	["dd_health_text_deficit"] = "결손치",
+	["dd_health_text_maximum"] = "최대",
+	["dd_health_text_percent"] = "백분율",
 	["delete_profile_label"] = "|cffffffff%s|r 프로필을 삭제할까요?",
 	["delete_profile_title"] = "프로필 삭제",
 	["execute_auto"] = "범위 자동 감지",
