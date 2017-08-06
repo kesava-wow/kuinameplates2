@@ -20,20 +20,17 @@ L["titles"] = {
 	["auras_centre"] = "置中对齐图标",
 	["auras_enabled"] = "启用",
 	["auras_filtering_sep"] = "过滤",
---Translation missing
-	["auras_hide_all_other"] = "Blacklist all other auras",
+	["auras_hide_all_other"] = "將他人施放的所有光环列入黑名單",
 	["auras_icon_minus_size"] = "杂兵图标大小",
 	["auras_icon_normal_size"] = "常规图标大小",
 	["auras_icon_squareness"] = "长宽比例",
 	["auras_icons_sep"] = "图标",
---Translation missing
-	["auras_kslc_hint"] = "KuiSpellListConfig from Curse can be used to whitelist or blacklist auras from any caster.",
+	["auras_kslc_hint"] = "KuiSpellListConfig（可在Curse上取得）可以让你编辑法术黑名单和白名单，任何单位所施放的法术都可以放入自订清单。",
 	["auras_maximum_length"] = "最大显示秒数",
 	["auras_minimum_length"] = "最小显示秒数",
 	["auras_on_personal"] = "显示在个人资源上",
 	["auras_pulsate"] = "闪烁图标",
---Translation missing
-	["auras_show_all_self"] = "Whitelist all own auras",
+	["auras_show_all_self"] = "將自身施放的所有光環列入白名單",
 	["auras_sort"] = "排序方式",
 	["auras_time_threshold"] = "计时器阈值",
 	["bar_animation"] = "姓名板动画",
@@ -85,42 +82,25 @@ L["titles"] = {
 	["combat_friendly"] = "战斗动作: 友方",
 	["combat_hostile"] = "战斗动作: 敌方",
 	["copy_profile_label"] = "为配置输入新名称",
-	["copy_profile_title"] = "复制配置",
---Translation missing
-	["dd_auras_sort_index"] = "Aura index",
---Translation missing
-	["dd_auras_sort_time"] = "Time remaining",
---Translation missing
-	["dd_bar_animation_cutaway"] = "Cutaway",
---Translation missing
-	["dd_bar_animation_smooth"] = "Smooth",
---Translation missing
-	["dd_combat_toggle_hide"] = "Hide, then show",
---Translation missing
-	["dd_combat_toggle_nothing"] = "Do nothing",
---Translation missing
-	["dd_combat_toggle_show"] = "Show, then hide",
---Translation missing
-	["dd_font_style_monochrome"] = "Monochrome",
---Translation missing
-	["dd_font_style_none"] = "None",
---Translation missing
-	["dd_font_style_outline"] = "Outline",
---Translation missing
-	["dd_font_style_shadow"] = "Shadow",
---Translation missing
-	["dd_font_style_shadowandoutline"] = "Shadow+Outline",
---Translation missing
-	["dd_health_text_blank"] = "Blank",
---Translation missing
-	["dd_health_text_current"] = "Current",
---Translation missing
-	["dd_health_text_deficit"] = "Deficit",
---Translation missing
-	["dd_health_text_maximum"] = "Maximum",
---Translation missing
-	["dd_health_text_percent"] = "Percent",
-	["delete_profile_label"] = "删除配置 |cffffffff%s|r?",
+	["copy_profile_title"] = "复制配置",	
+	["dd_auras_sort_index"] = "光环索引",
+	["dd_auras_sort_time"] = "剩馀时间",
+	["dd_bar_animation_cutaway"] = "切除",
+	["dd_bar_animation_smooth"] = "平滑",
+	["dd_combat_toggle_hide"] = "战斗隐藏，脱战显示",
+	["dd_combat_toggle_nothing"] = "无动作",
+	["dd_combat_toggle_show"] = "战斗显示，脱战隐藏",
+	["dd_font_style_monochrome"] = "点阵字描边",
+	["dd_font_style_none"] = "无",
+	["dd_font_style_outline"] = "描边",
+	["dd_font_style_shadow"] = "阴影",
+	["dd_font_style_shadowandoutline"] = "阴影加描边",
+	["dd_health_text_blank"] = "空",
+	["dd_health_text_current"] = "当前值",
+	["dd_health_text_deficit"] = "损失值",
+	["dd_health_text_maximum"] = "最大值",
+	["dd_health_text_percent"] = "百分比",
+	["delete_profile_label"] = "删除配置|cffffffff%s|r？",
 	["delete_profile_title"] = "删除配置",
 	["execute_auto"] = "自动检测斩杀血量",
 	["execute_colour"] = "斩杀染色",
@@ -179,9 +159,9 @@ L["titles"] = {
 	["powerbar_height"] = "能量条高度",
 	["profile"] = "配置",
 	["reaction_colour_sep"] = "血量条颜色",
-	["rename_profile_label"] = "输入新名称为 |cffffffff%s",
+	["rename_profile_label"] = "输入新名称为|cffffffff%s",
 	["rename_profile_title"] = "重命名配置",
-	["reset_profile_label"] = "重置配置 |cffffffff%s|r?",
+	["reset_profile_label"] = "重置配置|cffffffff%s|r?",
 	["reset_profile_title"] = "重置配置",
 	["state_icons"] = "显示状态图标",
 	["tank_mode"] = "启用",
@@ -207,8 +187,7 @@ L["tooltips"] = {
 	["absorb_striped"] = "在吸收盾上使用条纹材质。如果未勾选，继承姓名板材质",
 	["auras_centre"] = "水平置中对齐框体上的图标，而非靠左对齐",
 	["auras_enabled"] = "在姓名板上显示你施放的光环：友方显示buff，敌方显示debuff",
---Translation missing
-	["auras_hide_all_other"] = "Do not show any auras cast by other players (such as CC or slows).|n|nNote that this option is applied after the KuiSpellList filter, so you can still use |cffffff88KuiSpellListConfig from Curse|r to alter the spells displayed.",
+	["auras_hide_all_other"] = "不显示任何他人施放的光环（如控场和缓速）。|n|n请注意：KuiSpellList的生效优先级高于此选项，所以你仍然可以在勾选此选项的情况下用|cffffff88KuiSpellListConfig|r（可在Curse上取得）自订特定法术的显示。",
 	["auras_icon_minus_size"] = "杂兵单位姓名板的图标大小",
 	["auras_icon_normal_size"] = "常规单位姓名板的图标大小",
 	["auras_icon_squareness"] = "光环图标的长宽比例，设为1代表是正方形",
@@ -216,8 +195,7 @@ L["tooltips"] = {
 	["auras_minimum_length"] = "不显示秒数低于此数值的光环",
 	["auras_on_personal"] = "在个人资源上显示光环图标",
 	["auras_pulsate"] = "快要结束时闪烁图标",
---Translation missing
-	["auras_show_all_self"] = "Show all auras which you cast, rather than just those flagged as important by Blizzard.|n|nNote that this option is applied after the KuiSpellList filter, so you can still use |cffffff88KuiSpellListConfig from Curse|r to alter the spells displayed.",
+	["auras_show_all_self"] = "显示你施放的所有光环，而非只显示暴雪预设的重要光环。|n|n请注意：KuiSpellList的生效优先级高于此选项，所以你仍然可以在勾选此选项的情况下用|cffffff88KuiSpellListConfig|r（可在Curse上取得）自订特定法术的显示。",
 	["auras_time_threshold"] = "当光环的剩馀秒数少于这个数值时，显示倒数文字。-1表示总是显示",
 	["bar_animation"] = "血量/能量条变化的动画方式",
 	["bar_texture"] = "状态条使用的材质（由LibSharedMedia提供）",

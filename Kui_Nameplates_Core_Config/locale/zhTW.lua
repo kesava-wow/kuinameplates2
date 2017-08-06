@@ -20,20 +20,17 @@ L["titles"] = {
 	["auras_centre"] = "置中對齊圖示",
 	["auras_enabled"] = "啟用",
 	["auras_filtering_sep"] = "過濾",
---Translation missing
-	["auras_hide_all_other"] = "Blacklist all other auras",
+	["auras_hide_all_other"] = "將他人施放的所有光環列入黑名單",
 	["auras_icon_minus_size"] = "圖示尺寸(次要)",
 	["auras_icon_normal_size"] = "圖示尺寸(標準)",
 	["auras_icon_squareness"] = "長寬比例",
 	["auras_icons_sep"] = "圖示",
---Translation missing
-	["auras_kslc_hint"] = "KuiSpellListConfig from Curse can be used to whitelist or blacklist auras from any caster.",
+	["auras_kslc_hint"] = "KuiSpellListConfig（可在Curse上取得）可以讓你編輯法術黑名單和白名單，任何單位所施放的法術都可以放入自訂清單。",
 	["auras_maximum_length"] = "最大顯示秒數",
 	["auras_minimum_length"] = "最小顯示秒數",
 	["auras_on_personal"] = "在個人資源上顯示",
 	["auras_pulsate"] = "閃爍圖示",
---Translation missing
-	["auras_show_all_self"] = "Whitelist all own auras",
+	["auras_show_all_self"] = "將自身施放的所有光環列入白名單",
 	["auras_sort"] = "排序方式",
 	["auras_time_threshold"] = "計時器閾值",
 	["bar_animation"] = "血條動畫",
@@ -86,40 +83,23 @@ L["titles"] = {
 	["combat_hostile"] = "戰鬥動作: 敵方",
 	["copy_profile_label"] = "鍵入新設定檔的名稱",
 	["copy_profile_title"] = "複製設定檔",
---Translation missing
-	["dd_auras_sort_index"] = "Aura index",
---Translation missing
-	["dd_auras_sort_time"] = "Time remaining",
---Translation missing
-	["dd_bar_animation_cutaway"] = "Cutaway",
---Translation missing
-	["dd_bar_animation_smooth"] = "Smooth",
---Translation missing
-	["dd_combat_toggle_hide"] = "Hide, then show",
---Translation missing
-	["dd_combat_toggle_nothing"] = "Do nothing",
---Translation missing
-	["dd_combat_toggle_show"] = "Show, then hide",
---Translation missing
-	["dd_font_style_monochrome"] = "Monochrome",
---Translation missing
-	["dd_font_style_none"] = "None",
---Translation missing
-	["dd_font_style_outline"] = "Outline",
---Translation missing
-	["dd_font_style_shadow"] = "Shadow",
---Translation missing
-	["dd_font_style_shadowandoutline"] = "Shadow+Outline",
---Translation missing
-	["dd_health_text_blank"] = "Blank",
---Translation missing
-	["dd_health_text_current"] = "Current",
---Translation missing
-	["dd_health_text_deficit"] = "Deficit",
---Translation missing
-	["dd_health_text_maximum"] = "Maximum",
---Translation missing
-	["dd_health_text_percent"] = "Percent",
+	["dd_auras_sort_index"] = "光環索引",
+	["dd_auras_sort_time"] = "剩餘時間",
+	["dd_bar_animation_cutaway"] = "切除",
+	["dd_bar_animation_smooth"] = "平滑",
+	["dd_combat_toggle_hide"] = "戰鬥隱藏，脫戰顯示",
+	["dd_combat_toggle_nothing"] = "不做什麼",
+	["dd_combat_toggle_show"] = "戰鬥顯示，脫戰隱藏",
+	["dd_font_style_monochrome"] = "點陣字描邊",
+	["dd_font_style_none"] = "無",
+	["dd_font_style_outline"] = "描邊",
+	["dd_font_style_shadow"] = "陰影",
+	["dd_font_style_shadowandoutline"] = "陰影+描邊",
+	["dd_health_text_blank"] = "空白",
+	["dd_health_text_current"] = "當前值",
+	["dd_health_text_deficit"] = "損失值",
+	["dd_health_text_maximum"] = "最大值",
+    ["dd_health_text_percent"] = "百分比",
 	["delete_profile_label"] = "刪除設定檔 |cffffffff%s|r?",
 	["delete_profile_title"] = "刪除設定檔",
 	["execute_auto"] = "自動偵測斬殺血量",
@@ -207,8 +187,7 @@ L["tooltips"] = {
 	["absorb_striped"] = "在吸收盾上使用條紋材質。如果未勾選，繼承血條材質",
 	["auras_centre"] = "水平置中對齊框架上的圖示，而非靠左對齊",
 	["auras_enabled"] = "在名條上顯示你施放的光環：友方顯示增益，敵方顯示減益",
---Translation missing
-	["auras_hide_all_other"] = "Do not show any auras cast by other players (such as CC or slows).|n|nNote that this option is applied after the KuiSpellList filter, so you can still use |cffffff88KuiSpellListConfig from Curse|r to alter the spells displayed.",
+	["auras_hide_all_other"] = "不顯示任何他人施放的光環（如控場和緩速）。|n|n請注意：KuiSpellList的生效優先級高於此選項，所以你仍然可以在勾選此選項的情況下用|cffffff88KuiSpellListConfig|r（可在Curse上取得）自訂特定法術的顯示。",
 	["auras_icon_minus_size"] = "次要單位名條的圖示大小",
 	["auras_icon_normal_size"] = "標準單位名條的圖示大小",
 	["auras_icon_squareness"] = "光環圖示的長寬比例，設為1代表是正方形",
@@ -216,8 +195,7 @@ L["tooltips"] = {
 	["auras_minimum_length"] = "不顯示秒數低於此數值的光環",
 	["auras_on_personal"] = "如果啟用，在個人資源上顯示你的光環",
 	["auras_pulsate"] = "快要結束時閃爍圖標",
---Translation missing
-	["auras_show_all_self"] = "Show all auras which you cast, rather than just those flagged as important by Blizzard.|n|nNote that this option is applied after the KuiSpellList filter, so you can still use |cffffff88KuiSpellListConfig from Curse|r to alter the spells displayed.",
+	["auras_show_all_self"] = "顯示你施放的所有光環，而非只顯示暴雪預設的重要光環。|n|n請注意：KuiSpellList的生效優先級高於此選項，所以你仍然可以在勾選此選項的情況下用|cffffff88KuiSpellListConfig|r（可在Curse上取得）自訂特定法術的顯示。",
 	["auras_time_threshold"] = "當光環的剩餘秒數少於這個數值時，顯示倒數文字。設定為 -1 可使倒數計時總是顯示",
 	["bar_animation"] = "血量/能量條變化的動畫方式",
 	["bar_texture"] = "狀態條使用的材質(由LibSharedMedia提供)",
