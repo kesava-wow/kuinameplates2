@@ -16,6 +16,9 @@ directly to the auras config page (this uses page names from the locale)
 * add Roboto Condensed Bold to ruRU clients and use it by default
 
 BETA NOTES
+6-aug
+* update koKR, zhTW, zhCN
+
 5-aug (requires a game restart)
 * alter the localisation format to make it easier for me to import stuff
 * add localisation support for dropdown values
