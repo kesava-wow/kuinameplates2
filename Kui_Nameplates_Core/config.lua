@@ -217,14 +217,6 @@ function configChanged.tankmode_force_offtank(v)
     ele:SetForceOffTank(v)
 end
 
-function configChanged.castbar_enable(v)
-    if v then
-        addon:GetPlugin('CastBar'):Enable()
-    else
-        addon:GetPlugin('CastBar'):Disable()
-    end
-end
-
 function configChanged.level_text(v)
     if v then
         addon:GetPlugin('LevelText'):Enable()
@@ -475,6 +467,15 @@ configChanged.auras_hide_all_other = configChangedAuras
 
 local function configChangedCastBar()
     core:SetCastBarConfig()
+end
+function configChanged.castbar_enable(v)
+    if v then
+        addon:GetPlugin('CastBar'):Enable()
+    else
+        addon:GetPlugin('CastBar'):Disable()
+    end
+
+    configChangedCastBar()
 end
 configChanged.castbar_height = configChangedCastBar
 configChanged.castbar_colour = configChangedCastBar
