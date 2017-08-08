@@ -168,6 +168,7 @@ L.titles = {
     castbar_showpersonal = 'Show own cast bar',
     castbar_icon = 'Show spell icon',
     castbar_name = 'Show spell name',
+    castbar_shield = 'Show uninterruptible shield',
     castbar_showall = 'Show cast bars on all nameplates',
     castbar_showfriend = 'Show friendly cast bars',
     castbar_showenemy = 'Show enemy cast bars',
@@ -293,6 +294,7 @@ L.tooltips = {
 
     castbar_enable = 'Enable the castbar element',
     castbar_showpersonal = 'Show the castbar on your character\'s nameplate if it is enabled',
+    castbar_shield = 'Show a shield icon on the castbar during casts which cannot be interrupted',
     castbar_showall = 'Show castbars on all nameplates, rather than on just the current target',
     castbar_showfriend = 'Show castbars on friendly nameplates (note that castbars are not shown on frames which have name-only mode active)',
     castbar_showenemy = 'Show castbars on enemy nameplates',
