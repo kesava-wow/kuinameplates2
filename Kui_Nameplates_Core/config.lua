@@ -142,6 +142,7 @@ local default_config = {
     castbar_showpersonal = false,
     castbar_icon = true,
     castbar_name = true,
+    castbar_shield = true,
     castbar_showall = true,
     castbar_showfriend = true,
     castbar_showenemy = true,

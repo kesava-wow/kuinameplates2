@@ -1146,9 +1146,9 @@ do
 
             if f.SpellShield then
                 if CASTBAR_SHOW_SHIELD then
-                    f:EnableElement('SpellShield')
+                    f.handler:EnableElement('SpellShield')
                 else
-                    f:DisableElement('SpellShield')
+                    f.handler:DisableElement('SpellShield')
                 end
             end
 

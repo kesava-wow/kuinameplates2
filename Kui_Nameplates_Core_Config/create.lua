@@ -425,6 +425,7 @@ function castbars:Initialise()
     local castbar_personal = self:CreateCheckBox('castbar_showpersonal')
     local castbar_icon = self:CreateCheckBox('castbar_icon')
     local castbar_name = self:CreateCheckBox('castbar_name')
+    local castbar_shield = self:CreateCheckBox('castbar_shield')
     local castbar_all = self:CreateCheckBox('castbar_showall')
     local castbar_friend = self:CreateCheckBox('castbar_showfriend',true)
     local castbar_enemy = self:CreateCheckBox('castbar_showenemy',true)
@@ -435,7 +436,8 @@ function castbars:Initialise()
     castbar_personal:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
     castbar_icon:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
     castbar_name:SetPoint('TOPLEFT',castbar_icon,'BOTTOMLEFT')
-    castbar_all:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
+    castbar_shield:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
+    castbar_all:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT')
     castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT',10,0)
     castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
 
@@ -444,6 +446,7 @@ function castbars:Initialise()
     castbar_personal.enabled = castbar_colour.enabled
     castbar_icon.enabled = castbar_colour.enabled
     castbar_name.enabled = castbar_colour.enabled
+    castbar_shield.enabled = castbar_colour.enabled
     castbar_all.enabled = castbar_colour.enabled
     castbar_friend.enabled = function(p) return p.castbar_enable and p.castbar_showall end
     castbar_enemy.enabled = castbar_friend.enabled
