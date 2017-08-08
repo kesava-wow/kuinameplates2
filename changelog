@@ -1,16 +1,4 @@
-* aura options "use default ui filter" and "use whitelist" have been removed;
-  The default behaviour is now to use the vanilla UI's filter, but
-  KuiSpellListConfig can still be used to modify the spells displayed,
-  including tracking any auras caused by other players.
-* add "whitelist all own auras" and "blacklist all other auras" options
-
-* add slash-command shortcuts - i.e. type /knp auras or /knp a to open
-directly to the auras config page (this uses page names from the locale)
-* increase default small font size slightly (from 9 to 10)
-* increase default castbar height slightly
-* brighten default castbar colour slightly
-* remove brackets from around player guild text
-
-* add koKR localisation contributed by yuk6196 (thanks!)
-* add ruRU localisation contributed by BLizzatron (also thanks!)
-* add Roboto Condensed Bold to ruRU clients and use it by default
+BETA NOTES
+8-aug
+* add option to disable the castbar shield icon
+* create optional castbar elements on-demand (name, icon, shield)
