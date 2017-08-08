@@ -424,7 +424,6 @@ configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize
 configChanged.frame_width_minus = configChangedFrameSize
 configChanged.frame_height_minus = configChangedFrameSize
-configChanged.castbar_height = configChangedFrameSize
 
 local function configChangedFontOption()
     core:configChangedFontOption()
@@ -473,6 +472,16 @@ configChanged.auras_icon_squareness = configChangedAuras
 configChanged.auras_on_personal = configChangedAuras
 configChanged.auras_show_all_self = configChangedAuras
 configChanged.auras_hide_all_other = configChangedAuras
+
+local function configChangedCastBar()
+    core:SetCastBarConfig()
+end
+configChanged.castbar_height = configChangedCastBar
+configChanged.castbar_colour = configChangedCastBar
+configChanged.castbar_unin_colour = configChangedCastBar
+configChanged.castbar_icon = configChangedCastBar
+configChanged.castbar_name = configChangedCastBar
+configChanged.castbar_shield = configChangedCastBar
 
 function configChanged.classpowers_enable(v)
     if v then
