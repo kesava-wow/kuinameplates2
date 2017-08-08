@@ -1288,19 +1288,17 @@ do
             return 1
         end
 
-        if KSL then
-            -- force show if included by spell list (all casters or self)
-            if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
-                ((caster == 'player' or caster == 'pet' or caster == 'vehcile') and
-                (KSL:SpellIncludedOwn(spellid) or KSL:SpellIncludedOwn(name)))
-            then
-                return 2
-            end
+        -- force show if included by spell list (all casters or self)
+        if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
+            ((caster == 'player' or caster == 'pet' or caster == 'vehcile') and
+            (KSL:SpellIncludedOwn(spellid) or KSL:SpellIncludedOwn(name)))
+        then
+            return 2
+        end
 
-            -- force hide if excluded by spell list
-            if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
-                return 1
-            end
+        -- force hide if excluded by spell list
+        if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
+            return 1
         end
 
         if AURAS_SHOW_ALL_SELF or AURAS_HIDE_ALL_OTHER then
