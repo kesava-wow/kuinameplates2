@@ -21,7 +21,7 @@ local function PrintDebugForMessage(message,listener,...)
     if #{...} > 0 then
         for k,v in pairs({...}) do
             if type(v) == 'table' then
-                if v.state.name then
+                if v.state and v.state.name then
                     v = 'frame:`'..v.state.name..'`'
                 elseif v.name then
                     v = 'table:'..v.name
