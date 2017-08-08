@@ -955,7 +955,7 @@ do
 
     local function SpellIconSetWidth(f)
         -- set spell icon width (as it's based on height)
-        if not f.Spellicon then return end
+        if not f.SpellIcon then return end
         if f.SpellIcon.bg:IsShown() then
             f.SpellIcon.bg:SetWidth(ceil(((f.CastBar.bg:GetHeight() + f.bg:GetHeight() + 1)*1.25)+.1))
         end
@@ -1004,12 +1004,6 @@ do
         if f.IN_NAMEONLY then
             f.handler:DisableElement('CastBar')
         else
-            if CASTBAR_SHOW_ICON and f.SpellIcon then
-                f.SpellIcon:Show()
-            else
-                f.SpellIcon:Hide()
-            end
-
             if f.state.player then
                 if core.profile.castbar_showpersonal then
                     f.handler:EnableElement('CastBar')
@@ -1063,7 +1057,7 @@ do
 
         icon.bg = bg
 
-        f.handler:RegisterElement('SpellIcon', spellicon)
+        f.handler:RegisterElement('SpellIcon', icon)
         return icon
     end
     local function CreateSpellShield(f)
@@ -1140,8 +1134,6 @@ do
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
 
         for k,f in addon:Frames() do
-            f:UpdateCastbarSize()
-
             if CASTBAR_SHOW_ICON and not f.SpellIcon then
                 CreateSpellIcon(f)
             end
@@ -1151,6 +1143,25 @@ do
             if CASTBAR_SHOW_SHIELD and not f.SpellShield then
                 CreateSpellShield(f)
             end
+
+            if f.SpellShield then
+                if CASTBAR_SHOW_SHIELD then
+                    f:EnableElement('SpellShield')
+                else
+                    f:DisableElement('SpellShield')
+                end
+            end
+
+            if f.SpellIcon then
+                if CASTBAR_SHOW_ICON then
+                    f.SpellIcon:Show()
+                else
+                    f.SpellIcon:Hide()
+                end
+            end
+
+            f:UpdateCastbarSize()
+            f:UpdateSpellNamePosition()
         end
     end
 end
