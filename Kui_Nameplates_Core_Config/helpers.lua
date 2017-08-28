@@ -6,7 +6,7 @@ local L = opt:GetLocale()
 
 -- XXX temporary PlaySound compatibility for 7.2.5 -> 7.3
 local S_CHECKBOX_ON,S_CHECKBOX_OFF,S_MENU_OPEN,S_MENU_CLOSE
-if SOUNDKIT then
+if SOUNDKIT and select(4,GetBuildInfo()) == '70300' then
     S_CHECKBOX_ON = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
     S_CHECKBOX_OFF = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF
     S_MENU_OPEN = SOUNDKIT.IG_MAINMENU_OPEN
@@ -16,6 +16,10 @@ else
     S_CHECKBOX_OFF = 'igMainMenuOptionCheckBoxOff'
     S_MENU_OPEN = 'igMainMenuOpen'
     S_MENU_CLOSE = 'igMainMenuClose'
+end
+local function L_PlaySound(id)
+    if not id then return end
+    PlaySound(id)
 end
 
 -- generic scripts #############################################################
@@ -73,9 +77,9 @@ do
 
     local function CheckBoxOnClick(self)
         if self:GetChecked() then
-            PlaySound(S_CHECKBOX_ON)
+            L_PlaySound(S_CHECKBOX_ON)
         else
-            PlaySound(S_CHECKBOX_OFF)
+            L_PlaySound(S_CHECKBOX_OFF)
         end
 
         self:Set()
@@ -530,7 +534,7 @@ end
 -- tab functions ###############################################################
 do
     local function OnClick(self)
-        PlaySound(S_CHECKBOX_ON);
+        L_PlaySound(S_CHECKBOX_ON);
         self.child:ShowPage()
     end
     function opt:CreatePageTab(page)
@@ -554,10 +558,10 @@ end
 -- popup functions #############################################################
 do
     local function PopupOnShow(self)
-        PlaySound(S_MENU_OPEN)
+        L_PlaySound(S_MENU_OPEN)
     end
     local function PopupOnHide(self)
-        PlaySound(S_MENU_CLOSE)
+        L_PlaySound(S_MENU_CLOSE)
     end
     local function PopupOnKeyUp(self,kc)
         if kc == 'ENTER' then
