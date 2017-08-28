@@ -6,7 +6,7 @@ local L = opt:GetLocale()
 
 -- XXX temporary PlaySound compatibility for 7.2.5 -> 7.3
 local S_CHECKBOX_ON,S_CHECKBOX_OFF,S_MENU_OPEN,S_MENU_CLOSE
-if SOUNDKIT and select(4,GetBuildInfo()) == '70300' then
+if SOUNDKIT and select(4,GetBuildInfo()) >= 70300 then
     S_CHECKBOX_ON = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
     S_CHECKBOX_OFF = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF
     S_MENU_OPEN = SOUNDKIT.IG_MAINMENU_OPEN
