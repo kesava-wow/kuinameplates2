@@ -65,9 +65,9 @@ do
 
     local function CheckBoxOnClick(self)
         if self:GetChecked() then
-            L_PlaySound(S_CHECKBOX_ON)
+            PlaySound(S_CHECKBOX_ON)
         else
-            L_PlaySound(S_CHECKBOX_OFF)
+            PlaySound(S_CHECKBOX_OFF)
         end
 
         self:Set()
@@ -522,7 +522,7 @@ end
 -- tab functions ###############################################################
 do
     local function OnClick(self)
-        L_PlaySound(S_CHECKBOX_ON);
+        PlaySound(S_CHECKBOX_ON);
         self.child:ShowPage()
     end
     function opt:CreatePageTab(page)
@@ -546,10 +546,10 @@ end
 -- popup functions #############################################################
 do
     local function PopupOnShow(self)
-        L_PlaySound(S_MENU_OPEN)
+        PlaySound(S_MENU_OPEN)
     end
     local function PopupOnHide(self)
-        L_PlaySound(S_MENU_CLOSE)
+        PlaySound(S_MENU_CLOSE)
     end
     local function PopupOnKeyUp(self,kc)
         if kc == 'ENTER' then

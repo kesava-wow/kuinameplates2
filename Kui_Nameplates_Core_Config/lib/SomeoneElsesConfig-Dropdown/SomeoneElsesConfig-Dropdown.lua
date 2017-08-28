@@ -102,7 +102,7 @@ local function ListButton_OnClick(self)
         callback(dropdown, self.value, self:GetText())
     end
 
-    L_PlaySound(S_UChatScrollButton)
+    PlaySound(S_UChatScrollButton)
 
     if dropdown.keepShownOnClick then
         OpenDropdown(dropdown)
@@ -295,7 +295,7 @@ end
 ------------------------------------------------------------------------
 
 local function Button_OnClick(self)
-    L_PlaySound(S_igMainMenuOptionCheckBoxOn)
+    PlaySound(S_igMainMenuOptionCheckBoxOn)
 
     local dropdown = self:GetParent()
     OpenDropdown(dropdown)
