@@ -1,4 +1,3 @@
-BETA NOTES
-8-aug
+REQUIRES A CLIENT RESTART
 * add option to disable the castbar shield icon
-* create optional castbar elements on-demand (name, icon, shield)
+* fix PlaySound errors in 7.3
