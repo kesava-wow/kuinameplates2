@@ -1,3 +1,4 @@
 REQUIRES A CLIENT RESTART
 * add option to disable the castbar shield icon
+* update locales
 * fix PlaySound errors in 7.3
