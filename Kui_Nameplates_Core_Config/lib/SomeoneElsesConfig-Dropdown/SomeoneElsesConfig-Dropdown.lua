@@ -16,18 +16,9 @@ lib.listFrames = lib.listFrames or {}
 
 local MAX_LIST_SIZE = 15
 
-local S_UChatScrollButton,S_igMainMenuOptionCheckBoxOn
-if SOUNDKIT and select(4,GetBuildInfo()) >= 70300 then
-    S_UChatScrollButton = SOUNDKIT.U_CHAT_SCROLL_BUTTON
-    S_igMainMenuOptionCheckBoxOn = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
-else
-    S_UChatScrollButton = 'UChatScrollButton'
-    S_igMainMenuOptionCheckBoxOn = 'igMainMenuOptionCheckBoxOn'
-end
-local function L_PlaySound(id)
-    if not id then return end
-    PlaySound(id)
-end
+local S_UChatScrollButton = 1115
+local S_igMainMenuOptionCheckBoxOn = 856
+local PlaySound = PlaySoundKitID or PlaySound
 
 ------------------------------------------------------------------------
 
