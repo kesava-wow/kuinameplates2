@@ -1,7 +1,7 @@
 local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
-local pcdd = LibStub('PhanxConfig-Dropdown')
+local pcdd = LibStub('SomeoneElsesConfig-Dropdown')
 local L = opt:GetLocale()
 
 -- XXX temporary PlaySound compatibility for 7.2.5 -> 7.3
