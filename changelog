@@ -1,4 +1,7 @@
-REQUIRES A CLIENT RESTART
+7.15.1:
+* remove 7.2.5 compatibility
+
+7.15.1-t:
 * bump toc
 * add option to disable the castbar shield icon
 * update locales
