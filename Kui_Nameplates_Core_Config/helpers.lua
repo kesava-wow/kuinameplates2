@@ -8,7 +8,6 @@ local S_CHECKBOX_ON = 856
 local S_CHECKBOX_OFF = 857
 local S_MENU_OPEN = 850
 local S_MENU_CLOSE = 851
-local PlaySound = PlaySoundKitID or PlaySound
 
 -- generic scripts #############################################################
 local function EditBoxOnEscapePressed(self)

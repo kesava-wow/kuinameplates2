@@ -9,7 +9,7 @@
     basically, all credit for this goes to Phanx.
 ----------------------------------------------------------------------]]
 
-local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 1)
+local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 2)
 if not lib then return end
 
 lib.listFrames = lib.listFrames or {}
@@ -18,7 +18,6 @@ local MAX_LIST_SIZE = 15
 
 local S_UChatScrollButton = 1115
 local S_igMainMenuOptionCheckBoxOn = 856
-local PlaySound = PlaySoundKitID or PlaySound
 
 ------------------------------------------------------------------------
 
