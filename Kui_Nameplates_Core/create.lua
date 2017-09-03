@@ -56,12 +56,11 @@ local CLASS_COLOURS = {
 -- config locals
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
 local FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL
-local POWER_BAR_HEIGHT,CASTBAR_HEIGHT,TARGET_GLOW_COLOUR
+local POWER_BAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
-local CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_NAME,CASTBAR_SHOW_ICON
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
 local CLASS_COLOUR_FRIENDLY_NAMES,CLASS_COLOUR_ENEMY_NAMES
@@ -236,12 +235,6 @@ do
         FRAME_GLOW_TEXTURE_INSET = .01 * (FRAME_GLOW_SIZE / 4)
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
 
-        CASTBAR_HEIGHT = self.profile.castbar_height
-        CASTBAR_COLOUR = self.profile.castbar_colour
-        CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
-        CASTBAR_SHOW_ICON = self.profile.castbar_icon
-        CASTBAR_SHOW_NAME = self.profile.castbar_name
-
         TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
         NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
         BOT_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset
@@ -281,8 +274,6 @@ do
 end
 function core:configChangedFrameSize()
     for k,f in addon:Frames() do
-        f:UpdateCastbarSize()
-
         if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
             -- force auras frame size update
             f.Auras.frames.core_dynamic.__width = nil
@@ -959,8 +950,12 @@ do
 end
 -- castbar #####################################################################
 do
+    local CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_ICON,
+          CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD
+
     local function SpellIconSetWidth(f)
         -- set spell icon width (as it's based on height)
+        if not f.SpellIcon then return end
         if f.SpellIcon.bg:IsShown() then
             f.SpellIcon.bg:SetWidth(ceil(((f.CastBar.bg:GetHeight() + f.bg:GetHeight() + 1)*1.25)+.1))
         end
@@ -981,34 +976,34 @@ do
         -- also show attached elements
         f.CastBar.bg:Show()
 
-        if CASTBAR_SHOW_ICON then
+        if CASTBAR_SHOW_ICON and f.SpellIcon then
             f.SpellIcon.bg:Show()
+            f:SpellIconSetWidth()
         end
 
-        if CASTBAR_SHOW_NAME then
+        if CASTBAR_SHOW_NAME and f.SpellName then
             f.SpellName:Show()
         end
-
-        f:SpellIconSetWidth()
     end
     local function HideCastBar(f)
         -- also hide attached elements
         f.CastBar:Hide()
         f.CastBar.bg:Hide()
-        f.SpellIcon.bg:Hide()
-        f.SpellName:Hide()
-        f.SpellShield:Hide()
+
+        if f.SpellName then
+            f.SpellName:Hide()
+        end
+        if f.SpellIcon then
+            f.SpellIcon.bg:Hide()
+        end
+        if f.SpellShield then
+            f.SpellShield:Hide()
+        end
     end
     local function UpdateCastBar(f)
         if f.IN_NAMEONLY then
             f.handler:DisableElement('CastBar')
         else
-            if CASTBAR_SHOW_ICON then
-                f.SpellIcon:Show()
-            else
-                f.SpellIcon:Hide()
-            end
-
             if f.state.player then
                 if core.profile.castbar_showpersonal then
                     f.handler:EnableElement('CastBar')
@@ -1037,6 +1032,7 @@ do
         end
     end
     local function UpdateSpellNamePosition(f)
+        if not f.SpellName then return end
         f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,-2+TEXT_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
@@ -1045,6 +1041,8 @@ do
     end
 
     local function CreateSpellIcon(f)
+        assert(not f.SpellIcon)
+
         local bg = f:CreateTexture(nil, 'BACKGROUND', nil, 1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
@@ -1059,9 +1057,12 @@ do
 
         icon.bg = bg
 
+        f.handler:RegisterElement('SpellIcon', icon)
         return icon
     end
     local function CreateSpellShield(f)
+        assert(not f.SpellShield)
+
         -- cast shield
         local shield = f.HealthBar:CreateTexture(nil, 'ARTWORK', nil, 3)
         shield:SetTexture(MEDIA..'Shield')
@@ -1071,7 +1072,18 @@ do
         shield:SetVertexColor(.5, .5, .7)
         shield:Hide()
 
+        f.handler:RegisterElement('SpellShield', shield)
         return shield
+    end
+    local function CreateSpellName(f)
+        assert(not f.SpellName)
+
+        local spellname = CreateFontString(f.HealthBar,FONT_SIZE_SMALL)
+        spellname:SetWordWrap()
+        spellname:Hide()
+
+        f.handler:RegisterElement('SpellName', spellname)
+        return spellname
     end
 
     function core:CreateCastBar(f)
@@ -1088,26 +1100,19 @@ do
         castbar:Hide()
         castbar.bg = bg
 
-        local spellname = CreateFontString(f.HealthBar,FONT_SIZE_SMALL)
-        spellname:SetWordWrap()
-        spellname:Hide()
-
         -- register base elements
         f.handler:RegisterElement('CastBar', castbar)
-        f.handler:RegisterElement('SpellName', spellname)
 
-        -- TODO create optional elements if enabled
         -- create optional elements
-        local spellicon = CreateSpellIcon(f)
-        if not CASTBAR_SHOW_ICON then
-            spellicon:Hide()
+        if CASTBAR_SHOW_NAME then
+            CreateSpellName(f)
         end
-
-        local spellshield = CreateSpellShield(f)
-
-        -- register optional elements
-        f.handler:RegisterElement('SpellIcon', spellicon)
-        f.handler:RegisterElement('SpellShield', spellshield)
+        if CASTBAR_SHOW_ICON then
+            CreateSpellIcon(f)
+        end
+        if CASTBAR_SHOW_SHIELD then
+            CreateSpellShield(f)
+        end
 
         f.ShowCastBar = ShowCastBar
         f.HideCastBar = HideCastBar
@@ -1118,6 +1123,46 @@ do
 
         f:UpdateSpellNamePosition()
         f:UpdateCastbarSize()
+    end
+
+    function core:SetCastBarConfig()
+        CASTBAR_HEIGHT = self.profile.castbar_height
+        CASTBAR_COLOUR = self.profile.castbar_colour
+        CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
+        CASTBAR_SHOW_ICON = self.profile.castbar_icon
+        CASTBAR_SHOW_NAME = self.profile.castbar_name
+        CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
+
+        for k,f in addon:Frames() do
+            if CASTBAR_SHOW_ICON and not f.SpellIcon then
+                CreateSpellIcon(f)
+            end
+            if CASTBAR_SHOW_NAME and not f.SpellName then
+                CreateSpellName(f)
+            end
+            if CASTBAR_SHOW_SHIELD and not f.SpellShield then
+                CreateSpellShield(f)
+            end
+
+            if f.SpellShield then
+                if CASTBAR_SHOW_SHIELD then
+                    f.handler:EnableElement('SpellShield')
+                else
+                    f.handler:DisableElement('SpellShield')
+                end
+            end
+
+            if f.SpellIcon then
+                if CASTBAR_SHOW_ICON then
+                    f.SpellIcon:Show()
+                else
+                    f.SpellIcon:Hide()
+                end
+            end
+
+            f:UpdateCastbarSize()
+            f:UpdateSpellNamePosition()
+        end
     end
 end
 -- state icons #################################################################
@@ -1288,19 +1333,17 @@ do
             return 1
         end
 
-        if KSL then
-            -- force show if included by spell list (all casters or self)
-            if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
-                ((caster == 'player' or caster == 'pet' or caster == 'vehcile') and
-                (KSL:SpellIncludedOwn(spellid) or KSL:SpellIncludedOwn(name)))
-            then
-                return 2
-            end
+        -- force show if included by spell list (all casters or self)
+        if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
+            ((caster == 'player' or caster == 'pet' or caster == 'vehcile') and
+            (KSL:SpellIncludedOwn(spellid) or KSL:SpellIncludedOwn(name)))
+        then
+            return 2
+        end
 
-            -- force hide if excluded by spell list
-            if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
-                return 1
-            end
+        -- force hide if excluded by spell list
+        if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
+            return 1
         end
 
         if AURAS_SHOW_ALL_SELF or AURAS_HIDE_ALL_OTHER then

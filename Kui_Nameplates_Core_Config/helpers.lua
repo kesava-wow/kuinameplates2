@@ -1,22 +1,13 @@
 local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
-local pcdd = LibStub('PhanxConfig-Dropdown')
+local pcdd = LibStub('SomeoneElsesConfig-Dropdown')
 local L = opt:GetLocale()
 
--- XXX temporary PlaySound compatibility for 7.2.5 -> 7.3
-local S_CHECKBOX_ON,S_CHECKBOX_OFF,S_MENU_OPEN,S_MENU_CLOSE
-if SOUNDKIT then
-    S_CHECKBOX_ON = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
-    S_CHECKBOX_OFF = SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF
-    S_MENU_OPEN = SOUNDKIT.IG_MAINMENU_OPEN
-    S_MENU_CLOSE = SOUNDKIT.IG_MAINMENU_CLOSE
-else
-    S_CHECKBOX_ON = 'igMainMenuOptionCheckBoxOn'
-    S_CHECKBOX_OFF = 'igMainMenuOptionCheckBoxOff'
-    S_MENU_OPEN = 'igMainMenuOpen'
-    S_MENU_CLOSE = 'igMainMenuClose'
-end
+local S_CHECKBOX_ON = 856
+local S_CHECKBOX_OFF = 857
+local S_MENU_OPEN = 850
+local S_MENU_CLOSE = 851
 
 -- generic scripts #############################################################
 local function EditBoxOnEscapePressed(self)

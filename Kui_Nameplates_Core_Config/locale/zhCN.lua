@@ -47,6 +47,8 @@ L["titles"] = {
 	["castbar_height"] = "施法条高度",
 	["castbar_icon"] = "显示法术图标",
 	["castbar_name"] = "显示法术名称",
+--Translation missing
+	["castbar_shield"] = "Show uninterruptible shield",
 	["castbar_showall"] = "所有姓名版均显示施法条",
 	["castbar_showenemy"] = "显示敌方施法条",
 	["castbar_showfriend"] = "显示友方施法条",
@@ -82,7 +84,7 @@ L["titles"] = {
 	["combat_friendly"] = "战斗动作: 友方",
 	["combat_hostile"] = "战斗动作: 敌方",
 	["copy_profile_label"] = "为配置输入新名称",
-	["copy_profile_title"] = "复制配置",	
+	["copy_profile_title"] = "复制配置",
 	["dd_auras_sort_index"] = "光环索引",
 	["dd_auras_sort_time"] = "剩馀时间",
 	["dd_bar_animation_cutaway"] = "切除",
@@ -207,6 +209,8 @@ L["tooltips"] = {
 	["bossmod_y_offset"] = "首领光环图标位置的垂直偏移量",
 	["bot_vertical_offset"] = "等级血量垂直偏移",
 	["castbar_enable"] = "启用施法条",
+--Translation missing
+	["castbar_shield"] = "Show a shield icon on the castbar during casts which cannot be interrupted",
 	["castbar_showall"] = "在所有姓名板上显示施法条",
 	["castbar_showenemy"] = "显示敌方施法条",
 	["castbar_showfriend"] = "显示友方施法条，注意：启用名字模式时不会显示施法条",

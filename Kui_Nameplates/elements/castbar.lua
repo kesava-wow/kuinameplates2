@@ -58,7 +58,7 @@ function addon.Nameplate.CastBarShow(f)
     f.CastBarUpdateFrame:Show()
     f.CastBarUpdateFrame:SetScript('OnUpdate', OnCastBarUpdate)
 end
-function addon.Nameplate.CastBarHide(f)
+function addon.Nameplate.CastBarHide(f,interrupted)
     f = f.parent
     if not f.state.casting then return end
 
@@ -73,7 +73,7 @@ function addon.Nameplate.CastBarHide(f)
         f.SpellShield:Hide()
     end
 
-    addon:DispatchMessage('CastBarHide', f)
+    addon:DispatchMessage('CastBarHide',f,interrupted)
 
     f.CastBarUpdateFrame:Hide()
     f.CastBarUpdateFrame:SetScript('OnUpdate',nil)
@@ -125,8 +125,11 @@ function ele:CastStart(event,f,unit)
 
     f.handler:CastBarShow()
 end
-function ele:CastStop(event,f,unit)
+function ele:CastStop(event,f)
     f.handler:CastBarHide()
+end
+function ele:CastInterrupted(event,f)
+    f.handler:CastBarHide(true)
 end
 function ele:CastUpdate(event,f,unit)
     local startTime,endTime
@@ -174,6 +177,6 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_START','CastStart')
     self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_STOP','CastStop')
     self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_UPDATE','CastUpdate')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastStop')
+    self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastInterrupted')
     self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
 end

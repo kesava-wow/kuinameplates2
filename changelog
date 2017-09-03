@@ -1,61 +1,8 @@
-* aura options "use default ui filter" and "use whitelist" have been removed;
-  The default behaviour is now to use the vanilla UI's filter, but
-  KuiSpellListConfig can still be used to modify the spells displayed,
-  including tracking any auras caused by other players.
-* add "whitelist all own auras" and "blacklist all other auras" options
+7.15.1:
+* remove 7.2.5 compatibility
 
-* add slash-command shortcuts - i.e. type /knp auras or /knp a to open
-directly to the auras config page (this uses page names from the locale)
-* increase default small font size slightly (from 9 to 10)
-* increase default castbar height slightly
-* brighten default castbar colour slightly
-* remove brackets from around player guild text
-
-* add koKR localisation contributed by yuk6196 (thanks!)
-* add ruRU localisation contributed by BLizzatron (also thanks!)
-* add Roboto Condensed Bold to ruRU clients and use it by default
-
-BETA NOTES
-6-aug
-* update koKR, zhTW, zhCN
-
-5-aug (requires a game restart)
-* alter the localisation format to make it easier for me to import stuff
-* add localisation support for dropdown values
-* update ruRU
-
-4-aug
-* update ruRU
-* update koKR
-* add Roboto Condensed Bold to ruRU clients and use it by default
-* add a text hint for KSLC to the auras page
-
-3-aug
-* remove the config tab list scroll bar because that wasn't going to be useful
-for quite some time
-* increase default castbar height slightly
-* brighten default castbar colour slightly
-* add ruRU localisation contributed by BLizzatron (also thanks!)
-* implement "whitelist all own auras" and "blacklist all other auras" options
-
-1-aug
-* add placeholder auras checkboxes for stuff and things
-* add slash-command shortcuts - i.e. type /knp auras or /knp a to open
-directly to the auras config page (this uses page names from the locale)
-* remove brackets from around player guild text
-* increase default small font size slightly (from 9 to 10)
-
-29-jul
-* reimplement custom aura filtering. Use the beta of KuiSpellListConfig to
-customise the filter.
-
-27-jul
-* config page elements are created on-demand, rather than all at once (which
-should slightly reduce the pause when you first open the config interface)
-
-* aura options "use default ui filter" and "use whitelist" have been removed
-in preparation for changing the way in which the aura filter can be edited.
-KuiSpellList isn't used anymore, so obviously KuiSpellListConfig will have no
-effect. Currently it filters in a way similar to the old "use default ui
-filter" option (i.e. shows other players' CCs, etc).
-* add koKR localisation contributed by yuk6196 (thanks!)
+7.15.1-t:
+* bump toc
+* add option to disable the castbar shield icon
+* update locales
+* fix PlaySound errors in 7.3

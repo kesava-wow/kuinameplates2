@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Author: Kesava
 ## Title: Kui |cff9966ffMedia
 ## Notes: This doesn't need to be enabled.

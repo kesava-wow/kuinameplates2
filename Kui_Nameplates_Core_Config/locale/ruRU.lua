@@ -47,6 +47,8 @@ L["titles"] = {
 	["castbar_height"] = "Высота полосы заклинания",
 	["castbar_icon"] = "Показать значок заклинания",
 	["castbar_name"] = "Показать название заклинания",
+--Translation missing
+	["castbar_shield"] = "Show uninterruptible shield",
 	["castbar_showall"] = "Показать полосу заклинания, на всех индикаторах здоровья",
 	["castbar_showenemy"] = "Показать полосу заклинания противников",
 	["castbar_showfriend"] = "Показать полосу заклинания союзников",
@@ -83,40 +85,23 @@ L["titles"] = {
 	["combat_hostile"] = "Боевое действие: враждебное",
 	["copy_profile_label"] = "Введите имя для нового профиля",
 	["copy_profile_title"] = "Копир. профиль",
---Translation missing
-	["dd_auras_sort_index"] = "Aura index",
---Translation missing
-	["dd_auras_sort_time"] = "Time remaining",
---Translation missing
-	["dd_bar_animation_cutaway"] = "Cutaway",
---Translation missing
-	["dd_bar_animation_smooth"] = "Smooth",
---Translation missing
-	["dd_combat_toggle_hide"] = "Hide, then show",
---Translation missing
-	["dd_combat_toggle_nothing"] = "Do nothing",
---Translation missing
-	["dd_combat_toggle_show"] = "Show, then hide",
---Translation missing
-	["dd_font_style_monochrome"] = "Monochrome",
---Translation missing
-	["dd_font_style_none"] = "None",
---Translation missing
-	["dd_font_style_outline"] = "Outline",
---Translation missing
-	["dd_font_style_shadow"] = "Shadow",
---Translation missing
-	["dd_font_style_shadowandoutline"] = "Shadow+Outline",
---Translation missing
-	["dd_health_text_blank"] = "Blank",
---Translation missing
-	["dd_health_text_current"] = "Current",
---Translation missing
-	["dd_health_text_deficit"] = "Deficit",
---Translation missing
-	["dd_health_text_maximum"] = "Maximum",
---Translation missing
-	["dd_health_text_percent"] = "Percent",
+	["dd_auras_sort_index"] = "Индекс аур",
+	["dd_auras_sort_time"] = "Оставшееся время",
+	["dd_bar_animation_cutaway"] = "Срез",
+	["dd_bar_animation_smooth"] = "Плавно",
+	["dd_combat_toggle_hide"] = "Скрыть, затем показать",
+	["dd_combat_toggle_nothing"] = "Ничего не делать",
+	["dd_combat_toggle_show"] = "Показать, затем скрыть",
+	["dd_font_style_monochrome"] = "Монохромный",
+	["dd_font_style_none"] = "Нету",
+	["dd_font_style_outline"] = "Контур",
+	["dd_font_style_shadow"] = "Тень",
+	["dd_font_style_shadowandoutline"] = "Тень+контур",
+	["dd_health_text_blank"] = "Пусто",
+	["dd_health_text_current"] = "Текущие",
+	["dd_health_text_deficit"] = "Дефицит",
+	["dd_health_text_maximum"] = "Максимальное",
+	["dd_health_text_percent"] = "Процентов",
 	["delete_profile_label"] = "Удалить профиль |cffffffff%s|r?",
 	["delete_profile_title"] = "Удалить профиль",
 	["execute_auto"] = "Авто-определение диапазона",
@@ -224,6 +209,8 @@ L["tooltips"] = {
 	["bossmod_y_offset"] = "Вертикальное смещение значков ауры босса",
 	["bot_vertical_offset"] = "Вертикальное смещение строк уровня и здоровья",
 	["castbar_enable"] = "Включить элемент полосы заклинания",
+--Translation missing
+	["castbar_shield"] = "Show a shield icon on the castbar during casts which cannot be interrupted",
 	["castbar_showall"] = "Показать полосу заклинания, на всех индикаторах здоровья, а не только на текущей цели",
 	["castbar_showenemy"] = "Показывать полосу заклинания противников на индикаторах здоровья",
 	["castbar_showfriend"] = "Показывать полосу заклинания союзников на индикаторах здоровья (обратите внимание, что полоса заклинаний не отображаются на рамках, с активным режимом только-имя)",
