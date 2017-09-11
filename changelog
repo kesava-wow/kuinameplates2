@@ -1,3 +1,4 @@
 BETA NOTES
 * workaround for an issue with auras on mobs which switch from unattackable to
 attackable without firing UNIT_FACTION because that's still a thing
+* update zhCN, zhTW
