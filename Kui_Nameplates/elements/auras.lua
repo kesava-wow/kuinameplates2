@@ -363,6 +363,7 @@ local function AuraFrame_GetAuras(self)
               nps_own,spellid,_,_,_,nps_all =
               UnitAura(self.parent.unit,i,self.filter)
 
+        if not name then break end
         if name and spellid and
            self:ShouldShowAura(spellid,strlower(name),duration,caster,nps_own,nps_all)
         then
