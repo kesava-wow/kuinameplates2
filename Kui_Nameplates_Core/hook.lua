@@ -144,9 +144,6 @@ function core:GainedTarget(f)
     f:UpdateFrameSize()
     f:UpdateLevelText()
     self:NameOnlyUpdateFunctions(f)
-
-    -- force auras faction update to workaround #1
-    plugin_auras:UNIT_FACTION(nil,f)
 end
 function core:LostTarget(f)
     f.state.target = nil
@@ -305,7 +302,6 @@ function core:Initialise()
 
     CreateLODHandler()
 
-    plugin_auras = addon:GetPlugin('Auras')
     plugin_fading = addon:GetPlugin('Fading')
     plugin_classpowers = addon:GetPlugin('ClassPowers')
 end

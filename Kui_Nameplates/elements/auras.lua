@@ -321,6 +321,7 @@ end
 local function AuraFrame_Update(self)
     if self.__DISABLED then return end
 
+    self:FactionUpdate() -- XXX workaround for #1
     self:GetAuras()
 
     for _,button in ipairs(self.buttons) do
