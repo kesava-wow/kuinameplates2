@@ -1,8 +1,3 @@
-7.15.1:
-* remove 7.2.5 compatibility
-
-7.15.1-t:
-* bump toc
-* add option to disable the castbar shield icon
-* update locales
-* fix PlaySound errors in 7.3
+BETA NOTES
+* workaround for an issue with auras on mobs which switch from unattackable to
+attackable without firing UNIT_FACTION because that's still a thing
