@@ -47,7 +47,8 @@ L["titles"] = {
 	["castbar_height"] = "施法條高度",
 	["castbar_icon"] = "顯示法術圖示",
 	["castbar_name"] = "顯示法術名稱",
-	["castbar_shield"] = "顯示盾牌圖示",
+--Translation missing
+	["castbar_shield"] = "Show uninterruptible shield",
 	["castbar_showall"] = "顯示所有單位的施法條",
 	["castbar_showenemy"] = "顯示敵方施法條",
 	["castbar_showfriend"] = "顯示友方施法條",
@@ -208,7 +209,8 @@ L["tooltips"] = {
 	["bossmod_y_offset"] = "首領光環圖示位置的垂直偏移量",
 	["bot_vertical_offset"] = "等級血量位置的垂直偏移量",
 	["castbar_enable"] = "啟用施法條",
-	["castbar_shield"] = "在免疫打斷的施法條上顯示盾牌圖示",
+--Translation missing
+	["castbar_shield"] = "Show a shield icon on the castbar during casts which cannot be interrupted",
 	["castbar_showall"] = "在所有血條上顯示施法條",
 	["castbar_showenemy"] = "顯用敵方施法條",
 	["castbar_showfriend"] = "顯示友方施法條，注意：啟用名字模式時不會顯示施法條",
