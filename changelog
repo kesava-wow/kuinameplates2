@@ -1,4 +1,3 @@
-* workaround for an issue with auras on mobs in invasions (which switch from
-unattackable to attackable without firing an event for some reason). This
-only 'fixes' the issue for auras, not name-only mode.
-* update zhCN, zhTW, koKR, ruRU
+BETA NOTES
+
+* merge EKE00372's zhTW, zhCN updates
