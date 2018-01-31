@@ -306,6 +306,7 @@ end
 -- nameonly ####################################################################
 function nameonly:Initialise()
     local nameonlyCheck = self:CreateCheckBox('nameonly')
+    local nameonly_on_default = self:CreateCheckBox('nameonly_on_default')
     local nameonly_no_font_style = self:CreateCheckBox('nameonly_no_font_style')
     local nameonly_health_colour = self:CreateCheckBox('nameonly_health_colour')
     local nameonly_damaged_friends = self:CreateCheckBox('nameonly_damaged_friends')
@@ -331,8 +332,9 @@ function nameonly:Initialise()
     title_text_players.enabled = nameonly_no_font_style.enabled
 
     nameonlyCheck:SetPoint('TOPLEFT',10,-10)
-    nameonly_no_font_style:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
+    nameonly_on_default:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
     nameonly_health_colour:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
+    nameonly_no_font_style:SetPoint('LEFT',nameonly_health_colour,'RIGHT',190,0)
 
     nameonly_target:SetPoint('TOPLEFT',nameonly_health_colour,'BOTTOMLEFT',0,-20)
     nameonly_damaged_friends:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT')
