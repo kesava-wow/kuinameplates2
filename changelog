@@ -1,1 +1,4 @@
 * add "hide default health bar" option, to manage the nameplateShowOnlyName cvar across characters.
+
+2.15.4a
+* correctly disable the above option by default
