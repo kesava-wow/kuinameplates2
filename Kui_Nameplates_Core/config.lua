@@ -48,7 +48,7 @@ local default_config = {
     clickthrough_enemy = false,
 
     nameonly = true,
-    nameonly_on_default = true,
+    nameonly_on_default = false,
     nameonly_no_font_style = false,
     nameonly_health_colour = true,
     nameonly_damaged_friends = true,
