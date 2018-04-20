@@ -76,7 +76,7 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_DISPLAYPOWER','PowerTypeEvent')
     self:RegisterUnitEvent('UNIT_MAXPOWER','PowerTypeEvent')
     self:RegisterUnitEvent('UNIT_POWER_FREQUENT','PowerEvent')
-    self:RegisterUnitEvent('UNIT_POWER','PowerEvent')
+    self:RegisterUnitEvent('UNIT_POWER_UPDATE','PowerEvent')
 end
 function ele:Initialise()
     self.colours = {}
