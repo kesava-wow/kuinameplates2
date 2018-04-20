@@ -49,12 +49,14 @@ function addon:HookNameplate(frame)
     frame.kui.elements = {}
     frame.kui.parent = frame
 
+    -- TODO 80 buggy, child text frames disappear
+    frame.kui:SetPoint('CENTER',frame)
     -- semlar's non-laggy positioning
-    local sizer = CreateFrame('Frame',name..'PositionHelper',frame.kui)
-    sizer:SetPoint('BOTTOMLEFT',WorldFrame)
-    sizer:SetPoint('TOPRIGHT',frame,'CENTER')
-    sizer:SetScript('OnSizeChanged',SizerOnSizeChanged)
-    sizer.f = frame.kui
+    --local sizer = CreateFrame('Frame',name..'PositionHelper',frame.kui)
+    --sizer:SetPoint('BOTTOMLEFT',WorldFrame)
+    --sizer:SetPoint('TOPRIGHT',frame,'CENTER')
+    --sizer:SetScript('OnSizeChanged',SizerOnSizeChanged)
+    --sizer.f = frame.kui
 
     frame.kui:SetScale(self.uiscale)
     frame.kui:SetSize(self.width,self.height)
