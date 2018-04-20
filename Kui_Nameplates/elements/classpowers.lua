@@ -590,8 +590,9 @@ function ele:PowerInit()
                 FIRES_OF_JUSTICE_NAME = GetSpellInfo(FIRES_OF_JUSTICE_SPELL_ID)
                 highlight_at = 3
 
-                cpf:RegisterUnitEvent('UNIT_AURA','player')
-                self.UNIT_AURA_func = self.Paladin_WatchFiresOfJustice
+                -- TODO 80 UnitBuff with name instead of index
+                --cpf:RegisterUnitEvent('UNIT_AURA','player')
+                --self.UNIT_AURA_func = self.Paladin_WatchFiresOfJustice
             end
         elseif class == 'DRUID' and (
            (spec == 1 and IsTalentKnown(BALANCE_FERAL_AFFINITY_TALENT_ID)) or
