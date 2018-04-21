@@ -596,6 +596,7 @@ local function AuraFrame_SetSort(self,sort_f)
 end
 local function AuraFrame_OnHide(self)
     -- hide all buttons
+    if self.parent.IGNORE_VISIBILITY_BUBBLE then return end
     self:HideAllButtons()
 end
 -- external aura frame functions ###############################################
