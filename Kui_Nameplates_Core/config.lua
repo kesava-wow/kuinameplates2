@@ -179,6 +179,15 @@ local default_config = {
     bossmod_x_offset = 0,
     bossmod_y_offset = 30,
     bossmod_clickthrough = false,
+
+    cvar_enable = false,
+    cvar_show_friendly_npcs = false,
+    cvar_personal_show_always = false,
+    cvar_personal_show_combat = true,
+    cvar_personal_show_target = false,
+    cvar_max_distance = 40, -- TODO
+    cvar_clamp_top = .1, -- TODO
+    cvar_clamp_bottom = .1, -- TODO
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()

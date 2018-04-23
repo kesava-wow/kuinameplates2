@@ -23,6 +23,7 @@ local auras       = opt:CreateConfigPage('auras')
 local threat      = opt:CreateConfigPage('threat')
 local classpowers = opt:CreateConfigPage('classpowers')
 local bossmod     = opt:CreateConfigPage('bossmod')
+local cvars       = opt:CreateConfigPage('cvars')
 
 -- show inital page
 opt.pages[1]:ShowPage()
@@ -582,4 +583,41 @@ function bossmod:Initialise()
     bossmod_icon_size:SetPoint('TOP',0,-125)
     bossmod_x_offset:SetPoint('TOPLEFT',10,-(125+60))
     bossmod_y_offset:SetPoint('LEFT',bossmod_x_offset,'RIGHT',20,0)
+end
+-- cvars #######################################################################
+function cvars:Initialise()
+    -- "allow KNP to manage the cvars on this page"
+    -- makes knp set these cvars whenever its config is updated
+    local enable = self:CreateCheckBox('cvar_enable')
+    -- nameplateShowFriendlyNPCs
+    -- "always show friendly npc's nameplates"
+    local sfn = self:CreateCheckBox('cvar_show_friendly_npcs')
+    -- nameplatePersonalShowAlways
+    -- "always show the personal nameplate"
+    local psa = self:CreateCheckBox('cvar_personal_show_always')
+    -- nameplatePersonalShowInCombat
+    -- "show the personal nameplate when in combat"
+    local psc = self:CreateCheckBox('cvar_personal_show_combat')
+    -- nameplatePersonalShowWithTarget
+    -- "show the personal nameplate when you have an attackable target"
+    local pst = self:CreateCheckBox('cvar_personal_show_target')
+    -- nameplateMaxDistance
+    -- "max distance to render nameplates" (???)
+    local md = self:CreateSlider('cvar_max_distance',0,100)
+    -- nameplate{Other,Large}TopInset
+    -- "top clamping distance in percent" (???)
+    local ct = self:CreateSlider('cvar_clamp_top',0,1)
+    -- nameplate{Other,Large}BottomInset
+    -- "bottom clamping distance in percent" (???)
+    local cb = self:CreateSlider('cvar_clamp_bottom',0,1)
+
+    -- TODO add some sort of grouping ID in create calls so i dont have to do
+    -- this to disable things
+    sfn.enabled = function(p) return p.cvar_enable end
+    psa.enabled = sfn.enabled
+    psc.enabled = sfn.enabled
+    pst.enabled = sfn.enabled
+    md.enabled  = sfn.enabled
+    ct.enabled  = sfn.enabled
+    cb.enabled  = sfn.enabled
 end
