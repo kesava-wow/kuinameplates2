@@ -1,3 +1,4 @@
-* add frFR translation (thanks to Daniel8513)
-* update zhCN & zhTW (thanks to eke00372)
-* update ruRU (thanks to Hubbotu)
+BETA NOTES
+
+* added CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping). cvar page boilerplate
+* disable frFR since its got a lot of overlong titles
