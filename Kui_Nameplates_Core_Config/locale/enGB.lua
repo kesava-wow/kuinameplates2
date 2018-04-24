@@ -341,8 +341,8 @@ L.tooltips = {
     cvar_name_only = '|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.',
     cvar_personal_show_always = '|cffffcc00nameplatePersonalShowAlways|r',
     cvar_personal_show_combat = '|cffffcc00nameplatePersonalShowInCombat|r',
-    cvar_personal_show_target = '|cffffcc00nameplatePersonalShowWithTarget|r',
-    cvar_max_distance = '|cffffcc00nameplateMaxDistance|r',
-    cvar_clamp_top = '|cffffcc00nameplate{Other,Large}TopInset|r',
+    cvar_personal_show_target = '|cffffcc00nameplatePersonalShowWithTarget|r|n|nShow the personal nameplate whenever you have an attackable target.',
+    cvar_max_distance = '|cffffcc00nameplateMaxDistance|r|n|nMaximum distance at which to render nameplates (not including your current target).',
+    cvar_clamp_top = '|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.',
     cvar_clamp_bottom = '|cffffcc00nameplate{Other,Large}BottomInset|r',
 }
