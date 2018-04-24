@@ -12,6 +12,7 @@ L.page_names = {
     classpowers = 'Class powers',
     threat      = 'Threat',
     bossmod     = 'Boss mods',
+    cvars       = 'CVars',
 }
 L.titles = {
     profile = 'Profile',
@@ -47,7 +48,6 @@ L.titles = {
     clickthrough_enemy = 'Enemy',
 
     nameonly = 'Use name-only mode',
-    nameonly_on_default = 'Hide default health bar',
     nameonly_no_font_style = 'No text outline',
     nameonly_health_colour = 'Health colour',
     nameonly_damaged_friends = 'On damaged friends',
@@ -199,6 +199,16 @@ L.titles = {
     bossmod_x_offset = 'Horizontal offset',
     bossmod_y_offset = 'Vertical offset',
     bossmod_clickthrough = 'Enable clickthrough when automatically shown',
+
+    cvar_enable = 'Allow Kui Nameplates to modify CVars',
+    cvar_show_friendly_npcs = 'Always show friendly NPCs\' nameplates',
+    cvar_name_only = 'Hide default health bar',
+    cvar_personal_show_always = 'Always show personal nameplate',
+    cvar_personal_show_combat = 'Show personal nameplate when in combat',
+    cvar_personal_show_target = 'Show personal nameplate with a target',
+    cvar_max_distance = 'Max render distance',
+    cvar_clamp_top = 'Top clamp distance',
+    cvar_clamp_bottom = 'Bottom clamp distance',
 }
 L.tooltips = {
     bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
@@ -216,7 +226,6 @@ L.tooltips = {
     clickthrough_enemy = 'Disable the click-box of enemy nameplates',
 
     nameonly = 'Hide the health bars of friendly or unattackable units. While in name-only mode, name text is coloured as a percentage of health',
-    nameonly_on_default = 'Hide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.|n|nThis modifies the CVar |cffffff88nameplateShowOnlyNames|r.',
     nameonly_no_font_style = 'Hide text outline when in name-only mode (by setting the font style to nil)',
     nameonly_health_colour = 'Partially colour text to represent health percentage',
     nameonly_damaged_friends = 'Use name-only mode even on damaged friendly frames',
@@ -326,4 +335,14 @@ L.tooltips = {
     bossmod_x_offset = 'Horizontal offset of the boss aura icons',
     bossmod_y_offset = 'Vertical offset of the boss aura icons',
     bossmod_clickthrough = 'Disable the click-box of nameplates which are automatically enabled',
+
+    cvar_enable = 'NYI When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here. Disabling this option, KNP, or removing KNP will not reset the CVars to default.',
+    cvar_show_friendly_npcs = '|cffffcc00nameplateShowFriendlyNPCs|r',
+    cvar_name_only = '|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.',
+    cvar_personal_show_always = '|cffffcc00nameplatePersonalShowAlways|r',
+    cvar_personal_show_combat = '|cffffcc00nameplatePersonalShowInCombat|r',
+    cvar_personal_show_target = '|cffffcc00nameplatePersonalShowWithTarget|r',
+    cvar_max_distance = '|cffffcc00nameplateMaxDistance|r',
+    cvar_clamp_top = '|cffffcc00nameplate{Other,Large}TopInset|r',
+    cvar_clamp_bottom = '|cffffcc00nameplate{Other,Large}BottomInset|r',
 }
