@@ -629,6 +629,34 @@ configChanged.bossmod_icon_size = configChangedBossMod
 configChanged.bossmod_x_offset = configChangedBossMod
 configChanged.bossmod_y_offset = configChangedBossMod
 
+local function configChangedCVar()
+    if not core.profile.cvar_enable then
+        -- leave cvars alone entirely if not enabled
+        return
+    end
+    if InCombatLockdown() then
+        return cc:QueueConfigChanged('cvar_enable')
+    end
+
+    SetCVar('nameplateShowFriendlyNPCs',core.profile.cvar_show_friendly_npcs)
+    SetCVar('nameplatePersonalShowAlways',core.profile.cvar_personal_show_always)
+    SetCVar('nameplatePersonalShowInCombat',core.profile.cvar_personal_show_combat)
+    SetCVar('nameplatePersonalShowWithTarget',core.profile.cvar_personal_show_target)
+    SetCVar('nameplateMaxDistance',core.profile.cvar_max_distance)
+    SetCVar('nameplateOtherTopInset',core.profile.cvar_clamp_top)
+    SetCVar('nameplateLargeTopInset',core.profile.cvar_clamp_top)
+    SetCVar('nameplateOtherBottomInset',core.profile.cvar_clamp_bottom)
+    SetCVar('nameplateLargeBottomInset',core.profile.cvar_clamp_bottom)
+end
+configChanged.cvar_enable = configChangedCVar
+configChanged.cvar_show_friendly_npcs = configChangedCVar
+configChanged.cvar_personal_show_always = configChangedCVar
+configChanged.cvar_personal_show_combat = configChangedCVar
+configChanged.cvar_personal_show_target = configChangedCVar
+configChanged.cvar_max_distance = configChangedCVar
+configChanged.cvar_clamp_top = configChangedCVar
+configChanged.cvar_clamp_bottom = configChangedCVar
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
@@ -652,6 +680,8 @@ configLoaded.level_text = configChanged.level_text
 configLoaded.auras_enabled = configChanged.auras_enabled
 
 configLoaded.clickthrough_self = QueueClickthroughUpdate
+
+configLoaded.cvar_enable = configChangedCVar
 
 function configLoaded.classpowers_enable(v)
     if v then
