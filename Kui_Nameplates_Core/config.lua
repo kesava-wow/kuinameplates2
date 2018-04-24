@@ -181,13 +181,13 @@ local default_config = {
     bossmod_clickthrough = false,
 
     cvar_enable = false,
-    cvar_show_friendly_npcs = false,
-    cvar_personal_show_always = false,
-    cvar_personal_show_combat = true,
-    cvar_personal_show_target = false,
-    cvar_max_distance = 40, -- TODO
-    cvar_clamp_top = .1, -- TODO
-    cvar_clamp_bottom = .1, -- TODO
+    cvar_show_friendly_npcs = GetCVarDefault('nameplateShowFriendlyNPCs')=="1",
+    cvar_personal_show_always = GetCVarDefault('nameplatePersonalShowAlways')=="1",
+    cvar_personal_show_combat = GetCVarDefault('nameplatePersonalShowInCombat')=="1",
+    cvar_personal_show_target = GetCVarDefault('nameplatePersonalShowWithTarget')=="1",
+    cvar_max_distance = GetCVarDefault('nameplateMaxDistance'),
+    cvar_clamp_top = GetCVarDefault('nameplateOtherTopInset'),
+    cvar_clamp_bottom = GetCVarDefault('nameplateOtherBottomInset'),
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()
