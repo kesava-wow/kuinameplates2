@@ -1,4 +1,4 @@
 BETA NOTES
 
-* added CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping). cvar page boilerplate
-* disable frFR since its got a lot of overlong titles
+* added CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping)
+* disable frFR since it has a lot of overlong titles
