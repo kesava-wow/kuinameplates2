@@ -336,7 +336,7 @@ L.tooltips = {
     bossmod_y_offset = 'Vertical offset of the boss aura icons',
     bossmod_clickthrough = 'Disable the click-box of nameplates which are automatically enabled',
 
-    cvar_enable = 'NYI When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here. Disabling this option, KNP, or removing KNP will not reset the CVars to default.',
+    cvar_enable = 'NYI When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nDisabling this option, KNP, or removing KNP will NOT reset these CVars to default.',
     cvar_show_friendly_npcs = '|cffffcc00nameplateShowFriendlyNPCs|r',
     cvar_name_only = '|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.',
     cvar_personal_show_always = '|cffffcc00nameplatePersonalShowAlways|r',
