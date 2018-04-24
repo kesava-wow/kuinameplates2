@@ -603,13 +603,18 @@ function cvars:Initialise()
     local pst = self:CreateCheckBox('cvar_personal_show_target')
     -- nameplateMaxDistance
     -- "max distance to render nameplates" (???)
-    local md = self:CreateSlider('cvar_max_distance',0,100)
+    local md = self:CreateSlider('cvar_max_distance',5,100)
+    md:SetValueStep(5)
     -- nameplate{Other,Large}TopInset
-    -- "top clamping distance in percent" (???)
-    local ct = self:CreateSlider('cvar_clamp_top',0,1)
+    -- how close nameplates will be rendered to the top edge of the screen.
+    -- set to -0.1 to disable clamping on the top of the screen.
+    local ct = self:CreateSlider('cvar_clamp_top',-.1,.5)
+    ct:SetValueStep(.01)
     -- nameplate{Other,Large}BottomInset
-    -- "bottom clamping distance in percent" (???)
-    local cb = self:CreateSlider('cvar_clamp_bottom',0,1)
+    -- how close nameplates will be rendered to the bottom edge of the screen.
+    -- set to -0.1 to disable clamping on the bottom of the screen.
+    local cb = self:CreateSlider('cvar_clamp_bottom',-.1,.5)
+    cb:SetValueStep(.01)
 
     -- TODO add some sort of grouping ID in create calls so i dont have to do
     -- this to disable things
@@ -620,4 +625,16 @@ function cvars:Initialise()
     md.enabled  = sfn.enabled
     ct.enabled  = sfn.enabled
     cb.enabled  = sfn.enabled
+
+    enable:SetPoint('TOPLEFT',10,-10)
+
+    sfn:SetPoint('TOPLEFT',enable,'BOTTOMLEFT',0,-10)
+
+    psa:SetPoint('TOPLEFT',sfn,'BOTTOMLEFT',0,-10)
+    psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
+    pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
+
+    md:SetPoint('TOP',0,-190)
+    ct:SetPoint('TOPLEFT',10,-(190+50))
+    cb:SetPoint('LEFT',ct,'RIGHT',20,0)
 end
