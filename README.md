@@ -1,8 +1,6 @@
 # Kui Nameplates
 Prettier nameplates. Download releases [at Curse](http://www.curse.com/addons/wow/kuinameplates).
 
-This is a complete rewrite of Kui Nameplates for Legion support. The rewrite separates nameplate frame creation, event handling and visible frame creation such that each of these components is easier to maintain. It also supports third-party layouts.
-
 ---
 
 Reporting issues
@@ -11,8 +9,8 @@ Issues submitted [here](https://github.com/kesava-wow/kuinameplates2/issues) won
 
 When submitting an issue:
 - Separate distinct issues into multiple tickets. It's easier to work with that way.
-- If you've modified code or are using any Kui_Nameplates_Custom script, try to reproduce the issue without that modification first, and tell me what you're using or what you've changed.
-- Do this in chat: "/knp dump-config" and attach a screenshot of the output (or copy it if you have a chat-copying addon).
+- If you've modified code or are using any third-party nameplate addon or plugin (including Kui_Nameplates_Custom scripts), try to reproduce the issue without that it first, and tell me what you're using or what you've changed.
+- Run this in chat: "/knp dump-config" (no quotes). It'll pop up a little window with the textual version of your KNP configuration. Copy that into your report.
 - Remember I'm human. Though I do main a Draenei.
 
 ---
