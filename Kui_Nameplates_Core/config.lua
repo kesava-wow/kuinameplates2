@@ -48,7 +48,6 @@ local default_config = {
     clickthrough_enemy = false,
 
     nameonly = true,
-    nameonly_on_default = false,
     nameonly_no_font_style = false,
     nameonly_health_colour = true,
     nameonly_damaged_friends = true,
@@ -182,6 +181,7 @@ local default_config = {
 
     cvar_enable = false,
     cvar_show_friendly_npcs = GetCVarDefault('nameplateShowFriendlyNPCs')=="1",
+    cvar_name_only = GetCVarDefault('nameplateShowOnlyNames')=="1",
     cvar_personal_show_always = GetCVarDefault('nameplatePersonalShowAlways')=="1",
     cvar_personal_show_combat = GetCVarDefault('nameplatePersonalShowInCombat')=="1",
     cvar_personal_show_target = GetCVarDefault('nameplatePersonalShowWithTarget')=="1",
@@ -443,12 +443,6 @@ function configChanged.nameonly_no_font_style()
     core:configChangedNameOnly()
     core:configChangedFontOption()
 end
-function configChanged.nameonly_on_default(v)
-    if InCombatLockdown() then
-        return cc:QueueConfigChanged('nameonly_on_default')
-    end
-    SetCVar('nameplateShowOnlyNames',v and 1 or 0)
-end
 configChanged.nameonly_damaged_friends = configChanged.nameonly
 configChanged.nameonly_enemies = configChanged.nameonly
 configChanged.nameonly_all_enemies = configChanged.nameonly
@@ -639,6 +633,7 @@ local function configChangedCVar()
     end
 
     SetCVar('nameplateShowFriendlyNPCs',core.profile.cvar_show_friendly_npcs)
+    SetCVar('nameplateShowOnlyNames',core.profile.cvar_name_only)
     SetCVar('nameplatePersonalShowAlways',core.profile.cvar_personal_show_always)
     SetCVar('nameplatePersonalShowInCombat',core.profile.cvar_personal_show_combat)
     SetCVar('nameplatePersonalShowWithTarget',core.profile.cvar_personal_show_target)
@@ -663,7 +658,6 @@ configLoaded.fade_alpha = configChanged.fade_alpha
 configLoaded.fade_speed = configChanged.fade_speed
 
 configLoaded.nameonly = configChanged.nameonly
-configLoaded.nameonly_on_default = configChanged.nameonly_on_default
 
 configLoaded.colour_hated = configChangedReactionColour
 

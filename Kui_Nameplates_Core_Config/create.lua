@@ -307,7 +307,6 @@ end
 -- nameonly ####################################################################
 function nameonly:Initialise()
     local nameonlyCheck = self:CreateCheckBox('nameonly')
-    local nameonly_on_default = self:CreateCheckBox('nameonly_on_default')
     local nameonly_no_font_style = self:CreateCheckBox('nameonly_no_font_style')
     local nameonly_health_colour = self:CreateCheckBox('nameonly_health_colour')
     local nameonly_damaged_friends = self:CreateCheckBox('nameonly_damaged_friends')
@@ -333,7 +332,6 @@ function nameonly:Initialise()
     title_text_players.enabled = nameonly_no_font_style.enabled
 
     nameonlyCheck:SetPoint('TOPLEFT',10,-10)
-    nameonly_on_default:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
     nameonly_health_colour:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
     nameonly_no_font_style:SetPoint('LEFT',nameonly_health_colour,'RIGHT',190,0)
 
@@ -592,6 +590,9 @@ function cvars:Initialise()
     -- nameplateShowFriendlyNPCs
     -- "always show friendly npc's nameplates"
     local sfn = self:CreateCheckBox('cvar_show_friendly_npcs')
+    -- nameplateShowOnlyNames
+    -- locale already @ nameonly_on_default
+    local no = self:CreateCheckBox('cvar_name_only')
     -- nameplatePersonalShowAlways
     -- "always show the personal nameplate"
     local psa = self:CreateCheckBox('cvar_personal_show_always')
@@ -619,6 +620,7 @@ function cvars:Initialise()
     -- TODO add some sort of grouping ID in create calls so i dont have to do
     -- this to disable things
     sfn.enabled = function(p) return p.cvar_enable end
+    no.enabled  = sfn.enabled
     psa.enabled = sfn.enabled
     psc.enabled = sfn.enabled
     pst.enabled = sfn.enabled
@@ -629,12 +631,13 @@ function cvars:Initialise()
     enable:SetPoint('TOPLEFT',10,-10)
 
     sfn:SetPoint('TOPLEFT',enable,'BOTTOMLEFT',0,-10)
+    no:SetPoint('TOPLEFT',sfn,'BOTTOMLEFT')
 
-    psa:SetPoint('TOPLEFT',sfn,'BOTTOMLEFT',0,-10)
+    psa:SetPoint('TOPLEFT',no,'BOTTOMLEFT',0,-10)
     psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
     pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
 
-    md:SetPoint('TOP',0,-190)
-    ct:SetPoint('TOPLEFT',10,-(190+50))
+    md:SetPoint('TOP',0,-220)
+    ct:SetPoint('TOPLEFT',10,-(220+50))
     cb:SetPoint('LEFT',ct,'RIGHT',20,0)
 end
