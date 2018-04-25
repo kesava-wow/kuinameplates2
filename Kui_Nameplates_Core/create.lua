@@ -166,14 +166,16 @@ do
         return bar
     end
 end
-local function GetClassColour(f)
+local function GetAdjustedClassColour(f)
+    -- TODO name_brighten_class_colour option
+    -- build adjusted table on load (if enabled)
     -- return adjusted class colour (used in nameonly)
     local class = select(2,UnitClass(f.unit))
-    if CLASS_COLOURS[class] then
-        return unpack(CLASS_COLOURS[class])
-    else
-        return kui.GetClassColour(class,2)
-    end
+    local r,g,b = kui.GetClassColour(class,2)
+    r = r + (1 - r) * .2
+    g = g + (1 - g) * .2
+    b = b + (1 - b) * .2
+    return r,g,b
 end
 local function UpdateFontObject(object)
     if not object then return end
@@ -553,10 +555,10 @@ do
         if not f.state.player and UnitIsPlayer(f.unit) then
             if f.state.friend then
                 if CLASS_COLOUR_FRIENDLY_NAMES then
-                    f.NameText:SetTextColor(GetClassColour(f))
+                    f.NameText:SetTextColor(GetAdjustedClassColour(f))
                 end
             elseif CLASS_COLOUR_ENEMY_NAMES then
-                f.NameText:SetTextColor(GetClassColour(f))
+                f.NameText:SetTextColor(GetAdjustedClassColour(f))
             end
         end
     end
