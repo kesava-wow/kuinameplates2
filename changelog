@@ -1,4 +1,6 @@
 BETA NOTES
 
+* fix death knight, demon hunter and shaman name text class colours ignore ClassColors' configuration
+
 * added CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping)
 * disable frFR since it has a lot of overlong titles
