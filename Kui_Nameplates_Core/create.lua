@@ -170,11 +170,7 @@ local function GetAdjustedClassColour(f)
     -- build adjusted table on load (if enabled)
     -- return adjusted class colour (used in nameonly)
     local class = select(2,UnitClass(f.unit))
-    local r,g,b = kui.GetClassColour(class,2)
-    r = r + (1 - r) * .2
-    g = g + (1 - g) * .2
-    b = b + (1 - b) * .2
-    return r,g,b
+    return kui.Brighten(.2,kui.GetClassColour(class,2))
 end
 local function UpdateFontObject(object)
     if not object then return end
@@ -567,9 +563,10 @@ do
         -- override colour based on config
         -- white by default
         f.NameText:SetTextColor(1,1,1,1)
+        f.GuildText:SetTextColor(1,1,1,.9)
 
         if f.state.player then
-            -- self (name hidden)
+            -- self (name & guild text always hidden)
             return
         elseif UnitIsPlayer(f.unit) then
             -- other players
@@ -595,7 +592,6 @@ do
                 else
                     f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_FRIENDLY))
                 end
-                f.GuildText:SetTextColor(.8,.9,.8,.9)
             else
                 if f.state.reaction == 4 then
                     -- neutral, attackable
@@ -604,7 +600,6 @@ do
                     else
                         f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_NEUTRAL))
                     end
-                    f.GuildText:SetTextColor(1,1,.8,.9)
                 else
                     -- hostile
                     if NAME_COLOUR_NPCS_INHERIT_REACTION then
@@ -612,10 +607,12 @@ do
                     else
                         f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_HOSTILE))
                     end
-                    f.GuildText:SetTextColor(1,.8,.7,.9)
                 end
             end
         end
+
+        f.GuildText:SetTextColor(kui.Brighten(.8,f.NameText:GetTextColor()))
+        f.GuildText:SetAlpha(.9)
     end
 
     local function UpdateNameText(f)
@@ -1675,7 +1672,6 @@ do
 
         f.GuildText:SetShadowOffset(1,-1)
         f.GuildText:SetShadowColor(0,0,0,1)
-
 
         if NAMEONLY_NO_FONT_STYLE then
             f.NameText:SetFont(FONT,FONT_SIZE_NORMAL,nil)
