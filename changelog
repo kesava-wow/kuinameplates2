@@ -1,5 +1,8 @@
 BETA NOTES
 
+* add option name_colour_white_in_bar_mode, to recreate the previous default colouring of name text
+* remove name_colour_npcs_inherit_reaction
+
 * add options for name text colour - all name text is now coloured by default, and the colour is now consistent with name only mode
 * guild text colour now always matches name text (in name only)
 
