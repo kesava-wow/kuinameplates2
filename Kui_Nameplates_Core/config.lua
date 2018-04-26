@@ -89,9 +89,9 @@ local default_config = {
     name_colour_player_friendly = {.6,.7,1},
     name_colour_player_hostile  = {1,0,0},
     name_colour_npcs_inherit_reaction = false,
-    name_colour_npc_friendly = {1,1,1},
-    name_colour_npc_neutral = {1,1,1},
-    name_colour_npc_hostile = {1,1,1},
+    name_colour_npc_friendly = {1,.7,.6},
+    name_colour_npc_neutral = {1,.9,.7},
+    name_colour_npc_hostile = {.8,1,.8},
 
     health_text_friend_max = 5,
     health_text_friend_dmg = 4,
