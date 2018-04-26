@@ -83,8 +83,15 @@ local default_config = {
     text_vertical_offset = -.5,
     name_vertical_offset = -2,
     bot_vertical_offset = -3,
+
     class_colour_friendly_names = true,
     class_colour_enemy_names = false,
+    name_colour_player_friendly = {.6,.7,1},
+    name_colour_player_hostile  = {1,0,0},
+    name_colour_npcs_inherit_reaction = false,
+    name_colour_npc_friendly = {1,1,1},
+    name_colour_npc_neutral = {1,1,1},
+    name_colour_npc_hostile = {1,1,1},
 
     health_text_friend_max = 5,
     health_text_friend_dmg = 4,
