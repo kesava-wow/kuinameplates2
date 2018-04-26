@@ -1,6 +1,7 @@
 BETA NOTES
 
-* add options for name text colour - all name text is now coloured by default, and the colour is now consistent with name only mode.
+* add options for name text colour - all name text is now coloured by default, and the colour is now consistent with name only mode
+* guild text colour now always matches name text (in name only)
 
 * fix death knight, demon hunter and shaman name text class colours ignore ClassColors' configuration
 
