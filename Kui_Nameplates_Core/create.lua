@@ -63,7 +63,6 @@ local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
-local CLASS_COLOUR_FRIENDLY_NAMES,CLASS_COLOUR_ENEMY_NAMES
 
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
@@ -254,8 +253,6 @@ do
 
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
-        CLASS_COLOUR_FRIENDLY_NAMES = self.profile.class_colour_friendly_names
-        CLASS_COLOUR_ENEMY_NAMES = self.profile.class_colour_enemy_names
         HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
         HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
         HEALTH_TEXT_HOSTILE_MAX = self.profile.health_text_hostile_max
@@ -550,15 +547,73 @@ do
 end
 -- name text ###################################################################
 do
-    local function SetNameTextPlayerColor(f)
+    local CLASS_COLOUR_FRIENDLY_NAMES,CLASS_COLOUR_ENEMY_NAMES,
+          NAME_COLOUR_PLAYER_FRIENDLY,NAME_COLOUR_PLAYER_HOSTILE,
+          NAME_COLOUR_NPCS_INHERIT_REACTION,NAME_COLOUR_NPC_FRIENDLY,
+          NAME_COLOUR_NPC_NEUTRAL,NAME_COLOUR_NPC_HOSTILE
+
+    function core:configChangedNameColour()
+        CLASS_COLOUR_FRIENDLY_NAMES = self.profile.class_colour_friendly_names
+        CLASS_COLOUR_ENEMY_NAMES = self.profile.class_colour_enemy_names
+        NAME_COLOUR_PLAYER_FRIENDLY = self.profile.name_colour_player_friendly
+        NAME_COLOUR_PLAYER_HOSTILE = self.profile.name_colour_player_hostile
+        NAME_COLOUR_NPCS_INHERIT_REACTION = self.profile.name_colour_npcs_inherit_reaction
+        NAME_COLOUR_NPC_FRIENDLY = self.profile.name_colour_npc_friendly
+        NAME_COLOUR_NPC_NEUTRAL = self.profile.name_colour_npc_neutral
+        NAME_COLOUR_NPC_HOSTILE = self.profile.name_colour_npc_hostile
+    end
+
+    local function SetNameTextColour(f)
         -- override colour based on config
-        if not f.state.player and UnitIsPlayer(f.unit) then
+        -- white by default
+        f.NameText:SetTextColor(1,1,1,1)
+
+        if f.state.player then
+            -- self (name hidden)
+            return
+        elseif UnitIsPlayer(f.unit) then
+            -- other players
             if f.state.friend then
                 if CLASS_COLOUR_FRIENDLY_NAMES then
                     f.NameText:SetTextColor(GetAdjustedClassColour(f))
+                else
+                    f.NameText:SetTextColor(unpack(NAME_COLOUR_PLAYER_FRIENDLY))
                 end
             elseif CLASS_COLOUR_ENEMY_NAMES then
                 f.NameText:SetTextColor(GetAdjustedClassColour(f))
+            else
+                f.NameText:SetTextColor(unpack(NAME_COLOUR_PLAYER_HOSTILE))
+            end
+        else
+            -- NPCs; reaction colour
+            if not UnitCanAttack('player',f.unit) and
+               f.state.reaction >= 4
+            then
+                -- friendly
+                if NAME_COLOUR_NPCS_INHERIT_REACTION then
+                    f.NameText:SetTextColor(.6,1,.6)
+                else
+                    f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_FRIENDLY))
+                end
+                f.GuildText:SetTextColor(.8,.9,.8,.9)
+            else
+                if f.state.reaction == 4 then
+                    -- neutral, attackable
+                    if NAME_COLOUR_NPCS_INHERIT_REACTION then
+                        f.NameText:SetTextColor(1,1,.4)
+                    else
+                        f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_NEUTRAL))
+                    end
+                    f.GuildText:SetTextColor(1,1,.8,.9)
+                else
+                    -- hostile
+                    if NAME_COLOUR_NPCS_INHERIT_REACTION then
+                        f.NameText:SetTextColor(1,.4,.3)
+                    else
+                        f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_HOSTILE))
+                    end
+                    f.GuildText:SetTextColor(1,.8,.7,.9)
+                end
             end
         end
     end
@@ -572,44 +627,20 @@ do
             end
 
             f.NameText:Show()
+            SetNameTextColour(f)
 
-            -- reaction colour
-            if not UnitCanAttack('player',f.unit) and
-               f.state.reaction >= 4
-            then
-                -- friendly
-                f.NameText:SetTextColor(.6,1,.6)
-                f.GuildText:SetTextColor(.8,.9,.8,.9)
-            else
-                if f.state.reaction == 4 then
-                    -- neutral, attackable
-                    f.NameText:SetTextColor(1,1,.4)
-                    f.GuildText:SetTextColor(1,1,.8,.9)
-                else
-                    -- hostile
-                    f.NameText:SetTextColor(1,.4,.3)
-                    f.GuildText:SetTextColor(1,.8,.7,.9)
-                end
-            end
-
-            SetNameTextPlayerColor(f)
-
-            -- set name text colour to health
+            -- update name text colour to with health percent
             core:NameOnlySetNameTextToHealth(f)
         elseif SHOW_NAME_TEXT then
             if TITLE_TEXT_PLAYERS then
                 -- reset name to title-less
                 f.handler:UpdateName()
             end
-
-            -- white name text by default
-            f.NameText:SetTextColor(1,1,1,1)
-            SetNameTextPlayerColor(f)
-
             if f.state.no_name then
                 f.NameText:Hide()
             else
                 f.NameText:Show()
+                SetNameTextColour(f)
             end
         else
             f.NameText:Hide()
