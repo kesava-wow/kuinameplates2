@@ -396,30 +396,6 @@ do
         return container
     end
 end
-do
-    function opt.CreateEditBox(parent,name,width,height)
-        local e_name = name and frame_name..name..'EditBox' or nil
-        width,height = width or 150, height or 30
-
-        local box = CreateFrame('EditBox',e_name,parent,'InputBoxTemplate')
-        box:SetMultiLine(false)
-        box:SetAutoFocus(false)
-        box:EnableMouse(true)
-        box:SetFontObject('ChatFontNormal')
-        box:SetSize(width,height)
-        box.env = name
-
-        box:SetScript('OnShow',GenericOnShow)
-        box:SetScript('OnEnable',OnEnable)
-        box:SetScript('OnDisable',OnDisable)
-        box:SetScript('OnEscapePressed',EditBoxOnEscapePressed)
-
-        if name and type(parent.elements) == 'table' then
-            parent.elements[name] = container
-        end
-        return box
-    end
-end
 function opt.CreateSeperator(parent,name)
     local line = parent:CreateTexture(nil,'ARTWORK')
     line:SetTexture('interface/buttons/white8x8')
@@ -479,7 +455,6 @@ do
         CreateSlider = opt.CreateSlider,
         CreateColourPicker = opt.CreateColourPicker,
         CreateSeperator = opt.CreateSeperator,
-        CreateEditBox = opt.CreateEditBox,
 
         HidePage = HidePage,
         ShowPage = ShowPage
