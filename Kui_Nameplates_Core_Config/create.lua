@@ -253,25 +253,23 @@ function text:Initialise()
     hidenamesCheck.enabled = function(p) return p.name_text end
 
     local nc_sep = self:CreateSeperator('name_colour_sep')
+    local nc_wb = self:CreateCheckBox('name_colour_white_in_bar_mode')
     local nc_cf = self:CreateCheckBox('class_colour_friendly_names')
     local nc_ch = self:CreateCheckBox('class_colour_enemy_names')
-    local nc_pf = self:CreateColourPicker('name_colour_player_friendly',true)
-    local nc_ph = self:CreateColourPicker('name_colour_player_hostile',true)
-    local nc_ni = self:CreateCheckBox('name_colour_npcs_inherit_reaction')
-    local nc_nf = self:CreateColourPicker('name_colour_npc_friendly',true)
-    local nc_nn = self:CreateColourPicker('name_colour_npc_neutral',true)
-    local nc_nh = self:CreateColourPicker('name_colour_npc_hostile',true)
+    local nc_pf = self:CreateColourPicker('name_colour_player_friendly')
+    local nc_ph = self:CreateColourPicker('name_colour_player_hostile')
+    local nc_nf = self:CreateColourPicker('name_colour_npc_friendly')
+    local nc_nn = self:CreateColourPicker('name_colour_npc_neutral')
+    local nc_nh = self:CreateColourPicker('name_colour_npc_hostile')
 
-    nc_cf.enabled = function(p) return p.name_text end
-    nc_ch.enabled = nc_cf.enabled
-    nc_pf.enabled = nc_cf.enabled
-    nc_ph.enabled = nc_cf.enabled
-    nc_ni.enabled = nc_cf.enabled
-    nc_nf.enabled = function(p)
-        return p.name_text and not p.name_colour_npcs_inherit_reaction
-    end
-    nc_nn.enabled = nc_nf.enabled
-    nc_nh.enabled = nc_nf.enabled
+    nc_wb.enabled = function(p) return p.name_text end
+    nc_cf.enabled = nc_wb.enabled
+    nc_ch.enabled = nc_wb.enabled
+    nc_pf.enabled = nc_wb.enabled
+    nc_ph.enabled = nc_wb.enabled
+    nc_nf.enabled = nc_wb.enabled
+    nc_nn.enabled = nc_wb.enabled
+    nc_nh.enabled = nc_wb.enabled
     nc_pf.enabled = function(p)
         return p.name_text and not p.class_colour_friendly_names
     end
@@ -280,15 +278,15 @@ function text:Initialise()
     end
 
     nc_sep:SetPoint('TOP',0,-230)
-    nc_cf:SetPoint('TOP',nc_sep,'BOTTOM',0,-10)
-    nc_cf:SetPoint('LEFT',10,0)
+    nc_wb:SetPoint('TOP',nc_sep,'BOTTOM',0,-10)
+    nc_wb:SetPoint('LEFT',10,0)
+    nc_cf:SetPoint('TOPLEFT',nc_wb,'BOTTOMLEFT')
     nc_ch:SetPoint('LEFT',nc_cf,'RIGHT',190,0)
-    nc_pf:SetPoint('TOPLEFT',nc_cf,'BOTTOMLEFT',14,2)
-    nc_ph:SetPoint('TOPLEFT',nc_ch,'BOTTOMLEFT',14,2)
-    nc_ni:SetPoint('TOPLEFT',nc_cf,'BOTTOMLEFT',0,-30)
-    nc_nf:SetPoint('TOPLEFT',nc_ni,'BOTTOMLEFT',14,2)
-    nc_nn:SetPoint('TOPLEFT',nc_nf,'BOTTOMLEFT',0,2)
-    nc_nh:SetPoint('TOPLEFT',nc_nn,'BOTTOMLEFT',0,2)
+    nc_pf:SetPoint('TOPLEFT',nc_cf,'BOTTOMLEFT',4,0)
+    nc_ph:SetPoint('TOPLEFT',nc_ch,'BOTTOMLEFT',4,0)
+    nc_nh:SetPoint('TOPLEFT',nc_pf,'BOTTOMLEFT',0,0)
+    nc_nn:SetPoint('LEFT',nc_nh,'RIGHT',0,0)
+    nc_nf:SetPoint('LEFT',nc_nn,'RIGHT',0,0)
 
     local health_text_SelectTable = {
         L.titles.dd_health_text_current..' |cff888888(145k)',
@@ -309,7 +307,7 @@ function text:Initialise()
     health_text_hostile_max.SelectTable = health_text_SelectTable
     health_text_hostile_dmg.SelectTable = health_text_SelectTable
 
-    health_text_sep:SetPoint('TOP',0,-425)
+    health_text_sep:SetPoint('TOP',0,-380)
     health_text_friend_max:SetPoint('TOP',health_text_sep,'BOTTOM',0,-10)
     health_text_friend_max:SetPoint('LEFT',10,0)
     health_text_friend_dmg:SetPoint('LEFT',health_text_friend_max,'RIGHT',10,0)

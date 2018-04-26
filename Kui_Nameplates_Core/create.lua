@@ -543,17 +543,17 @@ do
 end
 -- name text ###################################################################
 do
-    local CLASS_COLOUR_FRIENDLY_NAMES,CLASS_COLOUR_ENEMY_NAMES,
-          NAME_COLOUR_PLAYER_FRIENDLY,NAME_COLOUR_PLAYER_HOSTILE,
-          NAME_COLOUR_NPCS_INHERIT_REACTION,NAME_COLOUR_NPC_FRIENDLY,
+    local NAME_COLOUR_WHITE_IN_BAR_MODE,CLASS_COLOUR_FRIENDLY_NAMES,
+          CLASS_COLOUR_ENEMY_NAMES,NAME_COLOUR_PLAYER_FRIENDLY,
+          NAME_COLOUR_PLAYER_HOSTILE,NAME_COLOUR_NPC_FRIENDLY,
           NAME_COLOUR_NPC_NEUTRAL,NAME_COLOUR_NPC_HOSTILE
 
     function core:configChangedNameColour()
+        NAME_COLOUR_WHITE_IN_BAR_MODE = self.profile.name_colour_white_in_bar_mode
         CLASS_COLOUR_FRIENDLY_NAMES = self.profile.class_colour_friendly_names
         CLASS_COLOUR_ENEMY_NAMES = self.profile.class_colour_enemy_names
         NAME_COLOUR_PLAYER_FRIENDLY = self.profile.name_colour_player_friendly
         NAME_COLOUR_PLAYER_HOSTILE = self.profile.name_colour_player_hostile
-        NAME_COLOUR_NPCS_INHERIT_REACTION = self.profile.name_colour_npcs_inherit_reaction
         NAME_COLOUR_NPC_FRIENDLY = self.profile.name_colour_npc_friendly
         NAME_COLOUR_NPC_NEUTRAL = self.profile.name_colour_npc_neutral
         NAME_COLOUR_NPC_HOSTILE = self.profile.name_colour_npc_hostile
@@ -572,15 +572,24 @@ do
             -- other players
             if f.state.friend then
                 if CLASS_COLOUR_FRIENDLY_NAMES then
+                    -- use adjusted class colour
                     f.NameText:SetTextColor(GetAdjustedClassColour(f))
+                elseif NAME_COLOUR_WHITE_IN_BAR_MODE and not f.IN_NAMEONLY then
+                    -- white in bar mode
+                    return
                 else
+                    -- use configured friendly player colour
                     f.NameText:SetTextColor(unpack(NAME_COLOUR_PLAYER_FRIENDLY))
                 end
             elseif CLASS_COLOUR_ENEMY_NAMES then
                 f.NameText:SetTextColor(GetAdjustedClassColour(f))
+            elseif NAME_COLOUR_WHITE_IN_BAR_MODE and not f.IN_NAMEONLY then
+                return
             else
                 f.NameText:SetTextColor(unpack(NAME_COLOUR_PLAYER_HOSTILE))
             end
+        elseif NAME_COLOUR_WHITE_IN_BAR_MODE and not f.IN_NAMEONLY then
+            return
         else
             -- NPCs; reaction colour
             if not UnitCanAttack('player',f.unit) and
