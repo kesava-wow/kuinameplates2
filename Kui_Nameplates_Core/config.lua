@@ -443,6 +443,18 @@ configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
 configChanged.font_style = configChangedFontOption
 
+local function configChangedNameColour()
+    core:configChangedNameColour()
+end
+configChanged.class_colour_friendly_names = configChangedNameColour
+configChanged.class_colour_enemy_names = configChangedNameColour
+configChanged.name_colour_player_friendly = configChangedNameColour
+configChanged.name_colour_player_hostile = configChangedNameColour
+configChanged.name_colour_npcs_inherit_reaction = configChangedNameColour
+configChanged.name_colour_npc_friendly = configChangedNameColour
+configChanged.name_colour_npc_neutral = configChangedNameColour
+configChanged.name_colour_npc_hostile = configChangedNameColour
+
 function configChanged.nameonly()
     core:configChangedNameOnly()
 end
@@ -663,6 +675,8 @@ configChanged.cvar_clamp_bottom = configChangedCVar
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
 configLoaded.fade_speed = configChanged.fade_speed
+
+configLoaded.class_colour_friendly_names = configChangedNameColour
 
 configLoaded.nameonly = configChanged.nameonly
 
