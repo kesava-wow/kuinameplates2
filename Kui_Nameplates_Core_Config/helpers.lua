@@ -355,7 +355,7 @@ do
         opt.Popup:ShowPage('colour_picker')
     end
 
-    function opt.CreateColourPicker(parent,name)
+    function opt.CreateColourPicker(parent,name,small)
         local container = CreateFrame('Button',frame_name..name..'ColourPicker',parent)
         container:SetWidth(150)
         container:SetHeight(27)
@@ -370,10 +370,20 @@ do
             insets={top=2,right=2,bottom=2,left=2}
         })
         block:SetBackdropBorderColor(.5,.5,.5)
-        block:SetSize(18,18)
         block:SetPoint('LEFT')
 
-        local label = container:CreateFontString(nil,'ARTWORK','GameFontHighlight')
+        if small then
+            block:SetSize(14,14)
+        else
+            block:SetSize(18,18)
+        end
+
+        local label
+        if small then
+            label = container:CreateFontString(nil,'ARTWORK','GameFontHighlightSmall')
+        else
+            label = container:CreateFontString(nil,'ARTWORK','GameFontHighlight')
+        end
         label:SetText(L.titles[name] or name or 'Colour picker')
         label:SetPoint('LEFT',block,'RIGHT',5,0)
 
