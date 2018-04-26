@@ -1,5 +1,7 @@
 BETA NOTES
 
+* add options for name text colour - all name text is now coloured by default, and the colour is now consistent with name only mode.
+
 * fix death knight, demon hunter and shaman name text class colours ignore ClassColors' configuration
 
 * added CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping)
