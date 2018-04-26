@@ -211,8 +211,6 @@ function text:Initialise()
     local font_size_small = self:CreateSlider('font_size_small',1,20)
     local name_text = self:CreateCheckBox('name_text')
     local hidenamesCheck = self:CreateCheckBox('hide_names',true)
-    local class_colour_friendly_names = self:CreateCheckBox('class_colour_friendly_names',true)
-    local class_colour_enemy_names = self:CreateCheckBox('class_colour_enemy_names',true)
     local level_text = self:CreateCheckBox('level_text')
     local health_text = self:CreateCheckBox('health_text')
     local text_vertical_offset = self:CreateSlider('text_vertical_offset',-20,20)
@@ -248,13 +246,25 @@ function text:Initialise()
 
     name_text:SetPoint('TOPLEFT',text_vertical_offset,'BOTTOMLEFT',0,-20)
     hidenamesCheck:SetPoint('TOPLEFT',name_text,'BOTTOMLEFT',10,0)
-    class_colour_friendly_names:SetPoint('TOPLEFT',hidenamesCheck,'BOTTOMLEFT')
-    class_colour_enemy_names:SetPoint('TOPLEFT',class_colour_friendly_names,'BOTTOMLEFT')
 
     level_text:SetPoint('LEFT',name_text,'RIGHT',190,0)
     health_text:SetPoint('TOPLEFT',level_text,'BOTTOMLEFT')
 
     hidenamesCheck.enabled = function(p) return p.name_text end
+
+    local nc_sep = self:CreateSeperator('name_colour_sep')
+    local nc_cf = self:CreateCheckBox('class_colour_friendly_names')
+    local nc_ch = self:CreateCheckBox('class_colour_enemy_names')
+    local nc_pf = self:CreateColourPicker('name_colour_player_friendly')
+    local nc_ph = self:CreateColourPicker('name_colour_player_hostile')
+    local nc_ni = self:CreateCheckBox('name_colour_npcs_inherit_reaction')
+    local nc_nf = self:CreateColourPicker('name_colour_npc_friendly')
+    local nc_nn = self:CreateColourPicker('name_colour_npc_neutral')
+    local nc_nh = self:CreateColourPicker('name_colour_npc_hostile')
+
+    nc_sep:SetPoint('TOP',0,-280)
+    nc_pf:SetPoint('TOP',nc_sep,'BOTTOM') -- TODO ... check if this works
+    nc_pf:SetPoint('LEFT')
 
     local health_text_SelectTable = {
         L.titles.dd_health_text_current..' |cff888888(145k)',
