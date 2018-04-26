@@ -262,6 +262,23 @@ function text:Initialise()
     local nc_nn = self:CreateColourPicker('name_colour_npc_neutral')
     local nc_nh = self:CreateColourPicker('name_colour_npc_hostile')
 
+    nc_cf.enabled = function(p) return p.name_text end
+    nc_ch.enabled = nc_cf.enabled
+    nc_pf.enabled = nc_cf.enabled
+    nc_ph.enabled = nc_cf.enabled
+    nc_ni.enabled = nc_cf.enabled
+    nc_nf.enabled = function(p)
+        return p.name_text and not p.name_colour_npcs_inherit_reaction
+    end
+    nc_nn.enabled = nc_nf.enabled
+    nc_nh.enabled = nc_nf.enabled
+    nc_pf.enabled = function(p)
+        return p.name_text and not p.class_colour_friendly_names
+    end
+    nc_ph.enabled = function(p)
+        return p.name_text and not p.class_colour_enemy_names
+    end
+
     nc_sep:SetPoint('TOP',0,-280)
     nc_pf:SetPoint('TOP',nc_sep,'BOTTOM') -- TODO ... check if this works
     nc_pf:SetPoint('LEFT')
