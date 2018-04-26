@@ -588,7 +588,7 @@ do
             then
                 -- friendly
                 if NAME_COLOUR_NPCS_INHERIT_REACTION then
-                    f.NameText:SetTextColor(.6,1,.6)
+                    f.NameText:SetTextColor(.7,1,.7)
                 else
                     f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_FRIENDLY))
                 end
@@ -596,14 +596,14 @@ do
                 if f.state.reaction == 4 then
                     -- neutral, attackable
                     if NAME_COLOUR_NPCS_INHERIT_REACTION then
-                        f.NameText:SetTextColor(1,1,.4)
+                        f.NameText:SetTextColor(1,.92,.6)
                     else
                         f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_NEUTRAL))
                     end
                 else
                     -- hostile
                     if NAME_COLOUR_NPCS_INHERIT_REACTION then
-                        f.NameText:SetTextColor(1,.4,.3)
+                        f.NameText:SetTextColor(1,.7,.65)
                     else
                         f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_HOSTILE))
                     end
