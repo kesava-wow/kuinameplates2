@@ -693,23 +693,28 @@ do
 end
 -- health text #################################################################
 do
-    local function GetHealthDisplay(f,key)
-        if type(key) ~= 'number' or key >= 5 or key <= 0 then return '' end
-
-        if key == 1 then
-            return kui.num(f.state.health_cur)
-        elseif key == 2 then
-            return kui.num(f.state.health_max)
-        elseif key == 3 then
-            local v = f.state.health_per
-            if v < 1 then
-                return strformat('%.1f', v)
-            else
-                return ceil(v)
-            end
+    local function HealthDisplay_Percent(s)
+        local v = s.health_per
+        if v < 1 then
+            return strformat('%.1f',v)
         else
-            return '-'..kui.num(f.state.health_deficit)
+            return ceil(v)
         end
+    end
+    local health_display_funcs = {
+        function() return '' end,
+        function(s) return kui.num(s.health_cur) end,
+        function(s) return kui.num(s.health_max) end,
+        HealthDisplay_Percent,
+        function(s) return '-'..kui.num(s.health_deficit) end,
+        function(s) return kui.num(s.health_cur)..'  '..HealthDisplay_Percent(s)..'%' end,
+        function(s) return kui.num(s.health_cur)..'  -'..kui.num(s.health_deficit) end,
+    }
+    local function GetHealthDisplay(f,key)
+        return type(key) == 'number' and
+            health_display_funcs[key] and
+            health_display_funcs[key](f.state) or
+            ''
     end
 
     local function UpdateHealthText(f)

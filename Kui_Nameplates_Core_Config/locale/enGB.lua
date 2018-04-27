@@ -134,6 +134,8 @@ L.titles = {
     dd_health_text_percent = 'Percent',
     dd_health_text_deficit = 'Deficit',
     dd_health_text_blank = 'Blank',
+    dd_health_text_current_percent = 'Current + percent',
+    dd_health_text_current_deficit = 'Current + deficit',
 
     frame_width = 'Frame width',
     frame_height = 'Frame height',

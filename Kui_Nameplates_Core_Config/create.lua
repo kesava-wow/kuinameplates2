@@ -289,11 +289,13 @@ function text:Initialise()
     nc_nf:SetPoint('LEFT',nc_nn,'RIGHT',0,0)
 
     local health_text_SelectTable = {
+        L.titles.dd_health_text_blank..' |cff888888(  )',
         L.titles.dd_health_text_current..' |cff888888(145k)',
         L.titles.dd_health_text_maximum..' |cff888888(156k)',
         L.titles.dd_health_text_percent..' |cff888888(93)',
         L.titles.dd_health_text_deficit..' |cff888888(-10.9k)',
-        L.titles.dd_health_text_blank..' |cff888888(  )'
+        L.titles.dd_health_text_current_percent..' |cff888888(145k  93%)',
+        L.titles.dd_health_text_current_deficit..' |cff888888(145k  -10.9k)',
     }
 
     local health_text_sep = text:CreateSeperator('health_text_sep')
