@@ -1,5 +1,7 @@
 BETA NOTES
 
+* add "Current + percent" and "Current + deficit" health text options
+
 * add option name_colour_white_in_bar_mode, to recreate the previous default colouring of name text
 * remove name_colour_npcs_inherit_reaction
 
