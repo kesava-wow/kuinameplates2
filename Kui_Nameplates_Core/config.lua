@@ -93,10 +93,10 @@ local default_config = {
     name_colour_npc_neutral = {1,.97,.7},
     name_colour_npc_hostile = {1,.7,.7},
 
-    health_text_friend_max = 5,
-    health_text_friend_dmg = 4,
-    health_text_hostile_max = 5,
-    health_text_hostile_dmg = 3,
+    health_text_friend_max = 1,
+    health_text_friend_dmg = 5,
+    health_text_hostile_max = 1,
+    health_text_hostile_dmg = 4,
 
     colour_hated = {.7,.2,.1},
     colour_neutral = {1,.8,0},
