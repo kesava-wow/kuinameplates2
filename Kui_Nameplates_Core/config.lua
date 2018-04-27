@@ -759,6 +759,27 @@ function core:InitialiseConfig()
         end
     end)
 
+    -- XXX 2.15>2.16 health display transition
+    if not KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] then
+        KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] = true
+        -- re-jigger health display patterns on all profiles (where set)
+        local upd = function(n,k)
+            local v = KuiNameplatesCoreSaved.profiles[n][k]
+            if not v then return end
+            KuiNameplatesCoreSaved.profiles[n][k] = v == 5 and 1 or v + 1
+        end
+        for n,p in pairs(KuiNameplatesCoreSaved.profiles) do
+            for _,k in next,{
+                'health_text_friend_max',
+                'health_text_friend_dmg',
+                'health_text_hostile_max',
+                'health_text_hostile_dmg'
+            } do
+                upd(n,k)
+            end
+        end
+    end
+
     -- run config loaded functions
     for k,f in pairs(configLoaded) do
         f(self.profile[k])
