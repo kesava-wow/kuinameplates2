@@ -285,7 +285,7 @@ L.tooltips = {
     name_vertical_offset = 'Vertical offset of the name text',
     bot_vertical_offset = 'Vertical offset of the level and health text strings',
 
-    name_colour_white_in_bar_mode = 'Colour NPC\'s and player\'s names white (unless class colour is enabled). If this is enabled, the colours below only apply to name only mode.',
+    name_colour_white_in_bar_mode = 'Colour NPC\'s and player\'s names white (unless class colour is enabled).|n|nIf this is enabled, the colours below only apply to name only mode.',
     class_colour_friendly_names = 'Colour the names of friendly players by their class.',
     class_colour_enemy_names = 'Colour the names of enemy players by their class.',
 
