@@ -252,6 +252,39 @@ function text:Initialise()
 
     hidenamesCheck.enabled = function(p) return p.name_text end
 
+    local health_text_SelectTable = {
+        L.titles.dd_health_text_blank..' |cff888888(  )',
+        L.titles.dd_health_text_current..' |cff888888(145k)',
+        L.titles.dd_health_text_maximum..' |cff888888(156k)',
+        L.titles.dd_health_text_percent..' |cff888888(93)',
+        L.titles.dd_health_text_deficit..' |cff888888(-10.9k)',
+        L.titles.dd_health_text_current_percent..' |cff888888(145k  93%)',
+        L.titles.dd_health_text_current_deficit..' |cff888888(145k  -10.9k)',
+    }
+
+    local health_text_sep = text:CreateSeperator('health_text_sep')
+    local health_text_friend_max = text:CreateDropDown('health_text_friend_max')
+    local health_text_friend_dmg = text:CreateDropDown('health_text_friend_dmg')
+    local health_text_hostile_max = text:CreateDropDown('health_text_hostile_max')
+    local health_text_hostile_dmg = text:CreateDropDown('health_text_hostile_dmg')
+
+    health_text_friend_max.SelectTable = health_text_SelectTable
+    health_text_friend_dmg.SelectTable = health_text_SelectTable
+    health_text_hostile_max.SelectTable = health_text_SelectTable
+    health_text_hostile_dmg.SelectTable = health_text_SelectTable
+
+    health_text_sep:SetPoint('TOP',0,-230)
+    health_text_friend_max:SetPoint('TOP',health_text_sep,'BOTTOM',0,-10)
+    health_text_friend_max:SetPoint('LEFT',10,0)
+    health_text_friend_dmg:SetPoint('LEFT',health_text_friend_max,'RIGHT',10,0)
+    health_text_hostile_max:SetPoint('TOPLEFT',health_text_friend_max,'BOTTOMLEFT',0,0)
+    health_text_hostile_dmg:SetPoint('LEFT',health_text_hostile_max,'RIGHT',10,0)
+
+    health_text_friend_max.enabled = function(p) return p.health_text end
+    health_text_friend_dmg.enabled = health_text_friend_max.enabled
+    health_text_hostile_max.enabled = health_text_friend_max.enabled
+    health_text_hostile_dmg.enabled = health_text_friend_max.enabled
+
     local nc_sep = self:CreateSeperator('name_colour_sep')
     local nc_wb = self:CreateCheckBox('name_colour_white_in_bar_mode')
     local nc_cf = self:CreateCheckBox('class_colour_friendly_names')
@@ -277,49 +310,16 @@ function text:Initialise()
         return p.name_text and not p.class_colour_enemy_names
     end
 
-    nc_sep:SetPoint('TOP',0,-230)
+    nc_sep:SetPoint('TOP',0,-350)
     nc_wb:SetPoint('TOP',nc_sep,'BOTTOM',0,-10)
     nc_wb:SetPoint('LEFT',10,0)
-    nc_cf:SetPoint('TOPLEFT',nc_wb,'BOTTOMLEFT')
+    nc_nh:SetPoint('TOPLEFT',nc_wb,'BOTTOMLEFT',4,0)
+    nc_nn:SetPoint('LEFT',nc_nh,'RIGHT',0,0)
+    nc_nf:SetPoint('LEFT',nc_nn,'RIGHT',0,0)
+    nc_cf:SetPoint('TOPLEFT',nc_nh,'BOTTOMLEFT',-4,-5)
     nc_ch:SetPoint('LEFT',nc_cf,'RIGHT',190,0)
     nc_pf:SetPoint('TOPLEFT',nc_cf,'BOTTOMLEFT',4,0)
     nc_ph:SetPoint('TOPLEFT',nc_ch,'BOTTOMLEFT',4,0)
-    nc_nh:SetPoint('TOPLEFT',nc_pf,'BOTTOMLEFT',0,0)
-    nc_nn:SetPoint('LEFT',nc_nh,'RIGHT',0,0)
-    nc_nf:SetPoint('LEFT',nc_nn,'RIGHT',0,0)
-
-    local health_text_SelectTable = {
-        L.titles.dd_health_text_blank..' |cff888888(  )',
-        L.titles.dd_health_text_current..' |cff888888(145k)',
-        L.titles.dd_health_text_maximum..' |cff888888(156k)',
-        L.titles.dd_health_text_percent..' |cff888888(93)',
-        L.titles.dd_health_text_deficit..' |cff888888(-10.9k)',
-        L.titles.dd_health_text_current_percent..' |cff888888(145k  93%)',
-        L.titles.dd_health_text_current_deficit..' |cff888888(145k  -10.9k)',
-    }
-
-    local health_text_sep = text:CreateSeperator('health_text_sep')
-    local health_text_friend_max = text:CreateDropDown('health_text_friend_max')
-    local health_text_friend_dmg = text:CreateDropDown('health_text_friend_dmg')
-    local health_text_hostile_max = text:CreateDropDown('health_text_hostile_max')
-    local health_text_hostile_dmg = text:CreateDropDown('health_text_hostile_dmg')
-
-    health_text_friend_max.SelectTable = health_text_SelectTable
-    health_text_friend_dmg.SelectTable = health_text_SelectTable
-    health_text_hostile_max.SelectTable = health_text_SelectTable
-    health_text_hostile_dmg.SelectTable = health_text_SelectTable
-
-    health_text_sep:SetPoint('TOP',0,-380)
-    health_text_friend_max:SetPoint('TOP',health_text_sep,'BOTTOM',0,-10)
-    health_text_friend_max:SetPoint('LEFT',10,0)
-    health_text_friend_dmg:SetPoint('LEFT',health_text_friend_max,'RIGHT',10,0)
-    health_text_hostile_max:SetPoint('TOPLEFT',health_text_friend_max,'BOTTOMLEFT',0,0)
-    health_text_hostile_dmg:SetPoint('LEFT',health_text_hostile_max,'RIGHT',10,0)
-
-    health_text_friend_max.enabled = function(p) return p.health_text end
-    health_text_friend_dmg.enabled = health_text_friend_max.enabled
-    health_text_hostile_max.enabled = health_text_friend_max.enabled
-    health_text_hostile_dmg.enabled = health_text_friend_max.enabled
 
     function font_face:initialize()
         local list = {}
