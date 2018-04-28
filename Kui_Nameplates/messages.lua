@@ -24,9 +24,7 @@ local function TableToString(tbl)
         return 'table:'..tbl.name
     end
 end
-local function PrintDebugForMessage(message,listener,...)
-    if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['m:'..message] then return end
-
+local function VarArgsToString(...)
     local ac
     if #{...} > 0 then
         for k,v in pairs({...}) do
@@ -36,20 +34,27 @@ local function PrintDebugForMessage(message,listener,...)
             ac = (ac and ac..', '..k..':' or k..':')..tostring(v)
         end
     end
+    return ac
+end
+local function PrintDebugForMessage(message,listener,...)
+    if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['m:'..message] then return end
 
+    local ac = VarArgsToString(...)
     addon:print('p:'..(listener.priority or '?')..' |cff88ff88m:'..message..'|r > '..(listener.name or 'nil')..(ac and ' |cffaaaaaa'..ac or ''))
 end
 local function PrintDebugForEvent(event,table,unit,...)
     if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['e:'..event] then return end
 
-    local ac
-    if #{...} > 0 then
-        for k,v in pairs({...}) do
-            ac = (ac and ac..', '..k..':' or k..':')..tostring(v)
-        end
-    end
-
+    local ac = VarArgsToString(...)
     addon:print('p:'..(table.priority or '?')..' |cffffff88e:'..event..(unit and ' |cff8888ff['..unit..']' or '')..'|r > '..(table.name or 'nil')..(ac and ' |cffaaaaaa'..ac or ''))
+end
+local function PrintDebugForCallback(plugin,callback,...)
+    local fn = plugin.name..':'..callback
+    if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['c:'..fn] then return end
+
+    local ac = VarArgsToString(...)
+    local cbc = type(plugin.callbacks[callback][1]) == 'function' and 1 or #plugin.callbacks[callback]
+    addon:print('|cff88ffffc:'..fn..'|r:'..cbc..(ac and ' |cffaaaaaa'..ac or ''))
 end
 
 ----------------------------------------------------- core message dispatcher --
@@ -367,7 +372,12 @@ end
 function message.RunCallback(table,name,...)
     -- run this plugin's named callback
     if not table:HasCallback(name) then return end
+    if addon.debug_callbacks then
+        PrintDebugForCallback(table,name,...)
+    end
+
     if table.__CALLBACKS[name] == 2 then
+        -- inherit return from forced single callback
         return table.callbacks[name][1](...)
     else
         for i,cb in ipairs(table.callbacks[name]) do
