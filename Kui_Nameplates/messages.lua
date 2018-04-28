@@ -268,6 +268,25 @@ function message.UnregisterAllEvents(table)
     table.__EVENTS = nil
 end
 ------------------------------------------------------------- callback helper --
+local function VerifyCallbackArguments(target,name,func)
+    if type(func) ~= 'function' then
+        addon:print((table.name or 'nil')..': invalid call to AddCallback: no function')
+        return
+    end
+
+    target = addon:GetPlugin(target)
+    if not target then
+        addon:print((table.name or 'nil')..': invalid call to Callback function: no plugin by given name')
+        return
+    end
+
+    if type(target.__CALLBACKS) ~= 'table' or not target.__CALLBACKS[name] then
+        addon:print((table.name or 'nil')..': no callback '..name..' in '..(target.name or 'nil'))
+        return
+    end
+
+    return target
+end
 function message.RegisterCallback(table,name,return_needed)
     -- register a callback to this plugin
     -- return_needed: only allow one callback function
@@ -278,16 +297,8 @@ function message.RegisterCallback(table,name,return_needed)
 end
 function message.AddCallback(table,target,name,func,priority)
     -- add a callback function
-    if type(func) ~= 'function' then
-        addon:print((table.name or 'nil')..': invalid call to AddCallback: no function')
-        return
-    end
-
-    target = addon:GetPlugin(target)
-    if not target then
-        addon:print((table.name or 'nil')..': invalid call to AddCallback: no plugin by given name')
-        return
-    end
+    target = VerifyCallbackArguments(target,name,func)
+    if not target then return end
 
     if not priority then
         priority = table.priority or 0
@@ -295,38 +306,39 @@ function message.AddCallback(table,target,name,func,priority)
 
     local insert_tbl = { func,priority }
 
-    if target.__CALLBACKS and target.__CALLBACKS[name] then
-        if not target.callbacks then
-            target.callbacks = {}
-        end
-
-        if target.__CALLBACKS[name] == 1 then
-            if not target.callbacks[name] then
-                target.callbacks[name] = {}
-            end
-
-            local inserted
-            for i,cb in ipairs(target.callbacks[name]) do
-                if cb[2] > priority then
-                    tinsert(target.callbacks[name],i,insert_tbl)
-                    inserted = true
-                    break
-                end
-            end
-
-            if not inserted then
-                tinsert(target.callbacks[name],insert_tbl)
-            end
-        elseif target.__CALLBACKS[name] == 2 then
-            if not target.callbacks[name] or
-               priority > target.callbacks[name][2]
-            then
-                target.callbacks[name] = insert_tbl
-            end
-        end
-    else
-        addon:print((table.name or 'nil')..': no callback '..name..' in '..(target.name or 'nil'))
+    if not target.callbacks then
+        target.callbacks = {}
     end
+
+    if target.__CALLBACKS[name] == 1 then
+        if not target.callbacks[name] then
+            target.callbacks[name] = {}
+        end
+
+        local inserted
+        for i,cb in ipairs(target.callbacks[name]) do
+            if cb[2] > priority then
+                tinsert(target.callbacks[name],i,insert_tbl)
+                inserted = true
+                break
+            end
+        end
+
+        if not inserted then
+            tinsert(target.callbacks[name],insert_tbl)
+        end
+    elseif target.__CALLBACKS[name] == 2 then
+        if not target.callbacks[name] or
+           priority > target.callbacks[name][2]
+        then
+            target.callbacks[name] = insert_tbl
+        end
+    end
+end
+function message.RemoveCallback(table,target,name,func)
+    -- remove callback function matching given arguments
+    target = VerifyCallbackArguments(target,name,func)
+    if not target then return end
 end
 function message.HasCallback(table,name)
     if  table.__CALLBACKS and table.__CALLBACKS[name] and table.callbacks and
