@@ -568,7 +568,7 @@ do
         -- override colour based on config
         -- white by default
         f.NameText:SetTextColor(1,1,1,1)
-        f.GuildText:SetTextColor(1,1,1,.9)
+        f.GuildText:SetTextColor(1,1,1,.8)
 
         if f.state.player then
             -- self (name & guild text always hidden)
@@ -626,7 +626,7 @@ do
         end
 
         f.GuildText:SetTextColor(kui.Brighten(.8,f.NameText:GetTextColor()))
-        f.GuildText:SetAlpha(.9)
+        f.GuildText:SetAlpha(.8)
     end
 
     local function UpdateNameText(f)
