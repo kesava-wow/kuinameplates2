@@ -10,10 +10,20 @@ local addon = KuiNameplates
 local k,listener,plugin,_
 local listeners = {}
 
+-------------------------------------------------------------- debug helpers --
 if addon.debug_messages then
     addon.MESSAGE_LISTENERS = listeners
 end
-
+local function TableToString(tbl)
+    if type(tbl) ~= 'table' then return end
+    if type(tbl.state) == 'table' and type(tbl.state.name) == 'string' then
+        -- assuming KNP frame
+        return 'frame:`'..tbl.state.name..'`'
+    elseif type(tbl.name) == 'string' then
+        -- assuming KNP plugin
+        return 'table:'..tbl.name
+    end
+end
 local function PrintDebugForMessage(message,listener,...)
     if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['m:'..message] then return end
 
@@ -21,19 +31,28 @@ local function PrintDebugForMessage(message,listener,...)
     if #{...} > 0 then
         for k,v in pairs({...}) do
             if type(v) == 'table' then
-                if v.state and v.state.name then
-                    v = 'frame:`'..v.state.name..'`'
-                elseif v.name then
-                    v = 'table:'..v.name
-                end
+                v = TableToString(v)
             end
             ac = (ac and ac..', '..k..':' or k..':')..tostring(v)
         end
     end
 
-    addon:print('p:'..(listener.priority or '?')..' |cff88ff88m:'..message..'|r > '..(listener.name or 'nil')..(' |cffaaaaaa'..ac or ''))
+    addon:print('p:'..(listener.priority or '?')..' |cff88ff88m:'..message..'|r > '..(listener.name or 'nil')..(ac and ' |cffaaaaaa'..ac or ''))
+end
+local function PrintDebugForEvent(event,table,unit,...)
+    if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['e:'..event] then return end
+
+    local ac
+    if #{...} > 0 then
+        for k,v in pairs({...}) do
+            ac = (ac and ac..', '..k..':' or k..':')..tostring(v)
+        end
+    end
+
+    addon:print('p:'..(table.priority or '?')..' |cffffff88e:'..event..(unit and ' |cff8888ff['..unit..']' or '')..'|r > '..(table.name or 'nil')..(ac and ' |cffaaaaaa'..ac or ''))
 end
 
+----------------------------------------------------- core message dispatcher --
 function addon:DispatchMessage(message, ...)
     if listeners[message] then
         for i,listener_tbl in ipairs(listeners[message]) do
@@ -101,10 +120,8 @@ local function event_frame_OnEvent(self,event,...)
                     func(table, event, ...)
                 end
 
-                if addon.debug_messages then
-                    if not addon.DEBUG_IGNORE or not addon.DEBUG_IGNORE['e:'..event] then
-                        addon:print('p:'..(table.priority or '?')..' |cffffff88e:'..event..(unit and ' |cff8888ff['..unit..']' or '')..'|r > '..(table.name or 'nil'))
-                    end
+                if addon.debug_events then
+                    PrintDebugForEvent(event,table,unit,...)
                 end
             else
                 addon:print('|cffff0000no listener for e:'..event..' in '..(table.name or 'nil'))
