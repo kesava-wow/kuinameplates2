@@ -1,5 +1,8 @@
 BETA NOTES
 
+* add option name_colour_brighten_class (not exposed in ui)
+* change guild text colour slightly
+
 * add "Current + percent" and "Current + deficit" health text options
 
 * add option name_colour_white_in_bar_mode, to recreate the previous default colouring of name text
