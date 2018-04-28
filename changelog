@@ -2,6 +2,7 @@ BETA NOTES
 
 * add option for vertical offset of cast bar name text
 * move default spell name position
+* increase default class powers size slightly
 * debug stuff, gasp
 
 * add option name_colour_brighten_class (not exposed in ui)
