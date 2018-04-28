@@ -361,6 +361,19 @@ function message.RemoveCallback(table,target,name,func)
     -- remove callback function matching given arguments
     target = VerifyCallbackArguments(target,name,func)
     if not target then return end
+    if not target:HasCallback(name) then return end
+
+    if target.__CALLBACKS[name] == 1 then
+        for i,cb in ipairs(target.callbacks[name]) do
+            if cb[1] == func then
+                tremove(target.callbacks[name],i)
+            end
+        end
+    else
+        if target.callbacks[name][1] == func then
+            target.callbacks[name] = nil
+        end
+    end
 end
 function message.HasCallback(table,name)
     if  table.__CALLBACKS and table.__CALLBACKS[name] and table.callbacks and
