@@ -87,6 +87,7 @@ local default_config = {
     name_colour_white_in_bar_mode = true,
     class_colour_friendly_names = true,
     class_colour_enemy_names = false,
+    name_colour_brighten_class = true,
     name_colour_player_friendly = {.6,.7,1},
     name_colour_player_hostile  = {1,.7,.7},
     name_colour_npc_friendly = {.7,1,.7},
@@ -449,6 +450,7 @@ end
 configChanged.name_colour_white_in_bar_mode = configChangedNameColour
 configChanged.class_colour_friendly_names = configChangedNameColour
 configChanged.class_colour_enemy_names = configChangedNameColour
+configChanged.name_colour_brighten_class = configChangedNameColour
 configChanged.name_colour_player_friendly = configChangedNameColour
 configChanged.name_colour_player_hostile = configChangedNameColour
 configChanged.name_colour_npc_friendly = configChangedNameColour
