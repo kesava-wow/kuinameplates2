@@ -47,11 +47,6 @@ local plugin_fading
 local plugin_classpowers
 
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
-local CLASS_COLOURS = {
-    DEATHKNIGHT = { .90, .22, .33 },
-    DEMONHUNTER = { .74, .35, .95 },
-    SHAMAN      = { .10, .54, .97 },
-}
 
 -- config locals
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
@@ -63,10 +58,8 @@ local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
 local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
-
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
-
 local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET,FRAME_GLOW_THREAT
 
 -- common globals
@@ -164,13 +157,6 @@ do
 
         return bar
     end
-end
-local function GetAdjustedClassColour(f)
-    -- TODO name_brighten_class_colour option
-    -- build adjusted table on load (if enabled)
-    -- return adjusted class colour (used in nameonly)
-    local class = select(2,UnitClass(f.unit))
-    return kui.Brighten(.2,kui.GetClassColour(class,2))
 end
 local function UpdateFontObject(object)
     if not object then return end
@@ -544,14 +530,20 @@ end
 -- name text ###################################################################
 do
     local NAME_COLOUR_WHITE_IN_BAR_MODE,CLASS_COLOUR_FRIENDLY_NAMES,
-          CLASS_COLOUR_ENEMY_NAMES,NAME_COLOUR_PLAYER_FRIENDLY,
-          NAME_COLOUR_PLAYER_HOSTILE,NAME_COLOUR_NPC_FRIENDLY,
-          NAME_COLOUR_NPC_NEUTRAL,NAME_COLOUR_NPC_HOSTILE
+          CLASS_COLOUR_ENEMY_NAMES,NAME_COLOUR_BRIGHTEN_CLASS,
+          NAME_COLOUR_PLAYER_FRIENDLY,NAME_COLOUR_PLAYER_HOSTILE,
+          NAME_COLOUR_NPC_FRIENDLY,NAME_COLOUR_NPC_NEUTRAL,
+          NAME_COLOUR_NPC_HOSTILE
+
+    -- adjusted class colours, built as needed
+    local CLASS_COLOURS
 
     function core:configChangedNameColour()
+        CLASS_COLOURS = nil
         NAME_COLOUR_WHITE_IN_BAR_MODE = self.profile.name_colour_white_in_bar_mode
         CLASS_COLOUR_FRIENDLY_NAMES = self.profile.class_colour_friendly_names
         CLASS_COLOUR_ENEMY_NAMES = self.profile.class_colour_enemy_names
+        NAME_COLOUR_BRIGHTEN_CLASS = self.profile.name_colour_brighten_class
         NAME_COLOUR_PLAYER_FRIENDLY = self.profile.name_colour_player_friendly
         NAME_COLOUR_PLAYER_HOSTILE = self.profile.name_colour_player_hostile
         NAME_COLOUR_NPC_FRIENDLY = self.profile.name_colour_npc_friendly
@@ -559,6 +551,19 @@ do
         NAME_COLOUR_NPC_HOSTILE = self.profile.name_colour_npc_hostile
     end
 
+    local function GetClassColour(f)
+        -- return adjusted class colour
+        if not f.state.class then return end
+        if not CLASS_COLOURS then CLASS_COLOURS = {} end
+        if not CLASS_COLOURS[f.state.class] then
+            if NAME_COLOUR_BRIGHTEN_CLASS then
+                CLASS_COLOURS[f.state.class] = { kui.Brighten(.2,kui.GetClassColour(f.state.class,2)) }
+            else
+                CLASS_COLOURS[f.state.class] = { kui.GetClassColour(f.state.class,2) }
+            end
+        end
+        return unpack(CLASS_COLOURS[f.state.class])
+    end
     local function SetNameTextColour(f)
         -- override colour based on config
         -- white by default
@@ -573,7 +578,7 @@ do
             if f.state.friend then
                 if CLASS_COLOUR_FRIENDLY_NAMES then
                     -- use adjusted class colour
-                    f.NameText:SetTextColor(GetAdjustedClassColour(f))
+                    f.NameText:SetTextColor(GetClassColour(f))
                 elseif NAME_COLOUR_WHITE_IN_BAR_MODE and not f.IN_NAMEONLY then
                     -- white in bar mode
                     return
@@ -582,7 +587,7 @@ do
                     f.NameText:SetTextColor(unpack(NAME_COLOUR_PLAYER_FRIENDLY))
                 end
             elseif CLASS_COLOUR_ENEMY_NAMES then
-                f.NameText:SetTextColor(GetAdjustedClassColour(f))
+                f.NameText:SetTextColor(GetClassColour(f))
             elseif NAME_COLOUR_WHITE_IN_BAR_MODE and not f.IN_NAMEONLY then
                 return
             else
