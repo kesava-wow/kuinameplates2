@@ -23,6 +23,7 @@ addon.DEBUG_IGNORE = {
     ['m:Hide'] = true,
     ['e:UNIT_POWER_FREQUENT'] = true,
     ['e:UNIT_HEALTH_FREQUENT'] = true,
+    ['c:Auras:DisplayAura'] = true,
 }
 --@end-debug@
 

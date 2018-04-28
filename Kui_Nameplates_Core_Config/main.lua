@@ -32,6 +32,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
                 ['m:Hide'] = true,
                 ['e:UNIT_POWER_FREQUENT'] = true,
                 ['e:UNIT_HEALTH_FREQUENT'] = true,
+                ['c:Auras:DisplayAura'] = true,
             }
         end
         return
