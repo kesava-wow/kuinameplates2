@@ -4,8 +4,7 @@
 -- All rights reserved
 --------------------------------------------------------------------------------
 -- Base element script handler & base frame element registrar
--- Fetch state of the base nameplate elements, update registered elements
--- and dispatch messages
+-- Update registered elements and dispatch messages
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
