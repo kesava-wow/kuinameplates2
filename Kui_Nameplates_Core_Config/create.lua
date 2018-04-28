@@ -390,7 +390,6 @@ function framesizes:Initialise()
     local frame_height_minus = self:CreateSlider('frame_height_minus',3,40)
     local frame_width_personal = self:CreateSlider('frame_width_personal',20,200)
     local frame_height_personal = self:CreateSlider('frame_height_personal',3,40)
-    local castbar_height = self:CreateSlider('castbar_height',3,20)
     local powerbar_height = self:CreateSlider('powerbar_height',1,20)
 
     frame_width:SetPoint('TOPLEFT',10,-30)
@@ -399,8 +398,7 @@ function framesizes:Initialise()
     frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
     frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-30)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
-    castbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-60)
-    powerbar_height:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
+    powerbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-60)
 end
 -- auras #######################################################################
 function auras:Initialise()
@@ -465,6 +463,8 @@ function castbars:Initialise()
     local castbar_all = self:CreateCheckBox('castbar_showall')
     local castbar_friend = self:CreateCheckBox('castbar_showfriend',true)
     local castbar_enemy = self:CreateCheckBox('castbar_showenemy',true)
+    local castbar_height = self:CreateSlider('castbar_height',3,20)
+    local name_v_offset = self:CreateSlider('castbar_name_vertical_offset',-20,20)
 
     castbar_enable:SetPoint('TOPLEFT',10,-10)
     castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
@@ -476,6 +476,8 @@ function castbars:Initialise()
     castbar_all:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT')
     castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT',10,0)
     castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
+    castbar_height:SetPoint('TOPLEFT',castbar_enemy,'BOTTOMLEFT',-10,-30)
+    name_v_offset:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
 
     castbar_colour.enabled = function(p) return p.castbar_enable end
     castbar_unin_colour.enabled = castbar_colour.enabled
@@ -484,8 +486,10 @@ function castbars:Initialise()
     castbar_name.enabled = castbar_colour.enabled
     castbar_shield.enabled = castbar_colour.enabled
     castbar_all.enabled = castbar_colour.enabled
+    castbar_height.enabled = castbar_colour.enabled
     castbar_friend.enabled = function(p) return p.castbar_enable and p.castbar_showall end
     castbar_enemy.enabled = castbar_friend.enabled
+    name_v_offset.enabled = function(p) return p.castbar_enable and p.castbar_name end
 end
 -- threat ######################################################################
 function threat:Initialise()

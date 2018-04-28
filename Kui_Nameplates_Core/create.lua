@@ -1000,7 +1000,7 @@ end
 -- castbar #####################################################################
 do
     local CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_ICON,
-          CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD
+          CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,CASTBAR_NAME_VERTICAL_OFFSET
 
     local function SpellIconSetWidth(f)
         -- set spell icon width (as it's based on height)
@@ -1082,7 +1082,7 @@ do
     end
     local function UpdateSpellNamePosition(f)
         if not f.SpellName then return end
-        f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,-2+TEXT_VERTICAL_OFFSET)
+        f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET+TEXT_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
         f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
@@ -1181,6 +1181,7 @@ do
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
         CASTBAR_SHOW_NAME = self.profile.castbar_name
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
+        CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
 
         for k,f in addon:Frames() do
             if CASTBAR_SHOW_ICON and not f.SpellIcon then

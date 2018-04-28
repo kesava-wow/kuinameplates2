@@ -154,6 +154,7 @@ local default_config = {
     castbar_showall = true,
     castbar_showfriend = true,
     castbar_showenemy = true,
+    castbar_name_vertical_offset = 7,
 
     tank_mode = true,
     tankmode_force_enable = false,
@@ -515,6 +516,7 @@ configChanged.castbar_unin_colour = configChangedCastBar
 configChanged.castbar_icon = configChangedCastBar
 configChanged.castbar_name = configChangedCastBar
 configChanged.castbar_shield = configChangedCastBar
+configChanged.castbar_name_vertical_offset = configChangedCastBar
 
 function configChanged.classpowers_enable(v)
     if v then
