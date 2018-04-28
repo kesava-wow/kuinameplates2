@@ -55,7 +55,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             end
         end
         return
-    elseif knp.debug_messages and strfind(msg,'^debug%-ignore') then
+    elseif knp.debug and strfind(msg,'^debug%-ignore') then
         local to_ignore = strmatch(msg,'^debug%-ignore (.-)%s*$')
         knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
         knp.DEBUG_IGNORE[to_ignore] = not knp.DEBUG_IGNORE[to_ignore]
