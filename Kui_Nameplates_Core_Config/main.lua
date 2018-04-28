@@ -23,6 +23,8 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     if msg == 'debug' then
         knp.debug = true
         knp.debug_messages = not knp.debug_messages
+        knp.debug_events = knp.debug_messages
+        knp.debug_callbacks = knp.debug_messages
         if knp.debug_messages and not knp.DEBUG_IGNORE then
             knp.DEBUG_IGNORE = {
                 ['m:Create'] = true,
