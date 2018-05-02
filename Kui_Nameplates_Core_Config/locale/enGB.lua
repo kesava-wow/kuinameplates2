@@ -286,7 +286,7 @@ L.tooltips = {
     name_vertical_offset = 'Vertical offset of the name text',
     bot_vertical_offset = 'Vertical offset of the level and health text strings',
 
-    name_colour_white_in_bar_mode = 'Colour NPC\'s and player\'s names white (unless class colour is enabled).|n|nIf this is enabled, the colours below only apply to name only mode.',
+    name_colour_white_in_bar_mode = 'Colour NPC\'s and player\'s names white (unless class colour is enabled).|n|nIf this is enabled, the colours below only apply to name-only mode.',
     class_colour_friendly_names = 'Colour the names of friendly players by their class.',
     class_colour_enemy_names = 'Colour the names of enemy players by their class.',
 
@@ -301,7 +301,7 @@ L.tooltips = {
     frame_height_minus = 'Height of nameplates used on mobs flagged as "minus" (previously referred to as trivial), as well as nameless frames (i.e. "unimportant" units)',
     frame_width_personal = 'Width of the personal nameplate (enabled by Esc > Interface > Names > Personal Resource Display)',
     frame_height_personal = 'Height of the personal nameplate (enabled by Esc > Interface > Names > Personal Resource Display)',
-    powerbar_height = 'Height of the power bar. Will not increase beyond frame height',
+    powerbar_height = 'Height of the power bar on the personal frame. Will not increase beyond frame height',
 
     auras_enabled = 'Show auras that you cast on nameplates - buffs on friends, debuffs on enemies',
     auras_on_personal = 'Show auras on your character\'s nameplate if it is enabled',
@@ -350,7 +350,7 @@ L.tooltips = {
     bossmod_y_offset = 'Vertical offset of the boss aura icons',
     bossmod_clickthrough = 'Disable the click-box of nameplates which are automatically enabled',
 
-    cvar_enable = 'NYI When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nDisabling this option, KNP, or removing KNP will NOT reset these CVars to default.',
+    cvar_enable = 'When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.',
     cvar_show_friendly_npcs = '|cffffcc00nameplateShowFriendlyNPCs|r',
     cvar_name_only = '|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.',
     cvar_personal_show_always = '|cffffcc00nameplatePersonalShowAlways|r',
