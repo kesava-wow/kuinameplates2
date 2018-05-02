@@ -557,7 +557,7 @@ do
         if not CLASS_COLOURS then CLASS_COLOURS = {} end
         if not CLASS_COLOURS[f.state.class] then
             if NAME_COLOUR_BRIGHTEN_CLASS then
-                CLASS_COLOURS[f.state.class] = { kui.Brighten(.2,kui.GetClassColour(f.state.class,2)) }
+                CLASS_COLOURS[f.state.class] = { kui.Brighten(NAME_COLOUR_BRIGHTEN_CLASS,kui.GetClassColour(f.state.class,2)) }
             else
                 CLASS_COLOURS[f.state.class] = { kui.GetClassColour(f.state.class,2) }
             end
