@@ -153,6 +153,7 @@ L.titles = {
     frame_height_personal = 'Personal frame height',
     powerbar_height = 'Power bar height',
     castbar_height = 'Cast bar height',
+    castbar_name_vertical_offset = 'Spell name v.offset',
 
     auras_enabled = 'Show auras',
     auras_on_personal = 'Show on personal frame',
@@ -322,6 +323,7 @@ L.tooltips = {
     castbar_showfriend = 'Show castbars on friendly nameplates (note that castbars are not shown on frames which have name-only mode active)',
     castbar_showenemy = 'Show castbars on enemy nameplates',
     castbar_unin_colour = 'Colour of the castbar when a cast cannot be interrupted',
+    castbar_name_vertical_offset = 'Vertical offset of the spell name text',
 
     tank_mode = 'Recolour the health bars of units you are actively tanking when in a tanking specialisation',
     tankmode_force_enable = 'Always use tank mode, even if you\'re not currently in a tanking specialisation',
