@@ -154,7 +154,7 @@ local default_config = {
     castbar_showall = true,
     castbar_showfriend = true,
     castbar_showenemy = true,
-    castbar_name_vertical_offset = 7,
+    castbar_name_vertical_offset = -1,
 
     tank_mode = true,
     tankmode_force_enable = false,
