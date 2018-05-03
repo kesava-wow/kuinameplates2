@@ -61,6 +61,7 @@ local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
 local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET,FRAME_GLOW_THREAT
+local HIDE_NAMES
 
 -- common globals
 local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
@@ -236,6 +237,7 @@ do
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
         SHOW_ARENA_ID = true
+        HIDE_NAMES = self.profile.hide_names
         HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
         HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
         HEALTH_TEXT_HOSTILE_MAX = self.profile.health_text_hostile_max
@@ -1594,18 +1596,12 @@ function core:ShowNameUpdate(f)
         f.state.no_name = nil
     else
         f.state.tracked = nil
-        f.state.no_name = true
+        f.state.no_name = HIDE_NAMES
     end
 
-    if not core.profile.hide_names or
-       (SHOW_ARENA_ID and f.state.arenaid)
-    then
+    if SHOW_ARENA_ID and f.state.arenaid then
         f.state.no_name = nil
-    end
-
-    if f.state.player or
-       not SHOW_NAME_TEXT
-    then
+    elseif f.state.player or not SHOW_NAME_TEXT then
         f.state.no_name = true
     end
 
