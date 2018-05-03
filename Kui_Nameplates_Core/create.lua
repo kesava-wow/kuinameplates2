@@ -56,7 +56,7 @@ local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
-local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
+local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID
 local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
@@ -235,6 +235,7 @@ do
 
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
+        SHOW_ARENA_ID = true
         HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
         HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
         HEALTH_TEXT_HOSTILE_MAX = self.profile.health_text_hostile_max
@@ -642,14 +643,21 @@ do
 
             -- update name text colour to with health percent
             core:NameOnlySetNameTextToHealth(f)
-        elseif SHOW_NAME_TEXT then
-            if TITLE_TEXT_PLAYERS then
+        elseif SHOW_NAME_TEXT or SHOW_ARENA_ID then
+            if SHOW_NAME_TEXT and TITLE_TEXT_PLAYERS then
                 -- reset name to title-less
                 f.handler:UpdateName()
             end
             if f.state.no_name then
                 f.NameText:Hide()
             else
+                if SHOW_ARENA_ID and f.state.arenaid then
+                    if SHOW_NAME_TEXT then
+                        f.NameText:SetText('|cffffffff'..f.state.arenaid..'|r '..f.state.name)
+                    else
+                        f.NameText:SetText('|cffffffff'..f.state.arenaid..'|r')
+                    end
+                end
                 f.NameText:Show()
                 SetNameTextColour(f)
             end
@@ -1589,7 +1597,9 @@ function core:ShowNameUpdate(f)
         f.state.no_name = true
     end
 
-    if not core.profile.hide_names then
+    if not core.profile.hide_names or
+       (SHOW_ARENA_ID and f.state.arenaid)
+    then
         f.state.no_name = nil
     end
 
