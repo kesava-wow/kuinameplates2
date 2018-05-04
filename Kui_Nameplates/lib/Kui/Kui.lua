@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 28
+local MAJOR, MINOR = 'Kui-1.0', 29
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -229,6 +229,15 @@ kui.Pluralise = function(word, value, with)
         return word
     else
         return word .. (with and with or 's')
+    end
+end
+do
+    local function _b(m,c)
+        return c + (1 - c) * m
+    end
+    kui.Brighten = function(m,r,g,b,a)
+        -- brighten (or darken) given colour
+        return _b(m,r),_b(m,g),_b(m,b),a
     end
 end
 -- substr for utf8 characters ##################################################

@@ -14,7 +14,17 @@ addon.debug = true
 addon.debug_config = true
 --addon.debug_units = true
 --addon.debug_messages = true
+--addon.debug_events = true
+--addon.debug_callbacks = true
 --addon.draw_frames = true
+addon.DEBUG_IGNORE = {
+    ['m:Create'] = true,
+    ['m:Show'] = true,
+    ['m:Hide'] = true,
+    ['e:UNIT_POWER_FREQUENT'] = true,
+    ['e:UNIT_HEALTH_FREQUENT'] = true,
+    ['c:Auras:DisplayAura'] = true,
+}
 --@end-debug@
 
 -- updated by UI_SCALE_CHANGED:

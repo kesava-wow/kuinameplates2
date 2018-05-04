@@ -23,6 +23,7 @@ local auras       = opt:CreateConfigPage('auras')
 local threat      = opt:CreateConfigPage('threat')
 local classpowers = opt:CreateConfigPage('classpowers')
 local bossmod     = opt:CreateConfigPage('bossmod')
+local cvars       = opt:CreateConfigPage('cvars')
 
 -- show inital page
 opt.pages[1]:ShowPage()
@@ -210,8 +211,6 @@ function text:Initialise()
     local font_size_small = self:CreateSlider('font_size_small',1,20)
     local name_text = self:CreateCheckBox('name_text')
     local hidenamesCheck = self:CreateCheckBox('hide_names',true)
-    local class_colour_friendly_names = self:CreateCheckBox('class_colour_friendly_names',true)
-    local class_colour_enemy_names = self:CreateCheckBox('class_colour_enemy_names',true)
     local level_text = self:CreateCheckBox('level_text')
     local health_text = self:CreateCheckBox('health_text')
     local text_vertical_offset = self:CreateSlider('text_vertical_offset',-20,20)
@@ -247,8 +246,6 @@ function text:Initialise()
 
     name_text:SetPoint('TOPLEFT',text_vertical_offset,'BOTTOMLEFT',0,-20)
     hidenamesCheck:SetPoint('TOPLEFT',name_text,'BOTTOMLEFT',10,0)
-    class_colour_friendly_names:SetPoint('TOPLEFT',hidenamesCheck,'BOTTOMLEFT')
-    class_colour_enemy_names:SetPoint('TOPLEFT',class_colour_friendly_names,'BOTTOMLEFT')
 
     level_text:SetPoint('LEFT',name_text,'RIGHT',190,0)
     health_text:SetPoint('TOPLEFT',level_text,'BOTTOMLEFT')
@@ -256,11 +253,13 @@ function text:Initialise()
     hidenamesCheck.enabled = function(p) return p.name_text end
 
     local health_text_SelectTable = {
+        L.titles.dd_health_text_blank..' |cff888888(  )',
         L.titles.dd_health_text_current..' |cff888888(145k)',
         L.titles.dd_health_text_maximum..' |cff888888(156k)',
         L.titles.dd_health_text_percent..' |cff888888(93)',
         L.titles.dd_health_text_deficit..' |cff888888(-10.9k)',
-        L.titles.dd_health_text_blank..' |cff888888(  )'
+        L.titles.dd_health_text_current_percent..' |cff888888(145k  93%)',
+        L.titles.dd_health_text_current_deficit..' |cff888888(145k  -10.9k)',
     }
 
     local health_text_sep = text:CreateSeperator('health_text_sep')
@@ -274,8 +273,9 @@ function text:Initialise()
     health_text_hostile_max.SelectTable = health_text_SelectTable
     health_text_hostile_dmg.SelectTable = health_text_SelectTable
 
-    health_text_sep:SetPoint('TOP',0,-280)
-    health_text_friend_max:SetPoint('TOPLEFT',10,-300)
+    health_text_sep:SetPoint('TOP',0,-230)
+    health_text_friend_max:SetPoint('TOP',health_text_sep,'BOTTOM',0,-10)
+    health_text_friend_max:SetPoint('LEFT',10,0)
     health_text_friend_dmg:SetPoint('LEFT',health_text_friend_max,'RIGHT',10,0)
     health_text_hostile_max:SetPoint('TOPLEFT',health_text_friend_max,'BOTTOMLEFT',0,0)
     health_text_hostile_dmg:SetPoint('LEFT',health_text_hostile_max,'RIGHT',10,0)
@@ -284,6 +284,42 @@ function text:Initialise()
     health_text_friend_dmg.enabled = health_text_friend_max.enabled
     health_text_hostile_max.enabled = health_text_friend_max.enabled
     health_text_hostile_dmg.enabled = health_text_friend_max.enabled
+
+    local nc_sep = self:CreateSeperator('name_colour_sep')
+    local nc_wb = self:CreateCheckBox('name_colour_white_in_bar_mode')
+    local nc_cf = self:CreateCheckBox('class_colour_friendly_names')
+    local nc_ch = self:CreateCheckBox('class_colour_enemy_names')
+    local nc_pf = self:CreateColourPicker('name_colour_player_friendly')
+    local nc_ph = self:CreateColourPicker('name_colour_player_hostile')
+    local nc_nf = self:CreateColourPicker('name_colour_npc_friendly')
+    local nc_nn = self:CreateColourPicker('name_colour_npc_neutral')
+    local nc_nh = self:CreateColourPicker('name_colour_npc_hostile')
+
+    nc_wb.enabled = function(p) return p.name_text end
+    nc_cf.enabled = nc_wb.enabled
+    nc_ch.enabled = nc_wb.enabled
+    nc_pf.enabled = nc_wb.enabled
+    nc_ph.enabled = nc_wb.enabled
+    nc_nf.enabled = nc_wb.enabled
+    nc_nn.enabled = nc_wb.enabled
+    nc_nh.enabled = nc_wb.enabled
+    nc_pf.enabled = function(p)
+        return p.name_text and not p.class_colour_friendly_names
+    end
+    nc_ph.enabled = function(p)
+        return p.name_text and not p.class_colour_enemy_names
+    end
+
+    nc_sep:SetPoint('TOP',0,-350)
+    nc_wb:SetPoint('TOP',nc_sep,'BOTTOM',0,-10)
+    nc_wb:SetPoint('LEFT',10,0)
+    nc_nh:SetPoint('TOPLEFT',nc_wb,'BOTTOMLEFT',4,0)
+    nc_nn:SetPoint('LEFT',nc_nh,'RIGHT',0,0)
+    nc_nf:SetPoint('LEFT',nc_nn,'RIGHT',0,0)
+    nc_cf:SetPoint('TOPLEFT',nc_nh,'BOTTOMLEFT',-4,-5)
+    nc_ch:SetPoint('LEFT',nc_cf,'RIGHT',190,0)
+    nc_pf:SetPoint('TOPLEFT',nc_cf,'BOTTOMLEFT',4,0)
+    nc_ph:SetPoint('TOPLEFT',nc_ch,'BOTTOMLEFT',4,0)
 
     function font_face:initialize()
         local list = {}
@@ -306,7 +342,6 @@ end
 -- nameonly ####################################################################
 function nameonly:Initialise()
     local nameonlyCheck = self:CreateCheckBox('nameonly')
-    local nameonly_on_default = self:CreateCheckBox('nameonly_on_default')
     local nameonly_no_font_style = self:CreateCheckBox('nameonly_no_font_style')
     local nameonly_health_colour = self:CreateCheckBox('nameonly_health_colour')
     local nameonly_damaged_friends = self:CreateCheckBox('nameonly_damaged_friends')
@@ -332,7 +367,6 @@ function nameonly:Initialise()
     title_text_players.enabled = nameonly_no_font_style.enabled
 
     nameonlyCheck:SetPoint('TOPLEFT',10,-10)
-    nameonly_on_default:SetPoint('LEFT',nameonlyCheck,'RIGHT',190,0)
     nameonly_health_colour:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
     nameonly_no_font_style:SetPoint('LEFT',nameonly_health_colour,'RIGHT',190,0)
 
@@ -356,7 +390,6 @@ function framesizes:Initialise()
     local frame_height_minus = self:CreateSlider('frame_height_minus',3,40)
     local frame_width_personal = self:CreateSlider('frame_width_personal',20,200)
     local frame_height_personal = self:CreateSlider('frame_height_personal',3,40)
-    local castbar_height = self:CreateSlider('castbar_height',3,20)
     local powerbar_height = self:CreateSlider('powerbar_height',1,20)
 
     frame_width:SetPoint('TOPLEFT',10,-30)
@@ -365,8 +398,7 @@ function framesizes:Initialise()
     frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
     frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-30)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
-    castbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-60)
-    powerbar_height:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
+    powerbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-60)
 end
 -- auras #######################################################################
 function auras:Initialise()
@@ -431,6 +463,8 @@ function castbars:Initialise()
     local castbar_all = self:CreateCheckBox('castbar_showall')
     local castbar_friend = self:CreateCheckBox('castbar_showfriend',true)
     local castbar_enemy = self:CreateCheckBox('castbar_showenemy',true)
+    local castbar_height = self:CreateSlider('castbar_height',3,20)
+    local name_v_offset = self:CreateSlider('castbar_name_vertical_offset',-20,20)
 
     castbar_enable:SetPoint('TOPLEFT',10,-10)
     castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
@@ -442,6 +476,8 @@ function castbars:Initialise()
     castbar_all:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT')
     castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT',10,0)
     castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
+    castbar_height:SetPoint('TOPLEFT',castbar_enemy,'BOTTOMLEFT',-10,-30)
+    name_v_offset:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
 
     castbar_colour.enabled = function(p) return p.castbar_enable end
     castbar_unin_colour.enabled = castbar_colour.enabled
@@ -450,8 +486,10 @@ function castbars:Initialise()
     castbar_name.enabled = castbar_colour.enabled
     castbar_shield.enabled = castbar_colour.enabled
     castbar_all.enabled = castbar_colour.enabled
+    castbar_height.enabled = castbar_colour.enabled
     castbar_friend.enabled = function(p) return p.castbar_enable and p.castbar_showall end
     castbar_enemy.enabled = castbar_friend.enabled
+    name_v_offset.enabled = function(p) return p.castbar_enable and p.castbar_name end
 end
 -- threat ######################################################################
 function threat:Initialise()
@@ -582,4 +620,63 @@ function bossmod:Initialise()
     bossmod_icon_size:SetPoint('TOP',0,-125)
     bossmod_x_offset:SetPoint('TOPLEFT',10,-(125+60))
     bossmod_y_offset:SetPoint('LEFT',bossmod_x_offset,'RIGHT',20,0)
+end
+-- cvars #######################################################################
+function cvars:Initialise()
+    -- "allow KNP to manage the cvars on this page"
+    -- makes knp set these cvars whenever its config is updated
+    local enable = self:CreateCheckBox('cvar_enable')
+    -- nameplateShowFriendlyNPCs
+    -- "always show friendly npc's nameplates"
+    local sfn = self:CreateCheckBox('cvar_show_friendly_npcs')
+    -- nameplateShowOnlyNames
+    -- locale already @ nameonly_on_default
+    local no = self:CreateCheckBox('cvar_name_only')
+    -- nameplatePersonalShowAlways
+    -- "always show the personal nameplate"
+    local psa = self:CreateCheckBox('cvar_personal_show_always')
+    -- nameplatePersonalShowInCombat
+    -- "show the personal nameplate when in combat"
+    local psc = self:CreateCheckBox('cvar_personal_show_combat')
+    -- nameplatePersonalShowWithTarget
+    -- "show the personal nameplate when you have an attackable target"
+    local pst = self:CreateCheckBox('cvar_personal_show_target')
+    -- nameplateMaxDistance
+    -- "max distance to render nameplates" (???)
+    local md = self:CreateSlider('cvar_max_distance',5,100)
+    md:SetValueStep(5)
+    -- nameplate{Other,Large}TopInset
+    -- how close nameplates will be rendered to the top edge of the screen.
+    -- set to -0.1 to disable clamping on the top of the screen.
+    local ct = self:CreateSlider('cvar_clamp_top',-.1,.5)
+    ct:SetValueStep(.01)
+    -- nameplate{Other,Large}BottomInset
+    -- how close nameplates will be rendered to the bottom edge of the screen.
+    -- set to -0.1 to disable clamping on the bottom of the screen.
+    local cb = self:CreateSlider('cvar_clamp_bottom',-.1,.5)
+    cb:SetValueStep(.01)
+
+    -- TODO add some sort of grouping ID in create calls so i dont have to do
+    -- this to disable things
+    sfn.enabled = function(p) return p.cvar_enable end
+    no.enabled  = sfn.enabled
+    psa.enabled = sfn.enabled
+    psc.enabled = sfn.enabled
+    pst.enabled = sfn.enabled
+    md.enabled  = sfn.enabled
+    ct.enabled  = sfn.enabled
+    cb.enabled  = sfn.enabled
+
+    enable:SetPoint('TOPLEFT',10,-10)
+
+    sfn:SetPoint('TOPLEFT',enable,'BOTTOMLEFT',0,-10)
+    no:SetPoint('TOPLEFT',sfn,'BOTTOMLEFT')
+
+    psa:SetPoint('TOPLEFT',no,'BOTTOMLEFT',0,-10)
+    psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
+    pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
+
+    md:SetPoint('TOP',0,-220)
+    ct:SetPoint('TOPLEFT',10,-(220+50))
+    cb:SetPoint('LEFT',ct,'RIGHT',20,0)
 end

@@ -50,8 +50,10 @@ function core:Create(f)
     self:CreateNameOnlyGlow(f)
 end
 function core:Show(f)
+    -- state helpers
     f.state.player = UnitIsUnit(f.unit,'player')
     f.state.friend = UnitIsFriend('player',f.unit)
+    f.state.class = select(2,UnitClass(f.unit))
 
     -- go into nameonly mode if desired
     self:NameOnlyUpdate(f)

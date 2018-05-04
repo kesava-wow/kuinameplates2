@@ -1,7 +1,7 @@
 ## Interface: 70300
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates
-## Notes: Kesava's nameplate framework.|nRemember to enable Kui Nameplates Core (or a compatible layout), too!
+## Notes: Kesava's nameplate framework.|nRemember to enable Kui Nameplates Core (or another layout), too!
 
 lib\embeds.xml
 
@@ -25,9 +25,10 @@ elements/auras.lua
 elements/raidicon.lua
 
 plugins/animation.lua
+plugins/arenaid.lua
+plugins/bossmods.lua
+plugins/combattoggle.lua
+plugins/execute.lua
 plugins/fading.lua
 plugins/guildtext.lua
 plugins/tankmode.lua
-plugins/combattoggle.lua
-plugins/execute.lua
-plugins/bossmods.lua

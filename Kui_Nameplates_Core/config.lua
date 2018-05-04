@@ -48,7 +48,6 @@ local default_config = {
     clickthrough_enemy = false,
 
     nameonly = true,
-    nameonly_on_default = false,
     nameonly_no_font_style = false,
     nameonly_health_colour = true,
     nameonly_damaged_friends = true,
@@ -84,13 +83,21 @@ local default_config = {
     text_vertical_offset = -.5,
     name_vertical_offset = -2,
     bot_vertical_offset = -3,
+
+    name_colour_white_in_bar_mode = true,
     class_colour_friendly_names = true,
     class_colour_enemy_names = false,
+    name_colour_brighten_class = .2,
+    name_colour_player_friendly = {.6,.7,1},
+    name_colour_player_hostile  = {1,.7,.7},
+    name_colour_npc_friendly = {.7,1,.7},
+    name_colour_npc_neutral = {1,.97,.7},
+    name_colour_npc_hostile = {1,.7,.7},
 
-    health_text_friend_max = 5,
-    health_text_friend_dmg = 4,
-    health_text_hostile_max = 5,
-    health_text_hostile_dmg = 3,
+    health_text_friend_max = 1,
+    health_text_friend_dmg = 5,
+    health_text_hostile_max = 1,
+    health_text_hostile_dmg = 4,
 
     colour_hated = {.7,.2,.1},
     colour_neutral = {1,.8,0},
@@ -147,6 +154,7 @@ local default_config = {
     castbar_showall = true,
     castbar_showfriend = true,
     castbar_showenemy = true,
+    castbar_name_vertical_offset = -1,
 
     tank_mode = true,
     tankmode_force_enable = false,
@@ -159,7 +167,7 @@ local default_config = {
 
     classpowers_enable = true,
     classpowers_on_target = true,
-    classpowers_size = 11,
+    classpowers_size = 12,
     classpowers_bar_width = 50,
     classpowers_bar_height = 3,
 
@@ -179,6 +187,16 @@ local default_config = {
     bossmod_x_offset = 0,
     bossmod_y_offset = 30,
     bossmod_clickthrough = false,
+
+    cvar_enable = false,
+    cvar_show_friendly_npcs = GetCVarDefault('nameplateShowFriendlyNPCs')=="1",
+    cvar_name_only = GetCVarDefault('nameplateShowOnlyNames')=="1",
+    cvar_personal_show_always = GetCVarDefault('nameplatePersonalShowAlways')=="1",
+    cvar_personal_show_combat = GetCVarDefault('nameplatePersonalShowInCombat')=="1",
+    cvar_personal_show_target = GetCVarDefault('nameplatePersonalShowWithTarget')=="1",
+    cvar_max_distance = GetCVarDefault('nameplateMaxDistance'),
+    cvar_clamp_top = GetCVarDefault('nameplateOtherTopInset'),
+    cvar_clamp_bottom = GetCVarDefault('nameplateOtherBottomInset'),
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()
@@ -427,18 +445,25 @@ configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
 configChanged.font_style = configChangedFontOption
 
+local function configChangedNameColour()
+    core:configChangedNameColour()
+end
+configChanged.name_colour_white_in_bar_mode = configChangedNameColour
+configChanged.class_colour_friendly_names = configChangedNameColour
+configChanged.class_colour_enemy_names = configChangedNameColour
+configChanged.name_colour_brighten_class = configChangedNameColour
+configChanged.name_colour_player_friendly = configChangedNameColour
+configChanged.name_colour_player_hostile = configChangedNameColour
+configChanged.name_colour_npc_friendly = configChangedNameColour
+configChanged.name_colour_npc_neutral = configChangedNameColour
+configChanged.name_colour_npc_hostile = configChangedNameColour
+
 function configChanged.nameonly()
     core:configChangedNameOnly()
 end
 function configChanged.nameonly_no_font_style()
     core:configChangedNameOnly()
     core:configChangedFontOption()
-end
-function configChanged.nameonly_on_default(v)
-    if InCombatLockdown() then
-        return cc:QueueConfigChanged('nameonly_on_default')
-    end
-    SetCVar('nameplateShowOnlyNames',v and 1 or 0)
 end
 configChanged.nameonly_damaged_friends = configChanged.nameonly
 configChanged.nameonly_enemies = configChanged.nameonly
@@ -491,6 +516,7 @@ configChanged.castbar_unin_colour = configChangedCastBar
 configChanged.castbar_icon = configChangedCastBar
 configChanged.castbar_name = configChangedCastBar
 configChanged.castbar_shield = configChangedCastBar
+configChanged.castbar_name_vertical_offset = configChangedCastBar
 
 function configChanged.classpowers_enable(v)
     if v then
@@ -620,13 +646,43 @@ configChanged.bossmod_icon_size = configChangedBossMod
 configChanged.bossmod_x_offset = configChangedBossMod
 configChanged.bossmod_y_offset = configChangedBossMod
 
+local function configChangedCVar()
+    if not core.profile.cvar_enable then
+        -- leave cvars alone entirely if not enabled
+        return
+    end
+    if InCombatLockdown() then
+        return cc:QueueConfigChanged('cvar_enable')
+    end
+
+    SetCVar('nameplateShowFriendlyNPCs',core.profile.cvar_show_friendly_npcs)
+    SetCVar('nameplateShowOnlyNames',core.profile.cvar_name_only)
+    SetCVar('nameplatePersonalShowAlways',core.profile.cvar_personal_show_always)
+    SetCVar('nameplatePersonalShowInCombat',core.profile.cvar_personal_show_combat)
+    SetCVar('nameplatePersonalShowWithTarget',core.profile.cvar_personal_show_target)
+    SetCVar('nameplateMaxDistance',core.profile.cvar_max_distance)
+    SetCVar('nameplateOtherTopInset',core.profile.cvar_clamp_top)
+    SetCVar('nameplateLargeTopInset',core.profile.cvar_clamp_top)
+    SetCVar('nameplateOtherBottomInset',core.profile.cvar_clamp_bottom)
+    SetCVar('nameplateLargeBottomInset',core.profile.cvar_clamp_bottom)
+end
+configChanged.cvar_enable = configChangedCVar
+configChanged.cvar_show_friendly_npcs = configChangedCVar
+configChanged.cvar_personal_show_always = configChangedCVar
+configChanged.cvar_personal_show_combat = configChangedCVar
+configChanged.cvar_personal_show_target = configChangedCVar
+configChanged.cvar_max_distance = configChangedCVar
+configChanged.cvar_clamp_top = configChangedCVar
+configChanged.cvar_clamp_bottom = configChangedCVar
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_alpha = configChanged.fade_alpha
 configLoaded.fade_speed = configChanged.fade_speed
 
+configLoaded.class_colour_friendly_names = configChangedNameColour
+
 configLoaded.nameonly = configChanged.nameonly
-configLoaded.nameonly_on_default = configChanged.nameonly_on_default
 
 configLoaded.colour_hated = configChangedReactionColour
 
@@ -643,6 +699,8 @@ configLoaded.level_text = configChanged.level_text
 configLoaded.auras_enabled = configChanged.auras_enabled
 
 configLoaded.clickthrough_self = QueueClickthroughUpdate
+
+configLoaded.cvar_enable = configChangedCVar
 
 function configLoaded.classpowers_enable(v)
     if v then
@@ -704,6 +762,27 @@ function core:InitialiseConfig()
             end
         end
     end)
+
+    -- XXX 2.15>2.16 health display transition
+    if not KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] then
+        KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] = true
+        -- re-jigger health display patterns on all profiles (where set)
+        local upd = function(n,k)
+            local v = KuiNameplatesCoreSaved.profiles[n][k]
+            if not v then return end
+            KuiNameplatesCoreSaved.profiles[n][k] = v == 5 and 1 or v + 1
+        end
+        for n,p in pairs(KuiNameplatesCoreSaved.profiles) do
+            for _,k in next,{
+                'health_text_friend_max',
+                'health_text_friend_dmg',
+                'health_text_hostile_max',
+                'health_text_hostile_dmg'
+            } do
+                upd(n,k)
+            end
+        end
+    end
 
     -- run config loaded functions
     for k,f in pairs(configLoaded) do

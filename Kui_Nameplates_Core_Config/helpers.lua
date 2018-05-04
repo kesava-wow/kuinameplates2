@@ -355,7 +355,7 @@ do
         opt.Popup:ShowPage('colour_picker')
     end
 
-    function opt.CreateColourPicker(parent,name)
+    function opt.CreateColourPicker(parent,name,small)
         local container = CreateFrame('Button',frame_name..name..'ColourPicker',parent)
         container:SetWidth(150)
         container:SetHeight(27)
@@ -370,10 +370,20 @@ do
             insets={top=2,right=2,bottom=2,left=2}
         })
         block:SetBackdropBorderColor(.5,.5,.5)
-        block:SetSize(18,18)
         block:SetPoint('LEFT')
 
-        local label = container:CreateFontString(nil,'ARTWORK','GameFontHighlight')
+        if small then
+            block:SetSize(14,14)
+        else
+            block:SetSize(18,18)
+        end
+
+        local label
+        if small then
+            label = container:CreateFontString(nil,'ARTWORK','GameFontHighlightSmall')
+        else
+            label = container:CreateFontString(nil,'ARTWORK','GameFontHighlight')
+        end
         label:SetText(L.titles[name] or name or 'Colour picker')
         label:SetPoint('LEFT',block,'RIGHT',5,0)
 
@@ -394,30 +404,6 @@ do
             parent.elements[name] = container
         end
         return container
-    end
-end
-do
-    function opt.CreateEditBox(parent,name,width,height)
-        local e_name = name and frame_name..name..'EditBox' or nil
-        width,height = width or 150, height or 30
-
-        local box = CreateFrame('EditBox',e_name,parent,'InputBoxTemplate')
-        box:SetMultiLine(false)
-        box:SetAutoFocus(false)
-        box:EnableMouse(true)
-        box:SetFontObject('ChatFontNormal')
-        box:SetSize(width,height)
-        box.env = name
-
-        box:SetScript('OnShow',GenericOnShow)
-        box:SetScript('OnEnable',OnEnable)
-        box:SetScript('OnDisable',OnDisable)
-        box:SetScript('OnEscapePressed',EditBoxOnEscapePressed)
-
-        if name and type(parent.elements) == 'table' then
-            parent.elements[name] = container
-        end
-        return box
     end
 end
 function opt.CreateSeperator(parent,name)
@@ -479,7 +465,6 @@ do
         CreateSlider = opt.CreateSlider,
         CreateColourPicker = opt.CreateColourPicker,
         CreateSeperator = opt.CreateSeperator,
-        CreateEditBox = opt.CreateEditBox,
 
         HidePage = HidePage,
         ShowPage = ShowPage

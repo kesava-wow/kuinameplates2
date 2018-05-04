@@ -47,11 +47,6 @@ local plugin_fading
 local plugin_classpowers
 
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
-local CLASS_COLOURS = {
-    DEATHKNIGHT = { .90, .22, .33 },
-    DEMONHUNTER = { .74, .35, .95 },
-    SHAMAN      = { .10, .54, .97 },
-}
 
 -- config locals
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
@@ -61,14 +56,12 @@ local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
-local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT
+local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID
 local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
-local CLASS_COLOUR_FRIENDLY_NAMES,CLASS_COLOUR_ENEMY_NAMES
-
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
-
 local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET,FRAME_GLOW_THREAT
+local HIDE_NAMES
 
 -- common globals
 local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
@@ -166,15 +159,6 @@ do
         return bar
     end
 end
-local function GetClassColour(f)
-    -- return adjusted class colour (used in nameonly)
-    local class = select(2,UnitClass(f.unit))
-    if CLASS_COLOURS[class] then
-        return unpack(CLASS_COLOURS[class])
-    else
-        return kui.GetClassColour(class,2)
-    end
-end
 local function UpdateFontObject(object)
     if not object then return end
     object:SetFont(
@@ -252,8 +236,8 @@ do
 
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
-        CLASS_COLOUR_FRIENDLY_NAMES = self.profile.class_colour_friendly_names
-        CLASS_COLOUR_ENEMY_NAMES = self.profile.class_colour_enemy_names
+        SHOW_ARENA_ID = true
+        HIDE_NAMES = self.profile.hide_names
         HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
         HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
         HEALTH_TEXT_HOSTILE_MAX = self.profile.health_text_hostile_max
@@ -548,17 +532,104 @@ do
 end
 -- name text ###################################################################
 do
-    local function SetNameTextPlayerColor(f)
+    local NAME_COLOUR_WHITE_IN_BAR_MODE,CLASS_COLOUR_FRIENDLY_NAMES,
+          CLASS_COLOUR_ENEMY_NAMES,NAME_COLOUR_BRIGHTEN_CLASS,
+          NAME_COLOUR_PLAYER_FRIENDLY,NAME_COLOUR_PLAYER_HOSTILE,
+          NAME_COLOUR_NPC_FRIENDLY,NAME_COLOUR_NPC_NEUTRAL,
+          NAME_COLOUR_NPC_HOSTILE
+
+    -- adjusted class colours, built as needed
+    local CLASS_COLOURS
+
+    function core:configChangedNameColour()
+        CLASS_COLOURS = nil
+        NAME_COLOUR_WHITE_IN_BAR_MODE = self.profile.name_colour_white_in_bar_mode
+        CLASS_COLOUR_FRIENDLY_NAMES = self.profile.class_colour_friendly_names
+        CLASS_COLOUR_ENEMY_NAMES = self.profile.class_colour_enemy_names
+        NAME_COLOUR_BRIGHTEN_CLASS = self.profile.name_colour_brighten_class
+        NAME_COLOUR_PLAYER_FRIENDLY = self.profile.name_colour_player_friendly
+        NAME_COLOUR_PLAYER_HOSTILE = self.profile.name_colour_player_hostile
+        NAME_COLOUR_NPC_FRIENDLY = self.profile.name_colour_npc_friendly
+        NAME_COLOUR_NPC_NEUTRAL = self.profile.name_colour_npc_neutral
+        NAME_COLOUR_NPC_HOSTILE = self.profile.name_colour_npc_hostile
+    end
+
+    local function GetClassColour(f)
+        -- return adjusted class colour
+        if not f.state.class then return end
+        if not CLASS_COLOURS then CLASS_COLOURS = {} end
+        if not CLASS_COLOURS[f.state.class] then
+            if NAME_COLOUR_BRIGHTEN_CLASS then
+                CLASS_COLOURS[f.state.class] = { kui.Brighten(NAME_COLOUR_BRIGHTEN_CLASS,kui.GetClassColour(f.state.class,2)) }
+            else
+                CLASS_COLOURS[f.state.class] = { kui.GetClassColour(f.state.class,2) }
+            end
+        end
+        return unpack(CLASS_COLOURS[f.state.class])
+    end
+    local function SetNameTextColour(f)
         -- override colour based on config
-        if not f.state.player and UnitIsPlayer(f.unit) then
+        -- white by default
+        f.NameText:SetTextColor(1,1,1,1)
+        f.GuildText:SetTextColor(1,1,1,.8)
+
+        if f.state.player then
+            -- self (name & guild text always hidden)
+            return
+        elseif UnitIsPlayer(f.unit) then
+            -- other players
             if f.state.friend then
                 if CLASS_COLOUR_FRIENDLY_NAMES then
+                    -- use adjusted class colour
                     f.NameText:SetTextColor(GetClassColour(f))
+                elseif NAME_COLOUR_WHITE_IN_BAR_MODE and not f.IN_NAMEONLY then
+                    -- white in bar mode
+                    return
+                else
+                    -- use configured friendly player colour
+                    f.NameText:SetTextColor(unpack(NAME_COLOUR_PLAYER_FRIENDLY))
                 end
             elseif CLASS_COLOUR_ENEMY_NAMES then
                 f.NameText:SetTextColor(GetClassColour(f))
+            elseif NAME_COLOUR_WHITE_IN_BAR_MODE and not f.IN_NAMEONLY then
+                return
+            else
+                f.NameText:SetTextColor(unpack(NAME_COLOUR_PLAYER_HOSTILE))
+            end
+        elseif NAME_COLOUR_WHITE_IN_BAR_MODE and not f.IN_NAMEONLY then
+            return
+        else
+            -- NPCs; reaction colour
+            if not UnitCanAttack('player',f.unit) and
+               f.state.reaction >= 4
+            then
+                -- friendly
+                if NAME_COLOUR_NPCS_INHERIT_REACTION then
+                    f.NameText:SetTextColor(.7,1,.7)
+                else
+                    f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_FRIENDLY))
+                end
+            else
+                if f.state.reaction == 4 then
+                    -- neutral, attackable
+                    if NAME_COLOUR_NPCS_INHERIT_REACTION then
+                        f.NameText:SetTextColor(1,.97,.7)
+                    else
+                        f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_NEUTRAL))
+                    end
+                else
+                    -- hostile
+                    if NAME_COLOUR_NPCS_INHERIT_REACTION then
+                        f.NameText:SetTextColor(1,.7,.7)
+                    else
+                        f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_HOSTILE))
+                    end
+                end
             end
         end
+
+        f.GuildText:SetTextColor(kui.Brighten(.8,f.NameText:GetTextColor()))
+        f.GuildText:SetAlpha(.8)
     end
 
     local function UpdateNameText(f)
@@ -570,44 +641,27 @@ do
             end
 
             f.NameText:Show()
+            SetNameTextColour(f)
 
-            -- reaction colour
-            if not UnitCanAttack('player',f.unit) and
-               f.state.reaction >= 4
-            then
-                -- friendly
-                f.NameText:SetTextColor(.6,1,.6)
-                f.GuildText:SetTextColor(.8,.9,.8,.9)
-            else
-                if f.state.reaction == 4 then
-                    -- neutral, attackable
-                    f.NameText:SetTextColor(1,1,.4)
-                    f.GuildText:SetTextColor(1,1,.8,.9)
-                else
-                    -- hostile
-                    f.NameText:SetTextColor(1,.4,.3)
-                    f.GuildText:SetTextColor(1,.8,.7,.9)
-                end
-            end
-
-            SetNameTextPlayerColor(f)
-
-            -- set name text colour to health
+            -- update name text colour to with health percent
             core:NameOnlySetNameTextToHealth(f)
-        elseif SHOW_NAME_TEXT then
-            if TITLE_TEXT_PLAYERS then
+        elseif SHOW_NAME_TEXT or SHOW_ARENA_ID then
+            if SHOW_NAME_TEXT and TITLE_TEXT_PLAYERS then
                 -- reset name to title-less
                 f.handler:UpdateName()
             end
-
-            -- white name text by default
-            f.NameText:SetTextColor(1,1,1,1)
-            SetNameTextPlayerColor(f)
-
             if f.state.no_name then
                 f.NameText:Hide()
             else
+                if SHOW_ARENA_ID and f.state.arenaid then
+                    if SHOW_NAME_TEXT then
+                        f.NameText:SetText('|cffffffff'..f.state.arenaid..'|r '..f.state.name)
+                    else
+                        f.NameText:SetText('|cffffffff'..f.state.arenaid..'|r')
+                    end
+                end
                 f.NameText:Show()
+                SetNameTextColour(f)
             end
         else
             f.NameText:Hide()
@@ -654,23 +708,28 @@ do
 end
 -- health text #################################################################
 do
-    local function GetHealthDisplay(f,key)
-        if type(key) ~= 'number' or key >= 5 or key <= 0 then return '' end
-
-        if key == 1 then
-            return kui.num(f.state.health_cur)
-        elseif key == 2 then
-            return kui.num(f.state.health_max)
-        elseif key == 3 then
-            local v = f.state.health_per
-            if v < 1 then
-                return strformat('%.1f', v)
-            else
-                return ceil(v)
-            end
+    local function HealthDisplay_Percent(s)
+        local v = s.health_per
+        if v < 1 then
+            return strformat('%.1f',v)
         else
-            return '-'..kui.num(f.state.health_deficit)
+            return ceil(v)
         end
+    end
+    local health_display_funcs = {
+        function() return '' end,
+        function(s) return kui.num(s.health_cur) end,
+        function(s) return kui.num(s.health_max) end,
+        HealthDisplay_Percent,
+        function(s) return '-'..kui.num(s.health_deficit) end,
+        function(s) return kui.num(s.health_cur)..'  '..HealthDisplay_Percent(s)..'%' end,
+        function(s) return kui.num(s.health_cur)..'  -'..kui.num(s.health_deficit) end,
+    }
+    local function GetHealthDisplay(f,key)
+        return type(key) == 'number' and
+            health_display_funcs[key] and
+            health_display_funcs[key](f.state) or
+            ''
     end
 
     local function UpdateHealthText(f)
@@ -951,7 +1010,7 @@ end
 -- castbar #####################################################################
 do
     local CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_ICON,
-          CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD
+          CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,CASTBAR_NAME_VERTICAL_OFFSET
 
     local function SpellIconSetWidth(f)
         -- set spell icon width (as it's based on height)
@@ -1033,7 +1092,7 @@ do
     end
     local function UpdateSpellNamePosition(f)
         if not f.SpellName then return end
-        f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,-2+TEXT_VERTICAL_OFFSET)
+        f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET+TEXT_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
         f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
@@ -1132,6 +1191,7 @@ do
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
         CASTBAR_SHOW_NAME = self.profile.castbar_name
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
+        CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
 
         for k,f in addon:Frames() do
             if CASTBAR_SHOW_ICON and not f.SpellIcon then
@@ -1536,16 +1596,12 @@ function core:ShowNameUpdate(f)
         f.state.no_name = nil
     else
         f.state.tracked = nil
-        f.state.no_name = true
+        f.state.no_name = HIDE_NAMES
     end
 
-    if not core.profile.hide_names then
+    if SHOW_ARENA_ID and f.state.arenaid then
         f.state.no_name = nil
-    end
-
-    if f.state.player or
-       not SHOW_NAME_TEXT
-    then
+    elseif f.state.player or not SHOW_NAME_TEXT then
         f.state.no_name = true
     end
 
@@ -1642,7 +1698,6 @@ do
 
         f.GuildText:SetShadowOffset(1,-1)
         f.GuildText:SetShadowColor(0,0,0,1)
-
 
         if NAMEONLY_NO_FONT_STYLE then
             f.NameText:SetFont(FONT,FONT_SIZE_NORMAL,nil)
