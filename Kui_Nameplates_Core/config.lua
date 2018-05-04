@@ -834,12 +834,17 @@ function cc:PLAYER_REGEN_ENABLED()
     end
     wipe(self.queue)
 end
+function cc:PLAYER_ENTERING_WORLD()
+    self:PLAYER_REGEN_ENABLED()
+end
 -- cvar update #################################################################
 function cc:EnableCVarUpdate()
     cc:RegisterEvent('CVAR_UPDATE')
+    cc:RegisterEvent('PLAYER_ENTERING_WORLD')
 end
 function cc:DisableCVarUpdate()
     cc:UnregisterEvent('CVAR_UPDATE')
+    cc:UnregisterEvent('PLAYER_ENTERING_WORLD')
 end
 function cc:CVAR_UPDATE()
     -- reapply our CVar changes
