@@ -197,6 +197,7 @@ local default_config = {
     cvar_max_distance = GetCVarDefault('nameplateMaxDistance'),
     cvar_clamp_top = GetCVarDefault('nameplateOtherTopInset'),
     cvar_clamp_bottom = GetCVarDefault('nameplateOtherBottomInset'),
+    cvar_overlap_v = GetCVarDefault('nameplateOverlapV')
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()
@@ -657,6 +658,7 @@ local function UpdateCVars()
     SetCVar('nameplateLargeTopInset',core.profile.cvar_clamp_top)
     SetCVar('nameplateOtherBottomInset',core.profile.cvar_clamp_bottom)
     SetCVar('nameplateLargeBottomInset',core.profile.cvar_clamp_bottom)
+    SetCVar('nameplateOverlapV',core.profile.cvar_overlap_v)
 end
 local function configChangedCVar()
     if InCombatLockdown() then
@@ -679,6 +681,7 @@ configChanged.cvar_personal_show_target = configChangedCVar
 configChanged.cvar_max_distance = configChangedCVar
 configChanged.cvar_clamp_top = configChangedCVar
 configChanged.cvar_clamp_bottom = configChangedCVar
+configChanged.cvar_overlap_v = configChangedCVar
 
 -- config loaded functions #####################################################
 local configLoaded = {}

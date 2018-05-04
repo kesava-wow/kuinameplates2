@@ -627,40 +627,30 @@ end
 -- cvars #######################################################################
 function cvars:Initialise()
     -- "allow KNP to manage the cvars on this page"
-    -- makes knp set these cvars whenever its config is updated
     local enable = self:CreateCheckBox('cvar_enable')
     -- nameplateShowFriendlyNPCs
-    -- "always show friendly npc's nameplates"
     local sfn = self:CreateCheckBox('cvar_show_friendly_npcs')
     -- nameplateShowOnlyNames
-    -- locale already @ nameonly_on_default
     local no = self:CreateCheckBox('cvar_name_only')
     -- nameplatePersonalShowAlways
-    -- "always show the personal nameplate"
     local psa = self:CreateCheckBox('cvar_personal_show_always')
     -- nameplatePersonalShowInCombat
-    -- "show the personal nameplate when in combat"
     local psc = self:CreateCheckBox('cvar_personal_show_combat')
     -- nameplatePersonalShowWithTarget
-    -- "show the personal nameplate when you have an attackable target"
     local pst = self:CreateCheckBox('cvar_personal_show_target')
     -- nameplateMaxDistance
-    -- "max distance to render nameplates" (???)
     local md = self:CreateSlider('cvar_max_distance',5,100)
     md:SetValueStep(5)
     -- nameplate{Other,Large}TopInset
-    -- how close nameplates will be rendered to the top edge of the screen.
-    -- set to -0.1 to disable clamping on the top of the screen.
     local ct = self:CreateSlider('cvar_clamp_top',-.1,.5)
     ct:SetValueStep(.01)
     -- nameplate{Other,Large}BottomInset
-    -- how close nameplates will be rendered to the bottom edge of the screen.
-    -- set to -0.1 to disable clamping on the bottom of the screen.
     local cb = self:CreateSlider('cvar_clamp_bottom',-.1,.5)
     cb:SetValueStep(.01)
+    -- nameplateOverlapV
+    local ov = self:CreateSlider('cvar_overlap_v',0,5)
+    ov:SetValueStep(.1)
 
-    -- TODO add some sort of grouping ID in create calls so i dont have to do
-    -- this to disable things
     sfn.enabled = function(p) return p.cvar_enable end
     no.enabled  = sfn.enabled
     psa.enabled = sfn.enabled
@@ -669,6 +659,7 @@ function cvars:Initialise()
     md.enabled  = sfn.enabled
     ct.enabled  = sfn.enabled
     cb.enabled  = sfn.enabled
+    ov.enabled  = sfn.enabled
 
     enable:SetPoint('TOPLEFT',10,-10)
 
@@ -679,7 +670,8 @@ function cvars:Initialise()
     psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
     pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
 
-    md:SetPoint('TOP',0,-220)
+    md:SetPoint('TOPLEFT',10,-220)
+    ov:SetPoint('LEFT',md,'RIGHT',20,0)
     ct:SetPoint('TOPLEFT',10,-(220+50))
     cb:SetPoint('LEFT',ct,'RIGHT',20,0)
 end

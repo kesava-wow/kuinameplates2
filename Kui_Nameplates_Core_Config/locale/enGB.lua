@@ -222,6 +222,7 @@ L.titles = {
     cvar_max_distance = 'Max render distance',
     cvar_clamp_top = 'Top clamp distance',
     cvar_clamp_bottom = 'Bottom clamp distance',
+    cvar_overlap_v = 'Vertical overlap',
 }
 L.tooltips = {
     bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
@@ -361,4 +362,5 @@ L.tooltips = {
     cvar_max_distance = '|cffffcc00nameplateMaxDistance|r|n|nMaximum distance at which to render nameplates (not including your current target).',
     cvar_clamp_top = '|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.',
     cvar_clamp_bottom = '|cffffcc00nameplate{Other,Large}BottomInset|r',
+    cvar_overlap_v = '|cffffcc00nameplateOverlapV|r|n|nVertical distance between nameplates (only when motion is set to stacked).',
 }
