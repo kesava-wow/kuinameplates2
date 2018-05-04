@@ -9,7 +9,7 @@ local kc = LibStub('KuiConfig-1.0')
 local LSM = LibStub('LibSharedMedia-3.0')
 local addon = KuiNameplates
 local core = KuiNameplatesCore
--- combat checking frame
+-- local event frame
 local cc = CreateFrame('Frame')
 -- add media to LSM ############################################################
 LSM:Register(LSM.MediaType.FONT,'Yanone Kaffesatz Bold',kui.m.f.yanone)
@@ -646,15 +646,7 @@ configChanged.bossmod_icon_size = configChangedBossMod
 configChanged.bossmod_x_offset = configChangedBossMod
 configChanged.bossmod_y_offset = configChangedBossMod
 
-local function configChangedCVar()
-    if not core.profile.cvar_enable then
-        -- leave cvars alone entirely if not enabled
-        return
-    end
-    if InCombatLockdown() then
-        return cc:QueueConfigChanged('cvar_enable')
-    end
-
+local function UpdateCVars()
     SetCVar('nameplateShowFriendlyNPCs',core.profile.cvar_show_friendly_npcs)
     SetCVar('nameplateShowOnlyNames',core.profile.cvar_name_only)
     SetCVar('nameplatePersonalShowAlways',core.profile.cvar_personal_show_always)
@@ -665,6 +657,19 @@ local function configChangedCVar()
     SetCVar('nameplateLargeTopInset',core.profile.cvar_clamp_top)
     SetCVar('nameplateOtherBottomInset',core.profile.cvar_clamp_bottom)
     SetCVar('nameplateLargeBottomInset',core.profile.cvar_clamp_bottom)
+end
+local function configChangedCVar()
+    if InCombatLockdown() then
+        return cc:QueueConfigChanged('cvar_enable')
+    end
+    if core.profile.cvar_enable then
+        -- register related events & update cvars immediately
+        cc:EnableCVarUpdate()
+        UpdateCVars()
+    else
+        -- leave cvars alone entirely if not enabled
+        cc:DisableCVarUpdate()
+    end
 end
 configChanged.cvar_enable = configChangedCVar
 configChanged.cvar_show_friendly_npcs = configChangedCVar
@@ -803,8 +808,8 @@ function core:InitialiseConfig()
     -- listen for LSM media updates
     LSM.RegisterCallback(self, 'LibSharedMedia_Registered', 'LSMMediaRegistered')
 end
-
--- combat checking frame #######################################################
+-- local event frame ###########################################################
+-- combat function queue #######################################################
 cc.queue = {}
 function cc:QueueFunction(func,...)
     if InCombatLockdown() then
@@ -818,13 +823,25 @@ function cc:QueueConfigChanged(name)
         self:QueueFunction(configChanged[name],core.profile[name])
     end
 end
-cc:SetScript('OnEvent',function(self,event,...)
+function cc:PLAYER_REGEN_ENABLED()
     for i,f_tbl in ipairs(self.queue) do
         if type(f_tbl[1]) == 'function' then
             f_tbl[1](unpack(f_tbl[2]))
         end
     end
-
     wipe(self.queue)
-end)
+end
+-- cvar update #################################################################
+function cc:EnableCVarUpdate()
+    cc:RegisterEvent('CVAR_UPDATE')
+end
+function cc:DisableCVarUpdate()
+    cc:UnregisterEvent('CVAR_UPDATE')
+end
+function cc:CVAR_UPDATE()
+    -- reapply our CVar changes
+    UpdateCVars()
+end
+
+cc:SetScript('OnEvent',function(self,event,...) self[event](self,...) end)
 cc:RegisterEvent('PLAYER_REGEN_ENABLED')
