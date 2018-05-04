@@ -59,6 +59,8 @@ L.titles = {
     guild_text_npcs = 'Show NPC titles',
     guild_text_players = 'Show player guilds',
     title_text_players = 'Show player titles',
+    nameonly_visibility_sep = 'Visibility',
+    nameonly_text_sep = 'Text',
 
     glow_as_shadow = 'Show frame shadow',
     state_icons = 'Show state icons',
