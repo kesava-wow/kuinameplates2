@@ -56,6 +56,7 @@ local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
 local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
 local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
+local FADE_AVOID_CASTING
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID
 local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
@@ -231,6 +232,7 @@ do
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_UNTRACKED = self.profile.fade_untracked
         FADE_AVOID_TRACKED = self.profile.fade_avoid_tracked
+        FADE_AVOID_CASTING = self.profile.fade_avoid_casting
 
         SHOW_STATE_ICONS = self.profile.state_icons
 
@@ -1043,6 +1045,10 @@ do
         if CASTBAR_SHOW_NAME and f.SpellName then
             f.SpellName:Show()
         end
+
+        if FADE_AVOID_CASTING then
+            plugin_fading:UpdateFrame(f)
+        end
     end
     local function HideCastBar(f)
         -- also hide attached elements
@@ -1057,6 +1063,10 @@ do
         end
         if f.SpellShield then
             f.SpellShield:Hide()
+        end
+
+        if FADE_AVOID_CASTING then
+            plugin_fading:UpdateFrame(f)
         end
     end
     local function UpdateCastBar(f)

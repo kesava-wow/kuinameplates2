@@ -71,6 +71,7 @@ local default_config = {
     fade_avoid_execute_friend = false,
     fade_avoid_execute_hostile = false,
     fade_avoid_tracked = false,
+    fade_avoid_casting = false,
 
     font_face = DEFAULT_FONT,
     font_style = 2,
@@ -326,6 +327,12 @@ local function configChangedFadeRule(v,on_load)
         end,22)
     end
 
+    if core.profile.fade_avoid_casting then
+        plugin:AddFadeRule(function(f)
+            return f.state.casting and 1
+        end,23)
+    end
+
     if core.profile.fade_neutral_enemy then
         plugin:AddFadeRule(function(f)
             return f.state.reaction == 4 and
@@ -356,6 +363,7 @@ configChanged.fade_avoid_raidicon = configChangedFadeRule
 configChanged.fade_avoid_execute_friend = configChangedFadeRule
 configChanged.fade_avoid_execute_hostile = configChangedFadeRule
 configChanged.fade_avoid_tracked = configChangedFadeRule
+configChanged.fade_avoid_casting = configChangedFadeRule
 
 local function configChangedTextOffset()
     core:configChangedTextOffset()

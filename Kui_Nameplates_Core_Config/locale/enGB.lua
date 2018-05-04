@@ -82,6 +82,7 @@ L.titles = {
     fade_avoid_execute_friend = 'Avoid low health friends',
     fade_avoid_execute_hostile = 'Avoid low health enemies',
     fade_avoid_tracked = 'Avoid tracked or in combat',
+    fade_avoid_casting = 'Avoid casting',
 
     reaction_colour_sep = 'Colours',
     colour_hated = 'Hated',
@@ -266,6 +267,7 @@ L.tooltips = {
     fade_avoid_execute_friend = 'Don\'t fade friendly nameplates in execute range (set in the "Health bars" page)',
     fade_avoid_execute_hostile = 'Don\'t fade hostile nameplates in execute range (set in the "Health bars" page)',
     fade_avoid_tracked = 'Don\'t fade tracked nameplates, or nameplates which are affecting combat with you.|nWhether or not a unit is tracked can by set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names',
+    fade_avoid_casting = 'Don\'t fade nameplates which are casting',
 
     colour_self_class = 'Use your class colour on your personal nameplate',
     colour_self = 'The health bar colour of your personal nameplate',
