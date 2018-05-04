@@ -238,7 +238,7 @@ L.tooltips = {
     clickthrough_friend = 'Disable the click-box of friendly nameplates',
     clickthrough_enemy = 'Disable the click-box of enemy nameplates',
 
-    nameonly = 'Hide the health bars of friendly or unattackable units. While in name-only mode, name text is coloured as a percentage of health',
+    nameonly = 'Enable name-only mode, which hides the health bars of the frames it applies to',
     nameonly_no_font_style = 'Hide text outline when in name-only mode (by setting the font style to nil)',
     nameonly_health_colour = 'Partially colour text to represent health percentage',
     nameonly_damaged_friends = 'Use name-only mode even on damaged friendly frames',
