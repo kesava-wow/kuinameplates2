@@ -353,6 +353,8 @@ function nameonly:Initialise()
     local guild_text_npcs = self:CreateCheckBox('guild_text_npcs')
     local guild_text_players = self:CreateCheckBox('guild_text_players')
     local title_text_players = self:CreateCheckBox('title_text_players')
+    local vis_sep = text:CreateSeperator('nameonly_visibility_sep')
+    local text_sep = text:CreateSeperator('nameonly_text_sep')
 
     nameonly_no_font_style.enabled = function(p) return p.nameonly end
     nameonly_health_colour.enabled = nameonly_no_font_style.enabled
@@ -370,6 +372,8 @@ function nameonly:Initialise()
     nameonly_health_colour:SetPoint('TOPLEFT',nameonlyCheck,'BOTTOMLEFT')
     nameonly_no_font_style:SetPoint('LEFT',nameonly_health_colour,'RIGHT',190,0)
 
+    vis_sep:SetPoint('TOP',0,0)
+
     nameonly_target:SetPoint('TOPLEFT',nameonly_health_colour,'BOTTOMLEFT',0,-20)
     nameonly_damaged_friends:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT')
     nameonly_in_combat:SetPoint('TOPLEFT',nameonly_damaged_friends,'BOTTOMLEFT')
@@ -377,6 +381,8 @@ function nameonly:Initialise()
     nameonly_all_enemies:SetPoint('LEFT',nameonly_target,'RIGHT',190,0)
     nameonly_enemies:SetPoint('TOPLEFT',nameonly_all_enemies,'BOTTOMLEFT',10,0)
     nameonly_neutral:SetPoint('TOPLEFT',nameonly_enemies,'BOTTOMLEFT')
+
+    text_sep:SetPoint('TOP',0,0)
 
     guild_text_npcs:SetPoint('TOPLEFT',nameonly_in_combat,'BOTTOMLEFT',0,-20)
     guild_text_players:SetPoint('TOPLEFT',guild_text_npcs,'BOTTOMLEFT')
