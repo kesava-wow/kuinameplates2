@@ -528,7 +528,6 @@ do
     end
 end
 -- popup functions #############################################################
-local CreatePopup
 do
     local function PopupOnShow(self)
         PlaySound(S_MENU_OPEN)
@@ -579,69 +578,89 @@ do
         self:Show()
     end
 
-    -- text-entry dialog (rename, copy, new) ###################################
-    local function TextEntry_OnShow(self)
-        self.editbox:SetFocus()
-    end
-    local function TextEntry_PostShow(self,desc,default,callback)
-        self.callback = nil
-        self.label:SetText('')
-        self.editbox:SetText('')
+    function opt:CreatePopupPage(name,w,h)
+        assert(name)
 
-        if callback then self.callback = callback end
-        if desc     then self.label:SetText(desc) end
-        if default  then self.editbox:SetText(default) end
-    end
-    local function TextEntry_OnEnterPressed(self)
-        opt.Popup.Okay:Click()
-    end
-    local function TextEntry_OnEscapePressed(self)
-        opt.Popup.Cancel:Click()
-    end
-    local function CreatePopupPage_TextEntry()
-        local pg = opt:CreatePopupPage('text_entry')
+        local p = CreateFrame('Frame',nil,self.Popup)
+        p:SetAllPoints(self.Popup)
+        p:Hide()
 
-        local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
-        label:SetPoint('CENTER',0,20)
-
-        local text = CreateFrame('EditBox',nil,pg,'InputBoxTemplate')
-        text:SetAutoFocus(false)
-        text:EnableMouse(true)
-        text:SetMaxLetters(50)
-        text:SetPoint('CENTER')
-        text:SetSize(150,30)
-
-        pg.label = label
-        pg.editbox = text
-        pg.PostShow = TextEntry_PostShow
-
-        pg:SetScript('OnShow',TextEntry_OnShow)
-        text:SetScript('OnEnterPressed',TextEntry_OnEnterPressed)
-        text:SetScript('OnEscapePressed',TextEntry_OnEscapePressed)
-    end
-
-    -- confirm dialog ##########################################################
-    local function ConfirmDialog_PostShow(self,desc,callback)
-        self.label:SetText('')
-        self.callback = nil
-
-        if desc then
-            self.label:SetText(desc)
+        if type(w) == 'number' and type(h) == 'number' then
+            p.size = { w,h }
         end
-        if callback then
-            self.callback = callback
+
+        self.Popup.pages[n] = p
+        return p
+    end
+end
+-- profile drop down functions #################################################
+local CreateProfileDropDown
+do
+    local function OnValueChanged(self,value,text)
+        if value and value == 'new_profile' then
+            opt.Popup:ShowPage(
+                'text_entry',
+                L.titles['new_profile_label'],
+                nil,
+                self.new_profile_callback
+            )
+        else
+            opt.config:SetProfile(text)
         end
     end
-    local function CreatePopupPage_ConfirmDialog()
-        local pg = opt:CreatePopupPage('confirm_dialog')
+    local function initialize(self)
+        -- sort profiles alphabetically
+        local profiles_indexed = {}
+        for name in pairs(opt.config.gsv.profiles) do
+            tinsert(profiles_indexed,name)
+        end
+        table.sort(profiles_indexed,function(a,b)
+            return strlower(a) < strlower(b)
+        end)
 
-        local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
-        label:SetPoint('CENTER',0,10)
+        -- create new profile button at top
+        local list = {}
+        tinsert(list,{
+            text = L.titles['new_profile'],
+            value = 'new_profile'
+        })
 
-        pg.label = label
-        pg.PostShow = ConfirmDialog_PostShow
+        -- create profile buttons
+        for _,name in ipairs(profiles_indexed) do
+            tinsert(list,{
+                text = name,
+                selected = name == opt.config.csv.profile
+            })
+        end
+
+        self:SetList(list)
+        self:SetValue(opt.config.csv.profile)
     end
+    function CreateProfileDropDown()
+        p_dd = pcdd:New(opt,L.titles['profile'])
+        p_dd.labelText:SetFontObject('GameFontNormalSmall')
+        p_dd:SetWidth(152)
+        p_dd:SetHeight(40)
+        p_dd:SetPoint('TOPLEFT',9,-15)
+        p_dd:SetFrameStrata('TOOLTIP')
 
+        p_dd.initialize = initialize
+        p_dd.OnValueChanged = OnValueChanged
+
+        p_dd.new_profile_callback = function(page,accept)
+            if accept then
+                opt.config:SetProfile(page.editbox:GetText())
+            end
+        end
+
+        p_dd:HookScript('OnShow',function(self)
+            self:initialize()
+        end)
+    end
+end
+-- local popup functions #######################################################
+local CreatePopup
+do
     -- colour picker ###########################################################
     local function ColourPicker_GetColour(self)
         local r = self.r:GetValue() or 255
@@ -765,6 +784,70 @@ do
         b:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
         o:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
     end
+
+    -- confirm dialog ##########################################################
+    local function ConfirmDialog_PostShow(self,desc,callback)
+        self.label:SetText('')
+        self.callback = nil
+
+        if desc then
+            self.label:SetText(desc)
+        end
+        if callback then
+            self.callback = callback
+        end
+    end
+    local function CreatePopupPage_ConfirmDialog()
+        local pg = opt:CreatePopupPage('confirm_dialog')
+
+        local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
+        label:SetPoint('CENTER',0,10)
+
+        pg.label = label
+        pg.PostShow = ConfirmDialog_PostShow
+    end
+
+    -- text-entry dialog (rename, copy, new) ###################################
+    local function TextEntry_OnShow(self)
+        self.editbox:SetFocus()
+    end
+    local function TextEntry_PostShow(self,desc,default,callback)
+        self.callback = nil
+        self.label:SetText('')
+        self.editbox:SetText('')
+
+        if callback then self.callback = callback end
+        if desc     then self.label:SetText(desc) end
+        if default  then self.editbox:SetText(default) end
+    end
+    local function TextEntry_OnEnterPressed(self)
+        opt.Popup.Okay:Click()
+    end
+    local function TextEntry_OnEscapePressed(self)
+        opt.Popup.Cancel:Click()
+    end
+    local function CreatePopupPage_TextEntry()
+        local pg = opt:CreatePopupPage('text_entry')
+
+        local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
+        label:SetPoint('CENTER',0,20)
+
+        local text = CreateFrame('EditBox',nil,pg,'InputBoxTemplate')
+        text:SetAutoFocus(false)
+        text:EnableMouse(true)
+        text:SetMaxLetters(50)
+        text:SetPoint('CENTER')
+        text:SetSize(150,30)
+
+        pg.label = label
+        pg.editbox = text
+        pg.PostShow = TextEntry_PostShow
+
+        pg:SetScript('OnShow',TextEntry_OnShow)
+        text:SetScript('OnEnterPressed',TextEntry_OnEnterPressed)
+        text:SetScript('OnEscapePressed',TextEntry_OnEscapePressed)
+    end
+
     -- create popup ############################################################
     function CreatePopup()
         local popup = CreateFrame('Frame',nil,opt)
@@ -808,93 +891,13 @@ do
 
         opt.Popup = popup
 
-        -- create required popup pages
+        -- create required pages
         CreatePopupPage_ColourPicker()
         CreatePopupPage_ConfirmDialog()
         CreatePopupPage_TextEntry()
 
         opt:HookScript('OnHide',function(opt)
             opt.Popup:Hide()
-        end)
-    end
-    -- public ##################################################################
-    function opt:CreatePopupPage(name,w,h)
-        assert(name)
-
-        local p = CreateFrame('Frame',nil,self.Popup)
-        p:SetAllPoints(self.Popup)
-        p:Hide()
-
-        if type(w) == 'number' and type(h) == 'number' then
-            p.size = { w,h }
-        end
-
-        self.Popup.pages[n] = p
-        return p
-    end
-end
--- profile drop down functions #################################################
-local CreateProfileDropDown
-do
-    local function OnValueChanged(self,value,text)
-        if value and value == 'new_profile' then
-            opt.Popup:ShowPage(
-                'text_entry',
-                L.titles['new_profile_label'],
-                nil,
-                self.new_profile_callback
-            )
-        else
-            opt.config:SetProfile(text)
-        end
-    end
-    local function initialize(self)
-        -- sort profiles alphabetically
-        local profiles_indexed = {}
-        for name in pairs(opt.config.gsv.profiles) do
-            tinsert(profiles_indexed,name)
-        end
-        table.sort(profiles_indexed,function(a,b)
-            return strlower(a) < strlower(b)
-        end)
-
-        -- create new profile button at top
-        local list = {}
-        tinsert(list,{
-            text = L.titles['new_profile'],
-            value = 'new_profile'
-        })
-
-        -- create profile buttons
-        for _,name in ipairs(profiles_indexed) do
-            tinsert(list,{
-                text = name,
-                selected = name == opt.config.csv.profile
-            })
-        end
-
-        self:SetList(list)
-        self:SetValue(opt.config.csv.profile)
-    end
-    function CreateProfileDropDown()
-        p_dd = pcdd:New(opt,L.titles['profile'])
-        p_dd.labelText:SetFontObject('GameFontNormalSmall')
-        p_dd:SetWidth(152)
-        p_dd:SetHeight(40)
-        p_dd:SetPoint('TOPLEFT',9,-15)
-        p_dd:SetFrameStrata('TOOLTIP')
-
-        p_dd.initialize = initialize
-        p_dd.OnValueChanged = OnValueChanged
-
-        p_dd.new_profile_callback = function(page,accept)
-            if accept then
-                opt.config:SetProfile(page.editbox:GetText())
-            end
-        end
-
-        p_dd:HookScript('OnShow',function(self)
-            self:initialize()
         end)
     end
 end
