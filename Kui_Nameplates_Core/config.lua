@@ -343,12 +343,24 @@ local function configChangedFadeRule(v,on_load)
             core.profile.fade_avoid_casting_interruptible,
             core.profile.fade_avoid_casting_uninterruptible
 
+        local function FadeRule_Casting_Interruptible(f)
+            if f.cast_state.interruptible then
+                return fi and 1 or nil
+            else
+                return fu and 1 or nil
+            end
+        end
+        local function FadeRule_Casting_CanAttack(f)
+            if UnitCanAttack('player',f.unit) then
+                return fh and FadeRule_Casting_Interruptible(f) or nil
+            else
+                return ff and FadeRule_Casting_Interruptible(f) or nil
+            end
+        end
+
         plugin:AddFadeRule(function(f)
-            if  f.state.casting and
-                ((fh and UnitCanAttack(f.unit)) or ff) and
-                ((fi and f.cast_state.interruptible) or fu)
-            then
-                return 1
+            if f.state.casting then
+                return FadeRule_Casting_CanAttack(f)
             end
         end,23)
     end
