@@ -527,65 +527,27 @@ do
         end
     end
 end
--- popup functions #############################################################
+-- popup page functions ########################################################
 do
-    local function PopupOnShow(self)
-        PlaySound(S_MENU_OPEN)
-    end
-    local function PopupOnHide(self)
-        PlaySound(S_MENU_CLOSE)
-    end
-    local function PopupOnKeyUp(self,kc)
-        if kc == 'ENTER' then
-            self.Okay:Click()
-        elseif kc == 'ESCAPE' then
-            self.Cancel:Click()
+    local function PopupPageOnShow(self)
+        -- (like Page.OnShow)
+        if type(self.Initialise) == 'function' then
+            self:Initialise()
+            self.Initialise = nil
+            self:Hide()
+            self:Show()
         end
     end
-    local function OkayButtonOnClick(self)
-        if opt.Popup.active_page.callback then
-            opt.Popup.active_page:callback(true)
-        end
-        opt.Popup:Hide()
-    end
-    local function CancelButtonOnClick(self)
-        if opt.Popup.active_page.callback then
-            opt.Popup.active_page:callback(false)
-        end
-        opt.Popup:Hide()
-    end
-
-    local function PopupShowPage(self,page_name,...)
-        if self.active_page then
-            self.active_page:Hide()
-        end
-
-        if self.pages[page_name] then
-            self.pages[page_name]:Show()
-            self.active_page = self.pages[page_name]
-
-            if self.active_page.size then
-                self:SetSize(unpack(self.active_page.size))
-            else
-                self:SetSize(400,150)
-            end
-
-            if type(self.active_page.PostShow) == 'function' then
-                self.active_page:PostShow(...)
-            end
-        end
-
-        self:Show()
-    end
-
     function opt:CreatePopupPage(name,w,h)
         assert(name)
 
         local p = CreateFrame('Frame',nil,self.Popup)
         p:SetAllPoints(self.Popup)
+        p:SetScript('OnShow',PopupPageOnShow)
         p:Hide()
 
         if type(w) == 'number' and type(h) == 'number' then
+            -- used by Popup.ShowPage
             p.size = { w,h }
         end
 
@@ -661,6 +623,54 @@ end
 -- local popup functions #######################################################
 local CreatePopup
 do
+    local function PopupOnShow(self)
+        PlaySound(S_MENU_OPEN)
+    end
+    local function PopupOnHide(self)
+        PlaySound(S_MENU_CLOSE)
+    end
+    local function PopupOnKeyUp(self,kc)
+        if kc == 'ENTER' then
+            self.Okay:Click()
+        elseif kc == 'ESCAPE' then
+            self.Cancel:Click()
+        end
+    end
+    local function OkayButtonOnClick(self)
+        if opt.Popup.active_page.callback then
+            opt.Popup.active_page:callback(true)
+        end
+        opt.Popup:Hide()
+    end
+    local function CancelButtonOnClick(self)
+        if opt.Popup.active_page.callback then
+            opt.Popup.active_page:callback(false)
+        end
+        opt.Popup:Hide()
+    end
+    local function PopupShowPage(self,page_name,...)
+        if self.active_page then
+            self.active_page:Hide()
+        end
+
+        if self.pages[page_name] then
+            self.pages[page_name]:Show()
+            self.active_page = self.pages[page_name]
+
+            if self.active_page.size then
+                self:SetSize(unpack(self.active_page.size))
+            else
+                self:SetSize(400,150)
+            end
+
+            if type(self.active_page.PostShow) == 'function' then
+                self.active_page:PostShow(...)
+            end
+        end
+
+        self:Show()
+    end
+
     -- colour picker ###########################################################
     local function ColourPicker_GetColour(self)
         local r = self.r:GetValue() or 255
