@@ -568,7 +568,7 @@ do
             if self.active_page.size then
                 self:SetSize(unpack(self.active_page.size))
             else
-                self:SetSize(400,300)
+                self:SetSize(400,150)
             end
 
             if type(self.active_page.PostShow) == 'function' then
@@ -599,10 +599,7 @@ do
         opt.Popup.Cancel:Click()
     end
     local function CreatePopupPage_TextEntry()
-        local pg = CreateFrame('Frame',nil,opt.Popup)
-        pg:SetAllPoints(opt.Popup)
-        pg:Hide()
-        pg.size = { 400,150 }
+        local pg = opt:CreatePopupPage('text_entry')
 
         local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
         label:SetPoint('CENTER',0,20)
@@ -621,8 +618,6 @@ do
         pg:SetScript('OnShow',TextEntry_OnShow)
         text:SetScript('OnEnterPressed',TextEntry_OnEnterPressed)
         text:SetScript('OnEscapePressed',TextEntry_OnEscapePressed)
-
-        opt.Popup.pages.text_entry = pg
     end
 
     -- confirm dialog ##########################################################
@@ -638,18 +633,13 @@ do
         end
     end
     local function CreatePopupPage_ConfirmDialog()
-        local pg = CreateFrame('Frame',nil,opt.Popup)
-        pg:SetAllPoints(opt.Popup)
-        pg:Hide()
-        pg.size = { 400,150 }
+        local pg = opt:CreatePopupPage('confirm_dialog')
 
         local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
         label:SetPoint('CENTER',0,10)
 
         pg.label = label
         pg.PostShow = ConfirmDialog_PostShow
-
-        opt.Popup.pages.confirm_dialog = pg
     end
 
     -- colour picker ###########################################################
@@ -719,9 +709,7 @@ do
         self.colour_picker = nil
     end
     local function CreatePopupPage_ColourPicker()
-        local colour_picker = CreateFrame('Frame',nil,opt.Popup)
-        colour_picker:SetAllPoints(opt.Popup)
-        colour_picker:Hide()
+        local colour_picker = opt:CreatePopupPage('colour_picker',400,300)
 
         local display = CreateFrame('Frame',nil,colour_picker)
         display:SetBackdrop({
@@ -818,15 +806,31 @@ do
         popup.Okay = okay
         popup.Cancel = cancel
 
-        self.Popup = popup
+        opt.Popup = popup
 
+        -- create required popup pages
         CreatePopupPage_ColourPicker()
         CreatePopupPage_ConfirmDialog()
         CreatePopupPage_TextEntry()
 
-        opt:HookScript('OnHide',function(self)
-            self.Popup:Hide()
+        opt:HookScript('OnHide',function(opt)
+            opt.Popup:Hide()
         end)
+    end
+    -- public ##################################################################
+    function opt:CreatePopupPage(name,w,h)
+        assert(name)
+
+        local p = CreateFrame('Frame',nil,self.Popup)
+        p:SetAllPoints(self.Popup)
+        p:Hide()
+
+        if type(w) == 'number' and type(h) == 'number' then
+            p.size = { w,h }
+        end
+
+        self.Popup.pages[n] = p
+        return p
     end
 end
 -- profile drop down functions #################################################
