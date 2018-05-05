@@ -1,5 +1,9 @@
 BETA NOTES
 
+* split fade alpha into fade_non_target_alpha and fade_conditional_alpha (they'll be reset to default as a result)
+* split fade_avoid_casting into fade_avoid_casting_friendly, fade_avoid_casting_hostile, fade_avoid_casting_interruptible, fade_avoid_casting_uninterruptible
+* add config options for above settings
+
 * show arena id next to names when in an arena
 
 * add option for vertical offset of cast bar name text
