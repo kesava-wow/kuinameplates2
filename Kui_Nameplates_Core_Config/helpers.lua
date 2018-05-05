@@ -528,6 +528,7 @@ do
     end
 end
 -- popup functions #############################################################
+local CreatePopup
 do
     local function PopupOnShow(self)
         PlaySound(S_MENU_OPEN)
@@ -775,13 +776,10 @@ do
         g:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
         b:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
         o:HookScript('OnValueChanged',ColourPicker_OnValueChanged)
-
-        opt.Popup.pages.colour_picker = colour_picker
     end
-
     -- create popup ############################################################
-    function opt:CreatePopup()
-        local popup = CreateFrame('Frame',nil,self)
+    function CreatePopup()
+        local popup = CreateFrame('Frame',nil,opt)
         popup:SetBackdrop({
             bgFile='interface/dialogframe/ui-dialogbox-background',
             edgeFile='interface/dialogframe/ui-dialogbox-border',
@@ -898,7 +896,7 @@ do
 end
 -- init display ################################################################
 function opt:Initialise()
-    self:CreatePopup()
+    CreatePopup()
     CreateProfileDropDown()
 
     -- create profile buttons
