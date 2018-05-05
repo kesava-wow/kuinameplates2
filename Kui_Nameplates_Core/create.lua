@@ -232,7 +232,11 @@ do
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_UNTRACKED = self.profile.fade_untracked
         FADE_AVOID_TRACKED = self.profile.fade_avoid_tracked
-        FADE_AVOID_CASTING = self.profile.fade_avoid_casting
+        FADE_AVOID_CASTING =
+            (self.profile.fade_avoid_casting_friendly
+            or self.profile.fade_avoid_casting_hostile) and
+            (self.profile.fade_avoid_casting_interruptible or
+            self.profile.fade_avoid_casting_uninterruptible)
 
         SHOW_STATE_ICONS = self.profile.state_icons
 
