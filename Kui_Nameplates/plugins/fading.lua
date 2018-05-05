@@ -6,7 +6,7 @@
 -- 0   = stop iterating, fade to 0
 -- -1  = stop iterating, fade to mod.conditional_alpha
 -- nil = continue to iterate fade rules table
--- end = fade to mod.faded_alpha
+-- end = fade to mod.non_target_alpha
 --
 -- Lower priority (1 < 100) = first execution.
 -- Rules which result in fading nameplates OUT should generally be between
@@ -63,7 +63,7 @@ local function GetDesiredAlpha(frame)
         end
     end
 
-    return mod.faded_alpha
+    return mod.non_target_alpha
 end
 local function InstantUpdateFrame(f)
     if not f:IsShown() then return end
