@@ -61,7 +61,8 @@ local default_config = {
     title_text_players = false,
 
     fade_all = false,
-    fade_alpha = .5,
+    fade_non_target_alpha = .5,
+    fade_conditional_alpha = .3,
     fade_speed = .5,
     fade_friendly_npc = false,
     fade_neutral_enemy = false,
@@ -255,8 +256,11 @@ function configChanged.bar_animation()
     core:SetBarAnimation()
 end
 
-function configChanged.fade_alpha(v)
-    addon:GetPlugin('Fading').faded_alpha = v
+function configChanged.fade_non_target_alpha(v)
+    addon:GetPlugin('Fading').non_target_alpha = v
+end
+function configChanged.fade_conditional_alpha(v)
+    addon:GetPlugin('Fading').conditional_alpha = v
 end
 function configChanged.fade_speed(v)
     addon:GetPlugin('Fading').fade_speed = v
@@ -693,7 +697,8 @@ configChanged.cvar_overlap_v = configChangedCVar
 
 -- config loaded functions #####################################################
 local configLoaded = {}
-configLoaded.fade_alpha = configChanged.fade_alpha
+configLoaded.fade_non_target_alpha = configChanged.fade_non_target_alpha
+configLoaded.fade_conditional_alpha = configChanged.fade_conditional_alpha
 configLoaded.fade_speed = configChanged.fade_speed
 
 configLoaded.class_colour_friendly_names = configChangedNameColour

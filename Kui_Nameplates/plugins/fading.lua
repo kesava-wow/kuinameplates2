@@ -4,7 +4,7 @@
 -- Return values:
 -- 1   = stop iterating, fade to 1
 -- 0   = stop iterating, fade to 0
--- -1  = stop iterating, fade to mod.faded_alpha
+-- -1  = stop iterating, fade to mod.conditional_alpha
 -- nil = continue to iterate fade rules table
 -- end = fade to mod.faded_alpha
 --
@@ -55,7 +55,7 @@ local function GetDesiredAlpha(frame)
             local a = f_t[2](frame)
             if a then
                 if a < 0 then
-                    return mod.faded_alpha
+                    return mod.conditional_alpha
                 else
                     return a
                 end
@@ -157,7 +157,8 @@ end
 function mod:Initialise()
     self:RegisterCallback('FadeRulesReset')
 
-    self.faded_alpha = .5
+    self.non_target_alpha = .5
+    self.conditional_alpha = .3
     self.fade_speed = .5
 
     self:ResetFadeRules()
