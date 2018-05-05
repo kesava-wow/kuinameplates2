@@ -14,6 +14,7 @@ version:SetText(string.format(
 opt:Initialise()
 -- create pages ################################################################
 local general     = opt:CreateConfigPage('general')
+local fade_rules  = opt:CreatePopupPage('fade_rules',400,300)
 local healthbars  = opt:CreateConfigPage('healthbars')
 local castbars    = opt:CreateConfigPage('castbars')
 local text        = opt:CreateConfigPage('text')
@@ -42,6 +43,8 @@ function general:Initialise()
     local target_arrows = self:CreateCheckBox('target_arrows')
     local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
+
+    target_glow_colour.enabled = function(p) return p.target_glow end
 
     combat_hostile.SelectTable = {
         L.titles.dd_combat_toggle_nothing,
@@ -81,6 +84,18 @@ function general:Initialise()
     local nt_alpha = self:CreateSlider('fade_non_target_alpha',0,1)
     local cond_alpha = self:CreateSlider('fade_conditional_alpha',0,1)
     local fade_speed = self:CreateSlider('fade_speed',0,1)
+
+    nt_alpha:SetValueStep(.05)
+    cond_alpha:SetValueStep(.05)
+    fade_speed:SetValueStep(.05)
+
+    fade_rules_sep:SetPoint('TOP',0,-305)
+    nt_alpha:SetPoint('TOPLEFT',10,-(305+25))
+    cond_alpha:SetPoint('LEFT',nt_alpha,'RIGHT',20,0)
+    fade_speed:SetPoint('TOP',fade_rules_sep,'BOTTOM',0,-70)
+end
+-- fade rules popup ############################################################
+function fade_rules:Initialise()
     local fade_all = self:CreateCheckBox('fade_all')
     local fade_friendly_npc = self:CreateCheckBox('fade_friendly_npc')
     local fade_neutral_enemy = self:CreateCheckBox('fade_neutral_enemy')
@@ -95,16 +110,12 @@ function general:Initialise()
     local avoid_ci = self:CreateCheckBox('fade_avoid_casting_interruptible')
     local avoid_cu = self:CreateCheckBox('fade_avoid_casting_uninterruptible')
 
-    nt_alpha:SetValueStep(.05)
-    cond_alpha:SetValueStep(.05)
-    fade_speed:SetValueStep(.05)
+    local label = self:CreateFontString(nil,'ARTWORK','GameFontNormal')
+    label:SetPoint('TOP',0,-20)
+    label:SetWordWrap()
+    label:SetText(L.titles['fade_rules_label'] or 'Text')
 
-    fade_rules_sep:SetPoint('TOP',0,-305)
-    nt_alpha:SetPoint('TOPLEFT',10,-(305+25))
-    cond_alpha:SetPoint('LEFT',nt_alpha,'RIGHT',20,0)
-    fade_speed:SetPoint('TOP',fade_rules_sep,'BOTTOM',0,-70)
-
-    fade_all:SetPoint('TOPLEFT',nt_alpha,'BOTTOMLEFT',0,-70)
+    fade_all:SetPoint('TOPLEFT',10,-10)
     fade_friendly_npc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
     fade_neutral_enemy:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
     fade_untracked:SetPoint('LEFT',fade_neutral_enemy,'RIGHT',190,0)
@@ -119,8 +130,6 @@ function general:Initialise()
     avoid_ch:SetPoint('LEFT',avoid_cf,'RIGHT',190,0)
     avoid_ci:SetPoint('TOPLEFT',avoid_cf,'BOTTOMLEFT')
     avoid_cu:SetPoint('LEFT',avoid_ci,'RIGHT',190,0)
-
-    target_glow_colour.enabled = function(p) return p.target_glow end
 end
 -- healthbars ##################################################################
 function healthbars:Initialise()
