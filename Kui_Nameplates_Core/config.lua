@@ -72,7 +72,10 @@ local default_config = {
     fade_avoid_execute_friend = false,
     fade_avoid_execute_hostile = false,
     fade_avoid_tracked = false,
-    fade_avoid_casting = false,
+    fade_avoid_casting_friendly = false,
+    fade_avoid_casting_hostile = false,
+    fade_avoid_casting_interruptible = false,
+    fade_avoid_casting_uninterruptible = false,
 
     font_face = DEFAULT_FONT,
     font_style = 2,
@@ -331,9 +334,22 @@ local function configChangedFadeRule(v,on_load)
         end,22)
     end
 
-    if core.profile.fade_avoid_casting then
+    if core.profile.fade_avoid_casting_interruptible or
+       core.profile.fade_avoid_casting_uninterruptible
+    then
+        local ff,fh,fi,fu =
+            core.profile.fade_avoid_casting_friendly,
+            core.profile.fade_avoid_casting_hostile,
+            core.profile.fade_avoid_casting_interruptible,
+            core.profile.fade_avoid_casting_uninterruptible
+
         plugin:AddFadeRule(function(f)
-            return f.state.casting and 1
+            if  f.state.casting and
+                ((fh and UnitCanAttack(f.unit)) or ff) and
+                ((fi and f.cast_state.interruptible) or fu)
+            then
+                return 1
+            end
         end,23)
     end
 
@@ -367,7 +383,10 @@ configChanged.fade_avoid_raidicon = configChangedFadeRule
 configChanged.fade_avoid_execute_friend = configChangedFadeRule
 configChanged.fade_avoid_execute_hostile = configChangedFadeRule
 configChanged.fade_avoid_tracked = configChangedFadeRule
-configChanged.fade_avoid_casting = configChangedFadeRule
+configChanged.fade_avoid_casting_friendly = configChangedFadeRule
+configChanged.fade_avoid_casting_hostile = configChangedFadeRule
+configChanged.fade_avoid_casting_interruptible = configChangedFadeRule
+configChanged.fade_avoid_casting_uninterruptible = configChangedFadeRule
 
 local function configChangedTextOffset()
     core:configChangedTextOffset()
