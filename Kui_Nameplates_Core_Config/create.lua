@@ -41,10 +41,10 @@ function general:Initialise()
     local target_glow = self:CreateCheckBox('target_glow')
     local target_glow_colour = self:CreateColourPicker('target_glow_colour')
     local target_arrows = self:CreateCheckBox('target_arrows')
-    local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
 
     target_glow_colour.enabled = function(p) return p.target_glow end
+    target_arrows_size.enabled = function(p) return p.target_arrows end
 
     combat_hostile.SelectTable = {
         L.titles.dd_combat_toggle_nothing,
@@ -59,26 +59,22 @@ function general:Initialise()
     ignore_uiscale:SetPoint('TOPLEFT',10,-55)
     use_blizzard_personal:SetPoint('LEFT',ignore_uiscale,'RIGHT',190,0)
 
-    target_glow:SetPoint('TOPLEFT',ignore_uiscale,'BOTTOMLEFT',0,-10)
-    target_glow_colour:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT',4,0)
-    glow_as_shadow:SetPoint('TOPLEFT',target_glow_colour,'BOTTOMLEFT',-4,0)
-    state_icons:SetPoint('LEFT',target_glow,'RIGHT',190,0)
-    target_arrows:SetPoint('LEFT',glow_as_shadow,'RIGHT',190,0)
-
-    frame_glow_size:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,-20)
-    target_arrows_size:SetPoint('LEFT',frame_glow_size,'RIGHT',20,0)
-
-    target_arrows_size.enabled = function(p) return p.target_arrows end
+    state_icons:SetPoint('TOPLEFT',ignore_uiscale,'BOTTOMLEFT',0,-10)
+    target_glow:SetPoint('TOPLEFT',state_icons,'BOTTOMLEFT',0,0)
+    target_glow_colour:SetPoint('LEFT',target_glow,'RIGHT',194,0)
+    glow_as_shadow:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT',0,0)
+    target_arrows:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,0)
+    target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,10)
 
     local clickthrough_sep = self:CreateSeparator('clickthrough_sep')
     local clickthrough_self = self:CreateCheckBox('clickthrough_self')
     local clickthrough_friend = self:CreateCheckBox('clickthrough_friend')
     local clickthrough_enemy = self:CreateCheckBox('clickthrough_enemy')
 
-    clickthrough_sep:SetPoint('TOP',0,-250)
-    clickthrough_self:SetPoint('TOPLEFT',10,-(250+10))
-    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-(250+10))
-    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-(250+10))
+    clickthrough_sep:SetPoint('TOP',0,-230)
+    clickthrough_self:SetPoint('TOPLEFT',10,-240)
+    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-240)
+    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-240)
 end
 -- fade rules popup ############################################################
 function fade_rules:Initialise()
@@ -413,14 +409,16 @@ function framesizes:Initialise()
     local frame_width_personal = self:CreateSlider('frame_width_personal',20,200)
     local frame_height_personal = self:CreateSlider('frame_height_personal',3,40)
     local powerbar_height = self:CreateSlider('powerbar_height',1,20)
+    local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
 
     frame_width:SetPoint('TOPLEFT',10,-25)
     frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
-    frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-30)
+    frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-35)
     frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
-    frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-30)
+    frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-35)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
-    powerbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-60)
+    powerbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-35)
+    frame_glow_size:SetPoint('TOPLEFT',powerbar_height,'BOTTOMLEFT',0,-35)
 end
 -- auras #######################################################################
 function auras:Initialise()
