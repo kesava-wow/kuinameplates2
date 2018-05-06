@@ -411,7 +411,7 @@ do
     end
 end
 -- separator ###################################################################
-function opt.CreateSeperator(parent,name)
+function opt.CreateSeparator(parent,name)
     local line = parent:CreateTexture(nil,'ARTWORK')
     line:SetTexture('interface/buttons/white8x8')
     line:SetVertexColor(1,1,1,.3)
@@ -424,7 +424,7 @@ function opt.CreateSeperator(parent,name)
     shadow:SetPoint('BOTTOM',line,'TOP')
 
     local label = parent:CreateFontString(nil,'ARTWORK','GameFontNormal')
-    label:SetText(L.titles[name] or name or 'Seperator')
+    label:SetText(L.titles[name] or name or 'Separator')
     label:SetPoint('CENTER',line,0,10)
 
     line.label = label
@@ -469,7 +469,7 @@ do
         CreateDropDown = opt.CreateDropDown,
         CreateSlider = opt.CreateSlider,
         CreateColourPicker = opt.CreateColourPicker,
-        CreateSeperator = opt.CreateSeperator,
+        CreateSeparator = opt.CreateSeparator,
 
         HidePage = HidePage,
         ShowPage = ShowPage

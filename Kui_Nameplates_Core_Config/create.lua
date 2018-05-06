@@ -67,7 +67,7 @@ function general:Initialise()
 
     target_arrows_size.enabled = function(p) return p.target_arrows end
 
-    local clickthrough_sep = self:CreateSeperator('clickthrough_sep')
+    local clickthrough_sep = self:CreateSeparator('clickthrough_sep')
     local clickthrough_self = self:CreateCheckBox('clickthrough_self')
     local clickthrough_friend = self:CreateCheckBox('clickthrough_friend')
     local clickthrough_enemy = self:CreateCheckBox('clickthrough_enemy')
@@ -77,7 +77,7 @@ function general:Initialise()
     clickthrough_friend:SetPoint('TOPLEFT',(10+155),-(240+10))
     clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-(240+10))
 
-    local fade_rules_sep = self:CreateSeperator('fade_rules_sep')
+    local fade_rules_sep = self:CreateSeparator('fade_rules_sep')
     local nt_alpha = self:CreateSlider('fade_non_target_alpha',0,1)
     local cond_alpha = self:CreateSlider('fade_conditional_alpha',0,1)
     local fade_speed = self:CreateSlider('fade_speed',0,1)
@@ -129,13 +129,13 @@ function healthbars:Initialise()
     local absorb_enable = self:CreateCheckBox('absorb_enable')
     local absorb_striped = self:CreateCheckBox('absorb_striped')
 
-    local execute_sep = self:CreateSeperator('execute_sep')
+    local execute_sep = self:CreateSeparator('execute_sep')
     local execute_enabled = self:CreateCheckBox('execute_enabled')
     local execute_auto = self:CreateCheckBox('execute_auto')
     local execute_colour = self:CreateColourPicker('execute_colour')
     local execute_percent = self:CreateSlider('execute_percent')
 
-    local colour_sep = self:CreateSeperator('reaction_colour_sep')
+    local colour_sep = self:CreateSeparator('reaction_colour_sep')
     local colour_hated = self:CreateColourPicker('colour_hated')
     local colour_neutral = self:CreateColourPicker('colour_neutral')
     local colour_friendly = self:CreateColourPicker('colour_friendly')
@@ -274,7 +274,7 @@ function text:Initialise()
         L.titles.dd_health_text_current_deficit..' |cff888888(145k  -10.9k)',
     }
 
-    local health_text_sep = text:CreateSeperator('health_text_sep')
+    local health_text_sep = text:CreateSeparator('health_text_sep')
     local health_text_friend_max = text:CreateDropDown('health_text_friend_max')
     local health_text_friend_dmg = text:CreateDropDown('health_text_friend_dmg')
     local health_text_hostile_max = text:CreateDropDown('health_text_hostile_max')
@@ -297,7 +297,7 @@ function text:Initialise()
     health_text_hostile_max.enabled = health_text_friend_max.enabled
     health_text_hostile_dmg.enabled = health_text_friend_max.enabled
 
-    local nc_sep = self:CreateSeperator('name_colour_sep')
+    local nc_sep = self:CreateSeparator('name_colour_sep')
     local nc_wb = self:CreateCheckBox('name_colour_white_in_bar_mode')
     local nc_cf = self:CreateCheckBox('class_colour_friendly_names')
     local nc_ch = self:CreateCheckBox('class_colour_enemy_names')
@@ -365,8 +365,8 @@ function nameonly:Initialise()
     local guild_text_npcs = self:CreateCheckBox('guild_text_npcs')
     local guild_text_players = self:CreateCheckBox('guild_text_players')
     local title_text_players = self:CreateCheckBox('title_text_players')
-    local vis_sep = self:CreateSeperator('nameonly_visibility_sep')
-    local text_sep = self:CreateSeperator('nameonly_text_sep')
+    local vis_sep = self:CreateSeparator('nameonly_visibility_sep')
+    local text_sep = self:CreateSeparator('nameonly_text_sep')
 
     nameonly_no_font_style.enabled = function(p) return p.nameonly end
     nameonly_health_colour.enabled = nameonly_no_font_style.enabled
@@ -436,11 +436,11 @@ function auras:Initialise()
     auras_kslc_hint:SetWidth(350)
     auras_kslc_hint:SetText(L.titles['auras_kslc_hint'] or 'Text')
 
-    local auras_filtering_sep = self:CreateSeperator('auras_filtering_sep')
+    local auras_filtering_sep = self:CreateSeparator('auras_filtering_sep')
     local auras_minimum_length = self:CreateSlider('auras_minimum_length',0,60)
     local auras_maximum_length = self:CreateSlider('auras_maximum_length',-1,1800)
 
-    local auras_icons_sep = self:CreateSeperator('auras_icons_sep')
+    local auras_icons_sep = self:CreateSeparator('auras_icons_sep')
     local auras_icon_normal_size = self:CreateSlider('auras_icon_normal_size',10,50)
     local auras_icon_minus_size = self:CreateSlider('auras_icon_minus_size',10,50)
     local auras_icon_squareness = self:CreateSlider('auras_icon_squareness',0.5,1)
@@ -512,7 +512,7 @@ function threat:Initialise()
     local tankmode_force_enable = self:CreateCheckBox('tankmode_force_enable',true)
     local tankmode_force_offtank = self:CreateCheckBox('tankmode_force_offtank',true)
     local threatbracketsCheck = self:CreateCheckBox('threat_brackets')
-    local tankmode_colour_sep = self:CreateSeperator('tankmode_colour_sep')
+    local tankmode_colour_sep = self:CreateSeparator('tankmode_colour_sep')
     local tankmode_tank_colour = self:CreateColourPicker('tankmode_tank_colour')
     local tankmode_trans_colour = self:CreateColourPicker('tankmode_trans_colour')
     local tankmode_other_colour = self:CreateColourPicker('tankmode_other_colour')
