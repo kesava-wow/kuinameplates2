@@ -852,7 +852,7 @@ do
     function CreatePopup()
         local popup = CreateFrame('Frame',nil,opt)
         popup:SetBackdrop({
-            bgFile='interface/dialogframe/ui-dialogbox-background',
+            bgFile='interface/buttons/white8x8',
             edgeFile='interface/dialogframe/ui-dialogbox-border',
             edgeSize=32,
             tile=true,
@@ -861,6 +861,7 @@ do
                 top=12,right=12,bottom=11,left=11
             }
         })
+        popup:SetBackdropColor(0,0,0,.85)
         popup:SetPoint('CENTER')
         popup:SetFrameStrata('DIALOG')
         popup:EnableMouse(true)
