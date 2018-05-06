@@ -3,6 +3,7 @@ if not L then return end
 
 L.page_names = {
     general     = 'General',
+    fade_rules  = 'Fade rules',
     healthbars  = 'Health bars',
     castbars    = 'Cast bars',
     text        = 'Text',
