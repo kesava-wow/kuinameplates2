@@ -469,6 +469,12 @@ do
         HidePage = HidePage,
         ShowPage = ShowPage
     }
+    local function BindPage(pg)
+        for k,v in pairs(page_proto) do
+            pg[k]=v
+        end
+        pg:SetScript('OnShow',PageOnShow)
+    end
     function opt:CreateConfigPage(name)
         assert(name)
 
@@ -489,18 +495,30 @@ do
             f.scroll.ScrollBar:SetBackdropColor(0,0,0,.2)
         end
 
-        -- mixin page functions
-        for k,v in pairs(page_proto) do
-            f[k]=v
-        end
+        BindPage(f)
 
         self:CreatePageTab(f)
         f:HidePage()
 
-        f:SetScript('OnShow',PageOnShow)
-
         tinsert(self.pages,f)
         return f
+    end
+    function opt:CreatePopupPage(name,w,h)
+        assert(name)
+
+        local p = CreateFrame('Frame',nil,self.Popup)
+        p:SetAllPoints(self.Popup)
+        p:Hide()
+
+        if type(w) == 'number' and type(h) == 'number' then
+            -- used by Popup.ShowPage
+            p.size = { w,h }
+        end
+
+        BindPage(p)
+
+        self.Popup.pages[name] = p
+        return p
     end
 end
 -- tab functions ###############################################################
@@ -525,34 +543,6 @@ do
         else
             tab:SetPoint('TOPLEFT',self.TabList,6,-6)
         end
-    end
-end
--- popup page functions ########################################################
-do
-    local function PopupPageOnShow(self)
-        -- (like Page.OnShow)
-        if type(self.Initialise) == 'function' then
-            self:Initialise()
-            self.Initialise = nil
-            self:Hide()
-            self:Show()
-        end
-    end
-    function opt:CreatePopupPage(name,w,h)
-        assert(name)
-
-        local p = CreateFrame('Frame',nil,self.Popup)
-        p:SetAllPoints(self.Popup)
-        p:SetScript('OnShow',PopupPageOnShow)
-        p:Hide()
-
-        if type(w) == 'number' and type(h) == 'number' then
-            -- used by Popup.ShowPage
-            p.size = { w,h }
-        end
-
-        self.Popup.pages[n] = p
-        return p
     end
 end
 -- profile drop down functions #################################################
