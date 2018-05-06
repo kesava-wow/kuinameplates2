@@ -75,7 +75,7 @@ local default_config = {
     fade_avoid_casting_friendly = false,
     fade_avoid_casting_hostile = false,
     fade_avoid_casting_interruptible = false,
-    fade_avoid_casting_uninterruptible = false,
+    fade_avoid_casting_uninterruptible = true,
 
     font_face = DEFAULT_FONT,
     font_style = 2,
