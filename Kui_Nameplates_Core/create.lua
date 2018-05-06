@@ -740,7 +740,11 @@ do
 
     local function UpdateHealthText(f)
         if f.IN_NAMEONLY then return end
-        if not SHOW_HEALTH_TEXT or f.state.minus or f.state.player then
+        if  not SHOW_HEALTH_TEXT or
+            not f.state.health_cur or
+            f.state.minus or
+            f.state.player
+        then
             f.HealthText:Hide()
         else
             local disp
