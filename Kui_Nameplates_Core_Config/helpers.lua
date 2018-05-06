@@ -50,6 +50,7 @@ local function GenericOnShow(self)
     end
 end
 -- element creation helpers ####################################################
+-- checkbox ####################################################################
 do
     local function Get(self)
         if self.env then
@@ -107,6 +108,7 @@ do
         return check
     end
 end
+-- dropdown ####################################################################
 do
     local function Get(self)
         if type(self.initialize) ~= 'function' then return end
@@ -184,6 +186,7 @@ do
         return dd
     end
 end
+-- slider ######################################################################
 do
     local function SliderOnChanged(self,v)
         -- copy value to display text
@@ -335,6 +338,7 @@ do
         return slider
     end
 end
+-- colour picker ###############################################################
 do
     local function Get(self)
         if self.env and opt.profile[self.env] then
@@ -406,6 +410,7 @@ do
         return container
     end
 end
+-- separator ###################################################################
 function opt.CreateSeperator(parent,name)
     local line = parent:CreateTexture(nil,'ARTWORK')
     line:SetTexture('interface/buttons/white8x8')
