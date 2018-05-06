@@ -14,7 +14,7 @@ version:SetText(string.format(
 opt:Initialise()
 -- create pages ################################################################
 local general     = opt:CreateConfigPage('general')
-local fade_rules  = opt:CreatePopupPage('fade_rules',450,310)
+local fade_rules  = opt:CreateConfigPage('fade_rules')
 local healthbars  = opt:CreateConfigPage('healthbars')
 local castbars    = opt:CreateConfigPage('castbars')
 local text        = opt:CreateConfigPage('text')
@@ -110,12 +110,7 @@ function fade_rules:Initialise()
     local avoid_ci = self:CreateCheckBox('fade_avoid_casting_interruptible')
     local avoid_cu = self:CreateCheckBox('fade_avoid_casting_uninterruptible')
 
-    local label = self:CreateFontString(nil,'ARTWORK','GameFontNormal')
-    label:SetPoint('TOP',0,-25)
-    label:SetWordWrap()
-    label:SetText(L.titles['fade_rules_label'] or 'Text')
-
-    fade_all:SetPoint('TOPLEFT',20,-50)
+    fade_all:SetPoint('TOPLEFT',10,-10)
     fade_fnpc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
     fade_ne:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
     fade_ut:SetPoint('LEFT',fade_ne,'RIGHT',190,0)
