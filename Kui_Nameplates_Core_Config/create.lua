@@ -99,6 +99,9 @@ function fade_rules:Initialise()
     local avoid_ci = self:CreateCheckBox('fade_avoid_casting_interruptible',true)
     local avoid_cu = self:CreateCheckBox('fade_avoid_casting_uninterruptible',true)
 
+    avoid_ci.enabled = function(p) return p.fade_avoid_casting_friendly or p.fade_avoid_casting_hostile end
+    avoid_cu.enabled = avoid_ci.enabled
+
     nt_alpha:SetWidth(120)
     nt_alpha:SetValueStep(.05)
     cond_alpha:SetWidth(120)
