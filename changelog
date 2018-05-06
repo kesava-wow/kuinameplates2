@@ -1,5 +1,10 @@
 BETA NOTES
 
+* move fade rules to dedicated config page
+* reposition elements on the general config page
+* move frame_glow_size to framesizes page
+* improve config popup contrast
+
 * split fade alpha into fade_non_target_alpha and fade_conditional_alpha (they'll be reset to default as a result)
 * split fade_avoid_casting into fade_avoid_casting_friendly, fade_avoid_casting_hostile, fade_avoid_casting_interruptible, fade_avoid_casting_uninterruptible
 * add config options for above settings
