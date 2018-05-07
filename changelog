@@ -1,5 +1,7 @@
 BETA NOTES
 
+* fix longstanding issue where settings displayed in the config interface could become desynchronised from the actual settings
+
 * move fade rules to dedicated config page
 * reposition elements on the general config page
 * move frame_glow_size to framesizes page
