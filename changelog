@@ -1,4 +1,2 @@
-BETA NOTES
-
-* added CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping). cvar page boilerplate
-* disable frFR since its got a lot of overlong titles
+* temporarily disable frFR
+* fix issue where config page could become desyncronised from settings used by the addon itself
