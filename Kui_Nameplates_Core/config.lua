@@ -61,7 +61,8 @@ local default_config = {
     title_text_players = false,
 
     fade_all = false,
-    fade_alpha = .5,
+    fade_non_target_alpha = .5,
+    fade_conditional_alpha = .3,
     fade_speed = .5,
     fade_friendly_npc = false,
     fade_neutral_enemy = false,
@@ -71,6 +72,10 @@ local default_config = {
     fade_avoid_execute_friend = false,
     fade_avoid_execute_hostile = false,
     fade_avoid_tracked = false,
+    fade_avoid_casting_friendly = false,
+    fade_avoid_casting_hostile = false,
+    fade_avoid_casting_interruptible = false,
+    fade_avoid_casting_uninterruptible = true,
 
     font_face = DEFAULT_FONT,
     font_style = 2,
@@ -197,6 +202,7 @@ local default_config = {
     cvar_max_distance = GetCVarDefault('nameplateMaxDistance'),
     cvar_clamp_top = GetCVarDefault('nameplateOtherTopInset'),
     cvar_clamp_bottom = GetCVarDefault('nameplateOtherBottomInset'),
+    cvar_overlap_v = GetCVarDefault('nameplateOverlapV')
 }
 -- local functions #############################################################
 local function UpdateClickboxSize()
@@ -253,8 +259,11 @@ function configChanged.bar_animation()
     core:SetBarAnimation()
 end
 
-function configChanged.fade_alpha(v)
-    addon:GetPlugin('Fading').faded_alpha = v
+function configChanged.fade_non_target_alpha(v)
+    addon:GetPlugin('Fading').non_target_alpha = v
+end
+function configChanged.fade_conditional_alpha(v)
+    addon:GetPlugin('Fading').conditional_alpha = v
 end
 function configChanged.fade_speed(v)
     addon:GetPlugin('Fading').fade_speed = v
@@ -325,6 +334,37 @@ local function configChangedFadeRule(v,on_load)
         end,22)
     end
 
+    if core.profile.fade_avoid_casting_interruptible or
+       core.profile.fade_avoid_casting_uninterruptible
+    then
+        local ff,fh,fi,fu =
+            core.profile.fade_avoid_casting_friendly,
+            core.profile.fade_avoid_casting_hostile,
+            core.profile.fade_avoid_casting_interruptible,
+            core.profile.fade_avoid_casting_uninterruptible
+
+        local function FadeRule_Casting_Interruptible(f)
+            if f.cast_state.interruptible then
+                return fi and 1 or nil
+            else
+                return fu and 1 or nil
+            end
+        end
+        local function FadeRule_Casting_CanAttack(f)
+            if UnitCanAttack('player',f.unit) then
+                return fh and FadeRule_Casting_Interruptible(f) or nil
+            else
+                return ff and FadeRule_Casting_Interruptible(f) or nil
+            end
+        end
+
+        plugin:AddFadeRule(function(f)
+            if f.state.casting then
+                return FadeRule_Casting_CanAttack(f)
+            end
+        end,23)
+    end
+
     if core.profile.fade_neutral_enemy then
         plugin:AddFadeRule(function(f)
             return f.state.reaction == 4 and
@@ -355,6 +395,10 @@ configChanged.fade_avoid_raidicon = configChangedFadeRule
 configChanged.fade_avoid_execute_friend = configChangedFadeRule
 configChanged.fade_avoid_execute_hostile = configChangedFadeRule
 configChanged.fade_avoid_tracked = configChangedFadeRule
+configChanged.fade_avoid_casting_friendly = configChangedFadeRule
+configChanged.fade_avoid_casting_hostile = configChangedFadeRule
+configChanged.fade_avoid_casting_interruptible = configChangedFadeRule
+configChanged.fade_avoid_casting_uninterruptible = configChangedFadeRule
 
 local function configChangedTextOffset()
     core:configChangedTextOffset()
@@ -657,6 +701,7 @@ local function UpdateCVars()
     SetCVar('nameplateLargeTopInset',core.profile.cvar_clamp_top)
     SetCVar('nameplateOtherBottomInset',core.profile.cvar_clamp_bottom)
     SetCVar('nameplateLargeBottomInset',core.profile.cvar_clamp_bottom)
+    SetCVar('nameplateOverlapV',core.profile.cvar_overlap_v)
 end
 local function configChangedCVar()
     if InCombatLockdown() then
@@ -679,10 +724,12 @@ configChanged.cvar_personal_show_target = configChangedCVar
 configChanged.cvar_max_distance = configChangedCVar
 configChanged.cvar_clamp_top = configChangedCVar
 configChanged.cvar_clamp_bottom = configChangedCVar
+configChanged.cvar_overlap_v = configChangedCVar
 
 -- config loaded functions #####################################################
 local configLoaded = {}
-configLoaded.fade_alpha = configChanged.fade_alpha
+configLoaded.fade_non_target_alpha = configChanged.fade_non_target_alpha
+configLoaded.fade_conditional_alpha = configChanged.fade_conditional_alpha
 configLoaded.fade_speed = configChanged.fade_speed
 
 configLoaded.class_colour_friendly_names = configChangedNameColour
@@ -735,6 +782,27 @@ configLoaded.bossmod_enable = configChanged.bossmod_enable
 
 -- init config #################################################################
 function core:InitialiseConfig()
+    -- XXX 2.15>2.16 health display transition
+    if not KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] then
+        KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] = true
+        -- re-jigger health display patterns on all profiles (where set)
+        local upd = function(n,k)
+            local v = KuiNameplatesCoreSaved.profiles[n][k]
+            if not v then return end
+            KuiNameplatesCoreSaved.profiles[n][k] = v == 5 and 1 or v + 1
+        end
+        for n,p in pairs(KuiNameplatesCoreSaved.profiles) do
+            for _,k in next,{
+                'health_text_friend_max',
+                'health_text_friend_dmg',
+                'health_text_hostile_max',
+                'health_text_hostile_dmg'
+            } do
+                upd(n,k)
+            end
+        end
+    end
+
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.profile = self.config:GetConfig()
 
@@ -767,27 +835,6 @@ function core:InitialiseConfig()
             end
         end
     end)
-
-    -- XXX 2.15>2.16 health display transition
-    if not KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] then
-        KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] = true
-        -- re-jigger health display patterns on all profiles (where set)
-        local upd = function(n,k)
-            local v = KuiNameplatesCoreSaved.profiles[n][k]
-            if not v then return end
-            KuiNameplatesCoreSaved.profiles[n][k] = v == 5 and 1 or v + 1
-        end
-        for n,p in pairs(KuiNameplatesCoreSaved.profiles) do
-            for _,k in next,{
-                'health_text_friend_max',
-                'health_text_friend_dmg',
-                'health_text_hostile_max',
-                'health_text_hostile_dmg'
-            } do
-                upd(n,k)
-            end
-        end
-    end
 
     -- run config loaded functions
     for k,f in pairs(configLoaded) do
@@ -831,12 +878,17 @@ function cc:PLAYER_REGEN_ENABLED()
     end
     wipe(self.queue)
 end
+function cc:PLAYER_ENTERING_WORLD()
+    self:PLAYER_REGEN_ENABLED()
+end
 -- cvar update #################################################################
 function cc:EnableCVarUpdate()
     cc:RegisterEvent('CVAR_UPDATE')
+    cc:RegisterEvent('PLAYER_ENTERING_WORLD')
 end
 function cc:DisableCVarUpdate()
     cc:UnregisterEvent('CVAR_UPDATE')
+    cc:UnregisterEvent('PLAYER_ENTERING_WORLD')
 end
 function cc:CVAR_UPDATE()
     -- reapply our CVar changes

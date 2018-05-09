@@ -3,6 +3,7 @@ if not L then return end
 
 L.page_names = {
     general     = 'General',
+    fade_rules  = 'Fade rules',
     healthbars  = 'Health bars',
     castbars    = 'Cast bars',
     text        = 'Text',
@@ -70,10 +71,10 @@ L.titles = {
     frame_glow_size = 'Frame glow size',
     target_arrows_size = 'Target arrow size',
 
-    fade_rules_sep = 'Frame fading',
-    fade_alpha = 'Faded alpha',
-    fade_speed = 'Fade animation speed',
-    fade_all = 'Fade by default',
+    fade_non_target_alpha = 'Non-target alpha',
+    fade_conditional_alpha = 'Conditional alpha',
+    fade_speed = 'Animation speed',
+    fade_all = 'Fade out by default',
     fade_friendly_npc = 'Fade friendly NPCs',
     fade_neutral_enemy = 'Fade neutral enemies',
     fade_untracked = 'Fade non-tracked units',
@@ -82,6 +83,10 @@ L.titles = {
     fade_avoid_execute_friend = 'Avoid low health friends',
     fade_avoid_execute_hostile = 'Avoid low health enemies',
     fade_avoid_tracked = 'Avoid tracked or in combat',
+    fade_avoid_casting_friendly = 'Avoid casting (friendly)',
+    fade_avoid_casting_hostile = 'Avoid casting (hostile)',
+    fade_avoid_casting_interruptible = 'Interruptible',
+    fade_avoid_casting_uninterruptible = 'Uninterruptible',
 
     reaction_colour_sep = 'Colours',
     colour_hated = 'Hated',
@@ -222,6 +227,7 @@ L.titles = {
     cvar_max_distance = 'Max render distance',
     cvar_clamp_top = 'Top clamp distance',
     cvar_clamp_bottom = 'Bottom clamp distance',
+    cvar_overlap_v = 'Vertical overlap',
 }
 L.tooltips = {
     bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
@@ -238,7 +244,7 @@ L.tooltips = {
     clickthrough_friend = 'Disable the click-box of friendly nameplates',
     clickthrough_enemy = 'Disable the click-box of enemy nameplates',
 
-    nameonly = 'Hide the health bars of friendly or unattackable units. While in name-only mode, name text is coloured as a percentage of health',
+    nameonly = 'Enable name-only mode, which hides the health bars of the frames it applies to',
     nameonly_no_font_style = 'Hide text outline when in name-only mode (by setting the font style to nil)',
     nameonly_health_colour = 'Partially colour text to represent health percentage',
     nameonly_damaged_friends = 'Use name-only mode even on damaged friendly frames',
@@ -254,17 +260,20 @@ L.tooltips = {
     target_arrows = 'Show arrows around your current target. These inherit the target glow colour',
     frame_glow_size = 'Size of the frame glow used for target highlighting and threat indication',
 
-    fade_alpha = 'Opacity of faded frames. Note that if set to 0 (i.e. frames are invisible), invisible nameplates will still be clickable. Addons cannot arbitrarily disable nameplate clickboxes',
+    fade_non_target_alpha = 'Opacity other frames will fade to when you have a target.|nIf set to 0, the nameplate will still be clickable despite being invisible. Addons cannot arbitrarily disable nameplate clickboxes',
+    fade_conditional_alpha = 'Opacity frames will fade to when matching one of the conditions below',
     fade_speed = 'Speed of the frame fading animation, where 1 is slowest and 0 is instant',
-    fade_all = 'Fade all frames out by default, rather than in',
+    fade_all = 'Fade all frames to the non-target alpha by default',
     fade_avoid_nameonly = 'Don\'t fade nameplates which are currently in name-only mode',
     fade_avoid_raidicon = 'Don\'t fade nameplates which have a raid icon visible',
     fade_friendly_npc = 'Fade friendly NPC nameplates by default (including those in name-only mode)',
     fade_neutral_enemy = 'Fade attackable neutral nameplates by default (including those in name-only mode)',
-    fade_untracked = 'Fade non-tracked nameplates by default (including those in name-only mode).|nWhether or not a unit is tracked can by set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names',
+    fade_untracked = 'Fade non-tracked nameplates by default (including those in name-only mode).|n|nWhether or not a unit is tracked can by set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names',
     fade_avoid_execute_friend = 'Don\'t fade friendly nameplates in execute range (set in the "Health bars" page)',
     fade_avoid_execute_hostile = 'Don\'t fade hostile nameplates in execute range (set in the "Health bars" page)',
-    fade_avoid_tracked = 'Don\'t fade tracked nameplates, or nameplates which are affecting combat with you.|nWhether or not a unit is tracked can by set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names',
+    fade_avoid_tracked = 'Don\'t fade tracked nameplates, or nameplates which are affecting combat with you.|n|nWhether or not a unit is tracked can by set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names',
+    fade_avoid_casting_friendly = 'Don\'t fade friendly nameplates when they are casting',
+    fade_avoid_casting_hostile = 'Don\'t fade hostile nameplates when they are casting',
 
     colour_self_class = 'Use your class colour on your personal nameplate',
     colour_self = 'The health bar colour of your personal nameplate',
@@ -361,4 +370,5 @@ L.tooltips = {
     cvar_max_distance = '|cffffcc00nameplateMaxDistance|r|n|nMaximum distance at which to render nameplates (not including your current target).',
     cvar_clamp_top = '|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.',
     cvar_clamp_bottom = '|cffffcc00nameplate{Other,Large}BottomInset|r',
+    cvar_overlap_v = '|cffffcc00nameplateOverlapV|r|n|nVertical distance between nameplates (only valid when motion type is set to stacking in the default interface options).',
 }

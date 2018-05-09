@@ -14,6 +14,7 @@ version:SetText(string.format(
 opt:Initialise()
 -- create pages ################################################################
 local general     = opt:CreateConfigPage('general')
+local fade_rules  = opt:CreateConfigPage('fade_rules')
 local healthbars  = opt:CreateConfigPage('healthbars')
 local castbars    = opt:CreateConfigPage('castbars')
 local text        = opt:CreateConfigPage('text')
@@ -40,8 +41,10 @@ function general:Initialise()
     local target_glow = self:CreateCheckBox('target_glow')
     local target_glow_colour = self:CreateColourPicker('target_glow_colour')
     local target_arrows = self:CreateCheckBox('target_arrows')
-    local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
+
+    target_glow_colour.enabled = function(p) return p.target_glow end
+    target_arrows_size.enabled = function(p) return p.target_arrows end
 
     combat_hostile.SelectTable = {
         L.titles.dd_combat_toggle_nothing,
@@ -56,59 +59,71 @@ function general:Initialise()
     ignore_uiscale:SetPoint('TOPLEFT',10,-55)
     use_blizzard_personal:SetPoint('LEFT',ignore_uiscale,'RIGHT',190,0)
 
-    target_glow:SetPoint('TOPLEFT',ignore_uiscale,'BOTTOMLEFT',0,-10)
-    target_glow_colour:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT',4,0)
-    glow_as_shadow:SetPoint('TOPLEFT',target_glow_colour,'BOTTOMLEFT',-4,0)
-    state_icons:SetPoint('LEFT',target_glow,'RIGHT',190,0)
-    target_arrows:SetPoint('LEFT',glow_as_shadow,'RIGHT',190,0)
+    state_icons:SetPoint('TOPLEFT',ignore_uiscale,'BOTTOMLEFT',0,-10)
+    target_glow:SetPoint('TOPLEFT',state_icons,'BOTTOMLEFT',0,0)
+    target_glow_colour:SetPoint('LEFT',target_glow,'RIGHT',194,0)
+    glow_as_shadow:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT',0,0)
+    target_arrows:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,0)
+    target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,10)
 
-    frame_glow_size:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,-20)
-    target_arrows_size:SetPoint('LEFT',frame_glow_size,'RIGHT',20,0)
-
-    target_arrows_size.enabled = function(p) return p.target_arrows end
-
-    local clickthrough_sep = self:CreateSeperator('clickthrough_sep')
+    local clickthrough_sep = self:CreateSeparator('clickthrough_sep')
     local clickthrough_self = self:CreateCheckBox('clickthrough_self')
     local clickthrough_friend = self:CreateCheckBox('clickthrough_friend')
     local clickthrough_enemy = self:CreateCheckBox('clickthrough_enemy')
 
-    clickthrough_sep:SetPoint('TOP',0,-240)
-    clickthrough_self:SetPoint('TOPLEFT',15,-(240+10))
-    clickthrough_friend:SetPoint('TOPLEFT',(15+155),-(240+10))
-    clickthrough_enemy:SetPoint('TOPLEFT',(15+155*2),-(240+10))
-
-    local fade_rules_sep = self:CreateSeperator('fade_rules_sep')
-    local fade_alpha = self:CreateSlider('fade_alpha',0,1)
+    clickthrough_sep:SetPoint('TOP',0,-230)
+    clickthrough_self:SetPoint('TOPLEFT',10,-240)
+    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-240)
+    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-240)
+end
+-- fade rules popup ############################################################
+function fade_rules:Initialise()
+    local nt_alpha = self:CreateSlider('fade_non_target_alpha',0,1)
+    local cond_alpha = self:CreateSlider('fade_conditional_alpha',0,1)
     local fade_speed = self:CreateSlider('fade_speed',0,1)
     local fade_all = self:CreateCheckBox('fade_all')
-    local fade_friendly_npc = self:CreateCheckBox('fade_friendly_npc')
-    local fade_neutral_enemy = self:CreateCheckBox('fade_neutral_enemy')
-    local fade_untracked = self:CreateCheckBox('fade_untracked')
-    local fade_avoid_nameonly = self:CreateCheckBox('fade_avoid_nameonly')
-    local fade_avoid_raidicon = self:CreateCheckBox('fade_avoid_raidicon')
-    local fade_avoid_execute_friend = self:CreateCheckBox('fade_avoid_execute_friend')
-    local fade_avoid_execute_hostile = self:CreateCheckBox('fade_avoid_execute_hostile')
-    local fade_avoid_tracked = self:CreateCheckBox('fade_avoid_tracked')
+    local fade_fnpc = self:CreateCheckBox('fade_friendly_npc')
+    local fade_ne = self:CreateCheckBox('fade_neutral_enemy')
+    local fade_ut = self:CreateCheckBox('fade_untracked')
+    local avoid_no = self:CreateCheckBox('fade_avoid_nameonly')
+    local avoid_ri = self:CreateCheckBox('fade_avoid_raidicon')
+    local avoid_xf = self:CreateCheckBox('fade_avoid_execute_friend')
+    local avoid_xh = self:CreateCheckBox('fade_avoid_execute_hostile')
+    local avoid_t = self:CreateCheckBox('fade_avoid_tracked')
+    local avoid_cf = self:CreateCheckBox('fade_avoid_casting_friendly')
+    local avoid_ch = self:CreateCheckBox('fade_avoid_casting_hostile')
+    local avoid_ci = self:CreateCheckBox('fade_avoid_casting_interruptible',true)
+    local avoid_cu = self:CreateCheckBox('fade_avoid_casting_uninterruptible',true)
 
-    fade_alpha:SetValueStep(.05)
+    avoid_ci.enabled = function(p) return p.fade_avoid_casting_friendly or p.fade_avoid_casting_hostile end
+    avoid_cu.enabled = avoid_ci.enabled
+
+    nt_alpha:SetWidth(120)
+    nt_alpha:SetValueStep(.05)
+    cond_alpha:SetWidth(120)
+    cond_alpha:SetValueStep(.05)
+    fade_speed:SetWidth(120)
     fade_speed:SetValueStep(.05)
 
-    fade_rules_sep:SetPoint('TOP',0,-305)
-    fade_alpha:SetPoint('TOPLEFT',10,-(305+25))
+    nt_alpha:SetPoint('TOPLEFT',10,-25)
+    cond_alpha:SetPoint('LEFT',nt_alpha,'RIGHT',20,0)
+    fade_speed:SetPoint('LEFT',cond_alpha,'RIGHT',20,0)
 
-    fade_speed:SetPoint('LEFT',fade_alpha,'RIGHT',20,0)
-    fade_all:SetPoint('TOPLEFT',15,-(305+60))
-    fade_friendly_npc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
-    fade_neutral_enemy:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
-    fade_untracked:SetPoint('LEFT',fade_neutral_enemy,'RIGHT',190,0)
+    fade_all:SetPoint('TOPLEFT',10,-65)
+    fade_fnpc:SetPoint('LEFT',fade_all,'RIGHT',190,0)
+    fade_ne:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
+    fade_ut:SetPoint('LEFT',fade_ne,'RIGHT',190,0)
 
-    fade_avoid_nameonly:SetPoint('TOPLEFT',fade_neutral_enemy,'BOTTOMLEFT',0,-10)
-    fade_avoid_raidicon:SetPoint('LEFT',fade_avoid_nameonly,'RIGHT',190,0)
-    fade_avoid_execute_friend:SetPoint('TOPLEFT',fade_avoid_nameonly,'BOTTOMLEFT')
-    fade_avoid_execute_hostile:SetPoint('LEFT',fade_avoid_execute_friend,'RIGHT',190,0)
-    fade_avoid_tracked:SetPoint('TOPLEFT',fade_avoid_execute_friend,'BOTTOMLEFT')
+    avoid_no:SetPoint('TOPLEFT',fade_ne,'BOTTOMLEFT',0,-10)
+    avoid_ri:SetPoint('LEFT',avoid_no,'RIGHT',190,0)
+    avoid_xf:SetPoint('TOPLEFT',avoid_no,'BOTTOMLEFT')
+    avoid_xh:SetPoint('LEFT',avoid_xf,'RIGHT',190,0)
+    avoid_t:SetPoint('TOPLEFT',avoid_xf,'BOTTOMLEFT')
 
-    target_glow_colour.enabled = function(p) return p.target_glow end
+    avoid_cf:SetPoint('TOPLEFT',avoid_t,'BOTTOMLEFT',0,-10)
+    avoid_ch:SetPoint('LEFT',avoid_cf,'RIGHT',190,0)
+    avoid_ci:SetPoint('TOPLEFT',avoid_cf,'BOTTOMLEFT',10,0)
+    avoid_cu:SetPoint('TOPLEFT',avoid_ci,'BOTTOMLEFT')
 end
 -- healthbars ##################################################################
 function healthbars:Initialise()
@@ -117,13 +132,13 @@ function healthbars:Initialise()
     local absorb_enable = self:CreateCheckBox('absorb_enable')
     local absorb_striped = self:CreateCheckBox('absorb_striped')
 
-    local execute_sep = self:CreateSeperator('execute_sep')
+    local execute_sep = self:CreateSeparator('execute_sep')
     local execute_enabled = self:CreateCheckBox('execute_enabled')
     local execute_auto = self:CreateCheckBox('execute_auto')
     local execute_colour = self:CreateColourPicker('execute_colour')
     local execute_percent = self:CreateSlider('execute_percent')
 
-    local colour_sep = self:CreateSeperator('reaction_colour_sep')
+    local colour_sep = self:CreateSeparator('reaction_colour_sep')
     local colour_hated = self:CreateColourPicker('colour_hated')
     local colour_neutral = self:CreateColourPicker('colour_neutral')
     local colour_friendly = self:CreateColourPicker('colour_friendly')
@@ -262,7 +277,7 @@ function text:Initialise()
         L.titles.dd_health_text_current_deficit..' |cff888888(145k  -10.9k)',
     }
 
-    local health_text_sep = text:CreateSeperator('health_text_sep')
+    local health_text_sep = text:CreateSeparator('health_text_sep')
     local health_text_friend_max = text:CreateDropDown('health_text_friend_max')
     local health_text_friend_dmg = text:CreateDropDown('health_text_friend_dmg')
     local health_text_hostile_max = text:CreateDropDown('health_text_hostile_max')
@@ -285,7 +300,7 @@ function text:Initialise()
     health_text_hostile_max.enabled = health_text_friend_max.enabled
     health_text_hostile_dmg.enabled = health_text_friend_max.enabled
 
-    local nc_sep = self:CreateSeperator('name_colour_sep')
+    local nc_sep = self:CreateSeparator('name_colour_sep')
     local nc_wb = self:CreateCheckBox('name_colour_white_in_bar_mode')
     local nc_cf = self:CreateCheckBox('class_colour_friendly_names')
     local nc_ch = self:CreateCheckBox('class_colour_enemy_names')
@@ -353,8 +368,8 @@ function nameonly:Initialise()
     local guild_text_npcs = self:CreateCheckBox('guild_text_npcs')
     local guild_text_players = self:CreateCheckBox('guild_text_players')
     local title_text_players = self:CreateCheckBox('title_text_players')
-    local vis_sep = self:CreateSeperator('nameonly_visibility_sep')
-    local text_sep = self:CreateSeperator('nameonly_text_sep')
+    local vis_sep = self:CreateSeparator('nameonly_visibility_sep')
+    local text_sep = self:CreateSeparator('nameonly_text_sep')
 
     nameonly_no_font_style.enabled = function(p) return p.nameonly end
     nameonly_health_colour.enabled = nameonly_no_font_style.enabled
@@ -394,14 +409,16 @@ function framesizes:Initialise()
     local frame_width_personal = self:CreateSlider('frame_width_personal',20,200)
     local frame_height_personal = self:CreateSlider('frame_height_personal',3,40)
     local powerbar_height = self:CreateSlider('powerbar_height',1,20)
+    local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
 
-    frame_width:SetPoint('TOPLEFT',10,-30)
+    frame_width:SetPoint('TOPLEFT',10,-25)
     frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
-    frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-30)
+    frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-35)
     frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
-    frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-30)
+    frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-35)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
-    powerbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-60)
+    powerbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-35)
+    frame_glow_size:SetPoint('TOPLEFT',powerbar_height,'BOTTOMLEFT',0,-35)
 end
 -- auras #######################################################################
 function auras:Initialise()
@@ -424,11 +441,11 @@ function auras:Initialise()
     auras_kslc_hint:SetWidth(350)
     auras_kslc_hint:SetText(L.titles['auras_kslc_hint'] or 'Text')
 
-    local auras_filtering_sep = self:CreateSeperator('auras_filtering_sep')
+    local auras_filtering_sep = self:CreateSeparator('auras_filtering_sep')
     local auras_minimum_length = self:CreateSlider('auras_minimum_length',0,60)
     local auras_maximum_length = self:CreateSlider('auras_maximum_length',-1,1800)
 
-    local auras_icons_sep = self:CreateSeperator('auras_icons_sep')
+    local auras_icons_sep = self:CreateSeparator('auras_icons_sep')
     local auras_icon_normal_size = self:CreateSlider('auras_icon_normal_size',10,50)
     local auras_icon_minus_size = self:CreateSlider('auras_icon_minus_size',10,50)
     local auras_icon_squareness = self:CreateSlider('auras_icon_squareness',0.5,1)
@@ -500,7 +517,7 @@ function threat:Initialise()
     local tankmode_force_enable = self:CreateCheckBox('tankmode_force_enable',true)
     local tankmode_force_offtank = self:CreateCheckBox('tankmode_force_offtank',true)
     local threatbracketsCheck = self:CreateCheckBox('threat_brackets')
-    local tankmode_colour_sep = self:CreateSeperator('tankmode_colour_sep')
+    local tankmode_colour_sep = self:CreateSeparator('tankmode_colour_sep')
     local tankmode_tank_colour = self:CreateColourPicker('tankmode_tank_colour')
     local tankmode_trans_colour = self:CreateColourPicker('tankmode_trans_colour')
     local tankmode_other_colour = self:CreateColourPicker('tankmode_other_colour')
@@ -627,40 +644,30 @@ end
 -- cvars #######################################################################
 function cvars:Initialise()
     -- "allow KNP to manage the cvars on this page"
-    -- makes knp set these cvars whenever its config is updated
     local enable = self:CreateCheckBox('cvar_enable')
     -- nameplateShowFriendlyNPCs
-    -- "always show friendly npc's nameplates"
     local sfn = self:CreateCheckBox('cvar_show_friendly_npcs')
     -- nameplateShowOnlyNames
-    -- locale already @ nameonly_on_default
     local no = self:CreateCheckBox('cvar_name_only')
     -- nameplatePersonalShowAlways
-    -- "always show the personal nameplate"
     local psa = self:CreateCheckBox('cvar_personal_show_always')
     -- nameplatePersonalShowInCombat
-    -- "show the personal nameplate when in combat"
     local psc = self:CreateCheckBox('cvar_personal_show_combat')
     -- nameplatePersonalShowWithTarget
-    -- "show the personal nameplate when you have an attackable target"
     local pst = self:CreateCheckBox('cvar_personal_show_target')
     -- nameplateMaxDistance
-    -- "max distance to render nameplates" (???)
     local md = self:CreateSlider('cvar_max_distance',5,100)
     md:SetValueStep(5)
     -- nameplate{Other,Large}TopInset
-    -- how close nameplates will be rendered to the top edge of the screen.
-    -- set to -0.1 to disable clamping on the top of the screen.
     local ct = self:CreateSlider('cvar_clamp_top',-.1,.5)
     ct:SetValueStep(.01)
     -- nameplate{Other,Large}BottomInset
-    -- how close nameplates will be rendered to the bottom edge of the screen.
-    -- set to -0.1 to disable clamping on the bottom of the screen.
     local cb = self:CreateSlider('cvar_clamp_bottom',-.1,.5)
     cb:SetValueStep(.01)
+    -- nameplateOverlapV
+    local ov = self:CreateSlider('cvar_overlap_v',0,5)
+    ov:SetValueStep(.1)
 
-    -- TODO add some sort of grouping ID in create calls so i dont have to do
-    -- this to disable things
     sfn.enabled = function(p) return p.cvar_enable end
     no.enabled  = sfn.enabled
     psa.enabled = sfn.enabled
@@ -669,6 +676,7 @@ function cvars:Initialise()
     md.enabled  = sfn.enabled
     ct.enabled  = sfn.enabled
     cb.enabled  = sfn.enabled
+    ov.enabled  = sfn.enabled
 
     enable:SetPoint('TOPLEFT',10,-10)
 
@@ -679,7 +687,8 @@ function cvars:Initialise()
     psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
     pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
 
-    md:SetPoint('TOP',0,-220)
+    md:SetPoint('TOPLEFT',10,-220)
+    ov:SetPoint('LEFT',md,'RIGHT',20,0)
     ct:SetPoint('TOPLEFT',10,-(220+50))
     cb:SetPoint('LEFT',ct,'RIGHT',20,0)
 end
