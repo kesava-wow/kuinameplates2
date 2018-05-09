@@ -3,8 +3,6 @@
 ## Title: Kui |cff9966ffNameplates:|r |cffffffffCore Config|r
 ## Notes: Load-on-demand configuration interface for Kui Nameplates Core.
 ## Dependencies: Kui_Nameplates_Core
-## SavedVariables: KuiNameplatesCoreSaved
-## SavedVariablesPerCharacter: KuiNameplatesCoreCharacterSaved
 ## LoadManagers: Kui_Nameplates_Core
 
 lib\embeds.xml
