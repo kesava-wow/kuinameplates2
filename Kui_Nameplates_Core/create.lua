@@ -734,7 +734,7 @@ do
     local function GetHealthDisplay(f,key)
         return type(key) == 'number' and
             f.state.health_cur and
-            f.state.health_deficit and
+            f.state.health_per and
             health_display_funcs[key] and
             health_display_funcs[key](f.state) or
             ''
