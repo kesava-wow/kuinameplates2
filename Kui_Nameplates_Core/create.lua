@@ -733,6 +733,8 @@ do
     }
     local function GetHealthDisplay(f,key)
         return type(key) == 'number' and
+            f.state.health_cur and
+            f.state.health_deficit and
             health_display_funcs[key] and
             health_display_funcs[key](f.state) or
             ''
@@ -741,13 +743,19 @@ do
     local function UpdateHealthText(f)
         if f.IN_NAMEONLY then return end
         if  not SHOW_HEALTH_TEXT or
-            not f.state.health_cur or
             f.state.minus or
             f.state.player
         then
             f.HealthText:Hide()
         else
             local disp
+
+            if addon.debug then
+                assert(type(f.state.health_cur) == 'number')
+                assert(type(f.state.health_max) == 'number')
+                assert(type(f.state.health_per) == 'number')
+                assert(type(f.state.health_deficit) == 'number')
+            end
 
             if f.state.friend then
                 if f.state.health_cur ~= f.state.health_max then
