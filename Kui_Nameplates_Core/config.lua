@@ -783,7 +783,7 @@ configLoaded.bossmod_enable = configChanged.bossmod_enable
 -- init config #################################################################
 function core:InitialiseConfig()
     -- XXX 2.15>2.16 health display transition
-    if not KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] then
+    if KuiNameplatesCoreSaved and not KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] then
         KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] = true
         -- re-jigger health display patterns on all profiles (where set)
         local upd = function(n,k)
