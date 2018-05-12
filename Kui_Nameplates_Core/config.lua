@@ -72,6 +72,7 @@ local default_config = {
     fade_avoid_execute_friend = false,
     fade_avoid_execute_hostile = false,
     fade_avoid_tracked = false,
+    fade_avoid_combat = false,
     fade_avoid_casting_friendly = false,
     fade_avoid_casting_hostile = false,
     fade_avoid_casting_interruptible = false,
@@ -334,6 +335,12 @@ local function configChangedFadeRule(v,on_load)
         end,22)
     end
 
+    if core.profile.fade_avoid_combat then
+        plugin:AddFadeRule(function(f)
+            return UnitAffectingCombat(f.unit) and 1
+        end,23)
+    end
+
     if core.profile.fade_avoid_casting_interruptible or
        core.profile.fade_avoid_casting_uninterruptible
     then
@@ -362,7 +369,7 @@ local function configChangedFadeRule(v,on_load)
             if f.state.casting then
                 return FadeRule_Casting_CanAttack(f)
             end
-        end,23)
+        end,24)
     end
 
     if core.profile.fade_neutral_enemy then
@@ -395,6 +402,7 @@ configChanged.fade_avoid_raidicon = configChangedFadeRule
 configChanged.fade_avoid_execute_friend = configChangedFadeRule
 configChanged.fade_avoid_execute_hostile = configChangedFadeRule
 configChanged.fade_avoid_tracked = configChangedFadeRule
+configChanged.fade_avoid_combat = configChangedFadeRule
 configChanged.fade_avoid_casting_friendly = configChangedFadeRule
 configChanged.fade_avoid_casting_hostile = configChangedFadeRule
 configChanged.fade_avoid_casting_interruptible = configChangedFadeRule
