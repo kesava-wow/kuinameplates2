@@ -1,7 +1,6 @@
 BETA NOTES
 
-* nothing's actually changed here but I'm tagging it so that you lovely beta
-users don't get confused by the 2.15.6 hotfix.
+* add fade_avoid_combat
 
 * fix longstanding issue where settings displayed in the config interface could become desynchronised from the actual settings
 
