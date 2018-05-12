@@ -98,6 +98,7 @@ function fade_rules:Initialise()
 
     avoid_ci.enabled = function(p) return p.fade_avoid_casting_friendly or p.fade_avoid_casting_hostile end
     avoid_cu.enabled = avoid_ci.enabled
+    avoid_c.enabled = function(p) return not p.fade_avoid_tracked end
 
     nt_alpha:SetWidth(120)
     nt_alpha:SetValueStep(.05)
