@@ -1,6 +1,7 @@
 BETA NOTES
 
 * add fade_avoid_combat
+* fix lua error when loading with no profile (new to 2.16)
 
 * fix longstanding issue where settings displayed in the config interface could become desynchronised from the actual settings
 
