@@ -3,7 +3,7 @@
 -- By Kesava @ curse.com.
 -- All rights reserved.
 --]]
-local MAJOR, MINOR = 'KuiConfig-1.0', 5
+local MAJOR, MINOR = 'KuiConfig-1.0', 6
 local kc = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kc then
@@ -66,7 +66,10 @@ function config_meta:GetConfig()
     return local_config
 end
 
-function config_meta:SetConfig(k,v)
+--[[
+-- set config key [k] to value [v]
+--]]
+function config_meta:SetKey(k,v)
     if not self.profile then return end
     self.profile[k] = v
 
@@ -76,6 +79,21 @@ function config_meta:SetConfig(k,v)
 
     -- dispatch to configChanged listeners
     CallListeners(self,k,v)
+end
+
+--[[
+-- reset config key [k]
+-- alias of config_tbl:SetKey(k,nil)
+--]]
+function config_meta:ResetKey(k)
+    self:SetKey(k,nil)
+end
+
+--[[
+-- legacy alias for config_tbl:SetKey
+--]]
+function config_meta:SetConfig(...)
+    self:SetKey(...)
 end
 
 --[[
@@ -163,6 +181,11 @@ function config_meta:GetActiveProfile()
     return self.profile
 end
 
+--[[
+-- add config changed listener:
+-- arg1 = table / function
+-- arg2 = key of function in table arg1
+--]]
 function config_meta:RegisterConfigChanged(arg1,arg2)
     if not self.listeners then
         self.listeners = {}
@@ -177,6 +200,9 @@ function config_meta:RegisterConfigChanged(arg1,arg2)
     end
 end
 
+--[[
+-- initialise saved variables, return KuiConfig table
+--]]
 function kc:Initialise(var_prefix,defaults)
     local config_tbl = {}
     setmetatable(config_tbl, config_meta)
