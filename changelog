@@ -1,5 +1,8 @@
 BETA NOTES
 
+* update locale
+* update config libs
+
 * add fade_avoid_combat
 * fix lua error when loading with no profile (new to 2.16)
 
