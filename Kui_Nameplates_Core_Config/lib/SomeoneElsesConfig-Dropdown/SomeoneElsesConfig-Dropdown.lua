@@ -9,7 +9,7 @@
     * fixed for 7.3
     * fixed dropdown list width to width of dropdown button
 ----------------------------------------------------------------------]]
-local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 3)
+local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 4)
 if not lib then return end
 
 lib.listFrames = lib.listFrames or {}
@@ -119,8 +119,10 @@ local function CreateListButton(parent)
 ]]
     local label = button:CreateFontString(nil, "OVERLAY")
     label:SetPoint("LEFT", 27, 0)
+    label:SetPoint("RIGHT")
     label:SetFont((GameFontHighlightSmallLeft:GetFont()), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT)
     label:SetJustifyH("LEFT")
+    label:SetWordWrap()
     button:SetFontString(label)
     button.label = label -- DEPRECATED
 
@@ -174,10 +176,7 @@ local function UpdateList(self)
 
     local selected = dropdown.selected
 
-    local EXTRA_WIDTH = scrollFrame:IsShown() and 50 or 30
-    local width = dropdown:GetWidth() + 10
-    self:SetWidth(width)
-    width = width - EXTRA_WIDTH
+    local width = self:GetWidth() - (scrollFrame:IsShown() and 50 or 30)
 
     self:SetHeight((listSize * UIDROPDOWNMENU_BUTTON_HEIGHT) + (UIDROPDOWNMENU_BORDER_HEIGHT * 2))
 
@@ -239,7 +238,8 @@ function CreateList(dropdown) -- local
     list:SetToplevel(true)
     list:Hide()
 
-    list:SetPoint("TOPLEFT", dropdown, "BOTTOMLEFT", -4, 3)
+    list:SetPoint("TOPLEFT", dropdown, "BOTTOMLEFT", 0, 3)
+    list:SetPoint("RIGHT")
     list:SetScript("OnShow", UpdateList)
 
     list.text = list:CreateFontString()
@@ -264,11 +264,12 @@ function CreateList(dropdown) -- local
     end)
 
     list:SetBackdrop({
-        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        bgFile = "Interface\\Buttons\\White8x8",
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         insets = { left = 11, right = 12, top = 12, bottom = 11 },
         tile = true, tileSize = 32, edgeSize = 32,
     })
+    list:SetBackdropColor(0,0,0,.85)
 
     --list:SetScript("OnHide", list.Hide) -- wat
     --list:SetScript("OnClick", list.Hide) -- wat
