@@ -59,7 +59,7 @@ do
     end
     local function Set(self)
         if self.env and opt.config then
-            opt.config:SetConfig(self.env,self:GetChecked())
+            opt.config:SetKey(self.env,self:GetChecked())
         end
     end
 
@@ -116,7 +116,7 @@ do
     end
     local function Set(self,v)
         if self.env and opt.config then
-            opt.config:SetConfig(self.env,v)
+            opt.config:SetKey(self.env,v)
         end
     end
 
@@ -211,7 +211,7 @@ do
     local function Set(self,v)
         if not self:IsEnabled() then return end
         if self.env and opt.config then
-            opt.config:SetConfig(self.env,v or self:GetValue())
+            opt.config:SetKey(self.env,v or self:GetValue())
         end
     end
 
@@ -346,7 +346,7 @@ do
         end
     end
     local function Set(self,col)
-        opt.config:SetConfig(self.env,col)
+        opt.config:SetKey(self.env,col)
     end
 
     local function ColourPickerOnShow(self)

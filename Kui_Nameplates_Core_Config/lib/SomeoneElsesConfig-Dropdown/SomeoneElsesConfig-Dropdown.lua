@@ -3,13 +3,13 @@
     Kesava @ Curse.com
     All rights reserved
 
-    This is a version of PhanxConfig-Dropdown very slightly modified to fix it
-    for 7.3. She's AWOL and, as I understand it, her license prevents me from
-    calling it something too similar or including her license text, but
-    basically, all credit for this goes to Phanx.
-----------------------------------------------------------------------]]
+    This is a modified version of PhanxConfig-Dropdown.
+    The vast majority of credit for it goes to Phanx.
 
-local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 2)
+    * fixed for 7.3
+    * fixed dropdown list width to width of dropdown button
+----------------------------------------------------------------------]]
+local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 4)
 if not lib then return end
 
 lib.listFrames = lib.listFrames or {}
@@ -119,8 +119,10 @@ local function CreateListButton(parent)
 ]]
     local label = button:CreateFontString(nil, "OVERLAY")
     label:SetPoint("LEFT", 27, 0)
+    label:SetPoint("RIGHT")
     label:SetFont((GameFontHighlightSmallLeft:GetFont()), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT)
     label:SetJustifyH("LEFT")
+    label:SetWordWrap()
     button:SetFontString(label)
     button.label = label -- DEPRECATED
 
@@ -174,23 +176,7 @@ local function UpdateList(self)
 
     local selected = dropdown.selected
 
-    local width = 0
-    for i = 1, #items do
-        local item = items[i]
-        if type(item) == "table" then
-            --print(i, "table", item.text or item.value)
-            self.text:SetText(item.text or item.value)
-        else
-            --print(i, "string", item)
-            self.text:SetText(item)
-        end
-        width = max(width, self.text:GetStringWidth())
-    end
-
-    local EXTRA_WIDTH = scrollFrame:IsShown() and 50 or 30
-    width = max(width + 27 + EXTRA_WIDTH, dropdown:GetWidth() + 10)
-    self:SetWidth(width)
-    width = width - EXTRA_WIDTH
+    local width = self:GetWidth() - (scrollFrame:IsShown() and 50 or 30)
 
     self:SetHeight((listSize * UIDROPDOWNMENU_BUTTON_HEIGHT) + (UIDROPDOWNMENU_BORDER_HEIGHT * 2))
 
@@ -252,7 +238,8 @@ function CreateList(dropdown) -- local
     list:SetToplevel(true)
     list:Hide()
 
-    list:SetPoint("TOPLEFT", dropdown, "BOTTOMLEFT", -4, 3)
+    list:SetPoint("TOPLEFT", dropdown, "BOTTOMLEFT", 0, 3)
+    list:SetPoint("RIGHT")
     list:SetScript("OnShow", UpdateList)
 
     list.text = list:CreateFontString()
@@ -277,11 +264,12 @@ function CreateList(dropdown) -- local
     end)
 
     list:SetBackdrop({
-        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        bgFile = "Interface\\Buttons\\White8x8",
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         insets = { left = 11, right = 12, top = 12, bottom = 11 },
         tile = true, tileSize = 32, edgeSize = 32,
     })
+    list:SetBackdropColor(0,0,0,.85)
 
     --list:SetScript("OnHide", list.Hide) -- wat
     --list:SetScript("OnClick", list.Hide) -- wat

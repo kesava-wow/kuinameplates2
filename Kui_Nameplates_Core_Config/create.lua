@@ -576,7 +576,7 @@ function classpowers:Initialise()
         end
     end
     function classpowers_colour:Set(col)
-        opt.config:SetConfig(self.env,col)
+        opt.config:SetKey(self.env,col)
         -- manually re-run OnShow since our env doesn't match the element name
         self:Hide()
         self:Show()
