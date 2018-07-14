@@ -34,7 +34,11 @@ end
 local function SizerOnSizeChanged(self,x,y)
     -- If you're poking around here trying to find what's causing the extra CPU
     -- usage, this is it.
+    self.f.IGNORE_VISIBILITY_BUBBLE = true
+    self.f:Hide()
     self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
+    self.f:Show()
+    self.f.IGNORE_VISIBILITY_BUBBLE = nil
 end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts
@@ -49,6 +53,8 @@ function addon:HookNameplate(frame)
     frame.kui.elements = {}
     frame.kui.parent = frame
 
+    -- TODO 80 buggy, child text frames disappear
+    --frame.kui:SetPoint('CENTER',frame)
     -- semlar's non-laggy positioning
     local sizer = CreateFrame('Frame',name..'PositionHelper',frame.kui)
     sizer:SetPoint('BOTTOMLEFT',WorldFrame)
