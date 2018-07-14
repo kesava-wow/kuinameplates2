@@ -1,43 +1,23 @@
-BETA NOTES - This is for 8.0.x - it will not work on 7.x.
+CTHD RELEASE CANDIDATE NOTES
+This is for 8.0.x, it will not work on 7.x.
 
-* fix lua errors when name-only is toggled on a frame with no castbar
-
-* update locale
-* update config libs
-
-* add fade_avoid_combat
-* fix lua error when loading with no profile (new to 2.16)
-
-* fix longstanding issue where settings displayed in the config interface could become desynchronised from the actual settings
-
-* move fade rules to dedicated config page
-* reposition elements on the general config page
-* move frame_glow_size to framesizes page
-* improve config popup contrast
-
-* split fade alpha into fade_non_target_alpha and fade_conditional_alpha (they'll be reset to default as a result)
-* split fade_avoid_casting into fade_avoid_casting_friendly, fade_avoid_casting_hostile, fade_avoid_casting_interruptible, fade_avoid_casting_uninterruptible
-* add config options for above settings
-
-* show arena id next to names when in an arena
-
-* add option for vertical offset of cast bar name text
-* move default spell name position
-* increase default class powers size slightly
-* debug stuff, gasp
-
-* add option name_colour_brighten_class (not exposed in ui)
-* change guild text colour slightly
-
-* add "Current + percent" and "Current + deficit" health text options
-
-* add option name_colour_white_in_bar_mode, to recreate the previous default colouring of name text
-* remove name_colour_npcs_inherit_reaction
-
-* add options for name text colour - all name text is now coloured by default, and the colour is now consistent with name only mode
-* guild text colour now always matches name text (in name only)
-
-* fix death knight, demon hunter and shaman name text class colours ignore ClassColors' configuration
-
+* bump TOC
 * added CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping)
+* add option to vertically move castbar spell name text under /knp > cast bars
+* add "Current + percent" and "Current + deficit" health text options
+* add various options for name text colour under /knp > text
+* add arena id next to names when in an arena (currently no options)
+* move "frame glow size" option to "frame sizes" page
+* move fade rules to dedicated config page
+* split "faded alpha" into "non-target alpha" and "conditional alpha"
+* split "avoid casting" fade rule into separate friendly, hostile, interruptible and uninterruptible options
+* fix issue where settings displayed in the config interface could become desynchronised from the actual settings
+* fix death knight, demon hunter and shaman name text class colours ignore ClassColors' configuration
+* fix lua errors when name-only is toggled on a frame with no castbar
+* improve config popup contrast
+* move default spell name position slightly
+* increase default class powers size slightly
+* change guild text colour slightly
+* add option name_colour_brighten_class (not exposed in ui)
 * disable frFR since it has a lot of overlong titles
+* update locale
