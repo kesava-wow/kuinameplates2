@@ -2,7 +2,7 @@ CTHD RELEASE CANDIDATE NOTES
 This is for 8.0.x, it will not work on 7.x.
 
 * bump TOC
-* added CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping)
+* add CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping)
 * add option to vertically move castbar spell name text under /knp > cast bars
 * add "Current + percent" and "Current + deficit" health text options
 * add various options for name text colour under /knp > text
