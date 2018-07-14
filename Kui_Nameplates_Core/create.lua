@@ -1016,8 +1016,9 @@ do
 end
 -- castbar #####################################################################
 do
-    local CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,CASTBAR_SHOW_ICON,
-          CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,CASTBAR_NAME_VERTICAL_OFFSET
+    local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
+          CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
+          CASTBAR_NAME_VERTICAL_OFFSET
 
     local function SpellIconSetWidth(f)
         -- set spell icon width (as it's based on height)
@@ -1075,6 +1076,7 @@ do
         end
     end
     local function UpdateCastBar(f)
+        if not CASTBAR_ENABLED then return end
         if f.IN_NAMEONLY then
             f.handler:DisableElement('CastBar')
         else
@@ -1200,6 +1202,7 @@ do
     end
 
     function core:SetCastBarConfig()
+        CASTBAR_ENABLED = self.profile.castbar_enable
         CASTBAR_HEIGHT = self.profile.castbar_height
         CASTBAR_COLOUR = self.profile.castbar_colour
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
@@ -1209,6 +1212,8 @@ do
         CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
 
         for k,f in addon:Frames() do
+            -- create elements which weren't required until config was changed
+            -- (TODO castbar itself is always created)
             if CASTBAR_SHOW_ICON and not f.SpellIcon then
                 CreateSpellIcon(f)
             end

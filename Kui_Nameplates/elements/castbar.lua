@@ -80,10 +80,12 @@ function addon.Nameplate.CastBarHide(f,interrupted)
 end
 -- messages ####################################################################
 function ele:Create(f)
-    f.CastBarUpdateFrame = CreateFrame('Frame')
-    f.CastBarUpdateFrame:Hide()
-    f.CastBarUpdateFrame.parent = f
-    f.cast_state = {}
+    if not f.CastBarUpdateFrame then
+        f.CastBarUpdateFrame = CreateFrame('Frame')
+        f.CastBarUpdateFrame:Hide()
+        f.CastBarUpdateFrame.parent = f
+        f.cast_state = {}
+    end
 end
 function ele:Show(f)
     if UnitCastingInfo(f.unit) then
@@ -179,4 +181,9 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_UPDATE','CastUpdate')
     self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastInterrupted')
     self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
+
+    for i,f in addon:Frames() do
+        -- run create on missed frames
+        self:Create(f)
+    end
 end
