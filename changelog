@@ -1,5 +1,7 @@
 BETA NOTES - This is for 8.0.x - it will not work on 7.x.
 
+* fix lua errors when name-only is toggled on a frame with no castbar
+
 * update locale
 * update config libs
 
