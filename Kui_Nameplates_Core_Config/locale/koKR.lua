@@ -17,6 +17,7 @@ L["page_names"] = {
 	["text"] = "문자",
 	["threat"] = "위협 수준",
 }
+
 L["titles"] = {
 	["absorb_enable"] = "흡수 표시",
 	["absorb_striped"] = "줄무늬 흡수 텍스쳐",
@@ -245,6 +246,7 @@ L["titles"] = {
 	["use_blizzard_personal"] = "개인 이름표 무시",
 	["version"] = "%2$s @ Curse가 제작한 %1$s, 버전 %3$s",
 }
+
 L["tooltips"] = {
 	["absorb_enable"] = "생명력 바에 흡수 오버레이를 표시합니다",
 	["absorb_striped"] = "흡수 오버레이에 줄무늬 텍스쳐를 사용합니다. 선택하지 않으면 생명력 바 텍스쳐를 사용합니다",

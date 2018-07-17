@@ -6,6 +6,9 @@ L["page_names"] = {
 	["bossmod"] = "Mode boss",
 	["castbars"] = "Barres d'incantation",
 	["classpowers"] = "Pouvoirs de classe",
+	["cvars"] = "CVars",
+--[[Translation missing --]]
+	["fade_rules"] = "Fade rules",
 	["framesizes"] = "Taille du cadre",
 	["general"] = "Général",
 	["healthbars"] = "Barres de vie",
@@ -47,6 +50,8 @@ L["titles"] = {
 	["castbar_height"] = "Hauteur de la barre d'incantation",
 	["castbar_icon"] = "Afficher l'icône du sort",
 	["castbar_name"] = "Afficher le nom du sort",
+--[[Translation missing --]]
+	["castbar_name_vertical_offset"] = "Spell name v.offset",
 	["castbar_shield"] = "Afficher le bouclier ininterrompu",
 	["castbar_showall"] = "Afficher la barre d'incantation sur toutes barres d'info ",
 	["castbar_showenemy"] = "Afficher la barre d'incantation des ennemis",
@@ -84,6 +89,21 @@ L["titles"] = {
 	["combat_hostile"] = "Action de combat : hostile",
 	["copy_profile_label"] = "Entrez un nom pour un nouveau profil",
 	["copy_profile_title"] = "Copier le profil",
+--[[Translation missing --]]
+	["cvar_clamp_bottom"] = "Bottom clamp distance",
+--[[Translation missing --]]
+	["cvar_clamp_top"] = "Top clamp distance",
+--[[Translation missing --]]
+	["cvar_enable"] = "Allow Kui Nameplates to modify CVars",
+	["cvar_max_distance"] = "Distance de rendue max",
+	["cvar_name_only"] = "Cacher la barre de vie par défaut",
+--[[Translation missing --]]
+	["cvar_overlap_v"] = "Vertical overlap",
+	["cvar_personal_show_always"] = "Toujours afficher la barre d'info personnelle",
+	["cvar_personal_show_combat"] = "Afficher la barre d'info personnelle en combat",
+--[[Translation missing --]]
+	["cvar_personal_show_target"] = "Show personal nameplate with a target",
+	["cvar_show_friendly_npcs"] = "Toujours afficher les barres d'infos des PNJ amicaux",
 	["dd_auras_sort_index"] = "Indice d'aura",
 	["dd_auras_sort_time"] = "Temps restant",
 	["dd_bar_animation_cutaway"] = "Coupure",
@@ -98,6 +118,8 @@ L["titles"] = {
 	["dd_font_style_shadowandoutline"] = "Ombre+Contour",
 	["dd_health_text_blank"] = "Vide",
 	["dd_health_text_current"] = "Actuelle",
+	["dd_health_text_current_deficit"] = "Actuelle + déficit",
+	["dd_health_text_current_percent"] = "Actuelle + pourcentage",
 	["dd_health_text_deficit"] = "Déficit",
 	["dd_health_text_maximum"] = "Maximum",
 	["dd_health_text_percent"] = "Pourcentage",
@@ -110,13 +132,27 @@ L["titles"] = {
 	["execute_sep"] = "Distance d'exécution",
 	["fade_all"] = "Décolorer par défaut",
 	["fade_alpha"] = "Alpha décoloré",
+--[[Translation missing --]]
+	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
+--[[Translation missing --]]
+	["fade_avoid_casting_hostile"] = "Avoid casting (hostile)",
+--[[Translation missing --]]
+	["fade_avoid_casting_interruptible"] = "Interruptible",
+--[[Translation missing --]]
+	["fade_avoid_casting_uninterruptible"] = "Uninterruptible",
+--[[Translation missing --]]
+	["fade_avoid_combat"] = "Avoid in combat",
 	["fade_avoid_execute_friend"] = "Éviter les amis à faible santé",
 	["fade_avoid_execute_hostile"] = "Éviter les ennemis à faible santé",
 	["fade_avoid_nameonly"] = "Éviter nom-seul",
 	["fade_avoid_raidicon"] = "Éviter l'îcone de raid",
 	["fade_avoid_tracked"] = "Éviter la cible ou en combat",
+--[[Translation missing --]]
+	["fade_conditional_alpha"] = "Conditional alpha",
 	["fade_friendly_npc"] = "Décolorer les PNJ amicaux",
 	["fade_neutral_enemy"] = "Décolorer les ennemis neutres",
+--[[Translation missing --]]
+	["fade_non_target_alpha"] = "Non-target alpha",
 	["fade_rules_sep"] = "Fondu du cadre",
 	["fade_speed"] = "Vitesse d'animation du fondu ",
 	["fade_untracked"] = "Fondu des unités non-ciblées",
@@ -144,6 +180,14 @@ L["titles"] = {
 	["hide_names"] = "Cacher les noms non-ciblés",
 	["ignore_uiscale"] = "Ignorer la mise à l'échelle de l'interface utilisateur",
 	["level_text"] = "Afficher le niveau",
+	["name_colour_npc_friendly"] = "Amicaux",
+	["name_colour_npc_hostile"] = "Ennemis",
+	["name_colour_npc_neutral"] = "Neutre",
+	["name_colour_player_friendly"] = "Joueurs amicaux",
+	["name_colour_player_hostile"] = "Joueurs ennemis",
+--[[Translation missing --]]
+	["name_colour_sep"] = "Name text colour",
+	["name_colour_white_in_bar_mode"] = "Noms en blanc avec barre de vie visible",
 	["name_text"] = "Afficher le nom",
 	["name_vertical_offset"] = "Décalage vertical du nom",
 	["nameonly"] = "Utiliser le mode nom-seul",
@@ -156,6 +200,10 @@ L["titles"] = {
 	["nameonly_no_font_style"] = "Pas de contour de texte",
 	["nameonly_on_default"] = "Cacher la barre de vie par défaut",
 	["nameonly_target"] = "Cible",
+--[[Translation missing --]]
+	["nameonly_text_sep"] = "Text",
+--[[Translation missing --]]
+	["nameonly_visibility_sep"] = "Visibility",
 	["new_profile"] = "Nouveau profil...",
 	["new_profile_label"] = "Entrez un nom de profil",
 	["powerbar_height"] = "Hauteur de la barre d'énergie",
@@ -209,6 +257,8 @@ L["tooltips"] = {
 	["bossmod_y_offset"] = "Décalage vertical des icônes d'aura du boss",
 	["bot_vertical_offset"] = "Décalage vertical des textes de niveau et de santé",
 	["castbar_enable"] = "Afficher la barre d'incantation",
+--[[Translation missing --]]
+	["castbar_name_vertical_offset"] = "Vertical offset of the spell name text",
 	["castbar_shield"] = "Afficher une icône de bouclier sur les barres d'incantation ne pouvant pas être interrompues",
 	["castbar_showall"] = "Afficher la barre d'incantation sur tous les écussions, plutôt que sur la cible",
 	["castbar_showenemy"] = "Afficher la barre d'incantation sur la barre d'info des ennemis",
@@ -234,19 +284,44 @@ L["tooltips"] = {
 	["colour_self_class"] = "Utiliser la couleur de votre classe sur votre barre d'info",
 	["combat_friendly"] = "Action à prendre sur les cadres amicaux à l'entrée et à la sortie d'un combat.",
 	["combat_hostile"] = "Action à prendre sur les cadres hostiles à l'entrée et à la sortie d'un combat.",
+--[[Translation missing --]]
+	["cvar_clamp_bottom"] = "|cffffcc00nameplate{Other,Large}BottomInset|r",
+--[[Translation missing --]]
+	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.",
+--[[Translation missing --]]
+	["cvar_enable"] = "When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.",
+--[[Translation missing --]]
+	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|nMaximum distance at which to render nameplates (not including your current target).",
+	["cvar_name_only"] = "|cffffcc00nameplateShowOnlyNames|r|n|nCacher la barre de vie des barres d'info par défaut lorsque les barres d'infos des personnes amicaux ne peuvent pas être modifiées par les addons.",
+--[[Translation missing --]]
+	["cvar_overlap_v"] = "|cffffcc00nameplateOverlapV|r|n|nVertical distance between nameplates (only valid when motion type is set to stacking in the default interface options).",
+	["cvar_personal_show_always"] = "|cffffcc00nameplatePersonalShowAlways|r ",
+	["cvar_personal_show_combat"] = "|cffffcc00nameplatePersonalShowInCombat|r ",
+	["cvar_personal_show_target"] = "|cffffcc00nameplatePersonalShowWithTarget|r|n|nAfficher la barre d'info personnelle lorsque vous avez une cible attaquable.",
+	["cvar_show_friendly_npcs"] = "|cffffcc00nameplateShowFriendlyNPCs|r",
 	["execute_auto"] = "Détecter automatique la distance d'exécution selon vos talents, par défaut à 20% sur un personnage sans exécution",
 	["execute_colour"] = "Couleur à utiliser dans la distance d'exécution",
 	["execute_enabled"] = "Recolorer la barre de vie quand les unités sont dans la distance d'exécution",
 	["execute_percent"] = "Définir manuellement la distance d'exécution",
 	["fade_all"] = "Décolorer tout le cadre par défaut, plutôt que l'intérieur",
 	["fade_alpha"] = "Opacité des cadres décolorés. Notez que si c'est réglé sur 0 (i.e. les cadres sont invisibles), les barres d'info invisibles seront toujours cliquables. Les addons ne peuvent pas désactiver arbitrairement la zone de clic des barres d'info",
+--[[Translation missing --]]
+	["fade_avoid_casting_friendly"] = "Don't fade friendly nameplates when they are casting",
+--[[Translation missing --]]
+	["fade_avoid_casting_hostile"] = "Don't fade hostile nameplates when they are casting",
+--[[Translation missing --]]
+	["fade_avoid_combat"] = "Don't fade nameplates which are affecting combat with you",
 	["fade_avoid_execute_friend"] = "Ne pas décolorer les barres d'info amicales dans la portée d'exécution (réglé dans l'onglet \"Barres de vie\")",
 	["fade_avoid_execute_hostile"] = "Ne pas décolorer les barres d'info ennemies dans la portée d'exécution (réglé dans l'onglet \"Barres de vie\")",
 	["fade_avoid_nameonly"] = "Ne pas décolorer les barres d'info qui sont en mode nom-seul",
 	["fade_avoid_raidicon"] = "Ne pas décolorer les barres d'info qui ont une icône de raid visible",
 	["fade_avoid_tracked"] = "Ne pas décolorer la barre d'info de la cible ou des unités qui sont en combat avec vous.|nVous pouvez définir si une unité est suivie ou non en modifiant la liste déroulante \"Noms des PNJ\" et d'autres cases dans les options d'interface par défaut sous Echap > Interface > Noms.",
+--[[Translation missing --]]
+	["fade_conditional_alpha"] = "Opacity frames will fade to when matching one of the conditions below",
 	["fade_friendly_npc"] = "Décolorer les barres d'info des PNJ amicaux par défaut (incluant ceux en mode nom-seul)",
 	["fade_neutral_enemy"] = "Décolorer les barres d'info des ennemis neutres attaquables par défaut (incluant ceux en mode nom-seul)",
+--[[Translation missing --]]
+	["fade_non_target_alpha"] = "Opacity other frames will fade to when you have a target.|nIf set to 0, the nameplate will still be clickable despite being invisible. Addons cannot arbitrarily disable nameplate clickboxes",
 	["fade_speed"] = "Vitesse d'animation du fondu du cadre (1 est le plus lent et 0 est instantané)",
 	["fade_untracked"] = "Fondu des écussions non-ciblés par défaut (incluant ceux en mode nom-seul).|nVous pouvez définir si une unité est suivie ou non en modifiant la liste déroulante \"Noms des PNJ\" et d'autres cases dans les options d'interface par défaut sous Echap > Interface > Noms.",
 	["font_face"] = "La police utilisée pour tous les textes sur les barres d'info (fournie par LibSharedMedia)",
@@ -268,6 +343,8 @@ L["tooltips"] = {
 	["health_text_hostile_max"] = "Format de texte de vie utilisé sur les unités ennemies à 100% de santé",
 	["hide_names"] = "Vous pouvez définir si une unité est suivie ou non en modifiant la liste déroulante \"Noms des NPC\" et d'autres cases dans les options d'interface par défaut sous Echap> Interface> Noms.|n|nCela n'affecte pas le mode nom-seul.",
 	["ignore_uiscale"] = "Ignorer la mise à l'échelle de l'interface utilisateur par défaut. Cela permet aux barres d'info de conserver la perfection des pixels quelle que soit la résolution.",
+--[[Translation missing --]]
+	["name_colour_white_in_bar_mode"] = "Colour NPC's and player's names white (unless class colour is enabled).|n|nIf this is enabled, the colours below only apply to name-only mode.",
 	["name_vertical_offset"] = "Décalage verticale du nom",
 	["nameonly"] = "Cache la barre de santé des personnages amicaux ou inattaquable. En mode nom-seul, le nom est coloré en fonction du pourcentage des points de vie",
 	["nameonly_all_enemies"] = "Utiliser le mode nom-seul pour tous les ennemis",

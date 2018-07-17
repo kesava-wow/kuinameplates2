@@ -17,6 +17,7 @@ L["page_names"] = {
 	["text"] = "文本",
 	["threat"] = "仇恨",
 }
+
 L["titles"] = {
 	["absorb_enable"] = "显示吸收",
 	["absorb_striped"] = "条纹吸收材质",
@@ -244,6 +245,7 @@ L["titles"] = {
 	["use_blizzard_personal"] = "忽略个人资源",
 	["version"] = "%s 作者: %s @ Curse, 版本 %s",
 }
+
 L["tooltips"] = {
 	["absorb_enable"] = "在姓名板上显示吸收盾",
 	["absorb_striped"] = "在吸收盾上使用条纹材质。如果未勾选，继承姓名板材质",

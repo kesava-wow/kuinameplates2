@@ -7,8 +7,7 @@ L["page_names"] = {
 	["castbars"] = "施法條",
 	["classpowers"] = "職業資源",
 	["cvars"] = "CVars參數",
---[[Translation missing --]]
-	["fade_rules"] = "Fade rules",
+	["fade_rules"] = "淡出控制",
 	["framesizes"] = "框架尺寸",
 	["general"] = "一般",
 	["healthbars"] = "血條",
@@ -16,6 +15,7 @@ L["page_names"] = {
 	["text"] = "文字",
 	["threat"] = "威脅",
 }
+
 L["titles"] = {
 	["absorb_enable"] = "顯示吸收",
 	["absorb_striped"] = "條紋吸收材質",
@@ -49,8 +49,7 @@ L["titles"] = {
 	["castbar_height"] = "施法條高度",
 	["castbar_icon"] = "顯示法術圖示",
 	["castbar_name"] = "顯示法術名稱",
---[[Translation missing --]]
-	["castbar_name_vertical_offset"] = "Spell name v.offset",
+	["castbar_name_vertical_offset"] = "法術名稱垂直偏移量",
 	["castbar_shield"] = "顯示盾牌圖示",
 	["castbar_showall"] = "顯示所有單位的施法條",
 	["castbar_showenemy"] = "顯示敵方施法條",
@@ -93,8 +92,7 @@ L["titles"] = {
 	["cvar_enable"] = "允許Kui姓名版修改CVars參數",
 	["cvar_max_distance"] = "最大可視距離",
 	["cvar_name_only"] = "隱藏預設生命條",
---[[Translation missing --]]
-	["cvar_overlap_v"] = "Vertical overlap",
+	["cvar_overlap_v"] = "垂直重疊",
 	["cvar_personal_show_always"] = "永遠顯示個人姓名版",
 	["cvar_personal_show_combat"] = "戰鬥中也顯示個人姓名版",
 	["cvar_personal_show_target"] = "當有目標時顯示個人姓名版",
@@ -127,27 +125,20 @@ L["titles"] = {
 	["execute_sep"] = "斬殺階段",
 	["fade_all"] = "預設淡出",
 	["fade_alpha"] = "淡出透明度",
---[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
---[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Avoid casting (hostile)",
---[[Translation missing --]]
-	["fade_avoid_casting_interruptible"] = "Interruptible",
---[[Translation missing --]]
-	["fade_avoid_casting_uninterruptible"] = "Uninterruptible",
---[[Translation missing --]]
-	["fade_avoid_combat"] = "Avoid in combat",
+	["fade_avoid_casting_friendly"] = "避開施法中友方",
+	["fade_avoid_casting_hostile"] = "避開施法中敵方",
+	["fade_avoid_casting_interruptible"] = "可中斷的",
+	["fade_avoid_casting_uninterruptible"] = "不可中斷",
+	["fade_avoid_combat"] = "避開戰鬥中",
 	["fade_avoid_execute_friend"] = "避開低血量友方",
 	["fade_avoid_execute_hostile"] = "避開低血量敵方",
 	["fade_avoid_nameonly"] = "避開名字模式",
 	["fade_avoid_raidicon"] = "避開團隊標記",
 	["fade_avoid_tracked"] = "避開已追蹤或戰鬥中",
---[[Translation missing --]]
-	["fade_conditional_alpha"] = "Conditional alpha",
+	["fade_conditional_alpha"] = "透明條件",
 	["fade_friendly_npc"] = "淡出友方NPC",
 	["fade_neutral_enemy"] = "淡出中立單位",
---[[Translation missing --]]
-	["fade_non_target_alpha"] = "Non-target alpha",
+	["fade_non_target_alpha"] = "非目標透明度",
 	["fade_rules_sep"] = "框架淡出",
 	["fade_speed"] = "淡出動畫速度",
 	["fade_untracked"] = "淡出非追蹤單位",
@@ -194,10 +185,8 @@ L["titles"] = {
 	["nameonly_no_font_style"] = "無字型描邊",
 	["nameonly_on_default"] = "暴雪名條名字模式",
 	["nameonly_target"] = "使用在目標",
---[[Translation missing --]]
-	["nameonly_text_sep"] = "Text",
---[[Translation missing --]]
-	["nameonly_visibility_sep"] = "Visibility",
+	["nameonly_text_sep"] = "文字",
+	["nameonly_visibility_sep"] = "可視性",
 	["new_profile"] = "新設定檔...",
 	["new_profile_label"] = "輸入設定檔名稱",
 	["powerbar_height"] = "能量條高度",
@@ -225,6 +214,7 @@ L["titles"] = {
 	["use_blizzard_personal"] = "忽略個人資源",
 	["version"] = "%s 作者: %s @ Curse, 版本 %s",
 }
+
 L["tooltips"] = {
 	["absorb_enable"] = "在血條上顯示吸收盾",
 	["absorb_striped"] = "在吸收盾上使用條紋材質。如果未勾選，繼承血條材質。",
@@ -250,8 +240,7 @@ L["tooltips"] = {
 	["bossmod_y_offset"] = "首領光環圖示位置的垂直偏移量",
 	["bot_vertical_offset"] = "等級血量位置的垂直偏移量",
 	["castbar_enable"] = "啟用施法條",
---[[Translation missing --]]
-	["castbar_name_vertical_offset"] = "Vertical offset of the spell name text",
+	["castbar_name_vertical_offset"] = "法術名稱文字的垂直偏移量",
 	["castbar_shield"] = "在免疫打斷的施法條上顯示盾牌圖示",
 	["castbar_showall"] = "在所有名條上顯示施法條",
 	["castbar_showenemy"] = "顯用敵方施法條",
@@ -283,8 +272,7 @@ L["tooltips"] = {
 	["cvar_enable"] = "啟用後，Kui姓名版將嘗試將此頁面上的CVar參數鎖定到設置的值。|n|n取消此選項，停用KNP，或是移除KNP都不會重設CVars參數回預設值。",
 	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|n姓名版最大可視的距離（不包含當前目標）。",
 	["cvar_name_only"] = "|cffffcc00nameplateShowOnlyNames|r|n|n在友方姓名板無法被插件修改的情形下，隱藏預設姓名版的生命條。",
---[[Translation missing --]]
-	["cvar_overlap_v"] = "|cffffcc00nameplateOverlapV|r|n|nVertical distance between nameplates (only valid when motion type is set to stacking in the default interface options).",
+	["cvar_overlap_v"] = "|cffffcc00nameplateOverlapV|r|n|n名條彼此之間的垂直距離（只有在預設介面選項中將排列類型設定為堆疊才有效）。",
 --[[Translation missing --]]
 	["cvar_personal_show_always"] = "|cffffcc00nameplatePersonalShowAlways|r",
 --[[Translation missing --]]
@@ -298,23 +286,18 @@ L["tooltips"] = {
 	["execute_percent"] = "手動設定斬殺階段血量閾值",
 	["fade_all"] = "預設狀態下淡出所有框架",
 	["fade_alpha"] = "淡出框架的透明度。請注意：如果設為0（即框架不可見），不可見的名條仍然可以點擊。插件不能任意禁用名條的點擊框。",
---[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Don't fade friendly nameplates when they are casting",
---[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Don't fade hostile nameplates when they are casting",
---[[Translation missing --]]
-	["fade_avoid_combat"] = "Don't fade nameplates which are affecting combat with you",
+	["fade_avoid_casting_friendly"] = "不淡出施法中的友方名條",
+	["fade_avoid_casting_hostile"] = "不淡出施法中的敵方名條",
+	["fade_avoid_combat"] = "不淡出與你戰鬥中的名條",
 	["fade_avoid_execute_friend"] = "不要淡出血量處於斬殺階段的友方名條（在「血量條」頁面設置）",
 	["fade_avoid_execute_hostile"] = "不要淡出血量處於斬殺階段的敵方名條（在「血量條」頁面設置）",
 	["fade_avoid_nameonly"] = "啟用名字模式時，不要淡出名條",
 	["fade_avoid_raidicon"] = "不要淡出被標記了團隊圖示的名條",
 	["fade_avoid_tracked"] = "不淡出已追蹤或是正在與你戰鬥中的單位名條。|n透過改變 Esc > 介面 > 名稱 > 「NPC名稱」的選項來設定是否進行追蹤。",
---[[Translation missing --]]
-	["fade_conditional_alpha"] = "Opacity frames will fade to when matching one of the conditions below",
+	["fade_conditional_alpha"] = "當符合以下條件時非透明框架將會淡出",
 	["fade_friendly_npc"] = "預設淡出友方NPC名條（包含名字模式）",
 	["fade_neutral_enemy"] = "預設淡出可攻擊的中立單位名條（包含名字模式）",
---[[Translation missing --]]
-	["fade_non_target_alpha"] = "Opacity other frames will fade to when you have a target.|nIf set to 0, the nameplate will still be clickable despite being invisible. Addons cannot arbitrarily disable nameplate clickboxes",
+	["fade_non_target_alpha"] = "當你有目標時其他非透明框架將會淡出。|n如果設置為0，就算名條不可見仍可點擊，插件無法隨意停用名條點擊框。",
 	["fade_speed"] = "框架淡出的速度，1是最慢的，0是立刻淡出",
 	["fade_untracked"] = "淡出非追蹤名條（包含名字模式）。|n透過改變 Esc > 介面 > 名稱中的「NPC名稱」的選項來設定是否進行追蹤",
 	["font_face"] = "名條所使用的全局字型（由LibSharedMedia提供）",
