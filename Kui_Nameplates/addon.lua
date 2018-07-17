@@ -124,14 +124,6 @@ local function OnEvent(self,event,...)
     print('|cff9966ffKui Nameplates|r: You are using an alpha release and may see debug messages in chat.')
     --@end-alpha@
 
-    -- TODO 80 temporary
-    local toc = select(4,GetBuildInfo())
-    if toc < 80000 then
-        print('|cff9966ffKui Nameplates|r: This version of KNP is for the BFA prepatch. Right click KuiNameplates in the Twitch client and set the release type to "release".')
-        self:UnregisterAllEvents()
-        return
-    end
-
     if not self.layout then
         -- throw missing layout
         print('|cff9966ffKui Nameplates|r: A compatible layout was not loaded. You probably forgot to enable Kui Nameplates: Core in your addon list.')
