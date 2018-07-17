@@ -15,6 +15,7 @@ locale\zhTW.lua
 locale\koKR.lua
 locale\ruRU.lua
 #locale\frFR.lua
+locale\esMX.lua
 
 helpers.lua
 create.lua

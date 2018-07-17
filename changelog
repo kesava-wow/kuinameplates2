@@ -1,3 +1,5 @@
+* add esMX locale (thanks to Phanx!)
+
 * re-enable version checking to prevent loading on 7.x because people
 keep telling me its broken.
 
