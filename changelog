@@ -1,3 +1,6 @@
+* re-enable version checking to prevent loading on 7.x because people
+keep telling me its broken.
+
 * bump TOC
 * add CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping)
 * add option to vertically move castbar spell name text under /knp > cast bars
