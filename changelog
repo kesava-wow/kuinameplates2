@@ -1,8 +1,3 @@
-CTHD RELEASE CANDIDATE NOTES
-This is for 8.0.x, it will not work on 7.x.
-
-* prevent loading on 7.x
-
 * bump TOC
 * add CVar config page with options for various hidden nameplate settings in the game (including render distance and clamping)
 * add option to vertically move castbar spell name text under /knp > cast bars
