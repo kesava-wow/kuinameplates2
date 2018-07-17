@@ -127,7 +127,7 @@ local function OnEvent(self,event,...)
     -- TODO 80 temporary
     local toc = select(4,GetBuildInfo())
     if toc < 80000 then
-        print('|cff9966ffKui Nameplates|r: This version of KNP is for the BFA prepatch. Right click KuiNameplates in the Twitch client and set the release type to "release".')
+        print('|cff9966ffKui Nameplates|r: This version of KNP is for the BFA prepatch. For 7.x support, download version 2.15.6.')
         self:UnregisterAllEvents()
         return
     end
