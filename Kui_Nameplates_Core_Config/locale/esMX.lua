@@ -47,7 +47,8 @@ L["titles"] = {
 	["bossmod_icon_size"] = "Tamaño de icono",
 	["bossmod_x_offset"] = "Desplaz. horizontal",
 	["bossmod_y_offset"] = "Desplaz. vertical",
-	["bot_vertical_offset"] = "Desplaz. vert. de nivel/salud",
+--[[Translation missing --]]
+	["bot_vertical_offset"] = "Level/health v.offset",
 	["castbar_colour"] = "Color de barra de lanzamiento",
 	["castbar_enable"] = "Activar",
 	["castbar_height"] = "Alto de barra de lanzamiento",
@@ -188,7 +189,8 @@ L["titles"] = {
 	["name_colour_sep"] = "Colores de nombre",
 	["name_colour_white_in_bar_mode"] = "Nombres blancos con barra de salud visible",
 	["name_text"] = "Mostrar nombre",
-	["name_vertical_offset"] = "Desplaz. vert. de nombre",
+--[[Translation missing --]]
+	["name_vertical_offset"] = "Name v.offset",
 	["nameonly"] = "Usar modo \"solo nombre\"",
 	["nameonly_all_enemies"] = "Para enemigos",
 	["nameonly_damaged_friends"] = "Aliados heridos",
@@ -209,7 +211,8 @@ L["titles"] = {
 	["profile"] = "Perfil",
 	["reaction_colour_sep"] = "Colores",
 	["rename_profile_label"] = "Escribe un nuevo nombre para |cffffffff%s",
-	["rename_profile_title"] = "Cambiar nombre de perfil",
+--[[Translation missing --]]
+	["rename_profile_title"] = "Rename profile",
 	["reset_profile_label"] = "¿Restablecer perfil |cffffffff%s|r?",
 	["reset_profile_title"] = "Restablecer perfil",
 	["state_icons"] = "Iconos del estado",
@@ -226,7 +229,8 @@ L["titles"] = {
 	["target_arrows_size"] = "Tamaño de flechas de objectivo",
 	["target_glow"] = "Brillo de objetivo",
 	["target_glow_colour"] = "Color del brillo de objetivo",
-	["text_vertical_offset"] = "Desplaz. vert. de texto",
+--[[Translation missing --]]
+	["text_vertical_offset"] = "Text v.offset",
 	["threat_brackets"] = "Triangulos de amenaza",
 	["title_text_players"] = "Títulos de jugadores",
 	["use_blizzard_personal"] = "Ignorar placa personal",
