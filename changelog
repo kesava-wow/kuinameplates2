@@ -1,3 +1,5 @@
+* fix runes don't correctly recolour when charged
+
 * update locale
 * add esMX locale (thanks to Phanx!)
 
