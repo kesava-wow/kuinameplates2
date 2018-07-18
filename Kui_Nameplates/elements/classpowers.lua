@@ -63,7 +63,7 @@
     PostPowerUpdate
         Called after icons are set to active or inactive.
 
-    PostRuneUpdate(icon,rune_id)
+    PostRuneUpdate
         Called after updating rune icon cooldown data for death knights.
 
     PostPositionFrame(cpf,parent)
@@ -653,9 +653,7 @@ function ele:PowerInit()
         if power_type == 'stagger' then
             self:StaggerUpdate()
         elseif class == 'DEATHKNIGHT' then
-            for i=1,6 do
-                self:RuneUpdate(nil,i)
-            end
+            self:RuneUpdate()
         else
             -- icon/generic bar powers
             PowerUpdate()
@@ -669,38 +667,40 @@ function ele:PowerInit()
         cpf:Hide()
     end
 end
-function ele:RuneUpdate(event,rune_id,energise)
-    -- set cooldown on rune icons
-    local startTime, duration, charged = GetRuneCooldown(rune_id)
-    local icon = cpf.icons[rune_id]
-    if not icon then return end
+function ele:RuneUpdate(event)
+    -- set/clear cooldown on rune icons
+    for i=1,6 do
+        local startTime, duration, charged = GetRuneCooldown(i)
+        local icon = cpf.icons[i]
+        if not icon then return end
 
-    if charged or energise then
-        icon:SetVertexColor(unpack(colours.DEATHKNIGHT))
-        icon:SetAlpha(1)
-        icon:GraduateFill(1)
+        if charged or energise then
+            icon:SetVertexColor(unpack(colours.DEATHKNIGHT))
+            icon:SetAlpha(1)
+            icon:GraduateFill(1)
 
-        icon.startTime = nil
-        icon.duration = nil
+            icon.startTime = nil
+            icon.duration = nil
 
-        if icon.glow then
-            icon.glow:Show()
-        end
-    else
-        icon:SetVertexColor(unpack(colours.inactive))
-        icon:SetAlpha(1)
-        icon:GraduateFill((GetTime() - startTime) / duration)
+            if icon.glow then
+                icon.glow:Show()
+            end
+        else
+            icon:SetVertexColor(unpack(colours.inactive))
+            icon:SetAlpha(1)
+            icon:GraduateFill((GetTime() - startTime) / duration)
 
-        icon.startTime = startTime
-        icon.duration = duration
-        cpf.RuneDaemon:Show()
+            icon.startTime = startTime
+            icon.duration = duration
+            cpf.RuneDaemon:Show()
 
-        if icon.glow then
-            icon.glow:Hide()
+            if icon.glow then
+                icon.glow:Hide()
+            end
         end
     end
 
-    self:RunCallback('PostRuneUpdate',icon,rune_id)
+    self:RunCallback('PostRuneUpdate')
 end
 function ele:StaggerUpdate()
     if not cpf.bar then return end
