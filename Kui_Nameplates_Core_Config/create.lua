@@ -414,6 +414,8 @@ function framesizes:Initialise()
     local powerbar_height = self:CreateSlider('powerbar_height',1,20)
     local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
 
+    frame_height_personal.enabled = function(p) return not p.use_blizzard_personal end
+
     frame_width:SetPoint('TOPLEFT',10,-25)
     frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
     frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-35)
