@@ -845,7 +845,7 @@ function core:InitialiseConfig()
             -- hide and re-show frames
             if f:IsShown() then
                 local unit = f.unit
-                f.handler:OnHide()
+                f.handler:OnHide() -- (this clears f.unit)
                 f.handler:OnUnitAdded(unit)
             end
         end
