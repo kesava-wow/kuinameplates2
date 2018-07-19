@@ -1,3 +1,6 @@
+BETA
+* disable pixel correction of personal nameplate width if "ignore personal nameplate" is enabled, such that the default width in KNP is much closer to the game's default
+
 2.16.1
 * fix runes don't correctly recolour when charged
 * update locale
