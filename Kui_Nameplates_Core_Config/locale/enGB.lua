@@ -357,7 +357,7 @@ L.tooltips = {
     classpowers_colour_inactive = 'Colour of inactive class power icons',
 
     bossmod_enable = 'Boss mod addons can communicate with nameplate addons to display extra information on nameplates in relevant encounters, such as important buffs or debuffs cast by bosses.',
-    bossmod_control_visibility = 'Boss mod addons can send a message to nameplate addons informing them to keep nameplates enabled during an encounter, ignoring other settings like automatic combat toggling, so that extra information can be displayed on them.|n|n|cffff6666If you disable this option and you do not usually have nameplates enabled, boss mods will not be able to show you this data.',
+    bossmod_control_visibility = 'Boss mod addons can send a message to nameplate addons informing them to keep nameplates enabled during an encounter, ignoring other settings like automatic combat toggling, so that extra information can be displayed on them.|n|n|cffff6666If you disable this option and you do not usually have nameplates enabled, boss mods will not be able to show you this information.',
     bossmod_icon_size = 'Size of the boss aura icons',
     bossmod_x_offset = 'Horizontal offset of the boss aura icons',
     bossmod_y_offset = 'Vertical offset of the boss aura icons',
