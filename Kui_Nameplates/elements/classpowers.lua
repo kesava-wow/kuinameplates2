@@ -134,8 +134,11 @@ local BALANCE_FERAL_AFFINITY_TALENT_ID=22155
 local GUARDIAN_FERAL_AFFINITY_TALENT_ID=22156
 local RESTO_FERAL_AFFINITY_TALENT_ID=22367
 local FIRES_OF_JUSTICE_SPELL_ID=209785
-local FIRES_OF_JUSTICE_NAME
 -- local functions #############################################################
+local function AuraUtil_IDPredicate(IDToFind,_,_,_,_,_,_,_,_,_,_,_,spellID)
+    -- spell ID predicate for AuraUtil
+    return spellID == IDToFind
+end
 local function IsTalentKnown(id)
     return select(10,GetTalentInfoByID(id))
 end
@@ -584,12 +587,10 @@ function ele:PowerInit()
         if class == 'PALADIN' then
             if power_type then
                 -- ret paladin; watch for fires of justice procs
-                FIRES_OF_JUSTICE_NAME = GetSpellInfo(FIRES_OF_JUSTICE_SPELL_ID)
                 highlight_at = 3
 
-                -- TODO 80 UnitBuff with name instead of index
-                --cpf:RegisterUnitEvent('UNIT_AURA','player')
-                --self.UNIT_AURA_func = self.Paladin_WatchFiresOfJustice
+                cpf:RegisterUnitEvent('UNIT_AURA','player')
+                self.UNIT_AURA_func = self.Paladin_WatchFiresOfJustice
             end
         elseif class == 'DRUID' and (
            (spec == 1 and IsTalentKnown(BALANCE_FERAL_AFFINITY_TALENT_ID)) or
@@ -737,7 +738,8 @@ function ele:UPDATE_SHAPESHIFT_FORM()
     self:PowerInit()
 end
 function ele:Paladin_WatchFiresOfJustice(_,unit)
-    if UnitBuff(unit,FIRES_OF_JUSTICE_NAME) then
+    -- TODO it would probably be more efficient to watch the combat log for this
+    if AuraUtil.FindAura(AuraUtil_IDPredicate,unit,nil,FIRES_OF_JUSTICE_SPELL_ID) then
         highlight_at = 2
     else
         highlight_at = 3
