@@ -136,9 +136,9 @@ end
 function ele:CastUpdate(event,f,unit)
     local startTime,endTime
     if f.cast_state.channel then
-        _,_,_,_,startTime,endTime = UnitChannelInfo(unit)
+        _,_,_,startTime,endTime = UnitChannelInfo(unit)
     else
-        _,_,_,_,startTime,endTime = UnitCastingInfo(unit)
+        _,_,_,startTime,endTime = UnitCastingInfo(unit)
     end
 
     if not startTime or not endTime then
