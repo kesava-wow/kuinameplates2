@@ -1,5 +1,6 @@
 BETA
 * fix various castbar update issues
+* fix class powers' fires of justice tracking
 * show six combo points with the deeper stratagem talent (rather than overflowing)
 * disable pixel correction of personal nameplate width if "ignore personal
 nameplate" is enabled (the personal frame width setting can now be reset to 132
