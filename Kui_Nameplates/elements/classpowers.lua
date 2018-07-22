@@ -130,7 +130,6 @@ local BAR_TEXTURE,BAR_WIDTH,BAR_HEIGHT
 local FRAME_POINT
 local ICON_SPRITE
 
-local ANTICIPATION_TALENT_ID=19240
 local BALANCE_FERAL_AFFINITY_TALENT_ID=22155
 local GUARDIAN_FERAL_AFFINITY_TALENT_ID=22156
 local RESTO_FERAL_AFFINITY_TALENT_ID=22367
@@ -269,9 +268,7 @@ end
 local function UpdateIcons()
     -- create/destroy icons based on player power max
     local power_max
-    if class == 'ROGUE' and IsTalentKnown(ANTICIPATION_TALENT_ID) then
-        power_max = 5
-    elseif power_type == 'stagger' then
+    if power_type == 'stagger' then
         -- corrected by StaggerUpdate
         power_max = 1
     else
