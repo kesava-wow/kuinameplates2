@@ -353,7 +353,7 @@ L.tooltips = {
     classpowers_bar_width = 'Width of the stagger bar',
     classpowers_bar_height = 'Height of the stagger bar',
     classpowers_colour = 'Colour of the class powers icons for the current class',
-    classpowers_colour_overflow = 'Colour of class powers "overflow" (ala Anticipation on a rogue)',
+    classpowers_colour_overflow = 'Colour of class powers "overflow"',
     classpowers_colour_inactive = 'Colour of inactive class power icons',
 
     bossmod_enable = 'Boss mod addons can communicate with nameplate addons to display extra information on nameplates in relevant encounters, such as important buffs or debuffs cast by bosses.',
