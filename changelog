@@ -1,7 +1,9 @@
 BETA
 * fix various castbar update issues
 * show six combo points with the deeper stratagem talent (rather than overflowing)
-* disable pixel correction of personal nameplate width if "ignore personal nameplate" is enabled, such that the default width in KNP is much closer to the game's default
+* disable pixel correction of personal nameplate width if "ignore personal
+nameplate" is enabled (the personal frame width setting can now be reset to 132
+if you were previously trying to match the appearance of the default interface)
 
 2.16.1
 * fix runes don't correctly recolour when charged
