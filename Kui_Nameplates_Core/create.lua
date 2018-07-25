@@ -20,6 +20,10 @@
 -- health bar = 0
 -- cast bar = 0
 --
+-- BACKGROUND
+-- castbar background = 1
+-- spell icon bg = 1
+--
 -- Frame #######################################################################
 -- ARTWORK
 -- raid icon (nameonly) = 1
@@ -27,8 +31,6 @@
 -- BACKGROUND
 -- healthbar fill background = 2
 -- frame background = 1
--- castbar background = 1
--- spell icon bg = 1
 -- threat brackets = 0
 -- frame glow = -5
 -- target glow = -5
