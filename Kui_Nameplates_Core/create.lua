@@ -1085,13 +1085,12 @@ do
                 f.SpellShield:Hide()
             end
         else
-            f.CastBar:SetMinMaxValues(0,1)
-            f.CastBar:SetValue(1)
-
             if interrupted and f.SpellName then
                 -- TODO locale
                 f.SpellName:SetText('Interrupted')
                 f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                f.CastBar:SetMinMaxValues(0,1)
+                f.CastBar:SetValue(1)
             end
 
             f.CastBar.AnimGroup:Play()
