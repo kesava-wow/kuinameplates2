@@ -1037,6 +1037,9 @@ do
             return
         end
 
+        f.CastBar.AnimGroup:Stop()
+        f.CastBar.spark:Show()
+
         if f.cast_state.interruptible then
             f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
         else
@@ -1063,14 +1066,30 @@ do
         -- always hide spark instantly
         f.CastBar.spark:Hide()
 
-        if f.SpellName then
-            f.SpellName:Hide()
-        end
-        if f.SpellIcon then
-            f.SpellIcon.bg:Hide()
-        end
-        if f.SpellShield then
-            f.SpellShield:Hide()
+        if no_fade then
+            -- hide instantly
+            f.CastBar:Hide()
+            f.CastBar.bg:Hide()
+
+            if f.SpellName then
+                f.SpellName:Hide()
+            end
+            if f.SpellIcon then
+                f.SpellIcon.bg:Hide()
+            end
+            if f.SpellShield then
+                f.SpellShield:Hide()
+            end
+        else
+            if interrupted and f.SpellName then
+                -- TODO locale
+                f.SpellName:SetText('Interrupted')
+                f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                f.CastBar:SetMinMaxValues(0,1)
+                f.CastBar:SetValue(1)
+            end
+
+            f.CastBar.AnimGroup:Play()
         end
 
         if FADE_AVOID_CASTING then
@@ -1178,6 +1197,23 @@ do
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
         castbar.bg = bg
+
+        -- create fade animation group
+        local grp = castbar:CreateAnimationGroup()
+        local anim = grp:CreateAnimation("Alpha")
+        anim:SetStartDelay(.5)
+        anim:SetDuration(1)
+        anim:SetFromAlpha(1)
+        anim:SetToAlpha(0)
+
+        grp.frame = f
+        grp.anim = anim
+        castbar.AnimGroup = grp
+
+        -- TODO temp
+        grp:SetScript('OnFinished',function(self,requested)
+            self.frame:HideCastBar(nil,true)
+        end)
 
         -- register base elements
         f.handler:RegisterElement('CastBar', castbar)
