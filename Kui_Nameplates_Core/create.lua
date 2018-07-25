@@ -1031,23 +1031,26 @@ do
     end
     local function ShowCastBar(f)
         if not f.elements.CastBar then
-            -- element disabled; keep attached elements hidden
-            -- TODO doesn't make sense if the element no longer hides/shows?
+            -- element disabled; stop CastBarUpdateFrame
             f:HideCastBar(nil,true)
             return
         end
-
-        f.CastBar.AnimGroup:Stop()
-        f.CastBar.spark:Show()
 
         if f.cast_state.interruptible then
             f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
         else
             f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+
+            if f.elements.SpellShield then
+                f.SpellShield:Show()
+            end
         end
 
-        -- also show attached elements
+        f.CastBar.AnimGroup:Stop()
+
+        f.CastBar:Show()
         f.CastBar.bg:Show()
+        f.CastBar.spark:Show()
 
         if CASTBAR_SHOW_ICON and f.SpellIcon then
             f.SpellIcon.bg:Show()

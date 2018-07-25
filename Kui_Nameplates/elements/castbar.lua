@@ -37,8 +37,6 @@ function addon.Nameplate.CastBarShow(f)
         else
             f.CastBar:SetValue(0)
         end
-
-        f.CastBar:Show()
     end
 
     if f.elements.SpellName then
@@ -47,10 +45,6 @@ function addon.Nameplate.CastBarShow(f)
 
     if f.elements.SpellIcon then
         f.SpellIcon:SetTexture(f.cast_state.icon)
-    end
-
-    if f.elements.SpellShield and not f.cast_state.interruptible then
-        f.SpellShield:Show()
     end
 
     addon:DispatchMessage('CastBarShow', f)
