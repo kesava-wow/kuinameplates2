@@ -132,8 +132,8 @@ end
 function core:CastBarShow(f)
     f:ShowCastBar()
 end
-function core:CastBarHide(f)
-    f:HideCastBar()
+function core:CastBarHide(f,...)
+    f:HideCastBar(...)
 end
 function core:GainedTarget(f)
     f.state.target = true

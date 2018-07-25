@@ -1031,8 +1031,9 @@ do
     end
     local function ShowCastBar(f)
         if not f.elements.CastBar then
-            -- keep attached elements hidden
-            f:HideCastBar()
+            -- element disabled; keep attached elements hidden
+            -- TODO doesn't make sense if the element no longer hides/shows?
+            f:HideCastBar(nil,true)
             return
         end
 
@@ -1058,10 +1059,9 @@ do
             plugin_fading:UpdateFrame(f)
         end
     end
-    local function HideCastBar(f)
-        -- also hide attached elements
-        f.CastBar:Hide()
-        f.CastBar.bg:Hide()
+    local function HideCastBar(f,interrupted,no_fade)
+        -- always hide spark instantly
+        f.CastBar.spark:Hide()
 
         if f.SpellName then
             f.SpellName:Hide()
