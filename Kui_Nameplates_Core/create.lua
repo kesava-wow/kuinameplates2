@@ -1066,11 +1066,11 @@ do
             plugin_fading:UpdateFrame(f)
         end
     end
-    local function HideCastBar(f,interrupted,no_fade)
+    local function HideCastBar(f,interrupted,force)
         -- always hide spark instantly
         f.CastBar.spark:Hide()
 
-        if no_fade then
+        if force then
             -- hide instantly
             f.CastBar:Hide()
             f.CastBar.bg:Hide()
