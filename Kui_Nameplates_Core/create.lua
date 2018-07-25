@@ -1119,7 +1119,7 @@ do
     local function CreateSpellIcon(f)
         assert(not f.SpellIcon)
 
-        local bg = f:CreateTexture(nil, 'BACKGROUND', nil, 1)
+        local bg = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
         bg:SetPoint('BOTTOMRIGHT', f.CastBar.bg, 'BOTTOMLEFT', -1, 0)
@@ -1154,7 +1154,7 @@ do
     local function CreateSpellName(f)
         assert(not f.SpellName)
 
-        local spellname = CreateFontString(f.HealthBar,FONT_SIZE_SMALL)
+        local spellname = CreateFontString(f.CastBar,FONT_SIZE_SMALL)
         spellname:SetWordWrap()
         spellname:Hide()
 
@@ -1163,17 +1163,18 @@ do
     end
 
     function core:CreateCastBar(f)
-        local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
+        local castbar = CreateStatusBar(f,true,nil,true)
+        castbar:Hide()
+
+        local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
         bg:SetPoint('TOPLEFT', f.bg, 'BOTTOMLEFT', 0, -1)
         bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
         bg:Hide()
 
-        local castbar = CreateStatusBar(f,true,nil,true)
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
-        castbar:Hide()
         castbar.bg = bg
 
         -- register base elements
