@@ -52,17 +52,19 @@ function addon.Nameplate.CastBarShow(f)
     f.CastBarUpdateFrame:Show()
     f.CastBarUpdateFrame:SetScript('OnUpdate', OnCastBarUpdate)
 end
-function addon.Nameplate.CastBarHide(f,interrupted)
+function addon.Nameplate.CastBarHide(f,interrupted,force)
     f = f.parent
-    if not f.state.casting then return end
-
-    f.state.casting = nil
-    wipe(f.cast_state)
+    if f.state.casting then
+        f.state.casting = nil
+        wipe(f.cast_state)
+    elseif not force then
+        return
+    end
 
     f.CastBarUpdateFrame:Hide()
     f.CastBarUpdateFrame:SetScript('OnUpdate',nil)
 
-    addon:DispatchMessage('CastBarHide',f,interrupted)
+    addon:DispatchMessage('CastBarHide',f,interrupted,force)
 end
 -- messages ####################################################################
 function ele:Create(f)
@@ -85,7 +87,7 @@ function ele:Show(f)
     end
 end
 function ele:Hide(f)
-    f.handler:CastBarHide()
+    f.handler:CastBarHide(nil,true)
 end
 -- events ######################################################################
 function ele:CastStart(event,f,unit)
