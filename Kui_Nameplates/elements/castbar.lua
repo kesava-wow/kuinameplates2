@@ -65,18 +65,10 @@ function addon.Nameplate.CastBarHide(f,interrupted)
     f.state.casting = nil
     wipe(f.cast_state)
 
-    if f.elements.CastBar then
-        f.CastBar:Hide()
-    end
-
-    if f.elements.SpellShield then
-        f.SpellShield:Hide()
-    end
-
-    addon:DispatchMessage('CastBarHide',f,interrupted)
-
     f.CastBarUpdateFrame:Hide()
     f.CastBarUpdateFrame:SetScript('OnUpdate',nil)
+
+    addon:DispatchMessage('CastBarHide',f,interrupted)
 end
 -- messages ####################################################################
 function ele:Create(f)
