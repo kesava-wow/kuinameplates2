@@ -167,7 +167,7 @@ local function UpdateFontObject(object)
     object:SetFont(
         FONT,
         object.fontobject_small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
-        not object.fontobject_no_style and FONT_STYLE
+        not object.fontobject_no_style and FONT_STYLE or nil
     )
 
     if object.fontobject_shadow or FONT_SHADOW then
