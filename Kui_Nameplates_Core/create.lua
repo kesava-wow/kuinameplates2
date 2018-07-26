@@ -167,7 +167,7 @@ local function UpdateFontObject(object)
     object:SetFont(
         FONT,
         object.fontobject_small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
-        FONT_STYLE
+        not object.fontobject_no_style and FONT_STYLE
     )
 
     if object.fontobject_shadow or FONT_SHADOW then
@@ -1752,20 +1752,19 @@ do
         f.ThreatGlow:Hide()
         f.ThreatBrackets:Hide()
 
-        f.NameText:SetShadowOffset(1,-1)
-        f.NameText:SetShadowColor(0,0,0,1)
         f.NameText:SetParent(f)
         f.NameText:ClearAllPoints()
         f.NameText:SetPoint('CENTER',.5,0)
         f.NameText:Show()
 
-        f.GuildText:SetShadowOffset(1,-1)
-        f.GuildText:SetShadowColor(0,0,0,1)
+        f.NameText.fontobject_shadow = true
+        f.GuildText.fontobject_shadow = true
+        f.NameText.fontobject_no_style = NAMEONLY_NO_FONT_STYLE
+        f.GuildText.fontobject_no_style = NAMEONLY_NO_FONT_STYLE
 
-        if NAMEONLY_NO_FONT_STYLE then
-            f.NameText:SetFont(FONT,FONT_SIZE_NORMAL,nil)
-            f.GuildText:SetFont(FONT,FONT_SIZE_SMALL,nil)
-        end
+        UpdateFontObject(f.NameText)
+        UpdateFontObject(f.GuildText)
+
         if FADE_AVOID_NAMEONLY then
             plugin_fading:UpdateFrame(f)
         end
@@ -1776,22 +1775,25 @@ do
 
         f.NameText:SetText(f.state.name)
         f.NameText:SetTextColor(1,1,1,1)
-        f.NameText:SetShadowColor(0,0,0,0)
         f.NameText:ClearAllPoints()
         f.NameText:SetParent(f.HealthBar)
         f:UpdateNameTextPosition()
 
         f.GuildText:SetTextColor(1,1,1,1)
-        f.GuildText:SetShadowColor(0,0,0,0)
 
         f.bg:Show()
         f.HealthBar:Show()
         f.HealthBar.fill:Show()
 
-        if NAMEONLY_NO_FONT_STYLE or FONT_SHADOW then
-            UpdateFontObject(f.NameText)
-            UpdateFontObject(f.GuildText)
-        end
+        -- nil fontobject overrides
+        f.NameText.fontobject_shadow = nil
+        f.NameText.fontobject_no_style = nil
+        f.GuildText.fontobject_shadow = nil
+        f.GuildText.fontobject_no_style = nil
+
+        UpdateFontObject(f.NameText)
+        UpdateFontObject(f.GuildText)
+
         if FADE_AVOID_NAMEONLY then
             plugin_fading:UpdateFrame(f)
         end
