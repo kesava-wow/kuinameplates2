@@ -170,7 +170,7 @@ local function UpdateFontObject(object)
         FONT_STYLE
     )
 
-    if FONT_SHADOW then
+    if object.fontobject_shadow or FONT_SHADOW then
         object:SetShadowColor(0,0,0,1)
         object:SetShadowOffset(1,-1)
     else
@@ -1431,13 +1431,11 @@ do
         -- move text to obey our settings
         button.cd:ClearAllPoints()
         button.cd:SetPoint('TOPLEFT',-2,2+TEXT_VERTICAL_OFFSET)
-        button.cd:SetShadowOffset(1,-1)
-        button.cd:SetShadowColor(0,0,0,1)
+        button.cd.fontobject_shadow = true
 
         button.count:ClearAllPoints()
         button.count:SetPoint('BOTTOMRIGHT',4,-2+TEXT_VERTICAL_OFFSET)
-        button.count:SetShadowOffset(1,-1)
-        button.count:SetShadowColor(0,0,0,1)
+        button.count.fontobject_shadow = true
 
         core.AurasButton_SetFont(button)
     end
