@@ -1,7 +1,6 @@
 ## Interface: 70300
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates|r PreLegion
-## Version: @project-version@
 ## Notes: Pre-legion nameplate layout for Kui_Nameplates.
 ## Dependencies: Kui_Nameplates
 
