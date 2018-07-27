@@ -1089,7 +1089,11 @@ do
                 f.SpellShield:Hide()
             end
         else
-            if hide_cause ~= 2 then
+            if hide_cause == 2 then
+                -- stopped
+                f.CastBar:SetMinMaxValues(0,1)
+                f.CastBar:SetValue(0)
+            else
                 if hide_cause == 1 then
                     -- interrupted
                     if f.SpellName then
