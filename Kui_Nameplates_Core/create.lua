@@ -1022,6 +1022,10 @@ do
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
           CASTBAR_NAME_VERTICAL_OFFSET
 
+    local function AnimGroup_Stop(self)
+        self.frame:HideCastBar(nil,true)
+        self:GetParent().highlight:Hide()
+    end
     local function SpellIconSetWidth(f)
         -- set spell icon width (as it's based on height)
         if not f.SpellIcon then return end
@@ -1085,18 +1089,20 @@ do
                 f.SpellShield:Hide()
             end
         else
-            if hide_cause == 1 then
-                if f.SpellName then
-                    -- TODO locale
-                    f.SpellName:SetText('Interrupted')
+            if hide_cause ~= 2 then
+                if hide_cause == 1 then
+                    -- interrupted
+                    if f.SpellName then
+                        -- TODO locale
+                        f.SpellName:SetText('Interrupted')
+                    end
+
+                    f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
                 end
-                f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+
                 f.CastBar:SetMinMaxValues(0,1)
                 f.CastBar:SetValue(1)
-            elseif hide_cause == 3 then
-                f.CastBar:SetStatusBarColor(.3,.8,.3)
-                f.CastBar:SetMinMaxValues(0,1)
-                f.CastBar:SetValue(1)
+                f.CastBar.highlight:Show()
             end
 
             f.CastBar.AnimGroup:Play()
@@ -1197,6 +1203,14 @@ do
         local castbar = CreateStatusBar(f,true,nil,true,1)
         castbar:Hide()
 
+        local hl = castbar:CreateTexture(nil,'ARTWORK',nil,1)
+        hl:SetTexture(BAR_TEXTURE)
+        hl:SetAllPoints(castbar)
+        hl:SetVertexColor(1,1,1)
+        hl:SetBlendMode('ADD')
+        hl:Hide()
+        castbar.highlight = hl
+
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
@@ -1209,6 +1223,7 @@ do
         castbar.bg = bg
 
         -- create fade animation group
+        -- TODO temp
         local grp = castbar:CreateAnimationGroup()
         local anim = grp:CreateAnimation("Alpha")
         anim:SetStartDelay(.5)
@@ -1216,14 +1231,18 @@ do
         anim:SetFromAlpha(1)
         anim:SetToAlpha(0)
 
-        grp.frame = f
-        grp.anim = anim
-        castbar.AnimGroup = grp
+        local anim2 = grp:CreateAnimation("Alpha")
+        anim2:SetChildKey('highlight')
+        anim2:SetStartDelay(.05)
+        anim2:SetDuration(.25)
+        anim2:SetSmoothing('IN')
+        anim2:SetFromAlpha(.6)
+        anim2:SetToAlpha(0)
 
-        -- TODO temp
-        grp:SetScript('OnFinished',function(self,requested)
-            self.frame:HideCastBar(nil,true)
-        end)
+        grp.frame = f
+        castbar.AnimGroup = grp
+        grp:SetScript('OnFinished',AnimGroup_Stop)
+        grp:SetScript('OnStop',AnimGroup_Stop)
 
         -- register base elements
         f.handler:RegisterElement('CastBar', castbar)
