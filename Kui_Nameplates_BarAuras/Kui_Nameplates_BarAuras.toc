@@ -1,7 +1,0 @@
-## Interface: 70300
-## Author: Kesava
-## Title: Kui |cff9966ffNameplates:|r |cffffffffBarAuras|r
-## Notes: Example plugin using callbacks|nMakes auras display as progress bars
-## Dependencies: Kui_Nameplates
-
-mod.lua
