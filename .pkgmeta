@@ -18,5 +18,4 @@ ignore:
     - .gitignore
     - changelog
     - README.md
-    - Kui_Nameplates_Example
-    - Kui_Nameplates_PreLegion
+    - examples
