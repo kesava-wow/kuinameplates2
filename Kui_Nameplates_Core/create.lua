@@ -1066,7 +1066,7 @@ do
             plugin_fading:UpdateFrame(f)
         end
     end
-    local function HideCastBar(f,interrupted,force)
+    local function HideCastBar(f,hide_cause,force)
         -- always hide spark instantly
         f.CastBar.spark:Hide()
 
@@ -1085,10 +1085,16 @@ do
                 f.SpellShield:Hide()
             end
         else
-            if interrupted and f.SpellName then
-                -- TODO locale
-                f.SpellName:SetText('Interrupted')
+            if hide_cause == 1 then
+                if f.SpellName then
+                    -- TODO locale
+                    f.SpellName:SetText('Interrupted')
+                end
                 f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                f.CastBar:SetMinMaxValues(0,1)
+                f.CastBar:SetValue(1)
+            elseif hide_cause == 3 then
+                f.CastBar:SetStatusBarColor(.3,.8,.3)
                 f.CastBar:SetMinMaxValues(0,1)
                 f.CastBar:SetValue(1)
             end

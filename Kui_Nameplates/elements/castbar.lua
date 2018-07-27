@@ -2,6 +2,12 @@
 local addon = KuiNameplates
 local ele = addon:NewElement('CastBar')
 local _
+
+-- castbar hide causes (first argument of CastBarHide)
+ele.HIDE_INTERRUPT=1
+ele.HIDE_STOP=2
+ele.HIDE_SUCCESS=3
+
 -- local functions #############################################################
 local function OnCastBarUpdate(f,elapsed)
     f = f.parent
@@ -52,7 +58,7 @@ function addon.Nameplate.CastBarShow(f)
     f.CastBarUpdateFrame:Show()
     f.CastBarUpdateFrame:SetScript('OnUpdate', OnCastBarUpdate)
 end
-function addon.Nameplate.CastBarHide(f,interrupted,force)
+function addon.Nameplate.CastBarHide(f,hide_cause,force)
     f = f.parent
     if f.state.casting then
         f.state.casting = nil
@@ -64,7 +70,7 @@ function addon.Nameplate.CastBarHide(f,interrupted,force)
     f.CastBarUpdateFrame:Hide()
     f.CastBarUpdateFrame:SetScript('OnUpdate',nil)
 
-    addon:DispatchMessage('CastBarHide',f,interrupted,force)
+    addon:DispatchMessage('CastBarHide',f,hide_cause,force)
 end
 -- messages ####################################################################
 function ele:Create(f)
@@ -116,10 +122,17 @@ function ele:CastStart(event,f,unit)
     f.handler:CastBarShow()
 end
 function ele:CastStop(event,f)
-    f.handler:CastBarHide()
+    if event == 'UNIT_SPELLCAST_SUCCEEDED' and f.cast_state.channel then
+        -- channels fire a success upon starting
+        return
+    end
+
+    f.handler:CastBarHide(event == 'UNIT_SPELLCAST_SUCCEEDED' and
+        ele.HIDE_SUCCESS or
+        ele.HIDE_STOP)
 end
 function ele:CastInterrupted(event,f)
-    f.handler:CastBarHide(true)
+    f.handler:CastBarHide(ele.HIDE_INTERRUPT)
 end
 function ele:CastUpdate(event,f,unit)
     local startTime,endTime
@@ -130,7 +143,7 @@ function ele:CastUpdate(event,f,unit)
     end
 
     if not startTime or not endTime then
-        f.handler:CastBarHide()
+        f.handler:CastBarHide(ele.HIDE_STOP)
         return
     end
 
@@ -169,6 +182,7 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_UPDATE','CastUpdate')
     self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastInterrupted')
     self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
+    self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED','CastStop')
 
     for i,f in addon:Frames() do
         -- run create on missed frames
