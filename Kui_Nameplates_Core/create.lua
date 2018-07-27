@@ -1212,7 +1212,7 @@ do
         local grp = castbar:CreateAnimationGroup()
         local anim = grp:CreateAnimation("Alpha")
         anim:SetStartDelay(.5)
-        anim:SetDuration(1)
+        anim:SetDuration(.5)
         anim:SetFromAlpha(1)
         anim:SetToAlpha(0)
 
