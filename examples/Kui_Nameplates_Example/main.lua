@@ -1,8 +1,8 @@
 local folder,ns=...
 local addon = KuiNameplates
+if not addon then return end
 
 local layout = addon:Layout()
-
 -- another layout is already registered
 if not layout then return end
 
@@ -89,4 +89,8 @@ function layout:Initialise()
 
     -- update health text
     self:RegisterMessage('HealthUpdate')
+
+    -- tell KNP we want clean pixel alignment
+    addon.IGNORE_UISCALE = v
+    addon:UI_SCALE_CHANGED()
 end
