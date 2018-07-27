@@ -8,13 +8,13 @@
 --
 -- HealthBar/CastBar ###########################################################
 -- ARTWORK
--- castbar spark = 7
 -- powerbar spark = 7
 -- raid icon (bar) = 6
 -- target arrows = 4
 -- spell shield = 3
 -- health bar highlight = 2
 -- spell icon = 2
+-- castbar spark = 1
 -- absorb bar = 1
 -- power bar = 0
 -- health bar = 0
@@ -117,7 +117,7 @@ do
         self.fill:Hide()
     end
 
-    function CreateStatusBar(parent,spark,no_fill,no_fade_spark)
+    function CreateStatusBar(parent,spark,no_fill,no_fade_spark,spark_level)
         local bar = CreateFrame('StatusBar',nil,parent)
         bar:SetStatusBarTexture(BAR_TEXTURE)
         bar:SetFrameLevel(0)
@@ -139,7 +139,7 @@ do
 
         if spark then
             local texture = bar:GetStatusBarTexture()
-            local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)
+            local spark = bar:CreateTexture(nil,'ARTWORK',nil,spark_level or 7)
             spark:SetTexture('interface/addons/kui_media/t/spark')
             spark:SetWidth(8)
 
@@ -1165,7 +1165,7 @@ do
         assert(not f.SpellShield)
 
         -- cast shield
-        local shield = f.HealthBar:CreateTexture(nil, 'ARTWORK', nil, 3)
+        local shield = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 3)
         shield:SetTexture(MEDIA..'Shield')
         shield:SetTexCoord(0, .84375, 0, 1)
         shield:SetSize(13.5, 16) -- 16 * .84375
@@ -1188,7 +1188,7 @@ do
     end
 
     function core:CreateCastBar(f)
-        local castbar = CreateStatusBar(f,true,nil,true)
+        local castbar = CreateStatusBar(f,true,nil,true,1)
         castbar:Hide()
 
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
