@@ -82,7 +82,8 @@ local ele = addon:NewElement('Auras')
 local strlower,tinsert,tsort,     pairs,ipairs =
       strlower,tinsert,table.sort,pairs,ipairs
 
-local FONT,FONT_SIZE_CD,FONT_SIZE_COUNT,FONT_FLAGS
+local FONT,FONT_SIZE_CD,FONT_SIZE_COUNT,FONT_FLAGS,
+      COLOUR_SHORT,COLOUR_MEDIUM,COLOUR_LONG
 
 -- DisplayAura callback return behaviour enums
 local CB_HIDE,CB_SHOW = 1,2
@@ -165,11 +166,11 @@ local function button_OnUpdate(self,elapsed)
         end
 
         if remaining <= 5 then
-            self.cd:SetTextColor(1,0,0)
+            self.cd:SetTextColor(unpack(COLOUR_SHORT))
         elseif remaining <= 20 then
-            self.cd:SetTextColor(1,1,0)
+            self.cd:SetTextColor(unpack(COLOUR_MEDIUM))
         else
-            self.cd:SetTextColor(1,1,1)
+            self.cd:SetTextColor(unpack(COLOUR_LONG))
         end
 
         if remaining <= DECIMAL_THRESHOLD then
@@ -790,6 +791,10 @@ function ele:Initialised()
     FONT_SIZE_CD = addon.layout.Auras.font_size_cd or 12
     FONT_SIZE_COUNT = addon.layout.Auras.font_size_count or 10
     FONT_FLAGS = addon.layout.Auras.font_flags or 'OUTLINE'
+
+    COLOUR_SHORT = addon.layout.Auras.colour_short or {1,0,0}
+    COLOUR_MEDIUM = addon.layout.Auras.colour_medium or {1,1,0}
+    COLOUR_LONG = addon.layout.Auras.colour_long or {1,1,1}
 end
 function ele:Initialise()
     -- register callbacks
