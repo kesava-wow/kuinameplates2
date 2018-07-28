@@ -435,9 +435,9 @@ function auras:Initialise()
     local auras_show_all_self = self:CreateCheckBox('auras_show_all_self')
     local auras_hide_all_other = self:CreateCheckBox('auras_hide_all_other')
     local auras_time_threshold = self:CreateSlider('auras_time_threshold',-1,180)
-    local colour_short = self:CreateColourPicker('auras_colour_short',true)
-    local colour_medium = self:CreateColourPicker('auras_colour_medium',true)
-    local colour_long = self:CreateColourPicker('auras_colour_long',true)
+    local colour_short = self:CreateColourPicker('auras_colour_short')
+    local colour_medium = self:CreateColourPicker('auras_colour_medium')
+    local colour_long = self:CreateColourPicker('auras_colour_long')
 
     auras_sort.SelectTable = {
         L.titles.dd_auras_sort_index,
