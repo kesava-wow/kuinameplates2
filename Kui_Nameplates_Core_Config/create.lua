@@ -435,6 +435,9 @@ function auras:Initialise()
     local auras_show_all_self = self:CreateCheckBox('auras_show_all_self')
     local auras_hide_all_other = self:CreateCheckBox('auras_hide_all_other')
     local auras_time_threshold = self:CreateSlider('auras_time_threshold',-1,180)
+    local colour_short = self:CreateColourPicker('auras_colour_short',true)
+    local colour_medium = self:CreateColourPicker('auras_colour_medium',true)
+    local colour_long = self:CreateColourPicker('auras_colour_long',true)
 
     auras_sort.SelectTable = {
         L.titles.dd_auras_sort_index,
@@ -465,6 +468,9 @@ function auras:Initialise()
     auras_centre:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT')
     auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
     auras_time_threshold:SetPoint('LEFT',auras_show_all_self,'RIGHT',184,5)
+    colour_short:SetPoint('TOPLEFT',auras_sort,5,-140)
+    colour_medium:SetPoint('TOPLEFT',colour_short,0,22)
+    colour_long:SetPoint('TOPLEFT',colour_medium,0,22)
     auras_kslc_hint:SetPoint('TOP',0,-190)
 
     auras_filtering_sep:SetPoint('TOP',auras_kslc_hint,'BOTTOM',0,-35)
