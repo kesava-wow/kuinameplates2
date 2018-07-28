@@ -1462,11 +1462,11 @@ do
     function core.Auras_PostCreateAuraButton(frame,button)
         -- move text to obey our settings
         button.cd:ClearAllPoints()
-        button.cd:SetPoint('TOPLEFT',-2,2+TEXT_VERTICAL_OFFSET)
+        button.cd:SetPoint('TOPLEFT',-4,3+TEXT_VERTICAL_OFFSET)
         button.cd.fontobject_shadow = true
 
         button.count:ClearAllPoints()
-        button.count:SetPoint('BOTTOMRIGHT',4,-2+TEXT_VERTICAL_OFFSET)
+        button.count:SetPoint('BOTTOMRIGHT',5,-2+TEXT_VERTICAL_OFFSET)
         button.count.fontobject_shadow = true
 
         core.AurasButton_SetFont(button)
