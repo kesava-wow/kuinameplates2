@@ -9,9 +9,12 @@
         font_size_cd = size of font used for aura countdown
         font_size_count = size of font used for aura stack count
         font_flags = additional font flags (OUTLINE, et al)
+        colour_short = colour of short timer text (like {1,1,1})
+        colour_medium = colour of medium timer text
+        colour_long = colour of long timer text
     }
         Configuration table. Can be an empty table.
-        Element will not initialise if this is missing.
+        Element will not initialise if this is missing or not a table.
 
     Creating aura frames
     ====================
@@ -747,6 +750,21 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
 
     return new_frame
 end
+-- mod functions ###############################################################
+function ele:UpdateConfig()
+    -- get config from layout
+    if not self.enabled then return end
+    if type(addon.layout.Auras) ~= 'table' then return end
+
+    FONT = addon.layout.Auras.font or 'Fonts\\FRIZQT__.TTF'
+    FONT_SIZE_CD = addon.layout.Auras.font_size_cd or 12
+    FONT_SIZE_COUNT = addon.layout.Auras.font_size_count or 10
+    FONT_FLAGS = addon.layout.Auras.font_flags or 'OUTLINE'
+
+    COLOUR_SHORT = addon.layout.Auras.colour_short or {1,0,0,1}
+    COLOUR_MEDIUM = addon.layout.Auras.colour_medium or {1,1,0,1}
+    COLOUR_LONG = addon.layout.Auras.colour_long or {1,1,1,1}
+end
 -- messages ####################################################################
 function ele:Show(f)
     self:UNIT_FACTION(nil,f)
@@ -782,19 +800,11 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_FACTION')
 end
 function ele:Initialised()
-    if not addon.layout.Auras then
+    if type(addon.layout.Auras) ~= 'table' then 
         self:Disable()
         return
     end
-
-    FONT = addon.layout.Auras.font or 'Fonts\\FRIZQT__.TTF'
-    FONT_SIZE_CD = addon.layout.Auras.font_size_cd or 12
-    FONT_SIZE_COUNT = addon.layout.Auras.font_size_count or 10
-    FONT_FLAGS = addon.layout.Auras.font_flags or 'OUTLINE'
-
-    COLOUR_SHORT = addon.layout.Auras.colour_short or {1,0,0,1}
-    COLOUR_MEDIUM = addon.layout.Auras.colour_medium or {1,1,0,1}
-    COLOUR_LONG = addon.layout.Auras.colour_long or {1,1,1,1}
+    self:UpdateConfig()
 end
 function ele:Initialise()
     -- register callbacks
