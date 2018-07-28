@@ -187,7 +187,7 @@ local function button_UpdateCooldown(self,duration,expiration)
     if expiration and expiration > 0 then
         self.expiration = expiration
         self.cd_elap = 0
-		self.duration = duration
+	self.duration = duration
         self:SetScript('OnUpdate',button_OnUpdate)
         self.cd:Show()
     else
