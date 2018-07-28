@@ -137,7 +137,7 @@ local function button_OnUpdate(self,elapsed)
     if self.cd_elap <= 0 then
         local remaining = self.expiration - GetTime()
 
-        if self.parent.pulsate and remaining <= 5 then
+        if self.parent.pulsate and remaining <= self.pandemic then
             self:StartPulsate()
         else
             self:StopPulsate()
@@ -164,7 +164,7 @@ local function button_OnUpdate(self,elapsed)
             self.cd_elap = .5
         end
 
-        if remaining <= 5 then
+        if remaining <= self.pandemic then
             self.cd:SetTextColor(1,0,0)
         elseif remaining <= 20 then
             self.cd:SetTextColor(1,1,0)
@@ -420,6 +420,10 @@ local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,exp
     button.spellid = spellid
     button.index = index
 
+    if not button.pandemic then
+        button.pandemic = duration and (duration * .3) or 0
+    end
+
     if count > 1 then
         button.count:SetText(count)
         button.count:Show()
@@ -442,7 +446,7 @@ local function AuraFrame_HideButton(self,button)
     -- reset pulsating
     button:StopPulsate()
 
-    button.duration   = nil
+    button.pandemic   = nil
     button.expiration = nil
     button.cd_elap    = nil
     button.spellid    = nil
