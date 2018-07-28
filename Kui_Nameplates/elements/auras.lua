@@ -136,7 +136,7 @@ local function button_OnUpdate(self,elapsed)
     self.cd_elap = (self.cd_elap or 0) - elapsed
     if self.cd_elap <= 0 then
         local remaining = self.expiration - GetTime()
-		local remainingPandemic = self.duration * 0.3
+	  local remainingPandemic = self.duration * 0.3
 
         if self.parent.pulsate and remaining <= remainingPandemic then
             self:StartPulsate()
