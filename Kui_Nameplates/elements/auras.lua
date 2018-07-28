@@ -792,9 +792,9 @@ function ele:Initialised()
     FONT_SIZE_COUNT = addon.layout.Auras.font_size_count or 10
     FONT_FLAGS = addon.layout.Auras.font_flags or 'OUTLINE'
 
-    COLOUR_SHORT = addon.layout.Auras.colour_short or {1,0,0}
-    COLOUR_MEDIUM = addon.layout.Auras.colour_medium or {1,1,0}
-    COLOUR_LONG = addon.layout.Auras.colour_long or {1,1,1}
+    COLOUR_SHORT = addon.layout.Auras.colour_short or {1,0,0,1}
+    COLOUR_MEDIUM = addon.layout.Auras.colour_medium or {1,1,0,1}
+    COLOUR_LONG = addon.layout.Auras.colour_long or {1,1,1,1}
 end
 function ele:Initialise()
     -- register callbacks
