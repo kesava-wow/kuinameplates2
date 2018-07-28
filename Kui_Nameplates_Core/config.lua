@@ -149,6 +149,9 @@ local default_config = {
     auras_icon_normal_size = 24,
     auras_icon_minus_size = 18,
     auras_icon_squareness = .7,
+    auras_colour_short = {1,.3,.3},
+    auras_colour_medium = {1,.8,.3},
+    auras_colour_long = {1,1,1},
 
     castbar_enable = true,
     castbar_colour = {.75,.75,.9},
@@ -533,6 +536,11 @@ configChanged.nameonly_neutral = configChanged.nameonly
 configChanged.nameonly_in_combat = configChanged.nameonly
 
 local function configChangedAuras()
+    core.Auras.colour_short = core.profile.auras_colour_short
+    core.Auras.colour_medium = core.profile.auras_colour_medium
+    core.Auras.colour_long = core.profile.auras_colour_long
+
+    addon:GetPlugin('Auras'):UpdateConfig()
     core:SetAurasConfig()
 end
 function configChanged.auras_enabled(v)
@@ -542,7 +550,7 @@ function configChanged.auras_enabled(v)
         addon:GetPlugin('Auras'):Disable()
     end
 
-    configChangedAuras()
+    core:SetAurasConfig()
 end
 configChanged.auras_pulsate = configChangedAuras
 configChanged.auras_centre = configChangedAuras
@@ -556,6 +564,9 @@ configChanged.auras_icon_squareness = configChangedAuras
 configChanged.auras_on_personal = configChangedAuras
 configChanged.auras_show_all_self = configChangedAuras
 configChanged.auras_hide_all_other = configChangedAuras
+configChanged.auras_colour_short = configChangedAuras
+configChanged.auras_colour_medium = configChangedAuras
+configChanged.auras_colour_long = configChangedAuras
 
 local function configChangedCastBar()
     core:SetCastBarConfig()
@@ -589,10 +600,7 @@ local function configChangedClassPowers()
     core.ClassPowers.icon_size = core.profile.classpowers_size
     core.ClassPowers.bar_width = core.profile.classpowers_bar_width
     core.ClassPowers.bar_height = core.profile.classpowers_bar_height
-
-    if addon:GetPlugin('ClassPowers').enabled then
-        addon:GetPlugin('ClassPowers'):UpdateConfig()
-    end
+    addon:GetPlugin('ClassPowers'):UpdateConfig()
 end
 configChanged.classpowers_size = configChangedClassPowers
 configChanged.classpowers_on_target = configChangedClassPowers

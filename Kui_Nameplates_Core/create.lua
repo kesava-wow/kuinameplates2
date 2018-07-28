@@ -1945,7 +1945,11 @@ function core:InitialiseElements()
 
     self:configChangedCombatAction()
 
-    self.Auras = {}
+    self.Auras = {
+        colour_short = self.profile.auras_colour_short,
+        colour_medium = self.profile.auras_colour_medium,
+        colour_long = self.profile.auras_colour_long,
+    }
 
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
