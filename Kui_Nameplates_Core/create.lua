@@ -1102,6 +1102,9 @@ do
                     end
 
                     f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                else
+                    -- succeeded
+                    f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
                 end
 
                 f.CastBar:SetMinMaxValues(0,1)
