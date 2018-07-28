@@ -181,6 +181,9 @@ L.titles = {
     auras_icon_normal_size = 'Icon size (normal)',
     auras_icon_minus_size = 'Icon size (minus)',
     auras_icon_squareness = 'Icon squareness',
+    auras_colour_short = 'Short timer',
+    auras_colour_medium = 'Medium timer',
+    auras_colour_long = 'Long timer',
 
     castbar_enable = 'Enable',
     castbar_colour = 'Cast bar colour',
