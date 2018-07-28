@@ -1229,27 +1229,29 @@ do
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
         castbar.bg = bg
 
-        -- create fade animation group
-        -- TODO temp
-        local grp = castbar:CreateAnimationGroup()
-        local anim = grp:CreateAnimation("Alpha")
-        anim:SetStartDelay(.5)
-        anim:SetDuration(.5)
-        anim:SetFromAlpha(1)
-        anim:SetToAlpha(0)
+        do -- create animations;
+            local grp = castbar:CreateAnimationGroup()
+            -- bar fade
+            local anim = grp:CreateAnimation("Alpha")
+            anim:SetStartDelay(.5)
+            anim:SetDuration(.5)
+            anim:SetFromAlpha(1)
+            anim:SetToAlpha(0)
 
-        local anim2 = grp:CreateAnimation("Alpha")
-        anim2:SetChildKey('highlight')
-        anim2:SetStartDelay(.05)
-        anim2:SetDuration(.25)
-        anim2:SetSmoothing('IN')
-        anim2:SetFromAlpha(.6)
-        anim2:SetToAlpha(0)
+            -- highlight flash
+            local anim2 = grp:CreateAnimation("Alpha")
+            anim2:SetChildKey('highlight')
+            anim2:SetStartDelay(.05)
+            anim2:SetDuration(.25)
+            anim2:SetSmoothing('IN')
+            anim2:SetFromAlpha(.6)
+            anim2:SetToAlpha(0)
 
-        grp.frame = f
-        castbar.AnimGroup = grp
-        grp:SetScript('OnFinished',AnimGroup_Stop)
-        grp:SetScript('OnStop',AnimGroup_Stop)
+            grp.frame = f
+            castbar.AnimGroup = grp
+            grp:SetScript('OnFinished',AnimGroup_Stop)
+            grp:SetScript('OnStop',AnimGroup_Stop)
+        end
 
         -- register base elements
         f.handler:RegisterElement('CastBar', castbar)
