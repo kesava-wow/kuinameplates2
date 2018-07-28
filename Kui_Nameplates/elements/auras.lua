@@ -89,7 +89,7 @@ local FONT,FONT_SIZE_CD,FONT_SIZE_COUNT,FONT_FLAGS,
 local CB_HIDE,CB_SHOW = 1,2
 
 -- time below which to show decimal places
-local DECIMAL_THRESHOLD = 1
+local DECIMAL_THRESHOLD = 2
 -- row growth lookup table
 local row_growth_points = {
     UP = {'BOTTOM','TOP'},
@@ -159,7 +159,7 @@ local function button_OnUpdate(self,elapsed)
         end
 
         if remaining <= DECIMAL_THRESHOLD+1 then
-            -- faster updates in the last 2 seconds
+            -- faster updates in the last few seconds
             self.cd_elap = .05
         else
             self.cd_elap = .5
