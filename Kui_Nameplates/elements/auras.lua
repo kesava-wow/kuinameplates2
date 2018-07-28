@@ -136,8 +136,9 @@ local function button_OnUpdate(self,elapsed)
     self.cd_elap = (self.cd_elap or 0) - elapsed
     if self.cd_elap <= 0 then
         local remaining = self.expiration - GetTime()
+	  local remainingPandemic = self.duration * 0.3
 
-        if self.parent.pulsate and remaining <= 5 then
+        if self.parent.pulsate and remaining <= remainingPandemic then
             self:StartPulsate()
         else
             self:StopPulsate()
@@ -164,7 +165,7 @@ local function button_OnUpdate(self,elapsed)
             self.cd_elap = .5
         end
 
-        if remaining <= 5 then
+        if remaining <= remainingPandemic then 
             self.cd:SetTextColor(1,0,0)
         elseif remaining <= 20 then
             self.cd:SetTextColor(1,1,0)
@@ -186,6 +187,7 @@ local function button_UpdateCooldown(self,duration,expiration)
     if expiration and expiration > 0 then
         self.expiration = expiration
         self.cd_elap = 0
+	  self.duration = duration
         self:SetScript('OnUpdate',button_OnUpdate)
         self.cd:Show()
     else
