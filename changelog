@@ -1,7 +1,8 @@
-ALPHA NOTES
-* add castbar fading & flash upon interrupt and cast finish
+BETA NOTES
 * add options for aura timer text colours
-* force font shadow on aura text
 * change default aura timer text colours slightly
 * move aura text slightly
 * increase aura decimal threshold to two seconds
+
+* add castbar fading & flash upon interrupt and cast finish
+* force font shadow on aura text
