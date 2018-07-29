@@ -1232,20 +1232,22 @@ do
         do -- create animations;
             local grp = castbar:CreateAnimationGroup()
             -- bar fade
-            local anim = grp:CreateAnimation("Alpha")
-            anim:SetStartDelay(.5)
-            anim:SetDuration(.5)
-            anim:SetFromAlpha(1)
-            anim:SetToAlpha(0)
+            local bar = grp:CreateAnimation("Alpha")
+            bar:SetStartDelay(.5)
+            bar:SetDuration(.5)
+            bar:SetFromAlpha(1)
+            bar:SetToAlpha(0)
+            grp.bar = bar
 
             -- highlight flash
-            local anim2 = grp:CreateAnimation("Alpha")
-            anim2:SetChildKey('highlight')
-            anim2:SetStartDelay(.05)
-            anim2:SetDuration(.25)
-            anim2:SetSmoothing('IN')
-            anim2:SetFromAlpha(.6)
-            anim2:SetToAlpha(0)
+            local highlight = grp:CreateAnimation("Alpha")
+            highlight:SetChildKey('highlight')
+            highlight:SetStartDelay(.05)
+            highlight:SetDuration(.25)
+            highlight:SetSmoothing('IN')
+            highlight:SetFromAlpha(.6)
+            highlight:SetToAlpha(0)
+            grp.highlight = highlight
 
             grp.frame = f
             castbar.AnimGroup = grp
