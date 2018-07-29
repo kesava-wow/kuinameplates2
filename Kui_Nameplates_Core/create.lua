@@ -1213,7 +1213,7 @@ do
         local hl = castbar:CreateTexture(nil,'ARTWORK',nil,1)
         hl:SetTexture(BAR_TEXTURE)
         hl:SetAllPoints(castbar)
-        hl:SetVertexColor(1,1,1)
+        hl:SetVertexColor(1,1,1,.4)
         hl:SetBlendMode('ADD')
         hl:Hide()
         castbar.highlight = hl
@@ -1245,7 +1245,7 @@ do
             highlight:SetStartDelay(.05)
             highlight:SetDuration(.25)
             highlight:SetSmoothing('IN')
-            highlight:SetFromAlpha(.6)
+            highlight:SetFromAlpha(.4)
             highlight:SetToAlpha(0)
             grp.highlight = highlight
 
