@@ -100,12 +100,7 @@ do
         end
 
         if self.spark then
-            local col = {...}
-            self.spark:SetVertexColor(
-                col[1]+.3,
-                col[2]+.3,
-                col[3]+.3
-            )
+            self.spark:SetVertexColor(kui.Brighten(.3,...))
         end
     end
     local function FilledBar_Show(self)
