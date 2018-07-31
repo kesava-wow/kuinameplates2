@@ -171,8 +171,7 @@ function core:ExecuteUpdate(f)
     plugin_fading:UpdateFrame(f)
 end
 -- events ######################################################################
-function core:QUESTLINE_UPDATE()
-    -- TODO this isn't really the right event, but the others fire too soon
+function core:QUEST_POI_UPDATE()
     -- update to show name of new quest NPCs
     for _,frame in addon:Frames() do
         if frame:IsShown() then
@@ -286,7 +285,7 @@ function core:Initialise()
     self:RegisterMessage('ClassificationChanged')
 
     -- register events
-    self:RegisterEvent('QUESTLINE_UPDATE')
+    self:RegisterEvent('QUEST_POI_UPDATE')
     self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
     self:RegisterUnitEvent('UNIT_NAME_UPDATE')
 
