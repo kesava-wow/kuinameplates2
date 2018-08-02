@@ -117,18 +117,12 @@ function ele:CastStart(event,f,unit)
 
     f.handler:CastBarShow()
 end
-function ele:CastStop(event,f)
-    if event == 'UNIT_SPELLCAST_SUCCEEDED' and f.cast_state.channel then
-        -- channels fire a success upon starting
-        return
-    end
-
-    f.handler:CastBarHide(event == 'UNIT_SPELLCAST_SUCCEEDED' and
-        ele.HIDE_SUCCESS or
+function ele:CastStop(event,f,unit,guid)
+    if not f.state.casting or guid ~= f.cast_state.guid then return end
+    f.handler:CastBarHide(
+        (event == 'UNIT_SPELLCAST_INTERRUPTED' and ele.HIDE_INTERRUPT) or
+        (event == 'UNIT_SPELLCAST_SUCCEEDED' and ele.HIDE_SUCCESS) or
         ele.HIDE_STOP)
-end
-function ele:CastInterrupted(event,f)
-    f.handler:CastBarHide(ele.HIDE_INTERRUPT)
 end
 function ele:CastUpdate(event,f,unit)
     local startTime,endTime
@@ -150,6 +144,10 @@ function ele:CastUpdate(event,f,unit)
     f.cast_state.max = endTime - startTime
 
     f.handler:CastBarShow()
+end
+function ele:UNIT_SPELLCAST_CHANNEL_STOP(event,f)
+    if not f.state.casting or not f.cast_state.channel then return end
+    f.handler:CastBarHide(ele.HIDE_STOP)
 end
 -- enable/disable per frame ####################################################
 function ele:EnableOnFrame(frame)
@@ -173,12 +171,13 @@ function ele:OnEnable()
 
     self:RegisterUnitEvent('UNIT_SPELLCAST_START','CastStart')
     self:RegisterUnitEvent('UNIT_SPELLCAST_STOP','CastStop')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_START','CastStart')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_STOP','CastStop')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_UPDATE','CastUpdate')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastInterrupted')
     self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
+    self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastStop')
     self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED','CastStop')
+
+    self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_START','CastStart')
+    self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_STOP')
+    self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_UPDATE','CastUpdate')
 
     for i,f in addon:Frames() do
         -- run create on missed frames
