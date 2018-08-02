@@ -4,6 +4,7 @@ local ele = addon:NewElement('CastBar')
 local _
 
 -- castbar hide causes (first argument of CastBarHide)
+ele.HIDE_FRAME=0
 ele.HIDE_INTERRUPT=1
 ele.HIDE_STOP=2
 ele.HIDE_SUCCESS=3
@@ -62,7 +63,9 @@ function addon.Nameplate.CastBarHide(f,hide_cause,force)
     f.CastBarUpdateFrame:Hide()
     f.CastBarUpdateFrame:SetScript('OnUpdate',nil)
 
-    addon:DispatchMessage('CastBarHide',f,hide_cause,force)
+    if hide_cause ~= ele.HIDE_FRAME then
+        addon:DispatchMessage('CastBarHide',f,hide_cause,force)
+    end
 end
 -- messages ####################################################################
 function ele:Create(f)
@@ -85,7 +88,7 @@ function ele:Show(f)
     end
 end
 function ele:Hide(f)
-    f.handler:CastBarHide(nil,true)
+    f.handler:CastBarHide(ele.HIDE_FRAME,true)
 end
 -- events ######################################################################
 function ele:CastStart(event,f,unit)
