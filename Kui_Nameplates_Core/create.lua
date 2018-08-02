@@ -1083,6 +1083,10 @@ do
             if f.SpellShield then
                 f.SpellShield:Hide()
             end
+
+            if f.CastBar.AnimGroup:IsPlaying() then
+                f.CastBar.AnimGroup:Stop()
+            end
         else
             if hide_cause == 2 then
                 -- stopped

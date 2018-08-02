@@ -109,6 +109,7 @@ function core:Hide(f)
     end
 
     self:NameOnlyUpdate(f,true)
+    f:HideCastBar(nil,true)
 end
 function core:HealthUpdate(f)
     f:UpdateHealthText()
