@@ -11,10 +11,6 @@ function addon.Nameplate.UpdatePower(f,on_show)
         else
             f.PowerBar:SetValue(0)
         end
-
-        if not on_show then
-            addon:DispatchMessage('PowerUpdate', f)
-        end
     end
 end
 function addon.Nameplate.UpdatePowerType(f,on_show)
