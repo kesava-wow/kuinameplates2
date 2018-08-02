@@ -92,11 +92,11 @@ function ele:Hide(f)
 end
 -- events ######################################################################
 function ele:CastStart(event,f,unit)
-    local name,text,texture,startTime,endTime,notInterruptible
+    local name,text,texture,startTime,endTime,guid,notInterruptible
     if event == 'UNIT_SPELLCAST_CHANNEL_START' then
         name,text,texture,startTime,endTime,_,notInterruptible = UnitChannelInfo(unit)
     else
-        name,text,texture,startTime,endTime,_,_,notInterruptible = UnitCastingInfo(unit)
+        name,text,texture,startTime,endTime,_,guid,notInterruptible = UnitCastingInfo(unit)
     end
     if not name then return end
 
@@ -108,6 +108,7 @@ function ele:CastStart(event,f,unit)
     f.cast_state.icon          = texture
     f.cast_state.duration      = GetTime() - startTime
     f.cast_state.max           = endTime - startTime
+    f.cast_state.guid          = guid
     f.cast_state.interruptible = not notInterruptible
 
     if event == 'UNIT_SPELLCAST_CHANNEL_START' then
