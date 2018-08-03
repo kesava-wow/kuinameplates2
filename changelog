@@ -1,4 +1,6 @@
 BETA NOTES
+* fix castbar sticking on personal frame
+
 * verify cast GUIDs for castbar events
 
 * reduce castbar flash brightness
