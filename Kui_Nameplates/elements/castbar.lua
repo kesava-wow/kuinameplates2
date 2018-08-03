@@ -156,7 +156,12 @@ function ele:EnableOnFrame(frame)
     end
 end
 function ele:DisableOnFrame(frame)
-    self:Hide(frame)
+    if frame.state.casting then
+        -- we need to force a hide here since the element is disabled after
+        -- elements and plugins get to it (XXX)
+        frame.handler:CastBarHide(ele.HIDE_FRAME,true)
+        addon:DispatchMessage('CastBarHide',frame,ele.HIDE_FRAME,true)
+    end
 end
 -- register ####################################################################
 function ele:OnDisable()
