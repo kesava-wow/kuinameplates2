@@ -64,7 +64,7 @@ local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
 local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET,FRAME_GLOW_THREAT
-local HIDE_NAMES
+local HIDE_NAMES,GLOBAL_SCALE
 
 -- common globals
 local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
@@ -181,6 +181,12 @@ local function CreateFontString(parent,small)
 
     return f
 end
+local function Scale(v)
+    if not GLOBAL_SCALE then
+        GLOBAL_SCALE = core.profile.global_scale
+    end
+    return floor((v*GLOBAL_SCALE)+.5)
+end
 -- config functions ############################################################
 do
     local FONT_STYLE_ASSOC = {
@@ -205,15 +211,16 @@ do
 
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
 
-        FRAME_WIDTH = self.profile.frame_width
-        FRAME_HEIGHT = self.profile.frame_height
-        FRAME_WIDTH_MINUS = self.profile.frame_width_minus
-        FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
-        FRAME_WIDTH_PERSONAL = self.profile.frame_width_personal
-        FRAME_HEIGHT_PERSONAL = self.profile.frame_height_personal
-        POWER_BAR_HEIGHT = self.profile.powerbar_height
+        GLOBAL_SCALE = self.profile.global_scale
+        FRAME_WIDTH = Scale(self.profile.frame_width)
+        FRAME_HEIGHT = Scale(self.profile.frame_height)
+        FRAME_WIDTH_MINUS = Scale(self.profile.frame_width_minus)
+        FRAME_HEIGHT_MINUS = Scale(self.profile.frame_height_minus)
+        FRAME_WIDTH_PERSONAL = Scale(self.profile.frame_width_personal)
+        FRAME_HEIGHT_PERSONAL = Scale(self.profile.frame_height_personal)
+        POWER_BAR_HEIGHT = Scale(self.profile.powerbar_height)
 
-        FRAME_GLOW_SIZE = self.profile.frame_glow_size
+        FRAME_GLOW_SIZE = Scale(self.profile.frame_glow_size)
         FRAME_GLOW_TEXTURE_INSET = .01 * (FRAME_GLOW_SIZE / 4)
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
 
@@ -223,8 +230,8 @@ do
 
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
-        FONT_SIZE_NORMAL = self.profile.font_size_normal
-        FONT_SIZE_SMALL = self.profile.font_size_small
+        FONT_SIZE_NORMAL = Scale(self.profile.font_size_normal)
+        FONT_SIZE_SMALL = Scale(self.profile.font_size_small)
 
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_UNTRACKED = self.profile.fade_untracked
@@ -286,7 +293,7 @@ function core:configChangedTargetArrows()
         if self.profile.target_arrows then
             if f.TargetArrows then
                 f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                f.TargetArrows:SetSize(self.profile.target_arrows_size)
+                f.TargetArrows:SetSize(Scale(self.profile.target_arrows_size))
             else
                 self:CreateTargetArrows(f)
             end
@@ -1004,7 +1011,7 @@ do
         right:SetTexCoord(.72,0,0,1)
         arrows.r = right
 
-        arrows:SetSize(core.profile.target_arrows_size)
+        arrows:SetSize(Scale(core.profile.target_arrows_size))
         arrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
 
         f.TargetArrows = arrows
@@ -1280,13 +1287,13 @@ do
 
     function core:SetCastBarConfig()
         CASTBAR_ENABLED = self.profile.castbar_enable
-        CASTBAR_HEIGHT = self.profile.castbar_height
+        CASTBAR_HEIGHT = Scale(self.profile.castbar_height)
         CASTBAR_COLOUR = self.profile.castbar_colour
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
         CASTBAR_SHOW_NAME = self.profile.castbar_name
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
-        CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
+        CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset)
 
         for k,f in addon:Frames() do
             -- create elements which weren't required until config was changed
@@ -1531,8 +1538,8 @@ do
             AURAS_MAX_LENGTH = nil
         end
 
-        AURAS_NORMAL_SIZE = self.profile.auras_icon_normal_size
-        AURAS_MINUS_SIZE = self.profile.auras_icon_minus_size
+        AURAS_NORMAL_SIZE = Scale(self.profile.auras_icon_normal_size)
+        AURAS_MINUS_SIZE = Scale(self.profile.auras_icon_minus_size)
 
         AURAS_ENABLED = self.profile.auras_enabled
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
@@ -1955,9 +1962,9 @@ function core:InitialiseElements()
 
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
-        icon_size = self.profile.classpowers_size or 10,
-        bar_width = self.profile.classpowers_bar_width,
-        bar_height = self.profile.classpowers_bar_height,
+        icon_size = Scale(self.profile.classpowers_size) or 10,
+        bar_width = Scale(self.profile.classpowers_bar_width),
+        bar_height = Scale(self.profile.classpowers_bar_height),
         icon_texture = MEDIA..'combopoint-round',
         icon_sprite = MEDIA..'combopoint',
         icon_glow_texture = MEDIA..'combopoint-glow',
@@ -1982,7 +1989,7 @@ function core:InitialiseElements()
     end
 
     self.BossModIcon = {
-        icon_size = self.profile.bossmod_icon_size,
+        icon_size = Scale(self.profile.bossmod_icon_size),
         icon_x_offset = self.profile.bossmod_x_offset,
         icon_y_offset = self.profile.bossmod_y_offset,
         control_visibility = self.profile.bossmod_control_visibility,

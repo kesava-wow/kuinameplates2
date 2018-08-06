@@ -135,6 +135,7 @@ local default_config = {
     frame_height_personal = 13,
     castbar_height = 6,
     powerbar_height = 3,
+    global_scale = 1,
 
     auras_enabled = true,
     auras_on_personal = true,
@@ -748,6 +749,17 @@ configChanged.cvar_max_distance = configChangedCVar
 configChanged.cvar_clamp_top = configChangedCVar
 configChanged.cvar_clamp_bottom = configChangedCVar
 configChanged.cvar_overlap_v = configChangedCVar
+
+function configChanged.global_scale(v)
+    configChanged.frame_glow_size(core.profile.frame_glow_size)
+    configChanged.target_arrows()
+    configChangedCastBar()
+    configChangedAuras()
+    configChangedFontOption()
+    configChangedClassPowers()
+    configChangedTextOffset()
+    configChangedFrameSize()
+end
 
 -- config loaded functions #####################################################
 local configLoaded = {}
