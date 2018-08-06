@@ -1,3 +1,7 @@
+BETA NOTES
+* add performance tracing debug stuff (disabled on curse builds)
+* update locale
+
 * add castbar flash & fade upon interrupt/finish/stop
 * add options for aura timer text colours
 * change default aura timer text colours slightly
