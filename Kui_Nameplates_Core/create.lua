@@ -1036,6 +1036,8 @@ do
             return
         end
 
+        f.CastBar.AnimGroup:Stop()
+
         if f.cast_state.interruptible then
             f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
         else
@@ -1045,8 +1047,6 @@ do
                 f.SpellShield:Show()
             end
         end
-
-        f.CastBar.AnimGroup:Stop()
 
         f.CastBar:Show()
         f.CastBar.bg:Show()
