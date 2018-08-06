@@ -285,8 +285,6 @@ do
         slider:SetObeyStepOnDrag(true)
         slider:EnableMouseWheel(true)
 
-        -- TODO inc/dec buttons
-
         local label = slider:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
         label:SetText(L.titles[name] or name or 'Slider')
         label:SetPoint('BOTTOM',slider,'TOP')
