@@ -21,6 +21,12 @@ L["titles"] = {
 	["absorb_enable"] = "Afficher l'absorption",
 	["absorb_striped"] = "Texture d'absorption rayée",
 	["auras_centre"] = "Centrer les icônes",
+--[[Translation missing --]]
+	["auras_colour_long"] = "Long timer",
+--[[Translation missing --]]
+	["auras_colour_medium"] = "Medium timer",
+--[[Translation missing --]]
+	["auras_colour_short"] = "Short timer",
 	["auras_enabled"] = "Afficher les auras",
 	["auras_filtering_sep"] = "Filtrage",
 	["auras_hide_all_other"] = "Ignorer les autres auras",
@@ -131,7 +137,6 @@ L["titles"] = {
 	["execute_percent"] = "Distance d'exécution",
 	["execute_sep"] = "Distance d'exécution",
 	["fade_all"] = "Décolorer par défaut",
-	["fade_alpha"] = "Alpha décoloré",
 --[[Translation missing --]]
 	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
 --[[Translation missing --]]
@@ -153,7 +158,6 @@ L["titles"] = {
 	["fade_neutral_enemy"] = "Décolorer les ennemis neutres",
 --[[Translation missing --]]
 	["fade_non_target_alpha"] = "Non-target alpha",
-	["fade_rules_sep"] = "Fondu du cadre",
 	["fade_speed"] = "Vitesse d'animation du fondu ",
 	["fade_untracked"] = "Fondu des unités non-ciblées",
 	["font_face"] = "Style de police",
@@ -198,7 +202,6 @@ L["titles"] = {
 	["nameonly_in_combat"] = "Unités en combat avec vous",
 	["nameonly_neutral"] = "Ennemis pacifiques",
 	["nameonly_no_font_style"] = "Pas de contour de texte",
-	["nameonly_on_default"] = "Cacher la barre de vie par défaut",
 	["nameonly_target"] = "Cible",
 --[[Translation missing --]]
 	["nameonly_text_sep"] = "Text",
@@ -304,7 +307,6 @@ L["tooltips"] = {
 	["execute_enabled"] = "Recolorer la barre de vie quand les unités sont dans la distance d'exécution",
 	["execute_percent"] = "Définir manuellement la distance d'exécution",
 	["fade_all"] = "Décolorer tout le cadre par défaut, plutôt que l'intérieur",
-	["fade_alpha"] = "Opacité des cadres décolorés. Notez que si c'est réglé sur 0 (i.e. les cadres sont invisibles), les barres d'info invisibles seront toujours cliquables. Les addons ne peuvent pas désactiver arbitrairement la zone de clic des barres d'info",
 --[[Translation missing --]]
 	["fade_avoid_casting_friendly"] = "Don't fade friendly nameplates when they are casting",
 --[[Translation missing --]]
@@ -354,7 +356,6 @@ L["tooltips"] = {
 	["nameonly_in_combat"] = "Utiliser le mode nom-seul même lorsqu'une unité est en combat avec (permet aussi au mode nom-seul d'être activé sur les joueurs ennemis).|n|nNotez que cela ne s'applique pas aux mannequins d'entraînement ou autres unités qui n'ont pas de niveau de menace.",
 	["nameonly_neutral"] = "Utiliser le mode nom-seul sur les unités neutres attaquables",
 	["nameonly_no_font_style"] = "Masquer le contour du texte dans le mode nom-seul (en définissant le style de police sur zéro)",
-	["nameonly_on_default"] = "Cacher la barre de vie des barres d'info par défaut dans les situations où les barres d'info des amis ne peuvent pas être modifiés par les addons.|n|nCela modifie le CVar |cffffff88nameplateShowOnlyNames|r.",
 	["nameonly_target"] = "Utiliser aussi le mode nom-seul sur votre cible",
 	["powerbar_height"] = "Hauteur de la barre d'énergie. Ne va pas augmenter au-delà de la hauteur du cadre",
 	["state_icons"] = "Affiche une icône sur les boss et unités rares (cachée lorsque le niveau est affiché)",

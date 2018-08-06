@@ -6,8 +6,7 @@ L["page_names"] = {
 	["bossmod"] = "Boss 模式",
 	["castbars"] = "施法条",
 	["classpowers"] = "职业资源",
---[[Translation missing --]]
-	["cvars"] = "CVars",
+	["cvars"] = "CVars参数",
 --[[Translation missing --]]
 	["fade_rules"] = "Fade rules",
 	["framesizes"] = "框体大小",
@@ -22,6 +21,12 @@ L["titles"] = {
 	["absorb_enable"] = "显示吸收",
 	["absorb_striped"] = "条纹吸收材质",
 	["auras_centre"] = "置中对齐图标",
+--[[Translation missing --]]
+	["auras_colour_long"] = "Long timer",
+--[[Translation missing --]]
+	["auras_colour_medium"] = "Medium timer",
+--[[Translation missing --]]
+	["auras_colour_short"] = "Short timer",
 	["auras_enabled"] = "启用",
 	["auras_filtering_sep"] = "过滤",
 	["auras_hide_all_other"] = "隐藏他人施放的所有光环",
@@ -51,8 +56,7 @@ L["titles"] = {
 	["castbar_height"] = "施法条高度",
 	["castbar_icon"] = "显示法术图标",
 	["castbar_name"] = "显示法术名称",
---[[Translation missing --]]
-	["castbar_name_vertical_offset"] = "Spell name v.offset",
+	["castbar_name_vertical_offset"] = "法术名垂直偏移",
 	["castbar_shield"] = "显示盾牌图标",
 	["castbar_showall"] = "所有姓名版均显示施法条",
 	["castbar_showenemy"] = "显示敌方施法条",
@@ -96,8 +100,7 @@ L["titles"] = {
 	["cvar_clamp_top"] = "Top clamp distance",
 --[[Translation missing --]]
 	["cvar_enable"] = "Allow Kui Nameplates to modify CVars",
---[[Translation missing --]]
-	["cvar_max_distance"] = "Max render distance",
+	["cvar_max_distance"] = "最大可视距离",
 --[[Translation missing --]]
 	["cvar_name_only"] = "Hide default health bar",
 --[[Translation missing --]]
@@ -124,10 +127,8 @@ L["titles"] = {
 	["dd_font_style_shadowandoutline"] = "阴影加描边",
 	["dd_health_text_blank"] = "空",
 	["dd_health_text_current"] = "当前值",
---[[Translation missing --]]
-	["dd_health_text_current_deficit"] = "Current + deficit",
---[[Translation missing --]]
-	["dd_health_text_current_percent"] = "Current + percent",
+	["dd_health_text_current_deficit"] = "当前+损失值",
+	["dd_health_text_current_percent"] = "当前+百分比",
 	["dd_health_text_deficit"] = "损失值",
 	["dd_health_text_maximum"] = "最大值",
 	["dd_health_text_percent"] = "百分比",
@@ -139,7 +140,6 @@ L["titles"] = {
 	["execute_percent"] = "斩杀阈值百分比",
 	["execute_sep"] = "斩杀阶段",
 	["fade_all"] = "默认渐隐",
-	["fade_alpha"] = "渐隐透明度",
 --[[Translation missing --]]
 	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
 --[[Translation missing --]]
@@ -161,7 +161,6 @@ L["titles"] = {
 	["fade_neutral_enemy"] = "渐隐中立单位",
 --[[Translation missing --]]
 	["fade_non_target_alpha"] = "Non-target alpha",
-	["fade_rules_sep"] = "框体渐隐",
 	["fade_speed"] = "渐隐动画速度",
 	["fade_untracked"] = "渐隐非追踪单位",
 	["font_face"] = "文本字型",
@@ -212,7 +211,6 @@ L["titles"] = {
 	["nameonly_in_combat"] = "正与你交战的单位",
 	["nameonly_neutral"] = "包括中立单位",
 	["nameonly_no_font_style"] = "无字型描边",
-	["nameonly_on_default"] = "原始姓名板名字模式",
 	["nameonly_target"] = "包括目标",
 --[[Translation missing --]]
 	["nameonly_text_sep"] = "Text",
@@ -271,8 +269,7 @@ L["tooltips"] = {
 	["bossmod_y_offset"] = "首领光环图标位置的垂直偏移量",
 	["bot_vertical_offset"] = "等级血量垂直偏移",
 	["castbar_enable"] = "启用施法条",
---[[Translation missing --]]
-	["castbar_name_vertical_offset"] = "Vertical offset of the spell name text",
+	["castbar_name_vertical_offset"] = "法术名文本垂直偏移量",
 	["castbar_shield"] = "在免疫打断的施法条上显示盾牌图标",
 	["castbar_showall"] = "在所有姓名板上显示施法条",
 	["castbar_showenemy"] = "显示敌方施法条",
@@ -304,8 +301,7 @@ L["tooltips"] = {
 	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.",
 --[[Translation missing --]]
 	["cvar_enable"] = "When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.",
---[[Translation missing --]]
-	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|nMaximum distance at which to render nameplates (not including your current target).",
+	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|n姓名板可视的最大距离 (不包含当前目标).",
 --[[Translation missing --]]
 	["cvar_name_only"] = "|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.",
 --[[Translation missing --]]
@@ -323,7 +319,6 @@ L["tooltips"] = {
 	["execute_enabled"] = "当单位进入斩杀阶段时，重新染色姓名板",
 	["execute_percent"] = "手动设定斩杀阶段血量阈值",
 	["fade_all"] = "默认状态下渐隐所有框体",
-	["fade_alpha"] = "渐隐框体的透明度。请注意：如果设为0（即框体完全透明不可见），不可见的姓名板仍然可以点击。 插件不能任意禁用姓名板的点击框。",
 --[[Translation missing --]]
 	["fade_avoid_casting_friendly"] = "Don't fade friendly nameplates when they are casting",
 --[[Translation missing --]]
@@ -373,7 +368,6 @@ L["tooltips"] = {
 	["nameonly_in_combat"] = "在战斗中使用名字模式。|n|n注意，此选项也作用于敌方玩家单位，但不适用于训练假人或其他没有威胁值列表的单位。",
 	["nameonly_neutral"] = "在可攻击的中立单位使用名字模式",
 	["nameonly_no_font_style"] = "使用名字模式时，不使用字体描边（将字型样式设为空）",
-	["nameonly_on_default"] = "当插件无法美化友方姓名板（如处于副本内）而只能显示暴雪自帶姓名板时，隐藏其血条，只显示名字。|n|n这个选项会修改CVar |cffffff88nameplateShowOnlyNames|r。",
 	["nameonly_target"] = "也在当前目标使用名字模式",
 	["powerbar_height"] = "能量条的高度。不能超过姓名板框体高度",
 	["state_icons"] = "在首领与精英单位上显示图标（启用”显示等级文字”时隐藏）",

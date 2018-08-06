@@ -22,6 +22,12 @@ L["titles"] = {
 	["absorb_enable"] = "Mostrar absorciones",
 	["absorb_striped"] = "Barra de absorción con rayas",
 	["auras_centre"] = "Iconos centrados",
+--[[Translation missing --]]
+	["auras_colour_long"] = "Long timer",
+--[[Translation missing --]]
+	["auras_colour_medium"] = "Medium timer",
+--[[Translation missing --]]
+	["auras_colour_short"] = "Short timer",
 	["auras_enabled"] = "Mostrar auras",
 	["auras_filtering_sep"] = "Filtración",
 	["auras_hide_all_other"] = "Esconder todas otras auras",
@@ -132,7 +138,6 @@ L["titles"] = {
 	["execute_percent"] = "Rango de Ejecutar",
 	["execute_sep"] = "Rango de Ejecutar",
 	["fade_all"] = "Apagar por defecto",
-	["fade_alpha"] = "Opacidad apagado",
 --[[Translation missing --]]
 	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
 --[[Translation missing --]]
@@ -154,7 +159,6 @@ L["titles"] = {
 	["fade_neutral_enemy"] = "Apagar enemigos neutrales",
 --[[Translation missing --]]
 	["fade_non_target_alpha"] = "Non-target alpha",
-	["fade_rules_sep"] = "Apagamiento de placas",
 	["fade_speed"] = "Velocidad de apagamiento",
 	["fade_untracked"] = "Apagar unidades no rastreadas",
 	["font_face"] = "Tipo de letra",
@@ -199,7 +203,6 @@ L["titles"] = {
 	["nameonly_in_combat"] = "Unidades en combate contigo",
 	["nameonly_neutral"] = "Enemigos neutrales",
 	["nameonly_no_font_style"] = "Sin contorno",
-	["nameonly_on_default"] = "Ocultar barra de salud por defecto",
 	["nameonly_target"] = "Para objetivo",
 --[[Translation missing --]]
 	["nameonly_text_sep"] = "Text",
@@ -256,7 +259,7 @@ L["tooltips"] = {
 	["bar_texture"] = "La textura para usar para barras de estado (proporcionado por LibSharedMedia)",
 	["bossmod_clickthrough"] = "Permitir hacer click a traves de las placas de nombe que se muestran automaticamente.",
 --[[Translation missing --]]
-	["bossmod_control_visibility"] = "Boss mod addons can send a message to nameplate addons informing them to keep nameplates enabled during an encounter, ignoring other settings like automatic combat toggling, so that extra information can be displayed on them.|n|n|cffff6666If you disable this option and you do not usually have nameplates enabled, boss mods will not be able to show you this data.",
+	["bossmod_control_visibility"] = "Boss mod addons can send a message to nameplate addons informing them to keep nameplates enabled during an encounter, ignoring other settings like automatic combat toggling, so that extra information can be displayed on them.|n|n|cffff6666If you disable this option and you do not usually have nameplates enabled, boss mods will not be able to show you this information.",
 --[[Translation missing --]]
 	["bossmod_enable"] = "Boss mod addons can communicate with nameplate addons to display extra information on nameplates in relevant encounters, such as important buffs or debuffs cast by bosses.",
 	["bossmod_icon_size"] = "El tamaño de los iconos de las auras de jefe",
@@ -308,7 +311,6 @@ L["tooltips"] = {
 	["execute_enabled"] = "Cambiar el color de las barras de salud para unidades cuya salud está dentro del rango de Ejecutar.",
 	["execute_percent"] = "Cambiar manualmente el rango de Ejecutar",
 	["fade_all"] = "Apagar las placas por defecto",
-	["fade_alpha"] = "La opacidad de las placas apagadas. Si está configurado a 0, entonces las placas serán invisibles, pero aún se puede hacer clic. No es posible que un addon las oculte por completo.",
 --[[Translation missing --]]
 	["fade_avoid_casting_friendly"] = "Don't fade friendly nameplates when they are casting",
 --[[Translation missing --]]
@@ -357,7 +359,6 @@ L["tooltips"] = {
 	["nameonly_in_combat"] = "Usar el modo \"solo nombre\" incluso en unidades en combate contigo. Esto también permitir que el modo \"solo nombre\" se aplique al jugadores enemigos.|n|nTenga en cuenta que este no se aplica a los muñecos de práctica y otros unidades que no tienen tablas de amenaza.",
 	["nameonly_neutral"] = "Usar el modo \"solo nombre\" para unidades neutrales a los que puedes atacar",
 	["nameonly_no_font_style"] = "Ocultar el contorno del texto en el modo \"solo nombre\"",
-	["nameonly_on_default"] = "Ocultar la barra de salud de las placas de nombre por defecto en situaciones donde no es posible que los addons las modifiquen de otras maneras.|n|nEsto modifica el CVar |cffffff88nameplateShowOnlyNames|r.",
 	["nameonly_target"] = "También usar el modo \"solo nombre\" para tu objetivo.",
 	["powerbar_height"] = "La altura de la barra de poder. No aumentará más allá de la altura de la placa.",
 	["state_icons"] = "Mostar un icono en jefes y unidades poco comunes (está oculto cuando se muestra el texto del nivel).",

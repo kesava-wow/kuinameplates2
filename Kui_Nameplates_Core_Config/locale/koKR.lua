@@ -22,6 +22,12 @@ L["titles"] = {
 	["absorb_enable"] = "흡수 표시",
 	["absorb_striped"] = "줄무늬 흡수 텍스쳐",
 	["auras_centre"] = "아이콘 가운데 정렬",
+--[[Translation missing --]]
+	["auras_colour_long"] = "Long timer",
+--[[Translation missing --]]
+	["auras_colour_medium"] = "Medium timer",
+--[[Translation missing --]]
+	["auras_colour_short"] = "Short timer",
 	["auras_enabled"] = "효과 표시",
 	["auras_filtering_sep"] = "필터링",
 	["auras_hide_all_other"] = "다른 모든 효과 차단",
@@ -139,7 +145,6 @@ L["titles"] = {
 	["execute_percent"] = "마무리 일격 범위",
 	["execute_sep"] = "마무리 일격 범위",
 	["fade_all"] = "기본으로 페이드",
-	["fade_alpha"] = "페이드 투명도",
 --[[Translation missing --]]
 	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
 --[[Translation missing --]]
@@ -161,7 +166,6 @@ L["titles"] = {
 	["fade_neutral_enemy"] = "중립 적 페이드",
 --[[Translation missing --]]
 	["fade_non_target_alpha"] = "Non-target alpha",
-	["fade_rules_sep"] = "프레임 페이딩",
 	["fade_speed"] = "페이드 애니메이션 속도",
 	["fade_untracked"] = "추적하지 않은 유닛 페이드",
 	["font_face"] = "글꼴",
@@ -212,8 +216,6 @@ L["titles"] = {
 	["nameonly_in_combat"] = "당신과 전투 중인 유닛",
 	["nameonly_neutral"] = "중립 적",
 	["nameonly_no_font_style"] = "문자 외곽선 없음",
---[[Translation missing --]]
-	["nameonly_on_default"] = "Hide default health bar",
 	["nameonly_target"] = "대상",
 --[[Translation missing --]]
 	["nameonly_text_sep"] = "Text",
@@ -326,7 +328,6 @@ L["tooltips"] = {
 	["execute_enabled"] = "유닛이 마무리 일격 범위 내에 있을 때 생명력 바의 색상을 변경합니다",
 	["execute_percent"] = "마무리 일격 범위 직접 설정",
 	["fade_all"] = "페이드 인 대신 기본으로 모든 프레임을 패이드 아웃시킵니다",
-	["fade_alpha"] = "페이드 프레임의 불투명도입니다. 0으로 설정하면 (즉. 프레임이 보이지 않음), 보이지 않는 이름표는 계속 클릭이 가능합니다. 애드온은 임의로 이름표 클릭 영역을 비활성할 수 없습니다",
 --[[Translation missing --]]
 	["fade_avoid_casting_friendly"] = "Don't fade friendly nameplates when they are casting",
 --[[Translation missing --]]
@@ -376,8 +377,6 @@ L["tooltips"] = {
 	["nameonly_in_combat"] = "유닛이 당신과 전투 중일 때도 이름만 표시 모드를 사용합니다 (이름만 표시 모드를 적 플레이어에도 활성화 합니다).|n|n훈련용 허수아비나 위협 수준을 가지지 않는 다른 유닛에 적용할 수 없습니다.",
 	["nameonly_neutral"] = "공격할 수 있는 중립 유닛에 이름만 표시 모드를 사용합니다",
 	["nameonly_no_font_style"] = "이름만 표시 모드일 때 문자 외곽선을 숨깁니다 (글꼴 스타일을 nil로 설정하여)",
---[[Translation missing --]]
-	["nameonly_on_default"] = "Hide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.|n|nThis modifies the CVar |cffffff88nameplateShowOnlyNames|r.",
 	["nameonly_target"] = "당신의 대상에도 이름만 표시 모드를 사용합니다",
 	["powerbar_height"] = "자원 바의 높이입니다. 프레임 높이를 넘어서 증가하지 않습니다",
 	["state_icons"] = "우두머리와 희귀 유닛에 아이콘을 표시합니다 (레벨 문자가 표시되면 숨겨집니다)",
