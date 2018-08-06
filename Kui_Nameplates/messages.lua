@@ -6,6 +6,7 @@
 -- Handle frame event listeners, dispatch messages, init plugins/elements/layout
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 
 local k,listener,plugin,_
 local listeners = {}
@@ -92,11 +93,12 @@ do
         table.sort(ev_sort,function(a,b)
             return a[sort_key] > b[sort_key]
         end)
+        local d = kui:DebugPopup()
         for i,v in ipairs(ev_sort) do
             if limit and i > limit then break end
-            print('|cffffff88'..v[1]..'|r #'..v[2]..' | sum:'..format('%.4f',v[3])..'ms | avg:'..format('%.4f',v[4])..'ms')
+            d:AddText('|cffffff88'..v[1]..'|r #'..v[2]..' | sum:'..format('%.4f',v[3])..'ms | avg:'..format('%.4f',v[4])..'ms')
         end
-        print('|cff888888- - -')
+        d:Show()
     end
 end
 ----------------------------------------------------- core message dispatcher --
