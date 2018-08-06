@@ -1,16 +1,5 @@
-BETA NOTES
-* fix spell shield hides incorrectly
-
-* fix castbar sticking on personal frame
-
-* verify cast GUIDs for castbar events
-
-* reduce castbar flash brightness
-
+* add castbar flash & fade upon interrupt/finish/stop
 * add options for aura timer text colours
 * change default aura timer text colours slightly
-* move aura text slightly
 * increase aura decimal threshold to two seconds
-
-* add castbar fading & flash upon interrupt and cast finish
-* force font shadow on aura text
+* move aura text slightly
