@@ -36,6 +36,19 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             }
         end
         return
+    elseif knp.debug and strfind(msg,'^trace') then
+        --@debug@
+        if strfind(msg,'^trace p') then
+            local k = strmatch(msg,'^trace p ?(%d*)$')
+            knp:PrintTrace(tonumber(k))
+        elseif GetCVarBool('scriptProfile') then
+            knp.profiling = not knp.profiling
+            knp:print('Profiling '..(knp.profiling and 'started' or 'stopped'))
+        else
+            knp:print('Profiling unavailable')
+        end
+        --@end-debug@
+        return
     elseif msg == 'debug-frames' then
         knp.draw_frames = not knp.draw_frames
         if knp.draw_frames then
