@@ -1096,8 +1096,7 @@ do
                 if hide_cause == 1 then
                     -- interrupted
                     if f.SpellName then
-                        -- TODO locale
-                        f.SpellName:SetText('Interrupted')
+                        f.SpellName:SetText(INTERRUPTED)
                     end
 
                     f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
