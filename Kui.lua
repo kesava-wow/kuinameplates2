@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 29
+local MAJOR, MINOR = 'Kui-1.0', 30
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -306,7 +306,7 @@ local function CreateDebugPopup()
         if not v then return end
         local m = p:GetText()
         if m ~= '' then
-            m = m..'|n|n'
+            m = m..'|n'
         end
         if type(v) == 'table' then
             v = kui.table_to_string(v)
