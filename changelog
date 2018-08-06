@@ -1,4 +1,6 @@
 BETA NOTES
+* fix spell shield hides incorrectly
+
 * fix castbar sticking on personal frame
 
 * verify cast GUIDs for castbar events
