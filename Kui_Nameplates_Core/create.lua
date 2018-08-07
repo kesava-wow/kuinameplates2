@@ -1121,6 +1121,12 @@ do
         if not CASTBAR_ENABLED then return end
         if f.IN_NAMEONLY then
             f.handler:DisableElement('CastBar')
+
+            if f.CastBar.AnimGroup:IsPlaying() then
+                -- disabling the element only fires a force hide if the unit
+                -- is currently casting; the animation can be left playing
+                f.CastBar.AnimGroup:Stop()
+            end
         else
             if f.state.player then
                 if core.profile.castbar_showpersonal then
