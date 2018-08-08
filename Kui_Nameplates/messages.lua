@@ -453,13 +453,13 @@ function message.RunCallback(table,name,...)
     if table.__CALLBACKS[name] == 2 then
         -- inherit return from forced single callback
         --@debug@
-        local r = {table.callbacks[name][1](...)}
-        TraceEnd('c:'..name)
-        return unpack(r)
+        if addon.profiling then
+            local r = {table.callbacks[name][1](...)}
+            TraceEnd('c:'..name)
+            return unpack(r)
+        end
         --@end-debug@
-        --[===[@non-debug@
         return table.callbacks[name][1](...)
-        --@end-non-debug@]===]
     else
         for i,cb in ipairs(table.callbacks[name]) do
             cb[1](...)
