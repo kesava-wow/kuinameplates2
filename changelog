@@ -1,6 +1,4 @@
-* add castbar flash & fade upon interrupt/finish/stop
-* add options for aura timer text colours
-* change default aura timer text colours slightly
-* increase aura decimal threshold to two seconds
-* move aura text slightly
-* update locale
+BETA NOTES
+* fix raid icon displays on the personal frame
+* slightly more efficient :Show
+* rename state.player > state.personal, can now be used by elements & plugins
