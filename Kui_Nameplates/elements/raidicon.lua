@@ -2,15 +2,15 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('RaidIcon')
-local GetRaidTargetIndex,SetRaidTargetIconTexture,UnitIsUnit =
-      GetRaidTargetIndex,SetRaidTargetIconTexture,UnitIsUnit
+local GetRaidTargetIndex,SetRaidTargetIconTexture =
+      GetRaidTargetIndex,SetRaidTargetIconTexture
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateRaidIcon(f,show)
     f = f.parent
 
     if f.elements.RaidIcon and f.unit then
-        if UnitIsUnit(f.unit,'player') then
-            -- don't show the raid icon on the personal frame
+        if f.state.personal then
+            -- don't show on the personal frame
             f.RaidIcon:Hide()
         else
             local i = GetRaidTargetIndex(f.unit)

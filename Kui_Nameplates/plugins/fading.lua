@@ -101,7 +101,7 @@ function mod:ResetFadeRules()
     -- reset to default fade rules
     fade_rules = {
         -- don't fade the personal nameplate
-        { 10, function(f) return UnitIsUnit(f.unit,'player') and 1 end },
+        { 10, function(f) return f.state.personal and 1 end },
         -- don't fade the target nameplate
         { 20, function(f) return f.handler:IsTarget() and 1 end },
         -- fade in all nameplates if there is no target
