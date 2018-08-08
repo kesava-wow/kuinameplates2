@@ -1170,8 +1170,6 @@ do
     end
 
     local function CreateSpellIcon(f)
-        assert(not f.SpellIcon)
-
         local bg = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
@@ -1190,8 +1188,6 @@ do
         return icon
     end
     local function CreateSpellShield(f)
-        assert(not f.SpellShield)
-
         -- cast shield
         local shield = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 3)
         shield:SetTexture(MEDIA..'Shield')
@@ -1205,8 +1201,6 @@ do
         return shield
     end
     local function CreateSpellName(f)
-        assert(not f.SpellName)
-
         local spellname = CreateFontString(f.CastBar,FONT_SIZE_SMALL)
         spellname:SetWordWrap()
         spellname:Hide()
