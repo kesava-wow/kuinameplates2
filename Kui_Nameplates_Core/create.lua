@@ -1015,7 +1015,7 @@ end
 do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
-          CASTBAR_NAME_VERTICAL_OFFSET
+          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1036,7 +1036,9 @@ do
             return
         end
 
-        f.CastBar.AnimGroup:Stop()
+        if CASTBAR_ANIMATE then
+            f.CastBar.AnimGroup:Stop()
+        end
 
         if f.cast_state.interruptible then
             f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
@@ -1069,8 +1071,14 @@ do
         -- always hide spark instantly
         f.CastBar.spark:Hide()
 
-        if force then
+        if force or not CASTBAR_ANIMATE then
             -- hide instantly
+            if CASTBAR_ANIMATE and f.CastBar.AnimGroup:IsPlaying() then
+                -- this fires another force hide, so use that;
+                f.CastBar.AnimGroup:Stop()
+                return
+            end
+
             f.CastBar:Hide()
             f.CastBar.bg:Hide()
 
@@ -1083,11 +1091,8 @@ do
             if f.SpellShield then
                 f.SpellShield:Hide()
             end
-
-            if f.CastBar.AnimGroup:IsPlaying() then
-                f.CastBar.AnimGroup:Stop()
-            end
         else
+            -- soft hide; set state colours, text, start animation
             if hide_cause == 2 then
                 -- stopped
                 f.CastBar:SetMinMaxValues(0,1)
@@ -1122,7 +1127,7 @@ do
         if f.IN_NAMEONLY then
             f.handler:DisableElement('CastBar')
 
-            if f.CastBar.AnimGroup:IsPlaying() then
+            if CASTBAR_ANIMATE and f.CastBar.AnimGroup:IsPlaying() then
                 -- disabling the element only fires a force hide if the unit
                 -- is currently casting; the animation can be left playing
                 f.CastBar.AnimGroup:Stop()
@@ -1209,18 +1214,44 @@ do
         f.handler:RegisterElement('SpellName', spellname)
         return spellname
     end
+    local function CreateAnimGroup(f)
+        -- bar highlight texture
+        local hl = f.CastBar:CreateTexture(nil,'ARTWORK',nil,1)
+        hl:SetTexture(BAR_TEXTURE)
+        hl:SetAllPoints(f.CastBar)
+        hl:SetVertexColor(1,1,1,.4)
+        hl:SetBlendMode('ADD')
+        hl:Hide()
+        f.CastBar.highlight = hl
+
+        local grp = f.CastBar:CreateAnimationGroup()
+        -- bar fade
+        local bar = grp:CreateAnimation("Alpha")
+        bar:SetStartDelay(.5)
+        bar:SetDuration(.5)
+        bar:SetFromAlpha(1)
+        bar:SetToAlpha(0)
+        grp.bar = bar
+
+        -- highlight flash
+        local highlight = grp:CreateAnimation("Alpha")
+        highlight:SetChildKey('highlight')
+        highlight:SetStartDelay(.05)
+        highlight:SetDuration(.25)
+        highlight:SetSmoothing('IN')
+        highlight:SetFromAlpha(.4)
+        highlight:SetToAlpha(0)
+        grp.highlight = highlight
+
+        grp.frame = f
+        f.CastBar.AnimGroup = grp
+        grp:SetScript('OnFinished',AnimGroup_Stop)
+        grp:SetScript('OnStop',AnimGroup_Stop)
+    end
 
     function core:CreateCastBar(f)
         local castbar = CreateStatusBar(f,true,nil,true,1)
         castbar:Hide()
-
-        local hl = castbar:CreateTexture(nil,'ARTWORK',nil,1)
-        hl:SetTexture(BAR_TEXTURE)
-        hl:SetAllPoints(castbar)
-        hl:SetVertexColor(1,1,1,.4)
-        hl:SetBlendMode('ADD')
-        hl:Hide()
-        castbar.highlight = hl
 
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
@@ -1232,32 +1263,6 @@ do
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
         castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
         castbar.bg = bg
-
-        do -- create animations;
-            local grp = castbar:CreateAnimationGroup()
-            -- bar fade
-            local bar = grp:CreateAnimation("Alpha")
-            bar:SetStartDelay(.5)
-            bar:SetDuration(.5)
-            bar:SetFromAlpha(1)
-            bar:SetToAlpha(0)
-            grp.bar = bar
-
-            -- highlight flash
-            local highlight = grp:CreateAnimation("Alpha")
-            highlight:SetChildKey('highlight')
-            highlight:SetStartDelay(.05)
-            highlight:SetDuration(.25)
-            highlight:SetSmoothing('IN')
-            highlight:SetFromAlpha(.4)
-            highlight:SetToAlpha(0)
-            grp.highlight = highlight
-
-            grp.frame = f
-            castbar.AnimGroup = grp
-            grp:SetScript('OnFinished',AnimGroup_Stop)
-            grp:SetScript('OnStop',AnimGroup_Stop)
-        end
 
         -- register base elements
         f.handler:RegisterElement('CastBar', castbar)
@@ -1271,6 +1276,9 @@ do
         end
         if CASTBAR_SHOW_SHIELD then
             CreateSpellShield(f)
+        end
+        if CASTBAR_ANIMATE then
+            CreateAnimGroup(f)
         end
 
         f.ShowCastBar = ShowCastBar
@@ -1293,6 +1301,7 @@ do
         CASTBAR_SHOW_NAME = self.profile.castbar_name
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
         CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
+        CASTBAR_ANIMATE = self.profile.castbar_animate
 
         for k,f in addon:Frames() do
             -- create elements which weren't required until config was changed
@@ -1305,6 +1314,13 @@ do
             end
             if CASTBAR_SHOW_SHIELD and not f.SpellShield then
                 CreateSpellShield(f)
+            end
+            if CASTBAR_ANIMATE and not f.CastBar.AnimGroup then
+                CreateAnimGroup(f)
+            elseif not CASTBAR_ANIMATE and f.CastBar.AnimGroup then
+                -- make sure frames which might have been animating when the
+                -- option was changed are stopped;
+                f.CastBar.AnimGroup:Stop()
             end
 
             if f.SpellShield then
