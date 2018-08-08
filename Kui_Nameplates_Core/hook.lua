@@ -51,7 +51,6 @@ function core:Create(f)
 end
 function core:Show(f)
     -- state helpers
-    f.state.player = UnitIsUnit(f.unit,'player')
     f.state.friend = UnitIsFriend('player',f.unit)
     f.state.class = select(2,UnitClass(f.unit))
 
@@ -90,7 +89,7 @@ function core:Show(f)
         f:UpdateTargetArrows()
     end
 
-    if f.state.player then
+    if f.state.personal then
         anchor:SetParent(f)
         anchor:SetAllPoints(f.bg)
         anchor:Show()
@@ -103,7 +102,7 @@ function core:Show(f)
     end
 end
 function core:Hide(f)
-    if f.state.player then
+    if f.state.personal then
         anchor:ClearAllPoints()
         anchor:Hide()
     end

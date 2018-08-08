@@ -369,7 +369,7 @@ local function UpdateFrameSize(f)
     if f.state.minus then
         f:SetSize(FRAME_WIDTH_MINUS+10,FRAME_HEIGHT_MINUS+20)
         f.bg:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
-    elseif f.state.player then
+    elseif f.state.personal then
         f:SetSize(FRAME_WIDTH_PERSONAL+10,FRAME_HEIGHT_PERSONAL+20)
         f.bg:SetSize(FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL)
     else
@@ -377,7 +377,7 @@ local function UpdateFrameSize(f)
         f.bg:SetSize(FRAME_WIDTH,FRAME_HEIGHT)
     end
 
-    if f.state.no_name and not f.state.player then
+    if f.state.no_name and not f.state.personal then
         f.bg:SetHeight(FRAME_HEIGHT_MINUS)
     end
 
@@ -445,7 +445,7 @@ end
 -- power bar ###################################################################
 do
     local function UpdatePowerBar(f,on_show)
-        if  f.state.player and
+        if  f.state.personal and
             f.state.power_type
             and UnitPowerMax(f.unit,f.state.power_type) > 0
         then
@@ -577,7 +577,7 @@ do
         f.NameText:SetTextColor(1,1,1,1)
         f.GuildText:SetTextColor(1,1,1,.8)
 
-        if f.state.player then
+        if f.state.personal then
             -- self (name & guild text always hidden)
             return
         elseif UnitIsPlayer(f.unit) then
@@ -688,7 +688,7 @@ end
 do
     local function UpdateLevelText(f)
         if f.IN_NAMEONLY then return end
-        if not core.profile.level_text or f.state.minus or f.state.player then
+        if not core.profile.level_text or f.state.minus or f.state.personal then
             f.LevelText:Hide()
         else
             f.LevelText:ClearAllPoints()
@@ -738,7 +738,7 @@ do
 
     local function UpdateHealthText(f)
         if f.IN_NAMEONLY then return end
-        if not SHOW_HEALTH_TEXT or f.state.minus or f.state.player then
+        if not SHOW_HEALTH_TEXT or f.state.minus or f.state.personal then
             f.HealthText:Hide()
         else
             local disp
@@ -1128,7 +1128,7 @@ do
                 f.CastBar.AnimGroup:Stop()
             end
         else
-            if f.state.player then
+            if f.state.personal then
                 if core.profile.castbar_showpersonal then
                     f.handler:EnableElement('CastBar')
                 else
@@ -1433,7 +1433,7 @@ do
 
     local function UpdateAuras(f)
         -- enable/disable on personal frame
-        if not AURAS_ON_PERSONAL and f.state.player then
+        if not AURAS_ON_PERSONAL and f.state.personal then
             f.Auras.frames.core_dynamic:Disable()
         elseif AURAS_ENABLED then
             f.Auras.frames.core_dynamic:Enable(true)
@@ -1583,7 +1583,7 @@ function core.ClassPowers_PostPositionFrame(cpf,parent)
         else
             cpf:SetPoint('TOP',parent.NameText,'BOTTOM',0,-3)
         end
-    elseif parent.state.player then
+    elseif parent.state.personal then
         cpf:ClearAllPoints()
         cpf:SetPoint('CENTER',parent.HealthBar,'TOP',0,9)
     end
@@ -1704,7 +1704,7 @@ function core:ShowNameUpdate(f)
 
     if SHOW_ARENA_ID and f.state.arenaid then
         f.state.no_name = nil
-    elseif f.state.player or not SHOW_NAME_TEXT then
+    elseif f.state.personal or not SHOW_NAME_TEXT then
         f.state.no_name = true
     end
 
@@ -1930,7 +1930,7 @@ do
     function core:NameOnlyUpdate(f,hide)
         if  not hide and self.profile.nameonly and
             -- don't show on player frame
-            not f.state.player and
+            not f.state.personal and
             -- don't show on target
             (NAMEONLY_TARGET or not f.state.target) and
             -- more complex filters;
