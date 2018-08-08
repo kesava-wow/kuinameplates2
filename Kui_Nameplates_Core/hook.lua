@@ -27,7 +27,6 @@ if addon.draw_frames then
 end
 
 local plugin_fading
-local plugin_classpowers
 -- messages ####################################################################
 function core:Create(f)
     self:CreateBackground(f)
@@ -298,5 +297,4 @@ function core:Initialise()
     CreateLODHandler()
 
     plugin_fading = addon:GetPlugin('Fading')
-    plugin_classpowers = addon:GetPlugin('ClassPowers')
 end
