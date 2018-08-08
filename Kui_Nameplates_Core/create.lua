@@ -49,6 +49,7 @@ local plugin_fading
 local plugin_classpowers
 
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
+local TEXT_SCALE_OFFSET = 2.5
 
 -- config locals
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
@@ -181,11 +182,17 @@ local function CreateFontString(parent,small)
 
     return f
 end
-local function Scale(v)
+local function Scale(v,offset)
     if not GLOBAL_SCALE then
         GLOBAL_SCALE = core.profile.global_scale
     end
-    return floor((v*GLOBAL_SCALE)+.5)
+    if not GLOBAL_SCALE or GLOBAL_SCALE == 1 then return v end
+    if offset then
+        -- scale and offset by constant (for font strings)
+        return ceil((v*GLOBAL_SCALE)-((GLOBAL_SCALE-1)*offset))
+    else
+        return floor((v*GLOBAL_SCALE)+.5)
+    end
 end
 -- config functions ############################################################
 do
@@ -225,8 +232,8 @@ do
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
 
         TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
-        NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
-        BOT_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset
+        NAME_VERTICAL_OFFSET = Scale(TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset,TEXT_SCALE_OFFSET)
+        BOT_VERTICAL_OFFSET = Scale(TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset,TEXT_SCALE_OFFSET)
 
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
@@ -1293,7 +1300,7 @@ do
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
         CASTBAR_SHOW_NAME = self.profile.castbar_name
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
-        CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset)
+        CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset,TEXT_SCALE_OFFSET)
 
         for k,f in addon:Frames() do
             -- create elements which weren't required until config was changed
