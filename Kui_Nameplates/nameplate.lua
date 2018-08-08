@@ -58,8 +58,6 @@ end
 -------------------------------------------------------- Frame event handlers --
 function addon.Nameplate.OnUnitAdded(f,unit)
     f = f.parent
-    f.unit = unit
-
     if not unit then
         addon:print('NO UNIT: '..f:GetName())
         return
