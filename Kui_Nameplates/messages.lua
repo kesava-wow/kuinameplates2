@@ -448,14 +448,27 @@ function message.RunCallback(table,name,...)
     if addon.debug_callbacks then
         PrintDebugForCallback(table,name,...)
     end
+    --@debug@
+    TraceStart('c:'..name)
+    --@end-debug@
 
     if table.__CALLBACKS[name] == 2 then
         -- inherit return from forced single callback
+        --@debug@
+        local r = {table.callbacks[name][1](...)}
+        TraceEnd('c:'..name)
+        return unpack(r)
+        --@end-debug@
+        --[===[@non-debug@
         return table.callbacks[name][1](...)
+        --@end-non-debug@]===]
     else
         for i,cb in ipairs(table.callbacks[name]) do
             cb[1](...)
         end
+        --@debug@
+        TraceEnd('c:'..name)
+        --@end-debug@
         return true
     end
 end
