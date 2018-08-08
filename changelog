@@ -1,4 +1,6 @@
 BETA NOTES
+* add option to disable castbar animation
+
 * fix raid icon displays on the personal frame
 * slightly more efficient :Show
 * rename state.player > state.personal, can now be used by elements & plugins
