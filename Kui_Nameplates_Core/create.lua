@@ -1019,7 +1019,7 @@ do
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
-        self:GetParent().highlight:Hide()
+        self.frame.CastBar.highlight:Hide()
     end
     local function SpellIconSetWidth(f)
         -- set spell icon width (as it's based on height)
