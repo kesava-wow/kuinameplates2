@@ -67,10 +67,10 @@ local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET,FRAME_GLOW_THREAT
 local HIDE_NAMES
 
 -- common globals
-local UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
+local UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
       UnitHealth,UnitHealthMax,UnitShouldDisplayName,strlen,strformat,    pairs,
       ipairs,floor,ceil,unpack =
-      UnitIsUnit,UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
+      UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
       UnitHealth,UnitHealthMax,UnitShouldDisplayName,strlen,string.format,pairs,
       ipairs,floor,ceil,unpack
 
