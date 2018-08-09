@@ -753,6 +753,7 @@ configChanged.cvar_overlap_v = configChangedCVar
 function configChanged.global_scale(v)
     configChanged.frame_glow_size(core.profile.frame_glow_size)
     configChanged.target_arrows()
+    configChanged.state_icons()
     configChangedCastBar()
     configChangedAuras()
     configChangedFontOption()
@@ -788,6 +789,8 @@ configLoaded.auras_enabled = configChanged.auras_enabled
 configLoaded.clickthrough_self = QueueClickthroughUpdate
 
 configLoaded.cvar_enable = configChangedCVar
+
+configLoaded.state_icons = configChanged.state_icons
 
 function configLoaded.classpowers_enable(v)
     if v then
