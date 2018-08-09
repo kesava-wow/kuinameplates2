@@ -869,7 +869,6 @@ do
         end
     end
 
-    -- update
     local function UpdateFrameGlow(f)
         if f.IN_NAMEONLY then
             f.ThreatGlow:Hide()
@@ -922,7 +921,10 @@ do
             f.TargetGlow:Hide()
         end
     end
-    -- create
+    local function UpdateFrameGlowSize(f)
+        if not f.ThreatGlow then return end
+        f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
+    end
     function core:CreateFrameGlow(f)
         local glow = { sides = {} }
         setmetatable(glow,glow_prototype)
@@ -934,8 +936,6 @@ do
 
             tinsert(glow.sides,side)
         end
-
-        glow:SetSize(FRAME_GLOW_SIZE)
 
         glow.sides[1]:SetPoint('BOTTOMLEFT', f.bg, 'TOPLEFT', 1, -1)
         glow.sides[1]:SetPoint('BOTTOMRIGHT', f.bg, 'TOPRIGHT', -1, -1)
@@ -952,6 +952,9 @@ do
         f.handler:RegisterElement('ThreatGlow',glow)
 
         f.UpdateFrameGlow = UpdateFrameGlow
+        f.UpdateFrameGlowSize = UpdateFrameGlowSize
+
+        f:UpdateFrameGlowSize()
     end
 end
 -- target glow #################################################################
