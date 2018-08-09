@@ -1,4 +1,41 @@
--- listen for castbar events and dispatch to nameplates
+--[[
+    Provides cast state and dispatches cast bar messages.
+
+    Elements
+    ========
+
+    [StatusBar] CastBar
+        Value and min/max values updated while a cast is ongoing.
+
+    [FontString] SpellName
+        Set to name of spell being cast.
+
+    [Texture] SpellIcon
+        Set to icon of spell being cast.
+
+    Messages
+    ========
+
+    CastBarShow(frame)
+        Informs the layout that cast information is available in the frames'
+        `cast_state` table, as such:
+            name = The spell's name.
+            icon = The spell's icon texture.
+            start_time = Time of cast start (like GetTime).
+            end_time = Time of cast end.
+            guid = Cast event GUID.
+            interruptible = True if the cast can be interrupted.
+
+    CastBarHide(frame,hide_cause,force)
+        Informs the layout that the cast bar should be hidden.
+        `hide_cause`
+            ele.HIDE_FRAME (0): The frame was hidden.
+            ele.HIDE_INTERRUPT (1): The cast was interrupted.
+            ele.HIDE_STOP (2): The cast or channel was stopped.
+            ele.HIDE_SUCCESS (3): The cast was successful.
+        `force`
+            True upon frame hiding or element being disabled.
+]]
 local addon = KuiNameplates
 local ele = addon:NewElement('CastBar')
 local _
