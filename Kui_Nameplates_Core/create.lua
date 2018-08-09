@@ -1753,12 +1753,10 @@ do
 
     do
         local function UpdateNameOnlyGlowSize(f)
-            local g = f.NameOnlyGlow
-            if not g then return end
-
-            g:SetPoint('TOPLEFT',f.NameText,
+            if not f.NameOnlyGlow then return end
+            f.NameOnlyGlow:SetPoint('TOPLEFT',f.NameText,
                 -12-FRAME_GLOW_SIZE,  FRAME_GLOW_SIZE)
-            g:SetPoint('BOTTOMRIGHT',f.NameText,
+            f.NameOnlyGlow:SetPoint('BOTTOMRIGHT',f.NameText,
                  12+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
         end
         function core:CreateNameOnlyGlow(f)
