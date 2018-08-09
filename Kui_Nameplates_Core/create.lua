@@ -1025,7 +1025,7 @@ do
         -- set spell icon width (as it's based on height)
         if not f.SpellIcon then return end
         if f.SpellIcon.bg:IsShown() then
-            f.SpellIcon.bg:SetWidth(ceil(((f.CastBar.bg:GetHeight() + f.bg:GetHeight() + 1)*1.25)+.1))
+            f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + 1))
         end
     end
     local function ShowCastBar(f)
@@ -1178,7 +1178,7 @@ do
         bg:Hide()
 
         local icon = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 2)
-        icon:SetTexCoord(.1, .9, .2, .8)
+        icon:SetTexCoord(.1, .9, .1, .9)
         icon:SetPoint('TOPLEFT', bg, 1, -1)
         icon:SetPoint('BOTTOMRIGHT', bg, -1, 1)
 
