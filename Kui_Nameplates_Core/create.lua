@@ -1029,7 +1029,7 @@ end
 do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
-          CASTBAR_NAME_VERTICAL_OFFSET
+          CASTBAR_NAME_VERTICAL_OFFSET,SHIELD_H,SHIELD_W
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1199,7 +1199,7 @@ do
         local shield = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 3)
         shield:SetTexture(MEDIA..'Shield')
         shield:SetTexCoord(0, .84375, 0, 1)
-        shield:SetSize(13.5, 16) -- 16 * .84375
+        shield:SetSize(SHIELD_W,SHIELD_H)
         shield:SetPoint('LEFT', f.CastBar.bg, -7, 0)
         shield:SetVertexColor(.5, .5, .7)
         shield:Hide()
@@ -1302,6 +1302,9 @@ do
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
         CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset,TEXT_SCALE_OFFSET)
 
+        SHIELD_H = Scale(16)
+        SHIELD_W = CASTBAR_SHIELD_H * .84375
+
         for k,f in addon:Frames() do
             -- create elements which weren't required until config was changed
             -- (TODO castbar itself is always created)
@@ -1318,6 +1321,7 @@ do
             if f.SpellShield then
                 if CASTBAR_SHOW_SHIELD then
                     f.handler:EnableElement('SpellShield')
+                    f.SpellShield:SetSize(SHIELD_W,SHIELD_H)
                 else
                     f.handler:DisableElement('SpellShield')
                 end
