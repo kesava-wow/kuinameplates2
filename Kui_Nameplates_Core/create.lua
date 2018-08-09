@@ -1304,7 +1304,7 @@ do
         CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset,TEXT_SCALE_OFFSET)
 
         SHIELD_H = Scale(16)
-        SHIELD_W = CASTBAR_SHIELD_H * .84375
+        SHIELD_W = SHIELD_H * .84375
 
         for k,f in addon:Frames() do
             -- create elements which weren't required until config was changed
