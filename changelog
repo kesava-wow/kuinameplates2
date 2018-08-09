@@ -1,4 +1,7 @@
 BETA NOTES
+* fix cast bar fill doesn't correctly fade out
+* un-sqeeuze the cast bar spell icon
+
 * add option to disable castbar animation
 
 * fix raid icon displays on the personal frame
