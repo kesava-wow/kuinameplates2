@@ -118,7 +118,7 @@ do
         bar:SetFrameLevel(0)
 
         if not no_fill then
-            local fill = parent:CreateTexture(nil,'BACKGROUND',nil,2)
+            local fill = bar:CreateTexture(nil,'BACKGROUND',nil,2)
             fill:SetTexture(BAR_TEXTURE)
             fill:SetAllPoints(bar)
             fill:SetAlpha(.2)
