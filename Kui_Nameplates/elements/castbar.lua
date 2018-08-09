@@ -10,32 +10,18 @@ ele.HIDE_STOP=2
 ele.HIDE_SUCCESS=3
 
 -- local functions #############################################################
-local function OnCastBarUpdate(f,elapsed)
-    f = f.parent
-    if not f.state.casting then return end
-
-    f.cast_state.duration = f.cast_state.duration + elapsed
-
-    if f.elements.CastBar then
-        if f.cast_state.channel then
-            f.CastBar:SetValue(f.cast_state.max - f.cast_state.duration)
-        else
-            f.CastBar:SetValue(f.cast_state.duration)
-        end
-    end
+local function OnCastBarUpdate(f)
+    f.parent.CastBar:SetValue(GetTime())
 end
 -- prototype additions #########################################################
 function addon.Nameplate.CastBarShow(f)
     f = f.parent
 
     if f.elements.CastBar then
-        f.CastBar:SetMinMaxValues(0,f.cast_state.max)
+        f.CastBar:SetMinMaxValues(f.cast_state.start_time,f.cast_state.end_time)
+        f.CastBar:SetValue(GetTime())
 
-        if f.cast_state.channel then
-            f.CastBar:SetValue(f.cast_state.max)
-        else
-            f.CastBar:SetValue(0)
-        end
+        f.CastBarUpdateFrame:Show()
     end
 
     if f.elements.SpellName then
@@ -47,31 +33,24 @@ function addon.Nameplate.CastBarShow(f)
     end
 
     addon:DispatchMessage('CastBarShow', f)
-
-    f.CastBarUpdateFrame:Show()
-    f.CastBarUpdateFrame:SetScript('OnUpdate', OnCastBarUpdate)
 end
 function addon.Nameplate.CastBarHide(f,hide_cause,force)
     f = f.parent
-    if f.state.casting then
-        f.state.casting = nil
-        wipe(f.cast_state)
-    elseif not force then
-        return
-    end
+    if not f.state.casting then return end
 
     f.CastBarUpdateFrame:Hide()
-    f.CastBarUpdateFrame:SetScript('OnUpdate',nil)
 
-    if hide_cause ~= ele.HIDE_FRAME then
-        addon:DispatchMessage('CastBarHide',f,hide_cause,force)
-    end
+    f.state.casting = nil
+    wipe(f.cast_state)
+
+    addon:DispatchMessage('CastBarHide',f,hide_cause,force)
 end
 -- messages ####################################################################
 function ele:Create(f)
     if not f.CastBarUpdateFrame then
         f.CastBarUpdateFrame = CreateFrame('Frame')
         f.CastBarUpdateFrame:Hide()
+        f.CastBarUpdateFrame:SetScript('OnUpdate', OnCastBarUpdate)
         f.CastBarUpdateFrame.parent = f
         f.cast_state = {}
     end
@@ -100,14 +79,11 @@ function ele:CastStart(event,f,unit)
     end
     if not name then return end
 
-    startTime = startTime / 1000
-    endTime   = endTime / 1000
-
     f.state.casting            = true
     f.cast_state.name          = text
     f.cast_state.icon          = texture
-    f.cast_state.duration      = GetTime() - startTime
-    f.cast_state.max           = endTime - startTime
+    f.cast_state.start_time    = startTime
+    f.cast_state.end_time      = endTime
     f.cast_state.guid          = guid
     f.cast_state.interruptible = not notInterruptible
 
@@ -137,11 +113,8 @@ function ele:CastUpdate(event,f,unit)
         return
     end
 
-    startTime = startTime / 1000
-    endTime = endTime / 1000
-
-    f.cast_state.duration = GetTime() - startTime
-    f.cast_state.max = endTime - startTime
+    f.cast_state.start_time = startTime
+    f.cast_state.end_time = endTime
 
     f.handler:CastBarShow()
 end
@@ -157,10 +130,7 @@ function ele:EnableOnFrame(frame)
 end
 function ele:DisableOnFrame(frame)
     if frame.state.casting then
-        -- we need to force a hide here since the layout can only determine if
-        -- it wants to disable the element after the frame is loaded (XXX)
         frame.handler:CastBarHide(ele.HIDE_FRAME,true)
-        addon:DispatchMessage('CastBarHide',frame,ele.HIDE_FRAME,true)
     end
 end
 -- register ####################################################################
