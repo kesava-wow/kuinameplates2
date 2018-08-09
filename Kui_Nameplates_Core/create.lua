@@ -57,7 +57,7 @@ local FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL
 local POWER_BAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
-local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
+local BAR_TEXTURE,BAR_ANIMATION
 local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
 local FADE_AVOID_COMBAT,FADE_AVOID_CASTING
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID
@@ -249,8 +249,6 @@ do
             or self.profile.fade_avoid_casting_hostile) and
             (self.profile.fade_avoid_casting_interruptible or
             self.profile.fade_avoid_casting_uninterruptible)
-
-        SHOW_STATE_ICONS = self.profile.state_icons
 
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
@@ -1345,8 +1343,18 @@ do
 end
 -- state icons #################################################################
 do
+    local SHOW_STATE_ICONS,ICON_SIZE
     local BOSS = {0,.5,0,.5}
     local RARE = {.5,1,.5,1}
+
+    function core:configChangedStateIcons()
+        SHOW_STATE_ICONS = self.profile.state_icons
+        ICON_SIZE = Scale(20)
+
+        for k,f in addon:Frames() do
+            f:UpdateStateIconSize()
+        end
+    end
 
     local function UpdateStateIcon(f)
         if  not SHOW_STATE_ICONS or
@@ -1369,14 +1377,19 @@ do
             f.StateIcon:Hide()
         end
     end
+    local function UpdateStateIconSize(f)
+        f.StateIcon:SetSize(ICON_SIZE,ICON_SIZE)
+    end
     function core:CreateStateIcon(f)
         local stateicon = f:CreateTexture(nil,'ARTWORK',nil,2)
         stateicon:SetTexture(MEDIA..'state-icons')
-        stateicon:SetSize(20,20)
         stateicon:SetPoint('LEFT',f.HealthBar,'BOTTOMLEFT',0,1)
 
         f.StateIcon = stateicon
         f.UpdateStateIcon = UpdateStateIcon
+        f.UpdateStateIconSize = UpdateStateIconSize
+
+        f:UpdateStateIconSize()
     end
 end
 -- raid icons ##################################################################

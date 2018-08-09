@@ -271,6 +271,10 @@ function configChanged.bar_animation()
     core:SetBarAnimation()
 end
 
+function configChanged.state_icons()
+    core:configChangedStateIcons()
+end
+
 function configChanged.fade_non_target_alpha(v)
     addon:GetPlugin('Fading').non_target_alpha = v
 end
