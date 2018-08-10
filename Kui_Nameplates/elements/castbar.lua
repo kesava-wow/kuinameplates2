@@ -46,9 +46,15 @@ ele.HIDE_INTERRUPT=1
 ele.HIDE_STOP=2
 ele.HIDE_SUCCESS=3
 
--- local functions #############################################################
-local function OnCastBarUpdate(f)
-    f.parent.CastBar:SetValue(GetTime())
+-- cast bar update scripts #####################################################
+local function CastBarUpdate_Cast(self)
+    self.parent.CastBar:SetValue(GetTime())
+end
+local function CastBarUpdate_Channel(self)
+    self.parent.CastBar:SetValue(
+        self.parent.cast_state.end_time -
+        (GetTime() - self.parent.cast_state.start_time)
+    )
 end
 -- prototype additions #########################################################
 function addon.Nameplate.CastBarShow(f)
@@ -58,6 +64,11 @@ function addon.Nameplate.CastBarShow(f)
         f.CastBar:SetMinMaxValues(f.cast_state.start_time,f.cast_state.end_time)
         f.CastBar:SetValue(GetTime())
 
+        if f.cast_state.channel then
+            f.CastBarUpdateFrame:SetScript('OnUpdate',CastBarUpdate_Channel)
+        else
+            f.CastBarUpdateFrame:SetScript('OnUpdate',CastBarUpdate_Cast)
+        end
         f.CastBarUpdateFrame:Show()
     end
 
@@ -75,6 +86,7 @@ function addon.Nameplate.CastBarHide(f,hide_cause,force)
     f = f.parent
     if not f.state.casting then return end
 
+    f.CastBarUpdateFrame:SetScript('OnUpdate',nil)
     f.CastBarUpdateFrame:Hide()
 
     f.state.casting = nil
@@ -87,7 +99,6 @@ function ele:Create(f)
     if not f.CastBarUpdateFrame then
         f.CastBarUpdateFrame = CreateFrame('Frame')
         f.CastBarUpdateFrame:Hide()
-        f.CastBarUpdateFrame:SetScript('OnUpdate', OnCastBarUpdate)
         f.CastBarUpdateFrame.parent = f
         f.cast_state = {}
     end
@@ -119,14 +130,11 @@ function ele:CastStart(event,f,unit)
     f.state.casting            = true
     f.cast_state.name          = text
     f.cast_state.icon          = texture
-    f.cast_state.start_time    = startTime
-    f.cast_state.end_time      = endTime
     f.cast_state.guid          = guid
     f.cast_state.interruptible = not notInterruptible
-
-    if event == 'UNIT_SPELLCAST_CHANNEL_START' then
-        f.cast_state.channel = true
-    end
+    f.cast_state.channel       = event == 'UNIT_SPELLCAST_CHANNEL_START'
+    f.cast_state.start_time    = startTime / 1000
+    f.cast_state.end_time      = endTime / 1000
 
     f.handler:CastBarShow()
 end
@@ -150,8 +158,8 @@ function ele:CastUpdate(event,f,unit)
         return
     end
 
-    f.cast_state.start_time = startTime
-    f.cast_state.end_time = endTime
+    f.cast_state.start_time = startTime / 1000
+    f.cast_state.end_time   = endTime / 1000
 
     f.handler:CastBarShow()
 end
