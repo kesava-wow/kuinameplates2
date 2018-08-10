@@ -514,6 +514,7 @@ function castbars:Initialise()
     castbar_height:SetPoint('TOPLEFT',castbar_enemy,'BOTTOMLEFT',-10,-30)
     name_v_offset:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
 
+    animate.enabled = function(p) return p.castbar_enable end
     castbar_colour.enabled = function(p) return p.castbar_enable end
     castbar_unin_colour.enabled = castbar_colour.enabled
     castbar_personal.enabled = castbar_colour.enabled
