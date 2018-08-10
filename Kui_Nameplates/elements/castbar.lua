@@ -21,7 +21,7 @@
         `cast_state` table, as such:
             name = The spell's name.
             icon = The spell's icon texture.
-            start_time = Time of cast start (like GetTime).
+            start_time = Time of cast start (divided by 1000, like GetTime).
             end_time = Time of cast end.
             guid = Cast event GUID.
             interruptible = True if the cast can be interrupted.
