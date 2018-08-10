@@ -1,4 +1,7 @@
 BETA NOTES
+* various cast bar optimisations which will probably cause bugs
+* cast bar element documentation
+
 * fix cast bar fill doesn't correctly fade out
 * un-sqeeuze the cast bar spell icon
 
