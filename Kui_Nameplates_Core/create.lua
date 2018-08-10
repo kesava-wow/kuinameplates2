@@ -1030,9 +1030,7 @@ do
     end
     local function ShowCastBar(f)
         if not f.elements.CastBar then
-            -- element disabled; stop CastBarUpdateFrame
-            -- TODO don't get this far if the element is disabled
-            f:HideCastBar(nil,true)
+            -- ignore cast messsages if we've disabled the cast bar
             return
         end
 
