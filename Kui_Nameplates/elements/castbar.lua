@@ -62,13 +62,15 @@ function addon.Nameplate.CastBarShow(f)
 
     if f.elements.CastBar then
         f.CastBar:SetMinMaxValues(f.cast_state.start_time,f.cast_state.end_time)
-        f.CastBar:SetValue(GetTime())
 
         if f.cast_state.channel then
+            f.CastBar:SetValue(f.cast_state.end_time)
             f.CastBarUpdateFrame:SetScript('OnUpdate',CastBarUpdate_Channel)
         else
+            f.CastBar:SetValue(GetTime())
             f.CastBarUpdateFrame:SetScript('OnUpdate',CastBarUpdate_Cast)
         end
+
         f.CastBarUpdateFrame:Show()
     end
 
