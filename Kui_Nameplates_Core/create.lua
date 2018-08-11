@@ -1192,6 +1192,31 @@ do
         f.handler:RegisterElement('SpellName', spellname)
         return spellname
     end
+    local function CreateGlow(f)
+        -- create four glow textures on edges
+        -- left
+        local g1 = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,1)
+        g1:SetPoint('TOPRIGHT',f.CastBar,'TOPLEFT',0,10)
+        g1:SetPoint('BOTTOMRIGHT',f.CastBar,'BOTTOMLEFT',0,-10)
+        g1:SetWidth(10)
+        -- right
+        local g2 = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,1)
+        g2:SetPoint('TOPLEFT',f.CastBar,'TOPRIGHT',0,10)
+        g2:SetPoint('BOTTOMLEFT',f.CastBar,'BOTTOMRIGHT',0,-10)
+        g2:SetWidth(10)
+        -- top
+        local g3 = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,1)
+        g3:SetPoint('BOTTOMLEFT',f.CastBar,'TOPLEFT',-10,0)
+        g3:SetPoint('BOTTOMRIGHT',f.CastBar,'TOPRIGHT',10,0)
+        g3:SetHeight(10)
+        -- bottom
+        local g4 = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,1)
+        g4:SetPoint('TOPLEFT',f.CastBar,'BOTTOMLEFT',-10,0)
+        g4:SetPoint('TOPRIGHT',f.CastBar,'BOTTOMRIGHT',10,0)
+        g4:SetHeight(10)
+
+        local g = { g1,g2,g3,g4 }
+    end
     local function CreateAnimGroup(f)
         -- bar highlight texture
         local hl = f.CastBar:CreateTexture(nil,'ARTWORK',nil,1)
@@ -1257,6 +1282,9 @@ do
         if CASTBAR_ANIMATE then
             CreateAnimGroup(f)
         end
+
+        -- XXX
+        CreateGlow(f)
 
         f.ShowCastBar = ShowCastBar
         f.HideCastBar = HideCastBar
