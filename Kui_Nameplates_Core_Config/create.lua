@@ -665,6 +665,8 @@ function cvars:Initialise()
     local sfn = self:CreateCheckBox('cvar_show_friendly_npcs')
     -- nameplateShowOnlyNames
     local no = self:CreateCheckBox('cvar_name_only')
+    -- nameplate{Min,Max}Scale
+    local ds = self:CreateCheckBox('cvar_disable_scale')
     -- nameplatePersonalShowAlways
     local psa = self:CreateCheckBox('cvar_personal_show_always')
     -- nameplatePersonalShowInCombat
@@ -686,6 +688,7 @@ function cvars:Initialise()
 
     sfn.enabled = function(p) return p.cvar_enable end
     no.enabled  = sfn.enabled
+    ds.enabled  = sfn.enabled
     psa.enabled = sfn.enabled
     psc.enabled = sfn.enabled
     pst.enabled = sfn.enabled
@@ -698,12 +701,13 @@ function cvars:Initialise()
 
     sfn:SetPoint('TOPLEFT',enable,'BOTTOMLEFT',0,-10)
     no:SetPoint('TOPLEFT',sfn,'BOTTOMLEFT')
+    ds:SetPoint('TOPLEFT',no,'BOTTOMLEFT')
 
-    psa:SetPoint('TOPLEFT',no,'BOTTOMLEFT',0,-10)
+    psa:SetPoint('TOPLEFT',ds,'BOTTOMLEFT',0,-10)
     psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
     pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
 
-    md:SetPoint('TOPLEFT',10,-220)
+    md:SetPoint('TOPLEFT',10,-240)
     ov:SetPoint('LEFT',md,'RIGHT',20,0)
     ct:SetPoint('TOPLEFT',10,-(220+50))
     cb:SetPoint('LEFT',ct,'RIGHT',20,0)

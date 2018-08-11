@@ -259,10 +259,6 @@ end
 function core:Initialise()
     self:InitialiseConfig()
 
-    -- we don't want the distance scaling to affect the clickbox
-    SetCVar('NameplateMinScale',1)
-    SetCVar('NameplateMaxScale',1)
-
     -- register messages
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')
