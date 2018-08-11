@@ -13,7 +13,6 @@
 -- target arrows = 4
 -- spell shield = 3
 -- health bar highlight = 2
--- spell icon = 2
 -- castbar spark = 1
 -- absorb bar = 1
 -- power bar = 0
@@ -21,8 +20,8 @@
 -- cast bar = 0
 --
 -- BACKGROUND
+-- spell icon = 2
 -- castbar background = 1
--- spell icon bg = 1
 --
 -- Frame #######################################################################
 -- ARTWORK
@@ -388,7 +387,6 @@ local function UpdateFrameSize(f)
     f.bg:SetPoint('BOTTOMLEFT',f.x,f.y)
 
     f:UpdateMainBars()
-    f:SpellIconSetWidth()
     f:UpdateAuras()
 end
 function core:CreateBackground(f)
@@ -1015,18 +1013,12 @@ end
 do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
-          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE
+          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,CASTBAR_SQUARENESS,
+          CASTBAR_WIDTH,CASTBAR_RATIO
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
         self.frame.CastBar.highlight:Hide()
-    end
-    local function SpellIconSetWidth(f)
-        -- set spell icon width (as it's based on height)
-        if not f.SpellIcon then return end
-        if f.SpellIcon.bg:IsShown() then
-            f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + 1))
-        end
     end
     local function ShowCastBar(f)
         if not f.elements.CastBar then
@@ -1048,13 +1040,13 @@ do
             end
         end
 
+        f.CastBar:GetStatusBarTexture():SetAlpha(.5)
         f.CastBar:Show()
         f.CastBar.bg:Show()
         f.CastBar.spark:Show()
 
         if CASTBAR_SHOW_ICON and f.SpellIcon then
-            f.SpellIcon.bg:Show()
-            f:SpellIconSetWidth()
+            f.SpellIcon:Show()
         end
 
         if CASTBAR_SHOW_NAME and f.SpellName then
@@ -1084,7 +1076,7 @@ do
                 f.SpellName:Hide()
             end
             if f.SpellIcon then
-                f.SpellIcon.bg:Hide()
+                f.SpellIcon:Hide()
             end
             if f.SpellShield then
                 f.SpellShield:Hide()
@@ -1108,6 +1100,7 @@ do
                     f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
                 end
 
+                f.CastBar:GetStatusBarTexture():SetAlpha(.5)
                 f.CastBar:SetMinMaxValues(0,1)
                 f.CastBar:SetValue(1)
                 f.CastBar.highlight:Show()
@@ -1163,24 +1156,17 @@ do
         f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET+TEXT_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
-        f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
-        f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
+        f.CastBar.bg:SetSize(CASTBAR_WIDTH,CASTBAR_HEIGHT)
+
+        if f.SpellIcon then
+            f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
+        end
     end
 
     local function CreateSpellIcon(f)
-        local bg = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 1)
-        bg:SetTexture(kui.m.t.solid)
-        bg:SetVertexColor(0,0,0,.8)
-        bg:SetPoint('BOTTOMRIGHT', f.CastBar.bg, 'BOTTOMLEFT', -1, 0)
-        bg:SetPoint('TOPRIGHT', f.bg, 'TOPLEFT', -1, 0)
-        bg:Hide()
-
-        local icon = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 2)
-        icon:SetTexCoord(.1, .9, .1, .9)
-        icon:SetPoint('TOPLEFT', bg, 1, -1)
-        icon:SetPoint('BOTTOMRIGHT', bg, -1, 1)
-
-        icon.bg = bg
+        local icon = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 2)
+        icon:SetAlpha(.7)
+        icon:SetAllPoints()
 
         f.handler:RegisterElement('SpellIcon', icon)
         return icon
@@ -1248,8 +1234,7 @@ do
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-        bg:SetPoint('TOPLEFT', f.bg, 'BOTTOMLEFT', 0, -1)
-        bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
+        bg:SetPoint('TOP', f.bg, 'BOTTOM', 0, -5)
         bg:Hide()
 
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
@@ -1276,7 +1261,6 @@ do
         f.ShowCastBar = ShowCastBar
         f.HideCastBar = HideCastBar
         f.UpdateCastBar = UpdateCastBar
-        f.SpellIconSetWidth = SpellIconSetWidth
         f.UpdateSpellNamePosition = UpdateSpellNamePosition
         f.UpdateCastbarSize = UpdateCastbarSize
 
@@ -1294,6 +1278,10 @@ do
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
         CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
         CASTBAR_ANIMATE = self.profile.castbar_animate
+
+        CASTBAR_SQUARENESS = .5 -- XXX setting
+        CASTBAR_WIDTH = floor(CASTBAR_HEIGHT/CASTBAR_SQUARENESS)
+        CASTBAR_RATIO = (1-(CASTBAR_HEIGHT/CASTBAR_WIDTH))/2
 
         for k,f in addon:Frames() do
             -- create elements which weren't required until config was changed
