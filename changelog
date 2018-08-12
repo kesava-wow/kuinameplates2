@@ -1,4 +1,6 @@
 BETA NOTES
+* fix state icon layer
+
 * add cvar option to disable nameplateMin/MaxScale (which KNP was previously
   doing anyway, so it's enabled by default)
 * add option to disable the colour changing aspect of the castbar animation

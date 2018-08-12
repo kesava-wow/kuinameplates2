@@ -11,6 +11,7 @@
 -- powerbar spark = 7
 -- raid icon (bar) = 6
 -- target arrows = 4
+-- state icon = 4
 -- spell shield = 3
 -- health bar highlight = 2
 -- spell icon = 2
@@ -1368,7 +1369,7 @@ do
         end
     end
     function core:CreateStateIcon(f)
-        local stateicon = f:CreateTexture(nil,'ARTWORK',nil,2)
+        local stateicon = f:CreateTexture(nil,'ARTWORK',nil,4)
         stateicon:SetTexture(MEDIA..'state-icons')
         stateicon:SetSize(20,20)
         stateicon:SetPoint('LEFT',f.HealthBar,'BOTTOMLEFT',0,1)
