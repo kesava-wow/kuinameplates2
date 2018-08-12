@@ -21,7 +21,7 @@
         `cast_state` table, as such:
             name = The spell's name.
             icon = The spell's icon texture.
-            start_time = Time of cast start (divided by 1000, like GetTime).
+            start_time = Time of cast start (in seconds)
             end_time = Time of cast end.
             guid = Cast event GUID.
             interruptible = True if the cast can be interrupted.
@@ -47,30 +47,28 @@ ele.HIDE_STOP=2
 ele.HIDE_SUCCESS=3
 
 -- cast bar update scripts #####################################################
-local function CastBarUpdate_Cast(self)
-    self.parent.CastBar:SetValue(GetTime())
+local function CastBarUpdate_Cast(self,elap)
+    self.parent.CastBar:SetValue(self.parent.CastBar:GetValue()+elap)
 end
-local function CastBarUpdate_Channel(self)
-    self.parent.CastBar:SetValue(
-        self.parent.cast_state.end_time -
-        (GetTime() - self.parent.cast_state.start_time)
-    )
+local function CastBarUpdate_Channel(self,elap)
+    self.parent.CastBar:SetValue(self.parent.CastBar:GetValue()-elap)
 end
 -- prototype additions #########################################################
 function addon.Nameplate.CastBarShow(f)
     f = f.parent
 
     if f.elements.CastBar then
-        f.CastBar:SetMinMaxValues(f.cast_state.start_time,f.cast_state.end_time)
+        f.CastBar:SetMinMaxValues(0,f.cast_state.end_time-f.cast_state.start_time)
 
         if f.cast_state.channel then
-            f.CastBar:SetValue(f.cast_state.end_time)
+            f.CastBar:SetValue(f.cast_state.end_time-f.cast_state.start_time)
             f.CastBarUpdateFrame:SetScript('OnUpdate',CastBarUpdate_Channel)
         else
-            f.CastBar:SetValue(GetTime())
+            f.CastBar:SetValue(0)
             f.CastBarUpdateFrame:SetScript('OnUpdate',CastBarUpdate_Cast)
         end
 
+        f.CastBarUpdateFrame.duration = nil
         f.CastBarUpdateFrame:Show()
     end
 
