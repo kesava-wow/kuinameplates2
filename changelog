@@ -1,4 +1,8 @@
 BETA NOTES
+* add cvar option to disable nameplateMin/MaxScale (which KNP was previously
+  doing anyway, so it's enabled by default)
+* add option to disable the colour changing aspect of the castbar animation
+
 * various cast bar optimisations which will probably cause bugs
 * cast bar element documentation
 
