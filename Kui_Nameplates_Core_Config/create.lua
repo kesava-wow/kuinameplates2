@@ -711,8 +711,8 @@ function cvars:Initialise()
     psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
     pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
 
-    md:SetPoint('TOPLEFT',10,-240)
+    md:SetPoint('TOPLEFT',10,-245)
     ov:SetPoint('LEFT',md,'RIGHT',20,0)
-    ct:SetPoint('TOPLEFT',10,-(220+50))
+    ct:SetPoint('TOPLEFT',10,-295)
     cb:SetPoint('LEFT',ct,'RIGHT',20,0)
 end
