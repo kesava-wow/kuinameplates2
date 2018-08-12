@@ -497,24 +497,26 @@ function castbars:Initialise()
     local castbar_height = self:CreateSlider('castbar_height',3,20)
     local name_v_offset = self:CreateSlider('castbar_name_vertical_offset',-20,20)
     local animate = self:CreateCheckBox('castbar_animate')
+    local animate_cc = self:CreateCheckBox('castbar_animate_change_colour',true)
 
     castbar_enable:SetPoint('TOPLEFT',10,-10)
-    animate:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
-    castbar_icon:SetPoint('TOPLEFT',animate,'BOTTOMLEFT')
+    castbar_icon:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
     castbar_name:SetPoint('TOPLEFT',castbar_icon,'BOTTOMLEFT')
     castbar_shield:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
-    castbar_personal:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT')
+    animate:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT')
+    animate_cc:SetPoint('TOPLEFT',animate,'BOTTOMLEFT',10,0)
+
+    castbar_personal:SetPoint('TOPLEFT',animate_cc,'BOTTOMLEFT',-10,-10)
     castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
     castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT',10,0)
     castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
 
     castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
-    castbar_unin_colour:SetPoint('LEFT',animate,220,0)
+    castbar_unin_colour:SetPoint('LEFT',castbar_icon,220,0)
 
-    castbar_height:SetPoint('TOPLEFT',castbar_enemy,'BOTTOMLEFT',-10,-30)
-    name_v_offset:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
+    castbar_height:SetPoint('TOP',0,-310)
+    name_v_offset:SetPoint('TOP',castbar_height,'BOTTOM',0,-40)
 
-    animate.enabled = function(p) return p.castbar_enable end
     castbar_colour.enabled = function(p) return p.castbar_enable end
     castbar_unin_colour.enabled = castbar_colour.enabled
     castbar_personal.enabled = castbar_colour.enabled
@@ -526,6 +528,8 @@ function castbars:Initialise()
     castbar_friend.enabled = function(p) return p.castbar_enable and p.castbar_showall end
     castbar_enemy.enabled = castbar_friend.enabled
     name_v_offset.enabled = function(p) return p.castbar_enable and p.castbar_name end
+    animate.enabled = castbar_colour.enabled
+    animate_cc.enabled = function(p) return p.castbar_animate and p.castbar_enable end
 end
 -- threat ######################################################################
 function threat:Initialise()
