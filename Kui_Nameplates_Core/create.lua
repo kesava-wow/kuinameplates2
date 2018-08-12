@@ -1015,7 +1015,8 @@ end
 do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
-          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE
+          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
+          CASTBAR_ANIMATE_CHANGE_COLOUR
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1101,11 +1102,14 @@ do
                     if f.SpellName then
                         f.SpellName:SetText(INTERRUPTED)
                     end
-
-                    f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                    if CASTBAR_ANIMATE_CHANGE_COLOUR then
+                        f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                    end
                 else
-                    -- succeeded
-                    f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
+                    -- successful
+                    if CASTBAR_ANIMATE_CHANGE_COLOUR then
+                        f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
+                    end
                 end
 
                 f.CastBar:SetMinMaxValues(0,1)
@@ -1294,6 +1298,7 @@ do
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
         CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
         CASTBAR_ANIMATE = self.profile.castbar_animate
+        CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
 
         for k,f in addon:Frames() do
             -- create elements which weren't required until config was changed
