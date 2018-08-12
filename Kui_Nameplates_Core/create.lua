@@ -1192,43 +1192,6 @@ do
         f.handler:RegisterElement('SpellName', spellname)
         return spellname
     end
-    local function CreateGlow(f)
-        -- create four glow textures on edges
-        -- left
-        local g1 = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,0)
-        g1:SetTexture('interface/addons/kui_media/t/spark')
-        g1:SetTexCoord(0,.5,.15,.85)
-        g1:SetPoint('TOPRIGHT',f.CastBar,'TOPLEFT')
-        g1:SetPoint('BOTTOMRIGHT',f.CastBar,'BOTTOMLEFT')
-        g1:SetWidth(8)
-        g1:SetVertexColor(0,0,0,.5)
-        -- right
-        local g2 = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,0)
-        g2:SetTexture('interface/addons/kui_media/t/spark')
-        g2:SetTexCoord(.5,0,.15,.85)
-        g2:SetPoint('TOPLEFT',f.CastBar,'TOPRIGHT')
-        g2:SetPoint('BOTTOMLEFT',f.CastBar,'BOTTOMRIGHT')
-        g2:SetWidth(8)
-        g2:SetVertexColor(0,0,0,.5)
-        -- top
-        local g3 = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,0)
-        g3:SetTexture('interface/addons/kui_media/t/spark')
-        g3:SetTexCoord(0,1,0,.5)
-        g3:SetPoint('BOTTOMLEFT',f.CastBar,'TOPLEFT',-10,0)
-        g3:SetPoint('BOTTOMRIGHT',f.CastBar,'TOPRIGHT',10,0)
-        g3:SetHeight(8)
-        g3:SetVertexColor(0,0,0,.5)
-        -- bottom
-        local g4 = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,0)
-        g4:SetTexture('interface/addons/kui_media/t/spark')
-        g4:SetTexCoord(0,1,.5,0)
-        g4:SetPoint('TOPLEFT',f.CastBar,'BOTTOMLEFT',-10,0)
-        g4:SetPoint('TOPRIGHT',f.CastBar,'BOTTOMRIGHT',10,0)
-        g4:SetHeight(8)
-        g4:SetVertexColor(0,0,0,.5)
-
-        local g = { g1,g2,g3,g4 }
-    end
     local function CreateAnimGroup(f)
         -- bar highlight texture
         local hl = f.CastBar:CreateTexture(nil,'ARTWORK',nil,1)
@@ -1294,9 +1257,6 @@ do
         if CASTBAR_ANIMATE then
             CreateAnimGroup(f)
         end
-
-        -- XXX
-        CreateGlow(f)
 
         f.ShowCastBar = ShowCastBar
         f.HideCastBar = HideCastBar
