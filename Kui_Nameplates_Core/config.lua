@@ -167,6 +167,11 @@ local default_config = {
     castbar_animate_change_colour = true,
     castbar_name_vertical_offset = -1,
 
+    --- XXX
+    castbar_width = 36,
+    castbar_detach = true, -- detach from health bar
+    castbar_combine = true, -- combine with spell icon (only while detached)
+
     tank_mode = true,
     tankmode_force_enable = false,
     tankmode_force_offtank = false,
@@ -584,6 +589,7 @@ function configChanged.castbar_enable(v)
     configChangedCastBar()
 end
 configChanged.castbar_height = configChangedCastBar
+configChanged.castbar_width = configChangedCastBar
 configChanged.castbar_colour = configChangedCastBar
 configChanged.castbar_unin_colour = configChangedCastBar
 configChanged.castbar_icon = configChangedCastBar

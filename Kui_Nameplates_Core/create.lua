@@ -1284,7 +1284,7 @@ do
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
 
-        CASTBAR_WIDTH = 36 -- XXX setting
+        CASTBAR_WIDTH = self.profile.castbar_width
         CASTBAR_RATIO = (1-(CASTBAR_HEIGHT/CASTBAR_WIDTH))/2
 
         for k,f in addon:Frames() do

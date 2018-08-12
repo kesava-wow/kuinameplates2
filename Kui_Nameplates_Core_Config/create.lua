@@ -494,7 +494,8 @@ function castbars:Initialise()
     local castbar_all = self:CreateCheckBox('castbar_showall')
     local castbar_friend = self:CreateCheckBox('castbar_showfriend',true)
     local castbar_enemy = self:CreateCheckBox('castbar_showenemy',true)
-    local castbar_height = self:CreateSlider('castbar_height',3,20)
+    local castbar_height = self:CreateSlider('castbar_height',3,30)
+    local castbar_width = self:CreateSlider('castbar_width',6,60)
     local name_v_offset = self:CreateSlider('castbar_name_vertical_offset',-20,20)
     local animate = self:CreateCheckBox('castbar_animate')
     local animate_cc = self:CreateCheckBox('castbar_animate_change_colour',true)
@@ -515,8 +516,9 @@ function castbars:Initialise()
     castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
     castbar_unin_colour:SetPoint('LEFT',castbar_icon,220,0)
 
-    castbar_height:SetPoint('TOP',0,-260)
-    name_v_offset:SetPoint('TOP',castbar_height,'BOTTOM',0,-40)
+    castbar_height:SetPoint('TOPLEFT',10,-260)
+    castbar_width:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
+    name_v_offset:SetPoint('TOP',0,-315)
 
     castbar_colour.enabled = function(p) return p.castbar_enable end
     castbar_unin_colour.enabled = castbar_colour.enabled
