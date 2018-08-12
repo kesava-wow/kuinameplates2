@@ -1165,7 +1165,7 @@ do
 
     local function CreateSpellIcon(f)
         local icon = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 2)
-        icon:SetAlpha(.7)
+        icon:SetAlpha(.5)
         icon:SetAllPoints()
 
         f.handler:RegisterElement('SpellIcon', icon)
