@@ -503,18 +503,19 @@ function castbars:Initialise()
     castbar_icon:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
     castbar_name:SetPoint('TOPLEFT',castbar_icon,'BOTTOMLEFT')
     castbar_shield:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
-    animate:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT')
-    animate_cc:SetPoint('TOPLEFT',animate,'BOTTOMLEFT',10,0)
 
-    castbar_personal:SetPoint('TOPLEFT',animate_cc,'BOTTOMLEFT',-10,-10)
+    castbar_personal:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT',0,-10)
     castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
     castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT',10,0)
     castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
 
+    animate:SetPoint('LEFT',castbar_personal,'RIGHT',190,0)
+    animate_cc:SetPoint('TOPLEFT',animate,'BOTTOMLEFT',10,0)
+
     castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
     castbar_unin_colour:SetPoint('LEFT',castbar_icon,220,0)
 
-    castbar_height:SetPoint('TOP',0,-310)
+    castbar_height:SetPoint('TOP',0,-260)
     name_v_offset:SetPoint('TOP',castbar_height,'BOTTOM',0,-40)
 
     castbar_colour.enabled = function(p) return p.castbar_enable end
