@@ -1,4 +1,5 @@
 BETA NOTES
+* fix castbar jerkiness introduced by aforementioned optimisations
 * fix state icon layer
 
 * add cvar option to disable nameplateMin/MaxScale (which KNP was previously
