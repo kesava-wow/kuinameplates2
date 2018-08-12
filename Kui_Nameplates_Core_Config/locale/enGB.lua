@@ -160,8 +160,6 @@ L.titles = {
     frame_width_personal = 'Personal frame width',
     frame_height_personal = 'Personal frame height',
     powerbar_height = 'Power bar height',
-    castbar_height = 'Cast bar height',
-    castbar_name_vertical_offset = 'Spell name v.offset',
 
     auras_enabled = 'Show auras',
     auras_on_personal = 'Show on personal frame',
@@ -186,16 +184,19 @@ L.titles = {
     auras_colour_long = 'Long timer',
 
     castbar_enable = 'Enable',
-    castbar_colour = 'Cast bar colour',
+    castbar_colour = 'Bar colour',
     castbar_unin_colour = 'Uninterruptible colour',
-    castbar_showpersonal = 'Show own cast bar',
-    castbar_icon = 'Show spell icon',
-    castbar_name = 'Show spell name',
-    castbar_shield = 'Show uninterruptible shield',
-    castbar_showall = 'Show cast bars on all nameplates',
-    castbar_showfriend = 'Show friendly cast bars',
-    castbar_showenemy = 'Show enemy cast bars',
+    castbar_showpersonal = 'On personal frame',
+    castbar_icon = 'Spell icon',
+    castbar_name = 'Spell name',
+    castbar_shield = 'Uninterruptible shield',
+    castbar_showall = 'On all nameplates',
+    castbar_showfriend = 'Friendly',
+    castbar_showenemy = 'Hostile',
     castbar_animate = 'Animate',
+    castbar_animate_change_colour = 'Change colour',
+    castbar_height = 'Bar height',
+    castbar_name_vertical_offset = 'Spell name v.offset',
 
     tank_mode = 'Enable tank mode',
     tankmode_force_enable = 'Force tank mode',
@@ -233,6 +234,7 @@ L.titles = {
     cvar_clamp_top = 'Top clamp distance',
     cvar_clamp_bottom = 'Bottom clamp distance',
     cvar_overlap_v = 'Vertical overlap',
+    cvar_disable_scale = 'Disable default scaling',
 }
 L.tooltips = {
     bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
@@ -342,7 +344,8 @@ L.tooltips = {
     castbar_colour = 'Colour of the cast bar.|n|nAlso used to indicate a successful cast if animation is enabled.',
     castbar_unin_colour = 'Colour of the cast bar when a cast cannot be interrupted.|n|nAlso used to indicate an interrupted cast if animation is enabled.',
     castbar_name_vertical_offset = 'Vertical offset of the spell name text',
-    castbar_animate = 'Fade out the castbar when it is hidden, making it easier to tell the difference between successful, stopped, and interrupted casts.',
+    castbar_animate = 'Fade out the cast bar when a cast ends.',
+    castbar_animate_change_colour = 'Change the colour of the cast bar when a cast ends, making it easier to tell the difference between successful, stopped, and interrupted casts.',
 
     tank_mode = 'Recolour the health bars of units you are actively tanking when in a tanking specialisation',
     tankmode_force_enable = 'Always use tank mode, even if you\'re not currently in a tanking specialisation',
@@ -379,4 +382,5 @@ L.tooltips = {
     cvar_clamp_top = '|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.',
     cvar_clamp_bottom = '|cffffcc00nameplate{Other,Large}BottomInset|r',
     cvar_overlap_v = '|cffffcc00nameplateOverlapV|r|n|nVertical distance between nameplates (only valid when motion type is set to stacking in the default interface options).',
+    cvar_disable_scale = '|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.',
 }

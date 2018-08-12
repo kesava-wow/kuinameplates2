@@ -11,6 +11,7 @@
 -- powerbar spark = 7
 -- raid icon (bar) = 6
 -- target arrows = 4
+-- state icon = 4
 -- spell shield = 3
 -- health bar highlight = 2
 -- castbar spark = 1
@@ -1013,8 +1014,8 @@ end
 do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
-          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,CASTBAR_SQUARENESS,
-          CASTBAR_WIDTH,CASTBAR_RATIO
+          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
+          CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_WIDTH,CASTBAR_RATIO
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1093,11 +1094,14 @@ do
                     if f.SpellName then
                         f.SpellName:SetText(INTERRUPTED)
                     end
-
-                    f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                    if CASTBAR_ANIMATE_CHANGE_COLOUR then
+                        f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                    end
                 else
-                    -- succeeded
-                    f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
+                    -- successful
+                    if CASTBAR_ANIMATE_CHANGE_COLOUR then
+                        f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
+                    end
                 end
 
                 f.CastBar:GetStatusBarTexture():SetAlpha(.5)
@@ -1278,6 +1282,7 @@ do
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
         CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
         CASTBAR_ANIMATE = self.profile.castbar_animate
+        CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
 
         CASTBAR_WIDTH = 36 -- XXX setting
         CASTBAR_RATIO = (1-(CASTBAR_HEIGHT/CASTBAR_WIDTH))/2
@@ -1350,7 +1355,7 @@ do
         end
     end
     function core:CreateStateIcon(f)
-        local stateicon = f:CreateTexture(nil,'ARTWORK',nil,2)
+        local stateicon = f:CreateTexture(nil,'ARTWORK',nil,4)
         stateicon:SetTexture(MEDIA..'state-icons')
         stateicon:SetSize(20,20)
         stateicon:SetPoint('LEFT',f.HealthBar,'BOTTOMLEFT',0,1)

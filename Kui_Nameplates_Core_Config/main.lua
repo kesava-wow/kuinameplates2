@@ -38,14 +38,21 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         return
     elseif knp.debug and strfind(msg,'^trace') then
         --@debug@
+        local script_profile = GetCVarBool('scriptProfile')
         if strfind(msg,'^trace p') then
             local k = strmatch(msg,'^trace p ?(%d*)$')
             knp:PrintTrace(tonumber(k))
-        elseif GetCVarBool('scriptProfile') then
+        elseif script_profile and msg == 'trace off' then
+            if InCombatLockdown() then return end
+            SetCVar('scriptProfile',false)
+            ReloadUI()
+        elseif not script_profile then
+            if InCombatLockdown() then return end
+            SetCVar('scriptProfile',true)
+            ReloadUI()
+        else
             knp.profiling = not knp.profiling
             knp:print('Profiling '..(knp.profiling and 'started' or 'stopped'))
-        else
-            knp:print('Profiling unavailable')
         end
         --@end-debug@
         return
