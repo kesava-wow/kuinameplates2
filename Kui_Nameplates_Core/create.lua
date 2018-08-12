@@ -1279,8 +1279,7 @@ do
         CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
         CASTBAR_ANIMATE = self.profile.castbar_animate
 
-        CASTBAR_SQUARENESS = .5 -- XXX setting
-        CASTBAR_WIDTH = floor(CASTBAR_HEIGHT/CASTBAR_SQUARENESS)
+        CASTBAR_WIDTH = 36 -- XXX setting
         CASTBAR_RATIO = (1-(CASTBAR_HEIGHT/CASTBAR_WIDTH))/2
 
         for k,f in addon:Frames() do
