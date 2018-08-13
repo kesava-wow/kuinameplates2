@@ -20,12 +20,9 @@ L["titles"] = {
 	["absorb_enable"] = "顯示吸收",
 	["absorb_striped"] = "條紋吸收材質",
 	["auras_centre"] = "置中對齊圖示",
---[[Translation missing --]]
-	["auras_colour_long"] = "Long timer",
---[[Translation missing --]]
-	["auras_colour_medium"] = "Medium timer",
---[[Translation missing --]]
-	["auras_colour_short"] = "Short timer",
+	["auras_colour_long"] = "長時間",
+	["auras_colour_medium"] = "中等時間",
+	["auras_colour_short"] = "短時間",
 	["auras_enabled"] = "啟用",
 	["auras_filtering_sep"] = "過濾",
 	["auras_hide_all_other"] = "隱藏他人施放的所有光環",
@@ -50,6 +47,10 @@ L["titles"] = {
 	["bossmod_x_offset"] = "水平位置",
 	["bossmod_y_offset"] = "垂直位置",
 	["bot_vertical_offset"] = "等級血量垂直偏移",
+--[[Translation missing --]]
+	["castbar_animate"] = "Animate",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change colour",
 	["castbar_colour"] = "施法條顏色",
 	["castbar_enable"] = "啟用",
 	["castbar_height"] = "施法條高度",
@@ -95,6 +96,8 @@ L["titles"] = {
 	["copy_profile_title"] = "複製設定檔",
 	["cvar_clamp_bottom"] = "底部鎖定距離",
 	["cvar_clamp_top"] = "頂部鎖定距離",
+--[[Translation missing --]]
+	["cvar_disable_scale"] = "Disable default scaling",
 	["cvar_enable"] = "允許Kui姓名版修改CVars參數",
 	["cvar_max_distance"] = "最大可視距離",
 	["cvar_name_only"] = "隱藏預設生命條",
@@ -242,6 +245,12 @@ L["tooltips"] = {
 	["bossmod_x_offset"] = "首領光環圖示位置的水平偏移量",
 	["bossmod_y_offset"] = "首領光環圖示位置的垂直偏移量",
 	["bot_vertical_offset"] = "等級血量位置的垂直偏移量",
+--[[Translation missing --]]
+	["castbar_animate"] = "Fade out the cast bar when a cast ends.",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change the colour of the cast bar when a cast ends, making it easier to tell the difference between successful, stopped, and interrupted casts.",
+--[[Translation missing --]]
+	["castbar_colour"] = "Colour of the cast bar.|n|nAlso used to indicate a successful cast if animation is enabled.",
 	["castbar_enable"] = "啟用施法條",
 	["castbar_name_vertical_offset"] = "法術名稱文字的垂直偏移量",
 	["castbar_shield"] = "在免疫打斷的施法條上顯示盾牌圖示",
@@ -269,19 +278,17 @@ L["tooltips"] = {
 	["colour_self_class"] = "以職業顏色著色個人資源",
 	["combat_friendly"] = "進入與離開戰鬥時在友方框架上採取的動作。",
 	["combat_hostile"] = "進入與離開戰鬥時在敵方框架上採取的動作。",
---[[Translation missing --]]
 	["cvar_clamp_bottom"] = "|cffffcc00nameplate{Other,Large}BottomInset|r",
 	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|n姓名板與螢幕頂部邊緣會有多靠近，當設置為0代表靠緊邊緣，設置為-0.1代表取消鎖定在螢幕頂部。|n|n鎖定只影響你當前目標。",
+--[[Translation missing --]]
+	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.",
 	["cvar_enable"] = "啟用後，Kui姓名版將嘗試將此頁面上的CVar參數鎖定到設置的值。|n|n取消此選項，停用KNP，或是移除KNP都不會重設CVars參數回預設值。",
 	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|n姓名版最大可視的距離（不包含當前目標）。",
 	["cvar_name_only"] = "|cffffcc00nameplateShowOnlyNames|r|n|n在友方姓名板無法被插件修改的情形下，隱藏預設姓名版的生命條。",
 	["cvar_overlap_v"] = "|cffffcc00nameplateOverlapV|r|n|n名條彼此之間的垂直距離（只有在預設介面選項中將排列類型設定為堆疊才有效）。",
---[[Translation missing --]]
 	["cvar_personal_show_always"] = "|cffffcc00nameplatePersonalShowAlways|r",
---[[Translation missing --]]
 	["cvar_personal_show_combat"] = "|cffffcc00nameplatePersonalShowInCombat|r",
 	["cvar_personal_show_target"] = "|cffffcc00nameplatePersonalShowWithTarget|r|n|n如果你有可攻擊目標則顯示個人姓名板。",
---[[Translation missing --]]
 	["cvar_show_friendly_npcs"] = "|cffffcc00nameplateShowFriendlyNPCs|r",
 	["execute_auto"] = "自動偵測你的天賦專精所需的斬殺閾值，對於無斬殺的角色預設為20%",
 	["execute_colour"] = "斬殺階段使用的顏色",
