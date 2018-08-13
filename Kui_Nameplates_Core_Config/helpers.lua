@@ -96,6 +96,7 @@ do
             check.label = parent:CreateFontString(nil,'ARTWORK','GameFontHighlight')
         end
 
+        check.label:SetJustifyH('LEFT')
         check.label:SetText(L.titles[name] or name or 'Checkbox')
         check.label:SetPoint('LEFT', check, 'RIGHT')
 
