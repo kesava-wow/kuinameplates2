@@ -1,3 +1,5 @@
 BETA NOTES
+* add global scale option
+
 * improve target glow texture resolution
 * replace frame glow texture with target glow
