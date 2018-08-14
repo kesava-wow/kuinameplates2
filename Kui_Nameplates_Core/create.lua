@@ -806,13 +806,6 @@ do
 end
 -- frame glow ##################################################################
 do
-    -- frame glow texture coords (assuming a size of 0)
-    local glow_coords = {
-        { .03, .97,  0,  .24 }, -- top
-        { .03, .97, .76,  1 },  -- bottom
-        {  0,  .04,  0,   1 },  -- left
-        { .96,  1,   0,   1 }   -- right
-    }
     -- frame glow prototype
     local glow_prototype = {}
     glow_prototype.__index = glow_prototype
@@ -834,20 +827,8 @@ do
     function glow_prototype:SetSize(...)
         local size = ...
         if not tonumber(size) then return end
-
         for i,side in ipairs(self.sides) do
-            if i > 2 then
-                side:SetTexCoord(unpack(glow_coords[i]))
-                side:SetWidth(...)
-            else
-                side:SetTexCoord(
-                    glow_coords[i][1] + FRAME_GLOW_TEXTURE_INSET,
-                    glow_coords[i][2] - FRAME_GLOW_TEXTURE_INSET,
-                    glow_coords[i][3],
-                    glow_coords[i][4]
-                )
-                side:SetHeight(...)
-            end
+            side:SetHeight(size)
         end
     end
     function glow_prototype:SetAlpha(...)
@@ -896,7 +877,7 @@ do
             else
                 if core.profile.glow_as_shadow then
                     -- shadow
-                    f.ThreatGlow:SetVertexColor(0,0,0,.6)
+                    f.ThreatGlow:SetVertexColor(0,0,0,.25)
                 else
                     f.ThreatGlow:SetVertexColor(0,0,0,0)
                 end
@@ -908,27 +889,24 @@ do
         local glow = { sides = {} }
         setmetatable(glow,glow_prototype)
 
-        for i=1,4 do
-            side = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-            side:SetTexture(MEDIA..'frameglow')
-            -- texcoord set by SetSize
+        for i=1,2 do
+            local side = f:CreateTexture(nil,'BACKGROUND',nil,-5)
+            side:SetTexture(MEDIA..'target-glow')
+
+            if i == 1 then
+                -- top
+                side:SetTexCoord(1,0,1,0)
+                side:SetPoint('BOTTOMLEFT',f.bg,'TOPLEFT',0,0)
+                side:SetPoint('BOTTOMRIGHT',f.bg,'TOPRIGHT')
+            else
+                side:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,0)
+                side:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
+            end
 
             tinsert(glow.sides,side)
         end
 
         glow:SetSize(FRAME_GLOW_SIZE)
-
-        glow.sides[1]:SetPoint('BOTTOMLEFT', f.bg, 'TOPLEFT', 1, -1)
-        glow.sides[1]:SetPoint('BOTTOMRIGHT', f.bg, 'TOPRIGHT', -1, -1)
-
-        glow.sides[2]:SetPoint('TOPLEFT', f.bg, 'BOTTOMLEFT', 1, 1)
-        glow.sides[2]:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT', -1, 1)
-
-        glow.sides[3]:SetPoint('TOPRIGHT', glow.sides[1], 'TOPLEFT')
-        glow.sides[3]:SetPoint('BOTTOMRIGHT', glow.sides[2], 'BOTTOMLEFT')
-
-        glow.sides[4]:SetPoint('TOPLEFT', glow.sides[1], 'TOPRIGHT')
-        glow.sides[4]:SetPoint('BOTTOMLEFT', glow.sides[2], 'BOTTOMRIGHT')
 
         f.handler:RegisterElement('ThreatGlow',glow)
 
