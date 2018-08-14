@@ -51,6 +51,10 @@ L["titles"] = {
 	["bossmod_x_offset"] = "水平偏移",
 	["bossmod_y_offset"] = "垂直偏移",
 	["bot_vertical_offset"] = "等级血量垂直偏移",
+--[[Translation missing --]]
+	["castbar_animate"] = "Animate",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change colour",
 	["castbar_colour"] = "施法条颜色",
 	["castbar_enable"] = "启用",
 	["castbar_height"] = "施法条高度",
@@ -98,6 +102,8 @@ L["titles"] = {
 	["cvar_clamp_bottom"] = "Bottom clamp distance",
 --[[Translation missing --]]
 	["cvar_clamp_top"] = "Top clamp distance",
+--[[Translation missing --]]
+	["cvar_disable_scale"] = "Disable default scaling",
 --[[Translation missing --]]
 	["cvar_enable"] = "Allow Kui Nameplates to modify CVars",
 	["cvar_max_distance"] = "最大可视距离",
@@ -268,6 +274,12 @@ L["tooltips"] = {
 	["bossmod_x_offset"] = "首领光环图标位置的水平偏移量",
 	["bossmod_y_offset"] = "首领光环图标位置的垂直偏移量",
 	["bot_vertical_offset"] = "等级血量垂直偏移",
+--[[Translation missing --]]
+	["castbar_animate"] = "Fade out the cast bar when a cast ends.",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change the colour of the cast bar when a cast ends, making it easier to tell the difference between successful, stopped, and interrupted casts.",
+--[[Translation missing --]]
+	["castbar_colour"] = "Colour of the cast bar.|n|nAlso used to indicate a successful cast if animation is enabled.",
 	["castbar_enable"] = "启用施法条",
 	["castbar_name_vertical_offset"] = "法术名文本垂直偏移量",
 	["castbar_shield"] = "在免疫打断的施法条上显示盾牌图标",
@@ -299,6 +311,8 @@ L["tooltips"] = {
 	["cvar_clamp_bottom"] = "|cffffcc00nameplate{Other,Large}BottomInset|r",
 --[[Translation missing --]]
 	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.",
+--[[Translation missing --]]
+	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.",
 --[[Translation missing --]]
 	["cvar_enable"] = "When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.",
 	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|n姓名板可视的最大距离 (不包含当前目标).",

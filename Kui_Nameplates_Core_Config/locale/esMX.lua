@@ -55,6 +55,10 @@ L["titles"] = {
 	["bossmod_y_offset"] = "Desplaz. vertical",
 --[[Translation missing --]]
 	["bot_vertical_offset"] = "Level/health v.offset",
+--[[Translation missing --]]
+	["castbar_animate"] = "Animate",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change colour",
 	["castbar_colour"] = "Color de barra de lanzamiento",
 	["castbar_enable"] = "Activar",
 	["castbar_height"] = "Alto de barra de lanzamiento",
@@ -63,7 +67,7 @@ L["titles"] = {
 --[[Translation missing --]]
 	["castbar_name_vertical_offset"] = "Spell name v.offset",
 	["castbar_shield"] = "Icono ininterrumpido",
-	["castbar_showall"] = "Barras de lanzamientos en todas placas de nombre",
+	["castbar_showall"] = "Barras de lanzamientos en|ntodas placas de nombre",
 	["castbar_showenemy"] = "Barras de lanzamiento de enemigos",
 	["castbar_showfriend"] = "Barras de lanzamiento de amigos",
 	["castbar_showpersonal"] = "Barra de lanzamiento personal",
@@ -102,6 +106,8 @@ L["titles"] = {
 --[[Translation missing --]]
 	["cvar_clamp_bottom"] = "Bottom clamp distance",
 	["cvar_clamp_top"] = "Distancia restringida arriba",
+--[[Translation missing --]]
+	["cvar_disable_scale"] = "Disable default scaling",
 	["cvar_enable"] = "Permitir que Kui Nameplaes cambie los CVars",
 	["cvar_max_distance"] = "Distancia máx. para mostrar",
 	["cvar_name_only"] = "Ocultar la barra de salud por defecto",
@@ -266,6 +272,12 @@ L["tooltips"] = {
 	["bossmod_x_offset"] = "El desplazamiento horizontal de los iconos de las auras de jefe",
 	["bossmod_y_offset"] = "El desplazamiento vertical de los iconos de las auras de jefe",
 	["bot_vertical_offset"] = "El desplazamiento vertical de los textos de nivel y salud.",
+--[[Translation missing --]]
+	["castbar_animate"] = "Fade out the cast bar when a cast ends.",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change the colour of the cast bar when a cast ends, making it easier to tell the difference between successful, stopped, and interrupted casts.",
+--[[Translation missing --]]
+	["castbar_colour"] = "Colour of the cast bar.|n|nAlso used to indicate a successful cast if animation is enabled.",
 	["castbar_enable"] = "Activar la función de las barras de lanzamienta",
 --[[Translation missing --]]
 	["castbar_name_vertical_offset"] = "Vertical offset of the spell name text",
@@ -297,6 +309,8 @@ L["tooltips"] = {
 --[[Translation missing --]]
 	["cvar_clamp_bottom"] = "|cffffcc00nameplate{Other,Large}BottomInset|r",
 	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|nLa distancia máxima desde el borde de la pantalla a la que se pueden mostrar las placas de nombre, cuando 0 es en el borde. Establece en 0 para desactivar la restricción y permitir que las placas aparezcan fuera de la pantalla.|n|nEsto solo afecto la placa de tu objetivo actual.",
+--[[Translation missing --]]
+	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.",
 	["cvar_enable"] = "Permitir Kui Namplates para tratar d bloquear los CVars en esta pagina al valores establecidos aquí.|n|nDesactivar esta opción, KNP, o eliminar KNP no restablecerá estes CVars a sus valores predeterminados.",
 	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|nLa distancia máxima a la que mostrar las placas de nombre, sin incluir la placa de tu objetivo actual.",
 	["cvar_name_only"] = "|cffffcc00nameplateShowOnlyNames|r|n|nOcultar la barra de salud de las placas de nombre por defecto en situaciones donde no es posible que los addons las modifiquen de otras maneras.",

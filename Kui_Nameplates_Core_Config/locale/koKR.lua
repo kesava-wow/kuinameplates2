@@ -52,6 +52,10 @@ L["titles"] = {
 	["bossmod_x_offset"] = "수평 위치",
 	["bossmod_y_offset"] = "수직 위치",
 	["bot_vertical_offset"] = "레벨/생명력 수직 위치",
+--[[Translation missing --]]
+	["castbar_animate"] = "Animate",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change colour",
 	["castbar_colour"] = "시전 바 색상",
 	["castbar_enable"] = "활성화",
 	["castbar_height"] = "시전 바 높이",
@@ -100,6 +104,8 @@ L["titles"] = {
 	["cvar_clamp_bottom"] = "Bottom clamp distance",
 --[[Translation missing --]]
 	["cvar_clamp_top"] = "Top clamp distance",
+--[[Translation missing --]]
+	["cvar_disable_scale"] = "Disable default scaling",
 --[[Translation missing --]]
 	["cvar_enable"] = "Allow Kui Nameplates to modify CVars",
 --[[Translation missing --]]
@@ -275,6 +281,12 @@ L["tooltips"] = {
 	["bossmod_x_offset"] = "우두머리 효과 아이콘의 수평 위치",
 	["bossmod_y_offset"] = "우두머리 효과 아이콘의 수직 위치",
 	["bot_vertical_offset"] = "레벨과 생명력 문자열의 수직 위치",
+--[[Translation missing --]]
+	["castbar_animate"] = "Fade out the cast bar when a cast ends.",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change the colour of the cast bar when a cast ends, making it easier to tell the difference between successful, stopped, and interrupted casts.",
+--[[Translation missing --]]
+	["castbar_colour"] = "Colour of the cast bar.|n|nAlso used to indicate a successful cast if animation is enabled.",
 	["castbar_enable"] = "시전바 요소를 활성화합니다",
 --[[Translation missing --]]
 	["castbar_name_vertical_offset"] = "Vertical offset of the spell name text",
@@ -307,6 +319,8 @@ L["tooltips"] = {
 	["cvar_clamp_bottom"] = "|cffffcc00nameplate{Other,Large}BottomInset|r",
 --[[Translation missing --]]
 	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.",
+--[[Translation missing --]]
+	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.",
 --[[Translation missing --]]
 	["cvar_enable"] = "When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.",
 --[[Translation missing --]]

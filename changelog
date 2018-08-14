@@ -1,19 +1,8 @@
-BETA NOTES
-* fix castbar jerkiness introduced by aforementioned optimisations
-* fix state icon layer
-
-* add cvar option to disable nameplateMin/MaxScale (which KNP was previously
-  doing anyway, so it's enabled by default)
-* add option to disable the colour changing aspect of the castbar animation
-
-* various cast bar optimisations which will probably cause bugs
-* cast bar element documentation
-
+* add option to disable cast bar animation
+* add option to disable cast bar colour changing (as part of the animation)
+* add option to disable nameplateMin/MaxScale CVars (which KNP was previously doing anyway)
+* cast bar optimisations
+* un-squeeze the cast bar spell icon
+* fix state icon is below frame highlight
 * fix cast bar fill doesn't correctly fade out
-* un-sqeeuze the cast bar spell icon
-
-* add option to disable castbar animation
-
-* fix raid icon displays on the personal frame
-* slightly more efficient :Show
-* rename state.player > state.personal, can now be used by elements & plugins
+* fix raid icon displays on personal frame
