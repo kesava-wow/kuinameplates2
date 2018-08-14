@@ -1,8 +1,3 @@
-* add option to disable cast bar animation
-* add option to disable cast bar colour changing (as part of the animation)
-* add option to disable nameplateMin/MaxScale CVars (which KNP was previously doing anyway)
-* cast bar optimisations
-* un-squeeze the cast bar spell icon
-* fix state icon is below frame highlight
-* fix cast bar fill doesn't correctly fade out
-* fix raid icon displays on personal frame
+BETA NOTES
+* improve target glow texture resolution
+* replace frame glow texture with target glow
