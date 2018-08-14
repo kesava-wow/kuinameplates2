@@ -875,12 +875,12 @@ do
 
         if f.state.target and core.profile.target_glow then
             -- target glow colour
-            f.ThreatGlow:SetAlpha(1)
+            f.ThreatGlow:SetAlpha(.8)
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
         else
             if FRAME_GLOW_THREAT and f.state.glowing then
                 -- threat glow colour
-                f.ThreatGlow:SetAlpha(.7)
+                f.ThreatGlow:SetAlpha(.5)
                 f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
             else
                 if core.profile.glow_as_shadow then
