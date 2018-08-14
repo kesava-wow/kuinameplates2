@@ -50,6 +50,7 @@ local plugin_fading
 local plugin_classpowers
 
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
+local TEXT_SCALE_OFFSET = 2.5
 
 -- config locals
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
@@ -57,23 +58,21 @@ local FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL
 local POWER_BAR_HEIGHT,TARGET_GLOW_COLOUR
 local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
 local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
-local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
+local BAR_TEXTURE,BAR_ANIMATION
 local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
 local FADE_AVOID_COMBAT,FADE_AVOID_CASTING
 local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID
 local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
 local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
 local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
-local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET,FRAME_GLOW_THREAT
-local HIDE_NAMES
+local FRAME_GLOW_SIZE,FRAME_GLOW_THREAT
+local HIDE_NAMES,GLOBAL_SCALE
 
 -- common globals
-local UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,UnitShouldDisplayName,strlen,strformat,    pairs,
-      ipairs,floor,ceil,unpack =
-      UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,UnitShouldDisplayName,strlen,string.format,pairs,
-      ipairs,floor,ceil,unpack
+local UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
+      strlen,strformat,    pairs,ipairs,floor,ceil,unpack =
+      UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
+      strlen,string.format,pairs,ipairs,floor,ceil,unpack
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -182,6 +181,18 @@ local function CreateFontString(parent,small)
 
     return f
 end
+local function Scale(v,offset)
+    if not GLOBAL_SCALE then
+        GLOBAL_SCALE = core.profile.global_scale
+    end
+    if not GLOBAL_SCALE or GLOBAL_SCALE == 1 then return v end
+    if offset then
+        -- scale and offset by constant (for font strings)
+        return ceil((v*GLOBAL_SCALE)-((GLOBAL_SCALE-1)*offset))
+    else
+        return floor((v*GLOBAL_SCALE)+.5)
+    end
+end
 -- config functions ############################################################
 do
     local FONT_STYLE_ASSOC = {
@@ -206,26 +217,26 @@ do
 
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
 
-        FRAME_WIDTH = self.profile.frame_width
-        FRAME_HEIGHT = self.profile.frame_height
-        FRAME_WIDTH_MINUS = self.profile.frame_width_minus
-        FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
-        FRAME_WIDTH_PERSONAL = self.profile.frame_width_personal
-        FRAME_HEIGHT_PERSONAL = self.profile.frame_height_personal
-        POWER_BAR_HEIGHT = self.profile.powerbar_height
+        GLOBAL_SCALE = self.profile.global_scale
+        FRAME_WIDTH = Scale(self.profile.frame_width)
+        FRAME_HEIGHT = Scale(self.profile.frame_height)
+        FRAME_WIDTH_MINUS = Scale(self.profile.frame_width_minus)
+        FRAME_HEIGHT_MINUS = Scale(self.profile.frame_height_minus)
+        FRAME_WIDTH_PERSONAL = Scale(self.profile.frame_width_personal)
+        FRAME_HEIGHT_PERSONAL = Scale(self.profile.frame_height_personal)
+        POWER_BAR_HEIGHT = Scale(self.profile.powerbar_height)
 
-        FRAME_GLOW_SIZE = self.profile.frame_glow_size
-        FRAME_GLOW_TEXTURE_INSET = .01 * (FRAME_GLOW_SIZE / 4)
+        FRAME_GLOW_SIZE = Scale(self.profile.frame_glow_size)
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
 
         TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
-        NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
-        BOT_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset
+        NAME_VERTICAL_OFFSET = Scale(TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset,TEXT_SCALE_OFFSET)
+        BOT_VERTICAL_OFFSET = Scale(TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset,TEXT_SCALE_OFFSET)
 
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
-        FONT_SIZE_NORMAL = self.profile.font_size_normal
-        FONT_SIZE_SMALL = self.profile.font_size_small
+        FONT_SIZE_NORMAL = Scale(self.profile.font_size_normal)
+        FONT_SIZE_SMALL = Scale(self.profile.font_size_small)
 
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_UNTRACKED = self.profile.fade_untracked
@@ -236,8 +247,6 @@ do
             or self.profile.fade_avoid_casting_hostile) and
             (self.profile.fade_avoid_casting_interruptible or
             self.profile.fade_avoid_casting_uninterruptible)
-
-        SHOW_STATE_ICONS = self.profile.state_icons
 
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
@@ -287,7 +296,7 @@ function core:configChangedTargetArrows()
         if self.profile.target_arrows then
             if f.TargetArrows then
                 f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                f.TargetArrows:SetSize(self.profile.target_arrows_size)
+                f.TargetArrows:SetSize(Scale(self.profile.target_arrows_size))
             else
                 self:CreateTargetArrows(f)
             end
@@ -837,7 +846,6 @@ do
         end
     end
 
-    -- update
     local function UpdateFrameGlow(f)
         if f.IN_NAMEONLY then
             f.ThreatGlow:Hide()
@@ -884,7 +892,10 @@ do
             end
         end
     end
-    -- create
+    local function UpdateFrameGlowSize(f)
+        if not f.ThreatGlow then return end
+        f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
+    end
     function core:CreateFrameGlow(f)
         local glow = { sides = {} }
         setmetatable(glow,glow_prototype)
@@ -911,6 +922,9 @@ do
         f.handler:RegisterElement('ThreatGlow',glow)
 
         f.UpdateFrameGlow = UpdateFrameGlow
+        f.UpdateFrameGlowSize = UpdateFrameGlowSize
+
+        f:UpdateFrameGlowSize()
     end
 end
 -- target arrows ###############################################################
@@ -963,7 +977,7 @@ do
         right:SetTexCoord(.72,0,0,1)
         arrows.r = right
 
-        arrows:SetSize(core.profile.target_arrows_size)
+        arrows:SetSize(Scale(core.profile.target_arrows_size))
         arrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
 
         f.TargetArrows = arrows
@@ -975,7 +989,7 @@ do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
-          CASTBAR_ANIMATE_CHANGE_COLOUR
+          CASTBAR_ANIMATE_CHANGE_COLOUR,SHIELD_H,SHIELD_W
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1153,7 +1167,7 @@ do
         local shield = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 3)
         shield:SetTexture(MEDIA..'Shield')
         shield:SetTexCoord(0, .84375, 0, 1)
-        shield:SetSize(13.5, 16) -- 16 * .84375
+        shield:SetSize(SHIELD_W,SHIELD_H)
         shield:SetPoint('LEFT', f.CastBar.bg, -7, 0)
         shield:SetVertexColor(.5, .5, .7)
         shield:Hide()
@@ -1249,15 +1263,17 @@ do
 
     function core:SetCastBarConfig()
         CASTBAR_ENABLED = self.profile.castbar_enable
-        CASTBAR_HEIGHT = self.profile.castbar_height
+        CASTBAR_HEIGHT = Scale(self.profile.castbar_height)
         CASTBAR_COLOUR = self.profile.castbar_colour
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
         CASTBAR_SHOW_NAME = self.profile.castbar_name
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
-        CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
+        CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset,TEXT_SCALE_OFFSET)
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
+        SHIELD_H = Scale(16)
+        SHIELD_W = SHIELD_H * .84375
 
         for k,f in addon:Frames() do
             -- create elements which weren't required until config was changed
@@ -1282,6 +1298,7 @@ do
             if f.SpellShield then
                 if CASTBAR_SHOW_SHIELD then
                     f.handler:EnableElement('SpellShield')
+                    f.SpellShield:SetSize(SHIELD_W,SHIELD_H)
                 else
                     f.handler:DisableElement('SpellShield')
                 end
@@ -1302,8 +1319,18 @@ do
 end
 -- state icons #################################################################
 do
+    local SHOW_STATE_ICONS,ICON_SIZE
     local BOSS = {0,.5,0,.5}
     local RARE = {.5,1,.5,1}
+
+    function core:configChangedStateIcons()
+        SHOW_STATE_ICONS = self.profile.state_icons
+        ICON_SIZE = Scale(20)
+
+        for k,f in addon:Frames() do
+            f:UpdateStateIconSize()
+        end
+    end
 
     local function UpdateStateIcon(f)
         if  not SHOW_STATE_ICONS or
@@ -1326,14 +1353,19 @@ do
             f.StateIcon:Hide()
         end
     end
+    local function UpdateStateIconSize(f)
+        f.StateIcon:SetSize(ICON_SIZE,ICON_SIZE)
+    end
     function core:CreateStateIcon(f)
         local stateicon = f:CreateTexture(nil,'ARTWORK',nil,4)
         stateicon:SetTexture(MEDIA..'state-icons')
-        stateicon:SetSize(20,20)
         stateicon:SetPoint('LEFT',f.HealthBar,'BOTTOMLEFT',0,1)
 
         f.StateIcon = stateicon
         f.UpdateStateIcon = UpdateStateIcon
+        f.UpdateStateIconSize = UpdateStateIconSize
+
+        f:UpdateStateIconSize()
     end
 end
 -- raid icons ##################################################################
@@ -1509,8 +1541,8 @@ do
             AURAS_MAX_LENGTH = nil
         end
 
-        AURAS_NORMAL_SIZE = self.profile.auras_icon_normal_size
-        AURAS_MINUS_SIZE = self.profile.auras_icon_minus_size
+        AURAS_NORMAL_SIZE = Scale(self.profile.auras_icon_normal_size)
+        AURAS_MINUS_SIZE = Scale(self.profile.auras_icon_minus_size)
 
         AURAS_ENABLED = self.profile.auras_enabled
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
@@ -1710,12 +1742,10 @@ do
 
     do
         local function UpdateNameOnlyGlowSize(f)
-            local g = f.NameOnlyGlow
-            if not g then return end
-
-            g:SetPoint('TOPLEFT',f.NameText,
+            if not f.NameOnlyGlow then return end
+            f.NameOnlyGlow:SetPoint('TOPLEFT',f.NameText,
                 -12-FRAME_GLOW_SIZE,  FRAME_GLOW_SIZE)
-            g:SetPoint('BOTTOMRIGHT',f.NameText,
+            f.NameOnlyGlow:SetPoint('BOTTOMRIGHT',f.NameText,
                  12+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
         end
         function core:CreateNameOnlyGlow(f)
@@ -1933,9 +1963,9 @@ function core:InitialiseElements()
 
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
-        icon_size = self.profile.classpowers_size or 10,
-        bar_width = self.profile.classpowers_bar_width,
-        bar_height = self.profile.classpowers_bar_height,
+        icon_size = Scale(self.profile.classpowers_size) or 10,
+        bar_width = Scale(self.profile.classpowers_bar_width),
+        bar_height = Scale(self.profile.classpowers_bar_height),
         icon_texture = MEDIA..'combopoint-round',
         icon_sprite = MEDIA..'combopoint',
         icon_glow_texture = MEDIA..'combopoint-glow',
@@ -1960,7 +1990,7 @@ function core:InitialiseElements()
     end
 
     self.BossModIcon = {
-        icon_size = self.profile.bossmod_icon_size,
+        icon_size = Scale(self.profile.bossmod_icon_size),
         icon_x_offset = self.profile.bossmod_x_offset,
         icon_y_offset = self.profile.bossmod_y_offset,
         control_visibility = self.profile.bossmod_control_visibility,

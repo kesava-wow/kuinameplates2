@@ -135,6 +135,7 @@ local default_config = {
     frame_height_personal = 13,
     castbar_height = 6,
     powerbar_height = 3,
+    global_scale = 1,
 
     auras_enabled = true,
     auras_on_personal = true,
@@ -271,6 +272,10 @@ end
 
 function configChanged.bar_animation()
     core:SetBarAnimation()
+end
+
+function configChanged.state_icons()
+    core:configChangedStateIcons()
 end
 
 function configChanged.fade_non_target_alpha(v)
@@ -664,12 +669,8 @@ configChanged.target_arrows_size = configChanged.target_arrows
 
 function configChanged.frame_glow_size(v)
     for k,f in addon:Frames() do
-        if f.ThreatGlow then
-            f.ThreatGlow:SetSize(v)
-        end
-        if f.UpdateNameOnlyGlowSize then
-            f:UpdateNameOnlyGlowSize()
-        end
+        f:UpdateFrameGlowSize()
+        f:UpdateNameOnlyGlowSize()
     end
 end
 
@@ -760,6 +761,18 @@ configChanged.cvar_clamp_bottom = configChangedCVar
 configChanged.cvar_overlap_v = configChangedCVar
 configChanged.cvar_disable_scale = configChangedCVar
 
+function configChanged.global_scale(v)
+    configChanged.frame_glow_size(core.profile.frame_glow_size)
+    configChanged.target_arrows()
+    configChanged.state_icons()
+    configChangedCastBar()
+    configChangedAuras()
+    configChangedFontOption()
+    configChangedClassPowers()
+    configChangedTextOffset()
+    configChangedFrameSize()
+end
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_non_target_alpha = configChanged.fade_non_target_alpha
@@ -787,6 +800,8 @@ configLoaded.auras_enabled = configChanged.auras_enabled
 configLoaded.clickthrough_self = QueueClickthroughUpdate
 
 configLoaded.cvar_enable = configChangedCVar
+
+configLoaded.state_icons = configChanged.state_icons
 
 function configLoaded.classpowers_enable(v)
     if v then

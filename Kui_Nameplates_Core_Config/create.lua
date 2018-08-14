@@ -411,8 +411,14 @@ function framesizes:Initialise()
     local frame_height_minus = self:CreateSlider('frame_height_minus',3,40)
     local frame_width_personal = self:CreateSlider('frame_width_personal',20,200)
     local frame_height_personal = self:CreateSlider('frame_height_personal',3,40)
+
+    local element_sep = self:CreateSeparator('framesizes_element_sep')
     local powerbar_height = self:CreateSlider('powerbar_height',1,20)
     local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
+
+    local scale_sep = self:CreateSeparator('framesizes_scale_sep')
+    local global_scale = self:CreateSlider('global_scale',.5,2)
+    global_scale:SetValueStep(.05)
 
     frame_height_personal.enabled = function(p) return not p.use_blizzard_personal end
 
@@ -422,8 +428,13 @@ function framesizes:Initialise()
     frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
     frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-35)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
-    powerbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-35)
-    frame_glow_size:SetPoint('TOPLEFT',powerbar_height,'BOTTOMLEFT',0,-35)
+
+    element_sep:SetPoint('TOP',0,-195)
+    powerbar_height:SetPoint('TOPLEFT',10,-225)
+    frame_glow_size:SetPoint('LEFT',powerbar_height,'RIGHT',20,0)
+
+    scale_sep:SetPoint('TOP',0,-295)
+    global_scale:SetPoint('TOP',0,-325)
 end
 -- auras #######################################################################
 function auras:Initialise()
