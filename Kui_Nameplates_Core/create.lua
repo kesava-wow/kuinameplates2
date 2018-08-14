@@ -860,7 +860,6 @@ do
     local function UpdateFrameGlow(f)
         if f.IN_NAMEONLY then
             f.ThreatGlow:Hide()
-            f.TargetGlow:Hide()
 
             if f.NameOnlyGlow then
                 if f.state.target and core.profile.target_glow then
@@ -889,9 +888,6 @@ do
             -- target glow colour
             f.ThreatGlow:SetAlpha(1)
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-
-            f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-            f.TargetGlow:Show()
         else
             if FRAME_GLOW_THREAT and f.state.glowing then
                 -- threat glow colour
@@ -905,8 +901,6 @@ do
                     f.ThreatGlow:SetVertexColor(0,0,0,0)
                 end
             end
-
-            f.TargetGlow:Hide()
         end
     end
     -- create
@@ -940,20 +934,6 @@ do
 
         f.UpdateFrameGlow = UpdateFrameGlow
     end
-end
--- target glow #################################################################
--- updated by UpdateFrameGlow
-function core:CreateTargetGlow(f)
-    local targetglow = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-    targetglow:SetTexture(MEDIA..'target-glow')
-    targetglow:SetTexCoord(0,.593,0,.875)
-    targetglow:SetHeight(7)
-    targetglow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,2)
-    targetglow:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
-    targetglow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-    targetglow:Hide()
-
-    f.TargetGlow = targetglow
 end
 -- target arrows ###############################################################
 do
