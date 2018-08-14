@@ -872,7 +872,7 @@ do
         else
             if FRAME_GLOW_THREAT and f.state.glowing then
                 -- threat glow colour
-                f.ThreatGlow:SetAlpha(1)
+                f.ThreatGlow:SetAlpha(.7)
                 f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
             else
                 if core.profile.glow_as_shadow then
