@@ -136,7 +136,7 @@ do
             local texture = bar:GetStatusBarTexture()
             local spark = bar:CreateTexture(nil,'ARTWORK',nil,spark_level or 7)
             spark:SetTexture('interface/addons/kui_media/t/spark')
-            spark:SetWidth(8)
+            spark:SetWidth(12)
 
             spark:SetPoint('TOP',texture,'TOPRIGHT',-1,4)
             spark:SetPoint('BOTTOM',texture,'BOTTOMRIGHT',-1,-4)
