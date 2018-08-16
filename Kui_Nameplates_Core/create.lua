@@ -907,10 +907,10 @@ do
             if i == 1 then
                 -- top
                 side:SetTexCoord(1,0,1,0)
-                side:SetPoint('BOTTOMLEFT',f.bg,'TOPLEFT',0,-1)
+                side:SetPoint('BOTTOMLEFT',f.bg,'TOPLEFT',0,0)
                 side:SetPoint('BOTTOMRIGHT',f.bg,'TOPRIGHT')
             else
-                side:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,1)
+                side:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,0)
                 side:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
             end
 
