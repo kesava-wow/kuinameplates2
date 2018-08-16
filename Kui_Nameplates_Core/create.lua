@@ -1115,20 +1115,34 @@ do
     end
     local function UpdateSpellNamePosition(f)
         if not f.SpellName then return end
-        f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET+TEXT_VERTICAL_OFFSET)
+        f.SpellName:SetPoint('TOP',f.CastBar.bg,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET+TEXT_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
         f.CastBar.bg:SetSize(CASTBAR_WIDTH,CASTBAR_HEIGHT)
 
         if f.SpellIcon then
-            f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
+            if nil then
+                -- XXX if spell icon is not combined...
+                f.SpellIcon:SetSize(CASTBAR_HEIGHT-2,CASTBAR_HEIGHT-2)
+                f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
+            else
+                -- XXX else
+                f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
+            end
         end
     end
 
     local function CreateSpellIcon(f)
         local icon = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 2)
-        icon:SetAlpha(.5)
-        icon:SetAllPoints()
+
+        if nil then
+            -- XXX if spell icon is not combined...
+            icon:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+            f.CastBar:SetPoint('TOPLEFT',icon,'TOPRIGHT',1,0)
+        else
+            icon:SetAlpha(.5)
+            icon:SetAllPoints()
+        end
 
         f.handler:RegisterElement('SpellIcon', icon)
         return icon
