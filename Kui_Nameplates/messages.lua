@@ -133,60 +133,36 @@ function addon:DispatchMessage(message, ...)
         --@end-debug@
     end
 end
------------------------------------------------------------------ event frame --
+------------------------------------------------------------- event functions --
+local unit_event_frame = CreateFrame('Frame')
 local event_frame = CreateFrame('Frame')
 local event_index = {}
--- fire events to listeners
-local function event_frame_OnEvent(self,event,...)
-    if not event_index[event] then
-        self:UnregisterEvent(event)
-        return
-    end
 
+-- iterate plugins/elements which have registered the given event
+local function DispatchEventToListeners(event,unit,unit_frame)
     --@debug@
     TraceStart('e:'..event)
     --@end-debug@
+ 
+    for i,listener_tbl in ipairs(event_index[event]) do
+        local table,func = unpack(listener_tbl)
 
-    local unit,unit_frame,unit_not_found
-    for i,table_tbl in ipairs(event_index[event]) do
-        local table,func,unit_only = unpack(table_tbl)
-
-        if unit_only and not unit and not unit_not_found then
-            -- first unit_only listener; find nameplate
-            unit = ...
-            if unit and unit ~= 'target' and unit ~= 'mouseover' then
-                unit_frame = C_NamePlate.GetNamePlateForUnit(unit)
-                unit_frame = unit_frame and unit_frame.kui
-
-                if not unit_frame or not unit_frame.unit then
-                    unit_frame = nil
-                    unit_not_found = true
-                end
-            else
-                unit_not_found = true
-            end
+        -- resolve function...
+        if type(func) == 'string' and type(table[func]) == 'function' then
+            func = table[func]
+        elseif type(table[event]) == 'function' then
+            func = table[event]
         end
 
-        if not unit_only or unit_frame then
-            if type(func) == 'string' and type(table[func]) == 'function' then
-                func = table[func]
-            elseif type(table[event]) == 'function' then
-                func = table[event]
-            end
+        -- call registered function
+        if type(func) == 'function' then
+            func(table,event,unit_frame,...)
 
-            if type(func) == 'function' then
-                if unit_only then
-                    func(table, event, unit_frame, ...)
-                else
-                    func(table, event, ...)
-                end
-
-                if addon.debug_events then
-                    PrintDebugForEvent(event,table,unit,...)
-                end
-            else
-                addon:print('|cffff0000no listener for e:'..event..' in '..(table.name or 'nil'))
+            if addon.debug_events then
+                PrintDebugForEvent(event,table,unit,...)
             end
+        else
+            addon:print('|cffff0000no listener for ue:'..event..' in '..(table.name or 'nil'))
         end
     end
 
@@ -194,9 +170,49 @@ local function event_frame_OnEvent(self,event,...)
     TraceEnd('e:'..event)
     --@end-debug@
 end
+------------------------------------------------------------ unit event frame --
+-- a "unit event" by this definition relies on the event returning a unit,
+-- and a nameplate being available with that unit. We find the nameplate for
+-- the plugin/element and pass it in an argument to its function, or do not
+-- call the function if a nameplate cannot be found.
+local function unit_event_frame_OnEvent(self,event,unit,...)
+    if not event_index[event] then
+        self:UnregisterEvent(event)
+        return
+    end
 
+    -- find nameplate matching returned unit
+    if not unit then
+        addon:print('ue:'..event..':nil returned no unit')
+        return
+    end
+    if type(unit) ~= 'string' or strsub(unit,1,9) ~= 'nameplate' then
+        addon:print('ue:'..event..':'..unit..' returned invald unit')
+        return
+    end
+
+    local unit_frame = C_NamePlate.GetNamePlateForUnit(unit)
+    unit_frame = unit_frame and unit_frame.kui
+
+    if not unit_frame or not unit_frame.unit then
+        addon:print('ue:'..event..':'..unit..' did not find a hooked nameplate')
+        return
+    end
+
+    DispatchEventToListeners(event,unit,unit_frame)
+end
+unit_event_frame:SetScript('OnEvent',unit_event_frame_OnEvent)
+---------------------------------------------------------- simple event frame --
+local function event_frame_OnEvent(self,event,...)
+    if not event_index[event] then
+        self:UnregisterEvent(event)
+        return
+    end
+
+    DispatchEventToListeners(event)
+end
 event_frame:SetScript('OnEvent',event_frame_OnEvent)
---------------------------------------------------------------------------------
+------------------------------------------------------------------ registrars --
 local message = {}
 message.__index = message
 ----------------------------------------------------------- message registrar --
@@ -295,11 +311,7 @@ function message.RegisterEvent(table,event,func,unit_only)
     -- TODO maybe allow overwrites possibly
     if pluginHasEvent(table,event) then return end
 
-    if not event_index[event] then
-        event_index[event] = {}
-    end
-
-    local insert_tbl = { table, func, unit_only }
+    local insert_tbl = { table, func }
 
     -- insert by priority
     if #event_index[event] > 0 then
@@ -325,7 +337,11 @@ function message.RegisterEvent(table,event,func,unit_only)
     end
     table.__EVENTS[event] = true
 
-    event_frame:RegisterEvent(event)
+    if unit_only then
+        unit_event_frame:RegisterEvent(event)
+    else
+        event_frame:RegisterEvent(event)
+    end
 end
 function message.RegisterUnitEvent(table,event,func)
     table:RegisterEvent(event,func,true)
