@@ -308,7 +308,9 @@ function message.RegisterEvent(table,event,func,unit_only)
         return
     end
 
-    -- TODO maybe allow overwrites possibly
+    -- XXX possibly allow overwrites
+    -- what happens if a plugin registers an event as both types?
+    -- does unregistering work correctly?
     if pluginHasEvent(table,event) then return end
 
     local insert_tbl = { table, func }
