@@ -49,7 +49,7 @@ local function PrintDebugForEvent(event,table,unit,...)
     if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['e:'..event] then return end
 
     local ac = VarArgsToString(...)
-    addon:print('p:'..(table.priority or '?')..' |cffffff88e:'..event..(unit and ' |cff8888ff['..unit..']' or '')..'|r > '..(table.name or 'nil')..(ac and ' |cffaaaaaa'..ac or ''))
+    addon:print('p:'..(table.priority or '?')..' |cffffff88e:'..event..(unit and '|cff8888ff:'..unit or '')..'|r > '..(table.name or 'nil')..(ac and ' |cffaaaaaa'..ac or ''))
 end
 local function PrintDebugForCallback(plugin,callback,...)
     local fn = plugin.name..':'..callback
