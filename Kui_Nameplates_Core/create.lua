@@ -49,6 +49,7 @@ local plugin_fading
 -- class powers plugin - called by NameOnlyUpdateFunctions
 local plugin_classpowers
 
+local KUI_MEDIA = 'interface/addons/kui_media/'
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
 local TEXT_SCALE_OFFSET = 2.5
 
@@ -135,7 +136,7 @@ do
         if spark then
             local texture = bar:GetStatusBarTexture()
             local spark = bar:CreateTexture(nil,'ARTWORK',nil,spark_level or 7)
-            spark:SetTexture('interface/addons/kui_media/t/spark')
+            spark:SetTexture(KUI_MEDIA..'t/spark')
             spark:SetWidth(12)
 
             spark:SetPoint('TOP',texture,'TOPRIGHT',-1,4)
@@ -528,7 +529,7 @@ do
 
         -- spark for over-absorb highlighting
         local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)
-        spark:SetTexture('interface/addons/kui_media/t/spark')
+        spark:SetTexture(KUI_MEDIA..'t/spark')
         spark:SetWidth(8)
         spark:SetPoint('TOP',bar,'TOPRIGHT',-1,4)
         spark:SetPoint('BOTTOM',bar,'BOTTOMRIGHT',-1,-4)
@@ -1753,7 +1754,7 @@ do
             if f.NameOnlyGlow then return end
 
             local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-            g:SetTexture('interface/addons/kui_media/t/spark')
+            g:SetTexture(KUI_MEDIA..'t/spark-flat')
             g:Hide()
 
             f.NameOnlyGlow = g
