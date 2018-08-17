@@ -139,7 +139,7 @@ local event_frame = CreateFrame('Frame')
 local event_index = {}
 
 -- iterate plugins/elements which have registered the given event
-local function DispatchEventToListeners(event,unit,unit_frame)
+local function DispatchEventToListeners(event,unit,unit_frame,...)
     --@debug@
     TraceStart('e:'..event)
     --@end-debug@
@@ -199,7 +199,7 @@ local function unit_event_frame_OnEvent(self,event,unit,...)
         return
     end
 
-    DispatchEventToListeners(event,unit,unit_frame)
+    DispatchEventToListeners(event,unit,unit_frame,...)
 end
 unit_event_frame:SetScript('OnEvent',unit_event_frame_OnEvent)
 ---------------------------------------------------------- simple event frame --
@@ -209,7 +209,7 @@ local function event_frame_OnEvent(self,event,...)
         return
     end
 
-    DispatchEventToListeners(event)
+    DispatchEventToListeners(event,...)
 end
 event_frame:SetScript('OnEvent',event_frame_OnEvent)
 ------------------------------------------------------------------ registrars --
@@ -314,6 +314,7 @@ function message.RegisterEvent(table,event,func,unit_only)
     if pluginHasEvent(table,event) then return end
 
     local insert_tbl = { table, func }
+    event_index[event] = event_index[event] or {}
 
     -- insert by priority
     if #event_index[event] > 0 then
