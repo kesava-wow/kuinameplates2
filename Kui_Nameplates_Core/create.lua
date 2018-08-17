@@ -1745,9 +1745,9 @@ do
         local function UpdateNameOnlyGlowSize(f)
             if not f.NameOnlyGlow then return end
             f.NameOnlyGlow:SetPoint('TOPLEFT',f.NameText,
-                -12-FRAME_GLOW_SIZE,  FRAME_GLOW_SIZE)
+                -6-FRAME_GLOW_SIZE,  FRAME_GLOW_SIZE)
             f.NameOnlyGlow:SetPoint('BOTTOMRIGHT',f.NameText,
-                 12+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
+                 6+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
         end
         function core:CreateNameOnlyGlow(f)
             if not NAMEONLY_ALL_ENEMIES and not NAMEONLY_TARGET then return end
