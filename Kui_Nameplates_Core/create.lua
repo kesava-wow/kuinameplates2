@@ -1210,7 +1210,7 @@ do
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-        bg:SetPoint('TOP', f.bg, 'BOTTOM', 0, -5)
+        bg:SetPoint('TOP', f.bg, 'BOTTOM', 0, -2)
         bg:Hide()
 
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
