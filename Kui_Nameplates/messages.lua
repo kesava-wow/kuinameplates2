@@ -8,9 +8,11 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 
+local type,strsub,pairs,ipairs,unpack,tinsert,tremove=
+      type,strsub,pairs,ipairs,unpack,tinsert,tremove
+
 local k,listener,plugin,_
 local listeners = {}
-
 -------------------------------------------------------------- debug helpers --
 if addon.debug_messages then
     addon.MESSAGE_LISTENERS = listeners
