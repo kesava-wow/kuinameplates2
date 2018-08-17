@@ -187,7 +187,6 @@ local function unit_event_frame_OnEvent(self,event,unit,...)
         return
     end
     if type(unit) ~= 'string' or strsub(unit,1,9) ~= 'nameplate' then
-        addon:print('ue:'..event..':'..unit..' returned invald unit')
         return
     end
 
