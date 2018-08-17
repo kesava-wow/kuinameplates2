@@ -1,4 +1,9 @@
 BETA NOTES
+* fix absorb spark width
+* fix nameonly glow
+
+* improve spark texture resolution
+
 * add global scale option
 
 * improve target glow texture resolution
