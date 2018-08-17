@@ -530,7 +530,7 @@ do
         -- spark for over-absorb highlighting
         local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)
         spark:SetTexture(KUI_MEDIA..'t/spark')
-        spark:SetWidth(8)
+        spark:SetWidth(12)
         spark:SetPoint('TOP',bar,'TOPRIGHT',-1,4)
         spark:SetPoint('BOTTOM',bar,'BOTTOMRIGHT',-1,-4)
         bar.spark = spark
