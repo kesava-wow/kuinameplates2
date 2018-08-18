@@ -191,6 +191,7 @@ local function unit_event_frame_OnEvent(self,event,unit,...)
         return
     end
     if type(unit) ~= 'string' or strsub(unit,1,9) ~= 'nameplate' then
+        -- filter out non-nameplate units
         return
     end
 
@@ -198,7 +199,8 @@ local function unit_event_frame_OnEvent(self,event,unit,...)
     unit_frame = unit_frame and unit_frame.kui
 
     if not unit_frame or not unit_frame.unit then
-        addon:print('ue:'..event..':'..unit..' did not find a hooked nameplate')
+        -- this happens when restricted nameplates are visible,
+        -- as events are still fired for those units
         return
     end
 
