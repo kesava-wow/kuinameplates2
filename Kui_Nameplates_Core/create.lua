@@ -1482,7 +1482,28 @@ do
         button.count:SetPoint('BOTTOMRIGHT',5,-2+TEXT_VERTICAL_OFFSET)
         button.count.fontobject_shadow = true
 
+        if frame.id == 'core_dynamic' then
+            -- create owner highlight
+            local hl = button:CreateTexture(nil,'ARTWORK',nil,2)
+            hl:SetTexture('interface/addons/kui_media/t/checkbuttonhilightwhite')
+            hl:SetAllPoints(button.icon)
+            hl:Hide()
+
+            button.hl = hl
+        end
+
         core.AurasButton_SetFont(button)
+    end
+    function core.Auras_PostDisplayAuraButton(frame,button)
+        if frame.id ~= 'core_dynamic' then return end
+        if not button.hl then return end
+
+        if not button.own then
+            button.hl:SetVertexColor(.4,1,.2,.8)
+            button.hl:Show()
+        else
+            button.hl:Hide()
+        end
     end
     function core.Auras_DisplayAura(frame,name,spellid,duration,caster)
         if frame.id ~= 'core_dynamic' then return end
