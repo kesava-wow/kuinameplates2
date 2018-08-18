@@ -64,6 +64,9 @@
     PostCreateAuraButton(auraframe,button)
         Called after an aura button is created.
 
+    PostDisplayAuraButton(auraframe,button)
+        Called after a button is displayed.
+
     PostCreateAuraFrame(auraframe)
         Called after an aura frame is created.
 
@@ -432,8 +435,9 @@ local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,exp
     end
 
     button:UpdateCooldown(duration,expiration)
-
     self.spellids[spellid] = button
+
+    ele:RunCallback('PostDisplayAuraButton',self,button)
 end
 local function AuraFrame_HideButton(self,button)
     if button.spellid then
@@ -811,6 +815,7 @@ function ele:Initialise()
     self:RegisterCallback('ArrangeButtons',true)
     self:RegisterCallback('CreateAuraButton',true)
     self:RegisterCallback('PostCreateAuraButton')
+    self:RegisterCallback('PostDisplayAuraButton')
     self:RegisterCallback('PostCreateAuraFrame')
     self:RegisterCallback('PostUpdateAuraFrame')
     self:RegisterCallback('DisplayAura',true)
