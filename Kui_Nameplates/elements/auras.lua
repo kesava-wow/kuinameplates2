@@ -375,7 +375,7 @@ local function AuraFrame_GetAuras(self)
         if name and spellid and
            self:ShouldShowAura(spellid,strlower(name),duration,caster,nps_own,nps_all)
         then
-            self:DisplayButton(spellid,name,icon,count,duration,expiration,i)
+            self:DisplayButton(spellid,name,icon,count,duration,expiration,caster,i)
         end
     end
 end
@@ -419,13 +419,14 @@ local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,nps_ow
                (caster == 'player' or caster == 'pet' or caster == 'vehicle'))
     end
 end
-local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,index)
+local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,caster,index)
     local button = self:GetButton(spellid)
 
     button:SetTexture(icon)
     button.used = true
     button.spellid = spellid
     button.index = index
+    button.own = caster == 'player' or caster == 'vehicle' or caster == 'pet'
 
     if count > 1 then
         button.count:SetText(count)
