@@ -156,7 +156,11 @@ local function DispatchEventToListeners(event,unit,unit_frame,...)
 
         -- call registered function
         if type(func) == 'function' then
-            func(table,event,unit_frame,...)
+            if unit_frame then
+                func(table,event,unit_frame,...)
+            else
+                func(table,event,...)
+            end
 
             if addon.debug_events then
                 PrintDebugForEvent(event,table,unit,...)
@@ -208,7 +212,7 @@ local function event_frame_OnEvent(self,event,...)
         return
     end
 
-    DispatchEventToListeners(event,...)
+    DispatchEventToListeners(event,nil,nil,...)
 end
 event_frame:SetScript('OnEvent',event_frame_OnEvent)
 ------------------------------------------------------------------ registrars --
