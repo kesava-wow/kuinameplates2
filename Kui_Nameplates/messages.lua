@@ -157,7 +157,7 @@ local function DispatchEventToListeners(event,unit,unit_frame,...)
         -- call registered function
         if type(func) == 'function' then
             if unit_frame then
-                func(table,event,unit_frame,...)
+                func(table,event,unit_frame,unit,...)
             else
                 func(table,event,...)
             end
