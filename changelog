@@ -1,4 +1,6 @@
 BETA NOTES
+* fix castbar doesn't restore correctly on frame show
+
 * highlight auras caused by other players
 
 * optimise event handling
