@@ -1485,7 +1485,7 @@ do
         if frame.id == 'core_dynamic' then
             -- create owner highlight
             local hl = button:CreateTexture(nil,'ARTWORK',nil,2)
-            hl:SetTexture('interface/addons/kui_media/t/checkbuttonhilightwhite')
+            hl:SetTexture(KUI_MEDIA..'t/button-highlight')
             hl:SetAllPoints(button.icon)
             hl:Hide()
 
