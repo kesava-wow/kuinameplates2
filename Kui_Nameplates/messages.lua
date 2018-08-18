@@ -67,14 +67,17 @@ do
     function TraceStart(uid)
         if not addon.profiling then return end
         UpdateAddOnCPUUsage()
-        ev_start = GetAddOnCPUUsage('Kui_Nameplates')
+        ev_start = ev_start or {}
+        ev_start[uid] = GetAddOnCPUUsage('Kui_Nameplates')
     end
     function TraceEnd(uid)
-        if not addon.profiling or not ev_start then return end
+        if not addon.profiling or not ev_start or not ev_start[uid] then 
+            return
+        end
         UpdateAddOnCPUUsage()
         local ev_end = GetAddOnCPUUsage('Kui_Nameplates')
-        local ev_delta = ev_end - ev_start
-        ev_start = nil
+        local ev_delta = ev_end - ev_start[uid]
+        ev_start[uid] = nil
 
         ev_sum = ev_sum or {}
         ev_count = ev_count or {}
