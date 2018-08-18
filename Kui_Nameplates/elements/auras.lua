@@ -280,8 +280,8 @@ local function CreateAuraButton(parent)
         bg:SetVertexColor(0,0,0,1)
         bg:SetAllPoints(button)
 
-        icon:SetPoint('TOPLEFT',bg,'TOPLEFT',1,-1)
-        icon:SetPoint('BOTTOMRIGHT',bg,'BOTTOMRIGHT',-1,1)
+        icon:SetPoint('TOPLEFT',bg,1,-1)
+        icon:SetPoint('BOTTOMRIGHT',bg,-1,1)
 
         local cd = button:CreateFontString(nil,'OVERLAY')
         cd:SetFont(FONT, FONT_SIZE_CD, FONT_FLAGS)
