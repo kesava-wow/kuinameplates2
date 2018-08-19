@@ -678,7 +678,10 @@ configChanged.target_arrows_size = configChanged.target_arrows
 function configChanged.frame_glow_size(v)
     for k,f in addon:Frames() do
         f:UpdateFrameGlowSize()
-        f:UpdateNameOnlyGlowSize()
+
+        if type(f.UpdateNameOnlyGlowSize) == 'function' then
+            f:UpdateNameOnlyGlowSize()
+        end
     end
 end
 
