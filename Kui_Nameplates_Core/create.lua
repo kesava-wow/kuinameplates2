@@ -1404,50 +1404,78 @@ do
     local AURAS_ENABLED
     local AURAS_SHOW_ALL_SELF,AURAS_HIDE_ALL_OTHER
 
-    local function AuraFrame_SetFrameWidth(self)
-        self:SetWidth(self.__width)
-        self:SetPoint(
-            'BOTTOMLEFT',
-            self.parent.bg,
-            'TOPLEFT',
-            floor((self.parent.bg:GetWidth() - self.__width) / 2),
-            15
-        )
-    end
-    local function AuraFrame_SetDesiredWidth(self)
-        self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
-        AuraFrame_SetFrameWidth(self)
+    local function AuraFrame_SetFrameWidth(self,no_size_change)
+        -- frame width changes depending on icon size, needs to be correct if
+        -- auras are centred, and we want to make sure the frame isn't aligned
+        -- to subpixels;
+        if not self.__width or not no_size_change then
+            self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
+            self:SetWidth(self.__width)
+        end
+
+        self:ClearAllPoints()
+
+        if self.id == 'core_dynamic' or not self.sibling:IsShown() then
+            -- attach to top of frame
+            self:SetPoint('BOTTOMLEFT',self.parent.bg,'TOPLEFT',
+                floor((self.parent.bg:GetWidth() - self.__width) / 2),15)
+        else
+            -- attach to top of core_dynamic
+            self:SetPoint('BOTTOM',self.sibling,'TOP',0,5)
+            self:SetPoint('LEFT',self.parent.bg,
+                floor((self.parent.bg:GetWidth() - self.__width) / 2),0)
+        end
     end
     local function AuraFrame_SetIconSize(self,minus)
-        local size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
+        -- determine icon size
+        local size
+        if self.purge then
+            -- XXX
+            size = AURAS_PURGE_SIZE or 32
+        else
+            size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
+        end
 
         if self.__width and self.size == size then
+            -- desired size is unchanged;
             return
         end
 
         self.size = size
-        self.num_per_row = minus and 4 or 5
+        self.num_per_row = (minus or self.purge) and 4 or 5
 
         -- re-set frame width
-        AuraFrame_SetDesiredWidth(self)
         AuraFrame_SetFrameWidth(self)
 
         -- resize & re-arrange buttons
         self:SetIconSize(size)
     end
+    local function AuraFrame_CoreDynamic_OnVisibilityChange(self)
+        -- update sibling point
+        AuraFrame_SetFrameWidth(self.sibling,true)
+    end
 
     local function UpdateAuras(f)
-        -- enable/disable on personal frame
+        -- enable/disable on personal frame, update size
         if not AURAS_ON_PERSONAL and f.state.personal then
             f.Auras.frames.core_dynamic:Disable()
         elseif AURAS_ENABLED then
             f.Auras.frames.core_dynamic:Enable(true)
+            AuraFrame_SetIconSize(f.Auras.frames.core_dynamic,f.state.minus)
         end
 
-        -- set auras to normal/minus sizes
-        AuraFrame_SetIconSize(f.Auras.frames.core_dynamic,f.state.minus)
+        -- only show purge on hostiles
+        if f.state.friend then
+            f.Auras.frames.core_purge:Disable()
+        else
+            f.Auras.frames.core_purge:Enable(true)
+            AuraFrame_SetIconSize(f.Auras.frames.core_purge,f.state.minus)
+        end
     end
     function core:CreateAuras(f)
+        -- for both frames:
+        -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
+        -- frame width & point set by AuraFrame_SetFrameWidth < _SetIconSize
         local auras = f.handler:CreateAuraFrame({
             id = 'core_dynamic',
             max = 10,
@@ -1462,11 +1490,32 @@ do
             sort = self.profile.auras_sort,
             centred = self.profile.auras_centre,
         })
-        -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
-        -- frame width & point set by AuraFrame_SetFrameWidth < _SetIconSize
-
+        auras.__core = true
         auras:SetFrameLevel(0)
-        auras:SetHeight(10)
+        auras:HookScript('OnShow',AuraFrame_CoreDynamic_OnVisibilityChange)
+        auras:HookScript('OnHide',AuraFrame_CoreDynamic_OnVisibilityChange)
+
+        local purge = f.handler:CreateAuraFrame({
+            id = 'core_purge',
+            purge = true,
+            max = 4,
+            point = {'BOTTOMLEFT','LEFT','RIGHT'},
+            x_spacing = 1,
+            y_spacing = 1,
+            rows = 1,
+
+            pulsate = false,
+            timer_threshold = self.profile.auras_time_threshold > 0 and self.profile.auras_time_threshold or nil,
+            squareness = self.profile.auras_icon_squareness,
+            sort = self.profile.auras_sort,
+            centred = self.profile.auras_centre,
+        })
+        purge.__core = true
+        purge:SetFrameLevel(0)
+        purge:Disable()
+
+        auras.sibling = purge
+        purge.sibling = auras
 
         f.UpdateAuras = UpdateAuras
     end
@@ -1482,7 +1531,7 @@ do
         button.count:SetPoint('BOTTOMRIGHT',5,-2+TEXT_VERTICAL_OFFSET)
         button.count.fontobject_shadow = true
 
-        if frame.id == 'core_dynamic' then
+        if frame.__core then
             -- create owner highlight
             local hl = button:CreateTexture(nil,'ARTWORK',nil,2)
             hl:SetTexture(KUI_MEDIA..'t/button-highlight')
@@ -1495,10 +1544,13 @@ do
         core.AurasButton_SetFont(button)
     end
     function core.Auras_PostDisplayAuraButton(frame,button)
-        if frame.id ~= 'core_dynamic' then return end
+        if not frame.__core then return end
         if not button.hl then return end
 
-        if not button.own then
+        if frame.purge or button.can_purge then
+            button.hl:SetVertexColor(1,.2,.2,.8)
+            button.hl:Show()
+        elseif not button.own then
             button.hl:SetVertexColor(.4,1,.2,.8)
             button.hl:Show()
         else
@@ -1506,14 +1558,17 @@ do
         end
     end
     function core.Auras_DisplayAura(frame,name,spellid,duration,caster)
+        if not frame.__core then return end
         if frame.id ~= 'core_dynamic' then return end
 
+        -- force hide if below minimum duration
         if  AURAS_MIN_LENGTH and
             duration ~= 0 and duration <= AURAS_MIN_LENGTH
         then
             return 1
         end
 
+        -- force hide if above maximum duration
         if  AURAS_MAX_LENGTH and
             (duration == 0 or duration > AURAS_MAX_LENGTH)
         then
