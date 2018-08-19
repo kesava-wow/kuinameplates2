@@ -1,4 +1,6 @@
 BETA NOTES
+* add spell steal / purge aura frame for hostile dispels (currently no configuration)
+
 * highlight auras caused by other players
 * fix castbar doesn't restore correctly on frame show
 
