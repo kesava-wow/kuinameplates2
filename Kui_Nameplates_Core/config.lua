@@ -154,7 +154,7 @@ local default_config = {
     auras_colour_medium = {1,.8,.3},
     auras_colour_long = {1,1,1},
     auras_show_purge = true,
-    auras_purge_size = 40,
+    auras_purge_size = 32,
     auras_side = 1,
     auras_offset = 15,
 
