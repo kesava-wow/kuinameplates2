@@ -73,7 +73,7 @@
     PostUpdateAuraFrame(auraframe)
         Called after a shown aura frame is updated (buttons arranged, etc).
 
-    DisplayAura(auraframe,name,spellid,duration)
+    DisplayAura(auraframe,name,spellid,duration,caster,index)
         Can be used to arbitrarily filter auras.
         Can return:
             1 (CB_HIDE): forcibly HIDE this aura
@@ -367,15 +367,15 @@ end
 local function AuraFrame_GetAuras(self)
     for i=1,40 do
         -- nps_ = NamePlateShow...
-        local name,icon,count,_,duration,expiration,caster,_,
+        local name,icon,count,_,duration,expiration,caster,can_purge,
               nps_own,spellid,_,_,_,nps_all =
               UnitAura(self.parent.unit,i,self.filter)
 
         if not name then break end
         if name and spellid and
-           self:ShouldShowAura(spellid,strlower(name),duration,caster,nps_own,nps_all)
+           self:ShouldShowAura(spellid,name,duration,caster,can_purge,nps_own,nps_all,i)
         then
-            self:DisplayButton(spellid,name,icon,count,duration,expiration,caster,i)
+            self:DisplayButton(spellid,name,icon,count,duration,expiration,caster,can_purge,i)
         end
     end
 end
@@ -398,10 +398,10 @@ local function AuraFrame_GetButton(self,spellid)
     tinsert(self.buttons, button)
     return button
 end
-local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,nps_own,nps_all)
+local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,can_purge,nps_own,nps_all,index)
     if not name or not spellid then return end
 
-    local cbr = ele:RunCallback('DisplayAura',self,name,spellid,duration,caster)
+    local cbr = ele:RunCallback('DisplayAura',self,name,spellid,duration,caster,index)
     if cbr then
         -- forcibly hidden
         if cbr == CB_HIDE then return end
@@ -410,16 +410,19 @@ local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,nps_ow
         -- or continue processing
     end
 
-    if self.whitelist then
+    if self.purge then
+        -- only show purgable auras
+        return can_purge
+    elseif self.whitelist then
         -- only obey whitelist
-        return self.whitelist[spellid] or self.whitelist[name]
+        return self.whitelist[spellid] or self.whitelist[strlower(name)]
     else
         -- fallback to API's nameplate filter
         return nps_all or (nps_own and
                (caster == 'player' or caster == 'pet' or caster == 'vehicle'))
     end
 end
-local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,caster,index)
+local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,caster,can_purge,index)
     local button = self:GetButton(spellid)
 
     button:SetTexture(icon)
@@ -427,6 +430,7 @@ local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,exp
     button.spellid = spellid
     button.index = index
     button.own = caster == 'player' or caster == 'vehicle' or caster == 'pet'
+    button.can_purge = can_purge
 
     if count > 1 then
         button.count:SetText(count)
@@ -697,6 +701,11 @@ function addon.Nameplate.CreateAuraFrame(f,frame_def)
     -- mixin configuration
     for k,v in pairs(frame_def) do
         new_frame[k] = v
+    end
+
+    -- purge: dispellable & stealable buffs on enemies
+    if new_frame.purge and not new_frame.filter then
+        new_frame.filter = 'HELPFUL'
     end
 
     -- dynamic: buffs on friends, debuffs on enemies, player-cast only
