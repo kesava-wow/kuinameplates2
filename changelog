@@ -1,4 +1,7 @@
 BETA NOTES
+* fix global_scale breaks if the name only target glow isn't created
+  (though there are probably other interactions left)
+
 * add auras_show_purge, auras_purge_size options
 * add auras_side, auras_offset, not exposed in the ui
 
