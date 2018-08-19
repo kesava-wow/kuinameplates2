@@ -1403,6 +1403,9 @@ do
     local AURAS_ON_PERSONAL
     local AURAS_ENABLED
     local AURAS_SHOW_ALL_SELF,AURAS_HIDE_ALL_OTHER
+    local AURAS_PURGE_SIZE,AURAS_SHOW_PURGE,AURAS_SIDE,AURAS_OFFSET,
+          AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,PURGE_OFFSET,
+          AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD
 
     local function AuraFrame_SetFrameWidth(self,no_size_change)
         -- frame width changes depending on icon size, needs to be correct if
@@ -1416,12 +1419,14 @@ do
         self:ClearAllPoints()
 
         if self.id == 'core_dynamic' or not self.sibling:IsShown() then
-            -- attach to top of frame
-            self:SetPoint('BOTTOMLEFT',self.parent.bg,'TOPLEFT',
-                floor((self.parent.bg:GetWidth() - self.__width) / 2),15)
+            -- attach to top/bottom of frame bg
+            self:SetPoint(AURAS_POINT_S,self.parent.bg,AURAS_POINT_R,
+                floor((self.parent.bg:GetWidth() - self.__width) / 2),
+                AURAS_OFFSET)
         else
-            -- attach to top of core_dynamic
-            self:SetPoint('BOTTOM',self.sibling,'TOP',0,5)
+            -- attach to top/bottom of core_dynamic
+            self:SetPoint(PURGE_POINT_S,self.sibling,PURGE_POINT_R,
+                0,PURGE_OFFSET)
             self:SetPoint('LEFT',self.parent.bg,
                 floor((self.parent.bg:GetWidth() - self.__width) / 2),0)
         end
@@ -1430,8 +1435,7 @@ do
         -- determine icon size
         local size
         if self.purge then
-            -- XXX
-            size = AURAS_PURGE_SIZE or 32
+            size = AURAS_PURGE_SIZE
         else
             size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
         end
@@ -1465,7 +1469,7 @@ do
         end
 
         -- only show purge on hostiles
-        if f.state.friend then
+        if not AURAS_SHOW_PURGE or f.state.friend then
             f.Auras.frames.core_purge:Disable()
         else
             f.Auras.frames.core_purge:Enable(true)
@@ -1485,7 +1489,7 @@ do
             rows = 2,
 
             pulsate = self.profile.auras_pulsate,
-            timer_threshold = self.profile.auras_time_threshold > 0 and self.profile.auras_time_threshold or nil,
+            timer_threshold = AURAS_TIMER_THRESHOLD,
             squareness = self.profile.auras_icon_squareness,
             sort = self.profile.auras_sort,
             centred = self.profile.auras_centre,
@@ -1505,7 +1509,7 @@ do
             rows = 1,
 
             pulsate = false,
-            timer_threshold = self.profile.auras_time_threshold > 0 and self.profile.auras_time_threshold or nil,
+            timer_threshold = AURAS_TIMER_THRESHOLD,
             squareness = self.profile.auras_icon_squareness,
             sort = self.profile.auras_sort,
             centred = self.profile.auras_centre,
@@ -1630,32 +1634,65 @@ do
 
         AURAS_NORMAL_SIZE = Scale(self.profile.auras_icon_normal_size)
         AURAS_MINUS_SIZE = Scale(self.profile.auras_icon_minus_size)
+        AURAS_PURGE_SIZE = Scale(self.profile.auras_purge_size)
 
         AURAS_ENABLED = self.profile.auras_enabled
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
-
+        AURAS_SIDE = self.profile.auras_side
+        AURAS_OFFSET = self.profile.auras_offset
         AURAS_SHOW_ALL_SELF = self.profile.auras_show_all_self
         AURAS_HIDE_ALL_OTHER = self.profile.auras_hide_all_other
+        AURAS_SHOW_PURGE = self.profile.auras_show_purge
+        AURAS_TIMER_THRESHOLD = self.profile.auras_time_threshold
 
-        local timer_threshold = self.profile.auras_time_threshold
-        if timer_threshold < 0 then
-            timer_threshold = nil
+        if AURAS_TIMER_THRESHOLD < 0 then
+            AURAS_TIMER_THRESHOLD = nil
+        end
+
+        -- resolve side to points
+        if not AURAS_SIDE or AURAS_SIDE == 1 then
+            -- top
+            AURAS_POINT_S = 'BOTTOMLEFT'
+            AURAS_POINT_R = 'TOPLEFT'
+            PURGE_POINT_S = 'BOTTOM'
+            PURGE_POINT_R = 'TOP'
+            PURGE_OFFSET = 5
+        else
+            -- bottom
+            AURAS_POINT_S = 'TOPLEFT'
+            AURAS_POINT_R = 'BOTTOMLEFT'
+            AURAS_OFFSET = -AURAS_OFFSET
+            PURGE_POINT_S = 'TOP'
+            PURGE_POINT_R = 'BOTTOM'
+            PURGE_OFFSET = -5
         end
 
         for k,f in addon:Frames() do
             if f.Auras and f.Auras.frames then
-                local af = f.Auras.frames.core_dynamic
+                local cd = f.Auras.frames.core_dynamic
+                if cd then
+                    cd.point[1] = AURAS_POINT_S
+                    cd.pulsate = self.profile.auras_pulsate
+                    cd.timer_threshold = AURAS_TIMER_THRESHOLD
+                    cd.squareness = self.profile.auras_icon_squareness
+                    cd.centred = self.profile.auras_centre
+                    cd.__width = nil -- force size update
+                    cd:SetSort(self.profile.auras_sort)
+                end
 
-                if af then
-                    af.pulsate = self.profile.auras_pulsate
-                    af.timer_threshold = timer_threshold
-                    af.squareness = self.profile.auras_icon_squareness
-                    af.centred = self.profile.auras_centre
-
-                    af:SetSort(self.profile.auras_sort)
-
-                    -- force size update
-                    af.__width = nil
+                local cp = f.Auras.frames.core_purge
+                if cp then
+                    if AURAS_SHOW_PURGE then
+                        cp:Enable()
+                        cp.point[1] = AURAS_POINT_S
+                        cp.timer_threshold = AURAS_TIMER_THRESHOLD
+                        cp.squareness = self.profile.auras_icon_squareness
+                        cp.centred = self.profile.auras_centre
+                        cp.__width = nil
+                        cp:SetSort(self.profile.auras_sort)
+                    else
+                        cp:Disable()
+                    end
                 end
             end
         end

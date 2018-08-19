@@ -153,6 +153,10 @@ local default_config = {
     auras_colour_short = {1,.3,.3},
     auras_colour_medium = {1,.8,.3},
     auras_colour_long = {1,1,1},
+    auras_show_purge = true,
+    auras_purge_size = 40,
+    auras_side = 1,
+    auras_offset = 15,
 
     castbar_enable = true,
     castbar_colour = {.75,.75,.9},
@@ -575,6 +579,10 @@ configChanged.auras_hide_all_other = configChangedAuras
 configChanged.auras_colour_short = configChangedAuras
 configChanged.auras_colour_medium = configChangedAuras
 configChanged.auras_colour_long = configChangedAuras
+configChanged.auras_show_purge = configChangedAuras
+configChanged.auras_purge_size = configChangedAuras
+configChanged.auras_side = configChangedAuras
+configChanged.auras_offset = configChangedAuras
 
 local function configChangedCastBar()
     core:SetCastBarConfig()
