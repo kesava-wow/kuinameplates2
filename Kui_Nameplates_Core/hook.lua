@@ -77,8 +77,6 @@ function core:Show(f)
     f:UpdateRaidIcon()
     -- enable/disable castbar
     f:UpdateCastBar()
-    -- enable/disable auras
-    f:UpdateAuras()
     -- set guild text
     f:UpdateGuildText()
 
