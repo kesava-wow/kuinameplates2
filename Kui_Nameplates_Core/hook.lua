@@ -280,6 +280,7 @@ function core:Initialise()
     -- register callbacks
     self:AddCallback('Auras','PostCreateAuraButton',self.Auras_PostCreateAuraButton)
     self:AddCallback('Auras','PostDisplayAuraButton',self.Auras_PostDisplayAuraButton)
+    self:AddCallback('Auras','PostUpdateAuraFrame',self.Auras_PostUpdateAuraFrame)
     self:AddCallback('Auras','DisplayAura',self.Auras_DisplayAura)
     self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
     self:AddCallback('ClassPowers','CreateBar',self.ClassPowers_CreateBar)

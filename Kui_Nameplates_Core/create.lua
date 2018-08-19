@@ -1557,6 +1557,16 @@ do
             button.hl:Hide()
         end
     end
+    function core.Auras_PostUpdateAuraFrame(frame)
+        -- maintain auraframe height corresponding to #visible buttons
+        if not frame.__core then return end
+        if frame.visible and frame.visible > 0 then
+            frame:SetHeight(
+                ceil(frame.size*frame.squareness) *
+                ceil(frame.visible / (frame.max / frame.rows))
+            )
+        end
+    end
     function core.Auras_DisplayAura(frame,name,spellid,duration,caster)
         if not frame.__core then return end
         if frame.id ~= 'core_dynamic' then return end
