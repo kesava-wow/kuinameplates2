@@ -88,6 +88,15 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         d:AddText(KuiNameplatesCore.config:GetActiveProfile())
         d:Show()
         return
+    elseif strfind(msg,'^profile') then
+        local profile = strmatch(msg,'^profile (.-)%s*$')
+        if not profile then
+            -- just die and don't give any useful hint as to what went wrong
+            return
+        end
+        if KuiNameplatesCore.config.gsv.profiles[profile] then
+            KuiNameplatesCore.config:SetProfile(profile)
+        end
     elseif msg and msg ~= '' then
         -- interpret msg as config page shortcut
         local L = opt:GetLocale()
