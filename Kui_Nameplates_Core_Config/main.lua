@@ -91,7 +91,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     elseif strfind(msg,'^profile') then
         local profile = strmatch(msg,'^profile (.-)%s*$')
         if not profile then
-            -- just die and don't give any useful hint as to what went wrong
+            knp:ui_print('Switch to named profile. Usage: /knp profile profile name')
             return
         end
         if KuiNameplatesCore.config.gsv.profiles[profile] then
