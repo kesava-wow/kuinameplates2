@@ -104,15 +104,21 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
 
         local found
         for i,f in ipairs(opt.pages) do
-            local n = strlower(L.page_names[f.name] or f.name)
-            if n == msg then
-                -- exact match
-                found = f
-                break
-            elseif not found and n:match('^'..msg) then
-                -- starts-with match
-                -- (continue searching for exact, don't look for more fuzzies)
-                found = f
+            if f.name then
+                local name = f.name
+                local locale = L.pages_names[name] and
+                               strlower(L.page_names[name])
+
+                if msg == name or msg == locale then
+                    -- exact match
+                    found = f
+                    break
+                elseif not found and
+                    (name:match('^'..msg) or locale:match('^'..msg))
+                then
+                    -- starts-with match, continue searching for exact matches
+                    found = f
+                end
             end
         end
 
