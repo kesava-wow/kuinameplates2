@@ -107,7 +107,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         for i,f in ipairs(opt.pages) do
             if f.name then
                 local name = f.name
-                local locale = L.pages_names[name] and
+                local locale = L.page_names[name] and
                                strlower(L.page_names[name])
 
                 if msg == name or msg == locale then
