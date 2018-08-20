@@ -83,7 +83,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     elseif msg == 'dump-config' then
         local d = kui:DebugPopup()
         d:AddText(format('%s %d.%d %s',
-            '@project-version@',knp.MAJOR,knp.MINOR,tostring(knp.debug))
+            '@project-version@',knp.MAJOR,knp.MINOR,tostring(knp.debug)))
         d:AddText(KuiNameplatesCore.config.csv)
         d:AddText(KuiNameplatesCore.config:GetActiveProfile())
         d:Show()
