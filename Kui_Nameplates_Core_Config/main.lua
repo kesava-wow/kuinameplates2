@@ -97,6 +97,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         if KuiNameplatesCore.config.gsv.profiles[profile] then
             KuiNameplatesCore.config:SetProfile(profile)
         end
+        return
     elseif msg and msg ~= '' then
         -- interpret msg as config page shortcut
         local L = opt:GetLocale()
