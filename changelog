@@ -1,4 +1,6 @@
 BETA NOTES
+* add `/knp profile` command so profiles can be easily switched in macros (e.g. /knp profile my profile)
+
 * fix global_scale breaks if the name only target glow isn't created
   (though there are probably other interactions left)
 
