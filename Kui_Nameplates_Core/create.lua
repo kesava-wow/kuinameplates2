@@ -874,13 +874,13 @@ do
             return
         end
 
+        f.ThreatGlow:Show()
+
         if f.NameOnlyGlow then
             f.NameOnlyGlow:Hide()
         end
 
-        f.ThreatGlow:Show()
-
-        if TARGET_GlOW and f.state.target then
+        if TARGET_GLOW and f.state.target then
             -- target glow colour
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
         elseif MOUSEOVER_GLOW and f.state.highlight then
