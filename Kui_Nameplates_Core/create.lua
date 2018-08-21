@@ -881,17 +881,17 @@ do
 
         if f.state.target and TARGET_GLOW then
             -- target glow colour
-            f.ThreatGlow:SetAlpha(.8)
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+            f.ThreatGlow:SetAlpha(.8)
         elseif f.state.highlight and TARGET_GLOW then
             -- mouseover glow
-            f.ThreatGlow:SetAlpha(.4)
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+            f.ThreatGlow:SetAlpha(.4)
         else
             if FRAME_GLOW_THREAT and f.state.glowing then
                 -- threat glow colour
-                f.ThreatGlow:SetAlpha(.5)
                 f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
+                f.ThreatGlow:SetAlpha(.5)
             else
                 if GLOW_AS_SHADOW then
                     -- shadow
