@@ -462,6 +462,8 @@ function auras:Initialise()
         L.titles.dd_auras_sort_time,
     }
 
+    colour_short:SetWidth(135)
+
     local auras_kslc_hint = self:CreateFontString(nil,'ARTWORK','GameFontHighlight')
     auras_kslc_hint:SetTextColor(.7,.7,.7)
     auras_kslc_hint:SetWidth(350)
