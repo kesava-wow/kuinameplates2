@@ -1411,17 +1411,28 @@ do
 
         self:ClearAllPoints()
 
-        if self.id == 'core_dynamic' or not self.sibling:IsShown() then
+        -- update position
+        if self.id == 'core_dynamic' or
+           (not AURAS_PURGE_OPPOSITE and not self.sibling:IsShown())
+        then
             -- attach to top/bottom of frame bg
             self:SetPoint(AURAS_POINT_S,self.parent.bg,AURAS_POINT_R,
                 floor((self.parent.bg:GetWidth() - self.__width) / 2),
                 AURAS_OFFSET)
         else
-            -- attach to top/bottom of core_dynamic
-            self:SetPoint(PURGE_POINT_S,self.sibling,PURGE_POINT_R,
-                0,PURGE_OFFSET)
-            self:SetPoint('LEFT',self.parent.bg,
-                floor((self.parent.bg:GetWidth() - self.__width) / 2),0)
+            -- core_purge;
+            if AURAS_PURGE_OPPOSITE then
+                -- attach to the opposite side of frame bg
+                self:SetPoint(PURGE_POINT_S,self.parent.bg,PURGE_POINT_R,
+                    floor((self.parent.bg:GetWidth() - self.__width) / 2),
+                    PURGE_OFFSET)
+            elseif
+                -- attach to top/bottom of core_dynamic
+                self:SetPoint(PURGE_POINT_S,self.sibling,PURGE_POINT_R,
+                    0,PURGE_OFFSET)
+                self:SetPoint('LEFT',self.parent.bg,
+                    floor((self.parent.bg:GetWidth() - self.__width) / 2),0)
+            end
         end
     end
     local function AuraFrame_SetIconSize(self,minus)
@@ -1637,6 +1648,7 @@ do
         AURAS_HIDE_ALL_OTHER = self.profile.auras_hide_all_other
         AURAS_SHOW_PURGE = self.profile.auras_show_purge
         AURAS_TIMER_THRESHOLD = self.profile.auras_time_threshold
+        AURAS_PURGE_OPPOSITE = self.profile.auras_purge_opposite
 
         if AURAS_TIMER_THRESHOLD < 0 then
             AURAS_TIMER_THRESHOLD = nil
@@ -1647,17 +1659,31 @@ do
             -- top
             AURAS_POINT_S = 'BOTTOMLEFT'
             AURAS_POINT_R = 'TOPLEFT'
-            PURGE_POINT_S = 'BOTTOM'
-            PURGE_POINT_R = 'TOP'
-            PURGE_OFFSET = 5
+
+            if AURAS_PURGE_OPPOSITE then
+                PURGE_POINT_S = 'TOPLEFT'
+                PURGE_POINT_R = 'BOTTOMLEFT'
+                PURGE_OFFSET = -AURAS_OFFSET
+            else
+                PURGE_POINT_S = 'BOTTOM'
+                PURGE_POINT_R = 'TOP'
+                PURGE_OFFSET = 1
+            end
         else
             -- bottom
             AURAS_POINT_S = 'TOPLEFT'
             AURAS_POINT_R = 'BOTTOMLEFT'
             AURAS_OFFSET = -AURAS_OFFSET
-            PURGE_POINT_S = 'TOP'
-            PURGE_POINT_R = 'BOTTOM'
-            PURGE_OFFSET = -5
+
+            if AURAS_PURGE_OPPOSITE then
+                PURGE_POINT_S = 'BOTTOMLEFT'
+                PURGE_POINT_R = 'TOPLEFT'
+                PURGE_OFFSET = AURAS_OFFSET
+            else
+                PURGE_POINT_S = 'TOP'
+                PURGE_POINT_R = 'BOTTOM'
+                PURGE_OFFSET = -1
+            end
         end
 
         for k,f in addon:Frames() do
