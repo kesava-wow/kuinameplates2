@@ -157,9 +157,9 @@ local default_config = {
     auras_colour_long = {1,1,1},
     auras_show_purge = true,
     auras_purge_size = 32,
-    auras_purge_opposite = false, -- NEX
-    auras_side = 1, -- NEX
-    auras_offset = 15, -- NEX
+    auras_purge_opposite = false,
+    auras_side = 1,
+    auras_offset = 15,
 
     castbar_enable = true,
     castbar_colour = {.75,.75,.9},
