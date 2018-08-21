@@ -945,8 +945,8 @@ do
            self.parent.SpellIcon:IsVisible()
         then
             -- move for cast bar spell icon
-            self.l:SetPoint('RIGHT',self.parent.SpellIcon.bg,'LEFT',
-                3+(self.size*.12),-1)
+            self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
+                3+(self.size*.12)-self.parent.SpellIcon.bg:GetWidth(),-1)
         else
             self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
                 3+(self.size*.12),-1)
