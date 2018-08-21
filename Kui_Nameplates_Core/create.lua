@@ -870,33 +870,31 @@ do
                     f.NameOnlyGlow:Hide()
                 end
             end
-
-            return
-        end
-
-        f.ThreatGlow:Show()
-
-        if f.NameOnlyGlow then
-            f.NameOnlyGlow:Hide()
-        end
-
-        if TARGET_GLOW and f.state.target then
-            -- target glow colour
-            f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-        elseif MOUSEOVER_GLOW and f.state.highlight then
-            -- mouseover glow
-            f.ThreatGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
         else
-            if FRAME_GLOW_THREAT and f.state.glowing then
-                -- threat glow colour
-                f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
-                f.ThreatGlow:SetAlpha(.6)
+            f.ThreatGlow:Show()
+
+            if f.NameOnlyGlow then
+                f.NameOnlyGlow:Hide()
+            end
+
+            if TARGET_GLOW and f.state.target then
+                -- target glow colour
+                f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+            elseif MOUSEOVER_GLOW and f.state.highlight then
+                -- mouseover glow
+                f.ThreatGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
             else
-                if GLOW_AS_SHADOW then
-                    -- shadow
-                    f.ThreatGlow:SetVertexColor(0,0,0,.25)
+                if FRAME_GLOW_THREAT and f.state.glowing then
+                    -- threat glow colour
+                    f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
+                    f.ThreatGlow:SetAlpha(.6)
                 else
-                    f.ThreatGlow:SetVertexColor(0,0,0,0)
+                    if GLOW_AS_SHADOW then
+                        -- shadow
+                        f.ThreatGlow:SetVertexColor(0,0,0,.25)
+                    else
+                        f.ThreatGlow:SetVertexColor(0,0,0,0)
+                    end
                 end
             end
         end
