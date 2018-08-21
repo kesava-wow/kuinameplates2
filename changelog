@@ -1,8 +1,16 @@
 BETA NOTES
+* add mouseover_glow, mouseover_glow_colour
+* add show_arena_id (not exposed in the ui)
+* make target arrows avoid the spell icon
+* fix frame_vertical_offset in nameonly mode
+* add auras_side,auras_offset,auras_purge_opposite ui
+* remove auras_minimum_length,auras_maximum_length options
+
 * fix purge squareness isn't updated correctly
 * add /knp set [key] nil to reset a config value to default
 * add /knp which .. mostly for my own use
-* add auras_purge_opposite and frame_vertical_offset options - neither are exposed in the ui currently
+* add auras_purge_opposite (not exposed in the ui)
+* add frame_vertical_offset (not exposed in the ui)
 * add /knp set [key] [value] to set config values
 
 * add `/knp profile` command so profiles can be easily switched in macros (e.g. /knp profile my profile)
