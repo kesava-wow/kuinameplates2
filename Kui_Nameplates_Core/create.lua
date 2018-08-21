@@ -1971,7 +1971,7 @@ do
 
         f.NameText:SetParent(f)
         f.NameText:ClearAllPoints()
-        f.NameText:SetPoint('CENTER',.5,0)
+        f.NameText:SetPoint('CENTER',.5,0+FRAME_VERTICAL_OFFSET)
         f.NameText:Show()
 
         f.NameText.fontobject_shadow = true
