@@ -70,7 +70,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS,HEALTH_TEXT_FRIEND_MAX,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
       FRAME_GLOW_SIZE,FRAME_GLOW_THREAT,HIDE_NAMES,GLOBAL_SCALE,
-      FRAME_VERTICAL_OFFSET
+      FRAME_VERTICAL_OFFSET,TARGET_GLOW,GLOW_AS_SHADOW
 
 
 -- helper functions ############################################################
@@ -215,6 +215,8 @@ do
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
+        TARGET_GLOW = core.profile.target_glow
+        GLOW_AS_SHADOW = core.profile.glow_as_shadow
 
         GLOBAL_SCALE = self.profile.global_scale
         FRAME_WIDTH = Scale(self.profile.frame_width)
@@ -851,9 +853,13 @@ do
             f.ThreatGlow:Hide()
 
             if f.NameOnlyGlow then
-                if f.state.target and core.profile.target_glow then
+                if f.state.target and TARGET_GLOW then
                     f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                     f.NameOnlyGlow:SetAlpha(.8)
+                    f.NameOnlyGlow:Show()
+                elseif f.state.highlight and TARGET_GLOW then
+                    f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+                    f.NameOnlyGlow:SetAlpha(.4)
                     f.NameOnlyGlow:Show()
                 elseif FRAME_GLOW_THREAT and f.state.glowing then
                     f.NameOnlyGlow:SetVertexColor(unpack(f.state.glow_colour))
@@ -873,9 +879,13 @@ do
 
         f.ThreatGlow:Show()
 
-        if f.state.target and core.profile.target_glow then
+        if f.state.target and TARGET_GLOW then
             -- target glow colour
             f.ThreatGlow:SetAlpha(.8)
+            f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+        elseif f.state.highlight and TARGET_GLOW then
+            -- mouseover glow
+            f.ThreatGlow:SetAlpha(.4)
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
         else
             if FRAME_GLOW_THREAT and f.state.glowing then
@@ -883,7 +893,7 @@ do
                 f.ThreatGlow:SetAlpha(.5)
                 f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
             else
-                if core.profile.glow_as_shadow then
+                if GLOW_AS_SHADOW then
                     -- shadow
                     f.ThreatGlow:SetVertexColor(0,0,0,.25)
                 else
