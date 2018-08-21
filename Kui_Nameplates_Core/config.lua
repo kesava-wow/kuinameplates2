@@ -155,8 +155,9 @@ local default_config = {
     auras_colour_long = {1,1,1},
     auras_show_purge = true,
     auras_purge_size = 32,
-    auras_side = 1,
-    auras_offset = 15,
+    auras_purge_opposite = false, -- XXX NE
+    auras_side = 1, -- XXX NE
+    auras_offset = 15, -- XXX NE
 
     castbar_enable = true,
     castbar_colour = {.75,.75,.9},
@@ -581,6 +582,7 @@ configChanged.auras_colour_medium = configChangedAuras
 configChanged.auras_colour_long = configChangedAuras
 configChanged.auras_show_purge = configChangedAuras
 configChanged.auras_purge_size = configChangedAuras
+configChanged.auras_purge_opposite = configChangedAuras
 configChanged.auras_side = configChangedAuras
 configChanged.auras_offset = configChangedAuras
 
