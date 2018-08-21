@@ -71,6 +71,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
       HIDE_NAMES,GLOBAL_SCALE,FRAME_VERTICAL_OFFSET
 
+local TARGET_ARROWS,TARGET_ARROWS_SIZE
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
 
@@ -215,6 +216,8 @@ do
 
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
+        TARGET_ARROWS = self.profile.target_arrows
+        TARGET_ARROWS_SIZE = Scale(self.profile.target_arrows_size)
         TARGET_GLOW = self.profile.target_glow
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
         MOUSEOVER_GLOW = self.profile.mouseover_glow
@@ -292,18 +295,6 @@ function core:configChangedTextOffset()
             -- update aura text
             for _,button in pairs(f.Auras.frames.core_dynamic.buttons) do
                 self.Auras_PostCreateAuraButton(f.Auras.frames.core_dynamic,button)
-            end
-        end
-    end
-end
-function core:configChangedTargetArrows()
-    for k,f in addon:Frames() do
-        if self.profile.target_arrows then
-            if f.TargetArrows then
-                f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                f.TargetArrows:SetSize(Scale(self.profile.target_arrows_size))
-            else
-                self:CreateTargetArrows(f)
             end
         end
     end
@@ -972,12 +963,16 @@ do
     end
 
     local function UpdateTargetArrows(f)
-        if f.IN_NAMEONLY or not core.profile.target_arrows then
+        if not TARGET_ARROWS or f.IN_NAMEONLY then
             f.TargetArrows:Hide()
             return
         end
 
         if f.state.target then
+            -- update size, colour
+            f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+            f.TargetArrows:SetSize(TARGET_ARROWS_SIZE)
+
             f.TargetArrows:Show()
             f.TargetArrows:UpdatePosition()
         else
@@ -985,7 +980,7 @@ do
         end
     end
     function core:CreateTargetArrows(f)
-        if not self.profile.target_arrows then
+        if not TARGET_ARROWS then
             return
         end
 
@@ -1007,9 +1002,6 @@ do
             l = left,
             r = right,
         }
-
-        arrows:SetSize(Scale(core.profile.target_arrows_size))
-        arrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
 
         f.TargetArrows = arrows
         f.UpdateTargetArrows = UpdateTargetArrows
@@ -1069,6 +1061,10 @@ do
         if FADE_AVOID_CASTING then
             plugin_fading:UpdateFrame(f)
         end
+
+        if TARGET_ARROWS then
+            f:UpdateTargetArrows()
+        end
     end
     local function HideCastBar(f,hide_cause,force)
         -- always hide spark instantly
@@ -1126,6 +1122,10 @@ do
 
         if FADE_AVOID_CASTING then
             plugin_fading:UpdateFrame(f)
+        end
+
+        if TARGET_ARROWS then
+            f:UpdateTargetArrows()
         end
     end
     local function UpdateCastBar(f)

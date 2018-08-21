@@ -121,14 +121,9 @@ function core:GlowColourChange(f)
 end
 function core:CastBarShow(f)
     f:ShowCastBar()
-
-    -- update target arrow position for spell icon
-    f:UpdateTargetArrows()
 end
 function core:CastBarHide(f,...)
     f:HideCastBar(...)
-
-    f:UpdateTargetArrows()
 end
 function core:GainedTarget(f)
     f.state.target = true

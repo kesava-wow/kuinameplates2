@@ -671,12 +671,6 @@ function configChanged.execute_percent(v)
 end
 configChanged.execute_auto = configChanged.execute_percent
 
-function configChanged.target_arrows()
-    core:configChangedTargetArrows()
-end
-configChanged.target_glow_colour = configChanged.target_arrows
-configChanged.target_arrows_size = configChanged.target_arrows
-
 function configChanged.frame_glow_size(v)
     for k,f in addon:Frames() do
         f:UpdateFrameGlowSize()
@@ -776,7 +770,6 @@ configChanged.cvar_disable_scale = configChangedCVar
 
 function configChanged.global_scale(v)
     configChanged.frame_glow_size(core.profile.frame_glow_size)
-    configChanged.target_arrows()
     configChanged.state_icons()
     configChangedCastBar()
     configChangedAuras()
