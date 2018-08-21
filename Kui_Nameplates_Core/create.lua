@@ -1675,7 +1675,6 @@ do
             -- bottom
             AURAS_POINT_S = 'TOPLEFT'
             AURAS_POINT_R = 'BOTTOMLEFT'
-            AURAS_OFFSET = -AURAS_OFFSET
 
             if AURAS_PURGE_OPPOSITE then
                 PURGE_POINT_S = 'BOTTOMLEFT'
@@ -1686,6 +1685,8 @@ do
                 PURGE_POINT_R = 'BOTTOM'
                 PURGE_OFFSET = -3
             end
+
+            AURAS_OFFSET = -AURAS_OFFSET
         end
 
         for k,f in addon:Frames() do
@@ -1704,7 +1705,8 @@ do
                 if cp then
                     if AURAS_SHOW_PURGE then
                         cp:Enable()
-                        cp.point[1] = AURAS_POINT_S
+                        cp.point[1] = AURAS_PURGE_OPPOSITE and
+                                      PURGE_POINT_S or AURAS_POINT_S
                         cp.timer_threshold = AURAS_TIMER_THRESHOLD
                         cp.squareness = self.profile.auras_icon_squareness
                         cp.centred = self.profile.auras_centre
