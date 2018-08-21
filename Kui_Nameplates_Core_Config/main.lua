@@ -116,7 +116,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             (strlower(v) == 'false' and false) or
             tonumber(v) or v
 
-        if type(extant_v) != type(v) then
+        if type(extant_v) ~= type(v) then
             knp:ui_print(format('Invalid value for key (expected %s, got %s).',
                 type(extant_v),type(v)))
             return

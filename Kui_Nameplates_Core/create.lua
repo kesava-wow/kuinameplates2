@@ -1428,7 +1428,7 @@ do
                 self:SetPoint(PURGE_POINT_S,self.parent.bg,PURGE_POINT_R,
                     floor((self.parent.bg:GetWidth() - self.__width) / 2),
                     PURGE_OFFSET)
-            elseif
+            else
                 -- attach to top/bottom of core_dynamic
                 self:SetPoint(PURGE_POINT_S,self.sibling,PURGE_POINT_R,
                     0,PURGE_OFFSET)
