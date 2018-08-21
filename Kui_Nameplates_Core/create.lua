@@ -1480,7 +1480,7 @@ do
             f.Auras.frames.core_purge:Disable()
         else
             f.Auras.frames.core_purge:Enable(true)
-            AuraFrame_SetIconSize(f.Auras.frames.core_purge,f.state.minus)
+            AuraFrame_SetIconSize(f.Auras.frames.core_purge)
         end
     end
     function core:CreateAuras(f)
@@ -1703,19 +1703,14 @@ do
                     cd.__width = nil -- force size & position update
                     cd:SetSort(self.profile.auras_sort)
                 end
-                if cp then
-                    if AURAS_SHOW_PURGE then
-                        cp:Enable()
-                        cp.point[1] = AURAS_PURGE_OPPOSITE and
-                                      PURGE_POINT_S or AURAS_POINT_S
-                        cp.timer_threshold = AURAS_TIMER_THRESHOLD
-                        cp.squareness = self.profile.auras_icon_squareness
-                        cp.centred = self.profile.auras_centre
-                        cp.__width = nil
-                        cp:SetSort(self.profile.auras_sort)
-                    else
-                        cp:Disable()
-                    end
+                if cp and AURAS_SHOW_PURGE then
+                    cp.point[1] = AURAS_PURGE_OPPOSITE and
+                                  PURGE_POINT_S or AURAS_POINT_S
+                    cp.timer_threshold = AURAS_TIMER_THRESHOLD
+                    cp.squareness = self.profile.auras_icon_squareness
+                    cp.centred = self.profile.auras_centre
+                    cp.__width = nil
+                    cp:SetSort(self.profile.auras_sort)
                 end
             end
         end
