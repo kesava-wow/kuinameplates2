@@ -1669,7 +1669,7 @@ do
             else
                 PURGE_POINT_S = 'BOTTOM'
                 PURGE_POINT_R = 'TOP'
-                PURGE_OFFSET = 1
+                PURGE_OFFSET = 3
             end
         else
             -- bottom
@@ -1684,7 +1684,7 @@ do
             else
                 PURGE_POINT_S = 'TOP'
                 PURGE_POINT_R = 'BOTTOM'
-                PURGE_OFFSET = -1
+                PURGE_OFFSET = -3
             end
         end
 
