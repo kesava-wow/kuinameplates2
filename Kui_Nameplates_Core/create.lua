@@ -252,7 +252,7 @@ do
 
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
-        SHOW_ARENA_ID = true
+        SHOW_ARENA_ID = self.profile.show_arena_id
         HIDE_NAMES = self.profile.hide_names
         HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
         HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg

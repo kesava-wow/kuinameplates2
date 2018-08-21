@@ -43,6 +43,7 @@ local default_config = {
     target_arrows_size = 33,
     use_blizzard_personal = false,
     frame_vertical_offset = 0,
+    show_arena_id = true,
 
     clickthrough_self = false,
     clickthrough_friend = false,
