@@ -160,6 +160,12 @@ function core:ExecuteUpdate(f)
     -- registered by configChanged, fade_avoid_execute_friend/hostile
     plugin_fading:UpdateFrame(f)
 end
+function core:OnEnter(f)
+    f:UpdateFrameGlow()
+end
+function core:OnLeave(f)
+    f:UpdateFrameGlow()
+end
 -- events ######################################################################
 function core:QUEST_POI_UPDATE()
     -- update to show name of new quest NPCs
@@ -269,6 +275,8 @@ function core:Initialise()
     self:RegisterMessage('GainedTarget')
     self:RegisterMessage('LostTarget')
     self:RegisterMessage('ClassificationChanged')
+    self:RegisterMessage('OnEnter')
+    self:RegisterMessage('OnLeave')
 
     -- register events
     self:RegisterEvent('QUEST_POI_UPDATE')
