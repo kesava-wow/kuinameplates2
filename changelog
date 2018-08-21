@@ -1,6 +1,9 @@
 BETA NOTES
+* fix purge squareness isn't updated correctly
+* add /knp set [key] nil to reset a config value to default
 * add /knp which .. mostly for my own use
 * add auras_purge_opposite and frame_vertical_offset options - neither are exposed in the ui currently
+* add /knp set [key] [value] to set config values
 
 * add `/knp profile` command so profiles can be easily switched in macros (e.g. /knp profile my profile)
 
