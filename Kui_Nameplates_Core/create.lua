@@ -62,16 +62,17 @@ local TEXT_SCALE_OFFSET = 2.5
 
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,POWER_BAR_HEIGHT,
-      TARGET_GLOW_COLOUR,FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,
+      FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,
       FONT_SIZE_SMALL,TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,
       BOT_VERTICAL_OFFSET,BAR_TEXTURE,BAR_ANIMATION,FADE_AVOID_NAMEONLY,
       FADE_UNTRACKED,FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING,
       SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID,GUILD_TEXT_NPCS,
       GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS,HEALTH_TEXT_FRIEND_MAX,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
-      FRAME_GLOW_SIZE,FRAME_GLOW_THREAT,HIDE_NAMES,GLOBAL_SCALE,
-      FRAME_VERTICAL_OFFSET,TARGET_GLOW,GLOW_AS_SHADOW
+      HIDE_NAMES,GLOBAL_SCALE,FRAME_VERTICAL_OFFSET
 
+local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
+      GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -214,9 +215,11 @@ do
 
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
+        TARGET_GLOW = self.profile.target_glow
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
-        TARGET_GLOW = core.profile.target_glow
-        GLOW_AS_SHADOW = core.profile.glow_as_shadow
+        MOUSEOVER_GLOW = self.profile.mouseover_glow
+        MOUSEOVER_GLOW_COLOUR = self.profile.mouseover_glow_colour
+        GLOW_AS_SHADOW = self.profile.glow_as_shadow
 
         GLOBAL_SCALE = self.profile.global_scale
         FRAME_WIDTH = Scale(self.profile.frame_width)
@@ -853,13 +856,11 @@ do
             f.ThreatGlow:Hide()
 
             if f.NameOnlyGlow then
-                if f.state.target and TARGET_GLOW then
+                if TARGET_GLOW and f.state.target then
                     f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                    f.NameOnlyGlow:SetAlpha(.8)
                     f.NameOnlyGlow:Show()
-                elseif f.state.highlight and TARGET_GLOW then
-                    f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                    f.NameOnlyGlow:SetAlpha(.4)
+                elseif MOUSEOVER_GLOW and f.state.highlight then
+                    f.NameOnlyGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
                     f.NameOnlyGlow:Show()
                 elseif FRAME_GLOW_THREAT and f.state.glowing then
                     f.NameOnlyGlow:SetVertexColor(unpack(f.state.glow_colour))
@@ -879,19 +880,17 @@ do
 
         f.ThreatGlow:Show()
 
-        if f.state.target and TARGET_GLOW then
+        if TARGET_GlOW and f.state.target then
             -- target glow colour
             f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-            f.ThreatGlow:SetAlpha(.8)
-        elseif f.state.highlight and TARGET_GLOW then
+        elseif MOUSEOVER_GLOW and f.state.highlight then
             -- mouseover glow
-            f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-            f.ThreatGlow:SetAlpha(.4)
+            f.ThreatGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
         else
             if FRAME_GLOW_THREAT and f.state.glowing then
                 -- threat glow colour
                 f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
-                f.ThreatGlow:SetAlpha(.5)
+                f.ThreatGlow:SetAlpha(.6)
             else
                 if GLOW_AS_SHADOW then
                     -- shadow
