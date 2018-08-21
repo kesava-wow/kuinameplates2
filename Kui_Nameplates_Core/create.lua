@@ -1451,18 +1451,19 @@ do
             return
         end
 
-        self.size = size
         self.num_per_row = (minus or self.purge) and 4 or 5
-
-        -- re-set frame width
-        AuraFrame_SetFrameWidth(self)
 
         -- resize & re-arrange buttons
         self:SetIconSize(size)
+
+        -- re-set frame width
+        AuraFrame_SetFrameWidth(self)
     end
     local function AuraFrame_CoreDynamic_OnVisibilityChange(self)
-        -- update sibling point
-        AuraFrame_SetFrameWidth(self.sibling,true)
+        if self.sibling.__width then
+            -- update sibling point (unless it hasn't initialised)
+            AuraFrame_SetFrameWidth(self.sibling,true)
+        end
     end
 
     local function UpdateAuras(f)
