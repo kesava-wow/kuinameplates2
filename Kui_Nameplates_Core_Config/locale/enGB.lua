@@ -243,7 +243,7 @@ L.tooltips = {
     combat_hostile = 'Action to take on hostile frames upon entering and leaving combat.',
     combat_friendly = 'Action to take on friendly frames upon entering and leaving combat.',
 
-    ignore_uiscale = 'Ignore the default UI\'s scaling. This allows nameplates to retain pixel-perfectness regardless of resolution.',
+    ignore_uiscale = 'Ignore the default UI\'s scaling. This allows nameplates to retain pixel-perfectness regardless of resolution.|n|n|cffff6666This is necessary even if you do not have UI scale enabled.',
     use_blizzard_personal = 'Don\'t skin the personal nameplate or its class powers.|n|nWhen using this option, the width of the personal frame can still be adjusted with the "Personal frame width" slider under "Frame sizes", however a UI reload is required for it to take full effect.|n|nIn order for this frame to display, you must check the option "Personal Resource Display" under Esc > Interface > Names > Unit Nameplates.|nIn order to show unmodified class resources on it, uncheck the option "Show Special Resources on Targets" on the same page.|n|n|cffff6666Requires a UI reload if the frame is currently visible.',
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
