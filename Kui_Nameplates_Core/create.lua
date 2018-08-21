@@ -1426,7 +1426,7 @@ do
 end
 -- auras #######################################################################
 do
-    local AURAS_NORMAL_SIZE,AURAS_MINUS_SIZE,AURAS_MIN_LENGTH,AURAS_MAX_LENGTH,
+    local AURAS_NORMAL_SIZE,AURAS_MINUS_SIZE,
           AURAS_ON_PERSONAL,AURAS_ENABLED,AURAS_SHOW_ALL_SELF,
           AURAS_HIDE_ALL_OTHER,AURAS_PURGE_SIZE,AURAS_SHOW_PURGE,AURAS_SIDE,
           AURAS_OFFSET,AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
@@ -1613,20 +1613,6 @@ do
         if not frame.__core then return end
         if frame.id ~= 'core_dynamic' then return end
 
-        -- force hide if below minimum duration
-        if  AURAS_MIN_LENGTH and
-            duration ~= 0 and duration <= AURAS_MIN_LENGTH
-        then
-            return 1
-        end
-
-        -- force hide if above maximum duration
-        if  AURAS_MAX_LENGTH and
-            (duration == 0 or duration > AURAS_MAX_LENGTH)
-        then
-            return 1
-        end
-
         -- force show if included by spell list (all casters or self)
         if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
             ((caster == 'player' or caster == 'pet' or caster == 'vehcile') and
@@ -1660,16 +1646,6 @@ do
 
     -- config changed
     function core:SetAurasConfig()
-        AURAS_MIN_LENGTH = self.profile.auras_minimum_length
-        if AURAS_MIN_LENGTH == 0 then
-            AURAS_MIN_LENGTH = nil
-        end
-
-        AURAS_MAX_LENGTH = self.profile.auras_maximum_length
-        if AURAS_MAX_LENGTH == -1 then
-            AURAS_MAX_LENGTH = nil
-        end
-
         AURAS_NORMAL_SIZE = Scale(self.profile.auras_icon_normal_size)
         AURAS_MINUS_SIZE = Scale(self.profile.auras_icon_minus_size)
         AURAS_PURGE_SIZE = Scale(self.profile.auras_purge_size)
