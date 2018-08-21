@@ -169,6 +169,7 @@ function healthbars:Initialise()
 
     bar_texture:SetPoint('TOPLEFT',10,-10)
     bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',10,0)
+    -- TODO THIS ISN'T ALIGNED AGH
     absorb_enable:SetPoint('TOPLEFT',bar_texture,'BOTTOMLEFT',0,-5)
     absorb_striped:SetPoint('LEFT',absorb_enable,'RIGHT',190,0)
 
@@ -466,41 +467,44 @@ function auras:Initialise()
     auras_kslc_hint:SetWidth(350)
     auras_kslc_hint:SetText(L.titles['auras_kslc_hint'] or 'Text')
 
-    local auras_filtering_sep = self:CreateSeparator('auras_filtering_sep')
-    local auras_minimum_length = self:CreateSlider('auras_minimum_length',0,60)
-    local auras_maximum_length = self:CreateSlider('auras_maximum_length',-1,1800)
-
     local auras_icons_sep = self:CreateSeparator('auras_icons_sep')
     local auras_icon_normal_size = self:CreateSlider('auras_icon_normal_size',10,50)
     local auras_icon_minus_size = self:CreateSlider('auras_icon_minus_size',10,50)
     local auras_icon_squareness = self:CreateSlider('auras_icon_squareness',0.5,1)
     local purge_size = self:CreateSlider('auras_purge_size',10,50)
+    local side = self:CreateDropDown('auras_side')
+    local purge_opposite = self:CreateCheckBox('auras_purge_opposite',true)
+    local offset = self:CreateSlider('auras_offset')
+    side.SelectTable = {'Top','Bottom'} -- TODO l11n
+
+    purge_size.enabled = function(p) return p.auras_show_purge end
+    purge_opposite.enabled = function(p) return p.auras_show_purge end
 
     auras_icon_squareness:SetValueStep(.1)
 
     auras_enabled:SetPoint('TOPLEFT',10,-17)
     show_purge:SetPoint('TOPLEFT',auras_enabled,'BOTTOMLEFT')
     auras_on_personal:SetPoint('TOPLEFT',show_purge,'BOTTOMLEFT')
-    auras_show_all_self:SetPoint('TOPLEFT',auras_on_personal,'BOTTOMLEFT')
-    auras_hide_all_other:SetPoint('TOPLEFT',auras_show_all_self,'BOTTOMLEFT')
-    auras_pulsate:SetPoint('TOPLEFT',auras_hide_all_other,'BOTTOMLEFT')
+    auras_pulsate:SetPoint('TOPLEFT',auras_on_personal,'BOTTOMLEFT',0,-20)
     auras_centre:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT')
     auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
     auras_time_threshold:SetPoint('LEFT',auras_on_personal,'RIGHT',184,5)
-    colour_short:SetPoint('TOPLEFT',auras_sort,5,-140)
-    colour_medium:SetPoint('TOPLEFT',colour_short,0,22)
-    colour_long:SetPoint('TOPLEFT',colour_medium,0,22)
-    auras_kslc_hint:SetPoint('TOP',0,-220)
+    auras_show_all_self:SetPoint('LEFT',auras_pulsate,'RIGHT',190,0)
+    auras_hide_all_other:SetPoint('LEFT',auras_centre,'RIGHT',190,0)
+    auras_kslc_hint:SetPoint('TOP',0,-190)
 
-    auras_filtering_sep:SetPoint('TOP',auras_kslc_hint,'BOTTOM',0,-35)
-    auras_minimum_length:SetPoint('TOPLEFT',auras_filtering_sep,0,-30)
-    auras_maximum_length:SetPoint('LEFT',auras_minimum_length,'RIGHT',20,0)
-
-    auras_icons_sep:SetPoint('TOP',auras_filtering_sep,'BOTTOM',0,-90)
-    auras_icon_normal_size:SetPoint('TOPLEFT',auras_icons_sep,0,-30)
+    auras_icons_sep:SetPoint('TOP',auras_kslc_hint,'BOTTOM',0,-35)
+    auras_icon_normal_size:SetPoint('TOPLEFT',auras_icons_sep,0,-140)
     auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
     auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
     purge_size:SetPoint('LEFT',auras_icon_squareness,'RIGHT',20,0)
+
+    colour_short:SetPoint('TOPLEFT',auras_icons_sep,'BOTTOMLEFT',5,-10)
+    colour_medium:SetPoint('LEFT',colour_short,'RIGHT')
+    colour_long:SetPoint('LEFT',colour_medium,'RIGHT')
+    side:SetPoint('TOPLEFT',colour_short,'BOTTOMLEFT',-10,-5)
+    purge_opposite:SetPoint('TOPLEFT',side,'BOTTOMLEFT',10,0)
+    offset:SetPoint('LEFT',side,'RIGHT',10,0)
 end
 -- cast bars ###################################################################
 function castbars:Initialise()
