@@ -1663,17 +1663,16 @@ do
         for k,f in addon:Frames() do
             if f.Auras and f.Auras.frames then
                 local cd = f.Auras.frames.core_dynamic
+                local cp = f.Auras.frames.core_purge
                 if cd then
                     cd.point[1] = AURAS_POINT_S
                     cd.pulsate = self.profile.auras_pulsate
                     cd.timer_threshold = AURAS_TIMER_THRESHOLD
                     cd.squareness = self.profile.auras_icon_squareness
                     cd.centred = self.profile.auras_centre
-                    cd.__width = nil -- force size update
+                    cd.__width = nil -- force size & position update
                     cd:SetSort(self.profile.auras_sort)
                 end
-
-                local cp = f.Auras.frames.core_purge
                 if cp then
                     if AURAS_SHOW_PURGE then
                         cp:Enable()
