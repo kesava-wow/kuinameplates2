@@ -69,7 +69,8 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID,GUILD_TEXT_NPCS,
       GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS,HEALTH_TEXT_FRIEND_MAX,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
-      FRAME_GLOW_SIZE,FRAME_GLOW_THREAT,HIDE_NAMES,GLOBAL_SCALE
+      FRAME_GLOW_SIZE,FRAME_GLOW_THREAT,HIDE_NAMES,GLOBAL_SCALE,
+      FRAME_VERTICAL_OFFSET
 
 
 -- helper functions ############################################################
@@ -223,6 +224,7 @@ do
         FRAME_WIDTH_PERSONAL = Scale(self.profile.frame_width_personal)
         FRAME_HEIGHT_PERSONAL = Scale(self.profile.frame_height_personal)
         POWER_BAR_HEIGHT = Scale(self.profile.powerbar_height)
+        FRAME_VERTICAL_OFFSET = self.profile.frame_vertical_offset
 
         FRAME_GLOW_SIZE = Scale(self.profile.frame_glow_size)
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
@@ -393,7 +395,7 @@ local function UpdateFrameSize(f)
     f.x = floor((f:GetWidth() / 2) - (f.bg:GetWidth() / 2))
     f.y = floor((f:GetHeight() / 2) - (f.bg:GetHeight() / 2))
 
-    f.bg:SetPoint('BOTTOMLEFT',f.x,f.y)
+    f.bg:SetPoint('BOTTOMLEFT',f.x,f.y + FRAME_VERTICAL_OFFSET)
 
     f:UpdateMainBars()
     f:SpellIconSetWidth()

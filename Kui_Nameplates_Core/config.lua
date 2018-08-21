@@ -42,6 +42,7 @@ local default_config = {
     frame_glow_size = 8,
     target_arrows_size = 33,
     use_blizzard_personal = false,
+    frame_vertical_offset = 0,
 
     clickthrough_self = false,
     clickthrough_friend = false,
