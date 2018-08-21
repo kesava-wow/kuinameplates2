@@ -1,4 +1,5 @@
 BETA NOTES
+* add /knp which .. mostly for my own use
 * add auras_purge_opposite and frame_vertical_offset options - neither are exposed in the ui currently
 
 * add `/knp profile` command so profiles can be easily switched in macros (e.g. /knp profile my profile)
