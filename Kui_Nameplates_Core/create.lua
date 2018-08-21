@@ -939,6 +939,41 @@ do
 end
 -- target arrows ###############################################################
 do
+    local function Arrows_Hide(self)
+        self.l:Hide()
+        self.r:Hide()
+    end
+    local function Arrows_Show(self)
+        self.l:Show()
+        self.r:Show()
+    end
+    local function Arrows_SetVertexColor(self,...)
+        self.l:SetVertexColor(...)
+        self.r:SetVertexColor(...)
+    end
+    local function Arrows_UpdatePosition(self)
+        if self.parent.state.casting and
+           self.parent.SpellIcon and
+           self.parent.SpellIcon:IsVisible()
+        then
+            -- move for cast bar spell icon
+            self.l:SetPoint('RIGHT',self.parent.SpellIcon.bg,'LEFT',
+                3+(self.size*.12),-1)
+        else
+            self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
+                3+(self.size*.12),-1)
+        end
+
+        self.r:SetPoint('LEFT',self.parent.bg,'RIGHT',
+            -3-(self.size*.12),-1)
+    end
+    local function Arrows_SetSize(self,size)
+        self.size = size
+        self.l:SetSize(size*.72,size)
+        self.r:SetSize(size*.72,size)
+        self:UpdatePosition()
+    end
+
     local function UpdateTargetArrows(f)
         if f.IN_NAMEONLY or not core.profile.target_arrows then
             f.TargetArrows:Hide()
@@ -947,6 +982,7 @@ do
 
         if f.state.target then
             f.TargetArrows:Show()
+            f.TargetArrows:UpdatePosition()
         else
             f.TargetArrows:Hide()
         end
@@ -956,36 +992,24 @@ do
             return
         end
 
-        local arrows = {}
-        function arrows:Hide()
-            self.l:Hide()
-            self.r:Hide()
-        end
-        function arrows:Show()
-            self.l:Show()
-            self.r:Show()
-        end
-        function arrows:SetVertexColor(...)
-            self.l:SetVertexColor(...)
-            self.r:SetVertexColor(...)
-        end
-        function arrows:SetSize(size)
-            self.l:SetSize(size*.72,size)
-            self.l:SetPoint('RIGHT',f.bg,'LEFT',  3+(size*.12),-1)
-
-            self.r:SetSize(size*.72,size)
-            self.r:SetPoint('LEFT',f.bg,'RIGHT', -3-(size*.12),-1)
-        end
-
         local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
         left:SetTexture(MEDIA..'target-arrow')
         left:SetTexCoord(0,.72,0,1)
-        arrows.l = left
 
         local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
         right:SetTexture(MEDIA..'target-arrow')
         right:SetTexCoord(.72,0,0,1)
-        arrows.r = right
+
+        local arrows = {
+            Hide = Arrows_Hide,
+            Show = Arrows_Show,
+            SetVertexColor = Arrows_SetVertexColor,
+            UpdatePosition = Arrows_UpdatePosition,
+            SetSize = Arrows_SetSize,
+            parent = f,
+            l = left,
+            r = right,
+        }
 
         arrows:SetSize(Scale(core.profile.target_arrows_size))
         arrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
