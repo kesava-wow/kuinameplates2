@@ -98,6 +98,32 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             KuiNameplatesCore.config:SetProfile(profile)
         end
         return
+    elseif strfind(msg,'^set') then
+        local k,v = strmatch(msg,'^set (.-) (.-)%s*$')
+        if not k or not v then
+            knp:ui_print('Set config key to value. Usage: /knp set config_key value')
+            print(' Only boolean (true, false), numeric and string values can be set by this command.')
+            return
+        end
+
+        local extant_v = KuiNameplatesCore.profile[k]
+        if type(extant_v) == 'nil' then
+            knp:ui_print(format('Invalid config key `%s`.',k))
+            return
+        end
+
+        v = (strlower(v) == 'true' and true) or
+            (strlower(v) == 'false' and false) or
+            tonumber(v) or v
+
+        if type(extant_v) != type(v) then
+            knp:ui_print(format('Invalid value for key (expected %s, got %s).',
+                type(extant_v),type(v)))
+            return
+        end
+
+        KuiNameplatesCore.config:SetKey(k,v)
+        return
     elseif msg and msg ~= '' then
         -- interpret msg as config page shortcut
         local L = opt:GetLocale()
