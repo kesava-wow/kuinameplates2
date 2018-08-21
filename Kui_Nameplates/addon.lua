@@ -129,7 +129,8 @@ local function OnEvent(self,event,...)
 
     if not self.layout then
         -- throw missing layout
-        self:ui_print('A compatible layout was not loaded. Make sure Kui Nameplates: Core is enabled, or reinstall the addon from Curse if it isn\'t present.')
+        self:ui_print('A compatible layout was not loaded.')
+        print(' Make sure Kui Nameplates: Core is enabled, or reinstall the addon from Curse if it isn\'t present.')
         return
     end
 
