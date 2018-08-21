@@ -103,6 +103,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         if not k or not v then
             knp:ui_print('Set config key to value. Usage: /knp set config_key value')
             print(' Only boolean (true, false), numeric and string values can be set by this command.')
+            print(' Type nil for value to reset a key to default.')
             return
         end
 
@@ -120,7 +121,10 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             v = tonumber(v) or v
         end
 
-        if type(extant_v) ~= type(v) then
+        if v == 'nil' then
+            -- reset the key
+            v = nil
+        elseif type(extant_v) ~= type(v) then
             knp:ui_print(format('Invalid value for key (expected %s, got %s).',
                 type(extant_v),type(v)))
             return
