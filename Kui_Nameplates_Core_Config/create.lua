@@ -40,10 +40,13 @@ function general:Initialise()
     local state_icons = self:CreateCheckBox('state_icons')
     local target_glow = self:CreateCheckBox('target_glow')
     local target_glow_colour = self:CreateColourPicker('target_glow_colour')
+    local mouseover_glow = self:CreateCheckBox('mouseover_glow')
+    local mouseover_glow_colour = self:CreateColourPicker('mouseover_glow_colour')
     local target_arrows = self:CreateCheckBox('target_arrows')
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
 
     target_glow_colour.enabled = function(p) return p.target_glow end
+    mouseover_glow_colour.enabled = function(p) return p.mouseover_glow end
     target_arrows_size.enabled = function(p) return p.target_arrows end
 
     combat_hostile.SelectTable = {
@@ -60,21 +63,23 @@ function general:Initialise()
     use_blizzard_personal:SetPoint('LEFT',ignore_uiscale,'RIGHT',190,0)
 
     state_icons:SetPoint('TOPLEFT',ignore_uiscale,'BOTTOMLEFT',0,-10)
-    target_glow:SetPoint('TOPLEFT',state_icons,'BOTTOMLEFT',0,0)
+    target_glow:SetPoint('TOPLEFT',state_icons,'BOTTOMLEFT')
     target_glow_colour:SetPoint('LEFT',target_glow,'RIGHT',194,0)
-    glow_as_shadow:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT',0,0)
-    target_arrows:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,0)
-    target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,10)
+    mouseover_glow:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT')
+    mouseover_glow_colour:SetPoint('LEFT',mouseover_glow,'RIGHT',194,0)
+    glow_as_shadow:SetPoint('TOPLEFT',mouseover_glow,'BOTTOMLEFT')
+    target_arrows:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,-20)
+    target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,0)
 
     local clickthrough_sep = self:CreateSeparator('clickthrough_sep')
     local clickthrough_self = self:CreateCheckBox('clickthrough_self')
     local clickthrough_friend = self:CreateCheckBox('clickthrough_friend')
     local clickthrough_enemy = self:CreateCheckBox('clickthrough_enemy')
 
-    clickthrough_sep:SetPoint('TOP',0,-230)
-    clickthrough_self:SetPoint('TOPLEFT',10,-240)
-    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-240)
-    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-240)
+    clickthrough_sep:SetPoint('TOP',0,-280)
+    clickthrough_self:SetPoint('TOPLEFT',10,-290)
+    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-290)
+    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-290)
 end
 -- fade rules popup ############################################################
 function fade_rules:Initialise()
