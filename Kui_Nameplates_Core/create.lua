@@ -51,9 +51,9 @@ local plugin_classpowers
 
 -- common globals
 local UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
-      strlen,strformat,    pairs,ipairs,floor,ceil,unpack =
+      strlen,format,pairs,ipairs,floor,ceil,unpack =
       UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
-      strlen,string.format,pairs,ipairs,floor,ceil,unpack
+      strlen,format,pairs,ipairs,floor,ceil,unpack
 
 -- config locals
 local KUI_MEDIA = 'interface/addons/kui_media/'
@@ -725,7 +725,7 @@ do
     local function HealthDisplay_Percent(s)
         local v = s.health_per
         if v < 1 then
-            return strformat('%.1f',v)
+            return format('%.1f',v)
         else
             return ceil(v)
         end
