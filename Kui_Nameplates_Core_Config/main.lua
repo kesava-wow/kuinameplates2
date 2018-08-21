@@ -128,6 +128,11 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
 
         KuiNameplatesCore.config:SetKey(k,v)
         return
+    elseif msg == 'which' then
+        local t = C_NamePlate.GetNamePlateForUnit('target')
+        if not t then return end
+        knp:ui_print(t:GetName())
+        return
     elseif msg and msg ~= '' then
         -- interpret msg as config page shortcut
         local L = opt:GetLocale()
