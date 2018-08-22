@@ -2,6 +2,7 @@ BETA NOTES
 * increade default fade speed
 * add option to avoid fading the mouseover
 * update locale
+* fix issues with certain fade rule setups (particularly where customs are involved)
 
 * add mouseover_glow, mouseover_glow_colour
 * add show_arena_id (not exposed in the ui)
