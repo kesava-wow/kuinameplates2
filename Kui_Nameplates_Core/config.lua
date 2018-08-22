@@ -317,13 +317,7 @@ local function configChangedFadeRule(v,on_load)
     if core.profile.fade_avoid_mouseover then
         plugin:AddFadeRule(function(f)
             return f.state.highlight and 1
-        end,21)
-    end
-
-    if core.profile.fade_avoid_nameonly then
-        plugin:AddFadeRule(function(f)
-            return f.IN_NAMEONLY and 1
-        end,30)
+        end,1)
     end
 
     if core.profile.fade_avoid_raidicon then
@@ -422,6 +416,12 @@ local function configChangedFadeRule(v,on_load)
         plugin:AddFadeRule(function(f)
             return not f.state.tracked and -1
         end,25)
+    end
+
+    if core.profile.fade_avoid_nameonly then
+        plugin:AddFadeRule(function(f)
+            return f.IN_NAMEONLY and 1
+        end,30)
     end
 end
 configChanged.fade_all = configChangedFadeRule
