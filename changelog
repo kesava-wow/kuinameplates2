@@ -1,4 +1,8 @@
 BETA NOTES
+* increade default fade speed
+* add option to avoid fading the mouseover
+* update locale
+
 * add mouseover_glow, mouseover_glow_colour
 * add show_arena_id (not exposed in the ui)
 * make target arrows avoid the spell icon
