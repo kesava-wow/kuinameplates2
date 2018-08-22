@@ -311,8 +311,7 @@ local function configChangedFadeRule(v,on_load)
     end
 
     if core.profile.fade_all then
-        -- remove target_exists rule
-        plugin:RemoveFadeRule(3)
+        plugin:RemoveFadeRule('no_target')
     end
 
     if core.profile.fade_avoid_mouseover then
