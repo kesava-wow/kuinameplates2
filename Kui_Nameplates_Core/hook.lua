@@ -161,10 +161,10 @@ function core:ExecuteUpdate(f)
     plugin_fading:UpdateFrame(f)
 end
 function core:OnEnter(f)
-    f:UpdateFrameGlow()
+    f:UpdateHighlight()
 end
 function core:OnLeave(f)
-    f:UpdateFrameGlow()
+    f:UpdateHighlight()
 end
 -- events ######################################################################
 function core:QUEST_POI_UPDATE()
