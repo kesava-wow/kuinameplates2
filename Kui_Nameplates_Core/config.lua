@@ -81,7 +81,7 @@ local default_config = {
     fade_avoid_casting_hostile = false,
     fade_avoid_casting_interruptible = false,
     fade_avoid_casting_uninterruptible = true,
-    fade_avoid_mouseover = true,
+    fade_avoid_mouseover = false,
 
     font_face = DEFAULT_FONT,
     font_style = 2,
