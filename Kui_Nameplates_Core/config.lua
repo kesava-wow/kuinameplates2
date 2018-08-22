@@ -81,6 +81,7 @@ local default_config = {
     fade_avoid_casting_hostile = false,
     fade_avoid_casting_interruptible = false,
     fade_avoid_casting_uninterruptible = true,
+    fade_avoid_mouseover = true,
 
     font_face = DEFAULT_FONT,
     font_style = 2,
@@ -314,6 +315,12 @@ local function configChangedFadeRule(v,on_load)
         plugin:RemoveFadeRule(3)
     end
 
+    if core.profile.fade_avoid_mouseover then
+        plugin:AddFadeRule(function(f)
+            return f.state.highlight and 1
+        end,21)
+    end
+
     if core.profile.fade_avoid_nameonly then
         plugin:AddFadeRule(function(f)
             return f.IN_NAMEONLY and 1
@@ -432,6 +439,7 @@ configChanged.fade_avoid_casting_friendly = configChangedFadeRule
 configChanged.fade_avoid_casting_hostile = configChangedFadeRule
 configChanged.fade_avoid_casting_interruptible = configChangedFadeRule
 configChanged.fade_avoid_casting_uninterruptible = configChangedFadeRule
+configChanged.fade_avoid_mouseover = configChangedFadeRule
 
 local function configChangedTextOffset()
     core:configChangedTextOffset()
