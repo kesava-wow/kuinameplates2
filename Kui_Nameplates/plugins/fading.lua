@@ -16,7 +16,7 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Fading')
 
-local abs,pairs,type,tinsert = math.abs,pairs,type,tinsert
+local abs,pairs,ipairs,type,tinsert = math.abs,pairs,ipairs,type,tinsert
 local UnitExists,UnitIsUnit = UnitExists,UnitIsUnit
 local kff,kffr = kui.frameFade, kui.frameFadeRemoveFrame
 
@@ -50,7 +50,7 @@ local function FrameFade(frame,to)
     })
 end
 local function GetDesiredAlpha(frame)
-    for i,f_t in pairs(fade_rules) do
+    for i,f_t in ipairs(fade_rules) do
         if f_t then
             local a = f_t[2](frame)
             if a then
