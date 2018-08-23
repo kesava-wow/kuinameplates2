@@ -547,7 +547,7 @@ function addon:NewPlugin(name,priority,max_minor)
     local pluginTable = {
         name = name,
         plugin = true,
-        priority = type(priority)=='number' and priority or 5
+        priority = tonumber(priority) or 5
     }
     pluginTable.Enable = plugin_Enable
     pluginTable.Disable = plugin_Disable
@@ -565,7 +565,7 @@ end
 -------------------------------------------------- external element registrar --
 -- elements are just plugins with a lower default priority
 function addon:NewElement(name,priority)
-    local ele = self:NewPlugin(name,priority or 0)
+    local ele = self:NewPlugin(name,tonumber(priority) or 0)
     ele.plugin = nil
     ele.element = true
     return ele

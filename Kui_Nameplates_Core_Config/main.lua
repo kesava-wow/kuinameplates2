@@ -82,10 +82,22 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         return
     elseif msg == 'dump-config' then
         local d = kui:DebugPopup()
-
         local custom = IsAddOnLoaded('Kui_Nameplates_Custom') and '+c' or ''
         local barauras = IsAddOnLoaded('Kui_Nameplates_BarAuras') and '+ba' or ''
         local extras = IsAddOnLoaded('Kui_Nameplates_Extras') and '+x' or ''
+
+        local plugins_str
+        for i,plugin_tbl in ipairs(knp.plugins) do
+            if plugin_tbl.name then
+                local this_str
+                if plugin_tbl.enabled then
+                    this_str = plugin_tbl.name
+                else
+                    this_str = format('[%s]',plugin_tbl.name)
+                end
+                plugins_str = plugins_str and plugins_str..', '..this_str or this_str
+            end
+        end
 
         d:AddText(format('%s %d.%d %s%s%s%s',
             '@project-version@',knp.MAJOR,knp.MINOR,tostring(knp.debug),
@@ -93,6 +105,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
 
         d:AddText(KuiNameplatesCore.config.csv)
         d:AddText(KuiNameplatesCore.config:GetActiveProfile())
+        d:AddText(plugins_str)
 
         d:Show()
         return
