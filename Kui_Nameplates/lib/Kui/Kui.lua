@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 30
+local MAJOR, MINOR = 'Kui-1.0', 31
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -6,7 +6,7 @@ if not kui then
     return
 end
 
--- media #######################################################################
+-- media # XXX LEGACY #########################################################
 local media = "Interface\\AddOns\\Kui_Media\\"
 kui.m = {
     t = {
@@ -194,7 +194,7 @@ kui.CreateFontString = function(parent, args)
     return ob
 end
 -- generic helpers #############################################################
-kui.num = function(num)
+kui.num = function(num) -- TODO needs locale
     if not num then return end
     if num < THOUSAND then
         return floor(num)
@@ -322,14 +322,26 @@ local function CreateDebugPopup()
     end)
 
     local s = CreateFrame('ScrollFrame','KuiDebugEditBoxScrollFrame',UIParent,'UIPanelScrollFrameTemplate')
+    s:SetMovable(true)
     s:SetFrameStrata('DIALOG')
     s:SetSize(450,300)
     s:SetPoint('CENTER')
     s:SetScrollChild(p)
     s:Hide()
 
-    s:SetScript('OnMouseDown',function(self)
-        self:GetScrollChild():SetFocus()
+    s:SetScript('OnMouseDown',function(self,button)
+        if button == 'RightButton' and not self.is_moving then
+            self:StartMoving()
+            self.is_moving = true
+        elseif button == 'LeftButton' then
+            self:GetScrollChild():SetFocus()
+        end
+    end)
+    s:SetScript('OnMouseUp',function(self,button)
+        if button == 'RightButton' and self.is_moving then
+            self:StopMovingOrSizing()
+            self.is_moving = nil
+        end
     end)
 
     local bg = CreateFrame('Frame',nil,UIParent)
