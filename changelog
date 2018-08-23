@@ -1,4 +1,6 @@
 BETA NOTES
+* you can right-click + drag the debug frame (/knp dump) now. amazing.
+
 * increade default fade speed
 * add option to avoid fading the mouseover
 * update locale
