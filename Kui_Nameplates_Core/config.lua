@@ -221,16 +221,24 @@ local default_config = {
     cvar_disable_scale = true,
 }
 -- local functions #############################################################
+local function Scale(v)
+    if not tonumber(core.profile.global_scale) or
+       core.profile.global_scale == 1
+    then
+        return v
+    else
+        return floor((v*core.profile.global_scale)+.5)
+    end
+end
 local function UpdateClickboxSize()
-    local width,height =
-        (core.profile.frame_width * addon.uiscale)+10,
-        (core.profile.frame_height * addon.uiscale)+20
+    local o_width = (Scale(core.profile.frame_width) * addon.uiscale) + 10
+    local o_height = (Scale(core.profile.frame_height) * addon.uiscale) + 20
 
     if C_NamePlate.SetNamePlateOtherSize then
-        C_NamePlate.SetNamePlateOtherSize(width,height)
+        C_NamePlate.SetNamePlateOtherSize(o_width,o_height)
     else
-        C_NamePlate.SetNamePlateFriendlySize(width,height)
-        C_NamePlate.SetNamePlateEnemySize(width,height)
+        C_NamePlate.SetNamePlateFriendlySize(o_width,o_height)
+        C_NamePlate.SetNamePlateEnemySize(o_width,o_height)
     end
 
     if addon.USE_BLIZZARD_PERSONAL then
@@ -239,10 +247,9 @@ local function UpdateClickboxSize()
             45
         )
     else
-        C_NamePlate.SetNamePlateSelfSize(
-            (core.profile.frame_width_personal * addon.uiscale) + 10,
-            (core.profile.frame_height_personal * addon.uiscale) + 20
-        )
+        local p_width = (Scale(core.profile.frame_width_personal) * addon.uiscale) + 10
+        local p_height = (Scale(core.profile.frame_height_personal) * addon.uiscale) + 20
+        C_NamePlate.SetNamePlateSelfSize(p_width,p_height)
     end
 end
 local function QueueClickboxUpdate()
