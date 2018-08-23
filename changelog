@@ -1,6 +1,7 @@
 BETA NOTES
 * change target arrows texture
 * fix global_scale doesn't apply to clickbox
+* fix enabling target arrows causes a lua error
 
 * increase default target glow colour alpha
 * you can right-click + drag the debug frame (/knp dump) now. amazing.
