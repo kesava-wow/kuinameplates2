@@ -289,9 +289,14 @@ function core:configChangedTargetArrows()
 end
 function core:configChangedFrameSize()
     for k,f in addon:Frames() do
-        if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
-            -- force auras frame size update
-            f.Auras.frames.core_dynamic.__width = nil
+        if f.Auras and f.Auras.frames then
+            -- force auras frame size + position update
+            if f.Auras.frames.core_dynamic then
+                f.Auras.frames.core_dynamic.__width = nil
+            end
+            if f.Auras.frames.core_purge then
+                f.Auras.frames.core_purge.__width = nil
+            end
         end
     end
 end
