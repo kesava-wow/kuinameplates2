@@ -72,7 +72,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
 
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
-local TARGET_ARROWS,TARGET_ARROWS_SIZE
+local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
 
@@ -217,6 +217,7 @@ do
 
         TARGET_ARROWS = self.profile.target_arrows
         TARGET_ARROWS_SIZE = Scale(self.profile.target_arrows_size)
+        TARGET_ARROWS_INSET = floor(TARGET_ARROWS_SIZE*.2)
         TARGET_GLOW = self.profile.target_glow
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
         MOUSEOVER_GLOW = self.profile.mouseover_glow
@@ -959,19 +960,18 @@ do
         then
             -- move for cast bar spell icon
             self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
-                3+(self.size*.12)-self.parent.SpellIcon.bg:GetWidth(),-1)
+                TARGET_ARROWS_INSET-self.parent.SpellIcon.bg:GetWidth(),0)
         else
             self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
-                3+(self.size*.12),-1)
+                TARGET_ARROWS_INSET,0)
         end
 
         self.r:SetPoint('LEFT',self.parent.bg,'RIGHT',
-            -3-(self.size*.12),-1)
+            -TARGET_ARROWS_INSET,0)
     end
     local function Arrows_SetSize(self,size)
-        self.size = size
-        self.l:SetSize(size*.72,size)
-        self.r:SetSize(size*.72,size)
+        self.l:SetSize(size,size)
+        self.r:SetSize(size,size)
         self:UpdatePosition()
     end
 
