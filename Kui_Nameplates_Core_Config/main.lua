@@ -80,7 +80,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
         knp.DEBUG_IGNORE[to_ignore] = not knp.DEBUG_IGNORE[to_ignore]
         return
-    elseif msg == 'dump-config' then
+    elseif strfind(msg,'^dump') then
         local d = kui:DebugPopup()
         local custom = IsAddOnLoaded('Kui_Nameplates_Custom') and '+c' or ''
         local barauras = IsAddOnLoaded('Kui_Nameplates_BarAuras') and '+ba' or ''
