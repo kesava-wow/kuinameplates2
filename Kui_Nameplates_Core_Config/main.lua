@@ -82,6 +82,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         return
     elseif strfind(msg,'^dump') then
         local d = kui:DebugPopup()
+        local debug = knp.debug and '+debug' or ''
         local custom = IsAddOnLoaded('Kui_Nameplates_Custom') and '+c' or ''
         local barauras = IsAddOnLoaded('Kui_Nameplates_BarAuras') and '+ba' or ''
         local extras = IsAddOnLoaded('Kui_Nameplates_Extras') and '+x' or ''
@@ -99,9 +100,9 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             end
         end
 
-        d:AddText(format('%s %d.%d %s%s%s%s',
-            '@project-version@',knp.MAJOR,knp.MINOR,tostring(knp.debug),
-            custom,barauras,extras))
+        d:AddText(format('%s %d.%d%s%s%s%s',
+            '@project-version@',knp.MAJOR,knp.MINOR,
+            debug,custom,barauras,extras))
 
         d:AddText(KuiNameplatesCore.config.csv)
         d:AddText(KuiNameplatesCore.config:GetActiveProfile())
