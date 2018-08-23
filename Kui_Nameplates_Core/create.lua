@@ -189,7 +189,6 @@ local function Scale(v,offset)
     end
     if not GLOBAL_SCALE or GLOBAL_SCALE == 1 then return v end
     if offset then
-        -- scale and offset by constant (for font strings)
         return ceil((v*GLOBAL_SCALE)-((GLOBAL_SCALE-1)*offset))
     else
         return floor((v*GLOBAL_SCALE)+.5)
@@ -212,7 +211,6 @@ do
         FONT = LSM:Fetch(LSM.MediaType.FONT,core.profile.font_face)
     end
     function core:SetLocals()
-        -- set config locals to reduce table lookup
         UpdateMediaLocals()
 
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
