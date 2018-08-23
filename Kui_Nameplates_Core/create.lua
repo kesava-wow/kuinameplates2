@@ -279,6 +279,14 @@ do
         end
     end
 end
+function core:configChangedTargetArrows()
+    if not TARGET_ARROWS then return end
+    for k,f in addon:Frames() do
+        if not f.TargetArrows then
+            f:CreateTargetArrows()
+        end
+    end
+end
 function core:configChangedFrameSize()
     for k,f in addon:Frames() do
         if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
@@ -993,9 +1001,7 @@ do
         end
     end
     function core:CreateTargetArrows(f)
-        if not TARGET_ARROWS then
-            return
-        end
+        if not TARGET_ARROWS or f.TargetArrows then return end
 
         local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
         left:SetTexture(MEDIA..'target-arrow')

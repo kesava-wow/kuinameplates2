@@ -257,6 +257,11 @@ local function QueueClickboxUpdate()
 end
 -- config changed functions ####################################################
 local configChanged = {}
+function configChanged.target_arrows(v)
+    if v then
+        core:configChangedTargetArrows()
+    end
+end
 function configChanged.tank_mode(v)
     if v then
         addon:GetPlugin('TankMode'):Enable()
