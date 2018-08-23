@@ -213,6 +213,7 @@ do
     function core:SetLocals()
         UpdateMediaLocals()
 
+        GLOBAL_SCALE = self.profile.global_scale
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
         TARGET_ARROWS = self.profile.target_arrows
@@ -224,7 +225,6 @@ do
         MOUSEOVER_GLOW_COLOUR = self.profile.mouseover_glow_colour
         GLOW_AS_SHADOW = self.profile.glow_as_shadow
 
-        GLOBAL_SCALE = self.profile.global_scale
         FRAME_WIDTH = Scale(self.profile.frame_width)
         FRAME_HEIGHT = Scale(self.profile.frame_height)
         FRAME_WIDTH_MINUS = Scale(self.profile.frame_width_minus)
