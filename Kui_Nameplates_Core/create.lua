@@ -999,11 +999,12 @@ do
 
         local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
         left:SetTexture(MEDIA..'target-arrow')
-        left:SetTexCoord(0,.72,0,1)
+        left:SetBlendMode('ADD')
 
         local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
         right:SetTexture(MEDIA..'target-arrow')
-        right:SetTexCoord(.72,0,0,1)
+        right:SetBlendMode('ADD')
+        right:SetTexCoord(1,0,0,1)
 
         local arrows = {
             Hide = Arrows_Hide,
