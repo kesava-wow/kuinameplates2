@@ -527,7 +527,8 @@ end
 --            override the settings of any previous plugin)
 -- max_minor = Maximum addon minor version this plugin supports.
 --             Ignored if nil.
-function addon:NewPlugin(name,priority,max_minor)
+-- force_enable = Enable this plugin upon initialise.
+function addon:NewPlugin(name,priority,max_minor,force_enable)
     if not name then
         error('Plugin with no name ignored')
         return
@@ -546,6 +547,7 @@ function addon:NewPlugin(name,priority,max_minor)
 
     local pluginTable = {
         name = name,
+        force_enable = force_enable,
         plugin = true,
         priority = tonumber(priority) or 5
     }
@@ -565,7 +567,7 @@ end
 -------------------------------------------------- external element registrar --
 -- elements are just plugins with a lower default priority
 function addon:NewElement(name,priority)
-    local ele = self:NewPlugin(name,tonumber(priority) or 0)
+    local ele = self:NewPlugin(name,tonumber(priority) or 0,nil,true)
     ele.plugin = nil
     ele.element = true
     return ele
