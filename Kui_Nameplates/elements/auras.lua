@@ -12,9 +12,13 @@
         colour_short = colour of short timer text (like {1,1,1})
         colour_medium = colour of medium timer text
         colour_long = colour of long timer text
+        decimal_threshold = time under which decimals will be shown
     }
         Configuration table. Can be an empty table.
         Element will not initialise if this is missing or not a table.
+
+        Font values are only used upon button creation - the layout must update
+        fonts on buttons which have already been created.
 
     Creating aura frames
     ====================
@@ -89,13 +93,11 @@ local strlower,tinsert,tsort,     pairs,ipairs =
       strlower,tinsert,table.sort,pairs,ipairs
 
 local FONT,FONT_SIZE_CD,FONT_SIZE_COUNT,FONT_FLAGS,
-      COLOUR_SHORT,COLOUR_MEDIUM,COLOUR_LONG
+      COLOUR_SHORT,COLOUR_MEDIUM,COLOUR_LONG,DECIMAL_THRESHOLD
 
 -- DisplayAura callback return behaviour enums
 local CB_HIDE,CB_SHOW = 1,2
 
--- time below which to show decimal places
-local DECIMAL_THRESHOLD = 2
 -- row growth lookup table
 local row_growth_points = {
     UP = {'BOTTOM','TOP'},
@@ -778,6 +780,7 @@ function ele:UpdateConfig()
     COLOUR_SHORT = addon.layout.Auras.colour_short or {1,0,0,1}
     COLOUR_MEDIUM = addon.layout.Auras.colour_medium or {1,1,0,1}
     COLOUR_LONG = addon.layout.Auras.colour_long or {1,1,1,1}
+    DECIMAL_THRESHOLD = addon.layout.Auras.decimal_threshold or 2
 end
 -- messages ####################################################################
 function ele:Show(f)
