@@ -309,7 +309,17 @@ function configChanged.fade_speed(v)
 end
 
 local function configChangedCombatAction()
-    core:configChangedCombatAction()
+    if core.profile.combat_hostile == 1 and
+       core.profile.combat_friendly == 1
+    then
+        addon:GetPlugin('CombatToggle'):Disable()
+    else
+        addon:GetPlugin('CombatToggle'):Enable()
+        core.CombatToggle = {
+            hostile = core.profile.combat_hostile,
+            friendly = core.profile.combat_friendly
+        }
+    end
 end
 configChanged.combat_hostile = configChangedCombatAction
 configChanged.combat_friendly = configChangedCombatAction
@@ -827,6 +837,8 @@ configLoaded.clickthrough_self = QueueClickthroughUpdate
 configLoaded.cvar_enable = configChangedCVar
 
 configLoaded.state_icons = configChanged.state_icons
+
+configLoaded.combat_hostile = configChangedCombatAction
 
 function configLoaded.classpowers_enable(v)
     if v then

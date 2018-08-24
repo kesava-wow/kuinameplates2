@@ -313,12 +313,6 @@ function core:configChangedTextOffset()
         end
     end
 end
-function core:configChangedCombatAction()
-    self.CombatToggle = {
-        hostile = self.profile.combat_hostile,
-        friendly = self.profile.combat_friendly
-    }
-end
 do
     function core.AurasButton_SetFont(button)
         UpdateFontObject(button.cd)
@@ -2126,8 +2120,6 @@ end
 function core:InitialiseElements()
     plugin_fading = addon:GetPlugin('Fading')
     plugin_classpowers = addon:GetPlugin('ClassPowers')
-
-    self:configChangedCombatAction()
 
     self.Auras = {
         colour_short = self.profile.auras_colour_short,
