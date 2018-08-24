@@ -2155,7 +2155,7 @@ function core:InitialiseElements()
 
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
-        icon_size = Scale(self.profile.classpowers_size) or 10,
+        icon_size = Scale(self.profile.classpowers_size),
         bar_width = Scale(self.profile.classpowers_bar_width),
         bar_height = Scale(self.profile.classpowers_bar_height),
         icon_texture = MEDIA..'combopoint-round',
