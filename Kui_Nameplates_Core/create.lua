@@ -305,10 +305,14 @@ function core:configChangedTextOffset()
         f:UpdateNameTextPosition()
         f:UpdateSpellNamePosition()
 
-        if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
+        if f.Auras and f.Auras.frames then
             -- update aura text
-            for _,button in pairs(f.Auras.frames.core_dynamic.buttons) do
-                self.Auras_PostCreateAuraButton(f.Auras.frames.core_dynamic,button)
+            for _,frame in ipairs(f.Auras.frames) do
+                if frame.__core then
+                    for _,button in ipairs(frame.buttons) do
+                        self.Auras_PostCreateAuraButton(frame,button)
+                    end
+                end
             end
         end
     end
@@ -327,9 +331,13 @@ do
             UpdateFontObject(f.HealthText)
             UpdateFontObject(f.LevelText)
 
-            if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
-                for _,button in pairs(f.Auras.frames.core_dynamic.buttons) do
-                    self.AurasButton_SetFont(button)
+            if f.Auras and f.Auras.frames then
+                for _,frame in ipairs(f.Auras.frames) do
+                    if frame.__core then
+                        for _,button in ipairs(frame.buttons) do
+                            self.AurasButton_SetFont(button)
+                        end
+                    end
                 end
             end
         end
