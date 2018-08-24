@@ -14,6 +14,7 @@
 -- state icon = 4
 -- spell shield = 3
 -- health bar highlight = 2
+-- spell icon = 2
 -- castbar spark = 1
 -- absorb bar = 1
 -- power bar = 0
@@ -21,8 +22,8 @@
 -- cast bar = 0
 --
 -- BACKGROUND
--- spell icon = 2
 -- castbar background = 1
+-- spell icon bg = 1
 --
 -- Frame #######################################################################
 -- ARTWORK
@@ -48,31 +49,32 @@ local plugin_fading
 -- class powers plugin - called by NameOnlyUpdateFunctions
 local plugin_classpowers
 
-local MEDIA = 'interface/addons/kui_nameplates_core/media/'
+-- common globals
+local UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
+      strlen,format,pairs,ipairs,floor,ceil,unpack =
+      UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
+      strlen,format,pairs,ipairs,floor,ceil,unpack
 
 -- config locals
-local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS
-local FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL
-local POWER_BAR_HEIGHT,TARGET_GLOW_COLOUR
-local FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,FONT_SIZE_SMALL
-local TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,BOT_VERTICAL_OFFSET
-local BAR_TEXTURE,BAR_ANIMATION,SHOW_STATE_ICONS
-local FADE_AVOID_NAMEONLY,FADE_UNTRACKED,FADE_AVOID_TRACKED
-local FADE_AVOID_COMBAT,FADE_AVOID_CASTING
-local SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID
-local GUILD_TEXT_NPCS,GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS
-local HEALTH_TEXT_FRIEND_MAX,HEALTH_TEXT_FRIEND_DMG
-local HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG
-local FRAME_GLOW_SIZE,FRAME_GLOW_TEXTURE_INSET,FRAME_GLOW_THREAT
-local HIDE_NAMES
+local KUI_MEDIA = 'interface/addons/kui_media/'
+local MEDIA = 'interface/addons/kui_nameplates_core/media/'
+local TEXT_SCALE_OFFSET = 2.5
 
--- common globals
-local UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,UnitShouldDisplayName,strlen,strformat,    pairs,
-      ipairs,floor,ceil,unpack =
-      UnitIsFriend,UnitIsEnemy,UnitIsPlayer,UnitCanAttack,
-      UnitHealth,UnitHealthMax,UnitShouldDisplayName,strlen,string.format,pairs,
-      ipairs,floor,ceil,unpack
+local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
+      FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,POWER_BAR_HEIGHT,
+      FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,
+      FONT_SIZE_SMALL,TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,
+      BOT_VERTICAL_OFFSET,BAR_TEXTURE,BAR_ANIMATION,
+      SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID,GUILD_TEXT_NPCS,
+      GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS,HEALTH_TEXT_FRIEND_MAX,
+      HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
+      HIDE_NAMES,GLOBAL_SCALE,FRAME_VERTICAL_OFFSET
+
+local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
+      FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
+local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET
+local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
+      GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -135,8 +137,8 @@ do
         if spark then
             local texture = bar:GetStatusBarTexture()
             local spark = bar:CreateTexture(nil,'ARTWORK',nil,spark_level or 7)
-            spark:SetTexture('interface/addons/kui_media/t/spark')
-            spark:SetWidth(8)
+            spark:SetTexture(KUI_MEDIA..'t/spark')
+            spark:SetWidth(12)
 
             spark:SetPoint('TOP',texture,'TOPRIGHT',-1,4)
             spark:SetPoint('BOTTOM',texture,'BOTTOMRIGHT',-1,-4)
@@ -181,6 +183,14 @@ local function CreateFontString(parent,small)
 
     return f
 end
+local function Scale(v,offset)
+    if not GLOBAL_SCALE or GLOBAL_SCALE == 1 then return v end
+    if offset then
+        return ceil((v*GLOBAL_SCALE)-((GLOBAL_SCALE-1)*offset))
+    else
+        return floor((v*GLOBAL_SCALE)+.5)
+    end
+end
 -- config functions ############################################################
 do
     local FONT_STYLE_ASSOC = {
@@ -201,33 +211,42 @@ do
         -- set config locals to reduce table lookup
         UpdateMediaLocals()
 
+        GLOBAL_SCALE = self.profile.global_scale
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
+        TARGET_ARROWS = self.profile.target_arrows
+        TARGET_ARROWS_SIZE = Scale(self.profile.target_arrows_size)
+        TARGET_ARROWS_INSET = floor(TARGET_ARROWS_SIZE*.2)
+        TARGET_GLOW = self.profile.target_glow
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
+        MOUSEOVER_GLOW = self.profile.mouseover_glow
+        MOUSEOVER_GLOW_COLOUR = self.profile.mouseover_glow_colour
+        GLOW_AS_SHADOW = self.profile.glow_as_shadow
 
-        FRAME_WIDTH = self.profile.frame_width
-        FRAME_HEIGHT = self.profile.frame_height
-        FRAME_WIDTH_MINUS = self.profile.frame_width_minus
-        FRAME_HEIGHT_MINUS = self.profile.frame_height_minus
-        FRAME_WIDTH_PERSONAL = self.profile.frame_width_personal
-        FRAME_HEIGHT_PERSONAL = self.profile.frame_height_personal
-        POWER_BAR_HEIGHT = self.profile.powerbar_height
+        FRAME_WIDTH = Scale(self.profile.frame_width)
+        FRAME_HEIGHT = Scale(self.profile.frame_height)
+        FRAME_WIDTH_MINUS = Scale(self.profile.frame_width_minus)
+        FRAME_HEIGHT_MINUS = Scale(self.profile.frame_height_minus)
+        FRAME_WIDTH_PERSONAL = Scale(self.profile.frame_width_personal)
+        FRAME_HEIGHT_PERSONAL = Scale(self.profile.frame_height_personal)
+        POWER_BAR_HEIGHT = Scale(self.profile.powerbar_height)
+        FRAME_VERTICAL_OFFSET = self.profile.frame_vertical_offset
 
-        FRAME_GLOW_SIZE = self.profile.frame_glow_size
-        FRAME_GLOW_TEXTURE_INSET = .01 * (FRAME_GLOW_SIZE / 4)
+        FRAME_GLOW_SIZE = Scale(self.profile.frame_glow_size)
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
 
         TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
-        NAME_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset
-        BOT_VERTICAL_OFFSET = TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset
+        NAME_VERTICAL_OFFSET = Scale(TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset,TEXT_SCALE_OFFSET)
+        BOT_VERTICAL_OFFSET = Scale(TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset,TEXT_SCALE_OFFSET)
 
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
-        FONT_SIZE_NORMAL = self.profile.font_size_normal
-        FONT_SIZE_SMALL = self.profile.font_size_small
+        FONT_SIZE_NORMAL = Scale(self.profile.font_size_normal)
+        FONT_SIZE_SMALL = Scale(self.profile.font_size_small)
 
-        FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
         FADE_UNTRACKED = self.profile.fade_untracked
+        FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
+        FADE_AVOID_MOUSEOVER = self.profile.fade_avoid_mouseover
         FADE_AVOID_TRACKED = self.profile.fade_avoid_tracked
         FADE_AVOID_COMBAT = self.profile.fade_avoid_combat
         FADE_AVOID_CASTING =
@@ -236,11 +255,9 @@ do
             (self.profile.fade_avoid_casting_interruptible or
             self.profile.fade_avoid_casting_uninterruptible)
 
-        SHOW_STATE_ICONS = self.profile.state_icons
-
         SHOW_HEALTH_TEXT = self.profile.health_text
         SHOW_NAME_TEXT = self.profile.name_text
-        SHOW_ARENA_ID = true
+        SHOW_ARENA_ID = self.profile.show_arena_id
         HIDE_NAMES = self.profile.hide_names
         HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
         HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
@@ -260,11 +277,24 @@ do
         end
     end
 end
+function core:configChangedTargetArrows()
+    if not TARGET_ARROWS then return end
+    for k,f in addon:Frames() do
+        if not f.TargetArrows then
+            self:CreateTargetArrows(f)
+        end
+    end
+end
 function core:configChangedFrameSize()
     for k,f in addon:Frames() do
-        if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
-            -- force auras frame size update
-            f.Auras.frames.core_dynamic.__width = nil
+        if f.Auras and f.Auras.frames then
+            -- force auras frame size + position update
+            if f.Auras.frames.core_dynamic then
+                f.Auras.frames.core_dynamic.__width = nil
+            end
+            if f.Auras.frames.core_purge then
+                f.Auras.frames.core_purge.__width = nil
+            end
         end
     end
 end
@@ -273,31 +303,17 @@ function core:configChangedTextOffset()
         f:UpdateNameTextPosition()
         f:UpdateSpellNamePosition()
 
-        if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
+        if f.Auras and f.Auras.frames then
             -- update aura text
-            for _,button in pairs(f.Auras.frames.core_dynamic.buttons) do
-                self.Auras_PostCreateAuraButton(f.Auras.frames.core_dynamic,button)
+            for _,frame in pairs(f.Auras.frames) do
+                if frame.__core then
+                    for _,button in ipairs(frame.buttons) do
+                        self.Auras_PostCreateAuraButton(frame,button)
+                    end
+                end
             end
         end
     end
-end
-function core:configChangedTargetArrows()
-    for k,f in addon:Frames() do
-        if self.profile.target_arrows then
-            if f.TargetArrows then
-                f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                f.TargetArrows:SetSize(self.profile.target_arrows_size)
-            else
-                self:CreateTargetArrows(f)
-            end
-        end
-    end
-end
-function core:configChangedCombatAction()
-    self.CombatToggle = {
-        hostile = self.profile.combat_hostile,
-        friendly = self.profile.combat_friendly
-    }
 end
 do
     function core.AurasButton_SetFont(button)
@@ -313,9 +329,13 @@ do
             UpdateFontObject(f.HealthText)
             UpdateFontObject(f.LevelText)
 
-            if f.Auras and f.Auras.frames and f.Auras.frames.core_dynamic then
-                for _,button in pairs(f.Auras.frames.core_dynamic.buttons) do
-                    self.AurasButton_SetFont(button)
+            if f.Auras and f.Auras.frames then
+                for _,frame in pairs(f.Auras.frames) do
+                    if frame.__core then
+                        for _,button in ipairs(frame.buttons) do
+                            self.AurasButton_SetFont(button)
+                        end
+                    end
                 end
             end
         end
@@ -385,7 +405,7 @@ local function UpdateFrameSize(f)
     f.x = floor((f:GetWidth() / 2) - (f.bg:GetWidth() / 2))
     f.y = floor((f:GetHeight() / 2) - (f.bg:GetHeight() / 2))
 
-    f.bg:SetPoint('BOTTOMLEFT',f.x,f.y)
+    f.bg:SetPoint('BOTTOMLEFT',f.x,f.y + FRAME_VERTICAL_OFFSET)
 
     f:UpdateMainBars()
     f:UpdateAuras()
@@ -399,15 +419,28 @@ function core:CreateBackground(f)
     f.UpdateFrameSize = UpdateFrameSize
 end
 -- highlight ###################################################################
-function core:CreateHighlight(f)
-    local highlight = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,2)
-    highlight:SetTexture(BAR_TEXTURE)
-    highlight:SetAllPoints(f.HealthBar)
-    highlight:SetVertexColor(1,1,1,.4)
-    highlight:SetBlendMode('ADD')
-    highlight:Hide()
+do
+    local function UpdateHighlight(f)
+        -- run functions which depend on f.state.highlight
+        if MOUSEOVER_GLOW then
+            f:UpdateFrameGlow()
+        end
+        if FADE_AVOID_MOUSEOVER then
+            plugin_fading:UpdateFrame(f)
+        end
+    end
+    function core:CreateHighlight(f) -- Always created
+        local highlight = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,2)
+        highlight:SetTexture(BAR_TEXTURE)
+        highlight:SetAllPoints(f.HealthBar)
+        highlight:SetVertexColor(1,1,1,.4)
+        highlight:SetBlendMode('ADD')
+        highlight:Hide()
 
-    f.handler:RegisterElement('Highlight',highlight)
+        f.UpdateHighlight = UpdateHighlight
+
+        f.handler:RegisterElement('Highlight',highlight)
+    end
 end
 -- health bar ##################################################################
 do
@@ -517,8 +550,8 @@ do
 
         -- spark for over-absorb highlighting
         local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)
-        spark:SetTexture('interface/addons/kui_media/t/spark')
-        spark:SetWidth(8)
+        spark:SetTexture(KUI_MEDIA..'t/spark')
+        spark:SetWidth(12)
         spark:SetPoint('TOP',bar,'TOPRIGHT',-1,4)
         spark:SetPoint('BOTTOM',bar,'BOTTOMRIGHT',-1,-4)
         bar.spark = spark
@@ -714,7 +747,7 @@ do
     local function HealthDisplay_Percent(s)
         local v = s.health_per
         if v < 1 then
-            return strformat('%.1f',v)
+            return format('%.1f',v)
         else
             return ceil(v)
         end
@@ -841,9 +874,11 @@ do
             f.ThreatGlow:Hide()
 
             if f.NameOnlyGlow then
-                if f.state.target and core.profile.target_glow then
+                if TARGET_GLOW and f.state.target then
                     f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
-                    f.NameOnlyGlow:SetAlpha(.8)
+                    f.NameOnlyGlow:Show()
+                elseif MOUSEOVER_GLOW and f.state.highlight then
+                    f.NameOnlyGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
                     f.NameOnlyGlow:Show()
                 elseif FRAME_GLOW_THREAT and f.state.glowing then
                     f.NameOnlyGlow:SetVertexColor(unpack(f.state.glow_colour))
@@ -853,36 +888,39 @@ do
                     f.NameOnlyGlow:Hide()
                 end
             end
-
-            return
-        end
-
-        if f.NameOnlyGlow then
-            f.NameOnlyGlow:Hide()
-        end
-
-        f.ThreatGlow:Show()
-
-        if f.state.target and core.profile.target_glow then
-            -- target glow colour
-            f.ThreatGlow:SetAlpha(1)
-            f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
         else
-            if FRAME_GLOW_THREAT and f.state.glowing then
-                -- threat glow colour
-                f.ThreatGlow:SetAlpha(.7)
-                f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
+            f.ThreatGlow:Show()
+
+            if f.NameOnlyGlow then
+                f.NameOnlyGlow:Hide()
+            end
+
+            if TARGET_GLOW and f.state.target then
+                -- target glow colour
+                f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+            elseif MOUSEOVER_GLOW and f.state.highlight then
+                -- mouseover glow
+                f.ThreatGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
             else
-                if core.profile.glow_as_shadow then
-                    -- shadow
-                    f.ThreatGlow:SetVertexColor(0,0,0,.25)
+                if FRAME_GLOW_THREAT and f.state.glowing then
+                    -- threat glow colour
+                    f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
+                    f.ThreatGlow:SetAlpha(.6)
                 else
-                    f.ThreatGlow:SetVertexColor(0,0,0,0)
+                    if GLOW_AS_SHADOW then
+                        -- shadow
+                        f.ThreatGlow:SetVertexColor(0,0,0,.15)
+                    else
+                        f.ThreatGlow:SetVertexColor(0,0,0,0)
+                    end
                 end
             end
         end
     end
-    -- create
+    local function UpdateFrameGlowSize(f)
+        if not f.ThreatGlow then return end
+        f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
+    end
     function core:CreateFrameGlow(f)
         local glow = { sides = {} }
         setmetatable(glow,glow_prototype)
@@ -894,10 +932,10 @@ do
             if i == 1 then
                 -- top
                 side:SetTexCoord(1,0,1,0)
-                side:SetPoint('BOTTOMLEFT',f.bg,'TOPLEFT',0,-1)
+                side:SetPoint('BOTTOMLEFT',f.bg,'TOPLEFT',0,0)
                 side:SetPoint('BOTTOMRIGHT',f.bg,'TOPRIGHT')
             else
-                side:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,1)
+                side:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,0)
                 side:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
             end
 
@@ -909,60 +947,86 @@ do
         f.handler:RegisterElement('ThreatGlow',glow)
 
         f.UpdateFrameGlow = UpdateFrameGlow
+        f.UpdateFrameGlowSize = UpdateFrameGlowSize
+
+        f:UpdateFrameGlowSize()
     end
 end
 -- target arrows ###############################################################
 do
+    local function Arrows_Hide(self)
+        self.l:Hide()
+        self.r:Hide()
+    end
+    local function Arrows_Show(self)
+        self.l:Show()
+        self.r:Show()
+    end
+    local function Arrows_SetVertexColor(self,...)
+        self.l:SetVertexColor(...)
+        self.r:SetVertexColor(...)
+    end
+    local function Arrows_UpdatePosition(self)
+        if self.parent.state.casting and
+           self.parent.SpellIcon and
+           self.parent.SpellIcon:IsVisible()
+        then
+            -- move for cast bar spell icon
+            self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
+                TARGET_ARROWS_INSET-self.parent.SpellIcon.bg:GetWidth(),0)
+        else
+            self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
+                TARGET_ARROWS_INSET,0)
+        end
+
+        self.r:SetPoint('LEFT',self.parent.bg,'RIGHT',
+            -TARGET_ARROWS_INSET,0)
+    end
+    local function Arrows_SetSize(self,size)
+        self.l:SetSize(size,size)
+        self.r:SetSize(size,size)
+        self:UpdatePosition()
+    end
+
     local function UpdateTargetArrows(f)
-        if f.IN_NAMEONLY or not core.profile.target_arrows then
+        if not TARGET_ARROWS or f.IN_NAMEONLY then
             f.TargetArrows:Hide()
             return
         end
 
         if f.state.target then
+            -- update size, colour
+            f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+            f.TargetArrows:SetSize(TARGET_ARROWS_SIZE)
+
             f.TargetArrows:Show()
+            f.TargetArrows:UpdatePosition()
         else
             f.TargetArrows:Hide()
         end
     end
     function core:CreateTargetArrows(f)
-        if not self.profile.target_arrows then
-            return
-        end
-
-        local arrows = {}
-        function arrows:Hide()
-            self.l:Hide()
-            self.r:Hide()
-        end
-        function arrows:Show()
-            self.l:Show()
-            self.r:Show()
-        end
-        function arrows:SetVertexColor(...)
-            self.l:SetVertexColor(...)
-            self.r:SetVertexColor(...)
-        end
-        function arrows:SetSize(size)
-            self.l:SetSize(size*.72,size)
-            self.l:SetPoint('RIGHT',f.bg,'LEFT',  3+(size*.12),-1)
-
-            self.r:SetSize(size*.72,size)
-            self.r:SetPoint('LEFT',f.bg,'RIGHT', -3-(size*.12),-1)
-        end
+        if not TARGET_ARROWS or f.TargetArrows then return end
 
         local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
         left:SetTexture(MEDIA..'target-arrow')
-        left:SetTexCoord(0,.72,0,1)
-        arrows.l = left
+        left:SetBlendMode('ADD')
 
         local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
         right:SetTexture(MEDIA..'target-arrow')
-        right:SetTexCoord(.72,0,0,1)
-        arrows.r = right
+        right:SetBlendMode('ADD')
+        right:SetTexCoord(1,0,0,1)
 
-        arrows:SetSize(core.profile.target_arrows_size)
-        arrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+        local arrows = {
+            Hide = Arrows_Hide,
+            Show = Arrows_Show,
+            SetVertexColor = Arrows_SetVertexColor,
+            UpdatePosition = Arrows_UpdatePosition,
+            SetSize = Arrows_SetSize,
+            parent = f,
+            l = left,
+            r = right,
+        }
 
         f.TargetArrows = arrows
         f.UpdateTargetArrows = UpdateTargetArrows
@@ -973,7 +1037,8 @@ do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
-          CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_WIDTH,CASTBAR_RATIO
+          CASTBAR_ANIMATE_CHANGE_COLOUR,SHIELD_H,SHIELD_W,
+          CASTBAR_WIDTH,CASTBAR_RATIO
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1014,6 +1079,10 @@ do
 
         if FADE_AVOID_CASTING then
             plugin_fading:UpdateFrame(f)
+        end
+
+        if TARGET_ARROWS then
+            f:UpdateTargetArrows()
         end
     end
     local function HideCastBar(f,hide_cause,force)
@@ -1073,6 +1142,10 @@ do
 
         if FADE_AVOID_CASTING then
             plugin_fading:UpdateFrame(f)
+        end
+
+        if TARGET_ARROWS then
+            f:UpdateTargetArrows()
         end
     end
     local function UpdateCastBar(f)
@@ -1152,7 +1225,7 @@ do
         local shield = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 3)
         shield:SetTexture(MEDIA..'Shield')
         shield:SetTexCoord(0, .84375, 0, 1)
-        shield:SetSize(13.5, 16) -- 16 * .84375
+        shield:SetSize(SHIELD_W,SHIELD_H)
         shield:SetPoint('LEFT', f.CastBar.bg, -7, 0)
         shield:SetVertexColor(.5, .5, .7)
         shield:Hide()
@@ -1246,17 +1319,19 @@ do
 
     function core:SetCastBarConfig()
         CASTBAR_ENABLED = self.profile.castbar_enable
-        CASTBAR_HEIGHT = self.profile.castbar_height
+        CASTBAR_HEIGHT = Scale(self.profile.castbar_height)
         CASTBAR_COLOUR = self.profile.castbar_colour
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
         CASTBAR_SHOW_NAME = self.profile.castbar_name
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
-        CASTBAR_NAME_VERTICAL_OFFSET = self.profile.castbar_name_vertical_offset
+        CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset,TEXT_SCALE_OFFSET)
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
+        SHIELD_H = Scale(16)
+        SHIELD_W = SHIELD_H * .84375
 
-        CASTBAR_WIDTH = self.profile.castbar_width
+        CASTBAR_WIDTH = Scale(self.profile.castbar_width)
         CASTBAR_RATIO = (1-(CASTBAR_HEIGHT/CASTBAR_WIDTH))/2
 
         for k,f in addon:Frames() do
@@ -1282,6 +1357,7 @@ do
             if f.SpellShield then
                 if CASTBAR_SHOW_SHIELD then
                     f.handler:EnableElement('SpellShield')
+                    f.SpellShield:SetSize(SHIELD_W,SHIELD_H)
                 else
                     f.handler:DisableElement('SpellShield')
                 end
@@ -1302,8 +1378,18 @@ do
 end
 -- state icons #################################################################
 do
+    local SHOW_STATE_ICONS,ICON_SIZE
     local BOSS = {0,.5,0,.5}
     local RARE = {.5,1,.5,1}
+
+    function core:configChangedStateIcons()
+        SHOW_STATE_ICONS = self.profile.state_icons
+        ICON_SIZE = Scale(20)
+
+        for k,f in addon:Frames() do
+            f:UpdateStateIconSize()
+        end
+    end
 
     local function UpdateStateIcon(f)
         if  not SHOW_STATE_ICONS or
@@ -1326,14 +1412,19 @@ do
             f.StateIcon:Hide()
         end
     end
+    local function UpdateStateIconSize(f)
+        f.StateIcon:SetSize(ICON_SIZE,ICON_SIZE)
+    end
     function core:CreateStateIcon(f)
         local stateicon = f:CreateTexture(nil,'ARTWORK',nil,4)
         stateicon:SetTexture(MEDIA..'state-icons')
-        stateicon:SetSize(20,20)
         stateicon:SetPoint('LEFT',f.HealthBar,'BOTTOMLEFT',0,1)
 
         f.StateIcon = stateicon
         f.UpdateStateIcon = UpdateStateIcon
+        f.UpdateStateIconSize = UpdateStateIconSize
+
+        f:UpdateStateIconSize()
     end
 end
 -- raid icons ##################################################################
@@ -1363,58 +1454,100 @@ do
 end
 -- auras #######################################################################
 do
-    local AURAS_NORMAL_SIZE
-    local AURAS_MINUS_SIZE
-    local AURAS_MIN_LENGTH
-    local AURAS_MAX_LENGTH
-    local AURAS_ON_PERSONAL
-    local AURAS_ENABLED
-    local AURAS_SHOW_ALL_SELF,AURAS_HIDE_ALL_OTHER
+    local AURAS_NORMAL_SIZE,AURAS_MINUS_SIZE,
+          AURAS_ON_PERSONAL,AURAS_ENABLED,AURAS_SHOW_ALL_SELF,
+          AURAS_HIDE_ALL_OTHER,AURAS_PURGE_SIZE,AURAS_SHOW_PURGE,AURAS_SIDE,
+          AURAS_OFFSET,AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
+          PURGE_OFFSET,AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD,
+          AURAS_PURGE_OPPOSITE
 
-    local function AuraFrame_SetFrameWidth(self)
-        self:SetWidth(self.__width)
-        self:SetPoint(
-            'BOTTOMLEFT',
-            self.parent.bg,
-            'TOPLEFT',
-            floor((self.parent.bg:GetWidth() - self.__width) / 2),
-            15
-        )
-    end
-    local function AuraFrame_SetDesiredWidth(self)
-        self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
-        AuraFrame_SetFrameWidth(self)
+    local function AuraFrame_SetFrameWidth(self,no_size_change)
+        -- frame width changes depending on icon size, needs to be correct if
+        -- auras are centred, and we want to make sure the frame isn't aligned
+        -- to subpixels;
+        if not self.__width or not no_size_change then
+            self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
+            self:SetWidth(self.__width)
+
+            self.__h_offset = AURAS_CENTRE and 
+                floor((self.parent.bg:GetWidth() - self.__width) / 2) or
+                0
+        end
+
+        self:ClearAllPoints()
+
+        -- update position
+        if self.id == 'core_dynamic' or
+           (not AURAS_PURGE_OPPOSITE and not self.sibling:IsShown())
+        then
+            -- attach to top/bottom of frame bg
+            self:SetPoint(AURAS_POINT_S,self.parent.bg,AURAS_POINT_R,
+                self.__h_offset,AURAS_OFFSET)
+        else
+            -- core_purge;
+            if AURAS_PURGE_OPPOSITE then
+                -- attach to the opposite side of frame bg
+                self:SetPoint(PURGE_POINT_S,self.parent.bg,PURGE_POINT_R,
+                    self.__h_offset,PURGE_OFFSET)
+            else
+                -- attach to top/bottom of core_dynamic
+                self:SetPoint(PURGE_POINT_S,self.sibling,PURGE_POINT_R,
+                    0,PURGE_OFFSET)
+                self:SetPoint('LEFT',self.parent.bg,
+                    self.__h_offset,0)
+            end
+        end
     end
     local function AuraFrame_SetIconSize(self,minus)
-        local size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
+        -- determine icon size
+        local size
+        if self.purge then
+            size = AURAS_PURGE_SIZE
+        else
+            size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
+        end
 
         if self.__width and self.size == size then
+            -- desired size is unchanged;
             return
         end
 
-        self.size = size
-        self.num_per_row = minus and 4 or 5
-
-        -- re-set frame width
-        AuraFrame_SetDesiredWidth(self)
-        AuraFrame_SetFrameWidth(self)
+        self.num_per_row = (minus or self.purge) and 4 or 5
 
         -- resize & re-arrange buttons
         self:SetIconSize(size)
+
+        -- re-set frame width
+        AuraFrame_SetFrameWidth(self)
+    end
+    local function AuraFrame_CoreDynamic_OnVisibilityChange(self)
+        if self.sibling.__width then
+            -- update sibling point (unless it hasn't initialised)
+            AuraFrame_SetFrameWidth(self.sibling,true)
+        end
     end
 
     local function UpdateAuras(f)
-        -- enable/disable on personal frame
-        if not AURAS_ON_PERSONAL and f.state.personal then
+        -- enable/disable on personal frame, update size
+        if not AURAS_ENABLED or (not AURAS_ON_PERSONAL and f.state.personal) then
             f.Auras.frames.core_dynamic:Disable()
-        elseif AURAS_ENABLED then
+        else
             f.Auras.frames.core_dynamic:Enable(true)
+            AuraFrame_SetIconSize(f.Auras.frames.core_dynamic,f.state.minus)
         end
 
-        -- set auras to normal/minus sizes
-        AuraFrame_SetIconSize(f.Auras.frames.core_dynamic,f.state.minus)
+        -- only show purge on hostiles
+        if not AURAS_ENABLED or not AURAS_SHOW_PURGE or f.state.friend then
+            f.Auras.frames.core_purge:Disable()
+        else
+            f.Auras.frames.core_purge:Enable(true)
+            AuraFrame_SetIconSize(f.Auras.frames.core_purge)
+        end
     end
     function core:CreateAuras(f)
+        -- for both frames:
+        -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
+        -- frame width & point set by AuraFrame_SetFrameWidth < _SetIconSize
         local auras = f.handler:CreateAuraFrame({
             id = 'core_dynamic',
             max = 10,
@@ -1424,16 +1557,43 @@ do
             rows = 2,
 
             pulsate = self.profile.auras_pulsate,
-            timer_threshold = self.profile.auras_time_threshold > 0 and self.profile.auras_time_threshold or nil,
+            timer_threshold = AURAS_TIMER_THRESHOLD,
             squareness = self.profile.auras_icon_squareness,
             sort = self.profile.auras_sort,
-            centred = self.profile.auras_centre,
+            centred = AURAS_CENTRE,
         })
-        -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
-        -- frame width & point set by AuraFrame_SetFrameWidth < _SetIconSize
-
+        auras.__core = true
         auras:SetFrameLevel(0)
-        auras:SetHeight(10)
+        auras:HookScript('OnShow',AuraFrame_CoreDynamic_OnVisibilityChange)
+        auras:HookScript('OnHide',AuraFrame_CoreDynamic_OnVisibilityChange)
+
+        local purge = f.handler:CreateAuraFrame({
+            id = 'core_purge',
+            purge = true,
+            max = 4,
+            point = {'BOTTOMLEFT','LEFT','RIGHT'},
+            x_spacing = 1,
+            y_spacing = 1,
+            rows = 1,
+
+            pulsate = false,
+            timer_threshold = AURAS_TIMER_THRESHOLD,
+            squareness = self.profile.auras_icon_squareness,
+            sort = self.profile.auras_sort,
+            centred = AURAS_CENTRE,
+        })
+        purge.__core = true
+        purge:SetFrameLevel(0)
+
+        --@debug@
+        auras:SetBackdrop({bgFile=kui.m.t.solid})
+        auras:SetBackdropColor(0,0,0,.5)
+        purge:SetBackdrop({bgFile=kui.m.t.solid})
+        purge:SetBackdropColor(1,1,1,.5)
+        --@end-debug@
+
+        auras.sibling = purge
+        purge.sibling = auras
 
         f.UpdateAuras = UpdateAuras
     end
@@ -1449,22 +1609,45 @@ do
         button.count:SetPoint('BOTTOMRIGHT',5,-2+TEXT_VERTICAL_OFFSET)
         button.count.fontobject_shadow = true
 
+        if frame.__core then
+            -- create owner highlight
+            local hl = button:CreateTexture(nil,'ARTWORK',nil,2)
+            hl:SetTexture(KUI_MEDIA..'t/button-highlight')
+            hl:SetAllPoints(button.icon)
+            hl:Hide()
+
+            button.hl = hl
+        end
+
         core.AurasButton_SetFont(button)
     end
+    function core.Auras_PostDisplayAuraButton(frame,button)
+        if not frame.__core then return end
+        if not button.hl then return end
+
+        if frame.purge or button.can_purge then
+            button.hl:SetVertexColor(1,.2,.2,.8)
+            button.hl:Show()
+        elseif not button.own then
+            button.hl:SetVertexColor(.4,1,.2,.8)
+            button.hl:Show()
+        else
+            button.hl:Hide()
+        end
+    end
+    function core.Auras_PostUpdateAuraFrame(frame)
+        -- maintain auraframe height corresponding to #visible buttons
+        if not frame.__core then return end
+        if frame.visible and frame.visible > 0 then
+            frame:SetHeight(
+                ceil(frame.size*frame.squareness) *
+                ceil(frame.visible / (frame.max / frame.rows))
+            )
+        end
+    end
     function core.Auras_DisplayAura(frame,name,spellid,duration,caster)
+        if not frame.__core then return end
         if frame.id ~= 'core_dynamic' then return end
-
-        if  AURAS_MIN_LENGTH and
-            duration ~= 0 and duration <= AURAS_MIN_LENGTH
-        then
-            return 1
-        end
-
-        if  AURAS_MAX_LENGTH and
-            (duration == 0 or duration > AURAS_MAX_LENGTH)
-        then
-            return 1
-        end
 
         -- force show if included by spell list (all casters or self)
         if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
@@ -1499,47 +1682,96 @@ do
 
     -- config changed
     function core:SetAurasConfig()
-        AURAS_MIN_LENGTH = self.profile.auras_minimum_length
-        if AURAS_MIN_LENGTH == 0 then
-            AURAS_MIN_LENGTH = nil
-        end
-
-        AURAS_MAX_LENGTH = self.profile.auras_maximum_length
-        if AURAS_MAX_LENGTH == -1 then
-            AURAS_MAX_LENGTH = nil
-        end
-
-        AURAS_NORMAL_SIZE = self.profile.auras_icon_normal_size
-        AURAS_MINUS_SIZE = self.profile.auras_icon_minus_size
+        AURAS_NORMAL_SIZE = Scale(self.profile.auras_icon_normal_size)
+        AURAS_MINUS_SIZE = Scale(self.profile.auras_icon_minus_size)
+        AURAS_PURGE_SIZE = Scale(self.profile.auras_purge_size)
 
         AURAS_ENABLED = self.profile.auras_enabled
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
-
+        AURAS_SIDE = self.profile.auras_side
+        AURAS_OFFSET = self.profile.auras_offset
         AURAS_SHOW_ALL_SELF = self.profile.auras_show_all_self
         AURAS_HIDE_ALL_OTHER = self.profile.auras_hide_all_other
+        AURAS_SHOW_PURGE = self.profile.auras_show_purge
+        AURAS_TIMER_THRESHOLD = self.profile.auras_time_threshold
+        AURAS_PURGE_OPPOSITE = self.profile.auras_purge_opposite
+        AURAS_CENTRE = self.profile.auras_centre
 
-        local timer_threshold = self.profile.auras_time_threshold
-        if timer_threshold < 0 then
-            timer_threshold = nil
+        if AURAS_TIMER_THRESHOLD < 0 then
+            AURAS_TIMER_THRESHOLD = nil
         end
 
+        -- resolve side to points
+        if not AURAS_SIDE or AURAS_SIDE == 1 then
+            -- top
+            AURAS_POINT_S = 'BOTTOMLEFT'
+            AURAS_POINT_R = 'TOPLEFT'
+
+            if AURAS_PURGE_OPPOSITE then
+                PURGE_POINT_S = 'TOPLEFT'
+                PURGE_POINT_R = 'BOTTOMLEFT'
+                PURGE_OFFSET = -AURAS_OFFSET
+            else
+                PURGE_POINT_S = 'BOTTOM'
+                PURGE_POINT_R = 'TOP'
+                PURGE_OFFSET = 3
+            end
+        else
+            -- bottom
+            AURAS_POINT_S = 'TOPLEFT'
+            AURAS_POINT_R = 'BOTTOMLEFT'
+
+            if AURAS_PURGE_OPPOSITE then
+                PURGE_POINT_S = 'BOTTOMLEFT'
+                PURGE_POINT_R = 'TOPLEFT'
+                PURGE_OFFSET = AURAS_OFFSET
+            else
+                PURGE_POINT_S = 'TOP'
+                PURGE_POINT_R = 'BOTTOM'
+                PURGE_OFFSET = -3
+            end
+
+            AURAS_OFFSET = -AURAS_OFFSET
+        end
+
+        -- update config values within aura frames;
         for k,f in addon:Frames() do
             if f.Auras and f.Auras.frames then
-                local af = f.Auras.frames.core_dynamic
-
-                if af then
-                    af.pulsate = self.profile.auras_pulsate
-                    af.timer_threshold = timer_threshold
-                    af.squareness = self.profile.auras_icon_squareness
-                    af.centred = self.profile.auras_centre
-
-                    af:SetSort(self.profile.auras_sort)
-
-                    -- force size update
-                    af.__width = nil
+                local cd = f.Auras.frames.core_dynamic
+                local cp = f.Auras.frames.core_purge
+                if cd then
+                    cd.point[1] = AURAS_POINT_S
+                    cd.pulsate = self.profile.auras_pulsate
+                    cd.timer_threshold = AURAS_TIMER_THRESHOLD
+                    cd.squareness = self.profile.auras_icon_squareness
+                    cd.centred = AURAS_CENTRE
+                    cd.__width = nil -- force size & position update
+                    cd:SetSort(self.profile.auras_sort)
+                end
+                if cp and AURAS_SHOW_PURGE then
+                    cp.point[1] = AURAS_PURGE_OPPOSITE and
+                                  PURGE_POINT_S or AURAS_POINT_S
+                    cp.timer_threshold = AURAS_TIMER_THRESHOLD
+                    cp.squareness = self.profile.auras_icon_squareness
+                    cp.centred = AURAS_CENTRE
+                    cp.__width = nil
+                    cp:SetSort(self.profile.auras_sort)
                 end
             end
         end
+
+        -- update auras plugin config
+        -- (we override fonts with the PostCreateAuraButton callback)
+        self.Auras                   = self.Auras or {}
+        self.Auras.colour_short      = self.profile.auras_colour_short
+        self.Auras.colour_medium     = self.profile.auras_colour_medium
+        self.Auras.colour_long       = self.profile.auras_colour_long
+        self.Auras.decimal_threshold = self.profile.auras_decimal_threshold
+
+        addon:GetPlugin('Auras'):UpdateConfig()
+
+        -- we don't want to actually disable the element as other plugins
+        -- (such as bossmods) rely on it
     end
 end
 -- class powers ################################################################
@@ -1710,20 +1942,18 @@ do
 
     do
         local function UpdateNameOnlyGlowSize(f)
-            local g = f.NameOnlyGlow
-            if not g then return end
-
-            g:SetPoint('TOPLEFT',f.NameText,
-                -12-FRAME_GLOW_SIZE,  FRAME_GLOW_SIZE)
-            g:SetPoint('BOTTOMRIGHT',f.NameText,
-                 12+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
+            if not f.NameOnlyGlow then return end
+            f.NameOnlyGlow:SetPoint('TOPLEFT',f.NameText,
+                -6-FRAME_GLOW_SIZE,  FRAME_GLOW_SIZE)
+            f.NameOnlyGlow:SetPoint('BOTTOMRIGHT',f.NameText,
+                 6+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
         end
         function core:CreateNameOnlyGlow(f)
             if not NAMEONLY_ALL_ENEMIES and not NAMEONLY_TARGET then return end
             if f.NameOnlyGlow then return end
 
             local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-            g:SetTexture('interface/addons/kui_media/t/spark')
+            g:SetTexture(KUI_MEDIA..'t/spark-flat')
             g:Hide()
 
             f.NameOnlyGlow = g
@@ -1766,7 +1996,7 @@ do
 
         f.NameText:SetParent(f)
         f.NameText:ClearAllPoints()
-        f.NameText:SetPoint('CENTER',.5,0)
+        f.NameText:SetPoint('CENTER',.5,0+FRAME_VERTICAL_OFFSET)
         f.NameText:Show()
 
         f.NameText.fontobject_shadow = true
@@ -1923,19 +2153,11 @@ function core:InitialiseElements()
     plugin_fading = addon:GetPlugin('Fading')
     plugin_classpowers = addon:GetPlugin('ClassPowers')
 
-    self:configChangedCombatAction()
-
-    self.Auras = {
-        colour_short = self.profile.auras_colour_short,
-        colour_medium = self.profile.auras_colour_medium,
-        colour_long = self.profile.auras_colour_long,
-    }
-
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
-        icon_size = self.profile.classpowers_size or 10,
-        bar_width = self.profile.classpowers_bar_width,
-        bar_height = self.profile.classpowers_bar_height,
+        icon_size = Scale(self.profile.classpowers_size),
+        bar_width = Scale(self.profile.classpowers_bar_width),
+        bar_height = Scale(self.profile.classpowers_bar_height),
         icon_texture = MEDIA..'combopoint-round',
         icon_sprite = MEDIA..'combopoint',
         icon_glow_texture = MEDIA..'combopoint-glow',
@@ -1960,7 +2182,7 @@ function core:InitialiseElements()
     end
 
     self.BossModIcon = {
-        icon_size = self.profile.bossmod_icon_size,
+        icon_size = Scale(self.profile.bossmod_icon_size),
         icon_x_offset = self.profile.bossmod_x_offset,
         icon_y_offset = self.profile.bossmod_y_offset,
         control_visibility = self.profile.bossmod_control_visibility,

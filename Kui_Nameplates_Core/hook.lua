@@ -77,8 +77,6 @@ function core:Show(f)
     f:UpdateRaidIcon()
     -- enable/disable castbar
     f:UpdateCastBar()
-    -- enable/disable auras
-    f:UpdateAuras()
     -- set guild text
     f:UpdateGuildText()
 
@@ -161,6 +159,12 @@ end
 function core:ExecuteUpdate(f)
     -- registered by configChanged, fade_avoid_execute_friend/hostile
     plugin_fading:UpdateFrame(f)
+end
+function core:OnEnter(f)
+    f:UpdateHighlight()
+end
+function core:OnLeave(f)
+    f:UpdateHighlight()
 end
 -- events ######################################################################
 function core:QUEST_POI_UPDATE()
@@ -271,6 +275,8 @@ function core:Initialise()
     self:RegisterMessage('GainedTarget')
     self:RegisterMessage('LostTarget')
     self:RegisterMessage('ClassificationChanged')
+    self:RegisterMessage('OnEnter')
+    self:RegisterMessage('OnLeave')
 
     -- register events
     self:RegisterEvent('QUEST_POI_UPDATE')
@@ -279,12 +285,11 @@ function core:Initialise()
 
     -- register callbacks
     self:AddCallback('Auras','PostCreateAuraButton',self.Auras_PostCreateAuraButton)
+    self:AddCallback('Auras','PostDisplayAuraButton',self.Auras_PostDisplayAuraButton)
+    self:AddCallback('Auras','PostUpdateAuraFrame',self.Auras_PostUpdateAuraFrame)
     self:AddCallback('Auras','DisplayAura',self.Auras_DisplayAura)
     self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
     self:AddCallback('ClassPowers','CreateBar',self.ClassPowers_CreateBar)
-
-    -- update layout's locals with configuration
-    self:SetLocals()
 
     -- set element configuration tables
     self:InitialiseElements()

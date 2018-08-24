@@ -1,7 +1,7 @@
 --[[
     Boss mod callback handlers
-    Please contact me on Curse or IRC (freenode, #wowace) if you want me to
-    add support for your messages.
+    Please contact me on Curse or IRC (Kesava @ freenode, #wowace) if you want
+    me to add support for your messages.
 
     Expected order of calls:
 
@@ -37,13 +37,13 @@
     -   Also immediately hides all auras.
 
     TODO
-    - update this ^ shit to reflect multiple icons.
-    - larger font. obviously.
+    - update docs to reflect multiple icons.
+    - larger font. obviously. (support in auras)
     - bugginess when more than max icons are created.
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('BossMods')
+local mod = addon:NewPlugin('BossMods',nil,nil,false)
 
 -- XXX placeholders for l11n-compatibility
 local L_SHOW_WARNING = '|cff9966ffKui Nameplates|r: %s just sent a message instructing Kui Nameplates to forcibly enable %s nameplates so that it can show you extra information on them during this encounter. You can disable this in /knp > boss mods.'
@@ -55,7 +55,7 @@ local CONTROL_VISIBILITY = true
 local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
-local initialised,plugin_ct,active_boss_auras
+local plugin_ct,active_boss_auras
 local hidden_auras,num_hidden_auras,enable_warned
 local prev_show_enemies,prev_show_friends
 local GetNamePlateForUnit
@@ -566,7 +566,6 @@ function mod:UpdateConfig()
 end
 -- register ####################################################################
 function mod:OnEnable()
-    if not initialised then return end
     if BigWigsLoader or DBM then
         GetNamePlateForUnit = C_NamePlate.GetNamePlateForUnit
         plugin_ct = addon:GetPlugin('CombatToggle')
@@ -601,15 +600,4 @@ function mod:OnEnable()
 end
 function mod:OnDisable()
     HideAllAuras()
-end
-function mod:Initialised()
-    initialised = true
-
-    if addon.layout.BossModIcon then
-        -- re-enable to get config from layout table
-        self:OnEnable()
-    else
-        -- layout didn't initialise us
-        self:Disable()
-    end
 end

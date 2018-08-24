@@ -40,10 +40,13 @@ function general:Initialise()
     local state_icons = self:CreateCheckBox('state_icons')
     local target_glow = self:CreateCheckBox('target_glow')
     local target_glow_colour = self:CreateColourPicker('target_glow_colour')
+    local mouseover_glow = self:CreateCheckBox('mouseover_glow')
+    local mouseover_glow_colour = self:CreateColourPicker('mouseover_glow_colour')
     local target_arrows = self:CreateCheckBox('target_arrows')
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
 
-    target_glow_colour.enabled = function(p) return p.target_glow end
+    target_glow_colour.enabled = function(p) return p.target_glow or p.target_arrows end
+    mouseover_glow_colour.enabled = function(p) return p.mouseover_glow end
     target_arrows_size.enabled = function(p) return p.target_arrows end
 
     combat_hostile.SelectTable = {
@@ -60,21 +63,23 @@ function general:Initialise()
     use_blizzard_personal:SetPoint('LEFT',ignore_uiscale,'RIGHT',190,0)
 
     state_icons:SetPoint('TOPLEFT',ignore_uiscale,'BOTTOMLEFT',0,-10)
-    target_glow:SetPoint('TOPLEFT',state_icons,'BOTTOMLEFT',0,0)
+    target_glow:SetPoint('TOPLEFT',state_icons,'BOTTOMLEFT')
     target_glow_colour:SetPoint('LEFT',target_glow,'RIGHT',194,0)
-    glow_as_shadow:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT',0,0)
-    target_arrows:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,0)
-    target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,10)
+    mouseover_glow:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT')
+    mouseover_glow_colour:SetPoint('LEFT',mouseover_glow,'RIGHT',194,0)
+    glow_as_shadow:SetPoint('TOPLEFT',mouseover_glow,'BOTTOMLEFT')
+    target_arrows:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,-20)
+    target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,0)
 
     local clickthrough_sep = self:CreateSeparator('clickthrough_sep')
     local clickthrough_self = self:CreateCheckBox('clickthrough_self')
     local clickthrough_friend = self:CreateCheckBox('clickthrough_friend')
     local clickthrough_enemy = self:CreateCheckBox('clickthrough_enemy')
 
-    clickthrough_sep:SetPoint('TOP',0,-230)
-    clickthrough_self:SetPoint('TOPLEFT',10,-240)
-    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-240)
-    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-240)
+    clickthrough_sep:SetPoint('TOP',0,-280)
+    clickthrough_self:SetPoint('TOPLEFT',10,-290)
+    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-290)
+    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-290)
 end
 -- fade rules popup ############################################################
 function fade_rules:Initialise()
@@ -85,8 +90,10 @@ function fade_rules:Initialise()
     local fade_fnpc = self:CreateCheckBox('fade_friendly_npc')
     local fade_ne = self:CreateCheckBox('fade_neutral_enemy')
     local fade_ut = self:CreateCheckBox('fade_untracked')
+    local avoid_sep = self:CreateSeparator('fade_avoid_sep')
     local avoid_no = self:CreateCheckBox('fade_avoid_nameonly')
     local avoid_ri = self:CreateCheckBox('fade_avoid_raidicon')
+    local avoid_mo = self:CreateCheckBox('fade_avoid_mouseover')
     local avoid_xf = self:CreateCheckBox('fade_avoid_execute_friend')
     local avoid_xh = self:CreateCheckBox('fade_avoid_execute_hostile')
     local avoid_t = self:CreateCheckBox('fade_avoid_tracked')
@@ -116,7 +123,10 @@ function fade_rules:Initialise()
     fade_ne:SetPoint('TOPLEFT',fade_all,'BOTTOMLEFT')
     fade_ut:SetPoint('LEFT',fade_ne,'RIGHT',190,0)
 
-    avoid_no:SetPoint('TOPLEFT',fade_ne,'BOTTOMLEFT',0,-10)
+    avoid_sep:SetPoint('TOP',0,-150)
+
+    avoid_mo:SetPoint('TOPLEFT',fade_ne,'BOTTOMLEFT',0,-50)
+    avoid_no:SetPoint('TOPLEFT',avoid_mo,'BOTTOMLEFT',0,-10)
     avoid_ri:SetPoint('LEFT',avoid_no,'RIGHT',190,0)
     avoid_xf:SetPoint('TOPLEFT',avoid_no,'BOTTOMLEFT')
     avoid_xh:SetPoint('LEFT',avoid_xf,'RIGHT',190,0)
@@ -164,6 +174,7 @@ function healthbars:Initialise()
 
     bar_texture:SetPoint('TOPLEFT',10,-10)
     bar_animation:SetPoint('LEFT',bar_texture,'RIGHT',10,0)
+    -- TODO THIS ISN'T ALIGNED AGH
     absorb_enable:SetPoint('TOPLEFT',bar_texture,'BOTTOMLEFT',0,-5)
     absorb_striped:SetPoint('LEFT',absorb_enable,'RIGHT',190,0)
 
@@ -411,8 +422,14 @@ function framesizes:Initialise()
     local frame_height_minus = self:CreateSlider('frame_height_minus',3,40)
     local frame_width_personal = self:CreateSlider('frame_width_personal',20,200)
     local frame_height_personal = self:CreateSlider('frame_height_personal',3,40)
+
+    local element_sep = self:CreateSeparator('framesizes_element_sep')
     local powerbar_height = self:CreateSlider('powerbar_height',1,20)
     local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
+
+    local scale_sep = self:CreateSeparator('framesizes_scale_sep')
+    local global_scale = self:CreateSlider('global_scale',.5,2)
+    global_scale:SetValueStep(.05)
 
     frame_height_personal.enabled = function(p) return not p.use_blizzard_personal end
 
@@ -422,12 +439,18 @@ function framesizes:Initialise()
     frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
     frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-35)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
-    powerbar_height:SetPoint('TOPLEFT',frame_width_minus,'BOTTOMLEFT',0,-35)
-    frame_glow_size:SetPoint('TOPLEFT',powerbar_height,'BOTTOMLEFT',0,-35)
+
+    element_sep:SetPoint('TOP',0,-195)
+    powerbar_height:SetPoint('TOPLEFT',10,-225)
+    frame_glow_size:SetPoint('LEFT',powerbar_height,'RIGHT',20,0)
+
+    scale_sep:SetPoint('TOP',0,-295)
+    global_scale:SetPoint('TOP',0,-325)
 end
 -- auras #######################################################################
 function auras:Initialise()
     local auras_enabled = self:CreateCheckBox('auras_enabled')
+    local show_purge = self:CreateCheckBox('auras_show_purge')
     local auras_on_personal = self:CreateCheckBox('auras_on_personal')
     local auras_sort = self:CreateDropDown('auras_sort')
     local auras_pulsate = self:CreateCheckBox('auras_pulsate')
@@ -444,43 +467,50 @@ function auras:Initialise()
         L.titles.dd_auras_sort_time,
     }
 
+    colour_short:SetWidth(135)
+
     local auras_kslc_hint = self:CreateFontString(nil,'ARTWORK','GameFontHighlight')
     auras_kslc_hint:SetTextColor(.7,.7,.7)
     auras_kslc_hint:SetWidth(350)
     auras_kslc_hint:SetText(L.titles['auras_kslc_hint'] or 'Text')
 
-    local auras_filtering_sep = self:CreateSeparator('auras_filtering_sep')
-    local auras_minimum_length = self:CreateSlider('auras_minimum_length',0,60)
-    local auras_maximum_length = self:CreateSlider('auras_maximum_length',-1,1800)
-
     local auras_icons_sep = self:CreateSeparator('auras_icons_sep')
     local auras_icon_normal_size = self:CreateSlider('auras_icon_normal_size',10,50)
     local auras_icon_minus_size = self:CreateSlider('auras_icon_minus_size',10,50)
     local auras_icon_squareness = self:CreateSlider('auras_icon_squareness',0.5,1)
+    local purge_size = self:CreateSlider('auras_purge_size',10,50)
+    local side = self:CreateDropDown('auras_side')
+    local purge_opposite = self:CreateCheckBox('auras_purge_opposite',true)
+    local offset = self:CreateSlider('auras_offset',-1,30)
+    side.SelectTable = {'Top','Bottom'} -- TODO l11n
+
+    purge_size.enabled = function(p) return p.auras_show_purge end
+    purge_opposite.enabled = function(p) return p.auras_show_purge end
 
     auras_icon_squareness:SetValueStep(.1)
 
     auras_enabled:SetPoint('TOPLEFT',10,-17)
-    auras_on_personal:SetPoint('TOPLEFT',auras_enabled,'BOTTOMLEFT')
+    show_purge:SetPoint('TOPLEFT',auras_enabled,'BOTTOMLEFT')
+    auras_on_personal:SetPoint('TOPLEFT',show_purge,'BOTTOMLEFT')
+    auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
+    auras_time_threshold:SetPoint('LEFT',auras_on_personal,'RIGHT',184,5)
     auras_show_all_self:SetPoint('TOPLEFT',auras_on_personal,'BOTTOMLEFT')
     auras_hide_all_other:SetPoint('TOPLEFT',auras_show_all_self,'BOTTOMLEFT')
-    auras_pulsate:SetPoint('TOPLEFT',auras_hide_all_other,'BOTTOMLEFT')
-    auras_centre:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT')
-    auras_sort:SetPoint('LEFT',auras_enabled,'RIGHT',184,0)
-    auras_time_threshold:SetPoint('LEFT',auras_show_all_self,'RIGHT',184,5)
-    colour_short:SetPoint('TOPLEFT',auras_sort,5,-140)
-    colour_medium:SetPoint('TOPLEFT',colour_short,0,22)
-    colour_long:SetPoint('TOPLEFT',colour_medium,0,22)
-    auras_kslc_hint:SetPoint('TOP',0,-190)
+    auras_kslc_hint:SetPoint('TOP',0,-160)
 
-    auras_filtering_sep:SetPoint('TOP',auras_kslc_hint,'BOTTOM',0,-35)
-    auras_minimum_length:SetPoint('TOPLEFT',auras_filtering_sep,0,-30)
-    auras_maximum_length:SetPoint('LEFT',auras_minimum_length,'RIGHT',20,0)
-
-    auras_icons_sep:SetPoint('TOP',auras_filtering_sep,'BOTTOM',0,-90)
-    auras_icon_normal_size:SetPoint('TOPLEFT',auras_icons_sep,0,-30)
+    auras_icons_sep:SetPoint('TOP',auras_kslc_hint,'BOTTOM',0,-35)
+    auras_pulsate:SetPoint('TOPLEFT',auras_icons_sep,'BOTTOMLEFT',0,-10)
+    auras_centre:SetPoint('LEFT',auras_pulsate,'RIGHT',190,0)
+    colour_short:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT',4,0)
+    colour_medium:SetPoint('LEFT',colour_short,'RIGHT')
+    colour_long:SetPoint('LEFT',colour_medium,'RIGHT')
+    side:SetPoint('TOPLEFT',colour_short,'BOTTOMLEFT',-4,-10)
+    purge_opposite:SetPoint('TOPLEFT',side,'BOTTOMLEFT',10,0)
+    offset:SetPoint('LEFT',side,'RIGHT',10,0)
+    auras_icon_normal_size:SetPoint('TOPLEFT',auras_icons_sep,0,-170)
     auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
     auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
+    purge_size:SetPoint('LEFT',auras_icon_squareness,'RIGHT',20,0)
 end
 -- cast bars ###################################################################
 function castbars:Initialise()

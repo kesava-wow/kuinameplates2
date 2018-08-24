@@ -1,7 +1,7 @@
 -- recolour health bars in execute range
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('Execute',4)
+local mod = addon:NewPlugin('Execute',4,nil,false)
 
 local EquipScanQueue,class,execute_range
 

@@ -1,8 +1,57 @@
-* add option to disable cast bar animation
-* add option to disable cast bar colour changing (as part of the animation)
-* add option to disable nameplateMin/MaxScale CVars (which KNP was previously doing anyway)
-* cast bar optimisations
-* un-squeeze the cast bar spell icon
-* fix state icon is below frame highlight
-* fix cast bar fill doesn't correctly fade out
-* fix raid icon displays on personal frame
+BETA NOTES
+* add auras_decimal_thresold option (not exposed in ui)
+* fix purge aura frame font doesn't update
+
+* correctly align auras to left of frame when not centred
+* fix lua errors with target arrows config again
+
+* change target arrows texture
+* fix global_scale doesn't apply to clickbox
+* fix enabling target arrows causes a lua error
+
+* increase default target glow colour alpha
+* you can right-click + drag the debug frame (/knp dump) now. amazing.
+
+* increase default fade speed
+* add option to avoid fading the mouseover
+* update locale
+* fix issues with certain fade rule setups (particularly where customs are involved)
+
+* add mouseover_glow, mouseover_glow_colour
+* add show_arena_id (not exposed in the ui)
+* make target arrows avoid the spell icon
+* fix frame_vertical_offset in nameonly mode
+* add auras_side,auras_offset,auras_purge_opposite ui
+* remove auras_minimum_length,auras_maximum_length options
+
+* fix purge squareness isn't updated correctly
+* add /knp set [key] nil to reset a config value to default
+* add /knp which .. mostly for my own use
+* add auras_purge_opposite (not exposed in the ui)
+* add frame_vertical_offset (not exposed in the ui)
+* add /knp set [key] [value] to set config values
+
+* add `/knp profile` command so profiles can be easily switched in macros (e.g. /knp profile my profile)
+
+* fix global_scale breaks if the name only target glow isn't created
+  (though there are probably other interactions left)
+
+* add auras_show_purge, auras_purge_size options
+* add auras_side, auras_offset, not exposed in the ui
+
+* add spell steal / purge aura frame for hostile dispels
+
+* highlight auras caused by other players
+* fix castbar doesn't restore correctly on frame show
+
+* optimise event handling
+
+* fix absorb spark width
+* fix nameonly glow
+
+* improve spark texture resolution
+
+* add global scale option
+
+* improve target glow texture resolution
+* replace frame glow texture with target glow

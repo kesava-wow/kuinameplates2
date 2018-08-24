@@ -13,7 +13,7 @@
         Element will not initialise if this is missing or not a table.
 ]]
 local addon = KuiNameplates
-local mod = addon:NewPlugin('CombatToggle')
+local mod = addon:NewPlugin('CombatToggle',nil,nil,false)
 
 -- actions cached upon entering combat and inverted upon leaving
 local ati_hostile,ati_friendly
@@ -44,12 +44,6 @@ function mod:PLAYER_REGEN_ENABLED()
     end
 end
 -- register ####################################################################
-function mod:Initialised()
-    if type(addon.layout.CombatToggle) ~= 'table' then
-        self:Disable()
-        return
-    end
-end
 function mod:OnEnable()
     self:RegisterEvent('PLAYER_REGEN_DISABLED')
     self:RegisterEvent('PLAYER_REGEN_ENABLED')

@@ -1,7 +1,7 @@
 -- check mouseover and fire OnEnter/OnLeave messages, Show/Hide Highlight
 local addon = KuiNameplates
 local ele = addon:NewElement('Highlight')
--- hightlight checker frame ####################################################
+-- highlight checker frame #####################################################
 local HighlightUpdateFrame = CreateFrame('Frame')
 local function HighlightUpdate(self)
     if not self.current or not self.current.unit then
@@ -28,8 +28,9 @@ function HighlightUpdateFrame:Highlight(f)
 end
 -- prototype additions #########################################################
 function addon.Nameplate.HighlightShow(f)
+    if f.parent.state.highlight then return end
+
     f = f.parent
-    if f.state.highlight then return end
     f.state.highlight = true
 
     if f.elements.Highlight and
@@ -43,8 +44,9 @@ function addon.Nameplate.HighlightShow(f)
     addon:DispatchMessage('OnEnter', f)
 end
 function addon.Nameplate.HighlightHide(f)
+    if not f.parent.state.highlight then return end
+
     f = f.parent
-    if not f.state.highlight then return end
     f.state.highlight = nil
 
     if f.elements.Highlight then
@@ -55,8 +57,6 @@ function addon.Nameplate.HighlightHide(f)
 end
 -- messages ####################################################################
 function ele:Show(f)
-    -- this could of course cause problems if, for whatever reason, multiple
-    -- nameplates have the same unit. at some point.
     if UnitIsUnit('mouseover',f.unit) then
         f.handler:HighlightShow()
     end
@@ -78,9 +78,7 @@ end
 function ele:UPDATE_MOUSEOVER_UNIT(event)
     local f = C_NamePlate.GetNamePlateForUnit('mouseover')
     if not f then return end
-    f = f.kui
-
-    f.handler:HighlightShow()
+    f.kui.handler:HighlightShow()
 end
 -- register ####################################################################
 function ele:OnEnable()

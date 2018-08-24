@@ -1,1 +1,1 @@
-Files in this directory are made or modified by Kesava @ curse.com for Kui_Media.
+Files in this directory are made by Kesava @ curse.com for Kui_Media unless otherwise noted.
