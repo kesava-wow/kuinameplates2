@@ -9,7 +9,7 @@ BETA NOTES
 * increase default target glow colour alpha
 * you can right-click + drag the debug frame (/knp dump) now. amazing.
 
-* increade default fade speed
+* increase default fade speed
 * add option to avoid fading the mouseover
 * update locale
 * fix issues with certain fade rule setups (particularly where customs are involved)
