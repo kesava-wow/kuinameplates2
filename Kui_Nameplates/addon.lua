@@ -7,7 +7,7 @@
 --------------------------------------------------------------------------------
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
-addon.MAJOR,addon.MINOR = 2,2
+addon.MAJOR,addon.MINOR = 2,3
 
 --@debug@
 addon.debug = true
