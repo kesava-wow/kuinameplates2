@@ -651,7 +651,7 @@ end
 -- aura frame creation #########################################################
 -- aura frame metatable
 local aura_meta = {
-    squareness = .7,
+    squareness = 1,
     x_spacing  = 0,
     y_spacing  = 0,
     pulsate    = true,
