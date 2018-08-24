@@ -84,6 +84,7 @@ local function EquipScanQueue_Update()
 end
 -- mod functions ###############################################################
 function mod:SetExecuteRange(to)
+    if not mod.enabled then return end
     if type(to) == 'number' then
         self:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
         self:UnregisterEvent('PLAYER_FLAGS_CHANGED')
