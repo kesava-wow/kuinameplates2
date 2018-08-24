@@ -1520,15 +1520,15 @@ do
 
     local function UpdateAuras(f)
         -- enable/disable on personal frame, update size
-        if not AURAS_ON_PERSONAL and f.state.personal then
+        if not AURAS_ENABLED or (not AURAS_ON_PERSONAL and f.state.personal) then
             f.Auras.frames.core_dynamic:Disable()
-        elseif AURAS_ENABLED then
+        else
             f.Auras.frames.core_dynamic:Enable(true)
             AuraFrame_SetIconSize(f.Auras.frames.core_dynamic,f.state.minus)
         end
 
         -- only show purge on hostiles
-        if not AURAS_SHOW_PURGE or f.state.friend then
+        if not AURAS_ENABLED or not AURAS_SHOW_PURGE or f.state.friend then
             f.Auras.frames.core_purge:Disable()
         else
             f.Auras.frames.core_purge:Enable(true)
@@ -1575,7 +1575,6 @@ do
         })
         purge.__core = true
         purge:SetFrameLevel(0)
-        purge:Disable()
 
         --@debug@
         auras:SetBackdrop({bgFile=kui.m.t.solid})
@@ -1750,6 +1749,18 @@ do
                 end
             end
         end
+
+        -- update auras plugin config
+        -- (we override fonts with the PostCreateAuraButton callback)
+        self.Auras.colour_short      = self.profile.auras_colour_short
+        self.Auras.colour_medium     = self.profile.auras_colour_medium
+        self.Auras.colour_long       = self.profile.auras_colour_long
+        self.Auras.decimal_threshold = self.profile.auras_decimal_threshold
+
+        addon:GetPlugin('Auras'):UpdateConfig()
+
+        -- we don't want to actually disable the element as other plugins
+        -- (such as bossmods) rely on it
     end
 end
 -- class powers ################################################################
@@ -2131,11 +2142,7 @@ function core:InitialiseElements()
     plugin_fading = addon:GetPlugin('Fading')
     plugin_classpowers = addon:GetPlugin('ClassPowers')
 
-    self.Auras = {
-        colour_short = self.profile.auras_colour_short,
-        colour_medium = self.profile.auras_colour_medium,
-        colour_long = self.profile.auras_colour_long,
-    }
+    self.Auras = {}
 
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,

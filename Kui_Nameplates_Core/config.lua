@@ -580,22 +580,9 @@ configChanged.nameonly_neutral = configChanged.nameonly
 configChanged.nameonly_in_combat = configChanged.nameonly
 
 local function configChangedAuras()
-    core.Auras.colour_short = core.profile.auras_colour_short
-    core.Auras.colour_medium = core.profile.auras_colour_medium
-    core.Auras.colour_long = core.profile.auras_colour_long
-
-    addon:GetPlugin('Auras'):UpdateConfig()
     core:SetAurasConfig()
 end
-function configChanged.auras_enabled(v)
-    if v then
-        addon:GetPlugin('Auras'):Enable()
-    else
-        addon:GetPlugin('Auras'):Disable()
-    end
-
-    core:SetAurasConfig()
-end
+configChanged.auras_enabled = configChangedAuras
 configChanged.auras_pulsate = configChangedAuras
 configChanged.auras_centre = configChangedAuras
 configChanged.auras_sort = configChangedAuras
@@ -829,8 +816,6 @@ configLoaded.tankmode_tank_colour = configChangedTankColour
 
 configLoaded.castbar_enable = configChanged.castbar_enable
 configLoaded.level_text = configChanged.level_text
-
-configLoaded.auras_enabled = configChanged.auras_enabled
 
 configLoaded.clickthrough_self = QueueClickthroughUpdate
 
