@@ -161,7 +161,7 @@ local default_config = {
     auras_purge_opposite = false,
     auras_side = 1,
     auras_offset = 15,
-    auras_decimal_threshold = 2,
+    auras_decimal_threshold = 2, -- NEX
 
     castbar_enable = true,
     castbar_colour = {.75,.75,.9},
