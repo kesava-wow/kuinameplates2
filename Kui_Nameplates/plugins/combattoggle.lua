@@ -44,12 +44,6 @@ function mod:PLAYER_REGEN_ENABLED()
     end
 end
 -- register ####################################################################
-function mod:Initialised()
-    if type(addon.layout.CombatToggle) ~= 'table' then
-        self:Disable()
-        return
-    end
-end
 function mod:OnEnable()
     self:RegisterEvent('PLAYER_REGEN_DISABLED')
     self:RegisterEvent('PLAYER_REGEN_ENABLED')

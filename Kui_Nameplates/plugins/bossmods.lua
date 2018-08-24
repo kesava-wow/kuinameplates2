@@ -55,7 +55,7 @@ local CONTROL_VISIBILITY = true
 local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 
-local initialised,plugin_ct,active_boss_auras
+local plugin_ct,active_boss_auras
 local hidden_auras,num_hidden_auras,enable_warned
 local prev_show_enemies,prev_show_friends
 local GetNamePlateForUnit
@@ -566,7 +566,6 @@ function mod:UpdateConfig()
 end
 -- register ####################################################################
 function mod:OnEnable()
-    if not initialised then return end
     if BigWigsLoader or DBM then
         GetNamePlateForUnit = C_NamePlate.GetNamePlateForUnit
         plugin_ct = addon:GetPlugin('CombatToggle')
@@ -601,15 +600,4 @@ function mod:OnEnable()
 end
 function mod:OnDisable()
     HideAllAuras()
-end
-function mod:Initialised()
-    initialised = true
-
-    if addon.layout.BossModIcon then
-        -- re-enable to get config from layout table
-        self:OnEnable()
-    else
-        -- layout didn't initialise us
-        self:Disable()
-    end
 end
