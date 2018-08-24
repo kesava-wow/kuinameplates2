@@ -578,18 +578,16 @@ local function AuraFrame_SetIconSize(self,size)
     self.icon_height = floor(size * self.squareness)
     self.icon_ratio = (1 - (self.icon_height / size)) / 2
 
-    if type(self.buttons) == 'table' then
-        -- update existing buttons
-        for k,button in ipairs(self.buttons) do
-            button:SetWidth(size)
-            button:SetHeight(self.icon_height)
-            button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
-        end
+    -- update existing buttons
+    for k,button in ipairs(self.buttons) do
+        button:SetWidth(size)
+        button:SetHeight(self.icon_height)
+        button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
+    end
 
-        if self.visible and self.visible > 0 then
-            -- re-arrange visible buttons
-            self:ArrangeButtons()
-        end
+    if self.visible and self.visible > 0 then
+        -- re-arrange visible buttons
+        self:ArrangeButtons()
     end
 end
 local function AuraFrame_SetSort(self,sort_f)
