@@ -317,7 +317,6 @@ local function AuraFrame_Enable(self,force_update)
     self.__DISABLED = nil
 
     if force_update or self.parent:IsShown() then
-        self:FactionUpdate()
         self:Update()
     end
 end
@@ -795,7 +794,6 @@ function ele:UNIT_FACTION(event,f)
     -- update each aura frame on this nameplate
     if not f.Auras then return end
     for _,auras_frame in pairs(f.Auras.frames) do
-        auras_frame:FactionUpdate()
         auras_frame:Update()
     end
 end
