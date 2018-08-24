@@ -1,7 +1,7 @@
 --[[
     Boss mod callback handlers
-    Please contact me on Curse or IRC (freenode, #wowace) if you want me to
-    add support for your messages.
+    Please contact me on Curse or IRC (Kesava @ freenode, #wowace) if you want
+    me to add support for your messages.
 
     Expected order of calls:
 
@@ -37,8 +37,8 @@
     -   Also immediately hides all auras.
 
     TODO
-    - update this ^ shit to reflect multiple icons.
-    - larger font. obviously.
+    - update docs to reflect multiple icons.
+    - larger font. obviously. (support in auras)
     - bugginess when more than max icons are created.
 ]]
 local addon = KuiNameplates
