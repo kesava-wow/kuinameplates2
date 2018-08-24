@@ -1,4 +1,7 @@
 BETA NOTES
+* fix lua error when changing gear if execute is disabled
+* bump minor
+
 * add auras_decimal_thresold option (not exposed in ui)
 * fix purge aura frame font doesn't update
 
