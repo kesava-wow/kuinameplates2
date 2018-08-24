@@ -14,7 +14,7 @@
 -- ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('Fading')
+local mod = addon:NewPlugin('Fading',nil,nil,true)
 
 local abs,pairs,ipairs,type,tinsert = math.abs,pairs,ipairs,type,tinsert
 local UnitExists,UnitIsUnit = UnitExists,UnitIsUnit

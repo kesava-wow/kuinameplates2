@@ -1,7 +1,7 @@
 -- change colour of health bar when tanking
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('TankMode')
+local mod = addon:NewPlugin('TankMode',nil,nil,true)
 
 local GetNumGroupMembers,UnitIsUnit,UnitIsFriend,UnitExists,UnitInParty,
       UnitInRaid,UnitGroupRolesAssigned,UnitIsPlayer,UnitPlayerControlled =

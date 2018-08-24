@@ -1,7 +1,7 @@
 -- provide status bar animations
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('BarAnimation')
+local mod = addon:NewPlugin('BarAnimation',nil,nil,true)
 
 local anims = {}
 
