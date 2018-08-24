@@ -1577,6 +1577,13 @@ do
         purge:SetFrameLevel(0)
         purge:Disable()
 
+        --@debug@
+        auras:SetBackdrop({bgFile=kui.m.t.solid})
+        auras:SetBackdropColor(0,0,0,.5)
+        purge:SetBackdrop({bgFile=kui.m.t.solid})
+        purge:SetBackdropColor(1,1,1,.5)
+        --@end-debug@
+
         auras.sibling = purge
         purge.sibling = auras
 
