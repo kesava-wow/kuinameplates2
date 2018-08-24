@@ -114,7 +114,7 @@ end
 function mod:AddFadeRule(func,priority,uid)
     if type(func) ~= 'function' or not tonumber(priority) then return end
 
-    uid = tostring(uid)
+    uid = uid and tostring(uid)
     if uid and self:GetFadeRuleIndex(uid) then
         addon:print('fade rule already exists:',uid)
         return
