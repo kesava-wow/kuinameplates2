@@ -283,7 +283,7 @@ function core:configChangedTargetArrows()
     if not TARGET_ARROWS then return end
     for k,f in addon:Frames() do
         if not f.TargetArrows then
-            f:CreateTargetArrows()
+            self:CreateTargetArrows(f)
         end
     end
 end
