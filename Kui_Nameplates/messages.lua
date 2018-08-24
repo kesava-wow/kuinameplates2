@@ -522,13 +522,13 @@ local function plugin_Disable(table)
     end
 end
 ------------------------------------------------------------ plugin registrar --
--- priority = Any number. Defines the load order. Default of 5.
---            Plugins with a higher priority are executed later (i.e. they
---            override the settings of any previous plugin)
--- max_minor = Maximum addon minor version this plugin supports.
---             Ignored if nil.
--- force_enable = Enable this plugin upon initialise.
-function addon:NewPlugin(name,priority,max_minor,force_enable)
+-- priority       = Any number. Defines the load order. Default of 5.
+--                  Plugins with a higher priority are executed later.
+-- max_minor      = Maximum addon minor version this plugin supports.
+--                  Ignored if nil.
+-- enable_on_load = Enable this plugin upon initialise.
+--                  True if nil.
+function addon:NewPlugin(name,priority,max_minor,enable_on_load)
     if not name then
         error('Plugin with no name ignored')
         return
@@ -545,9 +545,13 @@ function addon:NewPlugin(name,priority,max_minor,force_enable)
         return
     end
 
+    if enable_on_load == nil then
+        enable_on_load = true
+    end
+
     local pluginTable = {
         name = name,
-        force_enable = force_enable,
+        enable_on_load = enable_on_load,
         plugin = true,
         priority = tonumber(priority) or 5
     }

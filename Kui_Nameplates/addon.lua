@@ -144,7 +144,7 @@ local function OnEvent(self,event,...)
                 plugin:Initialise()
             end
 
-            if plugin.force_enable then
+            if plugin.enable_on_load then
                 -- enable on load if requested
                 plugin:Enable()
             end
