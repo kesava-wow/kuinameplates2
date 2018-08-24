@@ -1459,6 +1459,10 @@ do
         if not self.__width or not no_size_change then
             self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
             self:SetWidth(self.__width)
+
+            self.__h_offset = AURAS_CENTRE and 
+                floor((self.parent.bg:GetWidth() - self.__width) / 2) or
+                0
         end
 
         self:ClearAllPoints()
@@ -1469,21 +1473,19 @@ do
         then
             -- attach to top/bottom of frame bg
             self:SetPoint(AURAS_POINT_S,self.parent.bg,AURAS_POINT_R,
-                floor((self.parent.bg:GetWidth() - self.__width) / 2),
-                AURAS_OFFSET)
+                self.__h_offset,AURAS_OFFSET)
         else
             -- core_purge;
             if AURAS_PURGE_OPPOSITE then
                 -- attach to the opposite side of frame bg
                 self:SetPoint(PURGE_POINT_S,self.parent.bg,PURGE_POINT_R,
-                    floor((self.parent.bg:GetWidth() - self.__width) / 2),
-                    PURGE_OFFSET)
+                    self.__h_offset,PURGE_OFFSET)
             else
                 -- attach to top/bottom of core_dynamic
                 self:SetPoint(PURGE_POINT_S,self.sibling,PURGE_POINT_R,
                     0,PURGE_OFFSET)
                 self:SetPoint('LEFT',self.parent.bg,
-                    floor((self.parent.bg:GetWidth() - self.__width) / 2),0)
+                    self.__h_offset,0)
             end
         end
     end
@@ -1549,7 +1551,7 @@ do
             timer_threshold = AURAS_TIMER_THRESHOLD,
             squareness = self.profile.auras_icon_squareness,
             sort = self.profile.auras_sort,
-            centred = self.profile.auras_centre,
+            centred = AURAS_CENTRE,
         })
         auras.__core = true
         auras:SetFrameLevel(0)
@@ -1569,7 +1571,7 @@ do
             timer_threshold = AURAS_TIMER_THRESHOLD,
             squareness = self.profile.auras_icon_squareness,
             sort = self.profile.auras_sort,
-            centred = self.profile.auras_centre,
+            centred = AURAS_CENTRE,
         })
         purge.__core = true
         purge:SetFrameLevel(0)
@@ -1678,6 +1680,7 @@ do
         AURAS_SHOW_PURGE = self.profile.auras_show_purge
         AURAS_TIMER_THRESHOLD = self.profile.auras_time_threshold
         AURAS_PURGE_OPPOSITE = self.profile.auras_purge_opposite
+        AURAS_CENTRE = self.profile.auras_centre
 
         if AURAS_TIMER_THRESHOLD < 0 then
             AURAS_TIMER_THRESHOLD = nil
@@ -1725,7 +1728,7 @@ do
                     cd.pulsate = self.profile.auras_pulsate
                     cd.timer_threshold = AURAS_TIMER_THRESHOLD
                     cd.squareness = self.profile.auras_icon_squareness
-                    cd.centred = self.profile.auras_centre
+                    cd.centred = AURAS_CENTRE
                     cd.__width = nil -- force size & position update
                     cd:SetSort(self.profile.auras_sort)
                 end
@@ -1734,7 +1737,7 @@ do
                                   PURGE_POINT_S or AURAS_POINT_S
                     cp.timer_threshold = AURAS_TIMER_THRESHOLD
                     cp.squareness = self.profile.auras_icon_squareness
-                    cp.centred = self.profile.auras_centre
+                    cp.centred = AURAS_CENTRE
                     cp.__width = nil
                     cp:SetSort(self.profile.auras_sort)
                 end
