@@ -161,6 +161,7 @@ local default_config = {
     auras_purge_opposite = false,
     auras_side = 1,
     auras_offset = 15,
+    auras_decimal_threshold = 2,
 
     castbar_enable = true,
     castbar_colour = {.75,.75,.9},
@@ -601,6 +602,7 @@ configChanged.auras_purge_size = configChangedAuras
 configChanged.auras_purge_opposite = configChangedAuras
 configChanged.auras_side = configChangedAuras
 configChanged.auras_offset = configChangedAuras
+configChanged.auras_decimal_threshold = configChangedAuras
 
 local function configChangedCastBar()
     core:SetCastBarConfig()
