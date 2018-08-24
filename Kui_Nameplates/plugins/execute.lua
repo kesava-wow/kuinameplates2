@@ -55,7 +55,6 @@ local function GetExecuteRange()
         end
     end
 
-    -- TODO use arena areas to find what event enables pvp abilities
     if UnitIsPVP('player') and pvp_talents[class] then
         for id,v in pairs(pvp_talents[class]) do
             if IsTalentKnown(id,true) then
