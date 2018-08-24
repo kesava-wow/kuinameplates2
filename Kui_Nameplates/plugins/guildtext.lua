@@ -1,6 +1,6 @@
 -- provide guild text (including npc "guilds") to frame.state
 local addon = KuiNameplates
-local mod = addon:NewPlugin('GuildText',nil,nil,true)
+local mod = addon:NewPlugin('GuildText')
 
 local UnitIsPlayer,UnitIsOtherPlayersPet,GetGuildInfo=
       UnitIsPlayer,UnitIsOtherPlayersPet,GetGuildInfo
