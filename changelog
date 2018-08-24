@@ -1,4 +1,7 @@
 BETA NOTES
+* add auras_decimal_thresold option (not exposed in ui)
+* fix purge aura frame font doesn't update
+
 * correctly align auras to left of frame when not centred
 * fix lua errors with target arrows config again
 
