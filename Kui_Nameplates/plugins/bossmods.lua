@@ -43,7 +43,7 @@
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('BossMods')
+local mod = addon:NewPlugin('BossMods',nil,nil,false)
 
 -- XXX placeholders for l11n-compatibility
 local L_SHOW_WARNING = '|cff9966ffKui Nameplates|r: %s just sent a message instructing Kui Nameplates to forcibly enable %s nameplates so that it can show you extra information on them during this encounter. You can disable this in /knp > boss mods.'

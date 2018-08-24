@@ -13,7 +13,7 @@
         Element will not initialise if this is missing or not a table.
 ]]
 local addon = KuiNameplates
-local mod = addon:NewPlugin('CombatToggle')
+local mod = addon:NewPlugin('CombatToggle',nil,nil,false)
 
 -- actions cached upon entering combat and inverted upon leaving
 local ati_hostile,ati_friendly
