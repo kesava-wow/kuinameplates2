@@ -1,4 +1,7 @@
 BETA NOTES
+* correctly align auras to left of frame when not centred
+* fix lua errors with target arrows config again
+
 * change target arrows texture
 * fix global_scale doesn't apply to clickbox
 * fix enabling target arrows causes a lua error
