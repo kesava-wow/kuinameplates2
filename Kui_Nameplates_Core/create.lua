@@ -1761,6 +1761,7 @@ do
 
         -- update auras plugin config
         -- (we override fonts with the PostCreateAuraButton callback)
+        self.Auras                   = self.Auras or {}
         self.Auras.colour_short      = self.profile.auras_colour_short
         self.Auras.colour_medium     = self.profile.auras_colour_medium
         self.Auras.colour_long       = self.profile.auras_colour_long
@@ -2150,8 +2151,6 @@ end
 function core:InitialiseElements()
     plugin_fading = addon:GetPlugin('Fading')
     plugin_classpowers = addon:GetPlugin('ClassPowers')
-
-    self.Auras = {}
 
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,

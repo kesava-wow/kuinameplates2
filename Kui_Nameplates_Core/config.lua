@@ -613,7 +613,6 @@ function configChanged.castbar_enable(v)
     else
         addon:GetPlugin('CastBar'):Disable()
     end
-
     configChangedCastBar()
 end
 configChanged.castbar_height = configChangedCastBar
@@ -815,6 +814,8 @@ configLoaded.tank_mode = configChanged.tank_mode
 configLoaded.tankmode_force_enable = configChanged.tankmode_force_enable
 configLoaded.tankmode_force_offtank = configChanged.tankmode_force_offtank
 configLoaded.tankmode_tank_colour = configChangedTankColour
+
+configLoaded.auras_enabled = configChangedAuras
 
 configLoaded.castbar_enable = configChanged.castbar_enable
 configLoaded.level_text = configChanged.level_text
