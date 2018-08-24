@@ -291,9 +291,6 @@ function core:Initialise()
     self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
     self:AddCallback('ClassPowers','CreateBar',self.ClassPowers_CreateBar)
 
-    -- update layout's locals with configuration
-    self:SetLocals()
-
     -- set element configuration tables
     self:InitialiseElements()
 

@@ -928,6 +928,9 @@ function core:InitialiseConfig()
         end
     end)
 
+    -- update config locals in create.lua
+    self:SetLocals()
+
     -- run config loaded functions
     for k,f in pairs(configLoaded) do
         f(self.profile[k])

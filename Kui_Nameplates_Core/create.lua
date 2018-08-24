@@ -184,9 +184,6 @@ local function CreateFontString(parent,small)
     return f
 end
 local function Scale(v,offset)
-    if not GLOBAL_SCALE then
-        GLOBAL_SCALE = core.profile.global_scale
-    end
     if not GLOBAL_SCALE or GLOBAL_SCALE == 1 then return v end
     if offset then
         return ceil((v*GLOBAL_SCALE)-((GLOBAL_SCALE-1)*offset))
