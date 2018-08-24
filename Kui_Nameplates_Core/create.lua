@@ -1733,6 +1733,7 @@ do
             AURAS_OFFSET = -AURAS_OFFSET
         end
 
+        -- update config values within aura frames;
         for k,f in addon:Frames() do
             if f.Auras and f.Auras.frames then
                 local cd = f.Auras.frames.core_dynamic
