@@ -124,7 +124,9 @@ local function OnEvent(self,event,...)
     end
 
     --@alpha@
-    self:ui_print('You are using an alpha release and may see debug messages in chat.')
+    self:ui_print('You are using an alpha release;')
+    print('    Please report issues to www.github.com/kesava-wow/kuinameplates2')
+    print('    Thanks!')
     --@end-alpha@
 
     if not self.layout then
