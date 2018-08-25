@@ -31,4 +31,5 @@ plugins/combattoggle.lua
 plugins/execute.lua
 plugins/fading.lua
 plugins/guildtext.lua
+plugins/personal-anchor.lua
 plugins/tankmode.lua
