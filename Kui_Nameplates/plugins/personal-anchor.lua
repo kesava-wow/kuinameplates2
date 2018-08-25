@@ -22,6 +22,10 @@ function mod:OnEnable()
         anchor = CreateFrame('Frame','KuiNameplatesPlayerAnchor')
         anchor:Hide()
 
+        -- TMW needs the parent to have a point set initially
+        anchor:SetSize(1,1)
+        anchor:SetPoint('CENTER',UIParent)
+
         if KuiNameplates.draw_frames then
             anchor:SetBackdrop({
                 edgeFile = 'interface/buttons/white8x8',
