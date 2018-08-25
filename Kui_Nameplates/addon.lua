@@ -51,7 +51,7 @@ function addon:print(...)
     print('KNP2','|cff666666'..GetTime()..'|r',...)
 end
 function addon:ui_print(...)
-    print('|cff9966ffKui Nameplates|r',...)
+    print('|cffbb99ffKui Nameplates|r',...)
 end
 function addon:Frames()
     return ipairs(framelist)
