@@ -17,6 +17,9 @@
         Configuration table. Can be an empty table.
         Element will not initialise if this is missing or not a table.
 
+        The element needs to be informed of changes made to this table:
+            KuiNameplates:GetPlugin('Auras'):UpdateConfig()
+
         Font values are only used upon button creation - the layout must update
         fonts on buttons which have already been created.
 
@@ -28,28 +31,47 @@
 
     frame_def is a table which may contain the following values:
     frame_def = {
-        id = key for this frame in the [nameplate].Auras.frames table
-        size = icon size
-        squareness = icon width/height ratio
+        id = key for this frame in the [nameplate].Auras.frames table,
+        size = icon size,
+        squareness = icon width/height ratio,
         point = {
             [1] = point to place first aura icon in auras frame
             [2] = point of icon to attach to previous icon in a row
             [3] = point of previous icon on to which the next will be attached
-        }
-        x_spacing = horizontal spacing between icons
-        y_spacing = vertical spacing between icons
-        max = maximum number of auras to display
-        rows = maximum number of rows
-        row_growth = direction in which rows will grow ('UP' or 'DOWN')
-        sort = aura sorting function, or index in sort_lookup
-        filter = filter used in UnitAura calls
+        },
+        x_spacing = horizontal spacing between icons,
+        y_spacing = vertical spacing between icons,
+        max = maximum number of auras to display,
+        rows = maximum number of rows,
+        row_growth = direction in which rows will grow ('UP' or 'DOWN'),
+        sort = aura sorting function, or index in sort_lookup,
+        filter = filter used in UnitAura calls;
+                 if left nil, frame will be dynamic, meaning it will look for
+                 buffs on friends and debuffs on enemies,
+        purge = ignore whitelist and only show auras which can be purged;
+                also sets filter to 'HELPFUL' if it was left nil,
         num_per_row = number of icons per row;
-                      if left nil, calculates as max / rows
-        whitelist = a table of spellids to to show in the aura frame
-        pulsate = whether or not to pulsate icons with low time remaining
-        timer_threshold = threshold below which to show timer text
-        centred = centre visible auras in the frame
+                      if left nil, calculates as max / rows,
+        whitelist = a table of spellids to to show in the aura frame,
+        pulsate = whether or not to pulsate icons with low time remaining,
+        timer_threshold = threshold below which to show timer text,
+        centred = centre visible auras in the frame,
+        external = create an external aura frame (see below),
     }
+
+    External aura frames
+    ====================
+
+    External aura frames are aura frames which are managed by external code;
+    that is to say, they do not automatically scan for auras. Icons must be
+    created and deleted on-demand.
+
+    They have the additional functions:
+        frame:UpdateVisibility
+        frame:AddAura(uid,icon,count,duration,expiration)
+        frame:RemoveAura(uid,icon)
+
+    The BossMods module makes use of external aura frames.
 
     Callbacks
     =========
