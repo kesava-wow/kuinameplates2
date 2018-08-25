@@ -1,4 +1,7 @@
 BETA NOTES
+* fix changing boss mods clickthrough option doesn't propagate
+* fix boss mods doesn't update config correctly
+
 * fix personal anchor (KuiNameplatesPlayerAnchor) compatibility with TellMeWhen
 * make the alpha warning more useful
 
