@@ -742,6 +742,7 @@ configChanged.bossmod_control_visibility = configChangedBossMod
 configChanged.bossmod_icon_size = configChangedBossMod
 configChanged.bossmod_x_offset = configChangedBossMod
 configChanged.bossmod_y_offset = configChangedBossMod
+configChanged.bossmod_clickthrough = configChangedBossMod
 
 local function UpdateCVars()
     SetCVar('nameplateShowFriendlyNPCs',core.profile.cvar_show_friendly_npcs)
