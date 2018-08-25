@@ -297,4 +297,11 @@ function core:Initialise()
     CreateLODHandler()
 
     plugin_fading = addon:GetPlugin('Fading')
+
+    --@alpha@
+    addon:ui_print('You are using an alpha release;')
+    print('    Please report issues to www.github.com/kesava-wow/kuinameplates2')
+    print('    And include the output of: /knp dump')
+    print('    Thanks!')
+    --@end-alpha@
 end

@@ -123,13 +123,6 @@ local function OnEvent(self,event,...)
         return
     end
 
-    --@alpha@
-    self:ui_print('You are using an alpha release;')
-    print('    Please report issues to www.github.com/kesava-wow/kuinameplates2')
-    print('    And include the output of: /knp dump')
-    print('    Thanks!')
-    --@end-alpha@
-
     if not self.layout then
         -- throw missing layout
         self:ui_print('A compatible layout was not loaded.')
