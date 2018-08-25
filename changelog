@@ -1,4 +1,7 @@
 BETA NOTES
+* fix personal anchor (KuiNameplatesPlayerAnchor) compatibility with TellMeWhen
+* make the alpha warning more useful
+
 * fix lua error when changing gear if execute is disabled
 * bump minor
 
