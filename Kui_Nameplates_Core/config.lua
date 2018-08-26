@@ -181,6 +181,7 @@ local default_config = {
     tankmode_force_enable = false,
     tankmode_force_offtank = false,
     threat_brackets = false,
+    threat_brackets_size = 24,
     frame_glow_threat = true,
     tankmode_tank_colour = { 0, 1, 0 },
     tankmode_trans_colour = { 1, 1, 0 },
