@@ -1,4 +1,7 @@
 BETA NOTES
+* new threat brackets texture
+* add threat_brackets_size option (not exposed in ui)
+
 * fix changing boss mods clickthrough option doesn't propagate
 * fix boss mods doesn't update config correctly
 
