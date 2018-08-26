@@ -75,6 +75,7 @@ local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
 local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
+local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -221,6 +222,9 @@ do
         MOUSEOVER_GLOW = self.profile.mouseover_glow
         MOUSEOVER_GLOW_COLOUR = self.profile.mouseover_glow_colour
         GLOW_AS_SHADOW = self.profile.glow_as_shadow
+
+        THREAT_BRACKETS = self.profile.threat_brackets
+        THREAT_BRACKETS_SIZE = Scale(self.profile.threat_brackets_size)
 
         FRAME_WIDTH = Scale(self.profile.frame_width)
         FRAME_HEIGHT = Scale(self.profile.frame_height)
@@ -1810,16 +1814,11 @@ end
 -- threat brackets #############################################################
 do
     local TB_TEXTURE = MEDIA..'threat-bracket'
-    local TB_PIXEL_LEFTMOST = .28125
-    local TB_RATIO = 2
-    local TB_HEIGHT = 18
-    local TB_WIDTH = TB_HEIGHT * TB_RATIO
-    local TB_X_OFFSET = floor((TB_WIDTH * TB_PIXEL_LEFTMOST)-1)
     local TB_POINTS = {
-        { 'BOTTOMLEFT', 'TOPLEFT',    -TB_X_OFFSET,  1.3 },
-        { 'BOTTOMRIGHT','TOPRIGHT',    TB_X_OFFSET,  1.3 },
-        { 'TOPLEFT',    'BOTTOMLEFT', -TB_X_OFFSET, -1.5 },
-        { 'TOPRIGHT',   'BOTTOMRIGHT', TB_X_OFFSET, -1.5 }
+        { 'BOTTOMRIGHT', 'TOPLEFT',    -1, 1 },
+        { 'BOTTOMLEFT','TOPRIGHT',     1, 1 },
+        { 'TOPRIGHT',    'BOTTOMLEFT', -1, -1 },
+        { 'TOPLEFT',   'BOTTOMRIGHT',  1, -1 },
     }
     -- threat bracket prototype
     local tb_prototype = {}
@@ -1827,6 +1826,7 @@ do
     function tb_prototype:SetVertexColor(...)
         for k,v in ipairs(self.textures) do
             v:SetVertexColor(...)
+            v:SetAlpha(.8)
         end
     end
     function tb_prototype:Show(...)
@@ -1839,6 +1839,11 @@ do
             v:Hide(...)
         end
     end
+    function tb_prototype:SetSize(size)
+        for k,v in ipairs(self.textures) do
+            v:SetSize(size,size)
+        end
+    end
     -- update
     local function UpdateThreatBrackets(f)
         if not core.profile.threat_brackets or f.IN_NAMEONLY then
@@ -1848,6 +1853,7 @@ do
 
         if f.state.glowing then
             f.ThreatBrackets:SetVertexColor(unpack(f.state.glow_colour))
+            f.ThreatBrackets:SetSize(THREAT_BRACKETS_SIZE)
             f.ThreatBrackets:Show()
         else
             f.ThreatBrackets:Hide()
@@ -1861,7 +1867,7 @@ do
         for i,p in ipairs(TB_POINTS) do
             local b = f:CreateTexture(nil,'BACKGROUND',nil,0)
             b:SetTexture(TB_TEXTURE)
-            b:SetSize(TB_WIDTH, TB_HEIGHT)
+            b:SetBlendMode('ADD')
             b:SetPoint(p[1], f.bg, p[2], p[3], p[4])
             b:Hide()
 
