@@ -1461,11 +1461,11 @@ do
           PURGE_OFFSET,AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD,
           AURAS_PURGE_OPPOSITE
 
-    local function AuraFrame_SetFrameWidth(self,no_size_change)
+    local function AuraFrame_UpdateFrameSize(self,update_size)
         -- frame width changes depending on icon size, needs to be correct if
         -- auras are centred, and we want to make sure the frame isn't aligned
         -- to subpixels;
-        if not self.__width or not no_size_change then
+        if not self.__width or update_size then
             self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
             self:SetWidth(self.__width)
 
@@ -1517,13 +1517,14 @@ do
         -- resize & re-arrange buttons
         self:SetIconSize(size)
 
-        -- re-set frame width
-        AuraFrame_SetFrameWidth(self)
+        -- update frame point + size
+        AuraFrame_UpdateFrameSize(self,true)
     end
     local function AuraFrame_CoreDynamic_OnVisibilityChange(self)
-        if self.sibling.__width then
-            -- update sibling point (unless it hasn't initialised)
-            AuraFrame_SetFrameWidth(self.sibling,true)
+        if self.parent.IGNORE_VISIBILITY_BUBBLE then return end
+        if not AURAS_PURGE_OPPOSITE and self.sibling.__width then
+            -- update sibling point if it's attached and initalised
+            AuraFrame_UpdateFrameSize(self.sibling)
         end
     end
 
