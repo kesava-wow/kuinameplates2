@@ -1,4 +1,8 @@
 BETA NOTES
+* fix auras aren't rearranged when frame size is changed
+* fix aura frame height doesn't update until an aura is updated
+* support modifying colours with /knp set
+
 * new threat brackets texture
 * add threat_brackets_size option (not exposed in ui)
 
