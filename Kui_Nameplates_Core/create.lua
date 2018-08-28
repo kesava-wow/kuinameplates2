@@ -1501,19 +1501,10 @@ do
             end
         end
     end
-    local function AuraFrame_SetIconSize(self,minus)
-        -- determine icon size
-        local size
-        if self.purge then
-            size = AURAS_PURGE_SIZE
-        else
-            size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
-        end
-
-        if self.__width and self.size == size then
-            -- desired size is unchanged;
-            return
-        end
+    local function AuraFrame_UpdateIconSize(self,minus)
+        -- determine current icon size
+        local size = (self.purge and AURAS_PURGE_SIZE) or
+                     (minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE)
 
         self.num_per_row = (minus or self.purge) and 4 or 5
 
@@ -1537,7 +1528,7 @@ do
             f.Auras.frames.core_dynamic:Disable()
         else
             f.Auras.frames.core_dynamic:Enable(true)
-            AuraFrame_SetIconSize(f.Auras.frames.core_dynamic,f.state.minus)
+            AuraFrame_UpdateIconSize(f.Auras.frames.core_dynamic,f.state.minus)
         end
 
         -- only show purge on hostiles
@@ -1545,13 +1536,13 @@ do
             f.Auras.frames.core_purge:Disable()
         else
             f.Auras.frames.core_purge:Enable(true)
-            AuraFrame_SetIconSize(f.Auras.frames.core_purge)
+            AuraFrame_UpdateIconSize(f.Auras.frames.core_purge)
         end
     end
     function core:CreateAuras(f)
         -- for both frames:
-        -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
-        -- frame width & point set by AuraFrame_SetFrameWidth < _SetIconSize
+        -- initial icon size set by AuraFrame_UpdateIconSize < UpdateAuras
+        -- frame width & point set by AuraFrame_UpdateFrameSize < _UpdateIconSize
         local auras = f.handler:CreateAuraFrame({
             id = 'core_dynamic',
             max = 10,
