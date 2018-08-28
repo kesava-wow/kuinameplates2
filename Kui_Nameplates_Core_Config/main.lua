@@ -118,6 +118,8 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         end
         if KuiNameplatesCore.config.gsv.profiles[profile] then
             KuiNameplatesCore.config:SetProfile(profile)
+        else
+            knp:ui_print(format('No profile with name `%s`.',profile))
         end
         return
     elseif strfind(msg,'^set') then
