@@ -1469,6 +1469,9 @@ do
             self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
             self:SetWidth(self.__width)
 
+            -- update frame height
+            core.Auras_PostUpdateAuraFrame(self)
+
             self.__h_offset = AURAS_CENTRE and 
                 floor((self.parent.bg:GetWidth() - self.__width) / 2) or
                 0
