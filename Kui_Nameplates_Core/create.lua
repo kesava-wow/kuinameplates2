@@ -1673,11 +1673,11 @@ do
         AURAS_NORMAL_SIZE = Scale(self.profile.auras_icon_normal_size)
         AURAS_MINUS_SIZE = Scale(self.profile.auras_icon_minus_size)
         AURAS_PURGE_SIZE = Scale(self.profile.auras_purge_size)
+        AURAS_OFFSET = Scale(self.profile.auras_offset)
 
         AURAS_ENABLED = self.profile.auras_enabled
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
         AURAS_SIDE = self.profile.auras_side
-        AURAS_OFFSET = self.profile.auras_offset
         AURAS_SHOW_ALL_SELF = self.profile.auras_show_all_self
         AURAS_HIDE_ALL_OTHER = self.profile.auras_hide_all_other
         AURAS_SHOW_PURGE = self.profile.auras_show_purge
