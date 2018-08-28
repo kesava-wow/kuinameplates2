@@ -123,11 +123,11 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         end
         return
     elseif strfind(msg,'^set') then
-        local k,v = strmatch(msg,'^set (.-) (.-)%s*$')
+        local k,v = strmatch(msg,'^set (.-)%s+(.-)%s*$')
         if not k or not v then
             knp:ui_print('Set config key to value. Usage: /knp set config_key value')
-            print(' Only boolean (true, false), numeric and string values can be set by this command.')
-            print(' Type nil for value to reset a key to default.')
+            print('    Boolean: true, false. Colours: r,g,b{,a} (0.0 - 1.0).')
+            print('    Enter nil for value to reset a key to default.')
             return
         end
 
@@ -137,21 +137,42 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             return
         end
 
-        if strlower(v) == 'true' then
-            v = true
-        elseif strlower(v) == 'false' then
-            v = false
-        else
-            v = tonumber(v) or v
-        end
-
         if v == 'nil' then
             -- reset the key
             v = nil
-        elseif type(extant_v) ~= type(v) then
-            knp:ui_print(format('Invalid value for key (expected %s, got %s).',
-                type(extant_v),type(v)))
-            return
+        else
+            if strlower(v) == 'true' then
+                v = true
+            elseif strlower(v) == 'false' then
+                v = false
+            elseif tonumber(v) then
+                v = tonumber(v)
+            else
+                -- string; find colour tables
+                local r,g,b,a = strmatch(v,'^([^,]-),([^,]-),([^,]-)$')
+                if not r then
+                    r,g,b,a = strmatch(v,'^([^,]-),([^,]-),([^,]-),([^,]-)$')
+                end
+
+                r,g,b,a = tonumber(r),tonumber(g),tonumber(b),tonumber(a)
+                if r and g and b then
+                    v = { r, g, b }
+                    if a then
+                        tinsert(v,a)
+                    end
+                end
+            end
+
+            if type(extant_v) ~= type(v) then
+                knp:ui_print(format('Invalid value for key (expected %s, got %s).',
+                    type(extant_v),type(v)))
+                return
+            end
+            if type(v) == 'table' and #v ~= #extant_v then
+                knp:ui_print(format('Invalid table length (expected %d, got %d).',
+                    #extant_v,#v))
+                return
+            end
         end
 
         KuiNameplatesCore.config:SetKey(k,v)
