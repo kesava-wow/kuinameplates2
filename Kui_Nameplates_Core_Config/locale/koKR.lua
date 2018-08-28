@@ -36,11 +36,19 @@ L["titles"] = {
 	["auras_icon_squareness"] = "아이콘 네모꼴",
 	["auras_icons_sep"] = "아이콘",
 	["auras_kslc_hint"] = "Curse의 KuiSpellListConfig는 시전자와 관계없이 효과를 허용하거나 차단할 수 있습니다.",
-	["auras_maximum_length"] = "최대 효과 길이",
-	["auras_minimum_length"] = "최소 효과 길이",
+--[[Translation missing --]]
+	["auras_offset"] = "Vertical offset",
 	["auras_on_personal"] = "개인 프레임에 표시",
 	["auras_pulsate"] = "아이콘 진동",
+--[[Translation missing --]]
+	["auras_purge_opposite"] = "Purge on opposite",
+--[[Translation missing --]]
+	["auras_purge_size"] = "Icon size (purge)",
 	["auras_show_all_self"] = "나의 모든 효과 허용",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show purge",
+--[[Translation missing --]]
+	["auras_side"] = "Side",
 	["auras_sort"] = "정렬 방법",
 	["auras_time_threshold"] = "타이머 임계값",
 	["bar_animation"] = "바 애니메이션",
@@ -152,19 +160,23 @@ L["titles"] = {
 	["execute_sep"] = "마무리 일격 범위",
 	["fade_all"] = "기본으로 페이드",
 --[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
+	["fade_avoid_casting_friendly"] = "Casting (friendly)",
 --[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Avoid casting (hostile)",
+	["fade_avoid_casting_hostile"] = "Casting (hostile)",
 --[[Translation missing --]]
 	["fade_avoid_casting_interruptible"] = "Interruptible",
 --[[Translation missing --]]
 	["fade_avoid_casting_uninterruptible"] = "Uninterruptible",
 --[[Translation missing --]]
-	["fade_avoid_combat"] = "Avoid in combat",
+	["fade_avoid_combat"] = "In combat",
 	["fade_avoid_execute_friend"] = "낮은 생명력 아군 제외",
 	["fade_avoid_execute_hostile"] = "낮은 생명력 적 제외",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Mouseover",
 	["fade_avoid_nameonly"] = "이름만 표시 제외",
 	["fade_avoid_raidicon"] = "공격대 아이콘 제외",
+--[[Translation missing --]]
+	["fade_avoid_sep"] = "Don't fade...",
 	["fade_avoid_tracked"] = "추적 중 또는 전투 중 제외",
 --[[Translation missing --]]
 	["fade_conditional_alpha"] = "Conditional alpha",
@@ -186,6 +198,12 @@ L["titles"] = {
 	["frame_width"] = "프레임 너비",
 	["frame_width_minus"] = "하급 프레임 너비",
 	["frame_width_personal"] = "개인 프레임 너비",
+--[[Translation missing --]]
+	["framesizes_element_sep"] = "Elements",
+--[[Translation missing --]]
+	["framesizes_scale_sep"] = "Scale",
+--[[Translation missing --]]
+	["global_scale"] = "Global scale",
 	["glow_as_shadow"] = "프레임 그림자 표시",
 	["guild_text_npcs"] = "NPC 칭호 표시",
 	["guild_text_players"] = "플레이어 길드 표시",
@@ -198,6 +216,10 @@ L["titles"] = {
 	["hide_names"] = "추적하지 않은 이름 숨기기",
 	["ignore_uiscale"] = "UI 크기 비율 무시",
 	["level_text"] = "레벨 문자 표시",
+--[[Translation missing --]]
+	["mouseover_glow"] = "Mouseover glow",
+--[[Translation missing --]]
+	["mouseover_glow_colour"] = "Mouseover glow colour",
 --[[Translation missing --]]
 	["name_colour_npc_friendly"] = "Friendly",
 --[[Translation missing --]]
@@ -258,19 +280,18 @@ L["titles"] = {
 L["tooltips"] = {
 	["absorb_enable"] = "생명력 바에 흡수 오버레이를 표시합니다",
 	["absorb_striped"] = "흡수 오버레이에 줄무늬 텍스쳐를 사용합니다. 선택하지 않으면 생명력 바 텍스쳐를 사용합니다",
-	["auras_centre"] = "아이콘을 프레임의 왼쪽 대신 수평 중앙에 맞춥니다",
 	["auras_enabled"] = "이름표에 당신이 시전한 효과를 표시합니다 - 아군에게 강화 효과, 적에게 약화 효과",
 	["auras_hide_all_other"] = [=[다른 플레이어가 시전한 어떤 효과도 표시하지 않습니다 (CC 또는 감속같은).|n|n이 옵션은 KuiSpellList 필터보다 늦게 적용됩니다, 따라서 표시할 주문을 변경하는 데  |cffffff88Curse의
  KuiSpellListConfig|r를 계속 사용할 수 있습니다.]=],
 	["auras_icon_minus_size"] = "작은 프레임의 아이콘 크기",
 	["auras_icon_normal_size"] = "보통 크기 프레임의 아이콘 크기",
 	["auras_icon_squareness"] = "효과 아이콘의 크기 비율, 1은 정사각형을 의미합니다",
-	["auras_maximum_length"] = "초기 길이가 이 값보다 긴 효과는 표시하지 않습니다. 무시하려면 -1로 설정하세요",
-	["auras_minimum_length"] = "초기 길이가 이 값보다 짧은 오라는 표시하지 않습니다",
 	["auras_on_personal"] = "개인 이름표가 활성화되어 있으면 당신의 캐릭터의 이름표에 효과를 표시합니다",
 	["auras_pulsate"] = "만료될 때 아이콘을 진동시킵니다",
 	["auras_show_all_self"] = [=[블리자드에서 중요하다고 표시한 것보다 당신이 시전한 모든 효과를 표시합니다.|n|n이 옵션은 KuiSpellList 필터보다 늦게 적용됩니다, 따라서 표시할 주문을 변경하는 데  |cffffff88Curse의
  KuiSpellListConfig|r를 계속 사용할 수 있습니다.]=],
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show buffs on enemies which you can spell steal, dispel, or purge",
 	["auras_time_threshold"] = "효과의 남은 시간이 이 값 이하일 때 초읽기 문자를 표시합니다. 타이머를 항상 표시하려면 -1로 설정하세요",
 	["bar_animation"] = "생명력/자원 바에 사용할 애니메이션 스타일입니다",
 	["bar_texture"] = "상태 바에 사용할 텍스쳐입니다 (LibSharedMedia에서 제공)",
@@ -350,6 +371,8 @@ L["tooltips"] = {
 	["fade_avoid_combat"] = "Don't fade nameplates which are affecting combat with you",
 	["fade_avoid_execute_friend"] = "마무리 일격 범위에 있는 우호적 이름표 페이드하지 않기 (\"생명력 바\" 페이지에서 설정)",
 	["fade_avoid_execute_hostile"] = "마무리 일격 범위에 있는 적대적 이름표 페이드하지 않기 (\"생명력 바\" 페이지에서 설정)",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Fade in nameplates when your mouse is over them",
 	["fade_avoid_nameonly"] = "현재 이름만 표시 모드인 이름표 페이즈하지 않기",
 	["fade_avoid_raidicon"] = "공격대 아이콘이 표시된 이름표 페이즈하지 않기",
 	["fade_avoid_tracked"] = "추적된 이름표나 당신과 전투 중인 이름표는 페이드하지 않습니다.|n유닛의 추적 여부는 Esc > 인터페이스 설정 > 이름의 기본 인터페이스 옵션에 있는 \"NPC 이름 표시\" 드롭다운 메뉴나 다른 선택 상자를 변경하여 설정할 수 있습니다",
@@ -372,6 +395,8 @@ L["tooltips"] = {
 	["frame_width"] = "표준 이름표의 너비",
 	["frame_width_minus"] = "\"하급\"으로 표시되는 몹에 사용할 이름표의 높이",
 	["frame_width_personal"] = "개인 이름표의 너비 (Esc > 인터페이스 설정 > 이름 > 개인 자원 표시에서 활성화)",
+--[[Translation missing --]]
+	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
 	["guild_text_npcs"] = "병참장교같은 NPC 칭호 표시",
 	["guild_text_players"] = "이름만 표시 모드에서 플레이어에 길드 표시",
 	["health_text_friend_dmg"] = "피해입은 우호적 유닛에 사용할 생명력 문자 형식",

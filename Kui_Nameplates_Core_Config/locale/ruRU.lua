@@ -31,11 +31,19 @@ L["titles"] = {
 	["auras_icon_squareness"] = "Площадь значка",
 	["auras_icons_sep"] = "Значки",
 	["auras_kslc_hint"] = "KuiSpellListConfig из Curse, может быть использован для белого списка или черного списка для, любых применяемых аур.",
-	["auras_maximum_length"] = "Максимальная длина эффекта",
-	["auras_minimum_length"] = "Минимальная длина эффекта",
+--[[Translation missing --]]
+	["auras_offset"] = "Vertical offset",
 	["auras_on_personal"] = "Показать в личной рамке",
 	["auras_pulsate"] = "Пульсирующие значки",
+--[[Translation missing --]]
+	["auras_purge_opposite"] = "Purge on opposite",
+--[[Translation missing --]]
+	["auras_purge_size"] = "Icon size (purge)",
 	["auras_show_all_self"] = "Белый список всех своих аур",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show purge",
+--[[Translation missing --]]
+	["auras_side"] = "Side",
 	["auras_sort"] = "Метод сортировки",
 	["auras_time_threshold"] = "Порог таймера",
 	["bar_animation"] = "Полоса анимации",
@@ -147,19 +155,23 @@ L["titles"] = {
 	["execute_sep"] = "Диапазон добивания",
 	["fade_all"] = "Затухание по умолчанию",
 --[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
+	["fade_avoid_casting_friendly"] = "Casting (friendly)",
 --[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Avoid casting (hostile)",
+	["fade_avoid_casting_hostile"] = "Casting (hostile)",
 --[[Translation missing --]]
 	["fade_avoid_casting_interruptible"] = "Interruptible",
 --[[Translation missing --]]
 	["fade_avoid_casting_uninterruptible"] = "Uninterruptible",
 --[[Translation missing --]]
-	["fade_avoid_combat"] = "Avoid in combat",
+	["fade_avoid_combat"] = "In combat",
 	["fade_avoid_execute_friend"] = "Искл. союзников с низким УЗ",
 	["fade_avoid_execute_hostile"] = "Искл. врагов с низким УЗ",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Mouseover",
 	["fade_avoid_nameonly"] = "Исключить только-имя",
 	["fade_avoid_raidicon"] = "Искл. рейдовою иконку",
+--[[Translation missing --]]
+	["fade_avoid_sep"] = "Don't fade...",
 	["fade_avoid_tracked"] = "Искл. отслеживание или в бою",
 --[[Translation missing --]]
 	["fade_conditional_alpha"] = "Conditional alpha",
@@ -181,6 +193,12 @@ L["titles"] = {
 	["frame_width"] = "Ширина рамки",
 	["frame_width_minus"] = "Минус ширины рамки",
 	["frame_width_personal"] = "Ширина рамки индикатора",
+--[[Translation missing --]]
+	["framesizes_element_sep"] = "Elements",
+--[[Translation missing --]]
+	["framesizes_scale_sep"] = "Scale",
+--[[Translation missing --]]
+	["global_scale"] = "Global scale",
 	["glow_as_shadow"] = "Показывать рамку тени",
 	["guild_text_npcs"] = "Показать звание НИПа",
 	["guild_text_players"] = "Показать гильдию игроков",
@@ -193,6 +211,10 @@ L["titles"] = {
 	["hide_names"] = "Скрыть не отслеживаемые имена",
 	["ignore_uiscale"] = "Игнорировать масштаб ПИ",
 	["level_text"] = "Показать уровень текстом",
+--[[Translation missing --]]
+	["mouseover_glow"] = "Mouseover glow",
+--[[Translation missing --]]
+	["mouseover_glow_colour"] = "Mouseover glow colour",
 	["name_colour_npc_friendly"] = "Союзники",
 --[[Translation missing --]]
 	["name_colour_npc_hostile"] = "Hostile",
@@ -250,17 +272,16 @@ L["titles"] = {
 L["tooltips"] = {
 	["absorb_enable"] = "Показать поглощение, наложенной на полоске здоровья",
 	["absorb_striped"] = "Использовать полосатую текстуру для поглощения наложения. Если флажок снят, применяет полоску текстуры здоровья",
-	["auras_centre"] = "Выровнять значки по горизонтали относительно центра рамки, а не влево",
 	["auras_enabled"] = "Показывать ауры, которые вы накладываете на индикаторы здоровья - баффы на союзников, дебаффы на врагах",
 	["auras_hide_all_other"] = "Не показывать любые ауры на других игроков (такие как СК или замедление).|n|nОбратите внимание, что этот параметр применяется после фильтра KuiSpellList, так что, вы можете проложить его использовать |cffffff88KuiSpellListConfig из Curse|r для изменения отображаемых заклинаний.",
 	["auras_icon_minus_size"] = "Размер значка на маленьких рамках",
 	["auras_icon_normal_size"] = "Размер значков на нормальных, размерах рамки",
 	["auras_icon_squareness"] = "Соотношение размеров значков ауры, где 1 означает идеальную площадь",
-	["auras_maximum_length"] = "Не показывать ауры с исходной длиной больше этого значения. Задать значение -1 для игнорирования",
-	["auras_minimum_length"] = "Не показывать ауры с исходной длиной меньше этого значения",
 	["auras_on_personal"] = "Показать ауры на индикаторах здоровья, вашего персонажа, если они включены",
 	["auras_pulsate"] = "Пульсирующие значки, когда они вот-вот истекут",
 	["auras_show_all_self"] = "Показывать все ауры, которые Вы применяете, а не просто те, которые отмечены как важные от Blizzard.|n|nОбратите внимание, что этот параметр применяется после фильтра KuiSpellList, так что Вы можете продолжить его использовать |cffffff88KuiSpellListConfig из Curse|r для изменения отображаемых заклинаний.",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show buffs on enemies which you can spell steal, dispel, or purge",
 	["auras_time_threshold"] = "Текст обратного отсчета будет отображаться, если на ауре меньше или равно этому количеству времени. Установить в -1, чтобы всегда отображать таймер",
 	["bar_animation"] = "Стиль анимации, используемой на панелях здоровья/полосы энергии",
 	["bar_texture"] = "Текстура, используемая для полосы статуса (предоставляется LibSharedMedia)",
@@ -339,6 +360,8 @@ L["tooltips"] = {
 	["fade_avoid_combat"] = "Don't fade nameplates which are affecting combat with you",
 	["fade_avoid_execute_friend"] = "Не затухать на союзных индикаторах здоровья, в диапазоне добивания (устанавливается на странице \"Полоса здоровья\")",
 	["fade_avoid_execute_hostile"] = "Не затухать на вражеских индикаторах здоровья, в диапазоне добивания (устанавливается на странице \"Полоса здоровья\")",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Fade in nameplates when your mouse is over them",
 	["fade_avoid_nameonly"] = "Не затухать индикаторам, которые в настоящее время находятся в режиме только-имя",
 	["fade_avoid_raidicon"] = "Не затухать индикаторам здоровья, у которых есть рейдовая иконка",
 	["fade_avoid_tracked"] = "Не затухать, отслеживаемым индикаторам или индикаторами здоровья, которые в бою с вами.|nНезависимо от того, отслеживается ли юнит, можно установить, изменив выпадающем списке \"имена НИП\" и другие флажки в настройках интерфейса по умолчанию в разделе Esc > Интерфейс > Имена",
@@ -361,6 +384,8 @@ L["tooltips"] = {
 	["frame_width"] = "Ширина стандартного индикатора здоровья",
 	["frame_width_minus"] = "Ширина индикатора здоровья, используемых на мобов, помечено как \"минус\" (ранее называемый как тривиальный)",
 	["frame_width_personal"] = "Ширина индикатора личного ресурса (Для включения Esc > Интерфейс > Имена > Индикатор личного ресурса)",
+--[[Translation missing --]]
+	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
 	["guild_text_npcs"] = "Показывать звание НИПов, такие как Интенданты, и т. д.",
 	["guild_text_players"] = "Показывать гильдейских игроков в режиме только-имя",
 	["health_text_friend_dmg"] = "Формат текста для здоровья, используемый на повреждения союзных юнитах",

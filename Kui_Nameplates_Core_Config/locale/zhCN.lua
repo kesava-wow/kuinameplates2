@@ -35,11 +35,19 @@ L["titles"] = {
 	["auras_icon_squareness"] = "长宽比例",
 	["auras_icons_sep"] = "图标",
 	["auras_kslc_hint"] = "KuiSpellListConfig（可在Curse上取得）可以让你编辑法术黑名单和白名单，任何单位所施放的法术都可以放入自订清单。",
-	["auras_maximum_length"] = "最大显示秒数",
-	["auras_minimum_length"] = "最小显示秒数",
+--[[Translation missing --]]
+	["auras_offset"] = "Vertical offset",
 	["auras_on_personal"] = "显示在个人资源上",
 	["auras_pulsate"] = "闪烁图标",
+--[[Translation missing --]]
+	["auras_purge_opposite"] = "Purge on opposite",
+--[[Translation missing --]]
+	["auras_purge_size"] = "Icon size (purge)",
 	["auras_show_all_self"] = "显示自身施放的所有光环",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show purge",
+--[[Translation missing --]]
+	["auras_side"] = "Side",
 	["auras_sort"] = "排序方式",
 	["auras_time_threshold"] = "计时器阈值",
 	["bar_animation"] = "姓名板动画",
@@ -147,19 +155,23 @@ L["titles"] = {
 	["execute_sep"] = "斩杀阶段",
 	["fade_all"] = "默认渐隐",
 --[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
+	["fade_avoid_casting_friendly"] = "Casting (friendly)",
 --[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Avoid casting (hostile)",
+	["fade_avoid_casting_hostile"] = "Casting (hostile)",
 --[[Translation missing --]]
 	["fade_avoid_casting_interruptible"] = "Interruptible",
 --[[Translation missing --]]
 	["fade_avoid_casting_uninterruptible"] = "Uninterruptible",
 --[[Translation missing --]]
-	["fade_avoid_combat"] = "Avoid in combat",
+	["fade_avoid_combat"] = "In combat",
 	["fade_avoid_execute_friend"] = "避开低血量友方",
 	["fade_avoid_execute_hostile"] = "避开低血量敌方",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Mouseover",
 	["fade_avoid_nameonly"] = "避开名字模式",
 	["fade_avoid_raidicon"] = "避开团队标记",
+--[[Translation missing --]]
+	["fade_avoid_sep"] = "Don't fade...",
 	["fade_avoid_tracked"] = "避开追踪中或战斗中的",
 --[[Translation missing --]]
 	["fade_conditional_alpha"] = "Conditional alpha",
@@ -181,6 +193,12 @@ L["titles"] = {
 	["frame_width"] = "常规姓名板宽度",
 	["frame_width_minus"] = "杂兵姓名板宽度",
 	["frame_width_personal"] = "个人资源宽度",
+--[[Translation missing --]]
+	["framesizes_element_sep"] = "Elements",
+--[[Translation missing --]]
+	["framesizes_scale_sep"] = "Scale",
+--[[Translation missing --]]
+	["global_scale"] = "Global scale",
 	["glow_as_shadow"] = "显示阴影高亮",
 	["guild_text_npcs"] = "显示NPC头衔",
 	["guild_text_players"] = "显示玩家公会",
@@ -193,6 +211,10 @@ L["titles"] = {
 	["hide_names"] = "隐藏未追踪单位名字",
 	["ignore_uiscale"] = "忽略界面缩放",
 	["level_text"] = "显示等级",
+--[[Translation missing --]]
+	["mouseover_glow"] = "Mouseover glow",
+--[[Translation missing --]]
+	["mouseover_glow_colour"] = "Mouseover glow colour",
 --[[Translation missing --]]
 	["name_colour_npc_friendly"] = "Friendly",
 --[[Translation missing --]]
@@ -253,17 +275,16 @@ L["titles"] = {
 L["tooltips"] = {
 	["absorb_enable"] = "在姓名板上显示吸收盾",
 	["absorb_striped"] = "在吸收盾上使用条纹材质。如果未勾选，继承姓名板材质",
-	["auras_centre"] = "水平置中对齐框体上的图标，而非靠左对齐",
 	["auras_enabled"] = "在姓名板上显示你施放的光环：友方显示buff，敌方显示debuff",
 	["auras_hide_all_other"] = "不显示任何他人施放的光环（如控场和缓速）。|n|n请注意：KuiSpellList的生效优先级高于此选项，所以你仍然可以在勾选此选项的情况下用|cffffff88KuiSpellListConfig|r（可在Curse上取得）自订特定法术的显示。",
 	["auras_icon_minus_size"] = "杂兵单位姓名板的图标大小",
 	["auras_icon_normal_size"] = "常规单位姓名板的图标大小",
 	["auras_icon_squareness"] = "光环图标的长宽比例，设为1代表正方形",
-	["auras_maximum_length"] = "不显示秒数大于此数值的光环。将值设为-1可忽略此选项",
-	["auras_minimum_length"] = "不显示秒数低于此数值的光环",
 	["auras_on_personal"] = "在个人资源上显示光环图标",
 	["auras_pulsate"] = "快要结束时闪烁图标",
 	["auras_show_all_self"] = "显示你施放的所有光环，而非只显示暴雪预设的重要光环。|n|n请注意：KuiSpellList的生效优先级高于此选项，所以你仍然可以在勾选此选项的情况下用|cffffff88KuiSpellListConfig|r（可在Curse上取得）自订特定法术的显示。",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show buffs on enemies which you can spell steal, dispel, or purge",
 	["auras_time_threshold"] = "当光环的剩馀秒数少于这个数值时，显示倒数文字。设为-1可使倒数计时总是显示",
 	["bar_animation"] = "血量／能量条变化的动画方式",
 	["bar_texture"] = "状态条使用的材质（由LibSharedMedia提供）",
@@ -341,6 +362,8 @@ L["tooltips"] = {
 	["fade_avoid_combat"] = "Don't fade nameplates which are affecting combat with you",
 	["fade_avoid_execute_friend"] = "不要渐隐血量处于斩杀阶段的友方姓名板（在”血量条”页面设置）",
 	["fade_avoid_execute_hostile"] = "不要渐隐血量处于斩杀阶段的敌方姓名板（在”血量条”页面设置）",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Fade in nameplates when your mouse is over them",
 	["fade_avoid_nameonly"] = "启用名字模式时，不要渐隐姓名板",
 	["fade_avoid_raidicon"] = "不要渐隐有团队标记的姓名板",
 	["fade_avoid_tracked"] = "不渐隐已追踪或是正在与你战斗中的单位姓名板。|n透过改变 Esc > 界面 > 姓名 > ”NPC名称”下拉菜单的选项，来设定是否进行追踪",
@@ -363,6 +386,8 @@ L["tooltips"] = {
 	["frame_width"] = "标准姓名板宽度",
 	["frame_width_minus"] = "杂兵的姓名板宽度（杂兵一般会显示比较小的姓名板）",
 	["frame_width_personal"] = "个人资源条的宽度（若要启用，勾选 Esc > 界面 > 姓名 > 显示个人资源）",
+--[[Translation missing --]]
+	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
 	["guild_text_npcs"] = "显示NPC的头衔，例如军需官。",
 	["guild_text_players"] = "启用名字模式时，显示玩家公会",
 	["health_text_friend_dmg"] = "友方玩家损血时的血量文字格式",

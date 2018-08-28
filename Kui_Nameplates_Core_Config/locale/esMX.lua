@@ -36,11 +36,19 @@ L["titles"] = {
 	["auras_icon_squareness"] = "Relación de aspecto de iconos",
 	["auras_icons_sep"] = "Iconos",
 	["auras_kslc_hint"] = "KuiSpellListConfig de Curse puede ser usado para mostrar o esconder auras de cualquier lanzador.",
-	["auras_maximum_length"] = "Duración máxima",
-	["auras_minimum_length"] = "Duración mínimo",
+--[[Translation missing --]]
+	["auras_offset"] = "Vertical offset",
 	["auras_on_personal"] = "Mostrar en marco personal",
 	["auras_pulsate"] = "Latir iconos",
+--[[Translation missing --]]
+	["auras_purge_opposite"] = "Purge on opposite",
+--[[Translation missing --]]
+	["auras_purge_size"] = "Icon size (purge)",
 	["auras_show_all_self"] = "Mostar todos tus propias auras",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show purge",
+--[[Translation missing --]]
+	["auras_side"] = "Side",
 	["auras_sort"] = "Método para ordinar",
 	["auras_time_threshold"] = "Límito del texto de tiempo",
 	["bar_animation"] = "Animación de barras",
@@ -145,19 +153,23 @@ L["titles"] = {
 	["execute_sep"] = "Rango de Ejecutar",
 	["fade_all"] = "Apagar por defecto",
 --[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
+	["fade_avoid_casting_friendly"] = "Casting (friendly)",
 --[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Avoid casting (hostile)",
+	["fade_avoid_casting_hostile"] = "Casting (hostile)",
 --[[Translation missing --]]
 	["fade_avoid_casting_interruptible"] = "Interruptible",
 --[[Translation missing --]]
 	["fade_avoid_casting_uninterruptible"] = "Uninterruptible",
 --[[Translation missing --]]
-	["fade_avoid_combat"] = "Avoid in combat",
+	["fade_avoid_combat"] = "In combat",
 	["fade_avoid_execute_friend"] = "Evitar aliados con bajo salud",
 	["fade_avoid_execute_hostile"] = "Evitar enemigos con bajo salud",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Mouseover",
 	["fade_avoid_nameonly"] = "Evitar \"solo nombre\"",
 	["fade_avoid_raidicon"] = "Evitar icono objetivo",
+--[[Translation missing --]]
+	["fade_avoid_sep"] = "Don't fade...",
 	["fade_avoid_tracked"] = "Evitar rastreados y en combate",
 --[[Translation missing --]]
 	["fade_conditional_alpha"] = "Conditional alpha",
@@ -179,6 +191,12 @@ L["titles"] = {
 	["frame_width"] = "Anchura de placa",
 	["frame_width_minus"] = "Anchura de placa menor",
 	["frame_width_personal"] = "Anchura de placa personal",
+--[[Translation missing --]]
+	["framesizes_element_sep"] = "Elements",
+--[[Translation missing --]]
+	["framesizes_scale_sep"] = "Scale",
+--[[Translation missing --]]
+	["global_scale"] = "Global scale",
 	["glow_as_shadow"] = "Mostrar sombra",
 	["guild_text_npcs"] = "Títulos de PNJs",
 	["guild_text_players"] = "Hermandades",
@@ -191,6 +209,10 @@ L["titles"] = {
 	["hide_names"] = "Ocultar nombres no rastreados",
 	["ignore_uiscale"] = "Ignorar escala de IU",
 	["level_text"] = "Texto de nivel",
+--[[Translation missing --]]
+	["mouseover_glow"] = "Mouseover glow",
+--[[Translation missing --]]
+	["mouseover_glow_colour"] = "Mouseover glow colour",
 	["name_colour_npc_friendly"] = "Aliado",
 	["name_colour_npc_hostile"] = "Hostil",
 	["name_colour_npc_neutral"] = "Neutral",
@@ -249,17 +271,16 @@ L["titles"] = {
 L["tooltips"] = {
 	["absorb_enable"] = "Mostrar absorciones superpuesto en barras de salud",
 	["absorb_striped"] = "Mostrar una textura con rayos para la barra de absorción superpuesta. Si está desactivado, copiar la textura de la barra de salud.",
-	["auras_centre"] = "Alinear iconos al centro horizontal del marco, en lugar del borde izquierdo.",
 	["auras_enabled"] = "Mostrar auras que lanzas en placas de nombre: beneficios sobre amistosos, y perjuicios sobre enemigos.",
 	["auras_hide_all_other"] = "No mostrar auras lanzados por otros jugadores, como CC o efectos de ralentización.|n|nTenga en cuenta que esta opción se aplica después del filtro de KuiSpellList, así que puedes usar |cffffff88KuiSpellListConfig|r (disponible de Curse) para modificiar las auras mostradas.",
 	["auras_icon_minus_size"] = "Tamaño de icons en marcos pequeños",
 	["auras_icon_normal_size"] = "Tamaño de iconos en marcos normales",
 	["auras_icon_squareness"] = "Relación de aspecto de los iconos de auras, donde 1 significa un cuadrado",
-	["auras_maximum_length"] = "No mostrar auras con una duración mayor a este valor. Establecer a -1 para desactivar.",
-	["auras_minimum_length"] = "No mostrar auras con una duración menos de este valor.",
 	["auras_on_personal"] = "Mostrar auras en el marco de tu personaje si está activado",
 	["auras_pulsate"] = "Latir iconos cuando están a punto de terminar",
 	["auras_show_all_self"] = "Mostar todas las auras que lanzas, en lugar de solamente las auras marcadas como importantes por Blizzard.|n|nTenga en cuenta que esta opción se aplica después del filtro de KuiSpellList, así que puedes usar |cffffff88KuiSpellListConfig|r (disponible de Curse) para modificiar las auras mostradas.",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show buffs on enemies which you can spell steal, dispel, or purge",
 	["auras_time_threshold"] = "El texto del tiempo se mostrarán cuando haya menos que o igual a esta cantidad de tiempo restante en una aura. Establecer a -1 para mostrar siempre el texto.",
 	["bar_animation"] = "El estilo de animación para usar en barras de salud y poder.",
 	["bar_texture"] = "La textura para usar para barras de estado (proporcionado por LibSharedMedia)",
@@ -333,6 +354,8 @@ L["tooltips"] = {
 	["fade_avoid_combat"] = "Don't fade nameplates which are affecting combat with you",
 	["fade_avoid_execute_friend"] = "No apagar las placas de nombre de aliados cuya salud está por debjao del umbral para ejecutar (establecer en la pagina \"Barras de salud\").",
 	["fade_avoid_execute_hostile"] = "No apagar las placas de nombre de enemigos cuya salud está por debjao del umbral para ejecutar (establecer en la pagina \"Barras de salud\").",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Fade in nameplates when your mouse is over them",
 	["fade_avoid_nameonly"] = "No apagar las placas de nombre que actualmente están en el modo \"solo nombre\"",
 	["fade_avoid_raidicon"] = "No apagar las placas de nombre que tienen una icono de objetivo.",
 	["fade_avoid_tracked"] = "No apagar las placas de nombre rastreadas, y las placas de nombre de unidades que estan en combate contigo.|n|nPara configurar si una unidad está siendo rastreado, cambiar el opción \"Nombres de PNJ\" y otros cajas en las opciones de la interfaz por defecto (Esc > Interfaz > Nombres).",
@@ -355,6 +378,8 @@ L["tooltips"] = {
 	["frame_width"] = "La anchura de las placas de nombre estándar",
 	["frame_width_minus"] = "La anchura de las placas de nombre de criaturas clasificados como \"menor\" (anteriormente \"trivial\")",
 	["frame_width_personal"] = "La anchura de la placa de nombre personal (activada por Esc > Interfaz > Nombres > Demostración de recursos personal)",
+--[[Translation missing --]]
+	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
 	["guild_text_npcs"] = "Mostrar los títulos de PNJs, como Intendente, etc.",
 	["guild_text_players"] = "Mostrar los hermandades de jugadores en el modo \"solo nombre\"",
 	["health_text_friend_dmg"] = "El formato de texto para mostrar en los aliados hermidos",
