@@ -1,4 +1,6 @@
 BETA NOTES
+* fix aura highlight can be duplicated
+
 * fix auras aren't rearranged when frame size is changed, but really this time
 
 * fix auras aren't rearranged when frame size is changed
