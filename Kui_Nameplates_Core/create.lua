@@ -1606,7 +1606,7 @@ do
         button.count:SetPoint('BOTTOMRIGHT',5,-2+TEXT_VERTICAL_OFFSET)
         button.count.fontobject_shadow = true
 
-        if frame.__core then
+        if frame.__core and not button.hl then
             -- create owner highlight
             local hl = button:CreateTexture(nil,'ARTWORK',nil,2)
             hl:SetTexture(KUI_MEDIA..'t/button-highlight')
