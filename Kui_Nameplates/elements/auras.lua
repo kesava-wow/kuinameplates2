@@ -423,6 +423,7 @@ local function AuraFrame_GetButton(self,spellid)
 end
 local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,can_purge,nps_own,nps_all,index)
     if not name or not spellid then return end
+    name = strlower(name)
 
     local cbr = ele:RunCallback('DisplayAura',self,name,spellid,duration,caster,index)
     if cbr then
@@ -438,7 +439,7 @@ local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,can_pu
         return can_purge
     elseif self.whitelist then
         -- only obey whitelist
-        return self.whitelist[spellid] or self.whitelist[strlower(name)]
+        return self.whitelist[spellid] or self.whitelist[name]
     else
         -- fallback to API's nameplate filter
         return nps_all or (nps_own and
