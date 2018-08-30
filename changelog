@@ -1,3 +1,7 @@
+2.17.1
+* fix aura frames don't display auras tracked in KSLC by name
+
+2.17
 * add purge frame; show spells you can spellsteal or purge from enemies
 * add highlight on auras not caused by the player
 * add global scale option
