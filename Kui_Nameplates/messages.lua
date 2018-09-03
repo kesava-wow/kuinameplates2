@@ -377,7 +377,7 @@ function message.UnregisterAllEvents(table)
     table.__EVENTS = nil
 end
 ------------------------------------------------------------- callback helper --
-local function VerifyCallbackArguments(target,name,func)
+local function VerifyCallbackArguments(table,target,name,func)
     if type(func) ~= 'function' then
         addon:print((table.name or 'nil')..': invalid call to AddCallback: no function')
         return
@@ -406,7 +406,7 @@ function message.RegisterCallback(table,name,return_needed)
 end
 function message.AddCallback(table,target,name,func,priority)
     -- add a callback function
-    target = VerifyCallbackArguments(target,name,func)
+    target = VerifyCallbackArguments(table,target,name,func)
     if not target then return end
 
     if not priority then
@@ -446,7 +446,7 @@ function message.AddCallback(table,target,name,func,priority)
 end
 function message.RemoveCallback(table,target,name,func)
     -- remove callback function matching given arguments
-    target = VerifyCallbackArguments(target,name,func)
+    target = VerifyCallbackArguments(table,target,name,func)
     if not target then return end
     if not target:HasCallback(name) then return end
 
