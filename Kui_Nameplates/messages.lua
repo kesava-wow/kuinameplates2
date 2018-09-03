@@ -514,7 +514,7 @@ local function plugin_Disable(table)
         table.enabled = nil
 
         if type(table.OnDisable) == 'function' then
-            table:OnDisable(frame)
+            table:OnDisable()
         end
 
         table:UnregisterAllMessages()
