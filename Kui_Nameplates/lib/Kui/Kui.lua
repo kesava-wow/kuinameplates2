@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 31
+local MAJOR, MINOR = 'Kui-1.0', 32
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -118,7 +118,6 @@ kui.GetUnitColour = function(unit, str)
             return kui.GetClassColour(unit, str)
         else
             r, g, b = UnitSelectionColor(unit)
-            ret = { r = r, g = g, b = b }
         end
     end
 
