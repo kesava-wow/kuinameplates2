@@ -528,7 +528,7 @@ end
 -- tab functions ###############################################################
 do
     local function OnClick(self)
-        PlaySound(S_CHECKBOX_ON);
+        PlaySound(S_CHECKBOX_ON)
         self.child:ShowPage()
     end
     function opt:CreatePageTab(page)
