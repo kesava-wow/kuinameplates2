@@ -1,5 +1,0 @@
-## Interface: 80000
-## Author: Kesava
-## Title: Kui |cff9966ffMedia
-## Notes: This doesn't need to be enabled.
-## X-Comment: This is a fake TOC file to see if Curse will let me by with it. (Also, if someone manually reviews this: this is a media folder! It doesn't need a toc file! I'm whitelisted! Have mercy!)
