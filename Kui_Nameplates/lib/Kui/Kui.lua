@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 32
+local MAJOR, MINOR = 'Kui-1.0', 33
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -25,7 +25,6 @@ kui.m = {
         stripebar = media .. 't\\stippled-bar',
     },
     f = {
-        yanone   = media..'f\\yanone.ttf',
         francois = media..'f\\francois.ttf',
         roboto   = media..'f\\roboto.ttf',
     },
