@@ -1447,7 +1447,7 @@ do
           AURAS_HIDE_ALL_OTHER,AURAS_PURGE_SIZE,AURAS_SHOW_PURGE,AURAS_SIDE,
           AURAS_OFFSET,AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
           PURGE_OFFSET,AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD,
-          AURAS_PURGE_OPPOSITE
+          AURAS_PURGE_OPPOSITE,AURAS_HIGHLIGHT_OTHER
 
     local function AuraFrame_UpdateFrameSize(self,to_size)
         -- frame width changes depending on icon size, needs to be correct if
@@ -1467,7 +1467,7 @@ do
             -- update frame height
             core.Auras_PostUpdateAuraFrame(self)
 
-            self.__h_offset = AURAS_CENTRE and 
+            self.__h_offset = AURAS_CENTRE and
                 floor((self.parent.bg:GetWidth() - self.__width) / 2) or
                 0
         end
@@ -1613,7 +1613,7 @@ do
         if frame.purge or button.can_purge then
             button.hl:SetVertexColor(1,.2,.2,.8)
             button.hl:Show()
-        elseif not button.own then
+        elseif AURAS_HIGHLIGHT_OTHER and not button.own then
             button.hl:SetVertexColor(.4,1,.2,.8)
             button.hl:Show()
         else
@@ -1681,6 +1681,7 @@ do
         AURAS_TIMER_THRESHOLD = self.profile.auras_time_threshold
         AURAS_PURGE_OPPOSITE = self.profile.auras_purge_opposite
         AURAS_CENTRE = self.profile.auras_centre
+        AURAS_HIGHLIGHT_OTHER = self.profile.auras_highlight_other
 
         if AURAS_TIMER_THRESHOLD < 0 then
             AURAS_TIMER_THRESHOLD = nil
