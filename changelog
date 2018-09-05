@@ -1,2 +1,8 @@
+UNTESTED
+
+* hide permanent auras from frames by default (spells included in the KSLC whitelist will still be shown)
+* apply KSLC blacklist to purgable auras
+* allow creating new profiles with /knp profile! profile name (mostly so I can give people testing macros without affecting their profile)
+
 * add option auras_highlight_other, enabled by default, not exposed in ui
 * remove yanone kaffeesatz
