@@ -111,15 +111,18 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         d:Show()
         return
     elseif strfind(msg,'^profile') then
-        local profile = strmatch(msg,'^profile (.-)%s*$')
-        if not profile then
-            knp:ui_print('Switch to named profile. Usage: /knp profile profile name')
+        local create,name = strmatch(msg,'^profile(!?)%s+(.-)%s*$')
+        create = create and create == '!'
+        if not name then
+            knp:ui_print('Switch to named profile. Usage: /knp profile[!] profile name')
+            print('    Affix command with `!` to allow creation of a new profile.')
             return
         end
-        if KuiNameplatesCore.config.gsv.profiles[profile] then
-            KuiNameplatesCore.config:SetProfile(profile)
+        if create or KuiNameplatesCore.config.gsv.profiles[name] then
+            KuiNameplatesCore.config:SetProfile(name)
+            knp:ui_print(format('Switched to profile `%s`.',name))
         else
-            knp:ui_print(format('No profile with name `%s`.',profile))
+            knp:ui_print(format('No profile with name `%s`.',name))
         end
         return
     elseif strfind(msg,'^set') then
