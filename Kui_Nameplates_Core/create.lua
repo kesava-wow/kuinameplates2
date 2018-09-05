@@ -1646,6 +1646,11 @@ do
                 return 2
             end
 
+            -- force hide infinite duration unless included by spell list
+            if duration == 0 then
+                return 1
+            end
+
             -- force hide if excluded by spell list, as above
             if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
                 return 1
