@@ -1632,31 +1632,36 @@ do
     end
     function core.Auras_DisplayAura(frame,name,spellid,duration,caster)
         if not frame.__core then return end
-        if frame.id ~= 'core_dynamic' then return end
+        if frame.purge then
+            -- force hide if excluded by spell list
+            if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
+                return 1
+            end
+        else
+            -- force show if included by spell list (all casters or self)
+            if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
+                ((caster == 'player' or caster == 'pet' or caster == 'vehcile') and
+                (KSL:SpellIncludedOwn(spellid) or KSL:SpellIncludedOwn(name)))
+            then
+                return 2
+            end
 
-        -- force show if included by spell list (all casters or self)
-        if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
-            ((caster == 'player' or caster == 'pet' or caster == 'vehcile') and
-            (KSL:SpellIncludedOwn(spellid) or KSL:SpellIncludedOwn(name)))
-        then
-            return 2
-        end
+            -- force hide if excluded by spell list, as above
+            if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
+                return 1
+            end
 
-        -- force hide if excluded by spell list
-        if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
-            return 1
-        end
-
-        if AURAS_SHOW_ALL_SELF or AURAS_HIDE_ALL_OTHER then
-            if caster == 'player' or caster == 'pet' or caster == 'vehicle' then
-                if AURAS_SHOW_ALL_SELF then
-                    -- show all casts from the player
-                    return 2
-                end
-            else
-                if AURAS_HIDE_ALL_OTHER then
-                    -- hide all other players' casts (CC, etc.)
-                    return 1
+            if AURAS_SHOW_ALL_SELF or AURAS_HIDE_ALL_OTHER then
+                if caster == 'player' or caster == 'pet' or caster == 'vehicle' then
+                    if AURAS_SHOW_ALL_SELF then
+                        -- show all casts from the player
+                        return 2
+                    end
+                else
+                    if AURAS_HIDE_ALL_OTHER then
+                        -- hide all other players' casts (CC, etc.)
+                        return 1
+                    end
                 end
             end
         end
