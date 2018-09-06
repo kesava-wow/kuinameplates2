@@ -524,7 +524,7 @@ end
 ------------------------------------------------------------ plugin registrar --
 -- priority       = Any number. Defines the load order. Default of 5.
 --                  Plugins with a higher priority are executed later.
--- max_minor      = Maximum addon minor version this plugin supports.
+-- max_minor      = Maximum NKP minor this plugin is known to support.
 --                  Ignored if nil.
 -- enable_on_load = Enable this plugin upon initialise.
 --                  True if nil.
@@ -536,12 +536,6 @@ function addon:NewPlugin(name,priority,max_minor,enable_on_load)
 
     if max_minor and self.MINOR > max_minor then
         error('Out of date plugin `'..name..'` ignored')
-        return
-    end
-
-    -- TODO TEMP legacy BarAuras
-    if name == 'BarAuras' and not max_minor then
-        error('Out of date plugin `BarAuras` ignored. Update it from the GitHub repository linked in the Curse description.')
         return
     end
 
