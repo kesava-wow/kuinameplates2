@@ -20,6 +20,12 @@ SLASH_KUINAMEPLATESCORE1 = '/knp'
 SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
 function SlashCmdList.KUINAMEPLATESCORE(msg)
+    if strfind(msg,'&&') then
+        -- extract leftmost command, recurse remaining
+        local left,right = strmatch(msg,'^%s*(.-)%s*&&%s*(.+)%s*$')
+        SlashCmdList.KUINAMEPLATESCORE(right)
+        msg = left
+    end
     if msg == 'debug' then
         knp.debug = true
         knp.debug_messages = not knp.debug_messages
