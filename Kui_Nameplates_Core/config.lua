@@ -54,12 +54,15 @@ local default_config = {
     nameonly = true,
     nameonly_no_font_style = false,
     nameonly_health_colour = true,
-    nameonly_damaged_friends = true,
-    nameonly_enemies = true,
+    nameonly_target = true,
     nameonly_all_enemies = false,
     nameonly_neutral = false,
-    nameonly_target = true,
-    nameonly_in_combat = false,
+    nameonly_enemies = true,
+    nameonly_damaged_enemies = true,
+    nameonly_friends = true,
+    nameonly_damaged_friends = true,
+    nameonly_combat_hostile = true,
+    nameonly_combat_friends = true,
     guild_text_npcs = true,
     guild_text_players = false,
     title_text_players = false,
@@ -574,13 +577,16 @@ function configChanged.nameonly_no_font_style()
     core:configChangedNameOnly()
     core:configChangedFontOption()
 end
-configChanged.nameonly_damaged_friends = configChanged.nameonly
-configChanged.nameonly_enemies = configChanged.nameonly
-configChanged.nameonly_all_enemies = configChanged.nameonly
-configChanged.nameonly_target = configChanged.nameonly
 configChanged.nameonly_health_colour = configChanged.nameonly
+configChanged.nameonly_target = configChanged.nameonly
+configChanged.nameonly_all_enemies = configChanged.nameonly
 configChanged.nameonly_neutral = configChanged.nameonly
-configChanged.nameonly_in_combat = configChanged.nameonly
+configChanged.nameonly_enemies = configChanged.nameonly
+configChanged.nameonly_damaged_enemies = configChanged.nameonly
+configChanged.nameonly_friends = configChanged.nameonly
+configChanged.nameonly_damaged_friends = configChanged.nameonly
+configChanged.nameonly_combat_hostile = configChanged.nameonly
+configChanged.nameonly_combat_friends = configChanged.nameonly
 
 local function configChangedAuras()
     core:SetAurasConfig()
