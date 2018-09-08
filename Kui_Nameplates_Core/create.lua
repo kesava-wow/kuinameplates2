@@ -2080,7 +2080,7 @@ do
         -- disable on target
         if not NAMEONLY_TARGET and f.state.target then return end
         -- disable on units affecting combat
-        if UnitAffectingCombat('player',f.unit) then
+        if UnitAffectingCombat(f.unit) then
             if f.state.reaction <= 4 then
                 if not NAMEONLY_COMBAT_HOSTILE then return end
             else
@@ -2125,10 +2125,8 @@ do
     end
 
     function core:NameOnlyCombatUpdate(f)
-        if not NAMEONLY_COMBAT_HOSTILE or not NAMEONLY_COMBAT_FRIENDLY then
-            self:NameOnlyUpdate(f)
-            self:NameOnlyUpdateFunctions(f)
-        end
+        self:NameOnlyUpdate(f)
+        self:NameOnlyUpdateFunctions(f)
     end
     function core:NameOnlyUpdate(f,hide)
         if not hide and NameOnlyFilterFrame(f) then
