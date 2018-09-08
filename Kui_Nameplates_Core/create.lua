@@ -1917,19 +1917,26 @@ function core:ShowNameUpdate(f)
 end
 -- nameonly ####################################################################
 do
-    local NAMEONLY_NO_FONT_STYLE,NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_FRIENDS,
-    NAMEONLY_ALL_ENEMIES,NAMEONLY_TARGET,NAMEONLY_HEALTH_COLOUR,
-    NAMEONLY_ON_NEUTRAL,NAMEONLY_IN_COMBAT
+    local NAMEONLY_ENABLED,NAMEONLY_NO_FONT_STYLE,NAMEONLY_HEALTH_COLOUR
+    local NAMEONLY_TARGET,NAMEONLY_ALL_ENEMIES,NAMEONLY_ON_NEUTRAL,
+          NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_ENEMIES,NAMEONLY_FRIENDS,
+          NAMEONLY_DAMAGED_FRIENDS,NAMEONLY_COMBAT_HOSTILE,
+          NAMEONLY_COMBAT_FRIENDLY
 
     function core:configChangedNameOnly()
+        NAMEONLY_ENABLED = self.profile.nameonly
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
-        NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
-        NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
-        NAMEONLY_ENEMIES = NAMEONLY_ALL_ENEMIES or self.profile.nameonly_enemies
-        NAMEONLY_TARGET = self.profile.nameonly_target
         NAMEONLY_HEALTH_COLOUR = self.profile.nameonly_health_colour
+
+        NAMEONLY_TARGET = self.profile.nameonly_target
+        NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
         NAMEONLY_ON_NEUTRAL = self.profile.nameonly_neutral
-        NAMEONLY_IN_COMBAT = self.profile.nameonly_in_combat
+        NAMEONLY_ENEMIES = NAMEONLY_ALL_ENEMIES or self.profile.nameonly_enemies
+        NAMEONLY_DAMAGED_ENEMIES = self.profile.nameonly_damaged_enemies
+        NAMEONLY_FRIENDS = self.profile.nameonly_friends
+        NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
+        NAMEONLY_COMBAT_HOSTILE = self.profile.nameonly_combat_hostile
+        NAMEONLY_COMBAT_FRIENDLY = self.profile.nameonly_combat_friends
 
         if NAMEONLY_ALL_ENEMIES or NAMEONLY_TARGET then
             -- create target/threat glow
@@ -2066,81 +2073,65 @@ do
         end
     end
 
-    local function UnattackableEnemyPlayer(f)
-        -- don't show on enemy players
-        return not NAMEONLY_ALL_ENEMIES and
-               UnitIsPlayer(f.unit) and
-               f.state.reaction <= 4
-    end
-    local function EnemyAndDisabled(f)
-        -- don't show on enemies
-        if (not NAMEONLY_ENEMIES and not NAMEONLY_ALL_ENEMIES) and
-           f.state.reaction <= 4
-        then
-            -- if NAMEONLY_{ALL_,}ENEMIES is disabled and
-            -- this frame is an enemy;
-            return true
-            -- return we're disabled on this frame
-        end
-    end
-    local function FriendAndDisabled(f)
-        if not NAMEONLY_DAMAGED_FRIENDS and f.state.friend then
-            if f.state.health_deficit > 0 then
-                -- don't show on damaged friends
-                return true
+    local function NameOnlyFilterFrame(f)
+        if not NAMEONLY_ENABLED then return end
+        -- disable on personal frame
+        if f.state.personal then return end
+        -- disable on target
+        if not NAMEONLY_TARGET and f.state.target then return end
+        -- disable on units affecting combat
+        if UnitAffectingCombat('player',f.unit) then
+            if f.state.reaction <= 4 then
+                if not NAMEONLY_COMBAT_HOSTILE then return end
+            else
+                if not NAMEONLY_COMBAT_FRIENDLY then return end
             end
         end
-    end
-    local function EnemyAffectingCombat(f)
-        if (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
-           not NAMEONLY_IN_COMBAT and
-           f.state.reaction <= 4 and
-           (f.state.threat or UnitIsPlayer(f.unit))
-        then
-            -- if NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL is enabled and
-            -- NAMEONLY_IN_COMBAT is disabled and
-            -- this is an enemy frame and
-            -- we are in the unit's threat table or
-            -- the unit is a player;
+        -- force enable on neutral
+        if NAMEONLY_ON_NEUTRAL and f.state.reaction == 4 then
             return true
-            -- disable on this frame
         end
-    end
-    local function AttackableUnitAndEnabled(f)
-        -- don't show on attackable units
-        if (NAMEONLY_ALL_ENEMIES or not UnitCanAttack('player',f.unit)) or
-           (NAMEONLY_ON_NEUTRAL and f.state.reaction == 4)
-        then
-            -- NAMEONLY_ALL_ENEMIES is enabled or
-            -- unit cannot be attacked or
-            -- ( NAMEONLY_ON_NEUTRAL is enabled and
-            --   unit is neutral )
-            return true
-            -- return we're enabled on this frame
+        if f.state.reaction <= 4 then
+            -- hostile/neutral
+            -- disable on attackable units
+            if not NAMEONLY_ALL_ENEMIES and UnitCanAttack('player',f.unit) then
+                return
+            end
+            if not NAMEONLY_ENEMIES and not NAMEONLY_ALL_ENEMIES then
+                -- disable on remaining hostile
+                return
+            end
+            -- disable on damaged enemies
+            if not NAMEONLY_DAMAGED_ENEMIES and f.state.health_deficit > 0 then
+                return
+            end
+            -- disable on unattackable enemy players
+            if not NAMEONLY_ALL_ENEMIES and UnitIsPlayer(f.unit) then
+                return
+            end
+        else
+            -- friendly
+            -- disable on friends
+            if not NAMEONLY_FRIENDS then
+                return
+            end
+            -- disable on damaged friends
+            if not NAMEONLY_DAMAGED_FRIENDS and f.state.health_deficit > 0 then
+                return
+            end
         end
+        -- enable
+        return true
     end
 
     function core:NameOnlyCombatUpdate(f)
-        if  (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
-            not NAMEONLY_IN_COMBAT
-        then
+        if not NAMEONLY_COMBAT_HOSTILE or not NAMEONLY_COMBAT_FRIENDLY then
             self:NameOnlyUpdate(f)
             self:NameOnlyUpdateFunctions(f)
         end
     end
     function core:NameOnlyUpdate(f,hide)
-        if  not hide and self.profile.nameonly and
-            -- don't show on player frame
-            not f.state.personal and
-            -- don't show on target
-            (NAMEONLY_TARGET or not f.state.target) and
-            -- more complex filters;
-            AttackableUnitAndEnabled(f) and
-            not EnemyAffectingCombat(f) and
-            not UnattackableEnemyPlayer(f) and
-            not EnemyAndDisabled(f) and
-            not FriendAndDisabled(f)
-        then
+        if not hide and NameOnlyFilterFrame(f) then
             NameOnlyEnable(f)
         else
             NameOnlyDisable(f)
