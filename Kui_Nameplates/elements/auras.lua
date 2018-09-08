@@ -99,7 +99,8 @@
     PostUpdateAuraFrame(auraframe)
         Called after a shown aura frame is updated (buttons arranged, etc).
 
-    DisplayAura(auraframe,name,spellid,duration,caster,index)
+    DisplayAura(auraframe,spellid,name,duration,caster,own,can_purge,nps_own,
+     nps_all,index)
         Can be used to arbitrarily filter auras.
         Can return:
             1 (CB_HIDE): forcibly HIDE this aura
@@ -425,7 +426,9 @@ local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,can_pu
     if not name or not spellid then return end
     name = strlower(name)
 
-    local cbr = ele:RunCallback('DisplayAura',self,name,spellid,duration,caster,index)
+    local own = (caster == 'player' or caster == 'pet' or caster == 'vehicle')
+    local cbr = ele:RunCallback('DisplayAura',self,spellid,name,duration,
+        caster,own,can_purge,nps_own,nps_all,index)
     if cbr then
         -- forcibly hidden
         if cbr == CB_HIDE then return end
@@ -442,8 +445,7 @@ local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,can_pu
         return self.whitelist[spellid] or self.whitelist[name]
     else
         -- fallback to API's nameplate filter
-        return nps_all or (nps_own and
-               (caster == 'player' or caster == 'pet' or caster == 'vehicle'))
+        return nps_all or (nps_own and own)
     end
 end
 local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,caster,can_purge,index)
