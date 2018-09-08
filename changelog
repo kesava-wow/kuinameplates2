@@ -1,12 +1,8 @@
-2.17.4
-* fix target_arrows_inset scaling
-* fix infinte duration spells which are whitelisted are still hidden
-* add /knp [command [&& ...]]
+ALPHA NOTES
+* split nameonly_in_combat to nameonly_combat_hostile & nameonly_combat_friends
+* add nameonly_friends, enabled by default
+* add nameonly_damaged_enemies, enabled by default
+* update nameonly options locale
 
-2.17.2
-* add option target_arrows_inset, default 0, not exposed in ui
-* add option auras_highlight_other, enabled by default, not exposed in ui
-* hide permanent auras from frames by default (spells included in the KSLC whitelist will still be shown)
-* apply KSLC blacklist to purgable auras
-* allow creating new profiles with /knp profile! profile name
-* remove yanone kaffeesatz
+ISSUES
+* combat detection lacking support in API
