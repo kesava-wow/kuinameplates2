@@ -1,5 +1,6 @@
 2.17.3
 * fix target_arrows_inset scaling
+* add /knp [command [&& ...]]
 
 2.17.2
 * add option target_arrows_inset, default 0, not exposed in ui
