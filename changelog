@@ -1,3 +1,7 @@
+2.17.3
+* fix target_arrows_inset scaling
+
+2.17.2
 * add option target_arrows_inset, default 0, not exposed in ui
 * add option auras_highlight_other, enabled by default, not exposed in ui
 * hide permanent auras from frames by default (spells included in the KSLC whitelist will still be shown)
