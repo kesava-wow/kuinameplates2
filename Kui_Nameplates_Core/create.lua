@@ -1630,7 +1630,7 @@ do
             )
         end
     end
-    function core.Auras_DisplayAura(frame,name,spellid,duration,caster)
+    function core.Auras_DisplayAura(frame,spellid,name,duration,caster,own,can_purge,nps_own,nps_all)
         if not frame.__core then return end
         if frame.purge then
             -- force hide if excluded by spell list
@@ -1638,10 +1638,11 @@ do
                 return 1
             end
         else
-            -- force show if included by spell list (all casters or self)
-            if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
-                ((caster == 'player' or caster == 'pet' or caster == 'vehcile') and
-                (KSL:SpellIncludedOwn(spellid) or KSL:SpellIncludedOwn(name)))
+            -- force show if included by spell list
+            if  (KSL:SpellIncludedAll(spellid) or
+                 KSL:SpellIncludedAll(name)) or
+                (own and (KSL:SpellIncludedOwn(spellid) or
+                 KSL:SpellIncludedOwn(name)))
             then
                 return 2
             end
@@ -1657,7 +1658,7 @@ do
             end
 
             if AURAS_SHOW_ALL_SELF or AURAS_HIDE_ALL_OTHER then
-                if caster == 'player' or caster == 'pet' or caster == 'vehicle' then
+                if own then
                     if AURAS_SHOW_ALL_SELF then
                         -- show all casts from the player
                         return 2
