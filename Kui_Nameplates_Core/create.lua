@@ -216,7 +216,7 @@ do
 
         TARGET_ARROWS = self.profile.target_arrows
         TARGET_ARROWS_SIZE = Scale(self.profile.target_arrows_size)
-        TARGET_ARROWS_INSET = floor(TARGET_ARROWS_SIZE*.2)
+        TARGET_ARROWS_INSET = floor(TARGET_ARROWS_SIZE*.2) + self.profile.target_arrows_inset
         TARGET_GLOW = self.profile.target_glow
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
         MOUSEOVER_GLOW = self.profile.mouseover_glow
