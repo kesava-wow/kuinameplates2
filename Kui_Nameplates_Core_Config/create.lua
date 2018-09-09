@@ -390,6 +390,7 @@ function nameonly:Initialise()
 
     nameonly_no_font_style.enabled = function(p) return p.nameonly end
     nameonly_health_colour.enabled = nameonly_no_font_style.enabled
+    nameonly_neutral.enabled = function(p) return not p.nameonly_all_enemies end
 
     nameonlyCheck:SetPoint('TOPLEFT',10,-10)
 
