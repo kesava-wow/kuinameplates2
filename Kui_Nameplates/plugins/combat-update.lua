@@ -46,6 +46,7 @@ function mod:Event(event,f)
 end
 -- register ####################################################################
 function mod:OnEnable()
+    self:RegisterMessage('Show')
     self:RegisterUnitEvent('UNIT_FACTION','Event')
     self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE','Event')
 
