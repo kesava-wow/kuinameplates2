@@ -146,6 +146,15 @@ end
 function core:OnLeave(f)
     f:UpdateHighlight()
 end
+function core:Combat(f)
+    -- enable/disable nameonly if enabled on enemies
+    self:NameOnlyCombatUpdate(f)
+
+    -- update to show name of units which are in combat with the player
+    self:ShowNameUpdate(f)
+    f:UpdateFrameSize()
+    f:UpdateNameText()
+end
 -- events ######################################################################
 function core:QUEST_POI_UPDATE()
     -- update to show name of new quest NPCs
@@ -157,15 +166,6 @@ function core:QUEST_POI_UPDATE()
             frame:UpdateLevelText()
         end
     end
-end
-function core:UNIT_THREAT_LIST_UPDATE(event,f)
-    -- enable/disable nameonly if enabled on enemies
-    self:NameOnlyCombatUpdate(f)
-
-    -- update to show name of units which are in combat with the player
-    self:ShowNameUpdate(f)
-    f:UpdateFrameSize()
-    f:UpdateNameText()
 end
 function core:UNIT_NAME_UPDATE(event,f)
     -- update name text colour
@@ -264,10 +264,10 @@ function core:Initialise()
     self:RegisterMessage('ClassificationChanged')
     self:RegisterMessage('OnEnter')
     self:RegisterMessage('OnLeave')
+    self:RegisterMessage('Combat')
 
     -- register events
     self:RegisterEvent('QUEST_POI_UPDATE')
-    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
     self:RegisterUnitEvent('UNIT_NAME_UPDATE')
 
     -- register callbacks

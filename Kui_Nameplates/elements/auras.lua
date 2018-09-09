@@ -806,7 +806,7 @@ function ele:UpdateConfig()
 end
 -- messages ####################################################################
 function ele:Show(f)
-    self:UNIT_FACTION(nil,f)
+    self:FactionUpdate(f)
 end
 function ele:Hide(f)
     if not f.Auras then return end
@@ -814,14 +814,14 @@ function ele:Hide(f)
         frame:Hide()
     end
 end
--- events ######################################################################
-function ele:UNIT_FACTION(event,f)
+function ele:FactionUpdate(f)
     -- update each aura frame on this nameplate
     if not f.Auras then return end
     for _,auras_frame in pairs(f.Auras.frames) do
         auras_frame:Update()
     end
 end
+-- events ######################################################################
 function ele:UNIT_AURA(event,f)
     -- update each aura frame on this nameplate
     if not f.Auras then return end
@@ -833,9 +833,8 @@ end
 function ele:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
-
+    self:RegisterMessage('FactionUpdate')
     self:RegisterUnitEvent('UNIT_AURA')
-    self:RegisterUnitEvent('UNIT_FACTION')
 end
 function ele:Initialised()
     if type(addon.layout.Auras) ~= 'table' then 
