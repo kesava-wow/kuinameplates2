@@ -21,9 +21,14 @@ addon.DEBUG_IGNORE = {
     ['m:Create'] = true,
     ['m:Show'] = true,
     ['m:Hide'] = true,
+    ['e:UNIT_POWER_UPDATE'] = true,
     ['e:UNIT_POWER_FREQUENT'] = true,
     ['e:UNIT_HEALTH_FREQUENT'] = true,
+    ['e:UNIT_AURA'] = true,
+    ['e:UNIT_ABSORB_AMOUNT_CHANGED'] = true,
     ['c:Auras:DisplayAura'] = true,
+    ['c:Auras:PostDisplayAuraButton'] = true,
+    ['c:Auras:PostUpdateAuraFrame'] = true,
 }
 --@end-debug@
 
