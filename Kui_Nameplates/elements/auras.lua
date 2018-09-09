@@ -110,7 +110,7 @@
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local ele = addon:NewElement('Auras')
+local ele = addon:NewElement('Auras',1)
 
 local strlower,tinsert,tsort,     pairs,ipairs =
       strlower,tinsert,table.sort,pairs,ipairs
