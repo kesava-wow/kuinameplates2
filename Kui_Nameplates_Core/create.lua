@@ -1936,11 +1936,9 @@ do
         NAMEONLY_COMBAT_HOSTILE = self.profile.nameonly_combat_hostile
         NAMEONLY_COMBAT_FRIENDLY = self.profile.nameonly_combat_friends
 
-        if NAMEONLY_ALL_ENEMIES or NAMEONLY_TARGET then
-            -- create target/threat glow
-            for k,f in addon:Frames() do
-                core:CreateNameOnlyGlow(f)
-            end
+        -- create target/threat glow
+        for k,f in addon:Frames() do
+            core:CreateNameOnlyGlow(f)
         end
     end
 
@@ -1953,7 +1951,6 @@ do
                  6+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
         end
         function core:CreateNameOnlyGlow(f)
-            if not NAMEONLY_ALL_ENEMIES and not NAMEONLY_TARGET then return end
             if f.NameOnlyGlow then return end
 
             local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
