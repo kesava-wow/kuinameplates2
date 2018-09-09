@@ -1929,7 +1929,7 @@ do
         NAMEONLY_TARGET = self.profile.nameonly_target
         NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
         NAMEONLY_ON_NEUTRAL = self.profile.nameonly_neutral
-        NAMEONLY_ENEMIES = NAMEONLY_ALL_ENEMIES or self.profile.nameonly_enemies
+        NAMEONLY_ENEMIES = self.profile.nameonly_enemies
         NAMEONLY_DAMAGED_ENEMIES = self.profile.nameonly_damaged_enemies
         NAMEONLY_FRIENDS = self.profile.nameonly_friends
         NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
@@ -2103,8 +2103,8 @@ do
             if not NAMEONLY_ALL_ENEMIES and f.state.attackable then
                 return
             end
-            if not NAMEONLY_ENEMIES and not NAMEONLY_ALL_ENEMIES then
-                -- disable on remaining hostile
+            -- disable on hostile
+            if not NAMEONLY_ENEMIES then
                 return
             end
             -- disable on damaged enemies
