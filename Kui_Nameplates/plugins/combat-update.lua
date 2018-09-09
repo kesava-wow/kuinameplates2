@@ -41,12 +41,13 @@ function mod:Show(f)
     Frame_UpdateAttackable(f)
 end
 -- events ######################################################################
-function mod:UNIT_FACTION(event,f)
+function mod:Event(event,f)
     Frame_Check(f)
 end
 -- register ####################################################################
 function mod:OnEnable()
-    self:RegisterUnitEvent('UNIT_FACTION')
+    self:RegisterUnitEvent('UNIT_FACTION','Event')
+    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE','Event')
 
     local f = CreateFrame('Frame')
     f:SetScript('OnUpdate',UpdateFrame_OnUpdate)
