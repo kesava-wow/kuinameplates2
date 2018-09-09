@@ -390,7 +390,28 @@ function nameonly:Initialise()
 
     nameonly_no_font_style.enabled = function(p) return p.nameonly end
     nameonly_health_colour.enabled = nameonly_no_font_style.enabled
-    nameonly_neutral.enabled = function(p) return not p.nameonly_all_enemies end
+    guild_text_npcs.enabled = nameonly_no_font_style.enabled
+    guild_text_players.enabled = nameonly_no_font_style.enabled
+    title_text_players.enabled = nameonly_no_font_style.enabled
+
+    nameonly_target.enabled = nameonly_no_font_style.enabled
+    nameonly_neutral.enabled = function(p)
+        return p.nameonly and 
+            (not p.nameonly_enemies or not p.nameonly_all_enemies)
+    end
+
+    nameonly_friends.enabled = function(p) return p.nameonly end
+    nameonly_damaged_friends.enabled = function(p)
+        return p.nameonly and p.nameonly_friends
+    end
+    nameonly_combat_friends.enabled = nameonly_damaged_friends.enabled
+
+    nameonly_enemies.enabled = function(p) return p.nameonly end
+    nameonly_all_enemies.enabled = function(p)
+        return p.nameonly and p.nameonly_enemies
+    end
+    nameonly_damaged_enemies.enabled = nameonly_all_enemies.enabled
+    nameonly_combat_hostile.enabled = nameonly_all_enemies.enabled
 
     nameonlyCheck:SetPoint('TOPLEFT',10,-10)
 
