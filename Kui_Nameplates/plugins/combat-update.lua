@@ -2,7 +2,7 @@
 -- messages: FactionUpdate, Combat
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('CombatUpdate')
+local mod = addon:NewPlugin('CombatUpdate',0)
 
 local INTERVAL = 1
 local elapsed = 0
