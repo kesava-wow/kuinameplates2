@@ -50,9 +50,9 @@ local plugin_fading
 local plugin_classpowers
 
 -- common globals
-local UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
+local UnitIsPlayer,UnitShouldDisplayName,
       strlen,format,pairs,ipairs,floor,ceil,unpack =
-      UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
+      UnitIsPlayer,UnitShouldDisplayName,
       strlen,format,pairs,ipairs,floor,ceil,unpack
 
 -- config locals
@@ -640,9 +640,7 @@ do
             return
         else
             -- NPCs; reaction colour
-            if not UnitCanAttack('player',f.unit) and
-               f.state.reaction >= 4
-            then
+            if not f.state.attackable and f.state.reaction >= 4 then
                 -- friendly
                 f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_FRIENDLY))
             else
@@ -2079,22 +2077,33 @@ do
         if f.state.personal then return end
         -- disable on target
         if not NAMEONLY_TARGET and f.state.target then return end
-        -- disable on units affecting combat
-        if UnitAffectingCombat(f.unit) then
-            if f.state.reaction <= 4 then
-                if not NAMEONLY_COMBAT_HOSTILE then return end
-            else
-                if not NAMEONLY_COMBAT_FRIENDLY then return end
+
+        if not f.state.attackable and f.state.reaction >= 4 then
+            -- friendly
+            -- disable on friends affecting combat
+            if not NAMEONLY_COMBAT_FRIENDLY and f.state.combat then
+                return
             end
-        end
-        -- force enable on neutral
-        if NAMEONLY_ON_NEUTRAL and f.state.reaction == 4 then
-            return true
-        end
-        if f.state.reaction <= 4 then
+            -- disable on friends
+            if not NAMEONLY_FRIENDS then
+                return
+            end
+            -- disable on damaged friends
+            if not NAMEONLY_DAMAGED_FRIENDS and f.state.health_deficit > 0 then
+                return
+            end
+        else
             -- hostile/neutral
+            -- disable on enemies affecting combat
+            if not NAMEONLY_COMBAT_HOSTILE and f.state.combat then
+                return
+            end
+            -- force enable on neutral
+            if NAMEONLY_ON_NEUTRAL and f.state.reaction == 4 then
+                return true
+            end
             -- disable on attackable units
-            if not NAMEONLY_ALL_ENEMIES and UnitCanAttack('player',f.unit) then
+            if not NAMEONLY_ALL_ENEMIES and f.state.attackable then
                 return
             end
             if not NAMEONLY_ENEMIES and not NAMEONLY_ALL_ENEMIES then
@@ -2107,16 +2116,6 @@ do
             end
             -- disable on unattackable enemy players
             if not NAMEONLY_ALL_ENEMIES and UnitIsPlayer(f.unit) then
-                return
-            end
-        else
-            -- friendly
-            -- disable on friends
-            if not NAMEONLY_FRIENDS then
-                return
-            end
-            -- disable on damaged friends
-            if not NAMEONLY_DAMAGED_FRIENDS and f.state.health_deficit > 0 then
                 return
             end
         end
