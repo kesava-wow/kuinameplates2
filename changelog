@@ -1,4 +1,6 @@
 ALPHA NOTES
+* (alpha only) fix aura filter isn't updated correctly
+
 * fix name-only sticks on some enemies which switch from unattackable to attackable
   (and everything related to that, like the name-only combat options)
 * update locale
