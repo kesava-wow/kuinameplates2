@@ -1,8 +1,8 @@
 ALPHA NOTES
+* fix name-only sticks on some enemies which switch from unattackable to attackable
+  (and everything related to that, like the name-only combat options)
+
 * split nameonly_in_combat to nameonly_combat_hostile & nameonly_combat_friends
 * add nameonly_friends, enabled by default
 * add nameonly_damaged_enemies, enabled by default
 * update nameonly options locale
-
-ISSUES
-* combat detection lacking support in API
