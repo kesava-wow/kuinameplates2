@@ -374,18 +374,9 @@ local function AuraFrame_Update(self)
 end
 local function AuraFrame_FactionUpdate(self)
     if self.__DISABLED then return end
-
     if self.dynamic and self.parent.unit then
-        -- update filter on faction change if dynamic
-        if UnitCanAttack('player',self.parent.unit) then
-            self.filter = 'HARMFUL'
-        else
-            self.filter = 'HELPFUL'
-        end
-    end
-
-    if addon.debug then
-        assert(self.filter ~= nil)
+        -- update filter on faction change
+        self.filter = self.parent.state.attackable and 'HARMFUL' or 'HELPFUL'
     end
 end
 local function AuraFrame_GetAuras(self)
