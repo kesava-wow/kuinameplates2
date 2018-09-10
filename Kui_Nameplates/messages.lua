@@ -534,7 +534,9 @@ function addon:NewPlugin(name,priority,max_minor,enable_on_load)
         return
     end
 
-    if max_minor and self.MINOR > max_minor then
+    if (name == 'BarAuras' and not max_minor) or -- XXX legacy
+       (max_minor and self.MINOR > max_minor)
+    then
         error('Out of date plugin `'..name..'` ignored')
         return
     end
