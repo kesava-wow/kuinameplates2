@@ -1,4 +1,6 @@
 ALPHA NOTES
+* re-add code to ignore out of date version of BarAuras because ugh
+
 * (alpha only) fix aura filter isn't updated correctly
 
 * fix name-only sticks on some enemies which switch from unattackable to attackable
