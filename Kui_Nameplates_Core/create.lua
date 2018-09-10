@@ -1047,8 +1047,14 @@ do
 
         if f.cast_state.interruptible then
             f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
+
+            -- XXX glow as shadow
+            f.CastBar.top:SetVertexColor(0,0,0,.2)
+            f.CastBar.bottom:SetVertexColor(0,0,0,.2)
         else
             f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+            f.CastBar.top:SetVertexColor(unpack(CASTBAR_UNIN_COLOUR))
+            f.CastBar.bottom:SetVertexColor(unpack(CASTBAR_UNIN_COLOUR))
 
             if f.elements.SpellShield then
                 f.SpellShield:Show()
@@ -1114,11 +1120,15 @@ do
                     end
                     if CASTBAR_ANIMATE_CHANGE_COLOUR then
                         f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                        f.CastBar.top:SetVertexColor(unpack(CASTBAR_UNIN_COLOUR))
+                        f.CastBar.bottom:SetVertexColor(unpack(CASTBAR_UNIN_COLOUR))
                     end
                 else
                     -- successful
                     if CASTBAR_ANIMATE_CHANGE_COLOUR then
                         f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
+                        f.CastBar.top:SetVertexColor(0,0,0,.2)
+                        f.CastBar.bottom:SetVertexColor(0,0,0,.2)
                     end
                 end
 
@@ -1278,6 +1288,24 @@ do
 
         castbar:SetPoint('BOTTOMRIGHT',bg,-1,1)
         castbar.bg = bg
+
+        -- XXX glow
+        local top = castbar:CreateTexture(nil,'BACKGROUND',nil,-5)
+        top:SetTexture(MEDIA..'target-glow')
+        top:SetTexCoord(1,0,1,0)
+        top:SetPoint('BOTTOMLEFT',bg,'TOPLEFT',0,0)
+        top:SetPoint('BOTTOMRIGHT',bg,'TOPRIGHT',0,0)
+        top:SetHeight(6)
+        top:SetVertexColor(0,0,0,.2)
+        castbar.top = top
+
+        local bottom = castbar:CreateTexture(nil,'BACKGROUND',nil,-5)
+        bottom:SetTexture(MEDIA..'target-glow')
+        bottom:SetPoint('TOPLEFT',bg,'BOTTOMLEFT',0,0)
+        bottom:SetPoint('TOPRIGHT',bg,'BOTTOMRIGHT',0,0)
+        bottom:SetHeight(6)
+        bottom:SetVertexColor(0,0,0,.2)
+        castbar.bottom = bottom
 
         -- register base elements
         f.handler:RegisterElement('CastBar', castbar)
