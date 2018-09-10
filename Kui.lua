@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 33
+local MAJOR, MINOR = 'Kui-1.0', 34
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -323,6 +323,7 @@ local function CreateDebugPopup()
     s:SetMovable(true)
     s:SetFrameStrata('DIALOG')
     s:SetSize(450,300)
+    s:SetHitRectInsets(-10,-30,-10,-10)
     s:SetPoint('CENTER')
     s:SetScrollChild(p)
     s:Hide()
