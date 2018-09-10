@@ -1,3 +1,6 @@
+2.17.5
+* ignore out-of-date versions of BarAuras again
+
 2.17.4
 * fix target_arrows_inset scaling
 * fix infinte duration spells which are whitelisted are still hidden
