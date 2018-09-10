@@ -21,6 +21,10 @@ local talents = {
         [22156] = 25, -- (guardian)
         [22367] = 25, -- (resto)
     },
+    ['WARRIOR'] = {
+        [22380] = 35, -- arms massacre
+        [22393] = 35, -- fury massacre
+    },
 }
 local pvp_talents = {
     ['WARRIOR'] = {
