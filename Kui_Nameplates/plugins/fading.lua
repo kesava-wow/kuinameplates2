@@ -114,6 +114,12 @@ end
 function mod:AddFadeRule(func,priority,uid)
     if type(func) ~= 'function' or not tonumber(priority) then return end
 
+    uid = uid and tostring(uid)
+    if uid and self:GetFadeRuleIndex(uid) then
+        addon:print('fade rule already exists:',uid)
+        return
+    end
+
     local insert_tbl = {priority,func,uid}
     local inserted
 
@@ -137,11 +143,18 @@ function mod:RemoveFadeRule(index)
             fade_rules[index] = nil
         end
     elseif type(index) == 'string' then
-        -- remove with id
-        for i,f_t in ipairs(fade_rules) do
-            if f_t[3] and f_t[3] == index then
-                self:RemoveFadeRule(i)
-            end
+        -- remove by uid
+        local i = self:GetFadeRuleIndex(index)
+        if i then
+            self:RemoveFadeRule(i)
+        end
+    end
+end
+function mod:GetFadeRuleIndex(uid)
+    if type(uid) ~= 'string' then return end
+    for i,f_t in ipairs(fade_rules) do
+        if f_t[3] and f_t[3] == uid then
+            return i
         end
     end
 end
@@ -165,6 +178,8 @@ function mod:OnEnable()
     self:RegisterMessage('LostTarget','TargetUpdate')
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
+
+    self:ResetFadeRules()
 end
 function mod:Initialise()
     self:RegisterCallback('FadeRulesReset')
@@ -172,6 +187,4 @@ function mod:Initialise()
     self.non_target_alpha = .5
     self.conditional_alpha = .3
     self.fade_speed = .5
-
-    self:ResetFadeRules()
 end

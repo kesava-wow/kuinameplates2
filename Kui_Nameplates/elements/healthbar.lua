@@ -99,19 +99,18 @@ function ele:Show(f)
     f.handler:UpdateHealth(true)
     f.handler:UpdateHealthColour(true)
 end
--- events ######################################################################
-function ele:UNIT_FACTION(event,f)
+function ele:FactionUpdate(f)
     f.handler:UpdateHealthColour()
 end
+-- events ######################################################################
 function ele:UNIT_HEALTH(event,f)
     f.handler:UpdateHealth()
 end
 -- register ####################################################################
 function ele:OnEnable()
     self:RegisterMessage('Show')
-
+    self:RegisterMessage('FactionUpdate')
     self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
-    self:RegisterUnitEvent('UNIT_FACTION')
 end
 function ele:Initialise()
     self.colours = {

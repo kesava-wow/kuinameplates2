@@ -55,7 +55,6 @@ local function GetExecuteRange()
         end
     end
 
-    -- TODO use arena areas to find what event enables pvp abilities
     if UnitIsPVP('player') and pvp_talents[class] then
         for id,v in pairs(pvp_talents[class]) do
             if IsTalentKnown(id,true) then
@@ -84,6 +83,7 @@ local function EquipScanQueue_Update()
 end
 -- mod functions ###############################################################
 function mod:SetExecuteRange(to)
+    if not mod.enabled then return end
     if type(to) == 'number' then
         self:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
         self:UnregisterEvent('PLAYER_FLAGS_CHANGED')

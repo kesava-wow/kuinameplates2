@@ -17,15 +17,6 @@ if not core then
     return
 end
 
--- positioned and "shown" on the player's frame when/if it is shown
-local anchor = CreateFrame('Frame','KuiNameplatesPlayerAnchor')
-anchor:Hide()
-
-if addon.draw_frames then
-    anchor:SetBackdrop({ edgeFile = kui.m.t.solid, edgeSize = 1 })
-    anchor:SetBackdropBorderColor(0,0,1)
-end
-
 local plugin_fading
 -- messages ####################################################################
 function core:Create(f)
@@ -84,19 +75,8 @@ function core:Show(f)
         -- show/hide target arrows
         f:UpdateTargetArrows()
     end
-
-    if f.state.personal then
-        anchor:SetParent(f)
-        anchor:SetAllPoints(f.bg)
-        anchor:Show()
-    end
 end
 function core:Hide(f)
-    if f.state.personal then
-        anchor:ClearAllPoints()
-        anchor:Hide()
-    end
-
     self:NameOnlyUpdate(f,true)
     f:HideCastBar(nil,true)
 end
@@ -166,6 +146,15 @@ end
 function core:OnLeave(f)
     f:UpdateHighlight()
 end
+function core:Combat(f)
+    -- enable/disable nameonly if enabled on enemies
+    self:NameOnlyCombatUpdate(f)
+
+    -- update to show name of units which are in combat with the player
+    self:ShowNameUpdate(f)
+    f:UpdateFrameSize()
+    f:UpdateNameText()
+end
 -- events ######################################################################
 function core:QUEST_POI_UPDATE()
     -- update to show name of new quest NPCs
@@ -177,15 +166,6 @@ function core:QUEST_POI_UPDATE()
             frame:UpdateLevelText()
         end
     end
-end
-function core:UNIT_THREAT_LIST_UPDATE(event,f)
-    -- enable/disable nameonly if enabled on enemies
-    self:NameOnlyCombatUpdate(f)
-
-    -- update to show name of units which are in combat with the player
-    self:ShowNameUpdate(f)
-    f:UpdateFrameSize()
-    f:UpdateNameText()
 end
 function core:UNIT_NAME_UPDATE(event,f)
     -- update name text colour
@@ -260,6 +240,13 @@ do
 end
 -- register ####################################################################
 function core:Initialise()
+    --@alpha@
+    addon:ui_print('You are using an alpha release;')
+    print('    Please report issues to www.github.com/kesava-wow/kuinameplates2')
+    print('    And include the output of: /knp dump')
+    print('    Thanks!')
+    --@end-alpha@
+
     self:InitialiseConfig()
 
     -- register messages
@@ -277,10 +264,10 @@ function core:Initialise()
     self:RegisterMessage('ClassificationChanged')
     self:RegisterMessage('OnEnter')
     self:RegisterMessage('OnLeave')
+    self:RegisterMessage('Combat')
 
     -- register events
     self:RegisterEvent('QUEST_POI_UPDATE')
-    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
     self:RegisterUnitEvent('UNIT_NAME_UPDATE')
 
     -- register callbacks

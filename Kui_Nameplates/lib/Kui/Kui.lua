@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 31
+local MAJOR, MINOR = 'Kui-1.0', 34
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -25,7 +25,6 @@ kui.m = {
         stripebar = media .. 't\\stippled-bar',
     },
     f = {
-        yanone   = media..'f\\yanone.ttf',
         francois = media..'f\\francois.ttf',
         roboto   = media..'f\\roboto.ttf',
     },
@@ -118,7 +117,6 @@ kui.GetUnitColour = function(unit, str)
             return kui.GetClassColour(unit, str)
         else
             r, g, b = UnitSelectionColor(unit)
-            ret = { r = r, g = g, b = b }
         end
     end
 
@@ -325,6 +323,7 @@ local function CreateDebugPopup()
     s:SetMovable(true)
     s:SetFrameStrata('DIALOG')
     s:SetSize(450,300)
+    s:SetHitRectInsets(-10,-30,-10,-10)
     s:SetPoint('CENTER')
     s:SetScrollChild(p)
     s:Hide()

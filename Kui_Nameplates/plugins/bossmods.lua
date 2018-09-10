@@ -574,8 +574,6 @@ function mod:OnEnable()
         self:RegisterMessage('Hide')
         self:RegisterMessage('Create')
 
-        self:UpdateConfig()
-
         for i,f in addon:Frames() do
             -- create on existing frames
             if not f.BossModAuraFrame then
@@ -600,4 +598,7 @@ function mod:OnEnable()
 end
 function mod:OnDisable()
     HideAllAuras()
+end
+function mod:Initialised()
+    self:UpdateConfig()
 end

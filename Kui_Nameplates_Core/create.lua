@@ -50,9 +50,9 @@ local plugin_fading
 local plugin_classpowers
 
 -- common globals
-local UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
+local UnitIsPlayer,UnitShouldDisplayName,
       strlen,format,pairs,ipairs,floor,ceil,unpack =
-      UnitIsPlayer,UnitCanAttack,UnitShouldDisplayName,
+      UnitIsPlayer,UnitShouldDisplayName,
       strlen,format,pairs,ipairs,floor,ceil,unpack
 
 -- config locals
@@ -75,6 +75,7 @@ local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
 local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
+local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -216,12 +217,15 @@ do
 
         TARGET_ARROWS = self.profile.target_arrows
         TARGET_ARROWS_SIZE = Scale(self.profile.target_arrows_size)
-        TARGET_ARROWS_INSET = floor(TARGET_ARROWS_SIZE*.2)
+        TARGET_ARROWS_INSET = Scale(self.profile.target_arrows_inset)
         TARGET_GLOW = self.profile.target_glow
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
         MOUSEOVER_GLOW = self.profile.mouseover_glow
         MOUSEOVER_GLOW_COLOUR = self.profile.mouseover_glow_colour
         GLOW_AS_SHADOW = self.profile.glow_as_shadow
+
+        THREAT_BRACKETS = self.profile.threat_brackets
+        THREAT_BRACKETS_SIZE = Scale(self.profile.threat_brackets_size)
 
         FRAME_WIDTH = Scale(self.profile.frame_width)
         FRAME_HEIGHT = Scale(self.profile.frame_height)
@@ -636,30 +640,16 @@ do
             return
         else
             -- NPCs; reaction colour
-            if not UnitCanAttack('player',f.unit) and
-               f.state.reaction >= 4
-            then
+            if not f.state.attackable and f.state.reaction >= 4 then
                 -- friendly
-                if NAME_COLOUR_NPCS_INHERIT_REACTION then
-                    f.NameText:SetTextColor(.7,1,.7)
-                else
-                    f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_FRIENDLY))
-                end
+                f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_FRIENDLY))
             else
                 if f.state.reaction == 4 then
                     -- neutral, attackable
-                    if NAME_COLOUR_NPCS_INHERIT_REACTION then
-                        f.NameText:SetTextColor(1,.97,.7)
-                    else
-                        f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_NEUTRAL))
-                    end
+                    f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_NEUTRAL))
                 else
                     -- hostile
-                    if NAME_COLOUR_NPCS_INHERIT_REACTION then
-                        f.NameText:SetTextColor(1,.7,.7)
-                    else
-                        f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_HOSTILE))
-                    end
+                    f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_HOSTILE))
                 end
             end
         end
@@ -1454,22 +1444,32 @@ do
 end
 -- auras #######################################################################
 do
-    local AURAS_NORMAL_SIZE,AURAS_MINUS_SIZE,
+    local AURAS_NORMAL_SIZE,AURAS_MINUS_SIZE,AURAS_CENTRE,
           AURAS_ON_PERSONAL,AURAS_ENABLED,AURAS_SHOW_ALL_SELF,
           AURAS_HIDE_ALL_OTHER,AURAS_PURGE_SIZE,AURAS_SHOW_PURGE,AURAS_SIDE,
           AURAS_OFFSET,AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
           PURGE_OFFSET,AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD,
-          AURAS_PURGE_OPPOSITE
+          AURAS_PURGE_OPPOSITE,AURAS_HIGHLIGHT_OTHER
 
-    local function AuraFrame_SetFrameWidth(self,no_size_change)
+    local function AuraFrame_UpdateFrameSize(self,to_size)
         -- frame width changes depending on icon size, needs to be correct if
         -- auras are centred, and we want to make sure the frame isn't aligned
         -- to subpixels;
-        if not self.__width or not no_size_change then
-            self.__width = (self.size * self.num_per_row) + (self.num_per_row - 1)
+        if not self.__width or to_size then
+            self.__width = ((to_size or self.size) * self.num_per_row) +
+                           (self.num_per_row - 1)
             self:SetWidth(self.__width)
 
-            self.__h_offset = AURAS_CENTRE and 
+            if to_size or AURAS_CENTRE then
+                -- resize & re-arrange buttons
+                -- (arrange is always needed after a width change if centred)
+                self:SetIconSize(to_size)
+            end
+
+            -- update frame height
+            core.Auras_PostUpdateAuraFrame(self)
+
+            self.__h_offset = AURAS_CENTRE and
                 floor((self.parent.bg:GetWidth() - self.__width) / 2) or
                 0
         end
@@ -1498,32 +1498,26 @@ do
             end
         end
     end
-    local function AuraFrame_SetIconSize(self,minus)
-        -- determine icon size
-        local size
-        if self.purge then
-            size = AURAS_PURGE_SIZE
-        else
-            size = minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE
-        end
-
-        if self.__width and self.size == size then
-            -- desired size is unchanged;
-            return
-        end
+    local function AuraFrame_UpdateIconSize(self,minus)
+        -- determine current icon size
+        local size = (self.purge and AURAS_PURGE_SIZE) or
+                     (minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE)
 
         self.num_per_row = (minus or self.purge) and 4 or 5
 
-        -- resize & re-arrange buttons
-        self:SetIconSize(size)
+        if not self.purge and self.size == size then
+            -- no size update necessary
+            size = nil
+        end
 
-        -- re-set frame width
-        AuraFrame_SetFrameWidth(self)
+        -- update frame point + size
+        AuraFrame_UpdateFrameSize(self,size)
     end
     local function AuraFrame_CoreDynamic_OnVisibilityChange(self)
-        if self.sibling.__width then
-            -- update sibling point (unless it hasn't initialised)
-            AuraFrame_SetFrameWidth(self.sibling,true)
+        if self.parent.IGNORE_VISIBILITY_BUBBLE then return end
+        if not AURAS_PURGE_OPPOSITE and self.sibling.__width then
+            -- update sibling point if it's attached and initalised
+            AuraFrame_UpdateFrameSize(self.sibling)
         end
     end
 
@@ -1533,7 +1527,7 @@ do
             f.Auras.frames.core_dynamic:Disable()
         else
             f.Auras.frames.core_dynamic:Enable(true)
-            AuraFrame_SetIconSize(f.Auras.frames.core_dynamic,f.state.minus)
+            AuraFrame_UpdateIconSize(f.Auras.frames.core_dynamic,f.state.minus)
         end
 
         -- only show purge on hostiles
@@ -1541,13 +1535,13 @@ do
             f.Auras.frames.core_purge:Disable()
         else
             f.Auras.frames.core_purge:Enable(true)
-            AuraFrame_SetIconSize(f.Auras.frames.core_purge)
+            AuraFrame_UpdateIconSize(f.Auras.frames.core_purge)
         end
     end
     function core:CreateAuras(f)
         -- for both frames:
-        -- initial icon size set by AuraFrame_SetIconSize < UpdateAuras
-        -- frame width & point set by AuraFrame_SetFrameWidth < _SetIconSize
+        -- initial icon size set by AuraFrame_UpdateIconSize < UpdateAuras
+        -- frame width & point set by AuraFrame_UpdateFrameSize < _UpdateIconSize
         local auras = f.handler:CreateAuraFrame({
             id = 'core_dynamic',
             max = 10,
@@ -1585,13 +1579,6 @@ do
         purge.__core = true
         purge:SetFrameLevel(0)
 
-        --@debug@
-        auras:SetBackdrop({bgFile=kui.m.t.solid})
-        auras:SetBackdropColor(0,0,0,.5)
-        purge:SetBackdrop({bgFile=kui.m.t.solid})
-        purge:SetBackdropColor(1,1,1,.5)
-        --@end-debug@
-
         auras.sibling = purge
         purge.sibling = auras
 
@@ -1609,7 +1596,7 @@ do
         button.count:SetPoint('BOTTOMRIGHT',5,-2+TEXT_VERTICAL_OFFSET)
         button.count.fontobject_shadow = true
 
-        if frame.__core then
+        if frame.__core and not button.hl then
             -- create owner highlight
             local hl = button:CreateTexture(nil,'ARTWORK',nil,2)
             hl:SetTexture(KUI_MEDIA..'t/button-highlight')
@@ -1628,7 +1615,7 @@ do
         if frame.purge or button.can_purge then
             button.hl:SetVertexColor(1,.2,.2,.8)
             button.hl:Show()
-        elseif not button.own then
+        elseif AURAS_HIGHLIGHT_OTHER and not button.own then
             button.hl:SetVertexColor(.4,1,.2,.8)
             button.hl:Show()
         else
@@ -1645,33 +1632,44 @@ do
             )
         end
     end
-    function core.Auras_DisplayAura(frame,name,spellid,duration,caster)
+    function core.Auras_DisplayAura(frame,spellid,name,duration,caster,own,can_purge,nps_own,nps_all)
         if not frame.__core then return end
-        if frame.id ~= 'core_dynamic' then return end
+        if frame.purge then
+            -- force hide if excluded by spell list
+            if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
+                return 1
+            end
+        else
+            -- force show if included by spell list
+            if  (KSL:SpellIncludedAll(spellid) or
+                 KSL:SpellIncludedAll(name)) or
+                (own and (KSL:SpellIncludedOwn(spellid) or
+                 KSL:SpellIncludedOwn(name)))
+            then
+                return 2
+            end
 
-        -- force show if included by spell list (all casters or self)
-        if  (KSL:SpellIncludedAll(spellid) or KSL:SpellIncludedAll(name)) or
-            ((caster == 'player' or caster == 'pet' or caster == 'vehcile') and
-            (KSL:SpellIncludedOwn(spellid) or KSL:SpellIncludedOwn(name)))
-        then
-            return 2
-        end
+            -- force hide infinite duration unless whitelisted
+            if duration == 0 and not nps_all and not nps_own then
+                return 1
+            end
 
-        -- force hide if excluded by spell list
-        if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
-            return 1
-        end
+            -- force hide if excluded by spell list, as above
+            if KSL:SpellExcluded(spellid) or KSL:SpellExcluded(name) then
+                return 1
+            end
 
-        if AURAS_SHOW_ALL_SELF or AURAS_HIDE_ALL_OTHER then
-            if caster == 'player' or caster == 'pet' or caster == 'vehicle' then
-                if AURAS_SHOW_ALL_SELF then
-                    -- show all casts from the player
-                    return 2
-                end
-            else
-                if AURAS_HIDE_ALL_OTHER then
-                    -- hide all other players' casts (CC, etc.)
-                    return 1
+            if AURAS_SHOW_ALL_SELF or AURAS_HIDE_ALL_OTHER then
+                if own then
+                    if AURAS_SHOW_ALL_SELF then
+                        -- show all casts from the player
+                        return 2
+                    end
+                else
+                    if AURAS_HIDE_ALL_OTHER then
+                        -- hide all other players' casts (CC, etc.)
+                        return 1
+                    end
                 end
             end
         end
@@ -1685,17 +1683,18 @@ do
         AURAS_NORMAL_SIZE = Scale(self.profile.auras_icon_normal_size)
         AURAS_MINUS_SIZE = Scale(self.profile.auras_icon_minus_size)
         AURAS_PURGE_SIZE = Scale(self.profile.auras_purge_size)
+        AURAS_OFFSET = Scale(self.profile.auras_offset)
 
         AURAS_ENABLED = self.profile.auras_enabled
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
         AURAS_SIDE = self.profile.auras_side
-        AURAS_OFFSET = self.profile.auras_offset
         AURAS_SHOW_ALL_SELF = self.profile.auras_show_all_self
         AURAS_HIDE_ALL_OTHER = self.profile.auras_hide_all_other
         AURAS_SHOW_PURGE = self.profile.auras_show_purge
         AURAS_TIMER_THRESHOLD = self.profile.auras_time_threshold
         AURAS_PURGE_OPPOSITE = self.profile.auras_purge_opposite
         AURAS_CENTRE = self.profile.auras_centre
+        AURAS_HIGHLIGHT_OTHER = self.profile.auras_highlight_other
 
         if AURAS_TIMER_THRESHOLD < 0 then
             AURAS_TIMER_THRESHOLD = nil
@@ -1814,16 +1813,11 @@ end
 -- threat brackets #############################################################
 do
     local TB_TEXTURE = MEDIA..'threat-bracket'
-    local TB_PIXEL_LEFTMOST = .28125
-    local TB_RATIO = 2
-    local TB_HEIGHT = 18
-    local TB_WIDTH = TB_HEIGHT * TB_RATIO
-    local TB_X_OFFSET = floor((TB_WIDTH * TB_PIXEL_LEFTMOST)-1)
     local TB_POINTS = {
-        { 'BOTTOMLEFT', 'TOPLEFT',    -TB_X_OFFSET,  1.3 },
-        { 'BOTTOMRIGHT','TOPRIGHT',    TB_X_OFFSET,  1.3 },
-        { 'TOPLEFT',    'BOTTOMLEFT', -TB_X_OFFSET, -1.5 },
-        { 'TOPRIGHT',   'BOTTOMRIGHT', TB_X_OFFSET, -1.5 }
+        { 'BOTTOMRIGHT', 'TOPLEFT',    -1, 1 },
+        { 'BOTTOMLEFT','TOPRIGHT',     1, 1 },
+        { 'TOPRIGHT',    'BOTTOMLEFT', -1, -1 },
+        { 'TOPLEFT',   'BOTTOMRIGHT',  1, -1 },
     }
     -- threat bracket prototype
     local tb_prototype = {}
@@ -1831,6 +1825,7 @@ do
     function tb_prototype:SetVertexColor(...)
         for k,v in ipairs(self.textures) do
             v:SetVertexColor(...)
+            v:SetAlpha(.8)
         end
     end
     function tb_prototype:Show(...)
@@ -1843,6 +1838,11 @@ do
             v:Hide(...)
         end
     end
+    function tb_prototype:SetSize(size)
+        for k,v in ipairs(self.textures) do
+            v:SetSize(size,size)
+        end
+    end
     -- update
     local function UpdateThreatBrackets(f)
         if not core.profile.threat_brackets or f.IN_NAMEONLY then
@@ -1852,6 +1852,7 @@ do
 
         if f.state.glowing then
             f.ThreatBrackets:SetVertexColor(unpack(f.state.glow_colour))
+            f.ThreatBrackets:SetSize(THREAT_BRACKETS_SIZE)
             f.ThreatBrackets:Show()
         else
             f.ThreatBrackets:Hide()
@@ -1865,7 +1866,7 @@ do
         for i,p in ipairs(TB_POINTS) do
             local b = f:CreateTexture(nil,'BACKGROUND',nil,0)
             b:SetTexture(TB_TEXTURE)
-            b:SetSize(TB_WIDTH, TB_HEIGHT)
+            b:SetBlendMode('ADD')
             b:SetPoint(p[1], f.bg, p[2], p[3], p[4])
             b:Hide()
 
@@ -1918,25 +1919,30 @@ function core:ShowNameUpdate(f)
 end
 -- nameonly ####################################################################
 do
-    local NAMEONLY_NO_FONT_STYLE,NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_FRIENDS,
-    NAMEONLY_ALL_ENEMIES,NAMEONLY_TARGET,NAMEONLY_HEALTH_COLOUR,
-    NAMEONLY_ON_NEUTRAL,NAMEONLY_IN_COMBAT
+    local NAMEONLY_ENABLED,NAMEONLY_NO_FONT_STYLE,NAMEONLY_HEALTH_COLOUR
+    local NAMEONLY_TARGET,NAMEONLY_ALL_ENEMIES,NAMEONLY_ON_NEUTRAL,
+          NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_ENEMIES,NAMEONLY_FRIENDS,
+          NAMEONLY_DAMAGED_FRIENDS,NAMEONLY_COMBAT_HOSTILE,
+          NAMEONLY_COMBAT_FRIENDLY
 
     function core:configChangedNameOnly()
+        NAMEONLY_ENABLED = self.profile.nameonly
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
-        NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
-        NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
-        NAMEONLY_ENEMIES = NAMEONLY_ALL_ENEMIES or self.profile.nameonly_enemies
-        NAMEONLY_TARGET = self.profile.nameonly_target
         NAMEONLY_HEALTH_COLOUR = self.profile.nameonly_health_colour
-        NAMEONLY_ON_NEUTRAL = self.profile.nameonly_neutral
-        NAMEONLY_IN_COMBAT = self.profile.nameonly_in_combat
 
-        if NAMEONLY_ALL_ENEMIES or NAMEONLY_TARGET then
-            -- create target/threat glow
-            for k,f in addon:Frames() do
-                core:CreateNameOnlyGlow(f)
-            end
+        NAMEONLY_TARGET = self.profile.nameonly_target
+        NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
+        NAMEONLY_ON_NEUTRAL = self.profile.nameonly_neutral
+        NAMEONLY_ENEMIES = self.profile.nameonly_enemies
+        NAMEONLY_DAMAGED_ENEMIES = self.profile.nameonly_damaged_enemies
+        NAMEONLY_FRIENDS = self.profile.nameonly_friends
+        NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
+        NAMEONLY_COMBAT_HOSTILE = self.profile.nameonly_combat_hostile
+        NAMEONLY_COMBAT_FRIENDLY = self.profile.nameonly_combat_friends
+
+        -- create target/threat glow
+        for k,f in addon:Frames() do
+            core:CreateNameOnlyGlow(f)
         end
     end
 
@@ -1949,7 +1955,6 @@ do
                  6+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
         end
         function core:CreateNameOnlyGlow(f)
-            if not NAMEONLY_ALL_ENEMIES and not NAMEONLY_TARGET then return end
             if f.NameOnlyGlow then return end
 
             local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
@@ -2067,81 +2072,64 @@ do
         end
     end
 
-    local function UnattackableEnemyPlayer(f)
-        -- don't show on enemy players
-        return not NAMEONLY_ALL_ENEMIES and
-               UnitIsPlayer(f.unit) and
-               f.state.reaction <= 4
-    end
-    local function EnemyAndDisabled(f)
-        -- don't show on enemies
-        if (not NAMEONLY_ENEMIES and not NAMEONLY_ALL_ENEMIES) and
-           f.state.reaction <= 4
-        then
-            -- if NAMEONLY_{ALL_,}ENEMIES is disabled and
-            -- this frame is an enemy;
-            return true
-            -- return we're disabled on this frame
-        end
-    end
-    local function FriendAndDisabled(f)
-        if not NAMEONLY_DAMAGED_FRIENDS and f.state.friend then
-            if f.state.health_deficit > 0 then
-                -- don't show on damaged friends
+    local function NameOnlyFilterFrame(f)
+        if not NAMEONLY_ENABLED then return end
+        -- disable on personal frame
+        if f.state.personal then return end
+        -- disable on target
+        if not NAMEONLY_TARGET and f.state.target then return end
+
+        if not f.state.attackable and f.state.reaction >= 4 then
+            -- friendly
+            -- disable on friends affecting combat
+            if not NAMEONLY_COMBAT_FRIENDLY and f.state.combat then
+                return
+            end
+            -- disable on friends
+            if not NAMEONLY_FRIENDS then
+                return
+            end
+            -- disable on damaged friends
+            if not NAMEONLY_DAMAGED_FRIENDS and f.state.health_deficit > 0 then
+                return
+            end
+        else
+            -- hostile/neutral
+            -- disable on enemies affecting combat
+            if not NAMEONLY_COMBAT_HOSTILE and f.state.combat then
+                return
+            end
+            -- force enable on neutral
+            if NAMEONLY_ON_NEUTRAL and f.state.reaction == 4 then
                 return true
             end
+            -- disable on attackable units
+            if not NAMEONLY_ALL_ENEMIES and f.state.attackable then
+                return
+            end
+            -- disable on hostile
+            if not NAMEONLY_ENEMIES then
+                return
+            end
+            -- disable on damaged enemies
+            if not NAMEONLY_DAMAGED_ENEMIES and f.state.health_deficit > 0 then
+                return
+            end
+            -- disable on unattackable enemy players
+            if not NAMEONLY_ALL_ENEMIES and UnitIsPlayer(f.unit) then
+                return
+            end
         end
-    end
-    local function EnemyAffectingCombat(f)
-        if (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
-           not NAMEONLY_IN_COMBAT and
-           f.state.reaction <= 4 and
-           (f.state.threat or UnitIsPlayer(f.unit))
-        then
-            -- if NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL is enabled and
-            -- NAMEONLY_IN_COMBAT is disabled and
-            -- this is an enemy frame and
-            -- we are in the unit's threat table or
-            -- the unit is a player;
-            return true
-            -- disable on this frame
-        end
-    end
-    local function AttackableUnitAndEnabled(f)
-        -- don't show on attackable units
-        if (NAMEONLY_ALL_ENEMIES or not UnitCanAttack('player',f.unit)) or
-           (NAMEONLY_ON_NEUTRAL and f.state.reaction == 4)
-        then
-            -- NAMEONLY_ALL_ENEMIES is enabled or
-            -- unit cannot be attacked or
-            -- ( NAMEONLY_ON_NEUTRAL is enabled and
-            --   unit is neutral )
-            return true
-            -- return we're enabled on this frame
-        end
+        -- enable
+        return true
     end
 
     function core:NameOnlyCombatUpdate(f)
-        if  (NAMEONLY_ALL_ENEMIES or NAMEONLY_ON_NEUTRAL) and
-            not NAMEONLY_IN_COMBAT
-        then
-            self:NameOnlyUpdate(f)
-            self:NameOnlyUpdateFunctions(f)
-        end
+        self:NameOnlyUpdate(f)
+        self:NameOnlyUpdateFunctions(f)
     end
     function core:NameOnlyUpdate(f,hide)
-        if  not hide and self.profile.nameonly and
-            -- don't show on player frame
-            not f.state.personal and
-            -- don't show on target
-            (NAMEONLY_TARGET or not f.state.target) and
-            -- more complex filters;
-            AttackableUnitAndEnabled(f) and
-            not EnemyAffectingCombat(f) and
-            not UnattackableEnemyPlayer(f) and
-            not EnemyAndDisabled(f) and
-            not FriendAndDisabled(f)
-        then
+        if not hide and NameOnlyFilterFrame(f) then
             NameOnlyEnable(f)
         else
             NameOnlyDisable(f)

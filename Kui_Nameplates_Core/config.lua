@@ -12,7 +12,6 @@ local core = KuiNameplatesCore
 -- local event frame
 local cc = CreateFrame('Frame')
 -- add media to LSM ############################################################
-LSM:Register(LSM.MediaType.FONT,'Yanone Kaffesatz Bold',kui.m.f.yanone)
 LSM:Register(LSM.MediaType.FONT,'FrancoisOne',kui.m.f.francois)
 LSM:Register(LSM.MediaType.FONT,'Roboto Condensed Bold',kui.m.f.roboto,
     LSM.LOCALE_BIT_western + LSM.LOCALE_BIT_ruRU)
@@ -37,12 +36,13 @@ local default_config = {
     glow_as_shadow = true,
     state_icons = true,
     target_glow = true,
-    target_glow_colour = { .3, .7, 1, 1 },
+    target_glow_colour = { .3, .7, 1, .8 },
     mouseover_glow = false,
     mouseover_glow_colour = { .3, .7, 1, .5 },
-    target_arrows = false,
     frame_glow_size = 8,
+    target_arrows = false,
     target_arrows_size = 28,
+    target_arrows_inset = 5, -- NEX
     use_blizzard_personal = false,
     frame_vertical_offset = 0,
     show_arena_id = true, -- NEX
@@ -54,12 +54,15 @@ local default_config = {
     nameonly = true,
     nameonly_no_font_style = false,
     nameonly_health_colour = true,
-    nameonly_damaged_friends = true,
-    nameonly_enemies = true,
+    nameonly_target = true,
     nameonly_all_enemies = false,
     nameonly_neutral = false,
-    nameonly_target = true,
-    nameonly_in_combat = false,
+    nameonly_enemies = true,
+    nameonly_damaged_enemies = true,
+    nameonly_friends = true,
+    nameonly_damaged_friends = true,
+    nameonly_combat_hostile = true,
+    nameonly_combat_friends = true,
     guild_text_npcs = true,
     guild_text_players = false,
     title_text_players = false,
@@ -162,6 +165,7 @@ local default_config = {
     auras_side = 1,
     auras_offset = 15,
     auras_decimal_threshold = 2, -- NEX
+    auras_highlight_other = true, -- NEX
 
     castbar_enable = true,
     castbar_colour = {.75,.75,.9},
@@ -186,6 +190,7 @@ local default_config = {
     tankmode_force_enable = false,
     tankmode_force_offtank = false,
     threat_brackets = false,
+    threat_brackets_size = 24,
     frame_glow_threat = true,
     tankmode_tank_colour = { 0, 1, 0 },
     tankmode_trans_colour = { 1, 1, 0 },
@@ -577,13 +582,16 @@ function configChanged.nameonly_no_font_style()
     core:configChangedNameOnly()
     core:configChangedFontOption()
 end
-configChanged.nameonly_damaged_friends = configChanged.nameonly
-configChanged.nameonly_enemies = configChanged.nameonly
-configChanged.nameonly_all_enemies = configChanged.nameonly
-configChanged.nameonly_target = configChanged.nameonly
 configChanged.nameonly_health_colour = configChanged.nameonly
+configChanged.nameonly_target = configChanged.nameonly
+configChanged.nameonly_all_enemies = configChanged.nameonly
 configChanged.nameonly_neutral = configChanged.nameonly
-configChanged.nameonly_in_combat = configChanged.nameonly
+configChanged.nameonly_enemies = configChanged.nameonly
+configChanged.nameonly_damaged_enemies = configChanged.nameonly
+configChanged.nameonly_friends = configChanged.nameonly
+configChanged.nameonly_damaged_friends = configChanged.nameonly
+configChanged.nameonly_combat_hostile = configChanged.nameonly
+configChanged.nameonly_combat_friends = configChanged.nameonly
 
 local function configChangedAuras()
     core:SetAurasConfig()
@@ -748,6 +756,7 @@ configChanged.bossmod_control_visibility = configChangedBossMod
 configChanged.bossmod_icon_size = configChangedBossMod
 configChanged.bossmod_x_offset = configChangedBossMod
 configChanged.bossmod_y_offset = configChangedBossMod
+configChanged.bossmod_clickthrough = configChangedBossMod
 
 local function UpdateCVars()
     SetCVar('nameplateShowFriendlyNPCs',core.profile.cvar_show_friendly_npcs)

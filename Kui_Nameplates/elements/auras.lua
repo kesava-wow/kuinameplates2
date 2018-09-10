@@ -17,6 +17,9 @@
         Configuration table. Can be an empty table.
         Element will not initialise if this is missing or not a table.
 
+        The element needs to be informed of changes made to this table:
+            KuiNameplates:GetPlugin('Auras'):UpdateConfig()
+
         Font values are only used upon button creation - the layout must update
         fonts on buttons which have already been created.
 
@@ -28,28 +31,47 @@
 
     frame_def is a table which may contain the following values:
     frame_def = {
-        id = key for this frame in the [nameplate].Auras.frames table
-        size = icon size
-        squareness = icon width/height ratio
+        id = key for this frame in the [nameplate].Auras.frames table,
+        size = icon size,
+        squareness = icon width/height ratio,
         point = {
             [1] = point to place first aura icon in auras frame
             [2] = point of icon to attach to previous icon in a row
             [3] = point of previous icon on to which the next will be attached
-        }
-        x_spacing = horizontal spacing between icons
-        y_spacing = vertical spacing between icons
-        max = maximum number of auras to display
-        rows = maximum number of rows
-        row_growth = direction in which rows will grow ('UP' or 'DOWN')
-        sort = aura sorting function, or index in sort_lookup
-        filter = filter used in UnitAura calls
+        },
+        x_spacing = horizontal spacing between icons,
+        y_spacing = vertical spacing between icons,
+        max = maximum number of auras to display,
+        rows = maximum number of rows,
+        row_growth = direction in which rows will grow ('UP' or 'DOWN'),
+        sort = aura sorting function, or index in sort_lookup,
+        filter = filter used in UnitAura calls;
+                 if left nil, frame will be dynamic, meaning it will look for
+                 buffs on friends and debuffs on enemies,
+        purge = ignore whitelist and only show auras which can be purged;
+                also sets filter to 'HELPFUL' if it was left nil,
         num_per_row = number of icons per row;
-                      if left nil, calculates as max / rows
-        whitelist = a table of spellids to to show in the aura frame
-        pulsate = whether or not to pulsate icons with low time remaining
-        timer_threshold = threshold below which to show timer text
-        centred = centre visible auras in the frame
+                      if left nil, calculates as max / rows,
+        whitelist = a table of spellids to to show in the aura frame,
+        pulsate = whether or not to pulsate icons with low time remaining,
+        timer_threshold = threshold below which to show timer text,
+        centred = centre visible auras in the frame,
+        external = create an external aura frame (see below),
     }
+
+    External aura frames
+    ====================
+
+    External aura frames are aura frames which are managed by external code;
+    that is to say, they do not automatically scan for auras. Icons must be
+    created and deleted on-demand.
+
+    They have the additional functions:
+        frame:UpdateVisibility
+        frame:AddAura(uid,icon,count,duration,expiration)
+        frame:RemoveAura(uid,icon)
+
+    The BossMods module makes use of external aura frames.
 
     Callbacks
     =========
@@ -77,7 +99,8 @@
     PostUpdateAuraFrame(auraframe)
         Called after a shown aura frame is updated (buttons arranged, etc).
 
-    DisplayAura(auraframe,name,spellid,duration,caster,index)
+    DisplayAura(auraframe,spellid,name,duration,caster,own,can_purge,nps_own,
+     nps_all,index)
         Can be used to arbitrarily filter auras.
         Can return:
             1 (CB_HIDE): forcibly HIDE this aura
@@ -87,7 +110,7 @@
 ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local ele = addon:NewElement('Auras')
+local ele = addon:NewElement('Auras',1)
 
 local strlower,tinsert,tsort,     pairs,ipairs =
       strlower,tinsert,table.sort,pairs,ipairs
@@ -317,6 +340,7 @@ local function AuraFrame_Enable(self,force_update)
     self.__DISABLED = nil
 
     if force_update or self.parent:IsShown() then
+        self:FactionUpdate()
         self:Update()
     end
 end
@@ -329,7 +353,6 @@ end
 local function AuraFrame_Update(self)
     if self.__DISABLED then return end
 
-    self:FactionUpdate() -- XXX workaround for #1
     self:GetAuras()
 
     for _,button in ipairs(self.buttons) do
@@ -351,18 +374,9 @@ local function AuraFrame_Update(self)
 end
 local function AuraFrame_FactionUpdate(self)
     if self.__DISABLED then return end
-
     if self.dynamic and self.parent.unit then
-        -- update filter on faction change if dynamic
-        if UnitCanAttack('player',self.parent.unit) then
-            self.filter = 'HARMFUL'
-        else
-            self.filter = 'HELPFUL'
-        end
-    end
-
-    if addon.debug then
-        assert(self.filter ~= nil)
+        -- update filter on faction change
+        self.filter = self.parent.state.attackable and 'HARMFUL' or 'HELPFUL'
     end
 end
 local function AuraFrame_GetAuras(self)
@@ -401,8 +415,11 @@ local function AuraFrame_GetButton(self,spellid)
 end
 local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,can_purge,nps_own,nps_all,index)
     if not name or not spellid then return end
+    name = strlower(name)
 
-    local cbr = ele:RunCallback('DisplayAura',self,name,spellid,duration,caster,index)
+    local own = (caster == 'player' or caster == 'pet' or caster == 'vehicle')
+    local cbr = ele:RunCallback('DisplayAura',self,spellid,name,duration,
+        caster,own,can_purge,nps_own,nps_all,index)
     if cbr then
         -- forcibly hidden
         if cbr == CB_HIDE then return end
@@ -416,11 +433,10 @@ local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,can_pu
         return can_purge
     elseif self.whitelist then
         -- only obey whitelist
-        return self.whitelist[spellid] or self.whitelist[strlower(name)]
+        return self.whitelist[spellid] or self.whitelist[name]
     else
         -- fallback to API's nameplate filter
-        return nps_all or (nps_own and
-               (caster == 'player' or caster == 'pet' or caster == 'vehicle'))
+        return nps_all or (nps_own and own)
     end
 end
 local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,caster,can_purge,index)
@@ -781,7 +797,7 @@ function ele:UpdateConfig()
 end
 -- messages ####################################################################
 function ele:Show(f)
-    self:UNIT_FACTION(nil,f)
+    self:FactionUpdate(f)
 end
 function ele:Hide(f)
     if not f.Auras then return end
@@ -789,14 +805,15 @@ function ele:Hide(f)
         frame:Hide()
     end
 end
--- events ######################################################################
-function ele:UNIT_FACTION(event,f)
+function ele:FactionUpdate(f)
     -- update each aura frame on this nameplate
     if not f.Auras then return end
     for _,auras_frame in pairs(f.Auras.frames) do
+        auras_frame:FactionUpdate()
         auras_frame:Update()
     end
 end
+-- events ######################################################################
 function ele:UNIT_AURA(event,f)
     -- update each aura frame on this nameplate
     if not f.Auras then return end
@@ -808,9 +825,8 @@ end
 function ele:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
-
+    self:RegisterMessage('FactionUpdate')
     self:RegisterUnitEvent('UNIT_AURA')
-    self:RegisterUnitEvent('UNIT_FACTION')
 end
 function ele:Initialised()
     if type(addon.layout.Auras) ~= 'table' then 

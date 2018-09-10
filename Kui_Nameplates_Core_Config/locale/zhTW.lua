@@ -31,11 +31,19 @@ L["titles"] = {
 	["auras_icon_squareness"] = "長寬比例",
 	["auras_icons_sep"] = "圖示",
 	["auras_kslc_hint"] = "KuiSpellListConfig（可在Curse上取得）可以讓你編輯法術黑名單和白名單，任何單位所施放的法術都可以放入自訂清單。",
-	["auras_maximum_length"] = "最大顯示秒數",
-	["auras_minimum_length"] = "最小顯示秒數",
+--[[Translation missing --]]
+	["auras_offset"] = "Vertical offset",
 	["auras_on_personal"] = "在個人資源上顯示",
 	["auras_pulsate"] = "閃爍圖示",
+--[[Translation missing --]]
+	["auras_purge_opposite"] = "Purge on opposite",
+--[[Translation missing --]]
+	["auras_purge_size"] = "Icon size (purge)",
 	["auras_show_all_self"] = "顯示自身施放的所有光環",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show purge",
+--[[Translation missing --]]
+	["auras_side"] = "Side",
 	["auras_sort"] = "排序方式",
 	["auras_time_threshold"] = "計時器閾值",
 	["bar_animation"] = "血條動畫",
@@ -47,10 +55,8 @@ L["titles"] = {
 	["bossmod_x_offset"] = "水平位置",
 	["bossmod_y_offset"] = "垂直位置",
 	["bot_vertical_offset"] = "等級血量垂直偏移",
---[[Translation missing --]]
-	["castbar_animate"] = "Animate",
---[[Translation missing --]]
-	["castbar_animate_change_colour"] = "Change colour",
+	["castbar_animate"] = "動畫",
+	["castbar_animate_change_colour"] = "變更顏色",
 	["castbar_colour"] = "施法條顏色",
 	["castbar_enable"] = "啟用",
 	["castbar_height"] = "施法條高度",
@@ -96,8 +102,7 @@ L["titles"] = {
 	["copy_profile_title"] = "複製設定檔",
 	["cvar_clamp_bottom"] = "底部鎖定距離",
 	["cvar_clamp_top"] = "頂部鎖定距離",
---[[Translation missing --]]
-	["cvar_disable_scale"] = "Disable default scaling",
+	["cvar_disable_scale"] = "停用預設縮放",
 	["cvar_enable"] = "允許Kui姓名版修改CVars參數",
 	["cvar_max_distance"] = "最大可視距離",
 	["cvar_name_only"] = "隱藏預設生命條",
@@ -140,8 +145,12 @@ L["titles"] = {
 	["fade_avoid_combat"] = "避開戰鬥中",
 	["fade_avoid_execute_friend"] = "避開低血量友方",
 	["fade_avoid_execute_hostile"] = "避開低血量敵方",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Mouseover",
 	["fade_avoid_nameonly"] = "避開名字模式",
 	["fade_avoid_raidicon"] = "避開團隊標記",
+--[[Translation missing --]]
+	["fade_avoid_sep"] = "Don't fade...",
 	["fade_avoid_tracked"] = "避開已追蹤或戰鬥中",
 	["fade_conditional_alpha"] = "透明條件",
 	["fade_friendly_npc"] = "淡出友方NPC",
@@ -161,6 +170,12 @@ L["titles"] = {
 	["frame_width"] = "框架寬度",
 	["frame_width_minus"] = "次要單位寬度",
 	["frame_width_personal"] = "個人資源寬度",
+--[[Translation missing --]]
+	["framesizes_element_sep"] = "Elements",
+--[[Translation missing --]]
+	["framesizes_scale_sep"] = "Scale",
+--[[Translation missing --]]
+	["global_scale"] = "Global scale",
 	["glow_as_shadow"] = "顯示陰影光暈",
 	["guild_text_npcs"] = "顯示NPC頭銜",
 	["guild_text_players"] = "顯示玩家公會",
@@ -173,6 +188,10 @@ L["titles"] = {
 	["hide_names"] = "隱藏非追蹤單位名稱",
 	["ignore_uiscale"] = "忽略介面縮放",
 	["level_text"] = "顯示等級",
+--[[Translation missing --]]
+	["mouseover_glow"] = "Mouseover glow",
+--[[Translation missing --]]
+	["mouseover_glow_colour"] = "Mouseover glow colour",
 	["name_colour_npc_friendly"] = "友方",
 	["name_colour_npc_hostile"] = "敵方",
 	["name_colour_npc_neutral"] = "中立",
@@ -224,17 +243,16 @@ L["titles"] = {
 L["tooltips"] = {
 	["absorb_enable"] = "在血條上顯示吸收盾",
 	["absorb_striped"] = "在吸收盾上使用條紋材質。如果未勾選，繼承血條材質。",
-	["auras_centre"] = "水平置中對齊框架上的圖示，而非靠左對齊",
 	["auras_enabled"] = "在名條上顯示你施放的光環：友方顯示增益，敵方顯示減益",
 	["auras_hide_all_other"] = "不顯示任何他人施放的光環（如控場和緩速）。|n|n請注意：KuiSpellList的生效優先級高於此選項，所以你仍然可以在勾選此選項的情況下用|cffffff88KuiSpellListConfig|r（可在Curse上取得）自訂特定法術的顯示。",
 	["auras_icon_minus_size"] = "次要單位名條的圖示大小",
 	["auras_icon_normal_size"] = "標準單位名條的圖示大小",
 	["auras_icon_squareness"] = "光環圖示的長寬比例，設為1代表正方形",
-	["auras_maximum_length"] = "不顯示秒數大於此數值的光環。將值設為-1可忽略此選項",
-	["auras_minimum_length"] = "不顯示秒數低於此數值的光環",
 	["auras_on_personal"] = "如果啟用，在個人資源上顯示你的光環",
 	["auras_pulsate"] = "快要結束時閃爍圖標",
 	["auras_show_all_self"] = "顯示你施放的所有光環，而非只顯示暴雪預設的重要光環。|n|n請注意：KuiSpellList的生效優先級高於此選項，所以你仍然可以在勾選此選項的情況下用|cffffff88KuiSpellListConfig|r（可在Curse上取得）自訂特定法術的顯示。",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show buffs on enemies which you can spell steal, dispel, or purge",
 	["auras_time_threshold"] = "當光環的剩餘秒數少於這個數值時，顯示倒數文字。設為-1可使倒數計時總是顯示",
 	["bar_animation"] = "血量／能量條變化的動畫方式",
 	["bar_texture"] = "狀態條使用的材質（由LibSharedMedia提供）",
@@ -245,12 +263,9 @@ L["tooltips"] = {
 	["bossmod_x_offset"] = "首領光環圖示位置的水平偏移量",
 	["bossmod_y_offset"] = "首領光環圖示位置的垂直偏移量",
 	["bot_vertical_offset"] = "等級血量位置的垂直偏移量",
---[[Translation missing --]]
-	["castbar_animate"] = "Fade out the cast bar when a cast ends.",
---[[Translation missing --]]
-	["castbar_animate_change_colour"] = "Change the colour of the cast bar when a cast ends, making it easier to tell the difference between successful, stopped, and interrupted casts.",
---[[Translation missing --]]
-	["castbar_colour"] = "Colour of the cast bar.|n|nAlso used to indicate a successful cast if animation is enabled.",
+	["castbar_animate"] = "當施法結束時淡出施法條。",
+	["castbar_animate_change_colour"] = "當施法結束時變更施法條顏色，這樣可以更好分辨成功、中止、被打斷施法的區別。",
+	["castbar_colour"] = "施法條顏色。|n|n如果有啟用動畫，也用於表示成功施放。",
 	["castbar_enable"] = "啟用施法條",
 	["castbar_name_vertical_offset"] = "法術名稱文字的垂直偏移量",
 	["castbar_shield"] = "在免疫打斷的施法條上顯示盾牌圖示",
@@ -280,8 +295,7 @@ L["tooltips"] = {
 	["combat_hostile"] = "進入與離開戰鬥時在敵方框架上採取的動作。",
 	["cvar_clamp_bottom"] = "|cffffcc00nameplate{Other,Large}BottomInset|r",
 	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|n姓名板與螢幕頂部邊緣會有多靠近，當設置為0代表靠緊邊緣，設置為-0.1代表取消鎖定在螢幕頂部。|n|n鎖定只影響你當前目標。",
---[[Translation missing --]]
-	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.",
+	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|n停用名條距離縮放CVars參數，否則這只會作用在點擊框架。",
 	["cvar_enable"] = "啟用後，Kui姓名版將嘗試將此頁面上的CVar參數鎖定到設置的值。|n|n取消此選項，停用KNP，或是移除KNP都不會重設CVars參數回預設值。",
 	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|n姓名版最大可視的距離（不包含當前目標）。",
 	["cvar_name_only"] = "|cffffcc00nameplateShowOnlyNames|r|n|n在友方姓名板無法被插件修改的情形下，隱藏預設姓名版的生命條。",
@@ -300,6 +314,8 @@ L["tooltips"] = {
 	["fade_avoid_combat"] = "不淡出與你戰鬥中的名條",
 	["fade_avoid_execute_friend"] = "不要淡出血量處於斬殺階段的友方名條（在「血量條」頁面設置）",
 	["fade_avoid_execute_hostile"] = "不要淡出血量處於斬殺階段的敵方名條（在「血量條」頁面設置）",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Fade in nameplates when your mouse is over them",
 	["fade_avoid_nameonly"] = "啟用名字模式時，不要淡出名條",
 	["fade_avoid_raidicon"] = "不要淡出被標記了團隊圖示的名條",
 	["fade_avoid_tracked"] = "不淡出已追蹤或是正在與你戰鬥中的單位名條。|n透過改變 Esc > 介面 > 名稱 > 「NPC名稱」的選項來設定是否進行追蹤。",
@@ -320,6 +336,8 @@ L["tooltips"] = {
 	["frame_width"] = "標準名條寬度",
 	["frame_width_minus"] = "次要敵方單位的名條寬度（次要敵人一般會顯示比較小的名條）",
 	["frame_width_personal"] = "個人資源條的寬度（若要啟用，勾選 Esc > 介面 > 名稱 > 顯示個人資源）",
+--[[Translation missing --]]
+	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
 	["guild_text_npcs"] = "顯示NPC的頭銜，像是軍需官...等等。",
 	["guild_text_players"] = "啟用名字模式時，顯示玩家公會",
 	["health_text_friend_dmg"] = "友方玩家損血時的血量文字格式",

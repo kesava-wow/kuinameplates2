@@ -528,7 +528,7 @@ end
 -- tab functions ###############################################################
 do
     local function OnClick(self)
-        PlaySound(S_CHECKBOX_ON);
+        PlaySound(S_CHECKBOX_ON)
         self.child:ShowPage()
     end
     function opt:CreatePageTab(page)
@@ -593,7 +593,7 @@ do
         self:SetValue(opt.config.csv.profile)
     end
     function CreateProfileDropDown()
-        p_dd = pcdd:New(opt,L.titles['profile'])
+        local p_dd = pcdd:New(opt,L.titles['profile'])
         p_dd.labelText:SetFontObject('GameFontNormalSmall')
         p_dd:SetWidth(152)
         p_dd:SetHeight(40)

@@ -7,7 +7,7 @@
 --------------------------------------------------------------------------------
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
-addon.MAJOR,addon.MINOR = 2,2
+addon.MAJOR,addon.MINOR = 2,3
 
 --@debug@
 addon.debug = true
@@ -21,9 +21,16 @@ addon.DEBUG_IGNORE = {
     ['m:Create'] = true,
     ['m:Show'] = true,
     ['m:Hide'] = true,
+    ['m:HealthUpdate'] = true,
+    ['m:HealthColourChange'] = true,
+    ['e:UNIT_POWER_UPDATE'] = true,
     ['e:UNIT_POWER_FREQUENT'] = true,
     ['e:UNIT_HEALTH_FREQUENT'] = true,
+    ['e:UNIT_AURA'] = true,
+    ['e:UNIT_ABSORB_AMOUNT_CHANGED'] = true,
     ['c:Auras:DisplayAura'] = true,
+    ['c:Auras:PostDisplayAuraButton'] = true,
+    ['c:Auras:PostUpdateAuraFrame'] = true,
 }
 --@end-debug@
 
@@ -51,7 +58,7 @@ function addon:print(...)
     print('KNP2','|cff666666'..GetTime()..'|r',...)
 end
 function addon:ui_print(...)
-    print('|cff9966ffKui Nameplates|r',...)
+    print('|cffbb99ffKui Nameplates|r',...)
 end
 function addon:Frames()
     return ipairs(framelist)
@@ -122,10 +129,6 @@ local function OnEvent(self,event,...)
         end
         return
     end
-
-    --@alpha@
-    self:ui_print('You are using an alpha release and may see debug messages in chat.')
-    --@end-alpha@
 
     if not self.layout then
         -- throw missing layout

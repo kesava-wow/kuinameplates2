@@ -35,11 +35,19 @@ L["titles"] = {
 	["auras_icon_squareness"] = "Coins des icônes",
 	["auras_icons_sep"] = "Icônes",
 	["auras_kslc_hint"] = "KuiSpellListConfig from Curse peut être utilisé pour accepter ou refuser les auras de n'importe quel lanceur de sorts",
-	["auras_maximum_length"] = "Longueur maximale de l'effet",
-	["auras_minimum_length"] = "Longueur minimale de l'effet",
+--[[Translation missing --]]
+	["auras_offset"] = "Vertical offset",
 	["auras_on_personal"] = "Afficher sur le cadre personnel",
 	["auras_pulsate"] = "Icônes clignotantes",
+--[[Translation missing --]]
+	["auras_purge_opposite"] = "Purge on opposite",
+--[[Translation missing --]]
+	["auras_purge_size"] = "Icon size (purge)",
 	["auras_show_all_self"] = "Accepter toutes ses propres auras",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show purge",
+--[[Translation missing --]]
+	["auras_side"] = "Side",
 	["auras_sort"] = "Méthode de tri",
 	["auras_time_threshold"] = "Seuil du minuteur",
 	["bar_animation"] = "Animation des barres",
@@ -51,6 +59,10 @@ L["titles"] = {
 	["bossmod_x_offset"] = "Décalage horizontale",
 	["bossmod_y_offset"] = "Décalage verticale",
 	["bot_vertical_offset"] = "Décalage verticale du niveau/de la vie",
+--[[Translation missing --]]
+	["castbar_animate"] = "Animate",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change colour",
 	["castbar_colour"] = "Couleur de la barre d'incantation",
 	["castbar_enable"] = "Activer",
 	["castbar_height"] = "Hauteur de la barre d'incantation",
@@ -100,6 +112,8 @@ L["titles"] = {
 --[[Translation missing --]]
 	["cvar_clamp_top"] = "Top clamp distance",
 --[[Translation missing --]]
+	["cvar_disable_scale"] = "Disable default scaling",
+--[[Translation missing --]]
 	["cvar_enable"] = "Allow Kui Nameplates to modify CVars",
 	["cvar_max_distance"] = "Distance de rendue max",
 	["cvar_name_only"] = "Cacher la barre de vie par défaut",
@@ -138,19 +152,23 @@ L["titles"] = {
 	["execute_sep"] = "Distance d'exécution",
 	["fade_all"] = "Décolorer par défaut",
 --[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Avoid casting (friendly)",
+	["fade_avoid_casting_friendly"] = "Casting (friendly)",
 --[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Avoid casting (hostile)",
+	["fade_avoid_casting_hostile"] = "Casting (hostile)",
 --[[Translation missing --]]
 	["fade_avoid_casting_interruptible"] = "Interruptible",
 --[[Translation missing --]]
 	["fade_avoid_casting_uninterruptible"] = "Uninterruptible",
 --[[Translation missing --]]
-	["fade_avoid_combat"] = "Avoid in combat",
+	["fade_avoid_combat"] = "In combat",
 	["fade_avoid_execute_friend"] = "Éviter les amis à faible santé",
 	["fade_avoid_execute_hostile"] = "Éviter les ennemis à faible santé",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Mouseover",
 	["fade_avoid_nameonly"] = "Éviter nom-seul",
 	["fade_avoid_raidicon"] = "Éviter l'îcone de raid",
+--[[Translation missing --]]
+	["fade_avoid_sep"] = "Don't fade...",
 	["fade_avoid_tracked"] = "Éviter la cible ou en combat",
 --[[Translation missing --]]
 	["fade_conditional_alpha"] = "Conditional alpha",
@@ -172,6 +190,12 @@ L["titles"] = {
 	["frame_width"] = "Largeur du cadre",
 	["frame_width_minus"] = "Largeur des cadres Minus",
 	["frame_width_personal"] = "Largeur du cadre personnel",
+--[[Translation missing --]]
+	["framesizes_element_sep"] = "Elements",
+--[[Translation missing --]]
+	["framesizes_scale_sep"] = "Scale",
+--[[Translation missing --]]
+	["global_scale"] = "Global scale",
 	["glow_as_shadow"] = "Afficher l'ombre du cadre",
 	["guild_text_npcs"] = "Afficher le titre des PNJ",
 	["guild_text_players"] = "Afficher les guildes",
@@ -184,6 +208,10 @@ L["titles"] = {
 	["hide_names"] = "Cacher les noms non-ciblés",
 	["ignore_uiscale"] = "Ignorer la mise à l'échelle de l'interface utilisateur",
 	["level_text"] = "Afficher le niveau",
+--[[Translation missing --]]
+	["mouseover_glow"] = "Mouseover glow",
+--[[Translation missing --]]
+	["mouseover_glow_colour"] = "Mouseover glow colour",
 	["name_colour_npc_friendly"] = "Amicaux",
 	["name_colour_npc_hostile"] = "Ennemis",
 	["name_colour_npc_neutral"] = "Neutre",
@@ -238,17 +266,16 @@ L["titles"] = {
 L["tooltips"] = {
 	["absorb_enable"] = "Afficher un calque d'absorption sur les barres de santé",
 	["absorb_striped"] = "Utiliser une texture rayée pour le calque d'absorption. Si pas cochée, utilise la texture de la barre de santé.",
-	["auras_centre"] = "Centrer horizontalement les icônes par rapport au cadre, plutôt qu'à gauche",
 	["auras_enabled"] = "Afficher sur les barres d'info les auras que vous avez lancés - buffs sur les amis, debuffs sur les ennemis",
 	["auras_hide_all_other"] = "Ne pas afficher les auras lancés par les autres joueurs (tel que CC ou les ralentissements.|n|nNotez que cette option est appliqué après le filtre de KuiSpellList, donc vous pouvez toujours utiliser |cffffff88KuiSpellListConfig from Curse|r pour modifier les sorts affichés.",
 	["auras_icon_minus_size"] = "Taille des icônes sur les plus petits cadres",
 	["auras_icon_normal_size"] = "Taille des icônes sur les cadres de taille normale",
 	["auras_icon_squareness"] = "Ratio de taille des icônes d'aura (1 correspond à un carré parfait)",
-	["auras_maximum_length"] = "Ne pas afficher les auras avec une longueur initiale plus grande que cette valeur. Mettez à -1 pour ignorer",
-	["auras_minimum_length"] = "Ne pas afficher les auras avec une longueur initiale plus petite que cette valeur",
 	["auras_on_personal"] = "Afficher les auras sur la barre d'info de votre personnage si activé",
 	["auras_pulsate"] = "Icônes clignotantes lorsqu'elles sont sur le point d'expirer",
 	["auras_show_all_self"] = "Afficher tous les auras que vous avez lancé, plutôt que ceux signalés comme importants par Blizzard.|n|nNotez que cette option est appliqué après le filtre de KuiSpellList, donc vous pouvez toujours utiliser |cffffff88KuiSpellListConfig from Curse|r pour modifier les sorts affichés.",
+--[[Translation missing --]]
+	["auras_show_purge"] = "Show buffs on enemies which you can spell steal, dispel, or purge",
 	["auras_time_threshold"] = "Le texte du compte à rebours s'affichera lorsque le temps restant sur une aura sera inférieur ou égal à celui-ci. Réglez sur -1 pour toujours afficher le minuteur",
 	["bar_animation"] = "Le style d'animation à utiliser sur les barres de vie et d'énergie",
 	["bar_texture"] = "La texture utilisée pour les barres d'état (fournie par LibSharedMedia)",
@@ -259,6 +286,12 @@ L["tooltips"] = {
 	["bossmod_x_offset"] = "Décalage horizontale des icônes d'aura du boss",
 	["bossmod_y_offset"] = "Décalage vertical des icônes d'aura du boss",
 	["bot_vertical_offset"] = "Décalage vertical des textes de niveau et de santé",
+--[[Translation missing --]]
+	["castbar_animate"] = "Fade out the cast bar when a cast ends.",
+--[[Translation missing --]]
+	["castbar_animate_change_colour"] = "Change the colour of the cast bar when a cast ends, making it easier to tell the difference between successful, stopped, and interrupted casts.",
+--[[Translation missing --]]
+	["castbar_colour"] = "Colour of the cast bar.|n|nAlso used to indicate a successful cast if animation is enabled.",
 	["castbar_enable"] = "Afficher la barre d'incantation",
 --[[Translation missing --]]
 	["castbar_name_vertical_offset"] = "Vertical offset of the spell name text",
@@ -292,6 +325,8 @@ L["tooltips"] = {
 --[[Translation missing --]]
 	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.",
 --[[Translation missing --]]
+	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.",
+--[[Translation missing --]]
 	["cvar_enable"] = "When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.",
 --[[Translation missing --]]
 	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|nMaximum distance at which to render nameplates (not including your current target).",
@@ -315,6 +350,8 @@ L["tooltips"] = {
 	["fade_avoid_combat"] = "Don't fade nameplates which are affecting combat with you",
 	["fade_avoid_execute_friend"] = "Ne pas décolorer les barres d'info amicales dans la portée d'exécution (réglé dans l'onglet \"Barres de vie\")",
 	["fade_avoid_execute_hostile"] = "Ne pas décolorer les barres d'info ennemies dans la portée d'exécution (réglé dans l'onglet \"Barres de vie\")",
+--[[Translation missing --]]
+	["fade_avoid_mouseover"] = "Fade in nameplates when your mouse is over them",
 	["fade_avoid_nameonly"] = "Ne pas décolorer les barres d'info qui sont en mode nom-seul",
 	["fade_avoid_raidicon"] = "Ne pas décolorer les barres d'info qui ont une icône de raid visible",
 	["fade_avoid_tracked"] = "Ne pas décolorer la barre d'info de la cible ou des unités qui sont en combat avec vous.|nVous pouvez définir si une unité est suivie ou non en modifiant la liste déroulante \"Noms des PNJ\" et d'autres cases dans les options d'interface par défaut sous Echap > Interface > Noms.",
@@ -337,6 +374,8 @@ L["tooltips"] = {
 	["frame_width"] = "Largeur des barres d'info standards",
 	["frame_width_minus"] = "Largeur des barres d'info utilisées sur les mobs signalés en tant que \"minus\" (précédemment appelé trivial)",
 	["frame_width_personal"] = "Largeur de barre d'info personnelle (active par Echap > Interface > Noms > Affichage de la ressource personnelle)",
+--[[Translation missing --]]
+	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
 	["guild_text_npcs"] = "Afficher le titre des PNJ, tel que Intendant, etc...",
 	["guild_text_players"] = "Afficher les guildes en mode nom-seul",
 	["health_text_friend_dmg"] = "Format de texte de vie utilisé sur les unités amicales blessées",

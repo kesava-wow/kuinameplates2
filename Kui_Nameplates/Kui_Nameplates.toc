@@ -28,7 +28,9 @@ plugins/animation.lua
 plugins/arenaid.lua
 plugins/bossmods.lua
 plugins/combattoggle.lua
+plugins/combat-update.lua
 plugins/execute.lua
 plugins/fading.lua
 plugins/guildtext.lua
+plugins/personal-anchor.lua
 plugins/tankmode.lua
