@@ -1028,7 +1028,8 @@ do
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
           CASTBAR_ANIMATE_CHANGE_COLOUR,SHIELD_H,SHIELD_W,
-          CASTBAR_WIDTH,CASTBAR_RATIO
+          CASTBAR_WIDTH,CASTBAR_RATIO,CASTBAR_OFFSET,CASTBAR_DETACH,
+          CASTBAR_COMBINE
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1182,31 +1183,31 @@ do
     end
     local function UpdateCastbarSize(f)
         f.CastBar.bg:SetSize(CASTBAR_WIDTH,CASTBAR_HEIGHT)
+        f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_OFFSET)
 
         if f.SpellIcon then
-            if nil then
-                -- XXX if spell icon is not combined...
+            if CASTBAR_COMBINE then
+                -- overlay spell icon on bar
+                f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+
+                f.SpellIcon:SetAllPoints()
+                f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
+                f.SpellIcon:SetAlpha(.5)
+            else
+                -- icon next to bar
+                f.SpellIcon:ClearAllPoints()
+                f.CastBar:SetPoint('TOPLEFT',f.SpellIcon,'TOPRIGHT',1,0)
+
+                f.SpellIcon:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
                 f.SpellIcon:SetSize(CASTBAR_HEIGHT-2,CASTBAR_HEIGHT-2)
                 f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
-            else
-                -- XXX else
-                f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
+                f.SpellIcon:SetAlpha(1)
             end
         end
     end
 
     local function CreateSpellIcon(f)
         local icon = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 2)
-
-        if nil then
-            -- XXX if spell icon is not combined...
-            icon:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
-            f.CastBar:SetPoint('TOPLEFT',icon,'TOPRIGHT',1,0)
-        else
-            icon:SetAlpha(.5)
-            icon:SetAllPoints()
-        end
-
         f.handler:RegisterElement('SpellIcon', icon)
         return icon
     end
@@ -1273,11 +1274,9 @@ do
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-        bg:SetPoint('TOP', f.bg, 'BOTTOM', 0, -2)
         bg:Hide()
 
-        castbar:SetPoint('TOPLEFT', bg, 1, -1)
-        castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
+        castbar:SetPoint('BOTTOMRIGHT',bg,-1,1)
         castbar.bg = bg
 
         -- register base elements
@@ -1318,6 +1317,9 @@ do
         CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset,TEXT_SCALE_OFFSET)
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
+        CASTBAR_OFFSET = self.profile.castbar_offset
+        CASTBAR_DETACH = self.profile.castbar_detach
+        CASTBAR_COMBINE = self.profile.castbar_combine
         SHIELD_H = Scale(16)
         SHIELD_W = SHIELD_H * .84375
 

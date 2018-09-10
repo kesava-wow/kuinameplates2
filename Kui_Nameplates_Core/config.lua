@@ -141,7 +141,11 @@ local default_config = {
     frame_height_minus = 9,
     frame_width_personal = 132,
     frame_height_personal = 13,
-    castbar_height = 6,
+    castbar_height = 18,
+    castbar_width = 36, -- XXX
+    castbar_offset = 20, -- XXX
+    castbar_detach = true, -- XXX detach from health bar
+    castbar_combine = true, -- XXX combine with spell icon (only while detached)
     powerbar_height = 3,
     global_scale = 1,
 
@@ -180,11 +184,6 @@ local default_config = {
     castbar_animate = true,
     castbar_animate_change_colour = true,
     castbar_name_vertical_offset = -1,
-
-    --- XXX
-    castbar_width = 36,
-    castbar_detach = true, -- detach from health bar
-    castbar_combine = true, -- combine with spell icon (only while detached)
 
     tank_mode = true,
     tankmode_force_enable = false,
@@ -630,6 +629,9 @@ function configChanged.castbar_enable(v)
 end
 configChanged.castbar_height = configChangedCastBar
 configChanged.castbar_width = configChangedCastBar
+configChanged.castbar_offset = configChangedCastBar
+configChanged.castbar_detach = configChangedCastBar
+configChanged.castbar_combine = configChangedCastBar
 configChanged.castbar_colour = configChangedCastBar
 configChanged.castbar_unin_colour = configChangedCastBar
 configChanged.castbar_icon = configChangedCastBar
