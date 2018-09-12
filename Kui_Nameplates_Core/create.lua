@@ -898,7 +898,7 @@ do
                 else
                     if GLOW_AS_SHADOW then
                         -- shadow
-                        f.ThreatGlow:SetVertexColor(0,0,0,.15)
+                        f.ThreatGlow:SetVertexColor(0,0,0,.2)
                     else
                         f.ThreatGlow:SetVertexColor(0,0,0,0)
                     end
