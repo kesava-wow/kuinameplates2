@@ -17,6 +17,7 @@ addon.debug = true
 --addon.debug_events = true
 --addon.debug_callbacks = true
 --addon.draw_frames = true
+--@end-debug@
 addon.DEBUG_IGNORE = {
     ['m:Create'] = true,
     ['m:Show'] = true,
@@ -32,7 +33,6 @@ addon.DEBUG_IGNORE = {
     ['c:Auras:PostDisplayAuraButton'] = true,
     ['c:Auras:PostUpdateAuraFrame'] = true,
 }
---@end-debug@
 
 -- updated by UI_SCALE_CHANGED:
 addon.uiscale = .71
