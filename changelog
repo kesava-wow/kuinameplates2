@@ -1,13 +1,15 @@
-ALPHA NOTES
-* re-add code to ignore out of date version of BarAuras because ugh (pushed to 2.17.5 hotfix)
+BETA NOTES
+* add option to disable name-only specifically on friends
+* add option to disable name-only on damaged enemies
+* add separate options to disable name-only on friends or enemies in combat
+* fix name-only sticks on some enemies which switch from unattackable to attackable (and issues related to that. #1, #255)
+* update hunter, priest, rogue & warrior auto-detected execute range (thanks to timoff32)
+* simplify name-only config page
+* update name-only config locale
 
-* (alpha only) fix aura filter isn't updated correctly
-
-* fix name-only sticks on some enemies which switch from unattackable to attackable
-  (and everything related to that, like the name-only combat options)
-* update locale
-
-* split nameonly_in_combat to nameonly_combat_hostile & nameonly_combat_friends
-* add nameonly_friends, enabled by default
-* add nameonly_damaged_enemies, enabled by default
-* update nameonly options locale
+Even more boring things:
+* ignore more debug events by default
+* make /knp dump's debug frame easier to drag. wow.
+* make commands like "/knp > auras" work as shortcuts for the config pages, so my text can be copied and run without adjustment when I say that to people.
+* slash commands /knp debug-{frames,ignore} moved to /knp debug {frames,ignore} (no hyphon)
+* add slash command /knp debug all for extra chat spam
