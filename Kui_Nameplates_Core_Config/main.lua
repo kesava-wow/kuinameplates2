@@ -193,7 +193,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     elseif msg and msg ~= '' then
         -- interpret msg as config page shortcut
         local L = opt:GetLocale()
-        msg = strlower(msg)
+        msg = gsub(strlower(msg),'^%s*>%s*','')
 
         local found
         for i,f in ipairs(opt.pages) do
