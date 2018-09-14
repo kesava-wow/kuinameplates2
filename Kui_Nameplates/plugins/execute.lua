@@ -10,20 +10,25 @@ local specs = {
         [2] = 25 -- ferocious bite
     }
 }
-
 local talents = {
-    ['PRIEST'] = {
-        [22317] = 35
-    },
     ['DRUID'] = {
         [21714] = -1, -- sabertooth (overrides ferocious bite)
         [22155] = 25, -- feral affinity -> ferocious bite (balance)
         [22156] = 25, -- (guardian)
         [22367] = 25, -- (resto)
     },
+    ['HUNTER'] = {
+        [22291] = 35 -- Beast Mastery Killer Instinct
+    },
+    ['PRIEST'] = {
+        [23125] = 35 -- Shadow Twist of Fate
+    },
+    ['ROGUE'] = {
+        [22339] = 30 -- Assassination Blindside
+    },
     ['WARRIOR'] = {
-        [22380] = 35, -- arms massacre
-        [22393] = 35, -- fury massacre
+        [22380] = 35, -- Arms Massacre
+        [22393] = 35, -- Fury Massacre
     },
 }
 local pvp_talents = {
