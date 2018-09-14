@@ -37,9 +37,7 @@ local pvp_talents = {
         [1942] = 25
     }
 }
-local items = {
-    [132454] = 30, -- koralon's burning touch
-}
+local items = {}
 
 -- local functions #############################################################
 local function IsTalentKnown(id,pvp)
@@ -72,11 +70,13 @@ local function GetExecuteRange()
         end
     end
 
-    -- check equipped items
-    for slot_id=1,18 do
-        local item_id = GetInventoryItemID('player',slot_id)
-        if item_id and items[item_id] then
-            r = items[item_id]
+    if #items > 0 then
+        -- check equipped items
+        for slot_id=1,18 do
+            local item_id = GetInventoryItemID('player',slot_id)
+            if item_id and items[item_id] then
+                r = items[item_id]
+            end
         end
     end
 
