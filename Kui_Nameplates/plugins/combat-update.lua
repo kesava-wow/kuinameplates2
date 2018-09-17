@@ -1,5 +1,10 @@
--- provides f.state.combat, f.state.attackable
--- messages: FactionUpdate, Combat
+-- provides frame.state[...]: combat, attackable
+--   combat = unit is in combat
+--   attackable = unit can be attacked by player
+--
+-- messages: Combat, FactionUpdate
+--   Combat = combat state changed
+--   FactionUpdate = UNIT_FACTION event, or attackable state changed
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('CombatUpdate',0)
