@@ -31,19 +31,14 @@ L["titles"] = {
 	["auras_icon_squareness"] = "長寬比例",
 	["auras_icons_sep"] = "圖示",
 	["auras_kslc_hint"] = "KuiSpellListConfig（可在Curse上取得）可以讓你編輯法術黑名單和白名單，任何單位所施放的法術都可以放入自訂清單。",
---[[Translation missing --]]
-	["auras_offset"] = "Vertical offset",
+	["auras_offset"] = "垂直位置",
 	["auras_on_personal"] = "在個人資源上顯示",
 	["auras_pulsate"] = "閃爍圖示",
---[[Translation missing --]]
-	["auras_purge_opposite"] = "Purge on opposite",
---[[Translation missing --]]
-	["auras_purge_size"] = "Icon size (purge)",
+	["auras_purge_opposite"] = "淨化在另一側",
+	["auras_purge_size"] = "圖示尺寸(淨化)",
 	["auras_show_all_self"] = "顯示自身施放的所有光環",
---[[Translation missing --]]
-	["auras_show_purge"] = "Show purge",
---[[Translation missing --]]
-	["auras_side"] = "Side",
+	["auras_show_purge"] = "顯示淨化",
+	["auras_side"] = "側邊",
 	["auras_sort"] = "排序方式",
 	["auras_time_threshold"] = "計時器閾值",
 	["bar_animation"] = "血條動畫",
@@ -145,12 +140,10 @@ L["titles"] = {
 	["fade_avoid_combat"] = "避開戰鬥中",
 	["fade_avoid_execute_friend"] = "避開低血量友方",
 	["fade_avoid_execute_hostile"] = "避開低血量敵方",
---[[Translation missing --]]
-	["fade_avoid_mouseover"] = "Mouseover",
+	["fade_avoid_mouseover"] = "鼠標指向",
 	["fade_avoid_nameonly"] = "避開名字模式",
 	["fade_avoid_raidicon"] = "避開團隊標記",
---[[Translation missing --]]
-	["fade_avoid_sep"] = "Don't fade...",
+	["fade_avoid_sep"] = "不淡出...",
 	["fade_avoid_tracked"] = "避開已追蹤或戰鬥中",
 	["fade_conditional_alpha"] = "透明條件",
 	["fade_friendly_npc"] = "淡出友方NPC",
@@ -170,12 +163,9 @@ L["titles"] = {
 	["frame_width"] = "框架寬度",
 	["frame_width_minus"] = "次要單位寬度",
 	["frame_width_personal"] = "個人資源寬度",
---[[Translation missing --]]
-	["framesizes_element_sep"] = "Elements",
---[[Translation missing --]]
-	["framesizes_scale_sep"] = "Scale",
---[[Translation missing --]]
-	["global_scale"] = "Global scale",
+	["framesizes_element_sep"] = "要素",
+	["framesizes_scale_sep"] = "縮放",
+	["global_scale"] = "全局縮放",
 	["glow_as_shadow"] = "顯示陰影光暈",
 	["guild_text_npcs"] = "顯示NPC頭銜",
 	["guild_text_players"] = "顯示玩家公會",
@@ -188,10 +178,8 @@ L["titles"] = {
 	["hide_names"] = "隱藏非追蹤單位名稱",
 	["ignore_uiscale"] = "忽略介面縮放",
 	["level_text"] = "顯示等級",
---[[Translation missing --]]
-	["mouseover_glow"] = "Mouseover glow",
---[[Translation missing --]]
-	["mouseover_glow_colour"] = "Mouseover glow colour",
+	["mouseover_glow"] = "鼠標指向光暈",
+	["mouseover_glow_colour"] = "鼠標指向光暈顏色",
 	["name_colour_npc_friendly"] = "友方",
 	["name_colour_npc_hostile"] = "敵方",
 	["name_colour_npc_neutral"] = "中立",
@@ -203,10 +191,17 @@ L["titles"] = {
 	["name_vertical_offset"] = "名字垂直偏移",
 	["nameonly"] = "啟用名字模式",
 	["nameonly_all_enemies"] = "使用在敵對",
+--[[Translation missing --]]
+	["nameonly_combat_friends"] = "Friends in combat",
+--[[Translation missing --]]
+	["nameonly_combat_hostile"] = "Enemies in combat",
+--[[Translation missing --]]
+	["nameonly_damaged_enemies"] = "Damaged enemies",
 	["nameonly_damaged_friends"] = "在受損傷的友方",
 	["nameonly_enemies"] = "在不可攻擊的敵人",
+--[[Translation missing --]]
+	["nameonly_friends"] = "Friends",
 	["nameonly_health_colour"] = "血量著色",
-	["nameonly_in_combat"] = "正在交戰的單位",
 	["nameonly_neutral"] = "在中立單位",
 	["nameonly_no_font_style"] = "無字型描邊",
 	["nameonly_target"] = "使用在目標",
@@ -251,8 +246,7 @@ L["tooltips"] = {
 	["auras_on_personal"] = "如果啟用，在個人資源上顯示你的光環",
 	["auras_pulsate"] = "快要結束時閃爍圖標",
 	["auras_show_all_self"] = "顯示你施放的所有光環，而非只顯示暴雪預設的重要光環。|n|n請注意：KuiSpellList的生效優先級高於此選項，所以你仍然可以在勾選此選項的情況下用|cffffff88KuiSpellListConfig|r（可在Curse上取得）自訂特定法術的顯示。",
---[[Translation missing --]]
-	["auras_show_purge"] = "Show buffs on enemies which you can spell steal, dispel, or purge",
+	["auras_show_purge"] = "在敵方顯示你可以偷取、驅散或淨化的增益",
 	["auras_time_threshold"] = "當光環的剩餘秒數少於這個數值時，顯示倒數文字。設為-1可使倒數計時總是顯示",
 	["bar_animation"] = "血量／能量條變化的動畫方式",
 	["bar_texture"] = "狀態條使用的材質（由LibSharedMedia提供）",
@@ -314,8 +308,7 @@ L["tooltips"] = {
 	["fade_avoid_combat"] = "不淡出與你戰鬥中的名條",
 	["fade_avoid_execute_friend"] = "不要淡出血量處於斬殺階段的友方名條（在「血量條」頁面設置）",
 	["fade_avoid_execute_hostile"] = "不要淡出血量處於斬殺階段的敵方名條（在「血量條」頁面設置）",
---[[Translation missing --]]
-	["fade_avoid_mouseover"] = "Fade in nameplates when your mouse is over them",
+	["fade_avoid_mouseover"] = "淡出鼠標指向的名條",
 	["fade_avoid_nameonly"] = "啟用名字模式時，不要淡出名條",
 	["fade_avoid_raidicon"] = "不要淡出被標記了團隊圖示的名條",
 	["fade_avoid_tracked"] = "不淡出已追蹤或是正在與你戰鬥中的單位名條。|n透過改變 Esc > 介面 > 名稱 > 「NPC名稱」的選項來設定是否進行追蹤。",
@@ -336,10 +329,8 @@ L["tooltips"] = {
 	["frame_width"] = "標準名條寬度",
 	["frame_width_minus"] = "次要敵方單位的名條寬度（次要敵人一般會顯示比較小的名條）",
 	["frame_width_personal"] = "個人資源條的寬度（若要啟用，勾選 Esc > 介面 > 名稱 > 顯示個人資源）",
---[[Translation missing --]]
-	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
+	["global_scale"] = "根據此數字縮放所有名條(遵從像素網格)",
 	["guild_text_npcs"] = "顯示NPC的頭銜，像是軍需官...等等。",
-	["guild_text_players"] = "啟用名字模式時，顯示玩家公會",
 	["health_text_friend_dmg"] = "友方玩家損血時的血量文字格式",
 	["health_text_friend_max"] = "友方玩家滿血時的血量文字格式",
 	["health_text_hostile_dmg"] = "敵方玩家損血時的血量文字格式",
@@ -348,12 +339,9 @@ L["tooltips"] = {
 	["ignore_uiscale"] = "忽略預設的介面縮放。這可以讓名條維持精確的像素，不受解析度影響。",
 	["name_colour_white_in_bar_mode"] = "NPC與玩家名字使用白色著色（除非啟用職業著色）。|n|n如果此選項啟用，以下顏色只適用於名字模式。",
 	["name_vertical_offset"] = "名字文字位置的垂直偏移量",
-	["nameonly"] = "隱藏友方或不可攻擊單位的血條。啟用此模組時以血量百分比著色名字。",
-	["nameonly_all_enemies"] = "在所有敵方單位使用名字模式",
-	["nameonly_damaged_friends"] = "在所有友方單位使用名字模式，即使血量未滿",
-	["nameonly_enemies"] = "在不可攻擊的敵方單位使用名字模式（不包括在免疫狀態下的敵方玩家）",
+--[[Translation missing --]]
+	["nameonly_combat_hostile"] = "Note that this doesn't apply to training dummies or other units which don't have a threat table",
 	["nameonly_health_colour"] = "以部份著色的方式來顯示血量百分比",
-	["nameonly_in_combat"] = "啟用此選項，會強制使用名字模式，即便該單位正在與你戰鬥。|n|n注意，這也作用於敵方玩家單位，但不適用於訓練假人或其他沒有威脅值列表的單位。",
 	["nameonly_neutral"] = "在可攻擊的中立單位使用名字模式",
 	["nameonly_no_font_style"] = "使用名字模式時，不使用字體描邊（將字型樣式設為空）",
 	["nameonly_target"] = "也在當前目標使用名字模式",
@@ -368,7 +356,6 @@ L["tooltips"] = {
 	["target_arrows"] = "在當前目標周圍顯示箭頭。箭頭的顏色繼承目標的光暈顏色。",
 	["text_vertical_offset"] = "名條文字的全局垂直偏移量。針對WOW中某些比較奇怪的字體渲染作出微調。注意：尾數設為.5有助於減少名條移動時的抖動現象",
 	["threat_brackets"] = "顯示威脅括弧",
-	["title_text_players"] = "顯示玩家頭銜",
 	["use_blizzard_personal"] = [=[不美化個人資源或是職業能量。|n|n當此選項啟用，個人框架可以在「框架尺寸」中的「個人資源」選項中調整，但是需要重載UI才能完全生效。|n|n要讓此框架顯示，你必須勾選在Esc > 介面 > 名稱 > 單位名條中的「顯示個人資源」選項。|n|n要顯示未被美化的職業資源，必須在同一頁面取消勾選「顯示目標的特殊資源」。|n|n|cffff6666如果當前框架可見，則需要重載UI方能使改動生效。
 ]=],
 }
