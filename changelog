@@ -1,4 +1,7 @@
 BETA NOTES
+* add option castbar_spacing (not exposed in ui)
+* update locale
+
 * add option to disable name-only specifically on friends
 * add option to disable name-only on damaged enemies
 * add separate options to disable name-only on friends or enemies in combat
