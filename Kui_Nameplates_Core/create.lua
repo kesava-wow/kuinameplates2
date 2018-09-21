@@ -1025,7 +1025,7 @@ end
 do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
-          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
+          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,CASTBAR_SPACING,
           CASTBAR_ANIMATE_CHANGE_COLOUR,SHIELD_H,SHIELD_W
 
     local function AnimGroup_Stop(self)
@@ -1036,7 +1036,7 @@ do
         -- set spell icon width (as it's based on height)
         if not f.SpellIcon then return end
         if f.SpellIcon.bg:IsShown() then
-            f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + 1))
+            f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + CASTBAR_SPACING))
         end
     end
     local function ShowCastBar(f)
@@ -1185,16 +1185,25 @@ do
         f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET+TEXT_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
+        -- called by CreateCastBar, SetCastBarConfig
         f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
         f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
+
+        f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,CASTBAR_SPACING)
+
+        if CASTBAR_SHOW_ICON and f.CastBar.SpellIcon then
+            f.CastBar.SpellIcon.bg:SetPoint(
+                'BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT',
+                -CASTBAR_SPACING,0)
+        end
     end
 
     local function CreateSpellIcon(f)
         local bg = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-        bg:SetPoint('BOTTOMRIGHT', f.CastBar.bg, 'BOTTOMLEFT', -1, 0)
-        bg:SetPoint('TOPRIGHT', f.bg, 'TOPLEFT', -1, 0)
+        -- BOTTOMRIGHT set by UpdateCastbarSize
+        bg:SetPoint('TOPRIGHT', f.bg, 'TOPLEFT')
         bg:Hide()
 
         local icon = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 2)
@@ -1270,7 +1279,7 @@ do
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-        bg:SetPoint('TOPLEFT', f.bg, 'BOTTOMLEFT', 0, -1)
+        -- TOPLEFT set by UpdateCastbarSize
         bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
         bg:Hide()
 
@@ -1317,6 +1326,7 @@ do
         CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset,TEXT_SCALE_OFFSET)
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
+        CASTBAR_SPACING = self.profile.castbar_spacing
         SHIELD_H = Scale(16)
         SHIELD_W = SHIELD_H * .84375
 

@@ -180,6 +180,7 @@ local default_config = {
     castbar_animate = true,
     castbar_animate_change_colour = true,
     castbar_name_vertical_offset = -1,
+    castbar_spacing = 1, -- NEX
 
     tank_mode = true,
     tankmode_force_enable = false,
