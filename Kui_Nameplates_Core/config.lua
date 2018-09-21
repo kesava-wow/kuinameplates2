@@ -633,6 +633,7 @@ configChanged.castbar_shield = configChangedCastBar
 configChanged.castbar_name_vertical_offset = configChangedCastBar
 configChanged.castbar_animate = configChangedCastBar
 configChanged.castbar_animate_change_colour = configChangedCastBar
+configChanged.castbar_spacing = configChangedCastBar
 
 function configChanged.classpowers_enable(v)
     if v then

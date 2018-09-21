@@ -1189,12 +1189,10 @@ do
         f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
         f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
 
-        f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,CASTBAR_SPACING)
+        f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,-CASTBAR_SPACING)
 
-        if CASTBAR_SHOW_ICON and f.CastBar.SpellIcon then
-            f.CastBar.SpellIcon.bg:SetPoint(
-                'BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT',
-                -CASTBAR_SPACING,0)
+        if CASTBAR_SHOW_ICON and f.SpellIcon then
+            f.SpellIcon.bg:SetPoint('TOPRIGHT',f.bg,'TOPLEFT',-CASTBAR_SPACING,0)
         end
     end
 
@@ -1202,8 +1200,8 @@ do
         local bg = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-        -- BOTTOMRIGHT set by UpdateCastbarSize
-        bg:SetPoint('TOPRIGHT', f.bg, 'TOPLEFT')
+        bg:SetPoint('BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT')
+        -- TOPRIGHT set by UpdateCastbarSize
         bg:Hide()
 
         local icon = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 2)
@@ -1279,8 +1277,8 @@ do
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.8)
-        -- TOPLEFT set by UpdateCastbarSize
         bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
+        -- TOPLEFT set by UpdateCastbarSize
         bg:Hide()
 
         castbar:SetPoint('TOPLEFT', bg, 1, -1)
