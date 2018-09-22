@@ -2101,6 +2101,10 @@ do
             if not NAMEONLY_COMBAT_HOSTILE and f.state.combat then
                 return
             end
+            -- disable on damaged enemies
+            if not NAMEONLY_DAMAGED_ENEMIES and f.state.health_deficit > 0 then
+                return
+            end
             -- force enable on neutral
             if NAMEONLY_ON_NEUTRAL and f.state.reaction == 4 then
                 return true
@@ -2111,10 +2115,6 @@ do
             end
             -- disable on hostile
             if not NAMEONLY_ENEMIES then
-                return
-            end
-            -- disable on damaged enemies
-            if not NAMEONLY_DAMAGED_ENEMIES and f.state.health_deficit > 0 then
                 return
             end
             -- disable on unattackable enemy players
