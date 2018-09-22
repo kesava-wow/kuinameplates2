@@ -1,4 +1,8 @@
 BETA NOTES
+* reduce default minus frame height slightly
+* alter text offset scaling (should be unchanged if global_scale is 1)
+* force text offsets to align to half pixels
+
 * add option castbar_spacing (not exposed in ui)
 * update locale
 
