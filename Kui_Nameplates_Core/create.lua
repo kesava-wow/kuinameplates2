@@ -58,7 +58,6 @@ local UnitIsPlayer,UnitShouldDisplayName,
 -- config locals
 local KUI_MEDIA = 'interface/addons/kui_media/'
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
-local TEXT_SCALE_OFFSET = 2.5
 
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,POWER_BAR_HEIGHT,
@@ -184,13 +183,12 @@ local function CreateFontString(parent,small)
 
     return f
 end
-local function Scale(v,offset)
+local function Scale(v)
     if not GLOBAL_SCALE or GLOBAL_SCALE == 1 then return v end
-    if offset then
-        return ceil((v*GLOBAL_SCALE)-((GLOBAL_SCALE-1)*offset))
-    else
-        return floor((v*GLOBAL_SCALE)+.5)
-    end
+    return floor((v*GLOBAL_SCALE)+.5)
+end
+local function ScaleTextOffset(v)
+    return floor(Scale(v)) - .5
 end
 -- config functions ############################################################
 do
@@ -239,8 +237,8 @@ do
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
 
         TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
-        NAME_VERTICAL_OFFSET = Scale(TEXT_VERTICAL_OFFSET + self.profile.name_vertical_offset,TEXT_SCALE_OFFSET)
-        BOT_VERTICAL_OFFSET = Scale(TEXT_VERTICAL_OFFSET + self.profile.bot_vertical_offset,TEXT_SCALE_OFFSET)
+        NAME_VERTICAL_OFFSET = ScaleTextOffset(TEXT_VERTICAL_OFFSET+self.profile.name_vertical_offset)
+        BOT_VERTICAL_OFFSET = ScaleTextOffset(TEXT_VERTICAL_OFFSET+self.profile.bot_vertical_offset)
 
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
@@ -1321,7 +1319,7 @@ do
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
         CASTBAR_SHOW_NAME = self.profile.castbar_name
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
-        CASTBAR_NAME_VERTICAL_OFFSET = Scale(self.profile.castbar_name_vertical_offset,TEXT_SCALE_OFFSET)
+        CASTBAR_NAME_VERTICAL_OFFSET = ScaleTextOffset(self.profile.castbar_name_vertical_offset)
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
         CASTBAR_SPACING = self.profile.castbar_spacing
