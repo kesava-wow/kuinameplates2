@@ -255,11 +255,8 @@ function text:Initialise()
     }
 
     text_vertical_offset:SetWidth(120)
-    text_vertical_offset:SetValueStep(.5)
     name_vertical_offset:SetWidth(120)
-    name_vertical_offset:SetValueStep(.5)
     bot_vertical_offset:SetWidth(120)
-    bot_vertical_offset:SetValueStep(.5)
 
     bot_vertical_offset.enabled = function(p) return p.level_text or p.health_text end
 

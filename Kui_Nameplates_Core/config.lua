@@ -94,7 +94,7 @@ local default_config = {
     name_text = true,
     level_text = false,
     health_text = false,
-    text_vertical_offset = -.5,
+    text_vertical_offset = 0,
     name_vertical_offset = -2,
     bot_vertical_offset = -3,
 
