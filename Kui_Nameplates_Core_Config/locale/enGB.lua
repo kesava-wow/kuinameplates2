@@ -306,12 +306,10 @@ L.tooltips = {
     colour_player = 'The colour of other friendly players\' health bars',
 
     hide_names = 'Whether or not a unit is tracked can be set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names.|n|nThis does not affect name-only mode.',
-    font_face = 'The font used for all strings on nameplates (provided by LibSharedMedia)',
-    font_size_normal = 'Standard font size (name, etc)',
-    font_size_small = 'Smaller font size (vendor, spell name, etc)',
-    text_vertical_offset = 'Vertical offset applied to all strings. Used as some fonts render at odd vertical positions in WoW. Note that this value ends in .5 by default as this helps to reduce vertical jittering when frames are moving',
-    name_vertical_offset = 'Vertical offset of the name text',
-    bot_vertical_offset = 'Vertical offset of the level and health text strings',
+    font_face = 'Fonts are provided by LibSharedMedia.',
+    font_size_normal = 'Used for name, level, health and auras.',
+    font_size_small = 'Used for guild and spell name.',
+    text_vertical_offset = 'Vertical offset applied to all strings. Can be used to compensate for fonts which render at odd vertical positions in WoW.',
 
     name_colour_white_in_bar_mode = 'Colour NPC\'s and player\'s names white (unless class colour is enabled).|n|nIf this is enabled, the colours below only apply to name-only mode.',
     class_colour_friendly_names = 'Colour the names of friendly players by their class.',
