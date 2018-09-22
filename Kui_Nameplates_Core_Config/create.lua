@@ -407,8 +407,10 @@ function nameonly:Initialise()
     nameonly_all_enemies.enabled = function(p)
         return p.nameonly and p.nameonly_enemies
     end
-    nameonly_damaged_enemies.enabled = nameonly_all_enemies.enabled
-    nameonly_combat_hostile.enabled = nameonly_all_enemies.enabled
+    nameonly_damaged_enemies.enabled = function(p) 
+        return p.nameonly and (p.nameonly_enemies or p.nameonly_neutral)
+    end
+    nameonly_combat_hostile.enabled = nameonly_damaged_enemies.enabled
 
     nameonlyCheck:SetPoint('TOPLEFT',10,-10)
 
