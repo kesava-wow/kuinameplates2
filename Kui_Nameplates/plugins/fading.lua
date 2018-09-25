@@ -112,7 +112,9 @@ function mod:ResetFadeRules()
     mod:RunCallback('FadeRulesReset')
 end
 function mod:AddFadeRule(func,priority,uid)
-    if type(func) ~= 'function' or not tonumber(priority) then return end
+    if type(func) ~= 'function' or not tonumber(priority) then
+        error('AddFadeRule expects function(function),priority(number)')
+    end
 
     uid = uid and tostring(uid)
     if uid and self:GetFadeRuleIndex(uid) then
