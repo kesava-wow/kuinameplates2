@@ -867,8 +867,8 @@ configLoaded.bossmod_enable = configChanged.bossmod_enable
 
 -- init config #################################################################
 function core:InitialiseConfig()
-    -- XXX 2.15>2.16 health display transition
     if KuiNameplatesCoreSaved then
+        -- XXX 2.15>2.16 health display transition
         if not KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] then
             KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] = true
             -- re-jigger health display patterns on all profiles (where set)
@@ -905,6 +905,14 @@ function core:InitialiseConfig()
             end
         end
     end
+    --@alpha@
+    if not KuiNameplatesCoreSaved or not KuiNameplatesCoreSaved.SHUT_UP then
+        addon:ui_print('You are using an alpha release;')
+        print('    Please report issues to www.github.com/kesava-wow/kuinameplates2')
+        print('    And include the output of: /knp dump')
+        print('    Thanks!')
+    end
+    --@end-alpha@
 
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.profile = self.config:GetConfig()
