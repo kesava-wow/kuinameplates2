@@ -72,6 +72,7 @@ local default_config = {
     fade_conditional_alpha = .3,
     fade_speed = .3,
     fade_friendly_npc = false,
+    fade_friendly_npc_exclude_titled = false,
     fade_neutral_enemy = false,
     fade_untracked = false,
     fade_avoid_nameonly = true,
@@ -341,6 +342,7 @@ local function configChangedFadeRule(v,on_load)
 end
 configChanged.fade_all = configChangedFadeRule
 configChanged.fade_friendly_npc = configChangedFadeRule
+configChanged.fade_friendly_npc_exclude_titled = configChangedFadeRule
 configChanged.fade_neutral_enemy = configChangedFadeRule
 configChanged.fade_untracked = configChangedFadeRule
 configChanged.fade_avoid_nameonly = configChangedFadeRule

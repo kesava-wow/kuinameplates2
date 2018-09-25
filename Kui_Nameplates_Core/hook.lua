@@ -240,6 +240,10 @@ do
 end
 -- fade rules ##################################################################
 do
+    local avoid_cast_friend,avoid_cast_hostile,
+          avoid_cast_interrupt,avoid_cast_uninterrupt,
+          friendly_npc_exclude_titled
+
     -- table for simple rules where profile_key = {
     --   function,
     --   priority,
@@ -274,9 +278,13 @@ do
                UnitCanAttack('player',f.unit) and -1
     end, 25 }
     fade_rules.fade_friendly_npc = { function(f)
-        return f.state.reaction >= 4 and
-               not UnitIsPlayer(f.unit) and
-               not UnitCanAttack('player',f.unit) and -1
+        if  f.state.reaction >= 4 and
+            not UnitIsPlayer(f.unit) and
+            not UnitCanAttack('player',f.unit)
+        then
+            return (not friendly_npc_exclude_titled or
+                    not f.state.guild_text) and -1
+        end
     end, 25 }
     fade_rules.fade_untracked = { function(f)
         return not f.state.tracked and -1
@@ -286,8 +294,6 @@ do
     end, 30 }
 
     -- casting fade rule helpers
-    local avoid_cast_friend,avoid_cast_hostile,
-          avoid_cast_interrupt,avoid_cast_uninterrupt
     local function FadeRule_Casting_Interruptible(f)
         if f.cast_state.interruptible then
             return avoid_cast_interrupt and 1 or nil
@@ -307,6 +313,22 @@ do
         self:UnregisterMessage('RaidIconUpdate')
         self:UnregisterMessage('ExecuteUpdate')
 
+        friendly_npc_exclude_titled = self.profile.fade_friendly_npc_exclude_titled
+
+        if self.profile.fade_avoid_casting_interruptible or
+           self.profile.fade_avoid_casting_uninterruptible
+        then
+            avoid_cast_friend = self.profile.fade_avoid_casting_friendly
+            avoid_cast_hostile = self.profile.fade_avoid_casting_hostile
+            avoid_cast_interrupt = self.profile.fade_avoid_casting_interruptible
+            avoid_cast_uninterrupt = self.profile.fade_avoid_casting_uninterruptible
+            plugin_fading:AddFadeRule(function(f)
+                if f.state.casting then
+                    return FadeRule_Casting_CanAttack(f)
+                end
+            end,24,'core_fade_avoid_casting')
+        end
+
         for rule_name,rule_tbl in pairs(fade_rules) do
             if self.profile[rule_name] then
                 if type(rule_tbl) == 'function' then
@@ -325,20 +347,6 @@ do
                     end
                 end
             end
-        end
-
-        if self.profile.fade_avoid_casting_interruptible or
-           self.profile.fade_avoid_casting_uninterruptible
-        then
-            avoid_cast_friend = self.profile.fade_avoid_casting_friendly
-            avoid_cast_hostile = self.profile.fade_avoid_casting_hostile
-            avoid_cast_interrupt = self.profile.fade_avoid_casting_interruptible
-            avoid_cast_uninterrupt = self.profile.fade_avoid_casting_uninterruptible
-            plugin_fading:AddFadeRule(function(f)
-                if f.state.casting then
-                    return FadeRule_Casting_CanAttack(f)
-                end
-            end,24,'core_fade_avoid_casting')
         end
     end
 end
