@@ -1,4 +1,7 @@
 BETA NOTES
+* add option fade_friendly_npc_exclude_titled (not exposed in ui)
+* apply nameonly_damaged_enemies to neutral enemies too
+
 * reduce default minus frame height slightly
 * alter text offset scaling (should be unchanged if global_scale is 1)
 * force text offsets to align to half pixels
@@ -20,3 +23,4 @@ Even more boring things:
 * make commands like "/knp > auras" work as shortcuts for the config pages, so my text can be copied and run without adjustment when I say that to people.
 * slash commands /knp debug-{frames,ignore} moved to /knp debug {frames,ignore} (no hyphon)
 * add slash command /knp debug all for extra chat spam
+* add KuiNameplatesCoreSaved.SHUT_UP to silence the alpha orientation message
