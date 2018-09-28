@@ -71,7 +71,8 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
 
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
-local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET
+local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET,
+      TARGET_ARROWS_TEXTURE
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
 local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
@@ -215,6 +216,15 @@ do
         TARGET_ARROWS = self.profile.target_arrows
         TARGET_ARROWS_SIZE = Scale(self.profile.target_arrows_size)
         TARGET_ARROWS_INSET = Scale(self.profile.target_arrows_inset)
+
+        if TARGET_ARROWS then
+            -- resolve texture
+            local texture_index = tonumber(self.profile.target_arrows_texture)
+            if texture_index then
+                TARGET_ARROWS_TEXTURE = MEDIA..'target-arrow-'..texture_index
+            end
+        end
+
         TARGET_GLOW = self.profile.target_glow
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
         MOUSEOVER_GLOW = self.profile.mouseover_glow
