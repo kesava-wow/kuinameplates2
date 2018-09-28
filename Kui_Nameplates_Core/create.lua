@@ -729,9 +729,9 @@ do
             f.LevelText:ClearAllPoints()
 
             if f.state.no_name then
-                f.LevelText:SetPoint('LEFT',3,TEXT_VERTICAL_OFFSET)
+                f.LevelText:SetPoint('LEFT',2,TEXT_VERTICAL_OFFSET)
             else
-                f.LevelText:SetPoint('BOTTOMLEFT',3,BOT_VERTICAL_OFFSET)
+                f.LevelText:SetPoint('BOTTOMLEFT',2,BOT_VERTICAL_OFFSET)
             end
 
             f.LevelText:Show()
@@ -796,9 +796,9 @@ do
             f.HealthText:ClearAllPoints()
 
             if f.state.no_name then
-                f.HealthText:SetPoint('RIGHT',-3,TEXT_VERTICAL_OFFSET)
+                f.HealthText:SetPoint('RIGHT',-2,TEXT_VERTICAL_OFFSET)
             else
-                f.HealthText:SetPoint('BOTTOMRIGHT',-3,BOT_VERTICAL_OFFSET)
+                f.HealthText:SetPoint('BOTTOMRIGHT',-2,BOT_VERTICAL_OFFSET)
             end
 
             f.HealthText:Show()
