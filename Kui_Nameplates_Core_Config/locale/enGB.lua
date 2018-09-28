@@ -72,9 +72,12 @@ L.titles = {
     target_glow_colour = 'Target glow colour',
     mouseover_glow = 'Mouseover glow',
     mouseover_glow_colour = 'Mouseover glow colour',
-    target_arrows = 'Target arrows',
     frame_glow_size = 'Frame glow size',
-    target_arrows_size = 'Target arrow size',
+    target_arrows_sep = 'Target arrows',
+    target_arrows = 'Show target arrows',
+    target_arrows_size = 'Size',
+    target_arrows_inset = 'Inset',
+    target_arrows_texture = 'Texture',
 
     fade_avoid_sep = 'Don\'t fade...',
     fade_non_target_alpha = 'Non-target alpha',
@@ -271,8 +274,7 @@ L.tooltips = {
     nameonly_combat_hostile = 'Note that this doesn\'t apply to training dummies or other units which don\'t have a threat table',
     guild_text_npcs = 'Such as Flight Master, Quartermaster, etc.',
 
-    target_arrows = 'Show arrows around your current target. These inherit the target glow colour',
-    frame_glow_size = 'Size of the frame glow used for target highlighting and threat indication',
+    target_arrows = 'Show arrows around your current target. These inherit the target glow colour set above.',
 
     fade_non_target_alpha = 'Opacity other frames will fade to when you have a target.|nIf set to 0, the nameplate will still be clickable despite being invisible. Addons cannot arbitrarily disable nameplate clickboxes',
     fade_conditional_alpha = 'Opacity frames will fade to when matching one of the conditions below',
