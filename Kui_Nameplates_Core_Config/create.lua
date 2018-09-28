@@ -44,10 +44,14 @@ function general:Initialise()
     local mouseover_glow_colour = self:CreateColourPicker('mouseover_glow_colour')
     local target_arrows = self:CreateCheckBox('target_arrows')
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
+    local target_arrows_inset = self:CreateSlider('target_arrows_inset',-10,10)
+    local target_arrows_texture = self:CreateDropDown('target_arrows_texture')
 
     target_glow_colour.enabled = function(p) return p.target_glow or p.target_arrows end
     mouseover_glow_colour.enabled = function(p) return p.mouseover_glow end
     target_arrows_size.enabled = function(p) return p.target_arrows end
+    target_arrows_inset.enabled = target_arrows_size.enabled
+    target_arrows_texture.enabled = target_arrows_size.enabled
 
     combat_hostile.SelectTable = {
         L.titles.dd_combat_toggle_nothing,
@@ -55,6 +59,10 @@ function general:Initialise()
         L.titles.dd_combat_toggle_show,
     }
     combat_friendly.SelectTable = combat_hostile.SelectTable
+
+    target_arrows_texture.SelectTable = {
+        'Faded','Solid'
+    }
 
     combat_hostile:SetPoint('TOPLEFT',10,-10)
     combat_friendly:SetPoint('LEFT',combat_hostile,'RIGHT',10,0)
@@ -68,18 +76,24 @@ function general:Initialise()
     mouseover_glow:SetPoint('TOPLEFT',target_glow,'BOTTOMLEFT')
     mouseover_glow_colour:SetPoint('LEFT',mouseover_glow,'RIGHT',194,0)
     glow_as_shadow:SetPoint('TOPLEFT',mouseover_glow,'BOTTOMLEFT')
-    target_arrows:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,-20)
-    target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,0)
+
+    local target_arrows_sep = self:CreateSeparator('target_arrows_sep')
+    target_arrows_sep:SetPoint('TOPLEFT',10,-230)
+
+    target_arrows:SetPoint('TOPLEFT',target_arrows_sep,'BOTTOMLEFT',0,-20)
+    target_arrows_texture:SetPoint('LEFT',target_arrows,'RIGHT',184,0)
+    target_arrows_size:SetPoint('TOPLEFT',target_arrows,'BOTTOMLEFT',0,-25)
+    target_arrows_inset:SetPoint('LEFT',target_arrows_size,'RIGHT',20,0)
 
     local clickthrough_sep = self:CreateSeparator('clickthrough_sep')
     local clickthrough_self = self:CreateCheckBox('clickthrough_self')
     local clickthrough_friend = self:CreateCheckBox('clickthrough_friend')
     local clickthrough_enemy = self:CreateCheckBox('clickthrough_enemy')
 
-    clickthrough_sep:SetPoint('TOP',0,-280)
-    clickthrough_self:SetPoint('TOPLEFT',10,-290)
-    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-290)
-    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-290)
+    clickthrough_sep:SetPoint('TOP',0,-370)
+    clickthrough_self:SetPoint('TOPLEFT',10,-380)
+    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-380)
+    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-380)
 end
 -- fade rules popup ############################################################
 function fade_rules:Initialise()
