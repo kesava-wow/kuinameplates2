@@ -1,4 +1,9 @@
 BETA NOTES
+* add target_arrows_texture (with the old texture as an option)
+* expose target_arrows_texture and target_arrows_inset in the ui
+* move health & level text slightly
+* reduce default target_arrows_inset
+
 * add option fade_friendly_npc_exclude_titled (not exposed in ui)
 * apply nameonly_damaged_enemies to neutral enemies too
 
