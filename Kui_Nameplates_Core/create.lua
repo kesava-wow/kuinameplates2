@@ -986,18 +986,22 @@ do
     end
 
     local function UpdateTargetArrows(f)
-        if not TARGET_ARROWS or f.IN_NAMEONLY then
+        if not TARGET_ARROWS or not TARGET_ARROWS_TEXTURE or f.IN_NAMEONLY then
+            -- hide in nameonly, or if config is missing
             f.TargetArrows:Hide()
             return
         end
-
         if f.state.target then
-            -- update size, colour
+            -- update texture
+            f.TargetArrows.l:SetTexture(TARGET_ARROWS_TEXTURE)
+            f.TargetArrows.r:SetTexture(TARGET_ARROWS_TEXTURE)
+
+            -- update colour, size, position
             f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetArrows:SetSize(TARGET_ARROWS_SIZE)
+            f.TargetArrows:UpdatePosition()
 
             f.TargetArrows:Show()
-            f.TargetArrows:UpdatePosition()
         else
             f.TargetArrows:Hide()
         end
@@ -1006,11 +1010,9 @@ do
         if not TARGET_ARROWS or f.TargetArrows then return end
 
         local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
-        left:SetTexture(MEDIA..'target-arrow')
         left:SetBlendMode('ADD')
 
         local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
-        right:SetTexture(MEDIA..'target-arrow')
         right:SetBlendMode('ADD')
         right:SetTexCoord(1,0,0,1)
 
