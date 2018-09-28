@@ -43,6 +43,7 @@ local default_config = {
     target_arrows = false,
     target_arrows_size = 28,
     target_arrows_inset = 5, -- NEX
+    target_arrows_texture = 1, -- NEX
     use_blizzard_personal = false,
     frame_vertical_offset = 0,
     show_arena_id = true, -- NEX
