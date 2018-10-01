@@ -1,5 +1,6 @@
 BETA NOTES
 * fix text flashing on frames using KuiNameplatesPersonalAnchor (which will result in a size/position difference)
+* update locale
 
 * add target_arrows_texture (with the old texture as an option)
 * expose target_arrows_texture and target_arrows_inset in the ui
