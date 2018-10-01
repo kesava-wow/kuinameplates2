@@ -271,8 +271,7 @@ L.tooltips = {
     nameonly_combat_hostile = 'Note that this doesn\'t apply to training dummies or other units which don\'t have a threat table',
     guild_text_npcs = 'Such as Flight Master, Quartermaster, etc.',
 
-    target_arrows = 'Show arrows around your current target. These inherit the target glow colour',
-    frame_glow_size = 'Size of the frame glow used for target highlighting and threat indication',
+    target_arrows = 'Show arrows around your current target. These inherit the target glow colour set above.',
 
     fade_non_target_alpha = 'Opacity other frames will fade to when you have a target.|n|nInvisible nameplates can still be clicked.',
     fade_conditional_alpha = 'Opacity frames will fade to when matching one of the conditions below',
