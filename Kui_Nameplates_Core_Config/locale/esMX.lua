@@ -207,7 +207,8 @@ L["titles"] = {
 	["health_text_hostile_max"] = "Enemigo con toda salud",
 	["health_text_sep"] = "Texto de salud",
 	["hide_names"] = "Ocultar nombres no rastreados",
-	["ignore_uiscale"] = "Ignorar escala de IU",
+--[[Translation missing --]]
+	["ignore_uiscale"] = "Pixel correction",
 	["level_text"] = "Texto de nivel",
 --[[Translation missing --]]
 	["mouseover_glow"] = "Mouseover glow",
@@ -225,17 +226,24 @@ L["titles"] = {
 	["name_vertical_offset"] = "Name v.offset",
 	["nameonly"] = "Usar modo \"solo nombre\"",
 	["nameonly_all_enemies"] = "Para enemigos",
+--[[Translation missing --]]
+	["nameonly_combat_friends"] = "Friends in combat",
+--[[Translation missing --]]
+	["nameonly_combat_hostile"] = "Enemies in combat",
+--[[Translation missing --]]
+	["nameonly_damaged_enemies"] = "Damaged enemies",
 	["nameonly_damaged_friends"] = "Aliados heridos",
 	["nameonly_enemies"] = "Enemigos no atacables",
+--[[Translation missing --]]
+	["nameonly_friends"] = "Friends",
 	["nameonly_health_colour"] = "Color de salud",
-	["nameonly_in_combat"] = "Unidades en combate contigo",
 	["nameonly_neutral"] = "Enemigos neutrales",
 	["nameonly_no_font_style"] = "Sin contorno",
 	["nameonly_target"] = "Para objetivo",
 --[[Translation missing --]]
 	["nameonly_text_sep"] = "Text",
 --[[Translation missing --]]
-	["nameonly_visibility_sep"] = "Visibility",
+	["nameonly_visibility_sep"] = "Use name-only mode on...",
 	["new_profile"] = "Nuevo perfil",
 	["new_profile_label"] = "Escribe un nombre para el nuevo perfil",
 	["powerbar_height"] = "Alto de barra de poder",
@@ -257,7 +265,13 @@ L["titles"] = {
 	["tankmode_tank_colour"] = "Tienes agro",
 	["tankmode_trans_colour"] = "Transicional",
 	["target_arrows"] = "Flechas de objetivo",
+--[[Translation missing --]]
+	["target_arrows_inset"] = "Inset",
+--[[Translation missing --]]
+	["target_arrows_sep"] = "Target arrows",
 	["target_arrows_size"] = "Tamaño de flechas de objectivo",
+--[[Translation missing --]]
+	["target_arrows_texture"] = "Texture",
 	["target_glow"] = "Brillo de objetivo",
 	["target_glow_colour"] = "Color del brillo de objetivo",
 --[[Translation missing --]]
@@ -292,7 +306,6 @@ L["tooltips"] = {
 	["bossmod_icon_size"] = "El tamaño de los iconos de las auras de jefe",
 	["bossmod_x_offset"] = "El desplazamiento horizontal de los iconos de las auras de jefe",
 	["bossmod_y_offset"] = "El desplazamiento vertical de los iconos de las auras de jefe",
-	["bot_vertical_offset"] = "El desplazamiento vertical de los textos de nivel y salud.",
 --[[Translation missing --]]
 	["castbar_animate"] = "Fade out the cast bar when a cast ends.",
 --[[Translation missing --]]
@@ -346,31 +359,20 @@ L["tooltips"] = {
 	["execute_enabled"] = "Cambiar el color de las barras de salud para unidades cuya salud está dentro del rango de Ejecutar.",
 	["execute_percent"] = "Cambiar manualmente el rango de Ejecutar",
 	["fade_all"] = "Apagar las placas por defecto",
---[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Don't fade friendly nameplates when they are casting",
---[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Don't fade hostile nameplates when they are casting",
---[[Translation missing --]]
-	["fade_avoid_combat"] = "Don't fade nameplates which are affecting combat with you",
 	["fade_avoid_execute_friend"] = "No apagar las placas de nombre de aliados cuya salud está por debjao del umbral para ejecutar (establecer en la pagina \"Barras de salud\").",
 	["fade_avoid_execute_hostile"] = "No apagar las placas de nombre de enemigos cuya salud está por debjao del umbral para ejecutar (establecer en la pagina \"Barras de salud\").",
---[[Translation missing --]]
-	["fade_avoid_mouseover"] = "Fade in nameplates when your mouse is over them",
-	["fade_avoid_nameonly"] = "No apagar las placas de nombre que actualmente están en el modo \"solo nombre\"",
-	["fade_avoid_raidicon"] = "No apagar las placas de nombre que tienen una icono de objetivo.",
 	["fade_avoid_tracked"] = "No apagar las placas de nombre rastreadas, y las placas de nombre de unidades que estan en combate contigo.|n|nPara configurar si una unidad está siendo rastreado, cambiar el opción \"Nombres de PNJ\" y otros cajas en las opciones de la interfaz por defecto (Esc > Interfaz > Nombres).",
 --[[Translation missing --]]
 	["fade_conditional_alpha"] = "Opacity frames will fade to when matching one of the conditions below",
 	["fade_friendly_npc"] = "Apagar las placas de PNJs aliadas por defecto, incluidos los que están en el modo \"solo nombre\".",
 	["fade_neutral_enemy"] = "Apagar las placas de nombre de unidades neutrales atacables por defecto, incluidos los que están en el modo \"solo nombre\".",
 --[[Translation missing --]]
-	["fade_non_target_alpha"] = "Opacity other frames will fade to when you have a target.|nIf set to 0, the nameplate will still be clickable despite being invisible. Addons cannot arbitrarily disable nameplate clickboxes",
+	["fade_non_target_alpha"] = "Opacity other frames will fade to when you have a target.|n|nInvisible nameplates can still be clicked.",
 	["fade_speed"] = "La velocidad del apagamiento de las placas de nombre, cuando 1 es el más lento, y 0 es instantáneo",
 	["fade_untracked"] = "Apagar las placas de nombre de unidades no rastreadas por defecto, incluidos los que están en el modo \"solo nombre\".|n|nPara configurar si una unidad está siendo rastreado, cambiar el opción \"Nombres de PNJ\" y otros cajas en las opciones de la interfaz por defecto (Esc > Interfaz > Nombres).",
 	["font_face"] = "El tipo de letra para usar por todo el texto en placas de nombres (proporcionar por LibSharedMedia)",
 	["font_size_normal"] = "El tamaño estandar de texto (nombre, etc.)",
 	["font_size_small"] = "El tamaño del texto pequeño (vendedor, nombre de hechizo, etc.)",
-	["frame_glow_size"] = "El tamaño del brillo alrededor las placas de nombre que se utilizan para mostrar tu objetivo y la amenaza",
 	["frame_glow_threat"] = "Colorear el brillo para mostrar la amenaza",
 	["frame_height"] = "La altura de las placas de nombre estándar",
 	["frame_height_minus"] = "La altura de las placas de nombre de criaturas \"menores\" (anteriormente \"triviales\") y las placas sin nombres (criaturas sin importancia)",
@@ -381,21 +383,17 @@ L["tooltips"] = {
 --[[Translation missing --]]
 	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
 	["guild_text_npcs"] = "Mostrar los títulos de PNJs, como Intendente, etc.",
-	["guild_text_players"] = "Mostrar los hermandades de jugadores en el modo \"solo nombre\"",
 	["health_text_friend_dmg"] = "El formato de texto para mostrar en los aliados hermidos",
 	["health_text_friend_max"] = "El formato de texto para mostrar en los aliados que tienen toda su salud",
 	["health_text_hostile_dmg"] = "El formato de texto para mostrar en los enemigos heridos",
 	["health_text_hostile_max"] = "El formato de texto para mostrar en los enemigos que tienen toda su salud",
 	["hide_names"] = "Para configurar si se muestra una unidad, cambiar el menú \"Nombres de PNJ\" y otros cajas en las opciones de la interfaz por defecto (Esc > Interfaz > Nombres).|n|nEste no afecta el modo \"solo nombre\".",
-	["ignore_uiscale"] = "Ingnorar la escala de la interfaz por defecto. Este permite que las placas de nombre tienen pixeles perfectos independientemente de la resolución de la pantalla.",
+--[[Translation missing --]]
+	["ignore_uiscale"] = "Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nThis is necessary even if you do not have UI scale enabled.",
 	["name_colour_white_in_bar_mode"] = "Colorear los nombres de jugadores y PNJs blanco, a menos que los colores de clase estén activados.|n|nSi está activado, los siguientes colores solo se aplican al modo \"solo nombre\".",
-	["name_vertical_offset"] = "El dezplazamiento vertical del texto de nombre",
-	["nameonly"] = "Ocultar las barras de salud de unidades aliadas o no atacables. En este modo, el nombre está coloreado por un porcentaje de salud.",
-	["nameonly_all_enemies"] = "Usar el modo \"solo nombre\" para todos enemigos.",
-	["nameonly_damaged_friends"] = "Usar el modo \"solo nombre\" incluso en las placas de nombre de aliados heridos.",
-	["nameonly_enemies"] = "Usar el modo \"solo nombre\" para enemigos a los que no puedes atacar (sin incluir a los jugadores enemigos bajo efectos como Bloque de hielo).",
+--[[Translation missing --]]
+	["nameonly_combat_hostile"] = "Note that this doesn't apply to training dummies or other units which don't have a threat table",
 	["nameonly_health_colour"] = "Colorear partialmente el texto de salud para representar el porcentaje de salud.",
-	["nameonly_in_combat"] = "Usar el modo \"solo nombre\" incluso en unidades en combate contigo. Esto también permitir que el modo \"solo nombre\" se aplique al jugadores enemigos.|n|nTenga en cuenta que este no se aplica a los muñecos de práctica y otros unidades que no tienen tablas de amenaza.",
 	["nameonly_neutral"] = "Usar el modo \"solo nombre\" para unidades neutrales a los que puedes atacar",
 	["nameonly_no_font_style"] = "Ocultar el contorno del texto en el modo \"solo nombre\"",
 	["nameonly_target"] = "También usar el modo \"solo nombre\" para tu objetivo.",
@@ -410,6 +408,6 @@ L["tooltips"] = {
 	["target_arrows"] = "Mostrar flechas alrededor de tu objetivo actual. Estas heredan el color del brillo de objetivo.",
 	["text_vertical_offset"] = "El dezplazamiento vertical aplicado por todo texto. Existe porque algunos tipos de letra se muestran con extraño posicionamiento vertical. Tenga en cuenta que este valor termina en .5 por defecto para reducir el temblor vertical cuando las placas de nombre se están moviendo.",
 	["threat_brackets"] = "Mostrar triangulos alrededor de las placas de nombre para mostrar el estado de la amenaza.",
-	["title_text_players"] = "Mostar los títulos de jugadores en el modo \"solo nombre\"",
-	["use_blizzard_personal"] = "No cambiar la aparencia de la placa de nombre personal o sus poderes de clase.|n|nCuando está activado, aún puedes ajustar la anchura de la placa con la opción \"Anchura de placa personal\" en la sección \"Tamaños de placas\", pero debes volver a cargar la interfaz para aplicarla.|n|nPara mostrar esta placa, tienes que activar la opción \"Demostración de recursos personal\" en los opciones en Esc > Interfaz > Nombres > Placas de nombre\".|n|nPara mostrar los recursos de clase sin modificación, desactiva la opción \"Mostrar recursos especiales en objetivos\" en la misma pagina.|n|nLa IU debe ser recargada si la placa es actualmente visible.",
+--[[Translation missing --]]
+	["use_blizzard_personal"] = "Don't skin the personal nameplate or its class powers.|n|nRequires a UI reload.",
 }

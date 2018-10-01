@@ -176,7 +176,8 @@ L["titles"] = {
 	["health_text_hostile_max"] = "滿血敵方",
 	["health_text_sep"] = "血量文字",
 	["hide_names"] = "隱藏非追蹤單位名稱",
-	["ignore_uiscale"] = "忽略介面縮放",
+--[[Translation missing --]]
+	["ignore_uiscale"] = "Pixel correction",
 	["level_text"] = "顯示等級",
 	["mouseover_glow"] = "鼠標指向光暈",
 	["mouseover_glow_colour"] = "鼠標指向光暈顏色",
@@ -191,16 +192,12 @@ L["titles"] = {
 	["name_vertical_offset"] = "名字垂直偏移",
 	["nameonly"] = "啟用名字模式",
 	["nameonly_all_enemies"] = "使用在敵對",
---[[Translation missing --]]
-	["nameonly_combat_friends"] = "Friends in combat",
---[[Translation missing --]]
-	["nameonly_combat_hostile"] = "Enemies in combat",
---[[Translation missing --]]
-	["nameonly_damaged_enemies"] = "Damaged enemies",
+	["nameonly_combat_friends"] = "戰鬥中的友方",
+	["nameonly_combat_hostile"] = "戰鬥中的敵方",
+	["nameonly_damaged_enemies"] = "受到傷害的敵方",
 	["nameonly_damaged_friends"] = "在受損傷的友方",
 	["nameonly_enemies"] = "在不可攻擊的敵人",
---[[Translation missing --]]
-	["nameonly_friends"] = "Friends",
+	["nameonly_friends"] = "友方",
 	["nameonly_health_colour"] = "血量著色",
 	["nameonly_neutral"] = "在中立單位",
 	["nameonly_no_font_style"] = "無字型描邊",
@@ -225,7 +222,13 @@ L["titles"] = {
 	["tankmode_tank_colour"] = "當前坦仇恨穩定",
 	["tankmode_trans_colour"] = "仇恨轉移",
 	["target_arrows"] = "顯示目標箭頭",
+--[[Translation missing --]]
+	["target_arrows_inset"] = "Inset",
+--[[Translation missing --]]
+	["target_arrows_sep"] = "Target arrows",
 	["target_arrows_size"] = "箭頭尺寸",
+--[[Translation missing --]]
+	["target_arrows_texture"] = "Texture",
 	["target_glow"] = "顯示目標光暈",
 	["target_glow_colour"] = "目標光暈顏色",
 	["text_vertical_offset"] = "文字垂直偏移",
@@ -256,7 +259,6 @@ L["tooltips"] = {
 	["bossmod_icon_size"] = "首領光環圖示大小",
 	["bossmod_x_offset"] = "首領光環圖示位置的水平偏移量",
 	["bossmod_y_offset"] = "首領光環圖示位置的垂直偏移量",
-	["bot_vertical_offset"] = "等級血量位置的垂直偏移量",
 	["castbar_animate"] = "當施法結束時淡出施法條。",
 	["castbar_animate_change_colour"] = "當施法結束時變更施法條顏色，這樣可以更好分辨成功、中止、被打斷施法的區別。",
 	["castbar_colour"] = "施法條顏色。|n|n如果有啟用動畫，也用於表示成功施放。",
@@ -303,14 +305,8 @@ L["tooltips"] = {
 	["execute_enabled"] = "當單位進入斬殺階段時，重新著色血條",
 	["execute_percent"] = "手動設定斬殺階段血量閾值",
 	["fade_all"] = "預設狀態下淡出所有框架",
-	["fade_avoid_casting_friendly"] = "不淡出施法中的友方名條",
-	["fade_avoid_casting_hostile"] = "不淡出施法中的敵方名條",
-	["fade_avoid_combat"] = "不淡出與你戰鬥中的名條",
 	["fade_avoid_execute_friend"] = "不要淡出血量處於斬殺階段的友方名條（在「血量條」頁面設置）",
 	["fade_avoid_execute_hostile"] = "不要淡出血量處於斬殺階段的敵方名條（在「血量條」頁面設置）",
-	["fade_avoid_mouseover"] = "淡出鼠標指向的名條",
-	["fade_avoid_nameonly"] = "啟用名字模式時，不要淡出名條",
-	["fade_avoid_raidicon"] = "不要淡出被標記了團隊圖示的名條",
 	["fade_avoid_tracked"] = "不淡出已追蹤或是正在與你戰鬥中的單位名條。|n透過改變 Esc > 介面 > 名稱 > 「NPC名稱」的選項來設定是否進行追蹤。",
 	["fade_conditional_alpha"] = "當符合以下條件時非透明框架將會淡出",
 	["fade_friendly_npc"] = "預設淡出友方NPC名條（包含名字模式）",
@@ -321,7 +317,6 @@ L["tooltips"] = {
 	["font_face"] = "名條所使用的全局字型（由LibSharedMedia提供）",
 	["font_size_normal"] = "標準字型大小 （名稱等）",
 	["font_size_small"] = "小字型大小（商人、法術名稱等等）",
-	["frame_glow_size"] = "目標高亮與威脅指示的光暈尺寸",
 	["frame_glow_threat"] = "以光暈的顏色變化來指示威脅狀態",
 	["frame_height"] = "標準名條高度",
 	["frame_height_minus"] = "次要敵方單位和無名字（不重要的單位）的名條高度（次要敵人一般會顯示比較小的名條）",
@@ -336,11 +331,10 @@ L["tooltips"] = {
 	["health_text_hostile_dmg"] = "敵方玩家損血時的血量文字格式",
 	["health_text_hostile_max"] = "敵方玩家滿血時的血量文字格式",
 	["hide_names"] = "你可以透過改變 Esc > 介面 > 名稱 > 「NPC名稱」的選項來設定是否進行追蹤。注意：此設定在名字模式不生效",
-	["ignore_uiscale"] = "忽略預設的介面縮放。這可以讓名條維持精確的像素，不受解析度影響。",
-	["name_colour_white_in_bar_mode"] = "NPC與玩家名字使用白色著色（除非啟用職業著色）。|n|n如果此選項啟用，以下顏色只適用於名字模式。",
-	["name_vertical_offset"] = "名字文字位置的垂直偏移量",
 --[[Translation missing --]]
-	["nameonly_combat_hostile"] = "Note that this doesn't apply to training dummies or other units which don't have a threat table",
+	["ignore_uiscale"] = "Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nThis is necessary even if you do not have UI scale enabled.",
+	["name_colour_white_in_bar_mode"] = "NPC與玩家名字使用白色著色（除非啟用職業著色）。|n|n如果此選項啟用，以下顏色只適用於名字模式。",
+	["nameonly_combat_hostile"] = "請注意，這不適用於訓練假人或其他沒有威脅數據的單位",
 	["nameonly_health_colour"] = "以部份著色的方式來顯示血量百分比",
 	["nameonly_neutral"] = "在可攻擊的中立單位使用名字模式",
 	["nameonly_no_font_style"] = "使用名字模式時，不使用字體描邊（將字型樣式設為空）",
@@ -356,6 +350,6 @@ L["tooltips"] = {
 	["target_arrows"] = "在當前目標周圍顯示箭頭。箭頭的顏色繼承目標的光暈顏色。",
 	["text_vertical_offset"] = "名條文字的全局垂直偏移量。針對WOW中某些比較奇怪的字體渲染作出微調。注意：尾數設為.5有助於減少名條移動時的抖動現象",
 	["threat_brackets"] = "顯示威脅括弧",
-	["use_blizzard_personal"] = [=[不美化個人資源或是職業能量。|n|n當此選項啟用，個人框架可以在「框架尺寸」中的「個人資源」選項中調整，但是需要重載UI才能完全生效。|n|n要讓此框架顯示，你必須勾選在Esc > 介面 > 名稱 > 單位名條中的「顯示個人資源」選項。|n|n要顯示未被美化的職業資源，必須在同一頁面取消勾選「顯示目標的特殊資源」。|n|n|cffff6666如果當前框架可見，則需要重載UI方能使改動生效。
-]=],
+--[[Translation missing --]]
+	["use_blizzard_personal"] = "Don't skin the personal nameplate or its class powers.|n|nRequires a UI reload.",
 }

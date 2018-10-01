@@ -176,7 +176,8 @@ L["titles"] = {
 	["health_text_hostile_max"] = "满血敌方",
 	["health_text_sep"] = "生命值文字",
 	["hide_names"] = "隐藏未追踪单位名字",
-	["ignore_uiscale"] = "忽略界面缩放",
+--[[Translation missing --]]
+	["ignore_uiscale"] = "Pixel correction",
 	["level_text"] = "显示等级",
 	["mouseover_glow"] = "鼠标移至姓名版发光",
 	["mouseover_glow_colour"] = "鼠标移至发光颜色",
@@ -191,16 +192,12 @@ L["titles"] = {
 	["name_vertical_offset"] = "名字垂直偏移",
 	["nameonly"] = "启用名字模式",
 	["nameonly_all_enemies"] = "包括敌方",
---[[Translation missing --]]
-	["nameonly_combat_friends"] = "Friends in combat",
---[[Translation missing --]]
-	["nameonly_combat_hostile"] = "Enemies in combat",
---[[Translation missing --]]
-	["nameonly_damaged_enemies"] = "Damaged enemies",
+	["nameonly_combat_friends"] = "战斗中的友方",
+	["nameonly_combat_hostile"] = "战斗中的敌方",
+	["nameonly_damaged_enemies"] = "受到伤害的敌人",
 	["nameonly_damaged_friends"] = "包括未满血的友方",
 	["nameonly_enemies"] = "包括不可攻击的敌人",
---[[Translation missing --]]
-	["nameonly_friends"] = "Friends",
+	["nameonly_friends"] = "友方",
 	["nameonly_health_colour"] = "血量百分比染色",
 	["nameonly_neutral"] = "包括中立单位",
 	["nameonly_no_font_style"] = "无字型描边",
@@ -225,7 +222,13 @@ L["titles"] = {
 	["tankmode_tank_colour"] = "仇恨稳固",
 	["tankmode_trans_colour"] = "仇恨不稳",
 	["target_arrows"] = "显示目标箭头",
+--[[Translation missing --]]
+	["target_arrows_inset"] = "Inset",
+--[[Translation missing --]]
+	["target_arrows_sep"] = "Target arrows",
 	["target_arrows_size"] = "箭头大小",
+--[[Translation missing --]]
+	["target_arrows_texture"] = "Texture",
 	["target_glow"] = "显示目标高亮",
 	["target_glow_colour"] = "目标高亮颜色",
 	["text_vertical_offset"] = "文字垂直偏移",
@@ -256,7 +259,6 @@ L["tooltips"] = {
 	["bossmod_icon_size"] = "首领光环图标大小",
 	["bossmod_x_offset"] = "首领光环图标位置的水平偏移量",
 	["bossmod_y_offset"] = "首领光环图标位置的垂直偏移量",
-	["bot_vertical_offset"] = "等级血量垂直偏移",
 	["castbar_animate"] = "当施法结束时渐隐施法条",
 	["castbar_animate_change_colour"] = "当施法结束时变更施法条颜色，这样可以更好分辨成功、中止、被打断施法的区别。",
 	["castbar_colour"] = "施法条颜色。|n|n如果有启用动画，也用于表示成功施放。",
@@ -303,14 +305,8 @@ L["tooltips"] = {
 	["execute_enabled"] = "当单位进入斩杀阶段时，重新染色姓名板",
 	["execute_percent"] = "手动设定斩杀阶段血量阈值",
 	["fade_all"] = "默认状态下渐隐所有框体",
-	["fade_avoid_casting_friendly"] = "避开施法中的友方",
-	["fade_avoid_casting_hostile"] = "避开施法中的敌方",
-	["fade_avoid_combat"] = "不渐隐与你战斗中的姓名板",
 	["fade_avoid_execute_friend"] = "不要渐隐血量处于斩杀阶段的友方姓名板（在”血量条”页面设置）",
 	["fade_avoid_execute_hostile"] = "不要渐隐血量处于斩杀阶段的敌方姓名板（在”血量条”页面设置）",
-	["fade_avoid_mouseover"] = "当你的鼠标在姓名版上时，将姓名版渐隐",
-	["fade_avoid_nameonly"] = "启用名字模式时，不要渐隐姓名板",
-	["fade_avoid_raidicon"] = "不要渐隐有团队标记的姓名板",
 	["fade_avoid_tracked"] = "不渐隐已追踪或是正在与你战斗中的单位姓名板。|n透过改变 Esc > 界面 > 姓名 > ”NPC名称”下拉菜单的选项，来设定是否进行追踪",
 	["fade_conditional_alpha"] = "当符合以下条件时非透明框架将会渐隐",
 	["fade_friendly_npc"] = "默认渐隐友方NPC姓名板（包含名字模式）",
@@ -321,7 +317,6 @@ L["tooltips"] = {
 	["font_face"] = "姓名板所使用的全局字型（由LibSharedMedia提供）",
 	["font_size_normal"] = "常规字型大小 （名称等）",
 	["font_size_small"] = "小字型大小（商人、法术名等等）",
-	["frame_glow_size"] = "目标高亮与威胁指示的高亮大小",
 	["frame_glow_threat"] = "以高亮的颜色变化来指示威胁状态",
 	["frame_height"] = "标准姓名板高度",
 	["frame_height_minus"] = "杂兵和无名字（不重要的单位）的姓名板高度（杂兵一般会显示比较小的姓名板）",
@@ -336,11 +331,10 @@ L["tooltips"] = {
 	["health_text_hostile_dmg"] = "敌方玩家损血时的血量文字格式",
 	["health_text_hostile_max"] = "敌方玩家满血时的血量文字格式",
 	["hide_names"] = "你可以透过改变 Esc > 界面 > 姓名 > ”NPC名称”下拉菜单的选项，来设定是否进行追踪。注意：此設定在名字模式不生效",
-	["ignore_uiscale"] = "忽略默认的界面缩放。这可以让姓名板维持精确的像素，不受分辨率影响。",
-	["name_colour_white_in_bar_mode"] = "NPC与玩家名字使用白色著色（除非启用职业著色）。|n|n如果此选项启用，以下颜色只适用于名字模式。",
-	["name_vertical_offset"] = "名字文本位置的垂直偏移量",
 --[[Translation missing --]]
-	["nameonly_combat_hostile"] = "Note that this doesn't apply to training dummies or other units which don't have a threat table",
+	["ignore_uiscale"] = "Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nThis is necessary even if you do not have UI scale enabled.",
+	["name_colour_white_in_bar_mode"] = "NPC与玩家名字使用白色著色（除非启用职业著色）。|n|n如果此选项启用，以下颜色只适用于名字模式。",
+	["nameonly_combat_hostile"] = "注意，这并不适用于训练假人或其他没有威胁数据的单位",
 	["nameonly_health_colour"] = "以部份染色的方式来显示血量百分比",
 	["nameonly_neutral"] = "在可攻击的中立单位使用名字模式",
 	["nameonly_no_font_style"] = "使用名字模式时，不使用字体描边（将字型样式设为空）",
@@ -356,5 +350,6 @@ L["tooltips"] = {
 	["target_arrows"] = "在当前目标周围显示箭头。箭头的颜色继承目标的高亮颜色。",
 	["text_vertical_offset"] = "姓名板文字的全局垂直偏移量。针对WOW中某些比较奇怪的字体渲染作出微调。注意：尾数设为.5有助于减少姓名板移动时的抖动现象",
 	["threat_brackets"] = "显示威胁括弧",
-	["use_blizzard_personal"] = "不美化个人资源或是职业能量。|n|n当此选项启用，个人框体可以在”框体大小”中的”个人资源”选项中调整，但是需要重载界面才能完全生效。|n|n要让此框体显示，你必须勾选在Esc > 界面 > 姓名 > 单位姓名板中的\"显示个人资源\"选项。|n|n要显示未被美化的职业资源，必须在同一页面取消勾选\"显示目标的特殊资源\"。|n|n|cffff6666如果当前框体可见，则需要重载界面方能使改动生效。",
+--[[Translation missing --]]
+	["use_blizzard_personal"] = "Don't skin the personal nameplate or its class powers.|n|nRequires a UI reload.",
 }
