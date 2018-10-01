@@ -259,8 +259,8 @@ L.tooltips = {
     combat_hostile = 'Action to take on hostile frames upon entering and leaving combat.',
     combat_friendly = 'Action to take on friendly frames upon entering and leaving combat.',
 
-    ignore_uiscale = 'Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|n|cffff6666This is necessary even if you do not have UI scale enabled.',
-    use_blizzard_personal = 'Don\'t skin the personal nameplate or its class powers.|n|nWhen using this option, the width of the personal frame can still be adjusted with the "Personal frame width" slider under "Frame sizes", however a UI reload is required for it to take full effect.|n|nIn order for this frame to display, you must check the option "Personal Resource Display" under Esc > Interface > Names > Unit Nameplates.|nIn order to show unmodified class resources on it, uncheck the option "Show Special Resources on Targets" on the same page.|n|n|cffff6666Requires a UI reload if the frame is currently visible.',
+    ignore_uiscale = 'Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nThis is necessary even if you do not have UI scale enabled.',
+    use_blizzard_personal = 'Don\'t skin the personal nameplate or its class powers.|n|nRequires a UI reload.',
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
     clickthrough_self = 'Disable the click-box of your personal nameplate',
@@ -276,22 +276,16 @@ L.tooltips = {
 
     target_arrows = 'Show arrows around your current target. These inherit the target glow colour set above.',
 
-    fade_non_target_alpha = 'Opacity other frames will fade to when you have a target.|nIf set to 0, the nameplate will still be clickable despite being invisible. Addons cannot arbitrarily disable nameplate clickboxes',
+    fade_non_target_alpha = 'Opacity other frames will fade to when you have a target.|n|nInvisible nameplates can still be clicked.',
     fade_conditional_alpha = 'Opacity frames will fade to when matching one of the conditions below',
     fade_speed = 'Speed of the frame fading animation, where 1 is slowest and 0 is instant',
     fade_all = 'Fade all frames to the non-target alpha by default',
-    fade_avoid_mouseover = 'Fade in nameplates when your mouse is over them',
-    fade_avoid_nameonly = 'Don\'t fade nameplates which are currently in name-only mode',
-    fade_avoid_raidicon = 'Don\'t fade nameplates which have a raid icon visible',
     fade_friendly_npc = 'Fade friendly NPC nameplates by default (including those in name-only mode)',
     fade_neutral_enemy = 'Fade attackable neutral nameplates by default (including those in name-only mode)',
     fade_untracked = 'Fade non-tracked nameplates by default (including those in name-only mode).|n|nWhether or not a unit is tracked can by set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names',
-    fade_avoid_execute_friend = 'Don\'t fade friendly nameplates in execute range (set in the "Health bars" page)',
-    fade_avoid_execute_hostile = 'Don\'t fade hostile nameplates in execute range (set in the "Health bars" page)',
-    fade_avoid_tracked = 'Don\'t fade tracked nameplates, or nameplates which are affecting combat with you.|n|nWhether or not a unit is tracked can by set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names',
-    fade_avoid_combat = 'Don\'t fade nameplates which are affecting combat with you',
-    fade_avoid_casting_friendly = 'Don\'t fade friendly nameplates when they are casting',
-    fade_avoid_casting_hostile = 'Don\'t fade hostile nameplates when they are casting',
+    fade_avoid_execute_friend = 'Friendly nameplates in execute range',
+    fade_avoid_execute_hostile = 'Hostile nameplates in execute range',
+    fade_avoid_tracked = 'Whether or not a unit is tracked can by set by changing the "NPC Names" dropdown and other checkboxes in the default interface options under Esc > Interface > Names',
 
     colour_self_class = 'Use your class colour on your personal nameplate',
     colour_self = 'The health bar colour of your personal nameplate',
