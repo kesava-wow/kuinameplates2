@@ -71,8 +71,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
 
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
-local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET,
-      TARGET_ARROWS_TEXTURE,TARGET_ARROWS_BLEND_MODE
+local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
 local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
@@ -203,10 +202,6 @@ do
     local ANIM_ASSOC = {
         nil,'smooth','cutaway'
     }
-    local TAT = { -- target arrow textures index
-        { 'target-arrow-faded', 'ADD' },
-        { 'target-arrow-solid', 'BLEND' },
-    }
     local function UpdateMediaLocals()
         BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,core.profile.bar_texture)
         FONT = LSM:Fetch(LSM.MediaType.FONT,core.profile.font_face)
@@ -220,16 +215,6 @@ do
         TARGET_ARROWS = self.profile.target_arrows
         TARGET_ARROWS_SIZE = Scale(self.profile.target_arrows_size)
         TARGET_ARROWS_INSET = Scale(self.profile.target_arrows_inset)
-
-        if TARGET_ARROWS then
-            -- resolve texture
-            local texture_tbl = TAT[self.profile.target_arrows_texture]
-            if type(texture_tbl) == 'table' then
-                TARGET_ARROWS_TEXTURE = MEDIA..(texture_tbl[1])
-                TARGET_ARROWS_BLEND_MODE = texture_tbl[2]
-            end
-        end
-
         TARGET_GLOW = self.profile.target_glow
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
         MOUSEOVER_GLOW = self.profile.mouseover_glow
@@ -991,24 +976,18 @@ do
     end
 
     local function UpdateTargetArrows(f)
-        if not TARGET_ARROWS or not TARGET_ARROWS_TEXTURE or f.IN_NAMEONLY then
-            -- hide in nameonly, or if config is missing
+        if not TARGET_ARROWS or f.IN_NAMEONLY then
             f.TargetArrows:Hide()
             return
         end
-        if f.state.target then
-            -- update texture
-            f.TargetArrows.l:SetTexture(TARGET_ARROWS_TEXTURE)
-            f.TargetArrows.l:SetBlendMode(TARGET_ARROWS_BLEND_MODE)
-            f.TargetArrows.r:SetTexture(TARGET_ARROWS_TEXTURE)
-            f.TargetArrows.r:SetBlendMode(TARGET_ARROWS_BLEND_MODE)
 
-            -- update colour, size, position
+        if f.state.target then
+            -- update size, colour
             f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetArrows:SetSize(TARGET_ARROWS_SIZE)
-            f.TargetArrows:UpdatePosition()
 
             f.TargetArrows:Show()
+            f.TargetArrows:UpdatePosition()
         else
             f.TargetArrows:Hide()
         end
@@ -1017,7 +996,12 @@ do
         if not TARGET_ARROWS or f.TargetArrows then return end
 
         local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
+        left:SetTexture(MEDIA..'target-arrow')
+        left:SetBlendMode('ADD')
+
         local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
+        right:SetTexture(MEDIA..'target-arrow')
+        right:SetBlendMode('ADD')
         right:SetTexCoord(1,0,0,1)
 
         local arrows = {
