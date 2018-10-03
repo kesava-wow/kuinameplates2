@@ -1,32 +1,24 @@
-BETA NOTES
-* fix text flashing on frames using KuiNameplatesPersonalAnchor (which will result in a size/position difference)
+* simplify name-only config page;
+* add option to disable name-only specifically on friends,
+* add option to disable name-only on damaged enemies,
+* add separate options to disable name-only on friends or enemies in combat.
+* add option fade_friendly_npc_exclude_titled (not exposed in ui)
+* add option castbar_spacing (not exposed in ui)
+* update hunter, priest, rogue & warrior auto-detected execute range (thanks to timoff32)
 * update locale
-
 * move health & level text slightly
 * reduce default target_arrows_inset
-
-* add option fade_friendly_npc_exclude_titled (not exposed in ui)
-* apply nameonly_damaged_enemies to neutral enemies too
-
 * reduce default minus frame height slightly
-* alter text offset scaling (should be unchanged if global_scale is 1)
+* alter text offset scaling (only if global_scale is used)
 * force text offsets to align to half pixels
+* fix text flashing on frames using KuiNameplatesPersonalAnchor (will cause a change in size and position)
+* fix name-only sticks on some enemies which switch from unattackable to attackable (and issues related to that)
 
-* add option castbar_spacing (not exposed in ui)
-* update locale
-
-* add option to disable name-only specifically on friends
-* add option to disable name-only on damaged enemies
-* add separate options to disable name-only on friends or enemies in combat
-* fix name-only sticks on some enemies which switch from unattackable to attackable (and issues related to that. #1, #255)
-* update hunter, priest, rogue & warrior auto-detected execute range (thanks to timoff32)
-* simplify name-only config page
-* update name-only config locale
-
-Even more boring things:
+Even more boring:
 * ignore more debug events by default
 * make /knp dump's debug frame easier to drag. wow.
 * make commands like "/knp > auras" work as shortcuts for the config pages, so my text can be copied and run without adjustment when I say that to people.
 * slash commands /knp debug-{frames,ignore} moved to /knp debug {frames,ignore} (no hyphon)
 * add slash command /knp debug all for extra chat spam
-* add KuiNameplatesCoreSaved.SHUT_UP to silence the alpha orientation message
+* do this: `/run KuiNameplatesCoreSaved.SHUT_UP=true` if you use the alpha and you don't want to see the orientation message
+* you're the only person reading this.
