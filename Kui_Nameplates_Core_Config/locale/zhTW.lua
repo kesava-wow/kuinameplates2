@@ -176,8 +176,7 @@ L["titles"] = {
 	["health_text_hostile_max"] = "滿血敵方",
 	["health_text_sep"] = "血量文字",
 	["hide_names"] = "隱藏非追蹤單位名稱",
---[[Translation missing --]]
-	["ignore_uiscale"] = "Pixel correction",
+	["ignore_uiscale"] = "像素校正",
 	["level_text"] = "顯示等級",
 	["mouseover_glow"] = "鼠標指向光暈",
 	["mouseover_glow_colour"] = "鼠標指向光暈顏色",
@@ -203,7 +202,7 @@ L["titles"] = {
 	["nameonly_no_font_style"] = "無字型描邊",
 	["nameonly_target"] = "使用在目標",
 	["nameonly_text_sep"] = "文字",
-	["nameonly_visibility_sep"] = "可視性",
+	["nameonly_visibility_sep"] = "使用名字模式在...",
 	["new_profile"] = "新設定檔...",
 	["new_profile_label"] = "輸入設定檔名稱",
 	["powerbar_height"] = "能量條高度",
@@ -222,13 +221,7 @@ L["titles"] = {
 	["tankmode_tank_colour"] = "當前坦仇恨穩定",
 	["tankmode_trans_colour"] = "仇恨轉移",
 	["target_arrows"] = "顯示目標箭頭",
---[[Translation missing --]]
-	["target_arrows_inset"] = "Inset",
---[[Translation missing --]]
-	["target_arrows_sep"] = "Target arrows",
 	["target_arrows_size"] = "箭頭尺寸",
---[[Translation missing --]]
-	["target_arrows_texture"] = "Texture",
 	["target_glow"] = "顯示目標光暈",
 	["target_glow_colour"] = "目標光暈顏色",
 	["text_vertical_offset"] = "文字垂直偏移",
@@ -331,8 +324,7 @@ L["tooltips"] = {
 	["health_text_hostile_dmg"] = "敵方玩家損血時的血量文字格式",
 	["health_text_hostile_max"] = "敵方玩家滿血時的血量文字格式",
 	["hide_names"] = "你可以透過改變 Esc > 介面 > 名稱 > 「NPC名稱」的選項來設定是否進行追蹤。注意：此設定在名字模式不生效",
---[[Translation missing --]]
-	["ignore_uiscale"] = "Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nThis is necessary even if you do not have UI scale enabled.",
+	["ignore_uiscale"] = "修復與界面縮放相關的像素對齊問題。通過調整/knp > 框架尺寸 > 全局縮放來補償大小差異。|n|n即使您並沒有啟用UI縮放這也是必要的。",
 	["name_colour_white_in_bar_mode"] = "NPC與玩家名字使用白色著色（除非啟用職業著色）。|n|n如果此選項啟用，以下顏色只適用於名字模式。",
 	["nameonly_combat_hostile"] = "請注意，這不適用於訓練假人或其他沒有威脅數據的單位",
 	["nameonly_health_colour"] = "以部份著色的方式來顯示血量百分比",
@@ -350,6 +342,5 @@ L["tooltips"] = {
 	["target_arrows"] = "在當前目標周圍顯示箭頭。箭頭的顏色繼承目標的光暈顏色。",
 	["text_vertical_offset"] = "名條文字的全局垂直偏移量。針對WOW中某些比較奇怪的字體渲染作出微調。注意：尾數設為.5有助於減少名條移動時的抖動現象",
 	["threat_brackets"] = "顯示威脅括弧",
---[[Translation missing --]]
-	["use_blizzard_personal"] = "Don't skin the personal nameplate or its class powers.|n|nRequires a UI reload.",
+	["use_blizzard_personal"] = "不要美化個人名條或其職業能量。|n|n需要重載UI。",
 }

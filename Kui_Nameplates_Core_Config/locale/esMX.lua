@@ -265,13 +265,7 @@ L["titles"] = {
 	["tankmode_tank_colour"] = "Tienes agro",
 	["tankmode_trans_colour"] = "Transicional",
 	["target_arrows"] = "Flechas de objetivo",
---[[Translation missing --]]
-	["target_arrows_inset"] = "Inset",
---[[Translation missing --]]
-	["target_arrows_sep"] = "Target arrows",
 	["target_arrows_size"] = "Tamaño de flechas de objectivo",
---[[Translation missing --]]
-	["target_arrows_texture"] = "Texture",
 	["target_glow"] = "Brillo de objetivo",
 	["target_glow_colour"] = "Color del brillo de objetivo",
 --[[Translation missing --]]

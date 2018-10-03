@@ -275,13 +275,7 @@ L["titles"] = {
 	["tankmode_tank_colour"] = "방어 중",
 	["tankmode_trans_colour"] = "위협 수준 변화 중",
 	["target_arrows"] = "대상 화살표 표시",
---[[Translation missing --]]
-	["target_arrows_inset"] = "Inset",
---[[Translation missing --]]
-	["target_arrows_sep"] = "Target arrows",
 	["target_arrows_size"] = "대상 화살표 크기",
---[[Translation missing --]]
-	["target_arrows_texture"] = "Texture",
 	["target_glow"] = "대상 불빛 표시",
 	["target_glow_colour"] = "대상 불빛 색상",
 	["text_vertical_offset"] = "문자 수직 위치",

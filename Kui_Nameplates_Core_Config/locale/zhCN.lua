@@ -222,13 +222,7 @@ L["titles"] = {
 	["tankmode_tank_colour"] = "仇恨稳固",
 	["tankmode_trans_colour"] = "仇恨不稳",
 	["target_arrows"] = "显示目标箭头",
---[[Translation missing --]]
-	["target_arrows_inset"] = "Inset",
---[[Translation missing --]]
-	["target_arrows_sep"] = "Target arrows",
 	["target_arrows_size"] = "箭头大小",
---[[Translation missing --]]
-	["target_arrows_texture"] = "Texture",
 	["target_glow"] = "显示目标高亮",
 	["target_glow_colour"] = "目标高亮颜色",
 	["text_vertical_offset"] = "文字垂直偏移",

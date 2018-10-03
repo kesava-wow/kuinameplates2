@@ -236,13 +236,7 @@ L["titles"] = {
 	["tankmode_tank_colour"] = "Танкование",
 	["tankmode_trans_colour"] = "Переходной",
 	["target_arrows"] = "Показывать стрелки на цели",
---[[Translation missing --]]
-	["target_arrows_inset"] = "Inset",
---[[Translation missing --]]
-	["target_arrows_sep"] = "Target arrows",
 	["target_arrows_size"] = "Размер стрелки цели",
---[[Translation missing --]]
-	["target_arrows_texture"] = "Texture",
 	["target_glow"] = "Свечение цели",
 	["target_glow_colour"] = "Цветовое свечение цели",
 	["text_vertical_offset"] = "В.смещение текста",
