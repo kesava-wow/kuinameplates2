@@ -42,6 +42,7 @@ function core:Show(f)
     -- state helpers
     f.state.friend = UnitIsFriend('player',f.unit)
     f.state.class = select(2,UnitClass(f.unit))
+    f.state.player = UnitIsPlayer(f.unit)
 
     -- go into nameonly mode if desired
     self:NameOnlyUpdate(f)
@@ -280,6 +281,7 @@ do
     fade_rules.fade_friendly_npc = { function(f)
         if  f.state.reaction >= 4 and
             not UnitIsPlayer(f.unit) and
+            -- (^ this can't use the layout's state helper)
             not UnitCanAttack('player',f.unit)
         then
             return (not friendly_npc_exclude_titled or
