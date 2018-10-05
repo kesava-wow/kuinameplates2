@@ -90,15 +90,14 @@ function core:HealthColourChange(f)
     f.state.friend = UnitIsFriend('player',f.unit)
 
     -- update nameonly upon faction changes
-    self:NameOnlyUpdate(f)
-    self:NameOnlyUpdateFunctions(f)
+    self:NameOnlyCombatUpdate(f)
 end
 function core:PowerTypeUpdate(f)
     f:UpdatePowerBar()
 end
 function core:GlowColourChange(f)
-    f:UpdateFrameGlow()
-    f:UpdateThreatBrackets()
+    -- update nameonly upon threat state changes
+    self:NameOnlyCombatUpdate(f)
 end
 function core:CastBarShow(f)
     f:ShowCastBar()

@@ -1985,8 +1985,10 @@ do
         f:UpdateGuildText()
 
         if f.TargetArrows then
-            -- show/hide arrows
             f:UpdateTargetArrows()
+        end
+        if f.ThreatBrackets then
+            f:UpdateThreatBrackets()
         end
 
         if f.NameOnlyGlow and addon.ClassPowersFrame and plugin_classpowers.enabled then
