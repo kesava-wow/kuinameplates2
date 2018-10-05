@@ -1923,9 +1923,10 @@ end
 do
     local NAMEONLY_ENABLED,NAMEONLY_NO_FONT_STYLE,NAMEONLY_HEALTH_COLOUR
     local NAMEONLY_TARGET,NAMEONLY_ALL_ENEMIES,NAMEONLY_ON_NEUTRAL,
-          NAMEONLY_ENEMIES,NAMEONLY_DAMAGED_ENEMIES,NAMEONLY_FRIENDS,
+          NAMEONLY_HOSTILE_NPCS,NAMEONLY_DAMAGED_ENEMIES,NAMEONLY_FRIENDLY_NPCS,
           NAMEONLY_DAMAGED_FRIENDS,NAMEONLY_COMBAT_HOSTILE,
-          NAMEONLY_COMBAT_FRIENDLY
+          NAMEONLY_COMBAT_FRIENDLY,NAMEONLY_HOSTILE_PLAYERS,
+          NAMEONLY_FRIENDLY_PLAYERS,NAMEONLY_COMBAT_HOSTILE_PLAYER
 
     function core:configChangedNameOnly()
         NAMEONLY_ENABLED = self.profile.nameonly
@@ -1935,11 +1936,14 @@ do
         NAMEONLY_TARGET = self.profile.nameonly_target
         NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
         NAMEONLY_ON_NEUTRAL = self.profile.nameonly_neutral
-        NAMEONLY_ENEMIES = self.profile.nameonly_enemies
+        NAMEONLY_HOSTILE_NPCS = self.profile.nameonly_enemies
+        NAMEONLY_HOSTILE_PLAYERS = self.profile.nameonly_hostile_players
         NAMEONLY_DAMAGED_ENEMIES = self.profile.nameonly_damaged_enemies
-        NAMEONLY_FRIENDS = self.profile.nameonly_friends
+        NAMEONLY_FRIENDLY_NPCS = self.profile.nameonly_friends
+        NAMEONLY_FRIENDLY_PLAYERS = self.profile.nameonly_friendly_players
         NAMEONLY_DAMAGED_FRIENDS = self.profile.nameonly_damaged_friends
         NAMEONLY_COMBAT_HOSTILE = self.profile.nameonly_combat_hostile
+        NAMEONLY_COMBAT_HOSTILE_PLAYER = self.profile.nameonly_combat_hostile_player
         NAMEONLY_COMBAT_FRIENDLY = self.profile.nameonly_combat_friends
 
         -- create target/threat glow
@@ -2082,44 +2086,69 @@ do
         if not NAMEONLY_TARGET and f.state.target then return end
 
         if not f.state.attackable and f.state.reaction >= 4 then
-            -- friendly
-            -- disable on friends affecting combat
+            -- friendly;
+            -- disable on friends in combat
             if not NAMEONLY_COMBAT_FRIENDLY and f.state.combat then
                 return
             end
-            -- disable on friends
-            if not NAMEONLY_FRIENDS then
-                return
+            if f.state.player then
+                -- disable on friendly players
+                if not NAMEONLY_FRIENDLY_PLAYERS then
+                    return
+                end
+            else
+                -- disable on friendly NPCs
+                if not NAMEONLY_FRIENDLY_NPCS then
+                    return
+                end
             end
             -- disable on damaged friends
             if not NAMEONLY_DAMAGED_FRIENDS and f.state.health_deficit > 0 then
                 return
             end
         else
-            -- hostile/neutral
-            -- disable on enemies affecting combat
-            if not NAMEONLY_COMBAT_HOSTILE and f.state.combat then
-                return
+            if f.state.reaction == 4 then
+                -- neutral;
+                -- disable on neutral
+                if not NAMEONLY_ON_NEUTRAL then
+                    return
+                end
+            else
+                -- hostile;
+                if f.state.player then
+                    -- disable on hostile players
+                    if not NAMEONLY_HOSTILE_PLAYERS then
+                        return
+                    end
+                else
+                    -- disable on hostile NPCS
+                    if not NAMEONLY_HOSTILE_NPCS then
+                        return
+                    end
+                end
+                -- disable on attackable units
+                if not NAMEONLY_ALL_ENEMIES and f.state.attackable then
+                    return
+                end
             end
+            -- neutral & hostile;
             -- disable on damaged enemies
             if not NAMEONLY_DAMAGED_ENEMIES and f.state.health_deficit > 0 then
                 return
             end
-            -- force enable on neutral
-            if NAMEONLY_ON_NEUTRAL and f.state.reaction == 4 then
-                return true
-            end
-            -- disable on attackable units
-            if not NAMEONLY_ALL_ENEMIES and f.state.attackable then
-                return
-            end
-            -- disable on hostile
-            if not NAMEONLY_ENEMIES then
-                return
-            end
-            -- disable on unattackable enemy players
-            if not NAMEONLY_ALL_ENEMIES and UnitIsPlayer(f.unit) then
-                return
+            if f.state.combat then
+                -- disable on enemies in combat
+                if not NAMEONLY_COMBAT_HOSTILE then
+                    return
+                end
+                -- disable on enemies the player has threat with
+                -- (and hostile players in any combat, since we can't check
+                -- if they're in combat with the player)
+                if not NAMEONLY_COMBAT_HOSTILE_PLAYER and
+                   (f.state.threat or f.state.player)
+                then
+                    return
+                end
             end
         end
         -- enable
