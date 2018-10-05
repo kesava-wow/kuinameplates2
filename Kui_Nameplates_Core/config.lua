@@ -58,10 +58,13 @@ local default_config = {
     nameonly_all_enemies = false,
     nameonly_neutral = false,
     nameonly_enemies = true,
+    nameonly_hostile_players = false,
     nameonly_damaged_enemies = true,
     nameonly_friends = true,
+    nameonly_friendly_players = true,
     nameonly_damaged_friends = true,
     nameonly_combat_hostile = true,
+    nameonly_combat_hostile_player = true,
     nameonly_combat_friends = true,
     guild_text_npcs = true,
     guild_text_players = false,
@@ -471,10 +474,13 @@ configChanged.nameonly_target = configChanged.nameonly
 configChanged.nameonly_all_enemies = configChanged.nameonly
 configChanged.nameonly_neutral = configChanged.nameonly
 configChanged.nameonly_enemies = configChanged.nameonly
+configChanged.nameonly_hostile_players = configChanged.nameonly
 configChanged.nameonly_damaged_enemies = configChanged.nameonly
 configChanged.nameonly_friends = configChanged.nameonly
+configChanged.nameonly_friendly_players = configChanged.nameonly
 configChanged.nameonly_damaged_friends = configChanged.nameonly
 configChanged.nameonly_combat_hostile = configChanged.nameonly
+configChanged.nameonly_combat_hostile_player = configChanged.nameonly
 configChanged.nameonly_combat_friends = configChanged.nameonly
 
 local function configChangedAuras()
