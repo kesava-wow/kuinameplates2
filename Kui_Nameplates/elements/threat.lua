@@ -1,4 +1,14 @@
 -- fetch threat state and colour the frame glow element
+-- provides frame.state[...]: threat, glow_colour
+--   threat = player's state in the unit's threat table:
+--     nil = not in threat table;
+--     0 = not tanking;
+--     1 = tanking;
+--     2 = transition.
+--   glow_colour = threat colour from threat state.
+--
+-- provides message: GlowColourChange
+--   GlowColourChange = threat state changed
 local addon = KuiNameplates
 local ele = addon:NewElement('Threat',1)
 
