@@ -1948,7 +1948,7 @@ do
 
         -- create target/threat glow
         for k,f in addon:Frames() do
-            core:CreateNameOnlyGlow(f)
+            self:CreateNameOnlyGlow(f)
         end
     end
 
