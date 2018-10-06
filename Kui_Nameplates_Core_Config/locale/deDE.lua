@@ -34,8 +34,6 @@ L["titles"] = {
 	["auras_offset"] = "Vertikaler Versatz",
 	["auras_on_personal"] = "Auf eigener Namensplakette anzeigen",
 	["auras_pulsate"] = "Pulsierende Symbole",
---[[Translation missing --]]
-	["auras_purge_opposite"] = "Purge on opposite",
 	["auras_purge_size"] = "Symbolgröße (Reinigung)",
 	["auras_show_all_self"] = "Whitelist alle eigenen Auren",
 	["auras_show_purge"] = "Zeige Reinigung",
@@ -96,12 +94,6 @@ L["titles"] = {
 	["combat_hostile"] = "Kampf-Aktion: Feind",
 	["copy_profile_label"] = "Neuen Profil-Namen eingeben",
 	["copy_profile_title"] = "Profil kopieren",
---[[Translation missing --]]
-	["cvar_clamp_bottom"] = "Bottom clamp distance",
---[[Translation missing --]]
-	["cvar_clamp_top"] = "Top clamp distance",
---[[Translation missing --]]
-	["cvar_disable_scale"] = "Disable default scaling",
 	["cvar_enable"] = "Erlaube Kui Nameplates CVars zu verändern",
 	["cvar_max_distance"] = "Maximale Darstellungsdistanz",
 	["cvar_name_only"] = "Verstecke Standard Lebensbalken",
@@ -179,8 +171,6 @@ L["titles"] = {
 	["health_text_hostile_dmg"] = "verletzter Feind",
 	["health_text_hostile_max"] = "Max. Leben Feind",
 	["health_text_sep"] = "Gesundheitstext",
---[[Translation missing --]]
-	["hide_names"] = "Hide non-tracked names",
 	["ignore_uiscale"] = "Ignoriere UI-Skalierung",
 	["level_text"] = "Zeige Level-Text",
 	["mouseover_glow"] = "Mouseover leuchten",
@@ -196,23 +186,9 @@ L["titles"] = {
 	["name_vertical_offset"] = "Name v. Versatz",
 	["nameonly"] = "Nutze nur-Name-Modus",
 	["nameonly_all_enemies"] = "Bei Feinden",
---[[Translation missing --]]
-	["nameonly_combat_friends"] = "In combat",
---[[Translation missing --]]
-	["nameonly_combat_hostile"] = "In combat",
---[[Translation missing --]]
-	["nameonly_combat_hostile_player"] = "With you",
---[[Translation missing --]]
-	["nameonly_damaged_enemies"] = "Damaged",
 	["nameonly_damaged_friends"] = "bei verletzten Verbündeten",
 	["nameonly_enemies"] = "bei nichtangreifbaren Feinden",
---[[Translation missing --]]
-	["nameonly_friendly_players"] = "Friendly players",
---[[Translation missing --]]
-	["nameonly_friends"] = "Friendly NPCs",
 	["nameonly_health_colour"] = "Farbe des Lebens",
---[[Translation missing --]]
-	["nameonly_hostile_players"] = "Hostile players",
 	["nameonly_neutral"] = "bei neutralen Feinden",
 	["nameonly_no_font_style"] = "Keine Kontur",
 	["nameonly_target"] = "Auf dem Ziel",
@@ -297,23 +273,11 @@ L["tooltips"] = {
 	["colour_self_class"] = "Klassen-Farbe bei der eigenen Namensplakette verwenden",
 	["combat_friendly"] = "Auszuführende Aktion bei Plaketten von Verbündeten bei Kampfbeginn und -ende",
 	["combat_hostile"] = "Auszuführende Aktion bei Plaketten von Feinden bei Kampfbeginn und -ende",
---[[Translation missing --]]
-	["cvar_clamp_bottom"] = "|cffffcc00nameplate{Other,Large}BottomInset|r",
---[[Translation missing --]]
-	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.",
---[[Translation missing --]]
-	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.",
 	["cvar_enable"] = "Wenn aktiviert, wird Kui Nameplates versuchen die CVars auf dieser Seite auf die Werte, die hier eingestellt wurden, zu sperren. |n|n Wenn diese Option deaktiviert ist, wird KNP die CVars nicht modifizieren, auch nicht auf Standard zurücksetzen.",
 	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|n Maximale Distanz, in der Namensplaketten angezeigt werden (betrifft nicht das aktuelle Ziel)",
 	["cvar_name_only"] = "|cffffcc00nameplateShowOnlyNames|r|n|n Verstecke die Lebensleiste der Standard-Namensplaketten in Situationen, in den die Namensplaketten von Verbündeten von keinem Addons modifiziert werden können.)",
 	["cvar_overlap_v"] = "|cffffcc00nameplateOverlapV|r|n|n Vertikaler Abstand zwischen den Namensplaketten (nur gültig, wenn der Bewegungstyp auf \"stapelnd\" in den Standard-Interface-Optionen gesetzt ist)",
---[[Translation missing --]]
-	["cvar_personal_show_always"] = "|cffffcc00nameplatePersonalShowAlways|r",
---[[Translation missing --]]
-	["cvar_personal_show_combat"] = "|cffffcc00nameplatePersonalShowInCombat|r",
 	["cvar_personal_show_target"] = "|cffffcc00nameplatePersonalShowWithTarget|r|n|n Zeige die eigene Namensplakette immer, wenn du ein angreifbares Ziel hast.",
---[[Translation missing --]]
-	["cvar_show_friendly_npcs"] = "|cffffcc00nameplateShowFriendlyNPCs|r",
 	["execute_auto"] = "Entdeckt automatisch die passende Execute-Reichweite von deinen Talenten, bei Charakteren ohne Execute standardmäßig bei 20%",
 	["execute_colour"] = "zu benutzende Farbe, wenn in Execute-Reichweite",
 	["execute_enabled"] = "Farbe der Lebensleiste ändern, wenn Einheiten in Execute-Reichweite sind",
@@ -327,10 +291,6 @@ L["tooltips"] = {
 	["fade_neutral_enemy"] = "verblasse standardmäßig angreifebare, neutrale Namensplaketten (inklusive der im nur-Namen-Modus)",
 	["fade_non_target_alpha"] = "Deckkraft anderer Frames wird verblassen, wenn du ein Ziel hast. | n Wenn auf 0 gesetzt, sind die Namensplaketten weiterhin klickbar, auch wenn die unsichtbar sind. Addons können die Klick-boxen von Namensplaketten nicht beliebig deaktivieren.",
 	["fade_speed"] = "Geschwindigkeit der verblassen-Animation, bei der 1 das langsamste ist und 0 sofort ist",
---[[Translation missing --]]
-	["fade_untracked"] = "Fade non-tracked nameplates by default (including those in name-only mode).|n|nWhether or not a unit is tracked can by set by changing the \"NPC Names\" dropdown and other checkboxes in the default interface options under Esc > Interface > Names",
---[[Translation missing --]]
-	["font_face"] = "Fonts are provided by LibSharedMedia.",
 	["font_size_normal"] = "Standard Schriftgröße (Name ...)",
 	["font_size_small"] = "Schriftgröße: kleiner (Verkäufer, Zaubername ...)",
 	["frame_glow_threat"] = "Ändert die Farbe des Frame-Leuchten, das auf den Bedrohungsstatus hinweist",
@@ -340,19 +300,13 @@ L["tooltips"] = {
 	["frame_width"] = "Breite der Standard-Namensplaketten",
 	["frame_width_minus"] = "Breite der Namensplaketten, die für Mobs genutzt werden, die als \"Minus\" gelten (vorher als Trivial bezeichnet)",
 	["frame_width_personal"] = "Breite der eigenen Namensplakette (aktiviert unter Esc > Interface > Namen > Persönliche Ressourcenanzeige)",
---[[Translation missing --]]
-	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
 	["guild_text_npcs"] = "Zeige NPC Titel, wie Quartiermeister, etc.",
 	["health_text_friend_dmg"] = "Gesundheits-Textformat, das bei verletzten verbündeten Einheiten genutzt wird",
 	["health_text_friend_max"] = "Gesundheits-Textformat, das bei verbündeten Einheiten mit vollem Leben genutzt wird",
 	["health_text_hostile_dmg"] = "Gesundheits-Textformat, das bei verletzten feindlichen Einheiten genutzt wird",
 	["health_text_hostile_max"] = "Gesundheits-Textformat, das bei feindlichen Einheiten mit vollem Leben genutzt wird",
---[[Translation missing --]]
-	["hide_names"] = "Whether or not a unit is tracked can be set by changing the \"NPC Names\" dropdown and other checkboxes in the default interface options under Esc > Interface > Names.|n|nThis does not affect name-only mode.",
 	["ignore_uiscale"] = "Ignoriere die Standard UI-Skalierung. Das ermöglicht Namenplaketten die Pixel-Perfektion zu behalten, ungeachtet von der Auflösung.",
 	["name_colour_white_in_bar_mode"] = "Färbe NPCs- und Spielernamen weiß (außer die Klassenfarbe ist aktiviert. |n|n Wenn das aktiviert ist, dann werden die Farben unten nur im nur-Name-Modus angewendet.",
---[[Translation missing --]]
-	["nameonly_combat_hostile"] = "Note that this doesn't apply to training dummies or other units which don't have a threat table",
 	["nameonly_health_colour"] = "Färbe Text partiell, um das prozentuale Leben zu repräsentieren",
 	["nameonly_neutral"] = "Nutze nur-Name-Modus bei angreifbaren neutralen Einheiten",
 	["nameonly_no_font_style"] = "Verstecke Kontur im nur-Namen-Modus (durch setzen des Font-Styles auf 0)",

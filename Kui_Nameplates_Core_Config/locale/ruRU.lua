@@ -98,28 +98,6 @@ L["titles"] = {
 	["combat_hostile"] = "Боевое действие: враждебное",
 	["copy_profile_label"] = "Введите имя для нового профиля",
 	["copy_profile_title"] = "Копир. профиль",
---[[Translation missing --]]
-	["cvar_clamp_bottom"] = "Bottom clamp distance",
---[[Translation missing --]]
-	["cvar_clamp_top"] = "Top clamp distance",
---[[Translation missing --]]
-	["cvar_disable_scale"] = "Disable default scaling",
---[[Translation missing --]]
-	["cvar_enable"] = "Allow Kui Nameplates to modify CVars",
---[[Translation missing --]]
-	["cvar_max_distance"] = "Max render distance",
---[[Translation missing --]]
-	["cvar_name_only"] = "Hide default health bar",
---[[Translation missing --]]
-	["cvar_overlap_v"] = "Vertical overlap",
---[[Translation missing --]]
-	["cvar_personal_show_always"] = "Always show personal nameplate",
---[[Translation missing --]]
-	["cvar_personal_show_combat"] = "Show personal nameplate when in combat",
---[[Translation missing --]]
-	["cvar_personal_show_target"] = "Show personal nameplate with a target",
---[[Translation missing --]]
-	["cvar_show_friendly_npcs"] = "Always show friendly NPCs' nameplates",
 	["dd_auras_sort_index"] = "Индекс аур",
 	["dd_auras_sort_time"] = "Оставшееся время",
 	["dd_bar_animation_cutaway"] = "Срез",
@@ -190,8 +168,6 @@ L["titles"] = {
 	["health_text_hostile_max"] = "Макс. здоровье противника",
 	["health_text_sep"] = "Текст: здоровье",
 	["hide_names"] = "Скрыть не отслеживаемые имена",
---[[Translation missing --]]
-	["ignore_uiscale"] = "Pixel correction",
 	["level_text"] = "Показать уровень текстом",
 	["mouseover_glow"] = "Свечение при наведении",
 	["mouseover_glow_colour"] = "Цвет свечения при наведении",
@@ -208,17 +184,11 @@ L["titles"] = {
 	["nameonly_all_enemies"] = "Которых можно атаковать",
 	["nameonly_combat_friends"] = "Союзники в бою",
 	["nameonly_combat_hostile"] = "Противники в бою",
---[[Translation missing --]]
-	["nameonly_combat_hostile_player"] = "With you",
 	["nameonly_damaged_enemies"] = "Противники с повреждениями",
 	["nameonly_damaged_friends"] = "Союзники с повреждениями",
 	["nameonly_enemies"] = "Враждебных противниках",
---[[Translation missing --]]
-	["nameonly_friendly_players"] = "Friendly players",
 	["nameonly_friends"] = "Дружественные",
 	["nameonly_health_colour"] = "Цвет здоровья",
---[[Translation missing --]]
-	["nameonly_hostile_players"] = "Hostile players",
 	["nameonly_neutral"] = "Нейтральных противниках",
 	["nameonly_no_font_style"] = "Нет контура текста",
 	["nameonly_target"] = "Цель",
@@ -304,28 +274,6 @@ L["tooltips"] = {
 	["colour_self_class"] = "Использовать цвет вашего класса, на вашем индикаторе личного ресурса",
 	["combat_friendly"] = "Действия, направленные на то, чтобы принять союзные рамки после вступления в бой и покидания из него.",
 	["combat_hostile"] = "Действия, направленные на то, чтобы принять враждебные рамки после вступления в бой и покидания из него.",
---[[Translation missing --]]
-	["cvar_clamp_bottom"] = "|cffffcc00nameplate{Other,Large}BottomInset|r",
---[[Translation missing --]]
-	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.",
---[[Translation missing --]]
-	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.",
---[[Translation missing --]]
-	["cvar_enable"] = "When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.",
---[[Translation missing --]]
-	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|nMaximum distance at which to render nameplates (not including your current target).",
---[[Translation missing --]]
-	["cvar_name_only"] = "|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.",
---[[Translation missing --]]
-	["cvar_overlap_v"] = "|cffffcc00nameplateOverlapV|r|n|nVertical distance between nameplates (only valid when motion type is set to stacking in the default interface options).",
---[[Translation missing --]]
-	["cvar_personal_show_always"] = "|cffffcc00nameplatePersonalShowAlways|r",
---[[Translation missing --]]
-	["cvar_personal_show_combat"] = "|cffffcc00nameplatePersonalShowInCombat|r",
---[[Translation missing --]]
-	["cvar_personal_show_target"] = "|cffffcc00nameplatePersonalShowWithTarget|r|n|nShow the personal nameplate whenever you have an attackable target.",
---[[Translation missing --]]
-	["cvar_show_friendly_npcs"] = "|cffffcc00nameplateShowFriendlyNPCs|r",
 	["execute_auto"] = "Автоматически определять соответствующий диапазон добивания из ваших талантов, по умолчанию на 20% на персонаже без добивания",
 	["execute_colour"] = "Окрасить добивание в пределах диапазона",
 	["execute_enabled"] = "Перекрашивать полоски здоровья, когда юниты, находятся в пределах диапазона добивания",
@@ -334,12 +282,8 @@ L["tooltips"] = {
 	["fade_avoid_execute_friend"] = "Не затухать на союзных индикаторах здоровья, в диапазоне добивания (устанавливается на странице \"Полоса здоровья\")",
 	["fade_avoid_execute_hostile"] = "Не затухать на вражеских индикаторах здоровья, в диапазоне добивания (устанавливается на странице \"Полоса здоровья\")",
 	["fade_avoid_tracked"] = "Не затухать, отслеживаемым индикаторам или индикаторами здоровья, которые в бою с вами.|nНезависимо от того, отслеживается ли юнит, можно установить, изменив выпадающем списке \"имена НИП\" и другие флажки в настройках интерфейса по умолчанию в разделе Esc > Интерфейс > Имена",
---[[Translation missing --]]
-	["fade_conditional_alpha"] = "Opacity frames will fade to when matching one of the conditions below",
 	["fade_friendly_npc"] = "Затухание союзных НИП, индикаторы здоровья, по умолчанию (в том числе в режиме только-имя)",
 	["fade_neutral_enemy"] = "Затухание нейтральных индикаторах здоровья, по умолчанию (в том числе в режиме только-имя)",
---[[Translation missing --]]
-	["fade_non_target_alpha"] = "Opacity other frames will fade to when you have a target.|n|nInvisible nameplates can still be clicked.",
 	["fade_speed"] = "Скорость анимации затухания рамки, где 1 - самая медленная, а 0 - мгновенная",
 	["fade_untracked"] = "Затухание не отслеживаемого индикатора здоровья, по умолчанию (в том числе в режиме только-имя).|nНезависимо от того, отслеживается ли юнит, можно установить, изменив раскрывающийся списке \"имена НИП\" и другие флажки в параметрах интерфейса по умолчанию в разделе Esc > Интерфейс > Имена",
 	["font_face"] = "Шрифт, используемый для всех строк на индикаторах здоровья (предоставляется LibSharedMedia)",
@@ -359,8 +303,6 @@ L["tooltips"] = {
 	["health_text_hostile_dmg"] = "Формат текста для здоровья, используемый на повреждения враждебных юнитах",
 	["health_text_hostile_max"] = "Формат текста для здоровья, используемый для враждебных юнитах при полном здоровье",
 	["hide_names"] = "Независимо от того, отслеживается ли юнит, можно установить, раскрывающимся меню \"имена НИП\" и другие флажки в параметрах интерфейса по умолчанию в разделе Esc > Интерфейс > Имена.|n|nЭто не влияет на режим только-имя.",
---[[Translation missing --]]
-	["ignore_uiscale"] = "Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nThis is necessary even if you do not have UI scale enabled.",
 	["name_colour_white_in_bar_mode"] = "Белый цвет для имен НИП и игроков (если не включены цвета классов). |n|nЕсли включены, то цвета ниже применяются исключительно для режима только-имена.",
 	["nameonly_combat_hostile"] = "Обратите внимание, что это не применяется к тренировочным манекенам или другим существам, которые не имеют механики угрозы",
 	["nameonly_health_colour"] = "Частично окрашенный текст, представляющий процент здоровья",
@@ -378,6 +320,4 @@ L["tooltips"] = {
 	["target_arrows"] = "Показывать стрелки вокруг вашей текущей цели. Наследовать эту цель цветовым свечением",
 	["text_vertical_offset"] = "Смещение по вертикали, которое применяется ко всем строкам. Используется для отрисовки некоторых шрифтов в странных вертикальных позициях в WoW. Обратите внимание, что это значение оканчивается на .5 по умолчанию, поскольку это помогает уменьшить дрожание по вертикали, когда рамки движутся",
 	["threat_brackets"] = "Показывать треугольники вокруг индикатора здоровья, указывающие на статус угрозы",
---[[Translation missing --]]
-	["use_blizzard_personal"] = "Don't skin the personal nameplate or its class powers.|n|nRequires a UI reload.",
 }

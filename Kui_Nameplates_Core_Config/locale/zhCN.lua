@@ -193,17 +193,11 @@ L["titles"] = {
 	["nameonly_all_enemies"] = "包括敌方",
 	["nameonly_combat_friends"] = "战斗中的友方",
 	["nameonly_combat_hostile"] = "战斗中的敌方",
---[[Translation missing --]]
-	["nameonly_combat_hostile_player"] = "With you",
 	["nameonly_damaged_enemies"] = "受到伤害的敌人",
 	["nameonly_damaged_friends"] = "包括未满血的友方",
 	["nameonly_enemies"] = "包括不可攻击的敌人",
---[[Translation missing --]]
-	["nameonly_friendly_players"] = "Friendly players",
 	["nameonly_friends"] = "友方",
 	["nameonly_health_colour"] = "血量百分比染色",
---[[Translation missing --]]
-	["nameonly_hostile_players"] = "Hostile players",
 	["nameonly_neutral"] = "包括中立单位",
 	["nameonly_no_font_style"] = "无字型描边",
 	["nameonly_target"] = "包括目标",
