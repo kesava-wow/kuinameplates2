@@ -20,7 +20,7 @@ local talents = {
     ['HUNTER'] = {
         [22291] = 35 -- Beast Mastery Killer Instinct
     },
-	['MAGE'] = {
+    ['MAGE'] = {
         [22462] = 30, -- Fire Searing Touch
     },
     ['PRIEST'] = {
