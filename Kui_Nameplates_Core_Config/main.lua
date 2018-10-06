@@ -227,13 +227,33 @@ end
 -- locale ######################################################################
 do
     local L = {}
+    local L_enGB = {}
     function opt:Locale(region)
         assert(type(region) == 'string')
-        if region == 'enGB' or region == GetLocale() then
+        if region == 'enGB' then
+            return L_enGB
+        elseif region == GetLocale() then
             return L
         end
     end
+    function opt:LocaleLoaded()
+        if type(L.page_names) ~= 'table' then
+            -- no other locale was loaded
+            L = L_enGB
+        else
+            -- mixin missing translations
+            for namespace,translations in pairs(L_enGB) do
+                for key,value in pairs(translations) do
+                    if not L[namespace][key] then
+                        L[namespace][key] = value
+                    end
+                end
+            end
+            L_enGB = nil
+        end
+    end
     function opt:GetLocale()
+        -- mixin english
         return L
     end
 end

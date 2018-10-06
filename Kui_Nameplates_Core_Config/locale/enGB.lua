@@ -385,3 +385,5 @@ L.tooltips = {
     cvar_overlap_v = '|cffffcc00nameplateOverlapV|r|n|nVertical distance between nameplates (only valid when motion type is set to stacking in the default interface options).',
     cvar_disable_scale = '|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.',
 }
+
+KuiNameplatesCoreConfig:LocaleLoaded()

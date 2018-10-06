@@ -10,7 +10,6 @@ lib\embeds.xml
 main.lua
 
 locale\deDE.lua
-locale\enGB.lua
 locale\esMX.lua
 locale\frFR.lua
 locale\koKR.lua
@@ -18,6 +17,7 @@ locale\ptBR.lua
 locale\ruRU.lua
 locale\zhCN.lua
 locale\zhTW.lua
+locale\enGB.lua
 
 helpers.lua
 create.lua
