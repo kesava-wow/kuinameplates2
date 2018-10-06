@@ -270,7 +270,7 @@ L.tooltips = {
     nameonly_no_font_style = 'Hide text outline when in name-only mode',
     nameonly_health_colour = 'Partially colour text to represent health percentage',
     nameonly_target = 'Allow your target to remain in name-only mode',
-    nameonly_neutral = 'Implicit with attackable enemies',
+    nameonly_all_enemies = 'Only applies to hostile NPCs',
     nameonly_combat_hostile = 'Note that this doesn\'t apply to training dummies or other units which don\'t have a threat table',
     guild_text_npcs = 'Such as Flight Master, Quartermaster, etc.',
 
