@@ -421,11 +421,9 @@ function nameonly:Initialise()
     nameonly_combat_hostile:SetPoint('TOPLEFT',nameonly_damaged_enemies,'BOTTOMLEFT')
     nameonly_combat_hostile_player:SetPoint('TOPLEFT',nameonly_combat_hostile,'BOTTOMLEFT',10,0)
 
-    nameonly_neutral.enabled = function(p)
-        return p.nameonly and (not p.nameonly_enemies or not p.nameonly_all_enemies)
-    end
-    nameonly_enemies.enabled = function(p) return p.nameonly end
-    nameonly_hostile_players.enabled = nameonly_enemies.enabled
+    nameonly_neutral.enabled = function(p) return p.nameonly end
+    nameonly_enemies.enabled = nameonly_neutral.enabled
+    nameonly_hostile_players.enabled = nameonly_neutral.enabled
     nameonly_all_enemies.enabled = function(p)
         return p.nameonly and p.nameonly_enemies
     end
