@@ -226,16 +226,22 @@ L["titles"] = {
 	["nameonly"] = "Utiliser le mode nom-seul",
 	["nameonly_all_enemies"] = "Ennemis",
 --[[Translation missing --]]
-	["nameonly_combat_friends"] = "Friends in combat",
+	["nameonly_combat_friends"] = "In combat",
 --[[Translation missing --]]
-	["nameonly_combat_hostile"] = "Enemies in combat",
+	["nameonly_combat_hostile"] = "In combat",
 --[[Translation missing --]]
-	["nameonly_damaged_enemies"] = "Damaged enemies",
+	["nameonly_combat_hostile_player"] = "With you",
+--[[Translation missing --]]
+	["nameonly_damaged_enemies"] = "Damaged",
 	["nameonly_damaged_friends"] = "Joueurs amicaux",
 	["nameonly_enemies"] = "Ennemis inattaquables",
 --[[Translation missing --]]
-	["nameonly_friends"] = "Friends",
+	["nameonly_friendly_players"] = "Friendly players",
+--[[Translation missing --]]
+	["nameonly_friends"] = "Friendly NPCs",
 	["nameonly_health_colour"] = "Couleur de santé",
+--[[Translation missing --]]
+	["nameonly_hostile_players"] = "Hostile players",
 	["nameonly_neutral"] = "Ennemis pacifiques",
 	["nameonly_no_font_style"] = "Pas de contour de texte",
 	["nameonly_target"] = "Cible",
@@ -261,13 +267,7 @@ L["titles"] = {
 	["tankmode_tank_colour"] = "Tanker",
 	["tankmode_trans_colour"] = "Transitionnel",
 	["target_arrows"] = "Afficher les flèches de cible",
---[[Translation missing --]]
-	["target_arrows_inset"] = "Inset",
---[[Translation missing --]]
-	["target_arrows_sep"] = "Target arrows",
 	["target_arrows_size"] = "Taille des flèches de cible",
---[[Translation missing --]]
-	["target_arrows_texture"] = "Texture",
 	["target_glow"] = "Afficher la lueur de la cible",
 	["target_glow_colour"] = "Couleur de la lueur de la cible",
 	["text_vertical_offset"] = "Décalage vertical du texte",

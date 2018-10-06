@@ -176,8 +176,7 @@ L["titles"] = {
 	["health_text_hostile_max"] = "满血敌方",
 	["health_text_sep"] = "生命值文字",
 	["hide_names"] = "隐藏未追踪单位名字",
---[[Translation missing --]]
-	["ignore_uiscale"] = "Pixel correction",
+	["ignore_uiscale"] = "像素校正",
 	["level_text"] = "显示等级",
 	["mouseover_glow"] = "鼠标移至姓名版发光",
 	["mouseover_glow_colour"] = "鼠标移至发光颜色",
@@ -194,11 +193,17 @@ L["titles"] = {
 	["nameonly_all_enemies"] = "包括敌方",
 	["nameonly_combat_friends"] = "战斗中的友方",
 	["nameonly_combat_hostile"] = "战斗中的敌方",
+--[[Translation missing --]]
+	["nameonly_combat_hostile_player"] = "With you",
 	["nameonly_damaged_enemies"] = "受到伤害的敌人",
 	["nameonly_damaged_friends"] = "包括未满血的友方",
 	["nameonly_enemies"] = "包括不可攻击的敌人",
+--[[Translation missing --]]
+	["nameonly_friendly_players"] = "Friendly players",
 	["nameonly_friends"] = "友方",
 	["nameonly_health_colour"] = "血量百分比染色",
+--[[Translation missing --]]
+	["nameonly_hostile_players"] = "Hostile players",
 	["nameonly_neutral"] = "包括中立单位",
 	["nameonly_no_font_style"] = "无字型描边",
 	["nameonly_target"] = "包括目标",
@@ -325,8 +330,7 @@ L["tooltips"] = {
 	["health_text_hostile_dmg"] = "敌方玩家损血时的血量文字格式",
 	["health_text_hostile_max"] = "敌方玩家满血时的血量文字格式",
 	["hide_names"] = "你可以透过改变 Esc > 界面 > 姓名 > ”NPC名称”下拉菜单的选项，来设定是否进行追踪。注意：此設定在名字模式不生效",
---[[Translation missing --]]
-	["ignore_uiscale"] = "Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nThis is necessary even if you do not have UI scale enabled.",
+	["ignore_uiscale"] = "修复与界面缩放相关的像素对齐问题。通过调整 /knp > 框架尺寸 > 全局缩放来补偿大小差异。|n|n即使您并没有启用UI缩放这也是必要的。",
 	["name_colour_white_in_bar_mode"] = "NPC与玩家名字使用白色著色（除非启用职业著色）。|n|n如果此选项启用，以下颜色只适用于名字模式。",
 	["nameonly_combat_hostile"] = "注意，这并不适用于训练假人或其他没有威胁数据的单位",
 	["nameonly_health_colour"] = "以部份染色的方式来显示血量百分比",
@@ -344,6 +348,5 @@ L["tooltips"] = {
 	["target_arrows"] = "在当前目标周围显示箭头。箭头的颜色继承目标的高亮颜色。",
 	["text_vertical_offset"] = "姓名板文字的全局垂直偏移量。针对WOW中某些比较奇怪的字体渲染作出微调。注意：尾数设为.5有助于减少姓名板移动时的抖动现象",
 	["threat_brackets"] = "显示威胁括弧",
---[[Translation missing --]]
-	["use_blizzard_personal"] = "Don't skin the personal nameplate or its class powers.|n|nRequires a UI reload.",
+	["use_blizzard_personal"] = "不要美化个人姓名版或它的职业能量。|n|n需要重新载入UI。",
 }

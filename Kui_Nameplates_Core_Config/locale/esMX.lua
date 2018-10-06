@@ -227,16 +227,22 @@ L["titles"] = {
 	["nameonly"] = "Usar modo \"solo nombre\"",
 	["nameonly_all_enemies"] = "Para enemigos",
 --[[Translation missing --]]
-	["nameonly_combat_friends"] = "Friends in combat",
+	["nameonly_combat_friends"] = "In combat",
 --[[Translation missing --]]
-	["nameonly_combat_hostile"] = "Enemies in combat",
+	["nameonly_combat_hostile"] = "In combat",
 --[[Translation missing --]]
-	["nameonly_damaged_enemies"] = "Damaged enemies",
+	["nameonly_combat_hostile_player"] = "With you",
+--[[Translation missing --]]
+	["nameonly_damaged_enemies"] = "Damaged",
 	["nameonly_damaged_friends"] = "Aliados heridos",
 	["nameonly_enemies"] = "Enemigos no atacables",
 --[[Translation missing --]]
-	["nameonly_friends"] = "Friends",
+	["nameonly_friendly_players"] = "Friendly players",
+--[[Translation missing --]]
+	["nameonly_friends"] = "Friendly NPCs",
 	["nameonly_health_colour"] = "Color de salud",
+--[[Translation missing --]]
+	["nameonly_hostile_players"] = "Hostile players",
 	["nameonly_neutral"] = "Enemigos neutrales",
 	["nameonly_no_font_style"] = "Sin contorno",
 	["nameonly_target"] = "Para objetivo",

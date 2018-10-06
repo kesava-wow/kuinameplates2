@@ -240,16 +240,22 @@ L["titles"] = {
 	["nameonly"] = "이름만 표시 모드 사용",
 	["nameonly_all_enemies"] = "적",
 --[[Translation missing --]]
-	["nameonly_combat_friends"] = "Friends in combat",
+	["nameonly_combat_friends"] = "In combat",
 --[[Translation missing --]]
-	["nameonly_combat_hostile"] = "Enemies in combat",
+	["nameonly_combat_hostile"] = "In combat",
 --[[Translation missing --]]
-	["nameonly_damaged_enemies"] = "Damaged enemies",
+	["nameonly_combat_hostile_player"] = "With you",
+--[[Translation missing --]]
+	["nameonly_damaged_enemies"] = "Damaged",
 	["nameonly_damaged_friends"] = "피해입은 아군",
 	["nameonly_enemies"] = "공격할 수 없는 적",
 --[[Translation missing --]]
-	["nameonly_friends"] = "Friends",
+	["nameonly_friendly_players"] = "Friendly players",
+--[[Translation missing --]]
+	["nameonly_friends"] = "Friendly NPCs",
 	["nameonly_health_colour"] = "생명력 색상",
+--[[Translation missing --]]
+	["nameonly_hostile_players"] = "Hostile players",
 	["nameonly_neutral"] = "중립 적",
 	["nameonly_no_font_style"] = "문자 외곽선 없음",
 	["nameonly_target"] = "대상",
