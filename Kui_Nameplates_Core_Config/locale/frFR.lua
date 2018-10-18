@@ -264,7 +264,6 @@ L["tooltips"] = {
 	["health_text_hostile_max"] = "Format de texte de vie utilisé sur les unités ennemies à 100% de santé",
 	["hide_names"] = "Vous pouvez définir si une unité est suivie ou non en modifiant la liste déroulante \"Noms des NPC\" et d'autres cases dans les options d'interface par défaut sous Echap> Interface> Noms.|n|nCela n'affecte pas le mode nom-seul.",
 	["nameonly_health_colour"] = "Colore partiellement le texte pour représenter le pourcentage de la vie",
-	["nameonly_neutral"] = "Utiliser le mode nom-seul sur les unités neutres attaquables",
 	["nameonly_no_font_style"] = "Masquer le contour du texte dans le mode nom-seul (en définissant le style de police sur zéro)",
 	["nameonly_target"] = "Utiliser aussi le mode nom-seul sur votre cible",
 	["powerbar_height"] = "Hauteur de la barre d'énergie. Ne va pas augmenter au-delà de la hauteur du cadre",

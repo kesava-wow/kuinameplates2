@@ -308,7 +308,6 @@ L["tooltips"] = {
 	["ignore_uiscale"] = "Ignoriere die Standard UI-Skalierung. Das ermöglicht Namenplaketten die Pixel-Perfektion zu behalten, ungeachtet von der Auflösung.",
 	["name_colour_white_in_bar_mode"] = "Färbe NPCs- und Spielernamen weiß (außer die Klassenfarbe ist aktiviert. |n|n Wenn das aktiviert ist, dann werden die Farben unten nur im nur-Name-Modus angewendet.",
 	["nameonly_health_colour"] = "Färbe Text partiell, um das prozentuale Leben zu repräsentieren",
-	["nameonly_neutral"] = "Nutze nur-Name-Modus bei angreifbaren neutralen Einheiten",
 	["nameonly_no_font_style"] = "Verstecke Kontur im nur-Namen-Modus (durch setzen des Font-Styles auf 0)",
 	["nameonly_target"] = "Benutze nur-Name-Modus auf deinem Ziel",
 	["powerbar_height"] = "Höhe der Power-Leiste bei dem eigenen Frame. Wird nicht über die Frame-Höhe hinaus gehen.",

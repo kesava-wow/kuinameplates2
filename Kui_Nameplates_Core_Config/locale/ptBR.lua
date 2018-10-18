@@ -151,7 +151,6 @@ L["tooltips"] = {
 	["cvar_name_only"] = [=[|cffffcc00nameplateShowOnlyNames|r|n|nOculte a barra de vida das placas de identificação padrão em situações em que placas de identificação aliadas ​​não podem ser alteradas de outra forma por addons.
 ]=],
 	["nameonly_health_colour"] = "Colorir parcialmente o texto para representar a porcentagem de vida.",
-	["nameonly_neutral"] = "Usar apenas-nomes em unidades neutras atacáveis.",
 	["nameonly_no_font_style"] = [=[Ocultar o contorno do texto quando estiver no modo apenas-nomes (definindo o estilo da fonte como nulo).
 ]=],
 	["nameonly_target"] = "Também usar apenas-nomes no seu alvo.",

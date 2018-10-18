@@ -268,7 +268,6 @@ L["tooltips"] = {
 	["hide_names"] = "Para configurar si se muestra una unidad, cambiar el menú \"Nombres de PNJ\" y otros cajas en las opciones de la interfaz por defecto (Esc > Interfaz > Nombres).|n|nEste no afecta el modo \"solo nombre\".",
 	["name_colour_white_in_bar_mode"] = "Colorear los nombres de jugadores y PNJs blanco, a menos que los colores de clase estén activados.|n|nSi está activado, los siguientes colores solo se aplican al modo \"solo nombre\".",
 	["nameonly_health_colour"] = "Colorear partialmente el texto de salud para representar el porcentaje de salud.",
-	["nameonly_neutral"] = "Usar el modo \"solo nombre\" para unidades neutrales a los que puedes atacar",
 	["nameonly_no_font_style"] = "Ocultar el contorno del texto en el modo \"solo nombre\"",
 	["nameonly_target"] = "También usar el modo \"solo nombre\" para tu objetivo.",
 	["powerbar_height"] = "La altura de la barra de poder. No aumentará más allá de la altura de la placa.",
