@@ -400,9 +400,9 @@ function nameonly:Initialise()
     vis_sep:SetPoint('TOP',0,-65)
     -- left
     nameonly_target:SetPoint('TOPLEFT',10,-75)
-    nameonly_friends:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT',0,-10)
-    nameonly_friendly_players:SetPoint('TOPLEFT',nameonly_friends,'BOTTOMLEFT')
-    nameonly_damaged_friends:SetPoint('TOPLEFT',nameonly_friendly_players,'BOTTOMLEFT',10,0)
+    nameonly_friendly_players:SetPoint('TOPLEFT',nameonly_target,'BOTTOMLEFT')
+    nameonly_friends:SetPoint('TOPLEFT',nameonly_friendly_players,'BOTTOMLEFT')
+    nameonly_damaged_friends:SetPoint('TOPLEFT',nameonly_friends,'BOTTOMLEFT',10,0)
     nameonly_combat_friends:SetPoint('TOPLEFT',nameonly_damaged_friends,'BOTTOMLEFT')
 
     nameonly_target.enabled = nameonly_no_font_style.enabled
