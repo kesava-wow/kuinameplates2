@@ -825,29 +825,59 @@ do
 end
 -- frame glow ##################################################################
 do
+    local GLOW_POINTS = {
+        { 'BOTTOMRIGHT', 'TOPLEFT', 1, -1 },
+        { { 'BOTTOMLEFT', 'TOPLEFT', 1, -1 },
+          { 'BOTTOMRIGHT', 'TOPRIGHT', -1, -1 }
+        },
+        { 'BOTTOMLEFT', 'TOPRIGHT', -1, -1 },
+        { { 'TOPLEFT', 'TOPRIGHT', -1, -1 },
+          { 'BOTTOMLEFT', 'BOTTOMRIGHT', -1, 1 }
+        },
+        { 'TOPLEFT', 'BOTTOMRIGHT', -1, 1 },
+        { { 'TOPRIGHT', 'BOTTOMRIGHT', -1, 1 },
+          { 'TOPLEFT', 'BOTTOMLEFT', 1, 1 }
+        },
+        { 'TOPRIGHT', 'BOTTOMLEFT', 1, 1 },
+        { { 'BOTTOMRIGHT', 'BOTTOMLEFT', 1, 1 },
+          { 'TOPRIGHT', 'TOPLEFT', 1, -1 }
+        }
+    }
+    local GLOW_TEXTURE_COORDS = {
+        { 0, .5, 0, .5 }, -- top left
+        { .5, 1, 0, .5 }, -- top
+        { .5, 0, 0, .5 }, -- top right
+        { .5, 0, .5, 1 }, -- right
+        { .5, 0, .5, 0 }, -- bottom right
+        { .5, 1, .5, 0 }, -- bottom
+        { 0, .5, .5, 0 }, -- bottom left
+        { 0, .5, .5, 1 }, -- left
+    }
+
     -- frame glow prototype
     local glow_prototype = {}
     glow_prototype.__index = glow_prototype
-    function glow_prototype:SetVertexColor(...)
+    function glow_prototype:SetColour(...)
         for _,side in ipairs(self.sides) do
-            side:SetVertexColor(...)
+            local r,g,b,a = ...
+            a = (a or 1) * .8
+            side:SetVertexColor(r,g,b,a)
         end
     end
-    function glow_prototype:Show(...)
+    function glow_prototype:Show()
         for _,side in ipairs(self.sides) do
-            side:Show(...)
+            side:Show()
         end
     end
-    function glow_prototype:Hide(...)
+    function glow_prototype:Hide()
         for _,side in ipairs(self.sides) do
-            side:Hide(...)
+            side:Hide()
         end
     end
-    function glow_prototype:SetSize(...)
-        local size = ...
+    function glow_prototype:SetSize(size)
         if not tonumber(size) then return end
         for i,side in ipairs(self.sides) do
-            side:SetHeight(size)
+            side:SetSize(size,size)
         end
     end
     function glow_prototype:SetAlpha(...)
@@ -857,8 +887,10 @@ do
     end
 
     local function UpdateFrameGlow(f)
+        -- update colour of ThreatGlow or NameOnlyGlow
         if f.IN_NAMEONLY then
             f.ThreatGlow:Hide()
+            f.TargetGlow:Hide()
 
             if f.NameOnlyGlow then
                 if TARGET_GLOW and f.state.target then
@@ -884,21 +916,27 @@ do
 
             if TARGET_GLOW and f.state.target then
                 -- target glow colour
-                f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+                f.ThreatGlow:SetColour(unpack(TARGET_GLOW_COLOUR))
+                f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+                f.TargetGlow:Show()
             elseif MOUSEOVER_GLOW and f.state.highlight then
                 -- mouseover glow
-                f.ThreatGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
+                f.ThreatGlow:SetColour(unpack(MOUSEOVER_GLOW_COLOUR))
+                f.TargetGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
+                f.TargetGlow:Show()
             else
+                f.TargetGlow:Hide()
+
                 if FRAME_GLOW_THREAT and f.state.glowing then
                     -- threat glow colour
-                    f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
+                    f.ThreatGlow:SetColour(unpack(f.state.glow_colour))
                     f.ThreatGlow:SetAlpha(.6)
                 else
                     if GLOW_AS_SHADOW then
                         -- shadow
-                        f.ThreatGlow:SetVertexColor(0,0,0,.2)
+                        f.ThreatGlow:SetColour(0,0,0,.3)
                     else
-                        f.ThreatGlow:SetVertexColor(0,0,0,0)
+                        f.ThreatGlow:SetColour(0,0,0,0)
                     end
                 end
             end
@@ -907,35 +945,43 @@ do
     local function UpdateFrameGlowSize(f)
         if not f.ThreatGlow then return end
         f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
+        f.TargetGlow:SetHeight(FRAME_GLOW_SIZE)
     end
     function core:CreateFrameGlow(f)
         local glow = { sides = {} }
         setmetatable(glow,glow_prototype)
 
-        for i=1,2 do
+        for i=1,8 do
             local side = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-            side:SetTexture(MEDIA..'target-glow')
+            side:SetTexture(KUI_MEDIA..'t/shadowBorder')
 
-            if i == 1 then
-                -- top
-                side:SetTexCoord(1,0,1,0)
-                side:SetPoint('BOTTOMLEFT',f.bg,'TOPLEFT',0,0)
-                side:SetPoint('BOTTOMRIGHT',f.bg,'TOPRIGHT')
+            side:SetTexCoord(unpack(GLOW_TEXTURE_COORDS[i]))
+
+            local point = GLOW_POINTS[i]
+
+            if type(point[1]) == 'table' then
+                -- flat side
+                side:SetPoint(point[1][1],f.bg,point[1][2],point[1][3],point[1][4])
+                side:SetPoint(point[2][1],f.bg,point[2][2],point[2][3],point[2][4])
             else
-                side:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,0)
-                side:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
+                -- corner
+                side:SetPoint(point[1],f.bg,point[2],point[3],point[4])
             end
 
             tinsert(glow.sides,side)
         end
 
         glow:SetSize(FRAME_GLOW_SIZE)
-
         f.handler:RegisterElement('ThreatGlow',glow)
+
+        local target_glow = f:CreateTexture(nil,'BACKGROUND',nil,-5)
+        target_glow:SetTexture(MEDIA..'target-glow')
+        target_glow:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT')
+        target_glow:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
+        f.TargetGlow = target_glow
 
         f.UpdateFrameGlow = UpdateFrameGlow
         f.UpdateFrameGlowSize = UpdateFrameGlowSize
-
         f:UpdateFrameGlowSize()
     end
 end
