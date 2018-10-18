@@ -1,11 +1,9 @@
-BETA NOTES
-* update locale
-
 * add options to toggle nameonly mode specifically on friendly or hostile players
 * add option to toggle nameonly mode on enemies with whom the player has threat
-* add deDE translation (which has some overlong titles)
-* add partial ptBR translation
 * add fire mages' searing touch to execute auto-detect
+* add deDE translation
+* add (partial) ptBR translation
+* re-enable frFR translation
+* update remaining locales
 * fix name-only's neutral enemies checkbox disables when attackable NPCs is checked
-* update & re-enable frFR translation
 * make locales fallback to english correctly
