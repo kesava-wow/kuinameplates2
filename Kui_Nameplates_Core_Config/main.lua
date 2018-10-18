@@ -241,7 +241,7 @@ do
             -- no other locale was loaded
             L = L_enGB
         else
-            -- mixin missing translations
+            -- mixin missing translations from enGB
             for namespace,translations in pairs(L_enGB) do
                 for key,value in pairs(translations) do
                     if not L[namespace][key] then
@@ -253,7 +253,6 @@ do
         end
     end
     function opt:GetLocale()
-        -- mixin english
         return L
     end
 end
