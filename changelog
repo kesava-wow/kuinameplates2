@@ -1,4 +1,6 @@
 BETA NOTES
+* update locale
+
 * add options to toggle nameonly mode specifically on friendly or hostile players
 * add option to toggle nameonly mode on enemies with whom the player has threat
 * add deDE translation (which has some overlong titles)
