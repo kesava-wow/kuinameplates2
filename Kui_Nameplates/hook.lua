@@ -7,12 +7,6 @@
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-
-local WorldFrame = WorldFrame
-local select, strfind, setmetatable, floor
-    = select, strfind, setmetatable, floor
-local UnitIsUnit = UnitIsUnit
---------------------------------------------------------------------------------
 -------------------------------------------------------- Core script handlers --
 local function FrameOnHide(self)
     self.kui.handler:OnHide()
