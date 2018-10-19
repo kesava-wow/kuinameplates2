@@ -36,8 +36,6 @@ addon.DEBUG_IGNORE = {
 
 -- updated by UI_SCALE_CHANGED:
 addon.uiscale = .71
--- container frame size (i.e. don't change them):
-addon.width,addon.height = 140,40
 -- can be changed during run time:
 addon.IGNORE_UISCALE = nil
 -- should be set before nameplates are created, if desired:
