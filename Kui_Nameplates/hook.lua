@@ -22,48 +22,25 @@ local function FrameOnShow(self)
        not self.unit or
        not UnitIsUnit(self.unit,'player')
     then
-        -- hide blizzard's nameplate
         self:Hide()
     end
-end
---------------------------------------------------------- frame level monitor --
-local function FrameOnUpdate(self)
-    self.kui:SetFrameLevel(self:GetFrameLevel())
-end
------------------------------------------------------------------------ Sizer --
-local function SizerOnSizeChanged(self,x,y)
-    -- If you're poking around here trying to find what's causing the extra CPU
-    -- usage, this is it.
-    self.f.IGNORE_VISIBILITY_BUBBLE = true
-    self.f:Hide()
-    self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
-    self.f:Show()
-    self.f.IGNORE_VISIBILITY_BUBBLE = nil
 end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts
 function addon:HookNameplate(frame)
-    local name = 'Kui'..frame:GetName()
-
-    frame.kui = CreateFrame('Frame',name,WorldFrame)
+    frame.kui = CreateFrame('Frame','Kui'..frame:GetName(),frame)
     frame.kui:Hide()
-    frame.kui:SetFrameStrata('BACKGROUND')
+    frame.kui:SetAllPoints(frame)
     frame.kui:SetFrameLevel(0)
+    frame.kui:SetScale(self.uiscale)
+
+    -- apply Nameplate prototype (from nameplate.lua)
+    frame.kui.handler = { parent = frame.kui }
+    setmetatable(frame.kui.handler, self.Nameplate)
+
     frame.kui.state = {}
     frame.kui.elements = {}
     frame.kui.parent = frame
-
-    -- XXX 80 buggy; child text frames disappear
-    --frame.kui:SetPoint('CENTER',frame)
-    -- semlar's non-laggy positioning
-    local sizer = CreateFrame('Frame',name..'PositionHelper',frame.kui)
-    sizer:SetPoint('BOTTOMLEFT',WorldFrame)
-    sizer:SetPoint('TOPRIGHT',frame,'CENTER')
-    sizer:SetScript('OnSizeChanged',SizerOnSizeChanged)
-    sizer.f = frame.kui
-
-    frame.kui:SetScale(self.uiscale)
-    frame.kui:SetSize(self.width,self.height)
 
     if self.draw_frames then
         -- debug; visible frame sizes
@@ -73,16 +50,12 @@ function addon:HookNameplate(frame)
         frame.kui:SetBackdropBorderColor(1,1,1)
     end
 
-    frame.kui.handler = { parent = frame.kui }
-    setmetatable(frame.kui.handler, self.Nameplate)
-
     if frame.UnitFrame then
+        -- hide the vanilla ui
+        -- TODO this is terrible
         frame.UnitFrame:HookScript('OnShow',FrameOnShow)
     end
 
-    -- base frame
     frame:HookScript('OnHide',FrameOnHide)
-    frame:HookScript('OnUpdate',FrameOnUpdate)
-
     frame.kui.handler:Create()
 end
