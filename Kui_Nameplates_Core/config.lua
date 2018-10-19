@@ -664,6 +664,11 @@ local function UpdateCVars()
     if core.profile.cvar_disable_scale then
         SetCVar('nameplateMinScale',1)
         SetCVar('nameplateMaxScale',1)
+    elseif GetCVar('nameplateMinScale') == '1' and GetCVar('nameplateMaxScale') == '1' then
+        -- reset to defaults if the current values match ours,
+        -- since i haven't provided a way to set them directly.
+        SetCVar('nameplateMinScale',GetCVarDefault('nameplateMinScale'))
+        SetCVar('nameplateMaxScale',GetCVarDefault('nameplateMaxScale'))
     end
 end
 local function configChangedCVar()
