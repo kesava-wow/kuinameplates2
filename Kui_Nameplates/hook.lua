@@ -6,7 +6,6 @@
 -- Create base frame and hook scripts
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
 -------------------------------------------------------- Core script handlers --
 local function FrameOnHide(self)
     self.kui.handler:OnHide()
@@ -38,9 +37,9 @@ function addon:HookNameplate(frame)
 
     if self.draw_frames then
         -- debug; visible frame sizes
-        frame:SetBackdrop({bgFile=kui.m.t.solid})
+        frame:SetBackdrop({bgFile='interface/buttons/white8x8'})
         frame:SetBackdropColor(0,0,0)
-        frame.kui:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
+        frame.kui:SetBackdrop({edgeFile='interface/buttons/white8x8',edgeSize=1})
         frame.kui:SetBackdropBorderColor(1,1,1)
     end
 
