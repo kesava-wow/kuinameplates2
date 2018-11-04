@@ -688,7 +688,7 @@ local aura_meta = {
 local function CreateAuraFrame(parent)
     local auraframe = CreateFrame('Frame',nil,parent)
 
-    -- mixin prototype (can't actually setmeta on a frame)
+    -- mixin prototype
     for k,v in pairs(aura_meta) do
         auraframe[k] = v
     end

@@ -134,8 +134,8 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         local k,v = strmatch(msg,'^set (.-)%s+(.-)%s*$')
         if not k or not v then
             knp:ui_print('Set config key to value. Usage: /knp set config_key value')
-            print('    Boolean: true, false. Colours: r,g,b{,a} (0.0 - 1.0).')
-            print('    Enter nil for value to reset a key to default.')
+            print('    Boolean: true, false. Colours: r,g,b[,a] (0.0 - 1.0).')
+            print('    Enter "nil" for value to reset a key to default.')
             return
         end
 
