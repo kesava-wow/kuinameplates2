@@ -317,22 +317,14 @@ function core:configChangedTextOffset()
         end
     end
 end
-do
-    function core.AurasButton_SetFont(button)
-        button.cd.fontobject_size = AURAS_CD_SIZE
-        UpdateFontObject(button.cd)
-
-        button.count.fontobject_size = AURAS_COUNT_SIZE
-        UpdateFontObject(button.count)
-    end
-    function core:configChangedFontOption()
-        -- update font objects
-        for i,f in addon:Frames() do
-            UpdateFontObject(f.NameText)
-            UpdateFontObject(f.GuildText)
-            UpdateFontObject(f.SpellName)
-            UpdateFontObject(f.HealthText)
-            UpdateFontObject(f.LevelText)
+function core:configChangedFontOption()
+    -- update font objects
+    for i,f in addon:Frames() do
+        UpdateFontObject(f.NameText)
+        UpdateFontObject(f.GuildText)
+        UpdateFontObject(f.SpellName)
+        UpdateFontObject(f.HealthText)
+        UpdateFontObject(f.LevelText)
 
             if f.Auras and f.Auras.frames then
                 for _,frame in pairs(f.Auras.frames) do
@@ -1693,6 +1685,13 @@ do
 
         -- process as normal
         return
+    end
+    function core.AurasButton_SetFont(button)
+        button.cd.fontobject_size = AURAS_CD_SIZE > 0 and AURAS_CD_SIZE
+        UpdateFontObject(button.cd)
+
+        button.count.fontobject_size = AURAS_COUNT_SIZE > 0 and AURAS_COUNT_SIZE
+        UpdateFontObject(button.count)
     end
 
     -- config changed
