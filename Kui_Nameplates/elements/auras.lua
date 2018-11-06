@@ -116,7 +116,8 @@ local strlower,tinsert,tsort,     pairs,ipairs =
       strlower,tinsert,table.sort,pairs,ipairs
 
 local FONT,FONT_SIZE_CD,FONT_SIZE_COUNT,FONT_FLAGS,
-      COLOUR_SHORT,COLOUR_MEDIUM,COLOUR_LONG,DECIMAL_THRESHOLD
+      COLOUR_SHORT,COLOUR_MEDIUM,COLOUR_LONG,DECIMAL_THRESHOLD,
+      TIME_THRESHOLD_SHORT,TIME_THRESHOLD_LONG
 
 -- DisplayAura callback return behaviour enums
 local CB_HIDE,CB_SHOW = 1,2
@@ -794,6 +795,9 @@ function ele:UpdateConfig()
     COLOUR_MEDIUM = addon.layout.Auras.colour_medium or {1,1,0,1}
     COLOUR_LONG = addon.layout.Auras.colour_long or {1,1,1,1}
     DECIMAL_THRESHOLD = addon.layout.Auras.decimal_threshold or 2
+
+    TIME_THRESHOLD_SHORT = addon.layout.Auras.time_threshold_short or 5
+    TIME_THRESHOLD_LONG = addon.layout.Auras.time_threshold_long or 20
 end
 -- messages ####################################################################
 function ele:Show(f)
