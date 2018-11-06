@@ -3,4 +3,6 @@ BETA NOTES
 * add auras_cd_centre
 * add auras_cd_size
 * add auras_count_size
-* these aren't in the interface yet; they can be changed with the `/knp set` command
+(these aren't in the interface yet; they can be changed with the `/knp set` command)
+
+* reset nameplateMin/MaxScale to default if cvar_disable_scale is disabled
