@@ -62,7 +62,7 @@ local MEDIA = 'interface/addons/kui_nameplates_core/media/'
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,POWER_BAR_HEIGHT,
       FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,
-      FONT_SIZE_SMALL,TEXT_VERTICAL_OFFSET,NAME_VERTICAL_OFFSET,
+      FONT_SIZE_SMALL,NAME_VERTICAL_OFFSET,
       BOT_VERTICAL_OFFSET,BAR_TEXTURE,BAR_ANIMATION,
       SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID,GUILD_TEXT_NPCS,
       GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS,HEALTH_TEXT_FRIEND_MAX,
@@ -237,9 +237,8 @@ do
         FRAME_GLOW_SIZE = Scale(self.profile.frame_glow_size)
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
 
-        TEXT_VERTICAL_OFFSET = self.profile.text_vertical_offset
-        NAME_VERTICAL_OFFSET = ScaleTextOffset(TEXT_VERTICAL_OFFSET+self.profile.name_vertical_offset)
-        BOT_VERTICAL_OFFSET = ScaleTextOffset(TEXT_VERTICAL_OFFSET+self.profile.bot_vertical_offset)
+        NAME_VERTICAL_OFFSET = ScaleTextOffset(self.profile.name_vertical_offset)
+        BOT_VERTICAL_OFFSET = ScaleTextOffset(self.profile.bot_vertical_offset)
 
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
@@ -705,7 +704,7 @@ do
             f.LevelText:ClearAllPoints()
 
             if f.state.no_name then
-                f.LevelText:SetPoint('LEFT',2,TEXT_VERTICAL_OFFSET)
+                f.LevelText:SetPoint('LEFT',2,0)
             else
                 f.LevelText:SetPoint('BOTTOMLEFT',2,BOT_VERTICAL_OFFSET)
             end
@@ -772,7 +771,7 @@ do
             f.HealthText:ClearAllPoints()
 
             if f.state.no_name then
-                f.HealthText:SetPoint('RIGHT',-2,TEXT_VERTICAL_OFFSET)
+                f.HealthText:SetPoint('RIGHT',-2,0)
             else
                 f.HealthText:SetPoint('BOTTOMRIGHT',-2,BOT_VERTICAL_OFFSET)
             end
@@ -1171,7 +1170,7 @@ do
     end
     local function UpdateSpellNamePosition(f)
         if not f.SpellName then return end
-        f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET+TEXT_VERTICAL_OFFSET)
+        f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
         -- called by CreateCastBar, SetCastBarConfig
@@ -1586,17 +1585,17 @@ do
         button.cd:ClearAllPoints()
 
         if AURAS_CD_CENTRE then
-            button.cd:SetPoint('CENTER',0,TEXT_VERTICAL_OFFSET)
+            button.cd:SetPoint('CENTER',0,0)
             button.cd:SetJustifyH('CENTER')
         else
-            button.cd:SetPoint('TOPLEFT',-4,3+TEXT_VERTICAL_OFFSET)
+            button.cd:SetPoint('TOPLEFT',-4,3)
             button.cd:SetJustifyH('LEFT')
         end
 
         button.count.fontobject_shadow = true
         button.count.fontobject_small = true
         button.count:ClearAllPoints()
-        button.count:SetPoint('BOTTOMRIGHT',5,-2+TEXT_VERTICAL_OFFSET)
+        button.count:SetPoint('BOTTOMRIGHT',5,-2)
         button.count:SetJustifyH('RIGHT')
 
         if frame.__core and not button.hl then
