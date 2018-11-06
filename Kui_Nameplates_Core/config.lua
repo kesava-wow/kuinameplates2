@@ -170,9 +170,9 @@ local default_config = {
     auras_offset = 15,
     auras_decimal_threshold = 2, -- NEX
     auras_highlight_other = true, -- NEX
-    auras_cd_centre = false,
-    auras_cd_size = 11,
-    auras_count_size = 10,
+    auras_cd_centre = false, -- NEX
+    auras_cd_size = 0, -- NEX
+    auras_count_size = 0, -- NEX
 
     castbar_enable = true,
     castbar_colour = {.75,.75,.9},
