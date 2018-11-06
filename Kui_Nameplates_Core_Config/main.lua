@@ -136,6 +136,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             knp:ui_print('Set config key to value. Usage: /knp set config_key value')
             print('    Boolean: true, false. Colours: r,g,b[,a] (0.0 - 1.0).')
             print('    Enter "nil" for value to reset a key to default.')
+            print('    Example: /knp set frame_width 132')
             return
         end
 
