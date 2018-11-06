@@ -308,10 +308,8 @@ function core:configChangedTextOffset()
         if f.Auras and f.Auras.frames then
             -- update aura text
             for _,frame in pairs(f.Auras.frames) do
-                if frame.__core then
-                    for _,button in ipairs(frame.buttons) do
-                        self.Auras_PostCreateAuraButton(frame,button)
-                    end
+                for _,button in ipairs(frame.buttons) do
+                    self.Auras_PostCreateAuraButton(frame,button)
                 end
             end
         end
@@ -326,13 +324,10 @@ function core:configChangedFontOption()
         UpdateFontObject(f.HealthText)
         UpdateFontObject(f.LevelText)
 
-            if f.Auras and f.Auras.frames then
-                for _,frame in pairs(f.Auras.frames) do
-                    if frame.__core then
-                        for _,button in ipairs(frame.buttons) do
-                            self.AurasButton_SetFont(button)
-                        end
-                    end
+        if f.Auras and f.Auras.frames then
+            for _,frame in pairs(f.Auras.frames) do
+                for _,button in ipairs(frame.buttons) do
+                    self.AurasButton_SetFont(button)
                 end
             end
         end
