@@ -168,51 +168,52 @@ local sort_lookup = {
 local function button_OnUpdate(self,elapsed)
     self.cd_elap = (self.cd_elap or 0) - elapsed
     if self.cd_elap <= 0 then
+        self.cd_elap = 1
+
         local remaining = self.expiration - GetTime()
 
-        if self.parent.pulsate and remaining <= 5 then
+        if remaining <= 0 then
+            -- stop until the cooldown is updated
+            self:StartPulsate()
+            self.cd:SetText(0)
+            self:SetScript('OnUpdate',nil)
+            return
+        end
+
+        if remaining <= TIME_THRESHOLD_SHORT then
             self:StartPulsate()
         else
             self:StopPulsate()
         end
 
-        if remaining <= 0 then
-            -- timers can get below 0 due to latency
-            self.cd:SetText(0)
-            self:SetScript('OnUpdate',nil)
-            return
-        elseif self.parent.timer_threshold and
-               remaining > self.parent.timer_threshold
+        if not self.parent.timer_threshold or
+           remaining <= self.parent.timer_threshold
         then
-            -- don't show a timer above threshold
-            self.cd_elap = 1
+            -- define cd text
+            if remaining <= DECIMAL_THRESHOLD+1 then
+                -- faster updates in the last few seconds
+                self.cd_elap = .05
+            else
+                self.cd_elap = .5
+            end
+
+            if remaining <= TIME_THRESHOLD_SHORT then
+                self.cd:SetTextColor(unpack(COLOUR_SHORT))
+            elseif remaining <= TIME_THRESHOLD_LONG then
+                self.cd:SetTextColor(unpack(COLOUR_MEDIUM))
+            else
+                self.cd:SetTextColor(unpack(COLOUR_LONG))
+            end
+
+            if remaining <= DECIMAL_THRESHOLD then
+                self.cd:SetText(format('%.1f',remaining))
+            else
+                self.cd:SetText(format('%.f',remaining))
+            end
+        else
+            -- hide cd text
             self.cd:SetText('')
-            return
         end
-
-        if remaining <= DECIMAL_THRESHOLD+1 then
-            -- faster updates in the last few seconds
-            self.cd_elap = .05
-        else
-            self.cd_elap = .5
-        end
-
-        if remaining <= 5 then
-            self.cd:SetTextColor(unpack(COLOUR_SHORT))
-        elseif remaining <= 20 then
-            self.cd:SetTextColor(unpack(COLOUR_MEDIUM))
-        else
-            self.cd:SetTextColor(unpack(COLOUR_LONG))
-        end
-
-        if remaining <= DECIMAL_THRESHOLD then
-            -- decimal places in the last second
-            remaining = format("%.1f", remaining)
-        else
-            remaining = format("%.f", remaining)
-        end
-
-        self.cd:SetText(remaining)
     end
 end
 local function button_UpdateCooldown(self,duration,expiration)
@@ -268,6 +269,7 @@ do
     end
 
     function button_StartPulsate(self)
+        if not self.parent.pulsate then return end
         if self.pulsating then return end
 
         self.pulsating = true
