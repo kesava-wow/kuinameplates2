@@ -1,9 +1,6 @@
-* add options to toggle nameonly mode specifically on friendly or hostile players
-* add option to toggle nameonly mode on enemies with whom the player has threat
-* add fire mages' searing touch to execute auto-detect
-* add deDE translation
-* add (partial) ptBR translation
-* re-enable frFR translation
-* update remaining locales
-* fix name-only's neutral enemies checkbox disables when attackable NPCs is checked
-* make locales fallback to english correctly
+BETA NOTES
+
+* add auras_cd_centre
+* add auras_cd_size
+* add auras_count_size
+* these aren't in the interface yet; they can be changed with the `/knp set` command
