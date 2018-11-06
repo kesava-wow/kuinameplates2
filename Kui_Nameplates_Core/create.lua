@@ -191,6 +191,24 @@ end
 local function ScaleTextOffset(v)
     return floor(Scale(v)) - .5
 end
+
+local ResolvePointPair
+do
+    local POINT_X_ASSOC = { 'LEFT', 'CENTER', 'RIGHT' }
+    local POINT_Y_ASSOC = { 'TOP', 'CENTER', 'BOTTOM' }
+    function ResolvePointPair(x,y)
+        -- convert x/y to single point
+        if x == 2 and y == 2 then
+            return 'CENTER'
+        elseif x == 2 then
+            return POINT_Y_ASSOC[y]
+        elseif y == 2 then
+            return POINT_X_ASSOC[x]
+        else
+            return POINT_Y_ASSOC[y]..POINT_X_ASSOC[x]
+        end
+    end
+end
 -- config functions ############################################################
 do
     local FONT_STYLE_ASSOC = {
@@ -1442,7 +1460,12 @@ do
           AURAS_OFFSET,AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
           PURGE_OFFSET,AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD,
           AURAS_PURGE_OPPOSITE,AURAS_HIGHLIGHT_OTHER,
-          AURAS_CD_CENTRE,AURAS_CD_SIZE,AURAS_COUNT_SIZE
+          AURAS_CD_SIZE,AURAS_COUNT_SIZE
+
+    local AURAS_CD_POINT_X,AURAS_CD_POINT_Y,
+          AURAS_CD_OFFSET_X,AURAS_CD_OFFSET_Y,
+          AURAS_COUNT_POINT_X,AURAS_COUNT_POINT_Y,
+          AURAS_COUNT_OFFSET_X,AURAS_COUNT_OFFSET_Y
 
     local function AuraFrame_UpdateFrameSize(self,to_size)
         -- frame width changes depending on icon size, needs to be correct if
@@ -1583,20 +1606,20 @@ do
         -- move text to obey our settings
         button.cd.fontobject_shadow = true
         button.cd:ClearAllPoints()
-
-        if AURAS_CD_CENTRE then
-            button.cd:SetPoint('CENTER',0,0)
-            button.cd:SetJustifyH('CENTER')
-        else
-            button.cd:SetPoint('TOPLEFT',-4,3)
-            button.cd:SetJustifyH('LEFT')
-        end
+        button.cd:SetPoint(
+            ResolvePointPair(AURAS_CD_POINT_X,AURAS_CD_POINT_Y),
+            AURAS_CD_OFFSET_X, AURAS_CD_OFFSET_Y
+        )
+        button.cd:SetJustifyH(AURAS_CD_POINT_X)
 
         button.count.fontobject_shadow = true
         button.count.fontobject_small = true
         button.count:ClearAllPoints()
-        button.count:SetPoint('BOTTOMRIGHT',5,-2)
-        button.count:SetJustifyH('RIGHT')
+        button.count:SetPoint(
+            ResolvePointPair(AURAS_COUNT_POINT_X,AURAS_COUNT_POINT_Y),
+            AURAS_COUNT_OFFSET_X, AURAS_COUNT_OFFSET_Y
+        )
+        button.count:SetJustifyH(AURAS_COUNT_POINT_X)
 
         if frame.__core and not button.hl then
             -- create owner highlight
@@ -1705,9 +1728,17 @@ do
         AURAS_CENTRE = self.profile.auras_centre
         AURAS_HIGHLIGHT_OTHER = self.profile.auras_highlight_other
 
-        AURAS_CD_CENTRE = self.profile.auras_cd_centre
         AURAS_CD_SIZE = self.profile.auras_cd_size
         AURAS_COUNT_SIZE = self.profile.auras_count_size
+
+        AURAS_CD_POINT_X = self.profile.auras_cd_point_x
+        AURAS_CD_POINT_Y = self.profile.auras_cd_point_y
+        AURAS_CD_OFFSET_X = self.profile.auras_cd_offset_x
+        AURAS_CD_OFFSET_Y = self.profile.auras_cd_offset_y
+        AURAS_COUNT_POINT_X = self.profile.auras_count_point_x
+        AURAS_COUNT_POINT_Y = self.profile.auras_count_point_y
+        AURAS_COUNT_OFFSET_X = self.profile.auras_count_offset_x
+        AURAS_COUNT_OFFSET_Y = self.profile.auras_count_offset_y
 
         if AURAS_TIMER_THRESHOLD < 0 then
             AURAS_TIMER_THRESHOLD = nil

@@ -170,7 +170,6 @@ local default_config = {
     auras_offset = 15,
     auras_decimal_threshold = 2, -- NEX
     auras_highlight_other = true, -- NEX
-    auras_cd_centre = false, -- NEX
     auras_cd_size = 0, -- NEX
     auras_count_size = 0, -- NEX
 
@@ -233,6 +232,16 @@ local default_config = {
     cvar_clamp_bottom = GetCVarDefault('nameplateOtherBottomInset'),
     cvar_overlap_v = GetCVarDefault('nameplateOverlapV'),
     cvar_disable_scale = true,
+
+    -- point+offset variables (which will be separated at some point)
+    auras_cd_point_x = 1,
+    auras_cd_point_y = 1,
+    auras_cd_offset_x = -4,
+    auras_cd_offset_y = 3,
+    auras_count_point_x = 3,
+    auras_count_point_y = 3,
+    auras_count_offset_x = 5,
+    auras_count_offset_y = -2,
 }
 -- local functions #############################################################
 local function Scale(v)
@@ -509,9 +518,16 @@ configChanged.auras_purge_opposite = configChangedAuras
 configChanged.auras_side = configChangedAuras
 configChanged.auras_offset = configChangedAuras
 configChanged.auras_decimal_threshold = configChangedAuras
-configChanged.auras_cd_centre = configChangedAuras
 configChanged.auras_cd_size = configChangedAuras
 configChanged.auras_count_size = configChangedAuras
+configChanged.auras_cd_point_x = configChangedAuras
+configChanged.auras_cd_point_y = configChangedAuras
+configChanged.auras_cd_offset_x = configChangedAuras
+configChanged.auras_cd_offset_y = configChangedAuras
+configChanged.auras_count_point_x = configChangedAuras
+configChanged.auras_count_point_y = configChangedAuras
+configChanged.auras_count_offset_x = configChangedAuras
+configChanged.auras_count_offset_y = configChangedAuras
 
 local function configChangedCastBar()
     core:SetCastBarConfig()
