@@ -59,6 +59,10 @@ local UnitIsPlayer,UnitShouldDisplayName,
 local KUI_MEDIA = 'interface/addons/kui_media/'
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
 
+-- global enum tables (XXX used by auras only at the moment)
+local POINT_X_ASSOC = { 'LEFT', 'CENTER', 'RIGHT' }
+local POINT_Y_ASSOC = { 'TOP', 'CENTER', 'BOTTOM' }
+
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,POWER_BAR_HEIGHT,
       FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,
@@ -191,22 +195,16 @@ end
 local function ScaleTextOffset(v)
     return floor(Scale(v)) - .5
 end
-
-local ResolvePointPair
-do
-    local POINT_X_ASSOC = { 'LEFT', 'CENTER', 'RIGHT' }
-    local POINT_Y_ASSOC = { 'TOP', 'CENTER', 'BOTTOM' }
-    function ResolvePointPair(x,y)
-        -- convert x/y to single point
-        if x == 2 and y == 2 then
-            return 'CENTER'
-        elseif x == 2 then
-            return POINT_Y_ASSOC[y]
-        elseif y == 2 then
-            return POINT_X_ASSOC[x]
-        else
-            return POINT_Y_ASSOC[y]..POINT_X_ASSOC[x]
-        end
+local function ResolvePointPair(x,y)
+    -- convert x/y to single point
+    if x == 2 and y == 2 then
+        return 'CENTER'
+    elseif x == 2 then
+        return POINT_Y_ASSOC[y]
+    elseif y == 2 then
+        return POINT_X_ASSOC[x]
+    else
+        return POINT_Y_ASSOC[y]..POINT_X_ASSOC[x]
     end
 end
 -- config functions ############################################################
@@ -1610,7 +1608,7 @@ do
             ResolvePointPair(AURAS_CD_POINT_X,AURAS_CD_POINT_Y),
             AURAS_CD_OFFSET_X, AURAS_CD_OFFSET_Y
         )
-        button.cd:SetJustifyH(AURAS_CD_POINT_X)
+        button.cd:SetJustifyH(POINT_X_ASSOC[AURAS_CD_POINT_X])
 
         button.count.fontobject_shadow = true
         button.count.fontobject_small = true
@@ -1619,7 +1617,7 @@ do
             ResolvePointPair(AURAS_COUNT_POINT_X,AURAS_COUNT_POINT_Y),
             AURAS_COUNT_OFFSET_X, AURAS_COUNT_OFFSET_Y
         )
-        button.count:SetJustifyH(AURAS_COUNT_POINT_X)
+        button.count:SetJustifyH(POINT_X_ASSOC[AURAS_COUNT_POINT_X])
 
         if frame.__core and not button.hl then
             -- create owner highlight
