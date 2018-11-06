@@ -319,7 +319,10 @@ function core:configChangedTextOffset()
 end
 do
     function core.AurasButton_SetFont(button)
+        button.cd.fontobject_size = AURAS_CD_SIZE
         UpdateFontObject(button.cd)
+
+        button.count.fontobject_size = AURAS_COUNT_SIZE
         UpdateFontObject(button.count)
     end
     function core:configChangedFontOption()
@@ -1452,7 +1455,8 @@ do
           AURAS_HIDE_ALL_OTHER,AURAS_PURGE_SIZE,AURAS_SHOW_PURGE,AURAS_SIDE,
           AURAS_OFFSET,AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
           PURGE_OFFSET,AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD,
-          AURAS_PURGE_OPPOSITE,AURAS_HIGHLIGHT_OTHER
+          AURAS_PURGE_OPPOSITE,AURAS_HIGHLIGHT_OTHER,
+          AURAS_CD_CENTRE,AURAS_CD_SIZE,AURAS_COUNT_SIZE
 
     local function AuraFrame_UpdateFrameSize(self,to_size)
         -- frame width changes depending on icon size, needs to be correct if
@@ -1591,13 +1595,23 @@ do
     -- callbacks
     function core.Auras_PostCreateAuraButton(frame,button)
         -- move text to obey our settings
-        button.cd:ClearAllPoints()
-        button.cd:SetPoint('TOPLEFT',-4,3+TEXT_VERTICAL_OFFSET)
         button.cd.fontobject_shadow = true
+        button.cd.fontobject_size = AURAS_CD_SIZE
+        button.cd:ClearAllPoints()
 
+        if AURAS_CD_CENTRE then
+            button.cd:SetPoint('CENTER',0,TEXT_VERTICAL_OFFSET)
+            button.cd:SetJustifyH('CENTER')
+        else
+            button.cd:SetPoint('TOPLEFT',-4,3+TEXT_VERTICAL_OFFSET)
+            button.cd:SetJustifyH('LEFT')
+        end
+
+        button.count.fontobject_shadow = true
+        button.count.fontobject_size = AURAS_COUNT_SIZE
         button.count:ClearAllPoints()
         button.count:SetPoint('BOTTOMRIGHT',5,-2+TEXT_VERTICAL_OFFSET)
-        button.count.fontobject_shadow = true
+        button.count:SetJustifyH('RIGHT')
 
         if frame.__core and not button.hl then
             -- create owner highlight
@@ -1698,6 +1712,10 @@ do
         AURAS_PURGE_OPPOSITE = self.profile.auras_purge_opposite
         AURAS_CENTRE = self.profile.auras_centre
         AURAS_HIGHLIGHT_OTHER = self.profile.auras_highlight_other
+
+        AURAS_CD_CENTRE = self.profile.auras_cd_centre
+        AURAS_CD_SIZE = self.profile.auras_cd_size
+        AURAS_COUNT_SIZE = self.profile.auras_count_size
 
         if AURAS_TIMER_THRESHOLD < 0 then
             AURAS_TIMER_THRESHOLD = nil
