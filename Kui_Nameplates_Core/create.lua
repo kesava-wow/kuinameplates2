@@ -1770,6 +1770,13 @@ do
                     cp.__width = nil
                     cp:SetSort(self.profile.auras_sort)
                 end
+
+                -- update all buttons
+                for _,auraframe in pairs(f.Auras.frames) do
+                    for _,button in ipairs(auraframe.buttons) do
+                        self.Auras_PostCreateAuraButton(auraframe,button)
+                    end
+                end
             end
         end
 
