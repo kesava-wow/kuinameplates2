@@ -163,7 +163,8 @@ local function UpdateFontObject(object)
     if not object then return end
     object:SetFont(
         FONT,
-        object.fontobject_small and FONT_SIZE_SMALL or FONT_SIZE_NORMAL,
+        object.fontobject_size or (object.fontobject_small and
+         FONT_SIZE_SMALL or FONT_SIZE_NORMAL),
         not object.fontobject_no_style and FONT_STYLE or nil
     )
 
