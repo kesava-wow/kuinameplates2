@@ -1583,7 +1583,6 @@ do
     function core.Auras_PostCreateAuraButton(frame,button)
         -- move text to obey our settings
         button.cd.fontobject_shadow = true
-        button.cd.fontobject_size = AURAS_CD_SIZE
         button.cd:ClearAllPoints()
 
         if AURAS_CD_CENTRE then
@@ -1595,7 +1594,7 @@ do
         end
 
         button.count.fontobject_shadow = true
-        button.count.fontobject_size = AURAS_COUNT_SIZE
+        button.count.fontobject_small = true
         button.count:ClearAllPoints()
         button.count:SetPoint('BOTTOMRIGHT',5,-2+TEXT_VERTICAL_OFFSET)
         button.count:SetJustifyH('RIGHT')
