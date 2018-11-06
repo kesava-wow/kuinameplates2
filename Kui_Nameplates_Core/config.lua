@@ -787,6 +787,40 @@ configLoaded.use_blizzard_personal = configChanged.use_blizzard_personal
 configLoaded.bossmod_enable = configChanged.bossmod_enable
 
 -- init config #################################################################
+function core:ConfigChanged(config,k,v)
+    self.profile = config:GetConfig()
+    self:SetLocals()
+
+    if k then
+        -- call affected key's configChanged function
+        if configChanged[k] then
+            configChanged[k](v)
+        end
+    else
+        -- profile changed;
+        -- queue all configChanged functions, removing duplicates
+        local Q_FUNCTIONS = {}
+        for k,f in pairs(configChanged) do
+            Q_FUNCTIONS[f] = k
+        end
+        for f,k in ipairs(Q_FUNCTIONS) do
+            f(core.profile[k])
+        end
+    end
+
+    if addon.debug and addon.debug_config then
+        kui.print(self:GetActiveProfile())
+    end
+
+    for i,f in addon:Frames() do
+        -- hide and re-show frames
+        if f:IsShown() then
+            local unit = f.unit
+            f.handler:OnHide() -- (this clears f.unit)
+            f.handler:OnUnitAdded(unit)
+        end
+    end
+end
 function core:InitialiseConfig()
     if KuiNameplatesCoreSaved then
         -- XXX 2.15>2.16 health display transition
@@ -838,35 +872,7 @@ function core:InitialiseConfig()
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.profile = self.config:GetConfig()
 
-    self.config:RegisterConfigChanged(function(self,k,v)
-        core.profile = self:GetConfig()
-        core:SetLocals()
-
-        if k then
-            -- call affected listener
-            if configChanged[k] then
-                configChanged[k](v)
-            end
-        else
-            -- profile changed; call all listeners
-            for k,f in pairs(configChanged) do
-                f(core.profile[k])
-            end
-        end
-
-        if addon.debug and addon.debug_config then
-            kui.print(self:GetActiveProfile())
-        end
-
-        for i,f in addon:Frames() do
-            -- hide and re-show frames
-            if f:IsShown() then
-                local unit = f.unit
-                f.handler:OnHide() -- (this clears f.unit)
-                f.handler:OnUnitAdded(unit)
-            end
-        end
-    end)
+    self.config:RegisterConfigChanged(self,'ConfigChanged')
 
     -- update config locals in create.lua
     self:SetLocals()
