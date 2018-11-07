@@ -560,20 +560,20 @@ function auras:Initialise()
     auras_count_point_x:SetWidth(95)
     auras_count_point_y:SetWidth(95)
 
-    auras_text_sep:SetPoint('TOP',0,-450)
-    auras_cd_size:SetPoint('TOPLEFT',auras_text_sep,'BOTTOMLEFT',0,-20)
-    auras_count_size:SetPoint('LEFT',auras_cd_size,'RIGHT',20,0)
-
-    colour_short:SetPoint('TOPLEFT',auras_cd_size,'BOTTOMLEFT',4,-20)
+    auras_text_sep:SetPoint('TOP',0,-460)
+    colour_short:SetPoint('TOPLEFT',auras_text_sep,'BOTTOMLEFT',4,-15)
     colour_medium:SetPoint('LEFT',colour_short,'RIGHT')
     colour_long:SetPoint('LEFT',colour_medium,'RIGHT')
 
-    auras_cd_point_x:SetPoint('TOPLEFT',auras_cd_size,'BOTTOMLEFT',0,-50)
+    auras_cd_size:SetPoint('TOPLEFT',colour_short,'BOTTOMLEFT',-4,-20)
+    auras_count_size:SetPoint('LEFT',auras_cd_size,'RIGHT',20,0)
+
+    auras_cd_point_x:SetPoint('TOPLEFT',auras_cd_size,'BOTTOMLEFT',0,-20)
     auras_cd_point_y:SetPoint('LEFT',auras_cd_point_x,'RIGHT')
     auras_cd_offset_x:SetPoint('TOPLEFT',auras_cd_point_x,'BOTTOMLEFT',0,-15)
     auras_cd_offset_y:SetPoint('TOPLEFT',auras_cd_offset_x,'BOTTOMLEFT',0,-30)
 
-    auras_count_point_x:SetPoint('TOPLEFT',auras_count_size,'BOTTOMLEFT',0,-50)
+    auras_count_point_x:SetPoint('TOPLEFT',auras_count_size,'BOTTOMLEFT',0,-20)
     auras_count_point_y:SetPoint('LEFT',auras_count_point_x,'RIGHT')
     auras_count_offset_x:SetPoint('TOPLEFT',auras_count_point_x,'BOTTOMLEFT',0,-15)
     auras_count_offset_y:SetPoint('TOPLEFT',auras_count_offset_x,'BOTTOMLEFT',0,-30)
