@@ -1,8 +1,11 @@
 BETA NOTES
 
+* remove text_vertical_offset and auras_cd_centre 
+* add position options for auras text
+* expose auras_cd_size and auras_count_size in ui
+
 * add auras_cd_centre
 * add auras_cd_size
 * add auras_count_size
-(these aren't in the interface yet; they can be changed with the `/knp set` command)
 
 * reset nameplateMin/MaxScale to default if cvar_disable_scale is disabled
