@@ -484,16 +484,12 @@ function auras:Initialise()
     local auras_show_all_self = self:CreateCheckBox('auras_show_all_self')
     local auras_hide_all_other = self:CreateCheckBox('auras_hide_all_other')
     local auras_time_threshold = self:CreateSlider('auras_time_threshold',-1,180)
-    local colour_short = self:CreateColourPicker('auras_colour_short')
-    local colour_medium = self:CreateColourPicker('auras_colour_medium')
-    local colour_long = self:CreateColourPicker('auras_colour_long')
 
     auras_sort.SelectTable = {
         L.titles.dd_auras_sort_index,
         L.titles.dd_auras_sort_time,
     }
 
-    colour_short:SetWidth(135)
 
     local auras_kslc_hint = self:CreateFontString(nil,'ARTWORK','GameFontHighlight')
     auras_kslc_hint:SetTextColor(.7,.7,.7)
@@ -527,16 +523,60 @@ function auras:Initialise()
     auras_icons_sep:SetPoint('TOP',auras_kslc_hint,'BOTTOM',0,-35)
     auras_pulsate:SetPoint('TOPLEFT',auras_icons_sep,'BOTTOMLEFT',0,-10)
     auras_centre:SetPoint('LEFT',auras_pulsate,'RIGHT',190,0)
-    colour_short:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT',4,0)
-    colour_medium:SetPoint('LEFT',colour_short,'RIGHT')
-    colour_long:SetPoint('LEFT',colour_medium,'RIGHT')
-    side:SetPoint('TOPLEFT',colour_short,'BOTTOMLEFT',-4,-10)
+    side:SetPoint('TOPLEFT',auras_pulsate,'BOTTOMLEFT',-4,-10)
     purge_opposite:SetPoint('TOPLEFT',side,'BOTTOMLEFT',10,0)
     offset:SetPoint('LEFT',side,'RIGHT',10,0)
-    auras_icon_normal_size:SetPoint('TOPLEFT',auras_icons_sep,0,-170)
+    auras_icon_normal_size:SetPoint('TOPLEFT',auras_icons_sep,0,-130)
     auras_icon_minus_size:SetPoint('LEFT',auras_icon_normal_size,'RIGHT',20,0)
     auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
     purge_size:SetPoint('LEFT',auras_icon_squareness,'RIGHT',20,0)
+
+    local auras_text_sep = self:CreateSeparator('auras_text_sep')
+    local auras_cd_size = self:CreateSlider('auras_cd_size',0,20)
+    local auras_count_size = self:CreateSlider('auras_count_size',0,20)
+    local colour_short = self:CreateColourPicker('auras_colour_short')
+    local colour_medium = self:CreateColourPicker('auras_colour_medium')
+    local colour_long = self:CreateColourPicker('auras_colour_long')
+    local auras_cd_point_x = self:CreateDropDown('auras_cd_point_x')
+    local auras_cd_point_y = self:CreateDropDown('auras_cd_point_y')
+    local auras_cd_offset_x = self:CreateSlider('auras_cd_offset_x',-20,20)
+    local auras_cd_offset_y = self:CreateSlider('auras_cd_offset_y',-20,20)
+    local auras_count_point_x = self:CreateDropDown('auras_count_point_x')
+    local auras_count_point_y = self:CreateDropDown('auras_count_point_y')
+    local auras_count_offset_x = self:CreateSlider('auras_count_offset_x',-20,20)
+    local auras_count_offset_y = self:CreateSlider('auras_count_offset_y',-20,20)
+
+    local point_x_SelectTable = { 'LEFT', 'CENTER', 'RIGHT' }
+    local point_y_SelectTable = { 'TOP', 'CENTER', 'BOTTOM' }
+
+    auras_cd_point_x.SelectTable = point_x_SelectTable
+    auras_cd_point_y.SelectTable = point_y_SelectTable
+    auras_count_point_x.SelectTable = point_x_SelectTable
+    auras_count_point_y.SelectTable = point_y_SelectTable
+
+    colour_short:SetWidth(135)
+    auras_cd_point_x:SetWidth(95)
+    auras_cd_point_y:SetWidth(95)
+    auras_count_point_x:SetWidth(95)
+    auras_count_point_y:SetWidth(95)
+
+    auras_text_sep:SetPoint('TOP',0,-450)
+    auras_cd_size:SetPoint('TOPLEFT',auras_text_sep,'BOTTOMLEFT',0,-20)
+    auras_count_size:SetPoint('LEFT',auras_cd_size,'RIGHT',20,0)
+
+    colour_short:SetPoint('TOPLEFT',auras_cd_size,'BOTTOMLEFT',4,-20)
+    colour_medium:SetPoint('LEFT',colour_short,'RIGHT')
+    colour_long:SetPoint('LEFT',colour_medium,'RIGHT')
+
+    auras_cd_point_x:SetPoint('TOPLEFT',auras_cd_size,'BOTTOMLEFT',0,-50)
+    auras_cd_point_y:SetPoint('LEFT',auras_cd_point_x,'RIGHT')
+    auras_cd_offset_x:SetPoint('TOPLEFT',auras_cd_point_x,'BOTTOMLEFT',0,-15)
+    auras_cd_offset_y:SetPoint('TOPLEFT',auras_cd_offset_x,'BOTTOMLEFT',0,-30)
+
+    auras_count_point_x:SetPoint('TOPLEFT',auras_count_size,'BOTTOMLEFT',0,-50)
+    auras_count_point_y:SetPoint('LEFT',auras_count_point_x,'RIGHT')
+    auras_count_offset_x:SetPoint('TOPLEFT',auras_count_point_x,'BOTTOMLEFT',0,-15)
+    auras_count_offset_y:SetPoint('TOPLEFT',auras_count_offset_x,'BOTTOMLEFT',0,-30)
 end
 -- cast bars ###################################################################
 function castbars:Initialise()
