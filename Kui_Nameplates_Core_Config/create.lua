@@ -242,7 +242,6 @@ function text:Initialise()
     local hidenamesCheck = self:CreateCheckBox('hide_names',true)
     local level_text = self:CreateCheckBox('level_text')
     local health_text = self:CreateCheckBox('health_text')
-    local text_vertical_offset = self:CreateSlider('text_vertical_offset',-20,20)
     local name_vertical_offset = self:CreateSlider('name_vertical_offset',-20,20)
     local bot_vertical_offset = self:CreateSlider('bot_vertical_offset',-20,20)
 
@@ -254,7 +253,6 @@ function text:Initialise()
         L.titles.dd_font_style_monochrome,
     }
 
-    text_vertical_offset:SetWidth(120)
     name_vertical_offset:SetWidth(120)
     bot_vertical_offset:SetWidth(120)
 
@@ -266,11 +264,10 @@ function text:Initialise()
     font_size_normal:SetPoint('TOPLEFT',10,-70)
     font_size_small:SetPoint('LEFT',font_size_normal,'RIGHT',20,0)
 
-    text_vertical_offset:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-30)
-    name_vertical_offset:SetPoint('LEFT',text_vertical_offset,'RIGHT',20,0)
+    name_vertical_offset:SetPoint('TOPLEFT',font_size_normal,'BOTTOMLEFT',0,-30)
     bot_vertical_offset:SetPoint('LEFT',name_vertical_offset,'RIGHT',20,0)
 
-    name_text:SetPoint('TOPLEFT',text_vertical_offset,'BOTTOMLEFT',0,-20)
+    name_text:SetPoint('TOPLEFT',name_vertical_offset,'BOTTOMLEFT',0,-20)
     hidenamesCheck:SetPoint('TOPLEFT',name_text,'BOTTOMLEFT',10,0)
 
     level_text:SetPoint('LEFT',name_text,'RIGHT',190,0)
@@ -511,7 +508,7 @@ function auras:Initialise()
     local side = self:CreateDropDown('auras_side')
     local purge_opposite = self:CreateCheckBox('auras_purge_opposite',true)
     local offset = self:CreateSlider('auras_offset',-1,30)
-    side.SelectTable = {'Top','Bottom'} -- TODO l11n
+    side.SelectTable = {'Top','Bottom'} -- TODO l10n
 
     purge_size.enabled = function(p) return p.auras_show_purge end
     purge_opposite.enabled = function(p) return p.auras_show_purge end

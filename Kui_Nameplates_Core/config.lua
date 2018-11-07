@@ -98,7 +98,6 @@ local default_config = {
     name_text = true,
     level_text = false,
     health_text = false,
-    text_vertical_offset = 0,
     name_vertical_offset = -2,
     bot_vertical_offset = -3,
 
@@ -375,7 +374,6 @@ configChanged.fade_avoid_mouseover = configChangedFadeRule
 local function configChangedTextOffset()
     core:configChangedTextOffset()
 end
-configChanged.text_vertical_offset = configChangedTextOffset
 configChanged.name_vertical_offset = configChangedTextOffset
 configChanged.bot_vertical_offset = configChangedTextOffset
 

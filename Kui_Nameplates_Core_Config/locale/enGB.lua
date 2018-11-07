@@ -136,7 +136,6 @@ L.titles = {
     hide_names = 'Hide non-tracked names',
     level_text = 'Show level text',
     health_text = 'Show health text',
-    text_vertical_offset = 'Text v.offset',
     name_vertical_offset = 'Name v.offset',
     bot_vertical_offset = 'Level/health v.offset',
 
@@ -305,7 +304,6 @@ L.tooltips = {
     font_face = 'Fonts are provided by LibSharedMedia.',
     font_size_normal = 'Used for name, level, health and auras.',
     font_size_small = 'Used for guild and spell name.',
-    text_vertical_offset = 'Vertical offset applied to all strings. Can be used to compensate for fonts which render at odd vertical positions in WoW.',
 
     name_colour_white_in_bar_mode = 'Colour NPC\'s and player\'s names white (unless class colour is enabled).|n|nIf this is enabled, the colours below only apply to name-only mode.',
     class_colour_friendly_names = 'Colour the names of friendly players by their class.',
