@@ -2,6 +2,8 @@ BETA NOTES
 
 * remove text_vertical_offset and auras_cd_centre 
 * add position options for auras text
+= auras_cd_centre is removed in favour of the more comprehensive options, which might not make it into release.
+
 * expose auras_cd_size and auras_count_size in ui
 
 * add auras_cd_centre
