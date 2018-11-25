@@ -879,6 +879,7 @@ function cc:QueueConfigChanged(name)
     end
 end
 function cc:PLAYER_REGEN_ENABLED()
+    -- pop queued functions
     for i,f_tbl in ipairs(self.queue) do
         if type(f_tbl[1]) == 'function' then
             f_tbl[1](unpack(f_tbl[2]))
@@ -900,6 +901,7 @@ function cc:DisableCVarUpdate()
 end
 function cc:CVAR_UPDATE()
     -- reapply our CVar changes
+    if InCombatLockdown() then return end
     UpdateCVars()
 end
 
