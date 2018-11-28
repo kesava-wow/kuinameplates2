@@ -1,8 +1,10 @@
 BETA NOTES
 
-* remove text_vertical_offset and auras_cd_centre 
+* update locale
+* possibly fix a possible issue with CVAR_UPDATE calls during combat, maybe
+
 * add position options for auras text
-= auras_cd_centre is removed in favour of the more comprehensive options, which might not make it into release.
+* remove text_vertical_offset and auras_cd_centre (in favour of the above)
 
 * expose auras_cd_size and auras_count_size in ui
 
