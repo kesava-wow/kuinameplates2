@@ -9,7 +9,7 @@ Issues submitted [here](https://github.com/kesava-wow/kuinameplates2/issues) won
 
 When submitting an issue:
 - Separate distinct issues into multiple tickets. It's easier to work with that way.
-- Run this in chat: ``/knp dump``. It should open a window including some debug information. Copy that into your report; it tells me what version of KNP you're on, what your current profile's settings are, and what modules are installed and enabled.
+- Run this in chat: ``/knp dump``. It should open a window including some debug information. Copy that into your report; it tells me what version of KNP you're on, what your current profile's settings are, and what modules are installed.
 - Remember I'm human. Though I do main a Draenei.
 
 ---
