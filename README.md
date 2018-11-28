@@ -9,8 +9,7 @@ Issues submitted [here](https://github.com/kesava-wow/kuinameplates2/issues) won
 
 When submitting an issue:
 - Separate distinct issues into multiple tickets. It's easier to work with that way.
-- If you've modified code or are using any third-party nameplate addon or plugin (including Kui_Nameplates_Custom scripts), try to reproduce the issue without it first, and tell me what you're using or what you've changed.
-- If relevant, run this in chat: "/knp dump-config" (no quotes). It'll pop up a little window with the textual version of your KNP configuration. Copy that into your report.
+- Run this in chat: ``/knp dump``. It should open a window including some debug information. Copy that into your report; it tells me what version of KNP you're on, what your current profile's settings are, and what modules are installed and enabled.
 - Remember I'm human. Though I do main a Draenei.
 
 ---
