@@ -1,11 +1,11 @@
 * bump tocs
 * fix health bar aliasing in 8.1 (make sure to enable "pixel correction" if you still see it, and use the "global scale" option under /knp > frame sizes to compensate)
-* fix the blizzard resource bar stays visible
+- the personal nameplate is still buggy in certain positions.
+* fix the blizzard personal resource bar stays visible
 
-* possibly fix a possibly issue with CVAR_UPDATE calls during combat, maybe
+* possibly fix a possible issue with CVAR_UPDATE calls during combat, maybe
 * reset nameplateMin/MaxScale to default when "Disable default scaling" is unchecked
 * update locale
 
 BETA USERS:
 This is a hotfix, so it's a version behind the beta. You might lose settings by updating to it.
-The beta release after this will also have these fixes.
