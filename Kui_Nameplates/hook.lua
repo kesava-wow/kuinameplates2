@@ -30,16 +30,6 @@ end
 local function FrameOnUpdate(self)
     self.kui:SetFrameLevel(self:GetFrameLevel())
 end
------------------------------------------------------------------------ Sizer --
-local function SizerOnSizeChanged(self,x,y)
-    -- If you're poking around here trying to find what's causing the extra CPU
-    -- usage, this is it.
-    self.f.IGNORE_VISIBILITY_BUBBLE = true
-    self.f:Hide()
-    self.f:SetPoint('CENTER',WorldFrame,'BOTTOMLEFT',floor(x),floor(y))
-    self.f:Show()
-    self.f.IGNORE_VISIBILITY_BUBBLE = nil
-end
 ------------------------------------------------------------ Nameplate hooker --
 -- hook into nameplate frame and element scripts
 function addon:HookNameplate(frame)
@@ -53,17 +43,13 @@ function addon:HookNameplate(frame)
     frame.kui.elements = {}
     frame.kui.parent = frame
 
-    -- XXX 80 buggy; child text frames disappear
-    --frame.kui:SetPoint('CENTER',frame)
-    -- semlar's non-laggy positioning
-    local sizer = CreateFrame('Frame',name..'PositionHelper',frame.kui)
-    sizer:SetPoint('BOTTOMLEFT',WorldFrame)
-    sizer:SetPoint('TOPRIGHT',frame,'CENTER')
-    sizer:SetScript('OnSizeChanged',SizerOnSizeChanged)
-    sizer.f = frame.kui
-
     frame.kui:SetScale(self.uiscale)
     frame.kui:SetSize(self.width,self.height)
+
+    -- XXX no longer flashes text as of 80100
+    -- however, we still don't want to inherit the alpha or scale of the
+    -- default nameplates
+    frame.kui:SetPoint('CENTER',frame)
 
     if self.draw_frames then
         -- debug; visible frame sizes
