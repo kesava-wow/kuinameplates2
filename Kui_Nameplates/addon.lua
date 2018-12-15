@@ -40,7 +40,7 @@ addon.uiscale = .71
 addon.width,addon.height = 140,40
 -- can be changed during run time:
 addon.IGNORE_UISCALE = nil
--- should be set before nameplates are created, if desired:
+-- should be set in layout initialise, if desired:
 addon.USE_BLIZZARD_PERSONAL = nil
 
 local framelist = {}
@@ -165,6 +165,20 @@ local function OnEvent(self,event,...)
         if type(plugin.Initialised) == 'function' then
             plugin:Initialised()
         end
+    end
+
+    -- disable the default class resource bars
+    if NamePlateDriverFrame and not self.USE_BLIZZARD_PERSONAL then
+        DeathKnightResourceOverlayFrame:UnregisterAllEvents()
+        ClassNameplateBarMageFrame:UnregisterAllEvents()
+        ClassNameplateBarWindwalkerMonkFrame:UnregisterAllEvents()
+        ClassNameplateBarPaladinFrame:UnregisterAllEvents()
+        ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
+        ClassNameplateBarWarlockFrame:UnregisterAllEvents()
+        ClassNameplateManaBarFrame:UnregisterAllEvents()
+
+        NamePlateDriverFrame:SetClassNameplateManaBar(nil)
+        NamePlateDriverFrame:SetClassNameplateBar(nil)
     end
 end
 ------------------------------------------- initialise addon scripts & events --
