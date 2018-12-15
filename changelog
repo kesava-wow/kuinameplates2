@@ -1,9 +1,7 @@
-* add options to toggle nameonly mode specifically on friendly or hostile players
-* add option to toggle nameonly mode on enemies with whom the player has threat
-* add fire mages' searing touch to execute auto-detect
-* add deDE translation
-* add (partial) ptBR translation
-* re-enable frFR translation
-* update remaining locales
-* fix name-only's neutral enemies checkbox disables when attackable NPCs is checked
-* make locales fallback to english correctly
+* bump tocs
+* fix health bar aliasing in 8.1 (make sure to enable "pixel correction" if you still see it, and use the "global scale" option under /knp > frame sizes to compensate)
+* fix the blizzard resource bar stays visible
+
+BETA USERS:
+This is a hotfix, so it's a version behind the beta. You might lose settings by updating to it.
+The beta release after this will also have these fixes.
