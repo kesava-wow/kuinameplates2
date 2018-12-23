@@ -1,5 +1,9 @@
 BETA NOTES
 
+* hold alt to adjust sliders with the mousewheel
+* add option to disable mouseover highlight
+* add option mouseover_highlight_opacity (not exposed in ui)
+
 * merge 80100 hotfixes:
 * bump tocs
 * fix health bar aliasing in 8.1 (make sure to enable "pixel correction" if you still see it, and use the "global scale" option under /knp > frame sizes to compensate)
