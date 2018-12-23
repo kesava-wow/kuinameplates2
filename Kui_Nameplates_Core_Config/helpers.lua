@@ -225,14 +225,20 @@ do
         self:Set()
     end
     local function SliderOnMouseWheel(self,delta)
-        if not self:IsEnabled() then return end
-        if delta > 0 then
-            delta = self:GetValueStep()
-        else
-            delta = -self:GetValueStep()
+        if self:IsEnabled() and IsAltKeyDown() then
+            self:SetValue(self:GetValue()+(self:GetValueStep()*delta))
+            self:Set()
+        elseif self:GetParent().scroll then
+            -- "passthrough" scroll to scrollframe
+            -- although there is probably a correct way of doing this
+            delta = self:GetParent().scroll:GetVerticalScroll() - (240 * delta)
+            if delta < 0 then
+                delta = 0
+            elseif delta > self:GetParent().scroll:GetVerticalScrollRange() then
+                delta = self:GetParent().scroll:GetVerticalScrollRange()
+            end
+            self:GetParent().scroll:SetVerticalScroll(delta)
         end
-        self:SetValue(self:GetValue()+delta)
-        self:Set()
     end
     local function SliderSetMinMaxValues(self,min,max)
         self:orig_SetMinMaxValues(min,max)
