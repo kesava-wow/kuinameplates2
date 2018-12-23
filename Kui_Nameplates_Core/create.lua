@@ -429,7 +429,19 @@ end
 -- highlight ###################################################################
 do
     local function UpdateHighlight(f)
-        -- run functions which depend on f.state.highlight
+        if MOUSEOVER_HIGHLIGHT then
+            if not f.Highlight then
+                core:CreateHighlight(f)
+            end
+
+            f.Highlight:SetVertexColor(1,1,1,HIGHLIGHT_OPACITY)
+            f.handler:EnableElement('Highlight')
+        elseif f.Highlight and f.elements.Highlight then
+            f.handler:DisableElement('Highlight')
+        end
+
+        -- functions which depend on f.state.glow from Highlight
+        -- (which is set regardless of the element being enabled)
         if MOUSEOVER_GLOW then
             f:UpdateFrameGlow()
         end
@@ -437,15 +449,16 @@ do
             plugin_fading:UpdateFrame(f)
         end
     end
-    function core:CreateHighlight(f) -- Always created
+    function core:CreateHighlight(f)
+        f.UpdateHighlight = UpdateHighlight
+
+        if not MOUSEOVER_HIGHLIGHT then return end
+
         local highlight = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,2)
         highlight:SetTexture(BAR_TEXTURE)
         highlight:SetAllPoints(f.HealthBar)
-        highlight:SetVertexColor(1,1,1,.4)
         highlight:SetBlendMode('ADD')
         highlight:Hide()
-
-        f.UpdateHighlight = UpdateHighlight
 
         f.handler:RegisterElement('Highlight',highlight)
     end
