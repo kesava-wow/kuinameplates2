@@ -14,7 +14,7 @@
 -- ]]
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('Fading')
+local mod = addon:NewPlugin('Fading',nil,nil,false)
 
 local abs,pairs,ipairs,type,tinsert = math.abs,pairs,ipairs,type,tinsert
 local UnitExists,UnitIsUnit = UnitExists,UnitIsUnit
@@ -112,6 +112,10 @@ function mod:ResetFadeRules()
     mod:RunCallback('FadeRulesReset')
 end
 function mod:AddFadeRule(func,priority,uid)
+    if not self.enabled then
+        addon:print('AddFadeRule: module is disabled')
+        return
+    end
     if type(func) ~= 'function' or not tonumber(priority) then
         error('AddFadeRule expects function(function),priority(number)')
     end
