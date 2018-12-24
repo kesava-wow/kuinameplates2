@@ -238,7 +238,7 @@ local default_config = {
     cvar_min_alpha = .5,
     cvar_max_alpha = .8,
     cvar_target_alpha = 1,
-    cvar_self_alpha = .8,
+    cvar_self_alpha = 1,
 
     -- point+offset variables
     auras_cd_point_x = 1,
