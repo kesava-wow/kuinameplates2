@@ -397,25 +397,18 @@ end
 local function UpdateFrameSize(f)
     -- set frame size and position
     if f.state.minus then
-        f:SetSize(FRAME_WIDTH_MINUS+10,FRAME_HEIGHT_MINUS+20)
-        f.bg:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
+        f:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
     elseif f.state.personal then
-        f:SetSize(FRAME_WIDTH_PERSONAL+10,FRAME_HEIGHT_PERSONAL+20)
-        f.bg:SetSize(FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL)
+        f:SetSize(FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL)
     else
-        f:SetSize(FRAME_WIDTH+10,FRAME_HEIGHT+20)
-        f.bg:SetSize(FRAME_WIDTH,FRAME_HEIGHT)
+        f:SetSize(FRAME_WIDTH,FRAME_HEIGHT)
     end
 
     if f.state.no_name and not f.state.personal then
-        f.bg:SetHeight(FRAME_HEIGHT_MINUS)
+        f:SetHeight(FRAME_HEIGHT_MINUS)
     end
 
-    -- calculate point to remain pixel-perfect
-    f.x = floor((f:GetWidth() / 2) - (f.bg:GetWidth() / 2))
-    f.y = floor((f:GetHeight() / 2) - (f.bg:GetHeight() / 2))
-
-    f.bg:SetPoint('BOTTOMLEFT',f.x,f.y + FRAME_VERTICAL_OFFSET)
+    f:SetPoint('CENTER',0,FRAME_VERTICAL_OFFSET)
 
     f:UpdateMainBars()
     f:SpellIconSetWidth()
@@ -425,6 +418,7 @@ function core:CreateBackground(f)
     local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
     bg:SetTexture(kui.m.t.solid)
     bg:SetVertexColor(0,0,0,.9)
+    bg:SetAllPoints(f)
 
     f.bg = bg
     f.UpdateFrameSize = UpdateFrameSize
