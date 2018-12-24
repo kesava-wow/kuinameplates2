@@ -35,7 +35,7 @@ end
 function addon:HookNameplate(frame)
     local name = 'Kui'..frame:GetName()
 
-    frame.kui = CreateFrame('Frame',name,WorldFrame)
+    frame.kui = CreateFrame('Frame',name,frame)
     frame.kui:Hide()
     frame.kui:SetFrameStrata('BACKGROUND')
     frame.kui:SetFrameLevel(0)
@@ -43,13 +43,8 @@ function addon:HookNameplate(frame)
     frame.kui.elements = {}
     frame.kui.parent = frame
 
+    frame.kui:SetPoint('CENTER')
     frame.kui:SetScale(self.uiscale)
-    frame.kui:SetSize(self.width,self.height)
-
-    -- XXX no longer flashes text as of 80100
-    -- however, we still don't want to inherit the alpha or scale of the
-    -- default nameplates
-    frame.kui:SetPoint('CENTER',frame)
 
     if self.draw_frames then
         -- debug; visible frame sizes
