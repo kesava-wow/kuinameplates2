@@ -102,13 +102,15 @@ function addon:PLAYER_LEAVING_WORLD()
     end
 end
 function addon:UI_SCALE_CHANGED()
-    self.uiscale = UIParent:GetEffectiveScale()
-
     if self.IGNORE_UISCALE then
+        -- set 1:1 scale from screen width
         local screen_size = {GetPhysicalScreenSize()}
         if screen_size and screen_size[2] then
             self.uiscale = 768 / screen_size[2]
         end
+    else
+        -- inherit from uiparent
+        self.uiscale = UIParent:GetScale()
     end
 
     if #framelist > 0 then
@@ -125,6 +127,8 @@ local function OnEvent(self,event,...)
         end
         return
     end
+
+    self:UI_SCALE_CHANGED()
 
     if not self.layout then
         -- throw missing layout
