@@ -21,9 +21,8 @@ local UnitExists,UnitIsUnit = UnitExists,UnitIsUnit
 local kff,kffr = kui.frameFade, kui.frameFadeRemoveFrame
 
 local UpdateFrame = CreateFrame('Frame')
-local delayed_frames = {}
+local fade_rules,delayed_frames = {},{}
 local target_exists
-local fade_rules
 
 -- local functions #############################################################
 local function ResetFrameFade(frame)
@@ -86,6 +85,7 @@ end
 -- mod functions ###############################################################
 function mod:UpdateFrame(f)
     -- add frame to delayed update table
+    if not self.enabled then return end
     delayed_frames[f] = true
     UpdateFrame:SetScript('OnUpdate',OnUpdate)
 end
@@ -112,10 +112,7 @@ function mod:ResetFadeRules()
     mod:RunCallback('FadeRulesReset')
 end
 function mod:AddFadeRule(func,priority,uid)
-    if not self.enabled then
-        addon:print('AddFadeRule: module is disabled')
-        return
-    end
+    if not self.enabled then return end
     if type(func) ~= 'function' or not tonumber(priority) then
         error('AddFadeRule expects function(function),priority(number)')
     end
@@ -186,6 +183,16 @@ function mod:OnEnable()
     self:RegisterMessage('Hide')
 
     self:ResetFadeRules()
+    self:UpdateAllFrames()
+end
+function mod:OnDisable()
+    wipe(delayed_frames)
+    wipe(fade_rules)
+    UpdateFrame:SetScript('OnUpdate',nil)
+
+    for k,f in addon:Frames() do
+        f:SetAlpha(1)
+    end
 end
 function mod:Initialise()
     self:RegisterCallback('FadeRulesReset')
