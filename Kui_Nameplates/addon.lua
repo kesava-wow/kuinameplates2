@@ -34,10 +34,6 @@ addon.DEBUG_IGNORE = {
     ['c:Auras:PostUpdateAuraFrame'] = true,
 }
 
--- updated by UI_SCALE_CHANGED:
-addon.uiscale = .71
--- container frame size (i.e. don't change them):
-addon.width,addon.height = 140,40
 -- can be changed during run time:
 addon.IGNORE_UISCALE = nil
 -- should be set in layout initialise, if desired:
