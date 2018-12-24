@@ -766,39 +766,66 @@ function cvars:Initialise()
     local enable = self:CreateCheckBox('cvar_enable')
     -- nameplateShowFriendlyNPCs
     local sfn = self:CreateCheckBox('cvar_show_friendly_npcs')
+    sfn.enabled = function(p) return p.cvar_enable end
     -- nameplateShowOnlyNames
     local no = self:CreateCheckBox('cvar_name_only')
+    no.enabled  = sfn.enabled
     -- nameplate{Min,Max}Scale
     local ds = self:CreateCheckBox('cvar_disable_scale')
+    ds.enabled  = sfn.enabled
     -- nameplatePersonalShowAlways
     local psa = self:CreateCheckBox('cvar_personal_show_always')
+    psa.enabled = sfn.enabled
     -- nameplatePersonalShowInCombat
     local psc = self:CreateCheckBox('cvar_personal_show_combat')
+    psc.enabled = sfn.enabled
     -- nameplatePersonalShowWithTarget
     local pst = self:CreateCheckBox('cvar_personal_show_target')
+    pst.enabled = sfn.enabled
     -- nameplateMaxDistance
     local md = self:CreateSlider('cvar_max_distance',5,100)
     md:SetValueStep(5)
+    md.enabled  = sfn.enabled
     -- nameplate{Other,Large}TopInset
     local ct = self:CreateSlider('cvar_clamp_top',-.1,.5)
     ct:SetValueStep(.01)
+    ct.enabled  = sfn.enabled
     -- nameplate{Other,Large}BottomInset
     local cb = self:CreateSlider('cvar_clamp_bottom',-.1,.5)
     cb:SetValueStep(.01)
+    cb.enabled  = sfn.enabled
+    -- nameplateSelfTopInset
+    local self_clamp_top = self:CreateSlider('cvar_self_clamp_top',-.1,.5)
+    self_clamp_top:SetValueStep(.01)
+    self_clamp_top.enabled = sfn.enabled
+    -- nameplateSelfBottomInset
+    local self_clamp_bottom = self:CreateSlider('cvar_self_clamp_bottom',-.1,.5)
+    self_clamp_bottom:SetValueStep(.01)
+    self_clamp_bottom.enabled = sfn.enabled
     -- nameplateOverlapV
     local ov = self:CreateSlider('cvar_overlap_v',0,5)
     ov:SetValueStep(.1)
-
-    sfn.enabled = function(p) return p.cvar_enable end
-    no.enabled  = sfn.enabled
-    ds.enabled  = sfn.enabled
-    psa.enabled = sfn.enabled
-    psc.enabled = sfn.enabled
-    pst.enabled = sfn.enabled
-    md.enabled  = sfn.enabled
-    ct.enabled  = sfn.enabled
-    cb.enabled  = sfn.enabled
     ov.enabled  = sfn.enabled
+    -- nameplateMinAlpha
+    local min_alpha = self:CreateSlider('cvar_min_alpha',0,1)
+    min_alpha:SetWidth(90)
+    min_alpha:SetValueStep(.05)
+    min_alpha.enabled = sfn.enabled
+    -- nameplateMaxAlpha
+    local max_alpha = self:CreateSlider('cvar_max_alpha',0,1)
+    max_alpha:SetWidth(90)
+    max_alpha:SetValueStep(.05)
+    max_alpha.enabled = sfn.enabled
+    -- nameplateSelectedAlpha
+    local target_alpha = self:CreateSlider('cvar_target_alpha',0,1)
+    target_alpha:SetWidth(90)
+    target_alpha:SetValueStep(.05)
+    target_alpha.enabled = sfn.enabled
+    -- nameplateSelfAlpha
+    local self_alpha = self:CreateSlider('cvar_self_alpha',0,1)
+    self_alpha:SetWidth(90)
+    self_alpha:SetValueStep(.05)
+    self_alpha.enabled = sfn.enabled
 
     enable:SetPoint('TOPLEFT',10,-10)
 
@@ -814,4 +841,12 @@ function cvars:Initialise()
     ov:SetPoint('LEFT',md,'RIGHT',20,0)
     ct:SetPoint('TOPLEFT',10,-295)
     cb:SetPoint('LEFT',ct,'RIGHT',20,0)
+
+    self_clamp_top:SetPoint('TOPLEFT',10,-345)
+    self_clamp_bottom:SetPoint('LEFT',self_clamp_top,'RIGHT',20,0)
+
+    min_alpha:SetPoint('TOPLEFT',10,-405)
+    max_alpha:SetPoint('LEFT',min_alpha,'RIGHT',14,0)
+    target_alpha:SetPoint('LEFT',max_alpha,'RIGHT',14,0)
+    self_alpha:SetPoint('LEFT',target_alpha,'RIGHT',14,0)
 end
