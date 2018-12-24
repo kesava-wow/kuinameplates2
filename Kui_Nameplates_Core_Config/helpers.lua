@@ -248,12 +248,12 @@ do
     local function SliderOnDisable(self)
         self.display:Disable()
         self.display:SetFontObject('GameFontDisableSmall')
-        self.label:SetFontObject('GameFontDisable')
+        self.label:SetFontObject(self.small and 'GameFontDisableSmall' or 'GameFontDisable')
     end
     local function SliderOnEnable(self)
         self.display:Enable()
         self.display:SetFontObject('GameFontHighlightSmall')
-        self.label:SetFontObject('GameFontNormal')
+        self.label:SetFontObject(self.small and 'GameFontNormalSmall' or 'GameFontNormal')
     end
 
     local function EditBox_OnFocusGained(self)
@@ -283,7 +283,7 @@ do
         self:SetFocus()
     end
 
-    function opt.CreateSlider(parent, name, min, max)
+    function opt.CreateSlider(parent, name, min, max, small)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
         slider:SetWidth(190)
         slider:SetHeight(15)
@@ -292,7 +292,9 @@ do
         slider:SetObeyStepOnDrag(true)
         slider:EnableMouseWheel(true)
 
-        local label = slider:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
+        local label = slider:CreateFontString(
+            slider:GetName()..'Label','ARTWORK',
+            (small and 'GameFontNormalSmall' or 'GameFontNormal'))
         label:SetText(L.titles[name] or name or 'Slider')
         label:SetPoint('BOTTOM',slider,'TOP')
 
@@ -321,6 +323,7 @@ do
         slider.env = name
         slider.label = label
         slider.display = display
+        slider.small = small
 
         slider:HookScript('OnEnter',OnEnter)
         slider:HookScript('OnLeave',OnLeave)
