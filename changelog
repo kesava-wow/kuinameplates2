@@ -1,5 +1,11 @@
 BETA NOTES
 
+* nameplates are now attached directly to the vanilla nameplate frame;
+- the fading element is disabled, so fade rules won't work
+- fading and scaling behiour can be changed in the cvars config page
+* add options for nameplate alpha cvars
+* add options for personal nameplate clamping cvars
+
 * hold alt to adjust sliders with the mousewheel
 * add option to disable mouseover highlight
 * add option mouseover_highlight_opacity (not exposed in ui)
