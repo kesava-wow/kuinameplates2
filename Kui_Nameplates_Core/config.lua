@@ -231,10 +231,16 @@ local default_config = {
     cvar_max_distance = GetCVarDefault('nameplateMaxDistance'),
     cvar_clamp_top = GetCVarDefault('nameplateOtherTopInset'),
     cvar_clamp_bottom = GetCVarDefault('nameplateOtherBottomInset'),
+    cvar_self_clamp_top = GetCVarDefault('nameplateSelfTopInset'),
+    cvar_self_clamp_bottom = GetCVarDefault('nameplateSelfBottomInset'),
     cvar_overlap_v = GetCVarDefault('nameplateOverlapV'),
     cvar_disable_scale = true,
+    cvar_min_alpha = .5,
+    cvar_max_alpha = .8,
+    cvar_target_alpha = 1,
+    cvar_self_alpha = .8,
 
-    -- point+offset variables (which will be separated at some point)
+    -- point+offset variables
     auras_cd_point_x = 1,
     auras_cd_point_y = 1,
     auras_cd_offset_x = -4,
@@ -681,7 +687,14 @@ local function UpdateCVars()
     SetCVar('nameplateLargeTopInset',core.profile.cvar_clamp_top)
     SetCVar('nameplateOtherBottomInset',core.profile.cvar_clamp_bottom)
     SetCVar('nameplateLargeBottomInset',core.profile.cvar_clamp_bottom)
+    SetCVar('nameplateSelfTopInset',core.profile.cvar_self_clamp_top)
+    SetCVar('nameplateSelfBottomInset',core.profile.cvar_self_clamp_bottom)
     SetCVar('nameplateOverlapV',core.profile.cvar_overlap_v)
+
+    SetCVar('nameplateMinAlpha',core.profile.cvar_min_alpha)
+    SetCVar('nameplateMaxAlpha',core.profile.cvar_max_alpha)
+    SetCVar('nameplateSelectedAlpha',core.profile.cvar_target_alpha)
+    SetCVar('nameplateSelfAlpha',core.profile.cvar_self_alpha)
 
     if core.profile.cvar_disable_scale then
         SetCVar('nameplateMinScale',1)
@@ -714,8 +727,14 @@ configChanged.cvar_personal_show_target = configChangedCVar
 configChanged.cvar_max_distance = configChangedCVar
 configChanged.cvar_clamp_top = configChangedCVar
 configChanged.cvar_clamp_bottom = configChangedCVar
+configChanged.cvar_self_clamp_top = configChangedCVar
+configChanged.cvar_self_clamp_bottom = configChangedCVar
 configChanged.cvar_overlap_v = configChangedCVar
 configChanged.cvar_disable_scale = configChangedCVar
+configChanged.cvar_min_alpha = configChangedCVar
+configChanged.cvar_max_alpha = configChangedCVar
+configChanged.cvar_target_alpha = configChangedCVar
+configChanged.cvar_self_alpha = configChangedCVar
 
 function configChanged.global_scale(v)
     configChanged.frame_glow_size(core.profile.frame_glow_size)
