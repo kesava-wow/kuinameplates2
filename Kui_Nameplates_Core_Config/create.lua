@@ -806,47 +806,39 @@ function cvars:Initialise()
     local ov = self:CreateSlider('cvar_overlap_v',0,5)
     ov:SetValueStep(.1)
     ov.enabled  = sfn.enabled
-    -- nameplateMinAlpha
-    local min_alpha = self:CreateSlider('cvar_min_alpha',0,1)
-    min_alpha:SetWidth(90)
-    min_alpha:SetValueStep(.05)
-    min_alpha.enabled = sfn.enabled
-    -- nameplateMaxAlpha
-    local max_alpha = self:CreateSlider('cvar_max_alpha',0,1)
-    max_alpha:SetWidth(90)
-    max_alpha:SetValueStep(.05)
-    max_alpha.enabled = sfn.enabled
-    -- nameplateSelectedAlpha
-    local target_alpha = self:CreateSlider('cvar_target_alpha',0,1)
-    target_alpha:SetWidth(90)
-    target_alpha:SetValueStep(.05)
-    target_alpha.enabled = sfn.enabled
+    -- nameplate{Min,Max,Selected}Alpha
+    local disable_alpha = self:CreateCheckBox('cvar_disable_alpha')
+    disable_alpha.enabled = sfn.enabled
     -- nameplateSelfAlpha
     local self_alpha = self:CreateSlider('cvar_self_alpha',0,1)
-    self_alpha:SetWidth(90)
+    self_alpha:SetWidth(120)
     self_alpha:SetValueStep(.05)
     self_alpha.enabled = sfn.enabled
+    -- nameplateOccludedAlphaMult
+    local occluded_mult = self:CreateSlider('cvar_occluded_mult',0,1)
+    occluded_mult:SetWidth(120)
+    occluded_mult:SetValueStep(.05)
+    occluded_mult.enabled = sfn.enabled
 
     enable:SetPoint('TOPLEFT',10,-10)
 
     sfn:SetPoint('TOPLEFT',enable,'BOTTOMLEFT',0,-10)
     no:SetPoint('TOPLEFT',sfn,'BOTTOMLEFT')
     ds:SetPoint('TOPLEFT',no,'BOTTOMLEFT')
+    disable_alpha:SetPoint('TOPLEFT',ds,'BOTTOMLEFT')
 
-    psa:SetPoint('TOPLEFT',ds,'BOTTOMLEFT',0,-10)
+    self_alpha:SetPoint('TOPLEFT',83,-170)
+    occluded_mult:SetPoint('LEFT',self_alpha,'RIGHT',14,0)
+
+    psa:SetPoint('TOPLEFT',disable_alpha,'BOTTOMLEFT',0,-60)
     psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
     pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
 
-    md:SetPoint('TOPLEFT',10,-245)
+    md:SetPoint('TOPLEFT',10,-315)
     ov:SetPoint('LEFT',md,'RIGHT',20,0)
-    ct:SetPoint('TOPLEFT',10,-295)
-    cb:SetPoint('LEFT',ct,'RIGHT',20,0)
+    ct:SetPoint('TOPLEFT',md,'BOTTOMLEFT',0,-35)
+    cb:SetPoint('TOPLEFT',ov,'BOTTOMLEFT',0,-35)
+    self_clamp_top:SetPoint('TOPLEFT',ct,'BOTTOMLEFT',0,-35)
+    self_clamp_bottom:SetPoint('TOPLEFT',cb,'BOTTOMLEFT',0,-35)
 
-    self_clamp_top:SetPoint('TOPLEFT',10,-345)
-    self_clamp_bottom:SetPoint('LEFT',self_clamp_top,'RIGHT',20,0)
-
-    min_alpha:SetPoint('TOPLEFT',10,-405)
-    max_alpha:SetPoint('LEFT',min_alpha,'RIGHT',14,0)
-    target_alpha:SetPoint('LEFT',max_alpha,'RIGHT',14,0)
-    self_alpha:SetPoint('LEFT',target_alpha,'RIGHT',14,0)
 end
