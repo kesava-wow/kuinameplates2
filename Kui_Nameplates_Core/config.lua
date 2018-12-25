@@ -242,12 +242,12 @@ local default_config = {
     -- point+offset variables
     auras_cd_point_x = 1,
     auras_cd_point_y = 1,
-    auras_cd_offset_x = -4,
-    auras_cd_offset_y = 3,
+    auras_cd_offset_x = -4.5,
+    auras_cd_offset_y = 3.5,
     auras_count_point_x = 3,
     auras_count_point_y = 3,
-    auras_count_offset_x = 5,
-    auras_count_offset_y = -2,
+    auras_count_offset_x = 5.5,
+    auras_count_offset_y = -2.5,
 }
 -- local functions #############################################################
 local function Scale(v)
