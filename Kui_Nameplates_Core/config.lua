@@ -237,6 +237,7 @@ local default_config = {
     cvar_disable_scale = true,
     cvar_disable_alpha = true,
     cvar_self_alpha = 1,
+    cvar_occluded_mult = GetCVarDefault('nameplateOccludedAlphaMult'),
 
     -- point+offset variables
     auras_cd_point_x = 1,
@@ -689,9 +690,7 @@ local function UpdateCVars()
     SetCVar('nameplateSelfBottomInset',core.profile.cvar_self_clamp_bottom)
     SetCVar('nameplateOverlapV',core.profile.cvar_overlap_v)
 
-    SetCVar('nameplateMinAlpha',core.profile.cvar_min_alpha)
-    SetCVar('nameplateMaxAlpha',core.profile.cvar_max_alpha)
-    SetCVar('nameplateSelectedAlpha',core.profile.cvar_target_alpha)
+    SetCVar('nameplateOccludedAlphaMult',core.profile.cvar_occluded_mult)
     SetCVar('nameplateSelfAlpha',core.profile.cvar_self_alpha)
 
     if core.profile.cvar_disable_scale then
@@ -747,6 +746,7 @@ configChanged.cvar_overlap_v = configChangedCVar
 configChanged.cvar_disable_scale = configChangedCVar
 configChanged.cvar_disable_alpha = configChangedCVar
 configChanged.cvar_self_alpha = configChangedCVar
+configChanged.cvar_occluded_mult = configChangedCVar
 
 function configChanged.global_scale(v)
     configChanged.frame_glow_size(core.profile.frame_glow_size)
