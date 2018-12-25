@@ -1,5 +1,10 @@
 BETA NOTES
 
+* re-enable the fading element
+* add option to disable nameplate alpha cvars
+- cvar page must be enabled: /knp cvar
+* add slider for nameplate line-of-sight alpha multiplier
+
 * nameplates are now attached directly to the vanilla nameplate frame;
 - the fading element is disabled, so fade rules won't work
 - fading and scaling behiour can be changed in the cvars config page
