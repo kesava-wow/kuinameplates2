@@ -830,11 +830,11 @@ function cvars:Initialise()
     self_alpha:SetPoint('TOPLEFT',83,-170)
     occluded_mult:SetPoint('LEFT',self_alpha,'RIGHT',14,0)
 
-    psa:SetPoint('TOPLEFT',disable_alpha,'BOTTOMLEFT',0,-60)
+    psa:SetPoint('TOPLEFT',disable_alpha,'BOTTOMLEFT',0,-65)
     psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
     pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
 
-    md:SetPoint('TOPLEFT',10,-315)
+    md:SetPoint('TOPLEFT',10,-330)
     ov:SetPoint('LEFT',md,'RIGHT',20,0)
     ct:SetPoint('TOPLEFT',md,'BOTTOMLEFT',0,-35)
     cb:SetPoint('TOPLEFT',ov,'BOTTOMLEFT',0,-35)
