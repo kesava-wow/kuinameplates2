@@ -420,6 +420,10 @@ function core:CreateBackground(f)
     bg:SetVertexColor(0,0,0,.9)
     bg:SetAllPoints(f)
 
+    -- in UpdateFrameSize,
+    -- we override the frame position + size to use it as the background
+    f:ClearAllPoints()
+
     f.bg = bg
     f.UpdateFrameSize = UpdateFrameSize
 end
