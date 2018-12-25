@@ -1,7 +1,5 @@
 --[[
     Boss mod callback handlers
-    Please contact me on Curse or IRC (Kesava @ freenode, #wowace) if you want
-    me to add support for your messages.
 
     Expected order of calls:
 

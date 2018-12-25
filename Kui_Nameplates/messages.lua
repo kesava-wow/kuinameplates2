@@ -522,20 +522,22 @@ local function plugin_Disable(table)
     end
 end
 ------------------------------------------------------------ plugin registrar --
--- priority       = Any number. Defines the load order. Default of 5.
---                  Plugins with a higher priority are executed later.
--- max_minor      = Maximum NKP minor this plugin is known to support.
---                  Ignored if nil.
--- enable_on_load = Enable this plugin upon initialise.
---                  True if nil.
+-- priority         = Any number. Defines the load order. Default of 5.
+--                    Plugins with a higher priority are executed later.
+-- [max_minor]      = Maximum NKP minor this plugin is known to support.
+--                    Ignored if nil.
+-- [enable_on_load] = Enable this plugin upon initialise.
+--                    True if nil.
 function addon:NewPlugin(name,priority,max_minor,enable_on_load)
     if not name then
         error('Plugin with no name ignored')
         return
     end
 
-    if max_minor and self.MINOR > max_minor then
-        error('Out of date plugin `'..name..'` ignored')
+    if (name == 'BarAuras' and not max_minor) or -- XXX legacy
+       (max_minor and self.MINOR > max_minor)
+    then
+        error('Ignoring out of date plugin: `'..name..'`')
         return
     end
 

@@ -26,20 +26,43 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         SlashCmdList.KUINAMEPLATESCORE(left)
         msg = right
     end
-    if msg == 'debug' then
-        knp.debug = true
-        knp.debug_messages = not knp.debug_messages
-        knp.debug_events = knp.debug_messages
-        knp.debug_callbacks = knp.debug_messages
-        if knp.debug_messages and not knp.DEBUG_IGNORE then
-            knp.DEBUG_IGNORE = {
-                ['m:Create'] = true,
-                ['m:Show'] = true,
-                ['m:Hide'] = true,
-                ['e:UNIT_POWER_FREQUENT'] = true,
-                ['e:UNIT_HEALTH_FREQUENT'] = true,
-                ['c:Auras:DisplayAura'] = true,
-            }
+    if strfind(msg,'^debug') then
+        local arg1,argv = strmatch(msg,'^debug%s+(%a+)%s*(.*)%s*$')
+        if not arg1 then
+            knp.debug = true
+            knp.debug_messages = not knp.debug_messages
+            knp.debug_events = knp.debug_messages
+            knp.debug_callbacks = knp.debug_messages
+        elseif arg1 == 'frames' then
+            knp.draw_frames = not knp.draw_frames
+            if knp.draw_frames then
+                KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
+                KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
+                for k,f in knp:Frames() do
+                    f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
+                    f:SetBackdropBorderColor(1,1,1)
+                    f.parent:SetBackdrop({bgFile=kui.m.t.solid})
+                    f.parent:SetBackdropColor(0,0,0)
+                end
+            else
+                KuiNameplatesPlayerAnchor:SetBackdrop(nil)
+                for k,f in knp:Frames() do
+                    f:SetBackdrop(nil)
+                    f.parent:SetBackdrop(nil)
+                end
+            end
+        elseif arg1 == 'all' then
+            -- spam mode
+            knp.debug = true
+            knp.debug_messages = true
+            knp.debug_events = true
+            knp.debug_callbacks = true
+            if type(knp.DEBUG_IGNORE) == 'table' then
+                wipe(knp.DEBUG_IGNORE)
+            end
+        elseif knp.debug and argv and arg1 == 'ignore' then
+            knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
+            knp.DEBUG_IGNORE[argv] = not knp.DEBUG_IGNORE[argv]
         end
         return
     elseif knp.debug and strfind(msg,'^trace') then
@@ -61,30 +84,6 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             knp:print('Profiling '..(knp.profiling and 'started' or 'stopped'))
         end
         --@end-debug@
-        return
-    elseif msg == 'debug-frames' then
-        knp.draw_frames = not knp.draw_frames
-        if knp.draw_frames then
-            KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
-            KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
-            for k,f in knp:Frames() do
-                f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
-                f:SetBackdropBorderColor(1,1,1)
-                f.parent:SetBackdrop({bgFile=kui.m.t.solid})
-                f.parent:SetBackdropColor(0,0,0)
-            end
-        else
-            KuiNameplatesPlayerAnchor:SetBackdrop(nil)
-            for k,f in knp:Frames() do
-                f:SetBackdrop(nil)
-                f.parent:SetBackdrop(nil)
-            end
-        end
-        return
-    elseif knp.debug and strfind(msg,'^debug%-ignore') then
-        local to_ignore = strmatch(msg,'^debug%-ignore (.-)%s*$')
-        knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
-        knp.DEBUG_IGNORE[to_ignore] = not knp.DEBUG_IGNORE[to_ignore]
         return
     elseif strfind(msg,'^dump') then
         local d = kui:DebugPopup()
@@ -135,8 +134,9 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         local k,v = strmatch(msg,'^set (.-)%s+(.-)%s*$')
         if not k or not v then
             knp:ui_print('Set config key to value. Usage: /knp set config_key value')
-            print('    Boolean: true, false. Colours: r,g,b{,a} (0.0 - 1.0).')
-            print('    Enter nil for value to reset a key to default.')
+            print('    Boolean: true, false. Colours: r,g,b[,a] (0.0 - 1.0).')
+            print('    Enter "nil" for value to reset a key to default.')
+            print('    Example: /knp set frame_width 132')
             return
         end
 
@@ -194,7 +194,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     elseif msg and msg ~= '' then
         -- interpret msg as config page shortcut
         local L = opt:GetLocale()
-        msg = strlower(msg)
+        msg = gsub(strlower(msg),'^%s*>%s*','')
 
         local found
         for i,f in ipairs(opt.pages) do
@@ -228,10 +228,29 @@ end
 -- locale ######################################################################
 do
     local L = {}
+    local L_enGB = {}
     function opt:Locale(region)
         assert(type(region) == 'string')
-        if region == 'enGB' or region == GetLocale() then
+        if region == 'enGB' then
+            return L_enGB
+        elseif region == GetLocale() then
             return L
+        end
+    end
+    function opt:LocaleLoaded()
+        if type(L.page_names) ~= 'table' then
+            -- no other locale was loaded
+            L = L_enGB
+        else
+            -- mixin missing translations from enGB
+            for namespace,translations in pairs(L_enGB) do
+                for key,value in pairs(translations) do
+                    if not L[namespace][key] then
+                        L[namespace][key] = value
+                    end
+                end
+            end
+            L_enGB = nil
         end
     end
     function opt:GetLocale()

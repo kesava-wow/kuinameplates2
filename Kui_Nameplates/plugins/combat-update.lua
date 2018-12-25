@@ -1,5 +1,10 @@
--- provides f.state.combat, f.state.attackable
--- messages: FactionUpdate, Combat
+-- provides frame.state[...]: combat, attackable
+--   combat = unit is in combat
+--   attackable = unit can be attacked by player
+--
+-- messages: Combat, FactionUpdate
+--   Combat = combat state changed
+--   FactionUpdate = UNIT_FACTION event, or attackable state changed
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('CombatUpdate',0)
@@ -14,12 +19,12 @@ end
 local function Frame_UpdateAttackable(f)
     f.state.attackable = UnitCanAttack('player',f.unit)
 end
-local function Frame_Check(f)
+local function Frame_Check(f,faction_event)
     if f.state.combat ~= UnitAffectingCombat(f.unit) then
         Frame_UpdateCombat(f)
         addon:DispatchMessage('Combat',f)
     end
-    if f.state.attackable ~= UnitCanAttack('player',f.unit) then
+    if faction_event or f.state.attackable ~= UnitCanAttack('player',f.unit) then
         Frame_UpdateAttackable(f)
         addon:DispatchMessage('FactionUpdate',f)
     end
@@ -42,7 +47,7 @@ function mod:Show(f)
 end
 -- events ######################################################################
 function mod:Event(event,f)
-    Frame_Check(f)
+    Frame_Check(f,(event == 'UNIT_FACTION'))
 end
 -- register ####################################################################
 function mod:OnEnable()

@@ -42,6 +42,7 @@ function core:Show(f)
     -- state helpers
     f.state.friend = UnitIsFriend('player',f.unit)
     f.state.class = select(2,UnitClass(f.unit))
+    f.state.player = UnitIsPlayer(f.unit)
 
     -- go into nameonly mode if desired
     self:NameOnlyUpdate(f)
@@ -89,15 +90,14 @@ function core:HealthColourChange(f)
     f.state.friend = UnitIsFriend('player',f.unit)
 
     -- update nameonly upon faction changes
-    self:NameOnlyUpdate(f)
-    self:NameOnlyUpdateFunctions(f)
+    self:NameOnlyCombatUpdate(f)
 end
 function core:PowerTypeUpdate(f)
     f:UpdatePowerBar()
 end
 function core:GlowColourChange(f)
-    f:UpdateFrameGlow()
-    f:UpdateThreatBrackets()
+    -- update nameonly upon threat state changes
+    self:NameOnlyCombatUpdate(f)
 end
 function core:CastBarShow(f)
     f:ShowCastBar()
@@ -238,14 +238,122 @@ do
         InterfaceOptions_AddCategory(opt)
     end
 end
+-- fade rules ##################################################################
+do
+    local avoid_cast_friend,avoid_cast_hostile,
+          avoid_cast_interrupt,avoid_cast_uninterrupt,
+          friendly_npc_exclude_titled
+
+    -- table for simple rules where profile_key = {
+    --   function,
+    --   priority,
+    --   post-add function or nil
+    -- }
+    local fade_rules = {}
+    fade_rules.fade_all = function()
+        plugin_fading:RemoveFadeRule('no_target')
+    end
+    fade_rules.fade_avoid_mouseover = { function(f)
+        return f.state.highlight and 1
+    end, 1 }
+    fade_rules.fade_avoid_raidicon = { function(f)
+        return f.RaidIcon and f.RaidIcon:IsShown() and 1
+    end, 1, function() core:RegisterMessage('RaidIconUpdate') end }
+    fade_rules.fade_avoid_execute_friend = { function(f)
+        return f.state.friend and
+               f.state.in_execute_range and 1
+    end, 21, function() core:RegisterMessage('ExecuteUpdate') end }
+    fade_rules.fade_avoid_execute_hostile = { function(f)
+        return not f.state.friend and
+               f.state.in_execute_range and 1
+    end, 21, function() core:RegisterMessage('ExecuteUpdate') end }
+    fade_rules.fade_avoid_tracked = { function(f)
+        return f.state.tracked and 1
+    end, 22 }
+    fade_rules.fade_avoid_combat = { function(f)
+        return UnitAffectingCombat(f.unit) and 1
+    end, 23 }
+    fade_rules.fade_neutral_enemy = { function(f)
+        return f.state.reaction == 4 and
+               UnitCanAttack('player',f.unit) and -1
+    end, 25 }
+    fade_rules.fade_friendly_npc = { function(f)
+        if  f.state.reaction >= 4 and
+            not UnitIsPlayer(f.unit) and
+            -- (^ this can't use the layout's state helper)
+            not UnitCanAttack('player',f.unit)
+        then
+            return (not friendly_npc_exclude_titled or
+                    not f.state.guild_text) and -1
+        end
+    end, 25 }
+    fade_rules.fade_untracked = { function(f)
+        return not f.state.tracked and -1
+    end, 25 }
+    fade_rules.fade_avoid_nameonly = { function(f)
+        return f.IN_NAMEONLY and 1
+    end, 30 }
+
+    -- casting fade rule helpers
+    local function FadeRule_Casting_Interruptible(f)
+        if f.cast_state.interruptible then
+            return avoid_cast_interrupt and 1 or nil
+        else
+            return avoid_cast_uninterrupt and 1 or nil
+        end
+    end
+    local function FadeRule_Casting_CanAttack(f)
+        if UnitCanAttack('player',f.unit) then
+            return avoid_cast_hostile and FadeRule_Casting_Interruptible(f) or nil
+        else
+            return avoid_cast_friend and FadeRule_Casting_Interruptible(f) or nil
+        end
+    end
+
+    function core:InitialiseFadeRules()
+        self:UnregisterMessage('RaidIconUpdate')
+        self:UnregisterMessage('ExecuteUpdate')
+
+        friendly_npc_exclude_titled = self.profile.fade_friendly_npc_exclude_titled
+
+        if self.profile.fade_avoid_casting_interruptible or
+           self.profile.fade_avoid_casting_uninterruptible
+        then
+            avoid_cast_friend = self.profile.fade_avoid_casting_friendly
+            avoid_cast_hostile = self.profile.fade_avoid_casting_hostile
+            avoid_cast_interrupt = self.profile.fade_avoid_casting_interruptible
+            avoid_cast_uninterrupt = self.profile.fade_avoid_casting_uninterruptible
+            plugin_fading:AddFadeRule(function(f)
+                if f.state.casting then
+                    return FadeRule_Casting_CanAttack(f)
+                end
+            end,24,'core_fade_avoid_casting')
+        end
+
+        for rule_name,rule_tbl in pairs(fade_rules) do
+            if self.profile[rule_name] then
+                if type(rule_tbl) == 'function' then
+                    -- simple function
+                    rule_tbl()
+                else
+                    -- complete rule
+                    plugin_fading:AddFadeRule(
+                        rule_tbl[1],
+                        rule_tbl[2],
+                        'core_'..rule_name)
+
+                    if rule_tbl[3] then
+                        -- run post-add
+                        rule_tbl[3]()
+                    end
+                end
+            end
+        end
+    end
+end
 -- register ####################################################################
 function core:Initialise()
-    --@alpha@
-    addon:ui_print('You are using an alpha release;')
-    print('    Please report issues to www.github.com/kesava-wow/kuinameplates2')
-    print('    And include the output of: /knp dump')
-    print('    Thanks!')
-    --@end-alpha@
+    plugin_fading = addon:GetPlugin('Fading')
 
     self:InitialiseConfig()
 
@@ -282,6 +390,4 @@ function core:Initialise()
     self:InitialiseElements()
 
     CreateLODHandler()
-
-    plugin_fading = addon:GetPlugin('Fading')
 end

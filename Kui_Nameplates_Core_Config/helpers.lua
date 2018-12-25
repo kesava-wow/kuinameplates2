@@ -225,14 +225,20 @@ do
         self:Set()
     end
     local function SliderOnMouseWheel(self,delta)
-        if not self:IsEnabled() then return end
-        if delta > 0 then
-            delta = self:GetValueStep()
-        else
-            delta = -self:GetValueStep()
+        if self:IsEnabled() and IsAltKeyDown() then
+            self:SetValue(self:GetValue()+(self:GetValueStep()*delta))
+            self:Set()
+        elseif self:GetParent().scroll then
+            -- "passthrough" scroll to scrollframe
+            -- although there is probably a correct way of doing this
+            delta = self:GetParent().scroll:GetVerticalScroll() - (240 * delta)
+            if delta < 0 then
+                delta = 0
+            elseif delta > self:GetParent().scroll:GetVerticalScrollRange() then
+                delta = self:GetParent().scroll:GetVerticalScrollRange()
+            end
+            self:GetParent().scroll:SetVerticalScroll(delta)
         end
-        self:SetValue(self:GetValue()+delta)
-        self:Set()
     end
     local function SliderSetMinMaxValues(self,min,max)
         self:orig_SetMinMaxValues(min,max)
@@ -242,12 +248,12 @@ do
     local function SliderOnDisable(self)
         self.display:Disable()
         self.display:SetFontObject('GameFontDisableSmall')
-        self.label:SetFontObject('GameFontDisable')
+        self.label:SetFontObject(self.small and 'GameFontDisableSmall' or 'GameFontDisable')
     end
     local function SliderOnEnable(self)
         self.display:Enable()
         self.display:SetFontObject('GameFontHighlightSmall')
-        self.label:SetFontObject('GameFontNormal')
+        self.label:SetFontObject(self.small and 'GameFontNormalSmall' or 'GameFontNormal')
     end
 
     local function EditBox_OnFocusGained(self)
@@ -277,7 +283,7 @@ do
         self:SetFocus()
     end
 
-    function opt.CreateSlider(parent, name, min, max)
+    function opt.CreateSlider(parent, name, min, max, small)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
         slider:SetWidth(190)
         slider:SetHeight(15)
@@ -286,7 +292,9 @@ do
         slider:SetObeyStepOnDrag(true)
         slider:EnableMouseWheel(true)
 
-        local label = slider:CreateFontString(slider:GetName()..'Label','ARTWORK','GameFontNormal')
+        local label = slider:CreateFontString(
+            slider:GetName()..'Label','ARTWORK',
+            (small and 'GameFontNormalSmall' or 'GameFontNormal'))
         label:SetText(L.titles[name] or name or 'Slider')
         label:SetPoint('BOTTOM',slider,'TOP')
 
@@ -315,6 +323,7 @@ do
         slider.env = name
         slider.label = label
         slider.display = display
+        slider.small = small
 
         slider:HookScript('OnEnter',OnEnter)
         slider:HookScript('OnLeave',OnLeave)

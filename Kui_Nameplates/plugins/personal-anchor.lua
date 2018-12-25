@@ -1,19 +1,28 @@
 -- provides the KuiNameplatesPlayerAnchor frame on the personal nameplate.
 local mod = KuiNameplates:NewPlugin('PlayerAnchor')
-
 local anchor
+-- local functions #############################################################
+local function Reset()
+    -- reset anchor position & parent
+    anchor:ClearAllPoints()
+    anchor:SetParent(UIParent)
+    anchor:Hide()
+
+    -- set a default point
+    anchor:SetPoint('CENTER',UIParent)
+    anchor:SetSize(1,1)
+end
 -- messages ####################################################################
 function mod:Show(f)
     if f.state.personal then
-        anchor:SetParent(f)
-        anchor:SetAllPoints(f)
+        anchor:SetParent(f.parent)
+        anchor:SetAllPoints(f.parent)
         anchor:Show()
     end
 end
 function mod:Hide(f)
     if f.state.personal then
-        anchor:ClearAllPoints()
-        anchor:Hide()
+        Reset()
     end
 end
 -- register ####################################################################
@@ -21,10 +30,7 @@ function mod:OnEnable()
     if not anchor then
         anchor = CreateFrame('Frame','KuiNameplatesPlayerAnchor')
         anchor:Hide()
-
-        -- TMW needs the parent to have a point set initially
-        anchor:SetSize(1,1)
-        anchor:SetPoint('CENTER',UIParent)
+        Reset()
 
         if KuiNameplates.draw_frames then
             anchor:SetBackdrop({

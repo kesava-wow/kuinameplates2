@@ -6,10 +6,6 @@ L["page_names"] = {
 	["bossmod"] = "우두머리 모듈",
 	["castbars"] = "시전 바",
 	["classpowers"] = "직업 자원",
---[[Translation missing --]]
-	["cvars"] = "CVars",
---[[Translation missing --]]
-	["fade_rules"] = "Fade rules",
 	["framesizes"] = "프레임 크기",
 	["general"] = "일반",
 	["healthbars"] = "생명력 바",
@@ -22,12 +18,6 @@ L["titles"] = {
 	["absorb_enable"] = "흡수 표시",
 	["absorb_striped"] = "줄무늬 흡수 텍스쳐",
 	["auras_centre"] = "아이콘 가운데 정렬",
---[[Translation missing --]]
-	["auras_colour_long"] = "Long timer",
---[[Translation missing --]]
-	["auras_colour_medium"] = "Medium timer",
---[[Translation missing --]]
-	["auras_colour_short"] = "Short timer",
 	["auras_enabled"] = "효과 표시",
 	["auras_filtering_sep"] = "필터링",
 	["auras_hide_all_other"] = "다른 모든 효과 차단",
@@ -36,19 +26,9 @@ L["titles"] = {
 	["auras_icon_squareness"] = "아이콘 네모꼴",
 	["auras_icons_sep"] = "아이콘",
 	["auras_kslc_hint"] = "Curse의 KuiSpellListConfig는 시전자와 관계없이 효과를 허용하거나 차단할 수 있습니다.",
---[[Translation missing --]]
-	["auras_offset"] = "Vertical offset",
 	["auras_on_personal"] = "개인 프레임에 표시",
 	["auras_pulsate"] = "아이콘 진동",
---[[Translation missing --]]
-	["auras_purge_opposite"] = "Purge on opposite",
---[[Translation missing --]]
-	["auras_purge_size"] = "Icon size (purge)",
 	["auras_show_all_self"] = "나의 모든 효과 허용",
---[[Translation missing --]]
-	["auras_show_purge"] = "Show purge",
---[[Translation missing --]]
-	["auras_side"] = "Side",
 	["auras_sort"] = "정렬 방법",
 	["auras_time_threshold"] = "타이머 임계값",
 	["bar_animation"] = "바 애니메이션",
@@ -60,17 +40,11 @@ L["titles"] = {
 	["bossmod_x_offset"] = "수평 위치",
 	["bossmod_y_offset"] = "수직 위치",
 	["bot_vertical_offset"] = "레벨/생명력 수직 위치",
---[[Translation missing --]]
-	["castbar_animate"] = "Animate",
---[[Translation missing --]]
-	["castbar_animate_change_colour"] = "Change colour",
 	["castbar_colour"] = "시전 바 색상",
 	["castbar_enable"] = "활성화",
 	["castbar_height"] = "시전 바 높이",
 	["castbar_icon"] = "주문 아이콘 표시",
 	["castbar_name"] = "주문 이름 표시",
---[[Translation missing --]]
-	["castbar_name_vertical_offset"] = "Spell name v.offset",
 	["castbar_shield"] = "방해 불가 방패 표시",
 	["castbar_showall"] = "모든 이름표에 시전 바 표시",
 	["castbar_showenemy"] = "적 시전 바 표시",
@@ -108,28 +82,6 @@ L["titles"] = {
 	["combat_hostile"] = "전투 행동: 적대적",
 	["copy_profile_label"] = "새로운 프로필의 이름을 입력하세요",
 	["copy_profile_title"] = "프로필 복사",
---[[Translation missing --]]
-	["cvar_clamp_bottom"] = "Bottom clamp distance",
---[[Translation missing --]]
-	["cvar_clamp_top"] = "Top clamp distance",
---[[Translation missing --]]
-	["cvar_disable_scale"] = "Disable default scaling",
---[[Translation missing --]]
-	["cvar_enable"] = "Allow Kui Nameplates to modify CVars",
---[[Translation missing --]]
-	["cvar_max_distance"] = "Max render distance",
---[[Translation missing --]]
-	["cvar_name_only"] = "Hide default health bar",
---[[Translation missing --]]
-	["cvar_overlap_v"] = "Vertical overlap",
---[[Translation missing --]]
-	["cvar_personal_show_always"] = "Always show personal nameplate",
---[[Translation missing --]]
-	["cvar_personal_show_combat"] = "Show personal nameplate when in combat",
---[[Translation missing --]]
-	["cvar_personal_show_target"] = "Show personal nameplate with a target",
---[[Translation missing --]]
-	["cvar_show_friendly_npcs"] = "Always show friendly NPCs' nameplates",
 	["dd_auras_sort_index"] = "효과 순번",
 	["dd_auras_sort_time"] = "남은 시간",
 	["dd_bar_animation_cutaway"] = "전환",
@@ -144,10 +96,6 @@ L["titles"] = {
 	["dd_font_style_shadowandoutline"] = "그림자+외곽선",
 	["dd_health_text_blank"] = "빈 칸",
 	["dd_health_text_current"] = "현재",
---[[Translation missing --]]
-	["dd_health_text_current_deficit"] = "Current + deficit",
---[[Translation missing --]]
-	["dd_health_text_current_percent"] = "Current + percent",
 	["dd_health_text_deficit"] = "결손치",
 	["dd_health_text_maximum"] = "최대",
 	["dd_health_text_percent"] = "백분율",
@@ -159,31 +107,13 @@ L["titles"] = {
 	["execute_percent"] = "마무리 일격 범위",
 	["execute_sep"] = "마무리 일격 범위",
 	["fade_all"] = "기본으로 페이드",
---[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Casting (friendly)",
---[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Casting (hostile)",
---[[Translation missing --]]
-	["fade_avoid_casting_interruptible"] = "Interruptible",
---[[Translation missing --]]
-	["fade_avoid_casting_uninterruptible"] = "Uninterruptible",
---[[Translation missing --]]
-	["fade_avoid_combat"] = "In combat",
 	["fade_avoid_execute_friend"] = "낮은 생명력 아군 제외",
 	["fade_avoid_execute_hostile"] = "낮은 생명력 적 제외",
---[[Translation missing --]]
-	["fade_avoid_mouseover"] = "Mouseover",
 	["fade_avoid_nameonly"] = "이름만 표시 제외",
 	["fade_avoid_raidicon"] = "공격대 아이콘 제외",
---[[Translation missing --]]
-	["fade_avoid_sep"] = "Don't fade...",
 	["fade_avoid_tracked"] = "추적 중 또는 전투 중 제외",
---[[Translation missing --]]
-	["fade_conditional_alpha"] = "Conditional alpha",
 	["fade_friendly_npc"] = "우호적 NPC 페이드",
 	["fade_neutral_enemy"] = "중립 적 페이드",
---[[Translation missing --]]
-	["fade_non_target_alpha"] = "Non-target alpha",
 	["fade_speed"] = "페이드 애니메이션 속도",
 	["fade_untracked"] = "추적하지 않은 유닛 페이드",
 	["font_face"] = "글꼴",
@@ -198,12 +128,6 @@ L["titles"] = {
 	["frame_width"] = "프레임 너비",
 	["frame_width_minus"] = "하급 프레임 너비",
 	["frame_width_personal"] = "개인 프레임 너비",
---[[Translation missing --]]
-	["framesizes_element_sep"] = "Elements",
---[[Translation missing --]]
-	["framesizes_scale_sep"] = "Scale",
---[[Translation missing --]]
-	["global_scale"] = "Global scale",
 	["glow_as_shadow"] = "프레임 그림자 표시",
 	["guild_text_npcs"] = "NPC 칭호 표시",
 	["guild_text_players"] = "플레이어 길드 표시",
@@ -214,26 +138,7 @@ L["titles"] = {
 	["health_text_hostile_max"] = "최대 생명력 적대적",
 	["health_text_sep"] = "생명력 문자",
 	["hide_names"] = "추적하지 않은 이름 숨기기",
-	["ignore_uiscale"] = "UI 크기 비율 무시",
 	["level_text"] = "레벨 문자 표시",
---[[Translation missing --]]
-	["mouseover_glow"] = "Mouseover glow",
---[[Translation missing --]]
-	["mouseover_glow_colour"] = "Mouseover glow colour",
---[[Translation missing --]]
-	["name_colour_npc_friendly"] = "Friendly",
---[[Translation missing --]]
-	["name_colour_npc_hostile"] = "Hostile",
---[[Translation missing --]]
-	["name_colour_npc_neutral"] = "Neutral",
---[[Translation missing --]]
-	["name_colour_player_friendly"] = "Friendly player",
---[[Translation missing --]]
-	["name_colour_player_hostile"] = "Hostile player",
---[[Translation missing --]]
-	["name_colour_sep"] = "Name text colour",
---[[Translation missing --]]
-	["name_colour_white_in_bar_mode"] = "White names with visible health bar",
 	["name_text"] = "이름 문자 표시",
 	["name_vertical_offset"] = "이름 수직 위치",
 	["nameonly"] = "이름만 표시 모드 사용",
@@ -241,14 +146,9 @@ L["titles"] = {
 	["nameonly_damaged_friends"] = "피해입은 아군",
 	["nameonly_enemies"] = "공격할 수 없는 적",
 	["nameonly_health_colour"] = "생명력 색상",
-	["nameonly_in_combat"] = "당신과 전투 중인 유닛",
 	["nameonly_neutral"] = "중립 적",
 	["nameonly_no_font_style"] = "문자 외곽선 없음",
 	["nameonly_target"] = "대상",
---[[Translation missing --]]
-	["nameonly_text_sep"] = "Text",
---[[Translation missing --]]
-	["nameonly_visibility_sep"] = "Visibility",
 	["new_profile"] = "새로운 프로필...",
 	["new_profile_label"] = "프로필 이름 입력",
 	["powerbar_height"] = "자원 바 높이",
@@ -290,8 +190,6 @@ L["tooltips"] = {
 	["auras_pulsate"] = "만료될 때 아이콘을 진동시킵니다",
 	["auras_show_all_self"] = [=[블리자드에서 중요하다고 표시한 것보다 당신이 시전한 모든 효과를 표시합니다.|n|n이 옵션은 KuiSpellList 필터보다 늦게 적용됩니다, 따라서 표시할 주문을 변경하는 데  |cffffff88Curse의
  KuiSpellListConfig|r를 계속 사용할 수 있습니다.]=],
---[[Translation missing --]]
-	["auras_show_purge"] = "Show buffs on enemies which you can spell steal, dispel, or purge",
 	["auras_time_threshold"] = "효과의 남은 시간이 이 값 이하일 때 초읽기 문자를 표시합니다. 타이머를 항상 표시하려면 -1로 설정하세요",
 	["bar_animation"] = "생명력/자원 바에 사용할 애니메이션 스타일입니다",
 	["bar_texture"] = "상태 바에 사용할 텍스쳐입니다 (LibSharedMedia에서 제공)",
@@ -301,16 +199,7 @@ L["tooltips"] = {
 	["bossmod_icon_size"] = "우두머리 효과 아이콘의 크기",
 	["bossmod_x_offset"] = "우두머리 효과 아이콘의 수평 위치",
 	["bossmod_y_offset"] = "우두머리 효과 아이콘의 수직 위치",
-	["bot_vertical_offset"] = "레벨과 생명력 문자열의 수직 위치",
---[[Translation missing --]]
-	["castbar_animate"] = "Fade out the cast bar when a cast ends.",
---[[Translation missing --]]
-	["castbar_animate_change_colour"] = "Change the colour of the cast bar when a cast ends, making it easier to tell the difference between successful, stopped, and interrupted casts.",
---[[Translation missing --]]
-	["castbar_colour"] = "Colour of the cast bar.|n|nAlso used to indicate a successful cast if animation is enabled.",
 	["castbar_enable"] = "시전바 요소를 활성화합니다",
---[[Translation missing --]]
-	["castbar_name_vertical_offset"] = "Vertical offset of the spell name text",
 	["castbar_shield"] = "방해할 수 없는 주문을 시전 중일 때 시전바위에 방패 아이콘을 표시합니다",
 	["castbar_showall"] = "현재 대상이 아닌 모든 이름표에 시전바를 표시합니다",
 	["castbar_showenemy"] = "적 이름표에 시전바를 표시합니다",
@@ -336,58 +225,21 @@ L["tooltips"] = {
 	["colour_self_class"] = "당신의 개인 이름표에 당신의 직업 색상을 사용합니다",
 	["combat_friendly"] = "전투가 시작하고 종료될 때 우호적 프레임에 취할 행동입니다.",
 	["combat_hostile"] = "전투가 시작하고 종료될 때 적대적 프레임에 취할 행동입니다.",
---[[Translation missing --]]
-	["cvar_clamp_bottom"] = "|cffffcc00nameplate{Other,Large}BottomInset|r",
---[[Translation missing --]]
-	["cvar_clamp_top"] = "|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.",
---[[Translation missing --]]
-	["cvar_disable_scale"] = "|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.",
---[[Translation missing --]]
-	["cvar_enable"] = "When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.",
---[[Translation missing --]]
-	["cvar_max_distance"] = "|cffffcc00nameplateMaxDistance|r|n|nMaximum distance at which to render nameplates (not including your current target).",
---[[Translation missing --]]
-	["cvar_name_only"] = "|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.",
---[[Translation missing --]]
-	["cvar_overlap_v"] = "|cffffcc00nameplateOverlapV|r|n|nVertical distance between nameplates (only valid when motion type is set to stacking in the default interface options).",
---[[Translation missing --]]
-	["cvar_personal_show_always"] = "|cffffcc00nameplatePersonalShowAlways|r",
---[[Translation missing --]]
-	["cvar_personal_show_combat"] = "|cffffcc00nameplatePersonalShowInCombat|r",
---[[Translation missing --]]
-	["cvar_personal_show_target"] = "|cffffcc00nameplatePersonalShowWithTarget|r|n|nShow the personal nameplate whenever you have an attackable target.",
---[[Translation missing --]]
-	["cvar_show_friendly_npcs"] = "|cffffcc00nameplateShowFriendlyNPCs|r",
 	["execute_auto"] = "당신의 특성으로부터 적절한 마무리 일격 범위를 자동으로 감지합니다, 마무리 일격이 없는 캐릭터의 경우 기본값은 20%입니다",
 	["execute_colour"] = "마무리 일격 범위 내에 사용할 색상",
 	["execute_enabled"] = "유닛이 마무리 일격 범위 내에 있을 때 생명력 바의 색상을 변경합니다",
 	["execute_percent"] = "마무리 일격 범위 직접 설정",
 	["fade_all"] = "페이드 인 대신 기본으로 모든 프레임을 패이드 아웃시킵니다",
---[[Translation missing --]]
-	["fade_avoid_casting_friendly"] = "Don't fade friendly nameplates when they are casting",
---[[Translation missing --]]
-	["fade_avoid_casting_hostile"] = "Don't fade hostile nameplates when they are casting",
---[[Translation missing --]]
-	["fade_avoid_combat"] = "Don't fade nameplates which are affecting combat with you",
 	["fade_avoid_execute_friend"] = "마무리 일격 범위에 있는 우호적 이름표 페이드하지 않기 (\"생명력 바\" 페이지에서 설정)",
 	["fade_avoid_execute_hostile"] = "마무리 일격 범위에 있는 적대적 이름표 페이드하지 않기 (\"생명력 바\" 페이지에서 설정)",
---[[Translation missing --]]
-	["fade_avoid_mouseover"] = "Fade in nameplates when your mouse is over them",
-	["fade_avoid_nameonly"] = "현재 이름만 표시 모드인 이름표 페이즈하지 않기",
-	["fade_avoid_raidicon"] = "공격대 아이콘이 표시된 이름표 페이즈하지 않기",
 	["fade_avoid_tracked"] = "추적된 이름표나 당신과 전투 중인 이름표는 페이드하지 않습니다.|n유닛의 추적 여부는 Esc > 인터페이스 설정 > 이름의 기본 인터페이스 옵션에 있는 \"NPC 이름 표시\" 드롭다운 메뉴나 다른 선택 상자를 변경하여 설정할 수 있습니다",
---[[Translation missing --]]
-	["fade_conditional_alpha"] = "Opacity frames will fade to when matching one of the conditions below",
 	["fade_friendly_npc"] = "기본으로 우호적 NPC 이름표를 페이드합니다 (이름만 표시 모드 포함)",
 	["fade_neutral_enemy"] = "기본으로 공격가능 한 중립 이름표를 페이드합니다 (이름만 표시 모드 포함)",
---[[Translation missing --]]
-	["fade_non_target_alpha"] = "Opacity other frames will fade to when you have a target.|nIf set to 0, the nameplate will still be clickable despite being invisible. Addons cannot arbitrarily disable nameplate clickboxes",
 	["fade_speed"] = "프레임 페이딩 애니메이션의 속도입니다, 1이 가장 느리며 0은 즉시 변경됩니다",
 	["fade_untracked"] = "기본으로 추적하지 않은 이름표를 페이드합니다 (이름만 표시 모드 포함).|n유닛의 추적 여부는 Esc > 인터페이스 설정 > 이름의 기본 인터페이스 옵션에 있는 \"NPC 이름 표시\" 드롭다운 메뉴나 다른 선택 상자를 변경하여 설정할 수 있습니다",
 	["font_face"] = "이름표의 모든 문자열에 사용할 글꼴입니다 (LibSharedMedia에서 제공)",
 	["font_size_normal"] = "표준 글꼴 크기 (이름 등)",
 	["font_size_small"] = "작은 글꼴 크기 (상인, 주문 이름 등)",
-	["frame_glow_size"] = "대상 강조와 위협 수준 지시에 사용할 프레임 불빛의 크기입니다",
 	["frame_glow_threat"] = "위협 수준 상태를 표시하는 프레임 불빛의 색상을 변경합니다",
 	["frame_height"] = "표준 이름표의 높이",
 	["frame_height_minus"] = "이름없는 프레임 (즉. \"중요하지 않은\" 유닛)과 \"하급\"으로 표시되는 몹에 사용할 이름표의 높이입니다",
@@ -395,26 +247,13 @@ L["tooltips"] = {
 	["frame_width"] = "표준 이름표의 너비",
 	["frame_width_minus"] = "\"하급\"으로 표시되는 몹에 사용할 이름표의 높이",
 	["frame_width_personal"] = "개인 이름표의 너비 (Esc > 인터페이스 설정 > 이름 > 개인 자원 표시에서 활성화)",
---[[Translation missing --]]
-	["global_scale"] = "Scale all nameplates by this amount (obeying the pixel grid)",
 	["guild_text_npcs"] = "병참장교같은 NPC 칭호 표시",
-	["guild_text_players"] = "이름만 표시 모드에서 플레이어에 길드 표시",
 	["health_text_friend_dmg"] = "피해입은 우호적 유닛에 사용할 생명력 문자 형식",
 	["health_text_friend_max"] = "생명력이 가득찬 우호적 유닛에 사용할 생명력 문자 형식",
 	["health_text_hostile_dmg"] = "피해입은 적대적 유닛에 사용할 생명력 문자 형식",
 	["health_text_hostile_max"] = "생명력이 가득찬 적대적 유닛에 사용할 생명력 문자 형식",
 	["hide_names"] = "유닛의 추적 여부는 Esc > 인터페이스 설정 > 이름의 기본 인터페이스 옵션에 있는 \"NPC 이름 표시\" 드롭다운 메뉴나 다른 선택 상자를 변경하여 설정할 수 있습니다.|n|n이름만 표시 모드에는 영향을 주지 않습니다.",
-	["ignore_uiscale"] = "기본 UI의 크기 비율을 무시합니다. 해상도에 상관없이 이름표가 픽셀-완전성을 유지할 수 있게 해줍니다.",
---[[Translation missing --]]
-	["name_colour_white_in_bar_mode"] = "Colour NPC's and player's names white (unless class colour is enabled).|n|nIf this is enabled, the colours below only apply to name-only mode.",
-	["name_vertical_offset"] = "이름 문자의 수직 위치",
-	["nameonly"] = "우호적이거나 공격할 수 없는 유닛의 생명력바를 숨깁니다. 이름만 표시 모드에서 이름 문자는 생명력의 백분율로 색상화됩니다",
-	["nameonly_all_enemies"] = "모든 적에 이름만 표시 모드를 사용합니다",
-	["nameonly_damaged_friends"] = "피해입은 아군 프레임에도 이름만 표시 모드를 사용합니다",
-	["nameonly_enemies"] = "공격할 수 없는 적에 이름만 표시 모드를 사용합니다 (얼음 방패같은 효과를 받고 있는 적 플레이어는 포함하지 않습니다)",
 	["nameonly_health_colour"] = "생명력 백분율을 나타내도록 문자를 부분적으로 색상화합니다",
-	["nameonly_in_combat"] = "유닛이 당신과 전투 중일 때도 이름만 표시 모드를 사용합니다 (이름만 표시 모드를 적 플레이어에도 활성화 합니다).|n|n훈련용 허수아비나 위협 수준을 가지지 않는 다른 유닛에 적용할 수 없습니다.",
-	["nameonly_neutral"] = "공격할 수 있는 중립 유닛에 이름만 표시 모드를 사용합니다",
 	["nameonly_no_font_style"] = "이름만 표시 모드일 때 문자 외곽선을 숨깁니다 (글꼴 스타일을 nil로 설정하여)",
 	["nameonly_target"] = "당신의 대상에도 이름만 표시 모드를 사용합니다",
 	["powerbar_height"] = "자원 바의 높이입니다. 프레임 높이를 넘어서 증가하지 않습니다",
@@ -428,6 +267,4 @@ L["tooltips"] = {
 	["target_arrows"] = "당신의 현재 대상 주위에 화살표를 표시합니다. 대상 불빛 색상을 사용합니다",
 	["text_vertical_offset"] = "수직 위치는 모든 문자열에 적용됩니다. 와우에서 수직 위치가 이상하게 표현되는 몇몇 글꼴에 사용합니다. 이 값은 프레임이 움직일 때 수직 지터링을 감소시키는데 도움이 되므로 기본적으로 .5로 끝납니다.",
 	["threat_brackets"] = "이름표 주위에 위협 수준 상태를 표시하는 삼각형을 표시합니다",
-	["title_text_players"] = "이름만 표시 모드에서 플레이어의 칭호를 표시합니다",
-	["use_blizzard_personal"] = "개인 이름표나 직업 자원에 스킨을 입히지 않습니다.|n|n이 옵션을 사용하면 개인 프레임의 너비는 \"프레임 크기\"에 있는 \"개인 프레임 너비\" 슬라이더로 계속 조절할 수 있지만, 효과를 적용하려면 UI를 다시 불러와야 합니다.|n|n이 프레임을 표시하려면, Esc > 인터페이스 설정 > 이름 > 개체 이름표에 있는 \"개인 자원 표시\" 옵션을 선택해야 합니다.|n수정되지 않은 직업 자원을 표시하기 위해선 같은 페이지에서 \"적 대상 이름표 위에 특수 자원 표시\" 옵션을 선택 해제하세요.|n|n|cffff6666프레임이 현재 표시되고 있으면 UI를 다시 불러와야 합니다.",
 }

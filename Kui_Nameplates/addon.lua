@@ -7,7 +7,7 @@
 --------------------------------------------------------------------------------
 KuiNameplates = CreateFrame('Frame')
 local addon = KuiNameplates
-addon.MAJOR,addon.MINOR = 2,3
+addon.MAJOR,addon.MINOR = 2,4
 
 --@debug@
 addon.debug = true
@@ -17,6 +17,7 @@ addon.debug = true
 --addon.debug_events = true
 --addon.debug_callbacks = true
 --addon.draw_frames = true
+--@end-debug@
 addon.DEBUG_IGNORE = {
     ['m:Create'] = true,
     ['m:Show'] = true,
@@ -32,15 +33,10 @@ addon.DEBUG_IGNORE = {
     ['c:Auras:PostDisplayAuraButton'] = true,
     ['c:Auras:PostUpdateAuraFrame'] = true,
 }
---@end-debug@
 
--- updated by UI_SCALE_CHANGED:
-addon.uiscale = .71
--- container frame size (i.e. don't change them):
-addon.width,addon.height = 140,40
 -- can be changed during run time:
 addon.IGNORE_UISCALE = nil
--- should be set before nameplates are created, if desired:
+-- should be set in layout initialise, if desired:
 addon.USE_BLIZZARD_PERSONAL = nil
 
 local framelist = {}
@@ -106,13 +102,15 @@ function addon:PLAYER_LEAVING_WORLD()
     end
 end
 function addon:UI_SCALE_CHANGED()
-    self.uiscale = UIParent:GetEffectiveScale()
-
     if self.IGNORE_UISCALE then
+        -- set 1:1 scale from screen width
         local screen_size = {GetPhysicalScreenSize()}
         if screen_size and screen_size[2] then
             self.uiscale = 768 / screen_size[2]
         end
+    else
+        -- inherit from uiparent
+        self.uiscale = UIParent:GetScale()
     end
 
     if #framelist > 0 then
@@ -129,6 +127,8 @@ local function OnEvent(self,event,...)
         end
         return
     end
+
+    self:UI_SCALE_CHANGED()
 
     if not self.layout then
         -- throw missing layout
@@ -165,6 +165,20 @@ local function OnEvent(self,event,...)
         if type(plugin.Initialised) == 'function' then
             plugin:Initialised()
         end
+    end
+
+    -- disable the default class resource bars
+    if NamePlateDriverFrame and not self.USE_BLIZZARD_PERSONAL then
+        DeathKnightResourceOverlayFrame:UnregisterAllEvents()
+        ClassNameplateBarMageFrame:UnregisterAllEvents()
+        ClassNameplateBarWindwalkerMonkFrame:UnregisterAllEvents()
+        ClassNameplateBarPaladinFrame:UnregisterAllEvents()
+        ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
+        ClassNameplateBarWarlockFrame:UnregisterAllEvents()
+        ClassNameplateManaBarFrame:UnregisterAllEvents()
+
+        NamePlateDriverFrame:SetClassNameplateManaBar(nil)
+        NamePlateDriverFrame:SetClassNameplateBar(nil)
     end
 end
 ------------------------------------------- initialise addon scripts & events --

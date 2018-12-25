@@ -1,11 +1,36 @@
-ALPHA NOTES
-* (alpha only) fix aura filter isn't updated correctly
+BETA NOTES
 
-* fix name-only sticks on some enemies which switch from unattackable to attackable
-  (and everything related to that, like the name-only combat options)
+* re-enable the fading element
+* add option to disable nameplate alpha cvars
+- cvar page must be enabled: /knp cvar
+* add slider for nameplate line-of-sight alpha multiplier
+
+* nameplates are now attached directly to the vanilla nameplate frame;
+- the fading element is disabled, so fade rules won't work
+- fading and scaling behiour can be changed in the cvars config page
+* add options for nameplate alpha cvars
+* add options for personal nameplate clamping cvars
+
+* hold alt to adjust sliders with the mousewheel
+* add option to disable mouseover highlight
+* add option mouseover_highlight_opacity (not exposed in ui)
+
+* merge 80100 hotfixes:
+* bump tocs
+* fix health bar aliasing in 8.1 (make sure to enable "pixel correction" if you still see it, and use the "global scale" option under /knp > frame sizes to compensate)
+- the personal nameplate is still buggy in certain positions.
+* fix the blizzard personal resource bar stays visible
+
 * update locale
+* possibly fix a possible issue with CVAR_UPDATE calls during combat, maybe
 
-* split nameonly_in_combat to nameonly_combat_hostile & nameonly_combat_friends
-* add nameonly_friends, enabled by default
-* add nameonly_damaged_enemies, enabled by default
-* update nameonly options locale
+* add position options for auras text
+* remove text_vertical_offset and auras_cd_centre (in favour of the above)
+
+* expose auras_cd_size and auras_count_size in ui
+
+* add auras_cd_centre
+* add auras_cd_size
+* add auras_count_size
+
+* reset nameplateMin/MaxScale to default if cvar_disable_scale is disabled
