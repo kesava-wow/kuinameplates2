@@ -235,9 +235,7 @@ local default_config = {
     cvar_self_clamp_bottom = GetCVarDefault('nameplateSelfBottomInset'),
     cvar_overlap_v = GetCVarDefault('nameplateOverlapV'),
     cvar_disable_scale = true,
-    cvar_min_alpha = .5,
-    cvar_max_alpha = .8,
-    cvar_target_alpha = 1,
+    cvar_disable_alpha = true,
     cvar_self_alpha = 1,
 
     -- point+offset variables
@@ -699,11 +697,27 @@ local function UpdateCVars()
     if core.profile.cvar_disable_scale then
         SetCVar('nameplateMinScale',1)
         SetCVar('nameplateMaxScale',1)
-    elseif GetCVar('nameplateMinScale') == '1' and GetCVar('nameplateMaxScale') == '1' then
+    elseif GetCVar('nameplateMinScale') == '1' and
+           GetCVar('nameplateMaxScale') == '1'
+    then
         -- reset to defaults if the current values match ours,
         -- since i haven't provided a way to set them directly.
         SetCVar('nameplateMinScale',GetCVarDefault('nameplateMinScale'))
         SetCVar('nameplateMaxScale',GetCVarDefault('nameplateMaxScale'))
+    end
+
+    if core.profile.cvar_disable_alpha then
+        SetCVar('nameplateMinAlpha',1)
+        SetCVar('nameplateMaxAlpha',1)
+        SetCVar('nameplateSelectedAlpha',1)
+    elseif GetCVar('nameplateMinAlpha') == '1' and
+           GetCVar('nameplateMaxAlpha') == '1' and
+           GetCVar('nameplateSelectedAlpha') == '1'
+    then
+        -- reset to defaults
+        SetCVar('nameplateMinAlpha',GetCVarDefault('nameplateMinAlpha'))
+        SetCVar('nameplateMaxAlpha',GetCVarDefault('nameplateMaxAlpha'))
+        SetCVar('nameplateSelectedAlpha',GetCVarDefault('nameplateSelectedAlpha'))
     end
 end
 local function configChangedCVar()
@@ -731,9 +745,7 @@ configChanged.cvar_self_clamp_top = configChangedCVar
 configChanged.cvar_self_clamp_bottom = configChangedCVar
 configChanged.cvar_overlap_v = configChangedCVar
 configChanged.cvar_disable_scale = configChangedCVar
-configChanged.cvar_min_alpha = configChangedCVar
-configChanged.cvar_max_alpha = configChangedCVar
-configChanged.cvar_target_alpha = configChangedCVar
+configChanged.cvar_disable_alpha = configChangedCVar
 configChanged.cvar_self_alpha = configChangedCVar
 
 function configChanged.global_scale(v)
