@@ -1207,29 +1207,55 @@ do
     end
     local function UpdateSpellNamePosition(f)
         if not f.SpellName then return end
-        f.SpellName:SetPoint('TOP',f.CastBar.bg,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET+TEXT_VERTICAL_OFFSET)
+        f.SpellName:SetPoint('TOP',f.CastBar.bg,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
-        f.CastBar.bg:SetSize(CASTBAR_WIDTH,CASTBAR_HEIGHT)
-        f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_OFFSET)
+        -- update castbar position and size with one of the above functions
+        if CASTBAR_DETACH then
+            -- castbar detached from main frame
+            f.CastBar.bg:ClearAllPoints()
+            f.CastBar.bg:SetSize(CASTBAR_WIDTH,CASTBAR_HEIGHT)
+            f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_OFFSET)
+            f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
 
-        if f.SpellIcon then
-            if CASTBAR_COMBINE then
-                -- overlay spell icon on bar
-                f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+            if CASTBAR_SHOW_ICON and f.SpellIcon then
+                if CASTBAR_COMBINE then
+                    -- overlay spell icon on bar
+                    f.SpellIcon:SetAllPoints()
+                    f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
+                    f.SpellIcon:SetAlpha(.5)
+                else
+                    -- spell icon next to bar
+                    f.SpellIcon:ClearAllPoints()
+                    f.SpellIcon:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+                    f.SpellIcon:SetSize(CASTBAR_HEIGHT-2,CASTBAR_HEIGHT-2)
+                    f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
+                    f.SpellIcon:SetAlpha(1)
 
-                f.SpellIcon:SetAllPoints()
-                f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
-                f.SpellIcon:SetAlpha(.5)
-            else
-                -- icon next to bar
+                    f.CastBar:SetPoint('TOPLEFT',f.SpellIcon,'TOPRIGHT',1,0)
+                end
+            end
+        else
+            -- move spell icon to left side of health bar,
+            -- attach castbar to bottom of health bar background
+            f.CastBar.bg:ClearAllPoints()
+            f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,-CASTBAR_OFFSET)
+            f.CastBar.bg:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
+            f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
+
+            f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+
+            if f.SpellIcon then
                 f.SpellIcon:ClearAllPoints()
-                f.CastBar:SetPoint('TOPLEFT',f.SpellIcon,'TOPRIGHT',1,0)
-
-                f.SpellIcon:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
-                f.SpellIcon:SetSize(CASTBAR_HEIGHT-2,CASTBAR_HEIGHT-2)
+                f.SpellIcon:SetPoint('TOPLEFT',f.SpellIcon.bg,1,-1)
+                f.SpellIcon:SetPoint('BOTTOMRIGHT',f.SpellIcon.bg,-1,1)
                 f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
                 f.SpellIcon:SetAlpha(1)
+
+                f.SpellIcon.bg:SetPoint('TOPRIGHT',f.bg,'TOPLEFT',-CASTBAR_OFFSET,0)
+                f.SpellIcon.bg:SetPoint('BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT')
+                f.SpellIcon.bg:SetWidth(20) -- TODO have to work out the size
+                f.SpellIcon.bg:Show()
             end
         end
     end
@@ -1238,6 +1264,14 @@ do
         local icon = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 2)
         f.handler:RegisterElement('SpellIcon', icon)
         return icon
+    end
+    local function CreateSpellIconBackground(f)
+        local bg = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,1)
+        bg:SetTexture(kui.m.t.solid)
+        bg:SetVertexColor(0,0,0,.8)
+        bg:Hide()
+        f.SpellIcon.bg = bg
+        return bg
     end
     local function CreateSpellShield(f)
         -- cast shield
@@ -1334,6 +1368,9 @@ do
         end
         if CASTBAR_SHOW_ICON then
             CreateSpellIcon(f)
+            if not CASTBAR_DETACH then
+                CreateSpellIconBackground(f)
+            end
         end
         if CASTBAR_SHOW_SHIELD then
             CreateSpellShield(f)
@@ -1378,6 +1415,9 @@ do
             if CASTBAR_SHOW_ICON and not f.SpellIcon then
                 CreateSpellIcon(f)
             end
+            if CASTBAR_SHOW_ICON and not CASTBAR_DETACH and not f.SpellIcon.bg then
+                CreateSpellIconBackground(f)
+            end
             if CASTBAR_SHOW_NAME and not f.SpellName then
                 CreateSpellName(f)
             end
@@ -1404,8 +1444,20 @@ do
             if f.SpellIcon then
                 if CASTBAR_SHOW_ICON then
                     f.SpellIcon:Show()
+
+                    if f.SpellIcon.bg then
+                        if CASTBAR_DETACH then
+                            f.SpellIcon.bg:Hide()
+                        else
+                            f.SpellIcon.bg:Show()
+                        end
+                    end
                 else
                     f.SpellIcon:Hide()
+
+                    if f.SpellIcon.bg then
+                        f.SpellIcon.bg:Hide()
+                    end
                 end
             end
 
