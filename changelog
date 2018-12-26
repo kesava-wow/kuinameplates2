@@ -1,5 +1,9 @@
 BETA NOTES
 
+* fix profile changes don't update frames (beta only)
+* change default aura text position slightly
+* KNP frame resized, now matches the size of the health bar (so WeakAuras etc. might need to be moved slightly)
+
 * re-enable the fading element
 * add option to disable nameplate alpha cvars
 - cvar page must be enabled: /knp cvar

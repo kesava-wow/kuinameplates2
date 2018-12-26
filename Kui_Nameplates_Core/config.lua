@@ -837,13 +837,13 @@ function core:ConfigChanged(config,k,v)
         end
     else
         -- profile changed;
-        -- queue all configChanged functions, removing duplicates
-        local Q_FUNCTIONS = {}
+        -- run all configChanged functions, skipping duplicates
+        local called = {}
         for k,f in pairs(configChanged) do
-            Q_FUNCTIONS[f] = k
-        end
-        for f,k in ipairs(Q_FUNCTIONS) do
-            f(core.profile[k])
+            if not called[f] then
+                called[f] = true
+                f(core.profile[k])
+            end
         end
     end
 
