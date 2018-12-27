@@ -67,7 +67,6 @@ L.titles = {
     guild_text_players = 'Show player guilds',
     title_text_players = 'Show player titles',
     nameonly_visibility_sep = 'Use name-only mode on...',
-    nameonly_text_sep = 'Text',
 
     glow_as_shadow = 'Frame shadow',
     state_icons = 'State icons',
@@ -197,6 +196,8 @@ L.titles = {
     auras_purge_opposite = 'Purge on opposite',
     auras_side = 'Side',
     auras_offset = 'Vertical offset',
+    auras_cd_text_sep = 'Cooldown',
+    auras_count_text_sep = 'Count',
 
     castbar_enable = 'Enable',
     castbar_colour = 'Bar colour',
@@ -233,7 +234,7 @@ L.titles = {
     classpowers_colour_inactive = 'Inactive colour',
 
     bossmod_enable = 'Enable boss mod communication module',
-    bossmod_control_visibility = 'Allow boss mods to control visibility of nameplates',
+    bossmod_control_visibility = 'Allow boss mods to control nameplate visibility',
     bossmod_icon_size = 'Icon size',
     bossmod_x_offset = 'Horizontal offset',
     bossmod_y_offset = 'Vertical offset',
@@ -246,10 +247,15 @@ L.titles = {
     cvar_personal_show_combat = 'Show personal nameplate when in combat',
     cvar_personal_show_target = 'Show personal nameplate with a target',
     cvar_max_distance = 'Max render distance',
-    cvar_clamp_top = 'Top clamp distance',
-    cvar_clamp_bottom = 'Bottom clamp distance',
+    cvar_clamp_top = 'Clamp top',
+    cvar_clamp_bottom = 'Clamp bottom',
+    cvar_self_clamp_top = 'Self clamp top',
+    cvar_self_clamp_bottom = 'Self clamp bottom',
     cvar_overlap_v = 'Vertical overlap',
-    cvar_disable_scale = 'Disable default scaling',
+    cvar_disable_scale = 'Disable scaling',
+    cvar_disable_alpha = 'Disable fading',
+    cvar_self_alpha = 'Self alpha',
+    cvar_occluded_mult = 'Line-of-sight alpha',
 }
 L.tooltips = {
     bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
@@ -333,6 +339,8 @@ L.tooltips = {
     auras_icon_minus_size = 'Icon size on smaller frames',
     auras_icon_squareness = 'Size ratio of the aura icons, where 1 means a perfect square',
     auras_show_purge = 'Show buffs on enemies which you can spell steal, dispel, or purge',
+    auras_cd_size = 'Set to 0 to inherit \'normal\' font size',
+    auras_count_size = 'Set to 0 to inherit \'small\' font size',
 
     castbar_enable = 'Enable the cast bar element',
     castbar_showpersonal = 'Show the cast bar on your character\'s nameplate if it is enabled',
@@ -380,8 +388,21 @@ L.tooltips = {
     cvar_max_distance = '|cffffcc00nameplateMaxDistance|r|n|nMaximum distance at which to render nameplates (not including your current target).',
     cvar_clamp_top = '|cffffcc00nameplate{Other,Large}TopInset|r|n|nHow close nameplates will be rendered to the top edge of the screen, where 0 means on the edge. Set to -0.1 to disable clamping on the top of the screen.|n|nClamping only affects your current target.',
     cvar_clamp_bottom = '|cffffcc00nameplate{Other,Large}BottomInset|r',
+    cvar_self_clamp_top = '|cffffcc00nameplateSelfTopInset|r',
+    cvar_self_clamp_bottom = '|cffffcc00nameplateSelfBottomInset|r',
     cvar_overlap_v = '|cffffcc00nameplateOverlapV|r|n|nVertical distance between nameplates (only valid when motion type is set to stacking in the default interface options).',
-    cvar_disable_scale = '|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which would otherwise only be affecting the clickbox.',
+    cvar_disable_scale = '|cffffcc00nameplate{Min,Max}Scale|r|n|nDisable the nameplate distance scaling CVars which break pixel-correction.',
+    cvar_disable_alpha = '|cffffcc00nameplate{Min,Max,Selected}Alpha|r|n|nDisable the nameplate alpha CVars (except those below) so that they don\'t interfere with KNP\'s fade rules.',
+    cvar_self_alpha = '|cffffcc00nameplateSelfAlpha|r|n|nMaximum alpha of the personal nameplate.',
+    cvar_occluded_mult = '|cffffcc00nameplateOccludedAlphaMult|r|n|nAlpha multiplier applied to nameplates which are out of the character\'s line-of-sight.',
+}
+L.common = {
+    text = 'Text',
+    font_size = 'Font size',
+    point_x = 'X point',
+    point_y = 'Y point',
+    offset_x = 'X offset',
+    offset_y = 'Y offset'
 }
 
 KuiNameplatesCoreConfig:LocaleLoaded()
