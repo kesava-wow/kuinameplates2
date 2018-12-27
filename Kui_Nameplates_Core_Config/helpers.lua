@@ -27,13 +27,15 @@ end
 local function OnEnter(self)
     GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
     GameTooltip:SetWidth(200)
-    GameTooltip:AddLine(
-        self.env and (L.titles[self.env] or self.env) or
-        self.label and self.label:GetText()
-    )
+
+    if self.common_name or self.env then
+        GameTooltip:AddLine(GetLocaleString(self.common_name,self.env,'Tooltip'))
+    elseif self.label then
+        GameTooltip:AddLine(self.label:GetText())
+    end
 
     if self.env and L.tooltips[self.env] then
-        GameTooltip:AddLine(L.tooltips[self.env], 1,1,1,true)
+        GameTooltip:AddLine(L.tooltips[self.env],1,1,1,true)
     end
 
     GameTooltip:Show()
