@@ -1,6 +1,14 @@
 local L = KuiNameplatesCoreConfig:Locale('enGB')
 if not L then return end
 
+L.common = {
+    text = 'Text',
+    font_size = 'Font size',
+    point_x = 'X point',
+    point_y = 'Y point',
+    offset_x = 'X offset',
+    offset_y = 'Y offset'
+}
 L.page_names = {
     general     = 'General',
     fade_rules  = 'Fade rules',
@@ -395,14 +403,6 @@ L.tooltips = {
     cvar_disable_alpha = '|cffffcc00nameplate{Min,Max,Selected}Alpha|r|n|nDisable the nameplate alpha CVars (except those below) so that they don\'t interfere with KNP\'s fade rules.',
     cvar_self_alpha = '|cffffcc00nameplateSelfAlpha|r|n|nMaximum alpha of the personal nameplate.',
     cvar_occluded_mult = '|cffffcc00nameplateOccludedAlphaMult|r|n|nAlpha multiplier applied to nameplates which are out of the character\'s line-of-sight.',
-}
-L.common = {
-    text = 'Text',
-    font_size = 'Font size',
-    point_x = 'X point',
-    point_y = 'Y point',
-    offset_x = 'X offset',
-    offset_y = 'Y offset'
 }
 
 KuiNameplatesCoreConfig:LocaleLoaded()
