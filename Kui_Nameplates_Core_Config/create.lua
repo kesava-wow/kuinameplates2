@@ -255,9 +255,6 @@ function text:Initialise()
         L.titles.dd_font_style_monochrome,
     }
 
-    name_vertical_offset:SetWidth(120)
-    bot_vertical_offset:SetWidth(120)
-
     bot_vertical_offset.enabled = function(p) return p.level_text or p.health_text end
 
     font_face:SetPoint('TOPLEFT',10,-10)
