@@ -9,6 +9,17 @@ local S_CHECKBOX_OFF = 857
 local S_MENU_OPEN = 850
 local S_MENU_CLOSE = 851
 
+local function GetLocaleString(common_key,name,fallback)
+    if common_key and L.common[common_key] then 
+        return L.common[common_key]
+    end
+    if name then
+        if L.titles[name] then return L.titles[name] end
+        return name
+    end
+    return fallback
+end
+
 -- generic scripts #############################################################
 local function EditBoxOnEscapePressed(self)
     self:ClearFocus()
@@ -16,13 +27,15 @@ end
 local function OnEnter(self)
     GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
     GameTooltip:SetWidth(200)
-    GameTooltip:AddLine(
-        self.env and (L.titles[self.env] or self.env) or
-        self.label and self.label:GetText()
-    )
+
+    if self.common_name or self.env then
+        GameTooltip:AddLine(GetLocaleString(self.common_name,self.env,'Tooltip'))
+    elseif self.label then
+        GameTooltip:AddLine(self.label:GetText())
+    end
 
     if self.env and L.tooltips[self.env] then
-        GameTooltip:AddLine(L.tooltips[self.env], 1,1,1,true)
+        GameTooltip:AddLine(L.tooltips[self.env],1,1,1,true)
     end
 
     GameTooltip:Show()
@@ -78,10 +91,12 @@ do
         GenericOnShow(self)
     end
 
-    function opt.CreateCheckBox(parent, name, small)
+    function opt.CreateCheckBox(parent, name, small, common_name)
         local check = CreateFrame('CheckButton', frame_name..name..'Check', parent, 'OptionsBaseCheckButtonTemplate')
 
         check.env = name
+        check.common_name = common_name
+
         check:SetScript('OnClick',CheckBoxOnClick)
         check:SetScript('OnShow',CheckBoxOnShow)
 
@@ -97,7 +112,7 @@ do
         end
 
         check.label:SetJustifyH('LEFT')
-        check.label:SetText(L.titles[name] or name or 'Checkbox')
+        check.label:SetText(GetLocaleString(common_name,name,'Checkbox'))
         check.label:SetPoint('LEFT', check, 'RIGHT')
 
         check.Get = Get
@@ -158,17 +173,15 @@ do
         self.button:Disable()
     end
 
-    function opt.CreateDropDown(parent, name, width)
-        local dd = pcdd:New(
-            parent,
-            L.titles[name] or name or 'DropDown'
-        )
+    function opt.CreateDropDown(parent, name, common_name)
+        local dd = pcdd:New(parent,GetLocaleString(common_name,name,'Dropdown'))
         dd.labelText:SetFontObject('GameFontNormalSmall')
-        dd:SetWidth(width or 200)
+        dd:SetWidth(200)
         dd:SetHeight(40)
-        dd.env = name
-
         dd:HookScript('OnShow',DropDownOnShow)
+
+        dd.env = name
+        dd.common_name = common_name
 
         dd.OnEnter = OnEnter
         dd.OnLeave = OnLeave
@@ -283,7 +296,7 @@ do
         self:SetFocus()
     end
 
-    function opt.CreateSlider(parent, name, min, max, small)
+    function opt.CreateSlider(parent, name, min, max, small, common_name)
         local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
         slider:SetWidth(190)
         slider:SetHeight(15)
@@ -295,7 +308,7 @@ do
         local label = slider:CreateFontString(
             slider:GetName()..'Label','ARTWORK',
             (small and 'GameFontNormalSmall' or 'GameFontNormal'))
-        label:SetText(L.titles[name] or name or 'Slider')
+        label:SetText(GetLocaleString(common_name,name,'Slider'))
         label:SetPoint('BOTTOM',slider,'TOP')
 
         local display = CreateFrame('EditBox',nil,slider)
@@ -321,6 +334,7 @@ do
         slider.SetMinMaxValues = SliderSetMinMaxValues
 
         slider.env = name
+        slider.common_name = common_name
         slider.label = label
         slider.display = display
         slider.small = small
@@ -367,12 +381,13 @@ do
         opt.Popup:ShowPage('colour_picker')
     end
 
-    function opt.CreateColourPicker(parent,name,small)
+    function opt.CreateColourPicker(parent,name,small,common_name)
         local container = CreateFrame('Button',frame_name..name..'ColourPicker',parent)
         container:SetWidth(150)
         container:SetHeight(27)
         container:EnableMouse(true)
         container.env = name
+        container.common_name = common_name
 
         local block = CreateFrame('Frame',nil,container)
         block:SetBackdrop({
@@ -396,7 +411,7 @@ do
         else
             label = container:CreateFontString(nil,'ARTWORK','GameFontHighlight')
         end
-        label:SetText(L.titles[name] or name or 'Colour picker')
+        label:SetText(GetLocaleString(common_name,name,'Colour picker'))
         label:SetPoint('LEFT',block,'RIGHT',5,0)
 
         container.block = block
@@ -419,7 +434,7 @@ do
     end
 end
 -- separator ###################################################################
-function opt.CreateSeparator(parent,name)
+function opt.CreateSeparator(parent,name,common_name)
     local line = parent:CreateTexture(nil,'ARTWORK')
     line:SetTexture('interface/buttons/white8x8')
     line:SetVertexColor(1,1,1,.3)
@@ -428,11 +443,12 @@ function opt.CreateSeparator(parent,name)
     local shadow = parent:CreateTexture(nil,'ARTWORK')
     shadow:SetTexture('interface/buttons/white8x8')
     shadow:SetVertexColor(0,0,0,.8)
-    shadow:SetSize(400,1)
-    shadow:SetPoint('BOTTOM',line,'TOP')
+    shadow:SetHeight(1)
+    shadow:SetPoint('BOTTOMLEFT',line,'TOPLEFT')
+    shadow:SetPoint('BOTTOMRIGHT',line,'TOPRIGHT')
 
     local label = parent:CreateFontString(nil,'ARTWORK','GameFontNormal')
-    label:SetText(L.titles[name] or name or 'Separator')
+    label:SetText(GetLocaleString(common_name,name,'Separator'))
     label:SetPoint('CENTER',line,0,10)
 
     line.label = label
