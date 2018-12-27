@@ -385,7 +385,7 @@ function nameonly:Initialise()
     local guild_text_players = self:CreateCheckBox('guild_text_players')
     local title_text_players = self:CreateCheckBox('title_text_players')
     local vis_sep = self:CreateSeparator('nameonly_visibility_sep')
-    local text_sep = self:CreateSeparator('nameonly_text_sep')
+    local text_sep = self:CreateSeparator('nameonly_text_sep','text')
 
     nameonly_no_font_style.enabled = function(p) return p.nameonly end
     nameonly_health_colour.enabled = nameonly_no_font_style.enabled
@@ -533,20 +533,23 @@ function auras:Initialise()
     auras_icon_squareness:SetPoint('TOPLEFT',auras_icon_normal_size,'BOTTOMLEFT',0,-30)
     purge_size:SetPoint('LEFT',auras_icon_squareness,'RIGHT',20,0)
 
-    local auras_text_sep = self:CreateSeparator('auras_text_sep')
-    local auras_cd_size = self:CreateSlider('auras_cd_size',0,20)
-    local auras_count_size = self:CreateSlider('auras_count_size',0,20)
+    local auras_text_sep = self:CreateSeparator('auras_text_sep','text')
+    local auras_cd_size = self:CreateSlider('auras_cd_size',0,20,nil,'font_size')
+    local auras_count_size = self:CreateSlider('auras_count_size',0,20,nil,'font_size')
     local colour_short = self:CreateColourPicker('auras_colour_short')
     local colour_medium = self:CreateColourPicker('auras_colour_medium')
     local colour_long = self:CreateColourPicker('auras_colour_long')
-    local auras_cd_point_x = self:CreateDropDown('auras_cd_point_x')
-    local auras_cd_point_y = self:CreateDropDown('auras_cd_point_y')
-    local auras_cd_offset_x = self:CreateSlider('auras_cd_offset_x',-20,20)
-    local auras_cd_offset_y = self:CreateSlider('auras_cd_offset_y',-20,20)
-    local auras_count_point_x = self:CreateDropDown('auras_count_point_x')
-    local auras_count_point_y = self:CreateDropDown('auras_count_point_y')
-    local auras_count_offset_x = self:CreateSlider('auras_count_offset_x',-20,20)
-    local auras_count_offset_y = self:CreateSlider('auras_count_offset_y',-20,20)
+    local auras_cd_text_sep = self:CreateSeparator('auras_cd_text_sep')
+    local auras_count_text_sep = self:CreateSeparator('auras_count_text_sep')
+
+    local auras_cd_point_x = self:CreateDropDown('auras_cd_point_x','point_x')
+    local auras_cd_point_y = self:CreateDropDown('auras_cd_point_y','point_y')
+    local auras_cd_offset_x = self:CreateSlider('auras_cd_offset_x',-20,20,nil,'offset_x')
+    local auras_cd_offset_y = self:CreateSlider('auras_cd_offset_y',-20,20,nil,'offset_y')
+    local auras_count_point_x = self:CreateDropDown('auras_count_point_x','point_x')
+    local auras_count_point_y = self:CreateDropDown('auras_count_point_y','point_y')
+    local auras_count_offset_x = self:CreateSlider('auras_count_offset_x',-20,20,nil,'offset_x')
+    local auras_count_offset_y = self:CreateSlider('auras_count_offset_y',-20,20,nil,'offset_y')
 
     local point_x_SelectTable = { 'LEFT', 'CENTER', 'RIGHT' }
     local point_y_SelectTable = { 'TOP', 'CENTER', 'BOTTOM' }
@@ -567,7 +570,12 @@ function auras:Initialise()
     colour_medium:SetPoint('LEFT',colour_short,'RIGHT')
     colour_long:SetPoint('LEFT',colour_medium,'RIGHT')
 
-    auras_cd_size:SetPoint('TOPLEFT',colour_short,'BOTTOMLEFT',-4,-20)
+    auras_cd_text_sep:SetWidth(190)
+    auras_count_text_sep:SetWidth(190)
+    auras_cd_text_sep:SetPoint('TOPLEFT',10,-540)
+    auras_count_text_sep:SetPoint('LEFT',auras_cd_text_sep,210,0)
+
+    auras_cd_size:SetPoint('TOPLEFT',colour_short,'BOTTOMLEFT',-4,-60)
     auras_count_size:SetPoint('LEFT',auras_cd_size,'RIGHT',20,0)
 
     auras_cd_point_x:SetPoint('TOPLEFT',auras_cd_size,'BOTTOMLEFT',0,-20)
