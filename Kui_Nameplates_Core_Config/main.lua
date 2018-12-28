@@ -230,8 +230,10 @@ do
     local L = {}
     local L_enGB = {}
     function opt:Locale(region)
+        -- for translations; initialise locale table
         assert(type(region) == 'string')
         if region == 'enGB' then
+            -- always populate enGB
             return L_enGB
         elseif region == GetLocale() then
             return L
@@ -244,6 +246,9 @@ do
         else
             -- mixin missing translations from enGB
             for namespace,translations in pairs(L_enGB) do
+                if not L[namespace] then
+                    L[namespace] = {}
+                end
                 for key,value in pairs(translations) do
                     if not L[namespace][key] then
                         L[namespace][key] = value
