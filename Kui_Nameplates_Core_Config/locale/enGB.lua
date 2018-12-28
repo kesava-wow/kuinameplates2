@@ -82,6 +82,7 @@ L.titles = {
     target_glow_colour = 'Target glow colour',
     mouseover_glow = 'Mouseover glow',
     mouseover_glow_colour = 'Mouseover glow colour',
+    mouseover_highlight = 'Mouseover highlight',
     target_arrows = 'Target arrows',
     frame_glow_size = 'Frame glow size',
     target_arrows_size = 'Target arrow size',
