@@ -186,6 +186,13 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
 
         KuiNameplatesCore.config:SetKey(k,v)
         return
+    elseif strfind(msg,'^locale') then
+        -- set locale and reload ui
+        local new_locale = strmatch(msg,'^locale (.-)%s*$')
+        if new_locale == 'nil' then new_locale = nil end
+        KuiNameplatesCoreSaved.LOCALE = new_locale
+        ReloadUI()
+        return
     elseif msg == 'which' then
         local t = C_NamePlate.GetNamePlateForUnit('target')
         if not t then return end
@@ -235,7 +242,7 @@ do
         if region == 'enGB' then
             -- always populate enGB
             return L_enGB
-        elseif region == GetLocale() then
+        elseif region == (KuiNameplatesCoreSaved.LOCALE or GetLocale()) then
             return L
         end
     end
