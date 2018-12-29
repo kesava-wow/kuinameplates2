@@ -1,5 +1,6 @@
 BETA NOTES
 
+* add command `/knp locale` to switch config language (like: `/knp locale enGB`)
 * update locale
 
 * fix translations with a missing namespace
