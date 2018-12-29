@@ -1,6 +1,9 @@
 local L = KuiNameplatesCoreConfig:Locale('deDE')
 if not L then return end
 
+L["common"] = {
+}
+
 L["page_names"] = {
 	["auras"] = "Auren",
 	["bossmod"] = "Boss mods",
@@ -192,7 +195,6 @@ L["titles"] = {
 	["nameonly_neutral"] = "bei neutralen Feinden",
 	["nameonly_no_font_style"] = "Keine Kontur",
 	["nameonly_target"] = "Auf dem Ziel",
-	["nameonly_text_sep"] = "Text",
 	["nameonly_visibility_sep"] = "Sichtbarkeit",
 	["new_profile"] = "Neues Profil...",
 	["new_profile_label"] = "Gebe Profilname ein",
@@ -215,7 +217,6 @@ L["titles"] = {
 	["target_arrows_size"] = "Größe Pfeile am Ziel",
 	["target_glow"] = "Zeige Ziel-Leuchten",
 	["target_glow_colour"] = "Farbe des Ziel-Leuchten",
-	["text_vertical_offset"] = "Text v. Versatz",
 	["threat_brackets"] = "Zeige Bedrohungsgruppe",
 	["title_text_players"] = "Spielertitel anzeigen",
 	["use_blizzard_personal"] = "Ignoriere eigene Namensplakette",
@@ -319,7 +320,6 @@ L["tooltips"] = {
 	["tankmode_tank_colour"] = "Farbe, die für die Lebensleiste genutzt wird, wenn fest getankt wird.",
 	["tankmode_trans_colour"] = "Farbe, die für die Lebensleiste genutzt wird, wenn Bedrohung gewonnen oder verloren wird.",
 	["target_arrows"] = "Zeigt Pfeile um dein aktuelles Ziel. Diese benutzen die Farbe vom Ziel-Leuchten",
-	["text_vertical_offset"] = "Vertikaler Versatz wird auf alle Strings angewandt. Benutzt, wenn eine Schriftstile an seltsamen vertikalen Positionen in WoW angezeigt werden. Beachte, dass der Wert standardmäßig bei 0.5 endet, da es dabei hilft, das vertikaler zittern beim bewegen des Frames zu reduzieren.",
 	["threat_brackets"] = "Zeige Dreiecke um die Namensplaketten um den Bedrohungsstatus anzuzeigen",
 	["use_blizzard_personal"] = "Verändere nicht die eigene Namensplakette oder die Klassenpower. |n|n Wenn diese Option genutzt wird, kann die Breite des eigenen Frames immer noch mit den \"Eigene Frame-Breite\" Regler unter \"Frame-Größe\" verändert werden. Ein UI-Reload ist benötigt, damit das es komplett angewandt wird. |n|n Damit dieses Frame angezeigt wird, musst die Option \"Persönliche Ressourcenanzeige\" unter Esc > Interface > Namen > Einheiten Namensplaketten aktivieren. |n Um die nicht-modifizierte Klassenressource anzuzeigen, deaktiviere die Option \"Zeige spezielle Ressource am Ziel\" auf der selben Seite. |n|n|cffff6666 benötigt einen UI-Reload, wenn der Frame aktuelle sichtbar ist.",
 }

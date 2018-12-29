@@ -1,6 +1,9 @@
 local L = KuiNameplatesCoreConfig:Locale('frFR')
 if not L then return end
 
+L["common"] = {
+}
+
 L["page_names"] = {
 	["auras"] = "Auras",
 	["bossmod"] = "Mode boss",
@@ -275,6 +278,5 @@ L["tooltips"] = {
 	["tankmode_tank_colour"] = "Couleur de la barre de vie à utiliser lorsque vous tankez prudemment",
 	["tankmode_trans_colour"] = "Couleur de la barre de vie à utiliser en cas de gain ou de perte de menace",
 	["target_arrows"] = "Afficher les flèches autour de votre cible actuelle. Elles utilisent la couleur de lueur de la cible",
-	["text_vertical_offset"] = "Décalage verticale appliqué à tous les textes. Utilisé comme certaines polices rendent à des positions verticales impaires dans WoW. Notez que cette valeur se termine par .5 par défaut, car cela aide à réduire l'instabilité verticale lors du déplacement des cadres",
 	["threat_brackets"] = "Afficher des triangles autour des écussons pour indiquer le niveau de menace",
 }
