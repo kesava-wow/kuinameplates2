@@ -2,6 +2,10 @@ BETA NOTES
 
 * update locale
 
+* fix translations with a missing namespace
+
+* update locale
+
 * fix profile changes don't update frames (beta only)
 * change default aura text position slightly
 * KNP frame resized, now matches the size of the health bar (so WeakAuras etc. might need to be moved slightly)
