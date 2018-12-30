@@ -1045,9 +1045,9 @@ do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
-          CASTBAR_ANIMATE_CHANGE_COLOUR,SHIELD_H,SHIELD_W,
-          CASTBAR_WIDTH,CASTBAR_RATIO,CASTBAR_OFFSET,CASTBAR_DETACH,
-          CASTBAR_COMBINE
+          CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,SHIELD_H,SHIELD_W,
+          CASTBAR_DETACH,CASTBAR_DETACH_HEIGHT,CASTBAR_DETACH_WIDTH,
+          CASTBAR_DETACH_OFFSET,CASTBAR_DETACH_COMBINE,CASTBAR_RATIO
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1210,16 +1210,16 @@ do
         f.SpellName:SetPoint('TOP',f.CastBar.bg,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
-        -- update castbar position and size with one of the above functions
+        -- update castbar position and size to match config
         if CASTBAR_DETACH then
             -- castbar detached from main frame
             f.CastBar.bg:ClearAllPoints()
-            f.CastBar.bg:SetSize(CASTBAR_WIDTH,CASTBAR_HEIGHT)
-            f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_OFFSET)
+            f.CastBar.bg:SetSize(CASTBAR_DETACH_WIDTH,CASTBAR_DETACH_HEIGHT)
+            f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_DETACH_OFFSET)
             f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
 
             if CASTBAR_SHOW_ICON and f.SpellIcon then
-                if CASTBAR_COMBINE then
+                if CASTBAR_DETACH_COMBINE then
                     -- overlay spell icon on bar
                     f.SpellIcon:SetAllPoints()
                     f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
@@ -1228,7 +1228,7 @@ do
                     -- spell icon next to bar
                     f.SpellIcon:ClearAllPoints()
                     f.SpellIcon:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
-                    f.SpellIcon:SetSize(CASTBAR_HEIGHT-2,CASTBAR_HEIGHT-2)
+                    f.SpellIcon:SetSize(CASTBAR_DETACH_HEIGHT-2,CASTBAR_DETACH_HEIGHT-2)
                     f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
                     f.SpellIcon:SetAlpha(1)
 
@@ -1239,7 +1239,7 @@ do
             -- move spell icon to left side of health bar,
             -- attach castbar to bottom of health bar background
             f.CastBar.bg:ClearAllPoints()
-            f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,-CASTBAR_OFFSET)
+            f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,-CASTBAR_SPACING)
             f.CastBar.bg:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
             f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
 
@@ -1252,7 +1252,7 @@ do
                 f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
                 f.SpellIcon:SetAlpha(1)
 
-                f.SpellIcon.bg:SetPoint('TOPRIGHT',f.bg,'TOPLEFT',-CASTBAR_OFFSET,0)
+                f.SpellIcon.bg:SetPoint('TOPRIGHT',f.bg,'TOPLEFT',-CASTBAR_SPACING,0)
                 f.SpellIcon.bg:SetPoint('BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT')
                 f.SpellIcon.bg:SetWidth(20) -- TODO have to work out the size
                 f.SpellIcon.bg:Show()
@@ -1400,14 +1400,16 @@ do
         CASTBAR_NAME_VERTICAL_OFFSET = ScaleTextOffset(self.profile.castbar_name_vertical_offset)
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
-        CASTBAR_OFFSET = self.profile.castbar_offset
-        CASTBAR_DETACH = self.profile.castbar_detach
-        CASTBAR_COMBINE = self.profile.castbar_combine
+        CASTBAR_SPACING = self.profile.castbar_spacing
         SHIELD_H = Scale(16)
         SHIELD_W = SHIELD_H * .84375
 
-        CASTBAR_WIDTH = Scale(self.profile.castbar_width)
-        CASTBAR_RATIO = (1-(CASTBAR_HEIGHT/CASTBAR_WIDTH))/2
+        CASTBAR_DETACH = self.profile.castbar_detach
+        CASTBAR_DETACH_HEIGHT = Scale(self.profile.castbar_detach_height)
+        CASTBAR_DETACH_WIDTH = Scale(self.profile.castbar_detach_width)
+        CASTBAR_DETACH_OFFSET = Scale(self.profile.castbar_detach_offset)
+        CASTBAR_DETACH_COMBINE = self.profile.castbar_detach_combine
+        CASTBAR_RATIO = (1-(CASTBAR_DETACH_HEIGHT/CASTBAR_DETACH_WIDTH))/2
 
         for k,f in addon:Frames() do
             -- create elements which weren't required until config was changed
