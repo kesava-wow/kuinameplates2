@@ -696,13 +696,22 @@ local function UpdateCVars()
     if core.profile.cvar_disable_scale then
         SetCVar('nameplateMinScale',1)
         SetCVar('nameplateMaxScale',1)
+        SetCVar('nameplateLargerScale',1)
+        SetCVar('nameplateSelectedScale',1)
+        SetCVar('nameplateSelfScale',1)
     elseif GetCVar('nameplateMinScale') == '1' and
-           GetCVar('nameplateMaxScale') == '1'
+           GetCVar('nameplateMaxScale') == '1' and
+           GetCVar('nameplateLargerScale') == '1' and
+           GetCVar('nameplateSelectedScale') == '1' and
+           GetCVar('nameplateSelfScale') == '1'
     then
         -- reset to defaults if the current values match ours,
         -- since i haven't provided a way to set them directly.
         SetCVar('nameplateMinScale',GetCVarDefault('nameplateMinScale'))
         SetCVar('nameplateMaxScale',GetCVarDefault('nameplateMaxScale'))
+        SetCVar('nameplateLargerScale',GetCVarDefault('nameplateLargerScale'))
+        SetCVar('nameplateSelectedScale',GetCVarDefault('nameplateSelectedScale'))
+        SetCVar('nameplateSelfScale',GetCVarDefault('nameplateSelfScale'))
     end
 
     if core.profile.cvar_disable_alpha then
