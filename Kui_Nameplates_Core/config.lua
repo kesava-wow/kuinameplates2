@@ -146,11 +146,6 @@ local default_config = {
     frame_height_minus = 8,
     frame_width_personal = 132,
     frame_height_personal = 13,
-    castbar_height = 18,
-    castbar_width = 36, -- XXX
-    castbar_offset = 20, -- XXX
-    castbar_detach = true, -- XXX detach from health bar
-    castbar_combine = true, -- XXX combine with spell icon (only while detached)
     powerbar_height = 3,
     global_scale = 1,
 
@@ -192,6 +187,12 @@ local default_config = {
     castbar_animate_change_colour = true,
     castbar_name_vertical_offset = -1,
     castbar_spacing = 1, -- NEX
+    castbar_height = 6,
+    castbar_detach = false, -- XXX detach from health bar
+    castbar_detach_height = 18, -- XXX TODO use when detach is true
+    castbar_detach_width = 36, -- XXX TODO
+    castbar_detach_offset = 5, -- XXX
+    castbar_detach_combine = true, -- XXX combine with spell icon
 
     tank_mode = true,
     tankmode_force_enable = false,
