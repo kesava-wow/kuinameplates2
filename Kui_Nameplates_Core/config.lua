@@ -550,20 +550,21 @@ function configChanged.castbar_enable(v)
     end
     configChangedCastBar()
 end
-configChanged.castbar_height = configChangedCastBar
-configChanged.castbar_width = configChangedCastBar
-configChanged.castbar_offset = configChangedCastBar
-configChanged.castbar_detach = configChangedCastBar
-configChanged.castbar_combine = configChangedCastBar
 configChanged.castbar_colour = configChangedCastBar
 configChanged.castbar_unin_colour = configChangedCastBar
 configChanged.castbar_icon = configChangedCastBar
 configChanged.castbar_name = configChangedCastBar
 configChanged.castbar_shield = configChangedCastBar
-configChanged.castbar_name_vertical_offset = configChangedCastBar
 configChanged.castbar_animate = configChangedCastBar
 configChanged.castbar_animate_change_colour = configChangedCastBar
+configChanged.castbar_name_vertical_offset = configChangedCastBar
 configChanged.castbar_spacing = configChangedCastBar
+configChanged.castbar_height = configChangedCastBar
+configChanged.castbar_detach = configChangedCastBar
+configChanged.castbar_detach_height = configChangedCastBar
+configChanged.castbar_detach_width = configChangedCastBar
+configChanged.castbar_detach_offset = configChangedCastBar
+configChanged.castbar_detach_combine = configChangedCastBar
 
 function configChanged.classpowers_enable(v)
     if v then
