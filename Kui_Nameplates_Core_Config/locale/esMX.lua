@@ -1,6 +1,9 @@
 local L = KuiNameplatesCoreConfig:Locale('esMX')
 if not L then return end
 
+L["common"] = {
+}
+
 L["page_names"] = {
 	["auras"] = "Auras",
 	["castbars"] = "Barras de lanzamiento",
@@ -79,7 +82,6 @@ L["titles"] = {
 	["combat_hostile"] = "Acción de combate: enemigos",
 	["copy_profile_label"] = "Escribe un nombre para el nuevo perfil",
 	["copy_profile_title"] = "Copiar perfil",
-	["cvar_clamp_top"] = "Distancia restringida arriba",
 	["cvar_enable"] = "Permitir que Kui Nameplaes cambie los CVars",
 	["cvar_max_distance"] = "Distancia máx. para mostrar",
 	["cvar_name_only"] = "Ocultar la barra de salud por defecto",
@@ -279,6 +281,5 @@ L["tooltips"] = {
 	["tankmode_tank_colour"] = "Color para usar en la barra de salud cuando tienes el agro",
 	["tankmode_trans_colour"] = "El color para usar en la barra de salud cuando estas obteniendo o pertiendo el agro.",
 	["target_arrows"] = "Mostrar flechas alrededor de tu objetivo actual. Estas heredan el color del brillo de objetivo.",
-	["text_vertical_offset"] = "El dezplazamiento vertical aplicado por todo texto. Existe porque algunos tipos de letra se muestran con extraño posicionamiento vertical. Tenga en cuenta que este valor termina en .5 por defecto para reducir el temblor vertical cuando las placas de nombre se están moviendo.",
 	["threat_brackets"] = "Mostrar triangulos alrededor de las placas de nombre para mostrar el estado de la amenaza.",
 }

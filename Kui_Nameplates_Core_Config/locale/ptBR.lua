@@ -1,6 +1,9 @@
 local L = KuiNameplatesCoreConfig:Locale('ptBR')
 if not L then return end
 
+L["common"] = {
+}
+
 L["page_names"] = {
 	["auras"] = "Auras",
 	["bossmod"] = "Boss mods.",
@@ -146,7 +149,6 @@ L["titles"] = {
 	["nameonly_no_font_style"] = [=[Nenhum contorno de texto
 ]=],
 	["nameonly_target"] = "No alvo",
-	["nameonly_text_sep"] = "Texto",
 	["nameonly_visibility_sep"] = "Visiblidade",
 	["new_profile"] = "Novo perfil...",
 	["new_profile_label"] = "Insira um nome de perfil",
