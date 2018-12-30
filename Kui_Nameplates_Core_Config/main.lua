@@ -189,6 +189,11 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     elseif strfind(msg,'^locale') then
         -- set locale and reload ui
         local new_locale = strmatch(msg,'^locale (.-)%s*$')
+        if not new_locale then
+            knp:ui_print('Switch KNP\'s config language. Usage: /knp locale new_locale')
+            print('    Enter "nil" for new_locale to reset to default.')
+            return
+        end
         if new_locale == 'nil' then new_locale = nil end
         KuiNameplatesCoreSaved.LOCALE = new_locale
         ReloadUI()
