@@ -1,6 +1,7 @@
 BETA NOTES
 
 * add command `/knp locale` to switch config language (like: `/knp locale enGB`)
+* also disable nameplate{Larger,Selected,Self}scale with the "disable scale" option
 * update locale
 
 * fix translations with a missing namespace
