@@ -412,6 +412,7 @@ local function UpdateFrameSize(f)
     f:SetPoint('CENTER',0,FRAME_VERTICAL_OFFSET)
 
     f:UpdateMainBars()
+    f:SpellIconSetWidth()
     f:UpdateAuras()
 end
 function core:CreateBackground(f)
@@ -1053,6 +1054,15 @@ do
         self.frame:HideCastBar(nil,true)
         self.frame.CastBar.highlight:Hide()
     end
+    local function SpellIconSetWidth(f)
+        -- set spell icon width (as it's based on height)
+        if not f.SpellIcon or not f.SpellIcon.bg or not f.SpellIcon.bg:IsShown() then
+            return
+        end
+
+        f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + CASTBAR_SPACING))
+    end
+
     local function ShowCastBar(f)
         if not f.elements.CastBar then
             -- ignore cast messsages if we've disabled the cast bar
@@ -1254,8 +1264,8 @@ do
 
                 f.SpellIcon.bg:SetPoint('TOPRIGHT',f.bg,'TOPLEFT',-CASTBAR_SPACING,0)
                 f.SpellIcon.bg:SetPoint('BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT')
-                f.SpellIcon.bg:SetWidth(20) -- TODO have to work out the size
-                f.SpellIcon.bg:Show()
+
+                f:SpellIconSetWidth()
             end
         end
     end
