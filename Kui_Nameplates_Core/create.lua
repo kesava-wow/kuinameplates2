@@ -1082,6 +1082,28 @@ do
             castbar:GetStatusBarTexture():SetAlpha(.5)
         end
     end
+    local function CreateOptionalElementsMaybe(f)
+        -- check if we need to create extra elements to support configuration
+        if CASTBAR_SHOW_NAME and not f.SpellName then
+            CreateSpellName(f)
+        end
+        if CASTBAR_SHOW_ICON and not f.SpellIcon then
+            CreateSpellIcon(f)
+        end
+        if CASTBAR_SHOW_ICON and not CASTBAR_DETACH and not f.SpellIcon.bg then
+            CreateSpellIconBackground(f)
+        end
+        if CASTBAR_SHOW_SHIELD and not f.SpellShield then
+            CreateSpellShield(f)
+        end
+        if CASTBAR_ANIMATE and not f.CastBar.AnimGroup then
+            CreateAnimGroup(f)
+        elseif not CASTBAR_ANIMATE and f.CastBar.AnimGroup then
+            -- make sure frames which might have been animating when the
+            -- option was changed are stopped;
+            f.CastBar.AnimGroup:Stop()
+        end
+    end
 
     local function ShowCastBar(f)
         if not f.elements.CastBar then
@@ -1381,22 +1403,7 @@ do
         -- register base elements
         f.handler:RegisterElement('CastBar', castbar)
 
-        -- create optional elements
-        if CASTBAR_SHOW_NAME then
-            CreateSpellName(f)
-        end
-        if CASTBAR_SHOW_ICON then
-            CreateSpellIcon(f)
-            if not CASTBAR_DETACH then
-                CreateSpellIconBackground(f)
-            end
-        end
-        if CASTBAR_SHOW_SHIELD then
-            CreateSpellShield(f)
-        end
-        if CASTBAR_ANIMATE then
-            CreateAnimGroup(f)
-        end
+        CreateOptionalElementsMaybe(f)
 
         f.ShowCastBar = ShowCastBar
         f.HideCastBar = HideCastBar
@@ -1431,27 +1438,7 @@ do
         CASTBAR_RATIO = (1-(CASTBAR_DETACH_HEIGHT/CASTBAR_DETACH_WIDTH))/2
 
         for k,f in addon:Frames() do
-            -- create elements which weren't required until config was changed
-            -- (TODO castbar itself is always created)
-            if CASTBAR_SHOW_ICON and not f.SpellIcon then
-                CreateSpellIcon(f)
-            end
-            if CASTBAR_SHOW_ICON and not CASTBAR_DETACH and not f.SpellIcon.bg then
-                CreateSpellIconBackground(f)
-            end
-            if CASTBAR_SHOW_NAME and not f.SpellName then
-                CreateSpellName(f)
-            end
-            if CASTBAR_SHOW_SHIELD and not f.SpellShield then
-                CreateSpellShield(f)
-            end
-            if CASTBAR_ANIMATE and not f.CastBar.AnimGroup then
-                CreateAnimGroup(f)
-            elseif not CASTBAR_ANIMATE and f.CastBar.AnimGroup then
-                -- make sure frames which might have been animating when the
-                -- option was changed are stopped;
-                f.CastBar.AnimGroup:Stop()
-            end
+            CreateOptionalElementsMaybe(f)
 
             if f.SpellShield then
                 if CASTBAR_SHOW_SHIELD then
