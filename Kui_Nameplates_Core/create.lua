@@ -1062,6 +1062,26 @@ do
 
         f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + CASTBAR_SPACING))
     end
+    local function CastBarSetColour(castbar,colour,glow_too)
+        -- set colour, assuming colour is a 3-length table,
+        -- and set alpha depending on detach-combine/spell icon settings
+        castbar:SetStatusBarColor(unpack(colour),1)
+
+        if glow_too then
+            -- glow inherits colour
+            castbar.top:SetVertexColor(unpack(colour))
+            castbar.bottom:SetVertexColor(unpack(colour))
+        else
+            -- glow as shadow (XXX should be common to frame glow)
+            castbar.top:SetVertexColor(0,0,0,.2)
+            castbar.bottom:SetVertexColor(0,0,0,.2)
+        end
+
+        if CASTBAR_DETACH_COMBINE and CASTBAR_SHOW_ICON then
+            -- reduce alpha when combined
+            castbar:GetStatusBarTexture():SetAlpha(.5)
+        end
+    end
 
     local function ShowCastBar(f)
         if not f.elements.CastBar then
@@ -1074,22 +1094,15 @@ do
         end
 
         if f.cast_state.interruptible then
-            f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
-
-            -- XXX glow as shadow
-            f.CastBar.top:SetVertexColor(0,0,0,.2)
-            f.CastBar.bottom:SetVertexColor(0,0,0,.2)
+            CastBarSetColor(f.CastBar,CASTBAR_COLOUR)
         else
-            f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
-            f.CastBar.top:SetVertexColor(unpack(CASTBAR_UNIN_COLOUR))
-            f.CastBar.bottom:SetVertexColor(unpack(CASTBAR_UNIN_COLOUR))
+            CastBarSetColor(f.CastBar,CASTBAR_UNIN_COLOUR)
 
             if f.elements.SpellShield then
                 f.SpellShield:Show()
             end
         end
 
-        f.CastBar:GetStatusBarTexture():SetAlpha(.5)
         f.CastBar:Show()
         f.CastBar.bg:Show()
         f.CastBar.spark:Show()
@@ -1146,21 +1159,17 @@ do
                     if f.SpellName then
                         f.SpellName:SetText(INTERRUPTED)
                     end
+
                     if CASTBAR_ANIMATE_CHANGE_COLOUR then
-                        f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
-                        f.CastBar.top:SetVertexColor(unpack(CASTBAR_UNIN_COLOUR))
-                        f.CastBar.bottom:SetVertexColor(unpack(CASTBAR_UNIN_COLOUR))
+                        CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR,true)
                     end
                 else
                     -- successful
                     if CASTBAR_ANIMATE_CHANGE_COLOUR then
-                        f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
-                        f.CastBar.top:SetVertexColor(0,0,0,.2)
-                        f.CastBar.bottom:SetVertexColor(0,0,0,.2)
+                        CastBarSetColour(f.CastBar,CASTBAR_COLOUR)
                     end
                 end
 
-                f.CastBar:GetStatusBarTexture():SetAlpha(.5)
                 f.CastBar:SetMinMaxValues(0,1)
                 f.CastBar:SetValue(1)
                 f.CastBar.highlight:Show()
