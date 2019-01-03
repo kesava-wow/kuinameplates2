@@ -592,6 +592,7 @@ function castbars:Initialise()
     local castbar_unin_colour = self:CreateColourPicker('castbar_unin_colour')
     local castbar_personal = self:CreateCheckBox('castbar_showpersonal')
     local castbar_icon = self:CreateCheckBox('castbar_icon')
+    local castbar_icon_side = self:CreateDropDown('castbar_icon_side')
     local castbar_name = self:CreateCheckBox('castbar_name')
     local castbar_shield = self:CreateCheckBox('castbar_shield')
     local castbar_all = self:CreateCheckBox('castbar_showall')
@@ -602,18 +603,22 @@ function castbars:Initialise()
     local animate = self:CreateCheckBox('castbar_animate')
     local animate_cc = self:CreateCheckBox('castbar_animate_change_colour',true)
 
+    castbar_icon_side.SelectTable = { 'Left','Right' } -- TODO l10n
+
     local castbar_detach = self:CreateCheckBox('castbar_detach')
-    local castbar_detach_height = self:CreateSlider('castbar_detach_height',3,50)
     local castbar_detach_width = self:CreateSlider('castbar_detach_width',6,200)
+    local castbar_detach_height = self:CreateSlider('castbar_detach_height',3,50)
     local castbar_detach_offset = self:CreateSlider('castbar_detach_offset',1,20)
     local castbar_detach_combine = self:CreateCheckBox('castbar_detach_combine',true)
 
     castbar_enable:SetPoint('TOPLEFT',10,-10)
-    castbar_icon:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
-    castbar_name:SetPoint('TOPLEFT',castbar_icon,'BOTTOMLEFT')
+    castbar_name:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
     castbar_shield:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
 
-    castbar_personal:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT',0,-10)
+    castbar_icon:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT',0,0)
+    castbar_icon_side:SetPoint('LEFT',castbar_icon,'RIGHT',184,5)
+
+    castbar_personal:SetPoint('TOPLEFT',castbar_icon,'BOTTOMLEFT',0,-10)
     castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
     castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT',10,0)
     castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
@@ -622,7 +627,7 @@ function castbars:Initialise()
     animate_cc:SetPoint('TOPLEFT',animate,'BOTTOMLEFT',10,0)
 
     castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
-    castbar_unin_colour:SetPoint('LEFT',castbar_icon,220,0)
+    castbar_unin_colour:SetPoint('LEFT',castbar_name,220,0)
 
     castbar_height:SetPoint('TOPLEFT',10,-250)
     name_v_offset:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
@@ -641,6 +646,9 @@ function castbars:Initialise()
     castbar_unin_colour.enabled = castbar_colour.enabled
     castbar_personal.enabled = castbar_colour.enabled
     castbar_icon.enabled = castbar_colour.enabled
+    castbar_icon_side.enabled = function(p)
+        return p.castbar_icon and (not p.castbar_detach or not p.castbar_detach_combine)
+    end
     castbar_name.enabled = castbar_colour.enabled
     castbar_shield.enabled = castbar_colour.enabled
     castbar_all.enabled = castbar_colour.enabled
