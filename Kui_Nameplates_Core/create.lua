@@ -1056,10 +1056,7 @@ do
     end
     local function SpellIconSetWidth(f)
         -- set spell icon width (as it's based on height)
-        if not f.SpellIcon or not f.SpellIcon.bg or not f.SpellIcon.bg:IsShown() then
-            return
-        end
-
+        if CASTBAR_DETACH or not f.SpellIcon or not f.SpellIcon.bg then return end
         f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + CASTBAR_SPACING))
     end
     local function CastBarSetColour(castbar,colour,glow_too)
@@ -1410,6 +1407,7 @@ do
         f.UpdateCastBar = UpdateCastBar
         f.UpdateSpellNamePosition = UpdateSpellNamePosition
         f.UpdateCastbarSize = UpdateCastbarSize
+        f.SpellIconSetWidth = SpellIconSetWidth
 
         f:UpdateSpellNamePosition()
         f:UpdateCastbarSize()
