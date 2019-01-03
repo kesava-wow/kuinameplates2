@@ -1060,9 +1060,9 @@ do
         f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + CASTBAR_SPACING))
     end
     local function CastBarSetColour(castbar,colour,glow_too)
-        -- set colour, assuming colour is a 3-length table,
+        -- set colour, assuming colour is a 3/4-length table,
         -- and set alpha depending on detach-combine/spell icon settings
-        castbar:SetStatusBarColor(unpack(colour),1)
+        castbar:SetStatusBarColor(unpack(colour))
 
         if glow_too then
             -- glow inherits colour
