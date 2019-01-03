@@ -548,7 +548,7 @@ function auras:Initialise()
     local auras_count_offset_x = self:CreateSlider('auras_count_offset_x',-20,20,nil,'offset_x')
     local auras_count_offset_y = self:CreateSlider('auras_count_offset_y',-20,20,nil,'offset_y')
 
-    local point_x_SelectTable = { 'LEFT', 'CENTER', 'RIGHT' }
+    local point_x_SelectTable = { 'LEFT', 'CENTER', 'RIGHT' } -- TODO l10n?
     local point_y_SelectTable = { 'TOP', 'CENTER', 'BOTTOM' }
 
     auras_cd_point_x.SelectTable = point_x_SelectTable
