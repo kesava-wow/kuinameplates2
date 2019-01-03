@@ -193,7 +193,7 @@ local default_config = {
     castbar_detach_width = 36,
     castbar_detach_offset = 5,
     castbar_detach_combine = true,
-    castbar_icon_side = 2, -- XXX 1:left, 2:right
+    castbar_icon_side = 1,
 
     tank_mode = true,
     tankmode_force_enable = false,
