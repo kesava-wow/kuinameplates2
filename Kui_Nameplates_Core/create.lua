@@ -1306,8 +1306,7 @@ do
     local function CreateSpellIconBackground(f)
         local bg = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
-        bg:SetVertexColor(0,0,0,.8)
-        bg:Hide()
+        bg:SetVertexColor(0,0,0,.9)
         f.SpellIcon.bg = bg
         return bg
     end
@@ -1373,7 +1372,7 @@ do
 
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
-        bg:SetVertexColor(0,0,0,.8)
+        bg:SetVertexColor(0,0,0,.9)
         bg:Hide()
 
         castbar:SetPoint('BOTTOMRIGHT',bg,-1,1)
