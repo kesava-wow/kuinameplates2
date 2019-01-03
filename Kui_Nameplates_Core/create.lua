@@ -1076,29 +1076,9 @@ do
 
         if CASTBAR_DETACH_COMBINE and CASTBAR_SHOW_ICON then
             -- reduce alpha when combined
-            castbar:GetStatusBarTexture():SetAlpha(.5)
-        end
-    end
-    local function CreateOptionalElementsMaybe(f)
-        -- check if we need to create extra elements to support configuration
-        if CASTBAR_SHOW_NAME and not f.SpellName then
-            CreateSpellName(f)
-        end
-        if CASTBAR_SHOW_ICON and not f.SpellIcon then
-            CreateSpellIcon(f)
-        end
-        if CASTBAR_SHOW_ICON and not CASTBAR_DETACH and not f.SpellIcon.bg then
-            CreateSpellIconBackground(f)
-        end
-        if CASTBAR_SHOW_SHIELD and not f.SpellShield then
-            CreateSpellShield(f)
-        end
-        if CASTBAR_ANIMATE and not f.CastBar.AnimGroup then
-            CreateAnimGroup(f)
-        elseif not CASTBAR_ANIMATE and f.CastBar.AnimGroup then
-            -- make sure frames which might have been animating when the
-            -- option was changed are stopped;
-            f.CastBar.AnimGroup:Stop()
+            castbar:GetStatusBarTexture():SetAlpha(.6)
+        else
+            castbar:GetStatusBarTexture():SetAlpha(1)
         end
     end
 
@@ -1364,6 +1344,28 @@ do
         f.CastBar.AnimGroup = grp
         grp:SetScript('OnFinished',AnimGroup_Stop)
         grp:SetScript('OnStop',AnimGroup_Stop)
+    end
+    local function CreateOptionalElementsMaybe(f)
+        -- check if we need to create extra elements to support configuration
+        if CASTBAR_SHOW_NAME and not f.SpellName then
+            CreateSpellName(f)
+        end
+        if CASTBAR_SHOW_ICON and not f.SpellIcon then
+            CreateSpellIcon(f)
+        end
+        if CASTBAR_SHOW_ICON and not CASTBAR_DETACH and not f.SpellIcon.bg then
+            CreateSpellIconBackground(f)
+        end
+        if CASTBAR_SHOW_SHIELD and not f.SpellShield then
+            CreateSpellShield(f)
+        end
+        if CASTBAR_ANIMATE and not f.CastBar.AnimGroup then
+            CreateAnimGroup(f)
+        elseif not CASTBAR_ANIMATE and f.CastBar.AnimGroup then
+            -- make sure frames which might have been animating when the
+            -- option was changed are stopped;
+            f.CastBar.AnimGroup:Stop()
+        end
     end
 
     function core:CreateCastBar(f)
