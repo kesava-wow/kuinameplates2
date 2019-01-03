@@ -1077,7 +1077,7 @@ do
 
         if CASTBAR_DETACH_COMBINE and CASTBAR_SHOW_ICON then
             -- reduce alpha when combined
-            castbar:GetStatusBarTexture():SetAlpha(.6)
+            castbar:GetStatusBarTexture():SetAlpha(.7)
         else
             castbar:GetStatusBarTexture():SetAlpha(1)
         end
@@ -1244,7 +1244,7 @@ do
                     -- overlay spell icon on bar
                     f.SpellIcon:SetAllPoints()
                     f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
-                    f.SpellIcon:SetAlpha(.5)
+                    f.SpellIcon:SetAlpha(.6)
                 else
                     -- spell icon next to bar
                     f.SpellIcon:ClearAllPoints()
