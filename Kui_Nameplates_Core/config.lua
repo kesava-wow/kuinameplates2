@@ -188,11 +188,12 @@ local default_config = {
     castbar_name_vertical_offset = -1,
     castbar_spacing = 1, -- NEX
     castbar_height = 6,
-    castbar_detach = false, -- XXX detach from health bar
-    castbar_detach_height = 18, -- XXX TODO use when detach is true
-    castbar_detach_width = 36, -- XXX TODO
-    castbar_detach_offset = 5, -- XXX
-    castbar_detach_combine = true, -- XXX combine with spell icon
+    castbar_detach = false,
+    castbar_detach_height = 18,
+    castbar_detach_width = 36,
+    castbar_detach_offset = 5,
+    castbar_detach_combine = true,
+    castbar_icon_side = 2, -- XXX 1:left, 2:right
 
     tank_mode = true,
     tankmode_force_enable = false,
@@ -565,6 +566,7 @@ configChanged.castbar_detach_height = configChangedCastBar
 configChanged.castbar_detach_width = configChangedCastBar
 configChanged.castbar_detach_offset = configChangedCastBar
 configChanged.castbar_detach_combine = configChangedCastBar
+configChanged.castbar_icon_side = configChangedCastBar
 
 function configChanged.classpowers_enable(v)
     if v then

@@ -1048,7 +1048,8 @@ do
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
           CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,SHIELD_H,SHIELD_W,
           CASTBAR_DETACH,CASTBAR_DETACH_HEIGHT,CASTBAR_DETACH_WIDTH,
-          CASTBAR_DETACH_OFFSET,CASTBAR_DETACH_COMBINE,CASTBAR_RATIO
+          CASTBAR_DETACH_OFFSET,CASTBAR_DETACH_COMBINE,CASTBAR_RATIO,
+          CASTBAR_ICON_SIDE
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1270,8 +1271,13 @@ do
                 f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
                 f.SpellIcon:SetAlpha(1)
 
-                f.SpellIcon.bg:SetPoint('TOPRIGHT',f.bg,'TOPLEFT',-CASTBAR_SPACING,0)
-                f.SpellIcon.bg:SetPoint('BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT')
+                if CASTBAR_ICON_SIDE == 1 then
+                    f.SpellIcon.bg:SetPoint('TOPRIGHT',f.bg,'TOPLEFT',-CASTBAR_SPACING,0)
+                    f.SpellIcon.bg:SetPoint('BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT')
+                else
+                    f.SpellIcon.bg:SetPoint('TOPLEFT',f.bg,'TOPRIGHT',CASTBAR_SPACING,0)
+                    f.SpellIcon.bg:SetPoint('BOTTOMLEFT',f.CastBar.bg,'BOTTOMRIGHT')
+                end
 
                 f:SpellIconSetWidth()
             end
@@ -1435,6 +1441,7 @@ do
         CASTBAR_DETACH_OFFSET = Scale(self.profile.castbar_detach_offset)
         CASTBAR_DETACH_COMBINE = CASTBAR_DETACH and self.profile.castbar_detach_combine
         CASTBAR_RATIO = (1-(CASTBAR_DETACH_HEIGHT/CASTBAR_DETACH_WIDTH))/2
+        CASTBAR_ICON_SIDE = self.profile.castbar_icon_side
 
         for k,f in addon:Frames() do
             CreateOptionalElementsMaybe(f)
