@@ -662,7 +662,9 @@ function castbars:Initialise()
     castbar_detach_width.enabled = function(p) return p.castbar_detach end
     castbar_detach_height.enabled = castbar_detach_width.enabled
     castbar_detach_offset.enabled = castbar_detach_width.enabled
-    castbar_detach_combine.enabled = castbar_detach_width.enabled
+    castbar_detach_combine.enabled = function(p)
+        return p.castbar_detach and p.castbar_icon
+    end
 end
 -- threat ######################################################################
 function threat:Initialise()
