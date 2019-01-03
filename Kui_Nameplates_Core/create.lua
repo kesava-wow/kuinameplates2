@@ -1230,12 +1230,14 @@ do
     end
     local function UpdateCastbarSize(f)
         -- update castbar position and size to match config
+        f.CastBar.bg:ClearAllPoints()
+        f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+        f.CastBar:SetPoint('BOTTOMRIGHT',f.CastBar.bg,-1,1)
+
         if CASTBAR_DETACH then
             -- castbar detached from main frame
-            f.CastBar.bg:ClearAllPoints()
             f.CastBar.bg:SetSize(CASTBAR_DETACH_WIDTH,CASTBAR_DETACH_HEIGHT)
             f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_DETACH_OFFSET)
-            f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
 
             if CASTBAR_SHOW_ICON and f.SpellIcon then
                 if CASTBAR_DETACH_COMBINE then
@@ -1246,26 +1248,33 @@ do
                 else
                     -- spell icon next to bar
                     f.SpellIcon:ClearAllPoints()
-                    f.SpellIcon:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
                     f.SpellIcon:SetSize(CASTBAR_DETACH_HEIGHT-2,CASTBAR_DETACH_HEIGHT-2)
                     f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
                     f.SpellIcon:SetAlpha(1)
 
-                    f.CastBar:SetPoint('TOPLEFT',f.SpellIcon,'TOPRIGHT',1,0)
+                    if CASTBAR_ICON_SIDE == 1 then
+                        f.SpellIcon:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+                        f.CastBar:SetPoint('TOPLEFT',f.SpellIcon,'TOPRIGHT',1,0)
+                    else
+                        f.SpellIcon:SetPoint('TOPRIGHT',f.CastBar.bg,-1,-1)
+                        f.CastBar:SetPoint('BOTTOMRIGHT',f.SpellIcon,'BOTTOMLEFT',-1,0)
+                    end
                 end
             end
         else
             -- move spell icon to left side of health bar,
             -- attach castbar to bottom of health bar background
-            f.CastBar.bg:ClearAllPoints()
             f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,-CASTBAR_SPACING)
             f.CastBar.bg:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
             f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
 
             f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+            f.CastBar:SetPoint('BOTTOMRIGHT',f.CastBar.bg,-1,1)
 
             if f.SpellIcon then
                 f.SpellIcon:ClearAllPoints()
+                f.SpellIcon.bg:ClearAllPoints()
+
                 f.SpellIcon:SetPoint('TOPLEFT',f.SpellIcon.bg,1,-1)
                 f.SpellIcon:SetPoint('BOTTOMRIGHT',f.SpellIcon.bg,-1,1)
                 f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
@@ -1383,7 +1392,6 @@ do
         bg:SetVertexColor(0,0,0,.9)
         bg:Hide()
 
-        castbar:SetPoint('BOTTOMRIGHT',bg,-1,1)
         castbar.bg = bg
 
         -- XXX glow
