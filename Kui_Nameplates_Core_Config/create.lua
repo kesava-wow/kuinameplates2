@@ -598,10 +598,15 @@ function castbars:Initialise()
     local castbar_friend = self:CreateCheckBox('castbar_showfriend',true)
     local castbar_enemy = self:CreateCheckBox('castbar_showenemy',true)
     local castbar_height = self:CreateSlider('castbar_height',3,30)
-    local castbar_width = self:CreateSlider('castbar_width',6,60)
     local name_v_offset = self:CreateSlider('castbar_name_vertical_offset',-20,20)
     local animate = self:CreateCheckBox('castbar_animate')
     local animate_cc = self:CreateCheckBox('castbar_animate_change_colour',true)
+
+    local castbar_detach = self:CreateCheckBox('castbar_detach')
+    local castbar_detach_height = self:CreateSlider('castbar_detach_height',3,50)
+    local castbar_detach_width = self:CreateSlider('castbar_detach_width',3,50)
+    local castbar_detach_offset = self:CreateSlider('castbar_detach_offset',1,20)
+    local castbar_detach_combine = self:CreateCheckBox('castbar_detach_combine',true)
 
     castbar_enable:SetPoint('TOPLEFT',10,-10)
     castbar_icon:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
@@ -619,9 +624,18 @@ function castbars:Initialise()
     castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
     castbar_unin_colour:SetPoint('LEFT',castbar_icon,220,0)
 
-    castbar_height:SetPoint('TOPLEFT',10,-260)
-    castbar_width:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
-    name_v_offset:SetPoint('TOP',0,-315)
+    castbar_height:SetPoint('TOPLEFT',10,-250)
+    name_v_offset:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
+
+    castbar_detach_width:SetWidth(120)
+    castbar_detach_height:SetWidth(120)
+    castbar_detach_offset:SetWidth(120)
+
+    castbar_detach:SetPoint('TOPLEFT',10,-300)
+    castbar_detach_combine:SetPoint('TOPLEFT',castbar_detach,'BOTTOMLEFT',10,0)
+    castbar_detach_width:SetPoint('TOPLEFT',castbar_detach,'BOTTOMLEFT',0,-50)
+    castbar_detach_height:SetPoint('LEFT',castbar_detach_width,'RIGHT',22,0)
+    castbar_detach_offset:SetPoint('LEFT',castbar_detach_height,'RIGHT',22,0)
 
     castbar_colour.enabled = function(p) return p.castbar_enable end
     castbar_unin_colour.enabled = castbar_colour.enabled
