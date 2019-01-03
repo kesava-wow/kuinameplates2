@@ -604,7 +604,7 @@ function castbars:Initialise()
 
     local castbar_detach = self:CreateCheckBox('castbar_detach')
     local castbar_detach_height = self:CreateSlider('castbar_detach_height',3,50)
-    local castbar_detach_width = self:CreateSlider('castbar_detach_width',3,50)
+    local castbar_detach_width = self:CreateSlider('castbar_detach_width',6,200)
     local castbar_detach_offset = self:CreateSlider('castbar_detach_offset',1,20)
     local castbar_detach_combine = self:CreateCheckBox('castbar_detach_combine',true)
 
