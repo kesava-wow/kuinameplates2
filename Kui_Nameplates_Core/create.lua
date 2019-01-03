@@ -1093,9 +1093,9 @@ do
         end
 
         if f.cast_state.interruptible then
-            CastBarSetColor(f.CastBar,CASTBAR_COLOUR)
+            CastBarSetColour(f.CastBar,CASTBAR_COLOUR)
         else
-            CastBarSetColor(f.CastBar,CASTBAR_UNIN_COLOUR)
+            CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR,true)
 
             if f.elements.SpellShield then
                 f.SpellShield:Show()
@@ -1160,7 +1160,7 @@ do
                     end
 
                     if CASTBAR_ANIMATE_CHANGE_COLOUR then
-                        CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR,true)
+                        CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR)
                     end
                 else
                     -- successful
