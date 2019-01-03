@@ -658,6 +658,11 @@ function castbars:Initialise()
     name_v_offset.enabled = function(p) return p.castbar_enable and p.castbar_name end
     animate.enabled = castbar_colour.enabled
     animate_cc.enabled = function(p) return p.castbar_animate and p.castbar_enable end
+
+    castbar_detach_width.enabled = function(p) return p.castbar_detach end
+    castbar_detach_height.enabled = castbar_detach_width.enabled
+    castbar_detach_offset.enabled = castbar_detach_width.enabled
+    castbar_detach_combine.enabled = castbar_detach_width.enabled
 end
 -- threat ######################################################################
 function threat:Initialise()
