@@ -99,15 +99,15 @@ do
         end
     end
 
-    local function FilledBar_SetStatusBarColor(self,...)
-        self:orig_SetStatusBarColor(...)
+    local function FilledBar_SetStatusBarColor(self,r,g,b,a)
+        self:orig_SetStatusBarColor(r,g,b,a)
 
         if self.fill then
-            self.fill:SetVertexColor(...)
+            self.fill:SetVertexColor(r,g,b)
         end
 
         if self.spark then
-            self.spark:SetVertexColor(kui.Brighten(.3,...))
+            self.spark:SetVertexColor(kui.Brighten(.3,r,g,b,a))
         end
     end
     local function FilledBar_Show(self)
