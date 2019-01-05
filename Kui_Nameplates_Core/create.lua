@@ -99,15 +99,15 @@ do
         end
     end
 
-    local function FilledBar_SetStatusBarColor(self,...)
-        self:orig_SetStatusBarColor(...)
+    local function FilledBar_SetStatusBarColor(self,r,g,b,a)
+        self:orig_SetStatusBarColor(r,g,b,a)
 
         if self.fill then
-            self.fill:SetVertexColor(...)
+            self.fill:SetVertexColor(r,g,b)
         end
 
         if self.spark then
-            self.spark:SetVertexColor(kui.Brighten(.3,...))
+            self.spark:SetVertexColor(kui.Brighten(.3,r,g,b,a))
         end
     end
     local function FilledBar_Show(self)
@@ -225,6 +225,7 @@ do
         FONT = LSM:Fetch(LSM.MediaType.FONT,core.profile.font_face)
     end
     function core:SetLocals()
+        -- set config locals to reduce table lookup
         UpdateMediaLocals()
 
         GLOBAL_SCALE = self.profile.global_scale
@@ -876,6 +877,7 @@ do
         end
     end
 
+    -- update
     local function UpdateFrameGlow(f)
         if f.IN_NAMEONLY then
             f.ThreatGlow:Hide()
@@ -1043,8 +1045,11 @@ end
 do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
-          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,CASTBAR_SPACING,
-          CASTBAR_ANIMATE_CHANGE_COLOUR,SHIELD_H,SHIELD_W
+          CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
+          CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,SHIELD_H,SHIELD_W,
+          CASTBAR_DETACH,CASTBAR_DETACH_HEIGHT,CASTBAR_DETACH_WIDTH,
+          CASTBAR_DETACH_OFFSET,CASTBAR_DETACH_COMBINE,CASTBAR_RATIO,
+          CASTBAR_ICON_SIDE
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1052,11 +1057,32 @@ do
     end
     local function SpellIconSetWidth(f)
         -- set spell icon width (as it's based on height)
-        if not f.SpellIcon then return end
-        if f.SpellIcon.bg:IsShown() then
-            f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + CASTBAR_SPACING))
+        if CASTBAR_DETACH or not f.SpellIcon or not f.SpellIcon.bg then return end
+        f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + CASTBAR_SPACING))
+    end
+    local function CastBarSetColour(castbar,colour,glow_too)
+        -- set colour, assuming colour is a 3/4-length table,
+        -- and set alpha depending on detach-combine/spell icon settings
+        castbar:SetStatusBarColor(unpack(colour))
+
+        if glow_too then
+            -- glow inherits colour
+            castbar.top:SetVertexColor(unpack(colour))
+            castbar.bottom:SetVertexColor(unpack(colour))
+        else
+            -- glow as shadow (XXX should be common to frame glow)
+            castbar.top:SetVertexColor(0,0,0,.2)
+            castbar.bottom:SetVertexColor(0,0,0,.2)
+        end
+
+        if CASTBAR_DETACH_COMBINE and CASTBAR_SHOW_ICON then
+            -- reduce alpha when combined
+            castbar:GetStatusBarTexture():SetAlpha(.7)
+        else
+            castbar:GetStatusBarTexture():SetAlpha(1)
         end
     end
+
     local function ShowCastBar(f)
         if not f.elements.CastBar then
             -- ignore cast messsages if we've disabled the cast bar
@@ -1068,9 +1094,9 @@ do
         end
 
         if f.cast_state.interruptible then
-            f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
+            CastBarSetColour(f.CastBar,CASTBAR_COLOUR)
         else
-            f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+            CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR,true)
 
             if f.elements.SpellShield then
                 f.SpellShield:Show()
@@ -1082,8 +1108,7 @@ do
         f.CastBar.spark:Show()
 
         if CASTBAR_SHOW_ICON and f.SpellIcon then
-            f.SpellIcon.bg:Show()
-            f:SpellIconSetWidth()
+            f.SpellIcon:Show()
         end
 
         if CASTBAR_SHOW_NAME and f.SpellName then
@@ -1117,7 +1142,7 @@ do
                 f.SpellName:Hide()
             end
             if f.SpellIcon then
-                f.SpellIcon.bg:Hide()
+                f.SpellIcon:Hide()
             end
             if f.SpellShield then
                 f.SpellShield:Hide()
@@ -1134,13 +1159,14 @@ do
                     if f.SpellName then
                         f.SpellName:SetText(INTERRUPTED)
                     end
+
                     if CASTBAR_ANIMATE_CHANGE_COLOUR then
-                        f.CastBar:SetStatusBarColor(unpack(CASTBAR_UNIN_COLOUR))
+                        CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR)
                     end
                 else
                     -- successful
                     if CASTBAR_ANIMATE_CHANGE_COLOUR then
-                        f.CastBar:SetStatusBarColor(unpack(CASTBAR_COLOUR))
+                        CastBarSetColour(f.CastBar,CASTBAR_COLOUR)
                     end
                 end
 
@@ -1200,37 +1226,84 @@ do
     end
     local function UpdateSpellNamePosition(f)
         if not f.SpellName then return end
-        f.SpellName:SetPoint('TOP',f.CastBar,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET)
+        f.SpellName:SetPoint('TOP',f.CastBar.bg,'BOTTOM',0,CASTBAR_NAME_VERTICAL_OFFSET)
     end
     local function UpdateCastbarSize(f)
-        -- called by CreateCastBar, SetCastBarConfig
-        f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
-        f.CastBar:SetHeight(CASTBAR_HEIGHT-2)
+        -- update castbar position and size to match config
+        f.CastBar.bg:ClearAllPoints()
+        f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+        f.CastBar:SetPoint('BOTTOMRIGHT',f.CastBar.bg,-1,1)
 
-        f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,-CASTBAR_SPACING)
+        if CASTBAR_DETACH then
+            -- castbar detached from main frame
+            f.CastBar.bg:SetSize(CASTBAR_DETACH_WIDTH,CASTBAR_DETACH_HEIGHT)
+            f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_DETACH_OFFSET)
 
-        if CASTBAR_SHOW_ICON and f.SpellIcon then
-            f.SpellIcon.bg:SetPoint('TOPRIGHT',f.bg,'TOPLEFT',-CASTBAR_SPACING,0)
+            if CASTBAR_SHOW_ICON and f.SpellIcon then
+                if CASTBAR_DETACH_COMBINE then
+                    -- overlay spell icon on bar
+                    f.SpellIcon:SetAllPoints()
+                    f.SpellIcon:SetTexCoord(.1,.9,.1+CASTBAR_RATIO,.9-CASTBAR_RATIO)
+                    f.SpellIcon:SetAlpha(.6)
+                else
+                    -- spell icon next to bar
+                    f.SpellIcon:ClearAllPoints()
+                    f.SpellIcon:SetSize(CASTBAR_DETACH_HEIGHT-2,CASTBAR_DETACH_HEIGHT-2)
+                    f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
+                    f.SpellIcon:SetAlpha(1)
+
+                    if CASTBAR_ICON_SIDE == 1 then
+                        f.SpellIcon:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+                        f.CastBar:SetPoint('TOPLEFT',f.SpellIcon,'TOPRIGHT',1,0)
+                    else
+                        f.SpellIcon:SetPoint('TOPRIGHT',f.CastBar.bg,-1,-1)
+                        f.CastBar:SetPoint('BOTTOMRIGHT',f.SpellIcon,'BOTTOMLEFT',-1,0)
+                    end
+                end
+            end
+        else
+            -- move spell icon to left side of health bar,
+            -- attach castbar to bottom of health bar background
+            f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,-CASTBAR_SPACING)
+            f.CastBar.bg:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT')
+            f.CastBar.bg:SetHeight(CASTBAR_HEIGHT)
+
+            f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
+            f.CastBar:SetPoint('BOTTOMRIGHT',f.CastBar.bg,-1,1)
+
+            if f.SpellIcon then
+                f.SpellIcon:ClearAllPoints()
+                f.SpellIcon.bg:ClearAllPoints()
+
+                f.SpellIcon:SetPoint('TOPLEFT',f.SpellIcon.bg,1,-1)
+                f.SpellIcon:SetPoint('BOTTOMRIGHT',f.SpellIcon.bg,-1,1)
+                f.SpellIcon:SetTexCoord(.1,.9,.1,.9)
+                f.SpellIcon:SetAlpha(1)
+
+                if CASTBAR_ICON_SIDE == 1 then
+                    f.SpellIcon.bg:SetPoint('TOPRIGHT',f.bg,'TOPLEFT',-CASTBAR_SPACING,0)
+                    f.SpellIcon.bg:SetPoint('BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT')
+                else
+                    f.SpellIcon.bg:SetPoint('TOPLEFT',f.bg,'TOPRIGHT',CASTBAR_SPACING,0)
+                    f.SpellIcon.bg:SetPoint('BOTTOMLEFT',f.CastBar.bg,'BOTTOMRIGHT')
+                end
+
+                f:SpellIconSetWidth()
+            end
         end
     end
 
     local function CreateSpellIcon(f)
-        local bg = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 1)
-        bg:SetTexture(kui.m.t.solid)
-        bg:SetVertexColor(0,0,0,.8)
-        bg:SetPoint('BOTTOMRIGHT',f.CastBar.bg,'BOTTOMLEFT')
-        -- TOPRIGHT set by UpdateCastbarSize
-        bg:Hide()
-
-        local icon = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 2)
-        icon:SetTexCoord(.1, .9, .1, .9)
-        icon:SetPoint('TOPLEFT', bg, 1, -1)
-        icon:SetPoint('BOTTOMRIGHT', bg, -1, 1)
-
-        icon.bg = bg
-
+        local icon = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 2)
         f.handler:RegisterElement('SpellIcon', icon)
         return icon
+    end
+    local function CreateSpellIconBackground(f)
+        local bg = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,1)
+        bg:SetTexture(kui.m.t.solid)
+        bg:SetVertexColor(0,0,0,.9)
+        f.SpellIcon.bg = bg
+        return bg
     end
     local function CreateSpellShield(f)
         -- cast shield
@@ -1287,6 +1360,28 @@ do
         grp:SetScript('OnFinished',AnimGroup_Stop)
         grp:SetScript('OnStop',AnimGroup_Stop)
     end
+    local function CreateOptionalElementsMaybe(f)
+        -- check if we need to create extra elements to support configuration
+        if CASTBAR_SHOW_NAME and not f.SpellName then
+            CreateSpellName(f)
+        end
+        if CASTBAR_SHOW_ICON and not f.SpellIcon then
+            CreateSpellIcon(f)
+        end
+        if CASTBAR_SHOW_ICON and not CASTBAR_DETACH and not f.SpellIcon.bg then
+            CreateSpellIconBackground(f)
+        end
+        if CASTBAR_SHOW_SHIELD and not f.SpellShield then
+            CreateSpellShield(f)
+        end
+        if CASTBAR_ANIMATE and not f.CastBar.AnimGroup then
+            CreateAnimGroup(f)
+        elseif not CASTBAR_ANIMATE and f.CastBar.AnimGroup then
+            -- make sure frames which might have been animating when the
+            -- option was changed are stopped;
+            f.CastBar.AnimGroup:Stop()
+        end
+    end
 
     function core:CreateCastBar(f)
         local castbar = CreateStatusBar(f,true,nil,true,1)
@@ -1294,38 +1389,40 @@ do
 
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
-        bg:SetVertexColor(0,0,0,.8)
-        bg:SetPoint('TOPRIGHT', f.bg, 'BOTTOMRIGHT')
-        -- TOPLEFT set by UpdateCastbarSize
+        bg:SetVertexColor(0,0,0,.9)
         bg:Hide()
 
-        castbar:SetPoint('TOPLEFT', bg, 1, -1)
-        castbar:SetPoint('BOTTOMRIGHT', bg, -1, 1)
         castbar.bg = bg
+
+        -- XXX glow
+        local top = castbar:CreateTexture(nil,'BACKGROUND',nil,-5)
+        top:SetTexture(MEDIA..'target-glow')
+        top:SetTexCoord(1,0,1,0)
+        top:SetPoint('BOTTOMLEFT',bg,'TOPLEFT',0,0)
+        top:SetPoint('BOTTOMRIGHT',bg,'TOPRIGHT',0,0)
+        top:SetHeight(6)
+        top:SetVertexColor(0,0,0,.2)
+        castbar.top = top
+
+        local bottom = castbar:CreateTexture(nil,'BACKGROUND',nil,-5)
+        bottom:SetTexture(MEDIA..'target-glow')
+        bottom:SetPoint('TOPLEFT',bg,'BOTTOMLEFT',0,0)
+        bottom:SetPoint('TOPRIGHT',bg,'BOTTOMRIGHT',0,0)
+        bottom:SetHeight(6)
+        bottom:SetVertexColor(0,0,0,.2)
+        castbar.bottom = bottom
 
         -- register base elements
         f.handler:RegisterElement('CastBar', castbar)
 
-        -- create optional elements
-        if CASTBAR_SHOW_NAME then
-            CreateSpellName(f)
-        end
-        if CASTBAR_SHOW_ICON then
-            CreateSpellIcon(f)
-        end
-        if CASTBAR_SHOW_SHIELD then
-            CreateSpellShield(f)
-        end
-        if CASTBAR_ANIMATE then
-            CreateAnimGroup(f)
-        end
+        CreateOptionalElementsMaybe(f)
 
         f.ShowCastBar = ShowCastBar
         f.HideCastBar = HideCastBar
         f.UpdateCastBar = UpdateCastBar
-        f.SpellIconSetWidth = SpellIconSetWidth
         f.UpdateSpellNamePosition = UpdateSpellNamePosition
         f.UpdateCastbarSize = UpdateCastbarSize
+        f.SpellIconSetWidth = SpellIconSetWidth
 
         f:UpdateSpellNamePosition()
         f:UpdateCastbarSize()
@@ -1346,25 +1443,16 @@ do
         SHIELD_H = Scale(16)
         SHIELD_W = SHIELD_H * .84375
 
+        CASTBAR_DETACH = self.profile.castbar_detach
+        CASTBAR_DETACH_HEIGHT = Scale(self.profile.castbar_detach_height)
+        CASTBAR_DETACH_WIDTH = Scale(self.profile.castbar_detach_width)
+        CASTBAR_DETACH_OFFSET = Scale(self.profile.castbar_detach_offset)
+        CASTBAR_DETACH_COMBINE = CASTBAR_DETACH and self.profile.castbar_detach_combine
+        CASTBAR_RATIO = (1-(CASTBAR_DETACH_HEIGHT/CASTBAR_DETACH_WIDTH))/2
+        CASTBAR_ICON_SIDE = self.profile.castbar_icon_side
+
         for k,f in addon:Frames() do
-            -- create elements which weren't required until config was changed
-            -- (TODO castbar itself is always created)
-            if CASTBAR_SHOW_ICON and not f.SpellIcon then
-                CreateSpellIcon(f)
-            end
-            if CASTBAR_SHOW_NAME and not f.SpellName then
-                CreateSpellName(f)
-            end
-            if CASTBAR_SHOW_SHIELD and not f.SpellShield then
-                CreateSpellShield(f)
-            end
-            if CASTBAR_ANIMATE and not f.CastBar.AnimGroup then
-                CreateAnimGroup(f)
-            elseif not CASTBAR_ANIMATE and f.CastBar.AnimGroup then
-                -- make sure frames which might have been animating when the
-                -- option was changed are stopped;
-                f.CastBar.AnimGroup:Stop()
-            end
+            CreateOptionalElementsMaybe(f)
 
             if f.SpellShield then
                 if CASTBAR_SHOW_SHIELD then
@@ -1378,8 +1466,20 @@ do
             if f.SpellIcon then
                 if CASTBAR_SHOW_ICON then
                     f.SpellIcon:Show()
+
+                    if f.SpellIcon.bg then
+                        if CASTBAR_DETACH then
+                            f.SpellIcon.bg:Hide()
+                        else
+                            f.SpellIcon.bg:Show()
+                        end
+                    end
                 else
                     f.SpellIcon:Hide()
+
+                    if f.SpellIcon.bg then
+                        f.SpellIcon.bg:Hide()
+                    end
                 end
             end
 

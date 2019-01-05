@@ -548,7 +548,7 @@ function auras:Initialise()
     local auras_count_offset_x = self:CreateSlider('auras_count_offset_x',-20,20,nil,'offset_x')
     local auras_count_offset_y = self:CreateSlider('auras_count_offset_y',-20,20,nil,'offset_y')
 
-    local point_x_SelectTable = { 'LEFT', 'CENTER', 'RIGHT' }
+    local point_x_SelectTable = { 'LEFT', 'CENTER', 'RIGHT' } -- TODO l10n?
     local point_y_SelectTable = { 'TOP', 'CENTER', 'BOTTOM' }
 
     auras_cd_point_x.SelectTable = point_x_SelectTable
@@ -592,22 +592,33 @@ function castbars:Initialise()
     local castbar_unin_colour = self:CreateColourPicker('castbar_unin_colour')
     local castbar_personal = self:CreateCheckBox('castbar_showpersonal')
     local castbar_icon = self:CreateCheckBox('castbar_icon')
+    local castbar_icon_side = self:CreateDropDown('castbar_icon_side')
     local castbar_name = self:CreateCheckBox('castbar_name')
     local castbar_shield = self:CreateCheckBox('castbar_shield')
     local castbar_all = self:CreateCheckBox('castbar_showall')
     local castbar_friend = self:CreateCheckBox('castbar_showfriend',true)
     local castbar_enemy = self:CreateCheckBox('castbar_showenemy',true)
-    local castbar_height = self:CreateSlider('castbar_height',3,20)
+    local castbar_height = self:CreateSlider('castbar_height',3,30)
     local name_v_offset = self:CreateSlider('castbar_name_vertical_offset',-20,20)
     local animate = self:CreateCheckBox('castbar_animate')
     local animate_cc = self:CreateCheckBox('castbar_animate_change_colour',true)
 
+    castbar_icon_side.SelectTable = { 'Left','Right' } -- TODO l10n
+
+    local castbar_detach = self:CreateCheckBox('castbar_detach')
+    local castbar_detach_width = self:CreateSlider('castbar_detach_width',6,200)
+    local castbar_detach_height = self:CreateSlider('castbar_detach_height',3,50)
+    local castbar_detach_offset = self:CreateSlider('castbar_detach_offset',1,20)
+    local castbar_detach_combine = self:CreateCheckBox('castbar_detach_combine',true)
+
     castbar_enable:SetPoint('TOPLEFT',10,-10)
-    castbar_icon:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
-    castbar_name:SetPoint('TOPLEFT',castbar_icon,'BOTTOMLEFT')
+    castbar_name:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
     castbar_shield:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
 
-    castbar_personal:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT',0,-10)
+    castbar_icon:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT',0,0)
+    castbar_icon_side:SetPoint('LEFT',castbar_icon,'RIGHT',184,5)
+
+    castbar_personal:SetPoint('TOPLEFT',castbar_icon,'BOTTOMLEFT',0,-10)
     castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
     castbar_friend:SetPoint('TOPLEFT',castbar_all,'BOTTOMLEFT',10,0)
     castbar_enemy:SetPoint('TOPLEFT',castbar_friend,'BOTTOMLEFT')
@@ -616,15 +627,28 @@ function castbars:Initialise()
     animate_cc:SetPoint('TOPLEFT',animate,'BOTTOMLEFT',10,0)
 
     castbar_colour:SetPoint('LEFT',castbar_enable,220,0)
-    castbar_unin_colour:SetPoint('LEFT',castbar_icon,220,0)
+    castbar_unin_colour:SetPoint('LEFT',castbar_name,220,0)
 
-    castbar_height:SetPoint('TOP',0,-260)
-    name_v_offset:SetPoint('TOP',castbar_height,'BOTTOM',0,-40)
+    castbar_height:SetPoint('TOPLEFT',10,-250)
+    name_v_offset:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
+
+    castbar_detach_width:SetWidth(120)
+    castbar_detach_height:SetWidth(120)
+    castbar_detach_offset:SetWidth(120)
+
+    castbar_detach:SetPoint('TOPLEFT',10,-300)
+    castbar_detach_combine:SetPoint('TOPLEFT',castbar_detach,'BOTTOMLEFT',10,0)
+    castbar_detach_width:SetPoint('TOPLEFT',castbar_detach,'BOTTOMLEFT',0,-50)
+    castbar_detach_height:SetPoint('LEFT',castbar_detach_width,'RIGHT',22,0)
+    castbar_detach_offset:SetPoint('LEFT',castbar_detach_height,'RIGHT',22,0)
 
     castbar_colour.enabled = function(p) return p.castbar_enable end
     castbar_unin_colour.enabled = castbar_colour.enabled
     castbar_personal.enabled = castbar_colour.enabled
     castbar_icon.enabled = castbar_colour.enabled
+    castbar_icon_side.enabled = function(p)
+        return p.castbar_icon and (not p.castbar_detach or not p.castbar_detach_combine)
+    end
     castbar_name.enabled = castbar_colour.enabled
     castbar_shield.enabled = castbar_colour.enabled
     castbar_all.enabled = castbar_colour.enabled
@@ -634,6 +658,13 @@ function castbars:Initialise()
     name_v_offset.enabled = function(p) return p.castbar_enable and p.castbar_name end
     animate.enabled = castbar_colour.enabled
     animate_cc.enabled = function(p) return p.castbar_animate and p.castbar_enable end
+
+    castbar_detach_width.enabled = function(p) return p.castbar_detach end
+    castbar_detach_height.enabled = castbar_detach_width.enabled
+    castbar_detach_offset.enabled = castbar_detach_width.enabled
+    castbar_detach_combine.enabled = function(p)
+        return p.castbar_detach and p.castbar_icon
+    end
 end
 -- threat ######################################################################
 function threat:Initialise()

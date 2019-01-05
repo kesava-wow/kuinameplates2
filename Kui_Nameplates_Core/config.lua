@@ -146,7 +146,6 @@ local default_config = {
     frame_height_minus = 8,
     frame_width_personal = 132,
     frame_height_personal = 13,
-    castbar_height = 6,
     powerbar_height = 3,
     global_scale = 1,
 
@@ -188,6 +187,13 @@ local default_config = {
     castbar_animate_change_colour = true,
     castbar_name_vertical_offset = -1,
     castbar_spacing = 1, -- NEX
+    castbar_height = 6,
+    castbar_detach = false,
+    castbar_detach_height = 18,
+    castbar_detach_width = 36,
+    castbar_detach_offset = 5,
+    castbar_detach_combine = true,
+    castbar_icon_side = 1,
 
     tank_mode = true,
     tankmode_force_enable = false,
@@ -545,16 +551,22 @@ function configChanged.castbar_enable(v)
     end
     configChangedCastBar()
 end
-configChanged.castbar_height = configChangedCastBar
 configChanged.castbar_colour = configChangedCastBar
 configChanged.castbar_unin_colour = configChangedCastBar
 configChanged.castbar_icon = configChangedCastBar
 configChanged.castbar_name = configChangedCastBar
 configChanged.castbar_shield = configChangedCastBar
-configChanged.castbar_name_vertical_offset = configChangedCastBar
 configChanged.castbar_animate = configChangedCastBar
 configChanged.castbar_animate_change_colour = configChangedCastBar
+configChanged.castbar_name_vertical_offset = configChangedCastBar
 configChanged.castbar_spacing = configChangedCastBar
+configChanged.castbar_height = configChangedCastBar
+configChanged.castbar_detach = configChangedCastBar
+configChanged.castbar_detach_height = configChangedCastBar
+configChanged.castbar_detach_width = configChangedCastBar
+configChanged.castbar_detach_offset = configChangedCastBar
+configChanged.castbar_detach_combine = configChangedCastBar
+configChanged.castbar_icon_side = configChangedCastBar
 
 function configChanged.classpowers_enable(v)
     if v then
