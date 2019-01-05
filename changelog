@@ -1,14 +1,5 @@
-* KNP's nameplates are now attached directly to the vanilla nameplate frame;
-- the fading and scaling behaviour can be disabled in /knp > cvars
+BETA NOTES
 
-* add options for position and size of aura text (/knp > auras, scroll down)
-* add option to disable mouseover highlight (/knp > general)
-* add option mouseover_highlight_opacity (not exposed in ui)
-* add options for personal nameplate clamping cvars
-* add option for nameplate line-of-sight alpha multiplier cvar
-* add option to disable nameplate alpha cvars
-* add command `/knp locale` to switch config language (like: `/knp locale enGB`)
-* change KNP back-end frame size to match health bar (so WeakAuras etc. might need to be moved slightly)
-* change default aura text position slightly
-* in config, hold alt to adjust sliders with the mouse wheel
-* remove text_vertical_offset (since aura text can be moved independently now)
+* add "detached" alternative layout for castbar
+- which can have the spell icon overlayed like an aura, or aligned to one side
+- the default design is unchanged
