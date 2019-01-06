@@ -91,6 +91,8 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         local custom = IsAddOnLoaded('Kui_Nameplates_Custom') and '+c' or ''
         local barauras = IsAddOnLoaded('Kui_Nameplates_BarAuras') and '+ba' or ''
         local extras = IsAddOnLoaded('Kui_Nameplates_Extras') and '+x' or ''
+        local locale = KuiNameplatesCoreSaved.LOCALE or GetLocale()
+        local class = select(2,UnitClass('player'))
 
         local plugins_str
         for i,plugin_tbl in ipairs(knp.plugins) do
@@ -108,6 +110,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         d:AddText(format('%s %d.%d%s%s%s%s',
             '@project-version@',knp.MAJOR,knp.MINOR,
             debug,custom,barauras,extras))
+        d:AddText(format('%s %s',locale,class))
 
         d:AddText(KuiNameplatesCore.config.csv)
         d:AddText(KuiNameplatesCore.config:GetActiveProfile())
