@@ -1095,6 +1095,10 @@ do
 
         if f.cast_state.interruptible then
             CastBarSetColour(f.CastBar,CASTBAR_COLOUR)
+
+            if f.elements.SpellShield then
+                f.SpellShield:Hide()
+            end
         else
             CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR,true)
 
