@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 34
+local MAJOR, MINOR = 'Kui-1.0', 35
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -275,101 +275,106 @@ do
     end
 end
 -- editbox debug popup #########################################################
-local debugpopup
-local function CreateDebugPopup()
-    local p = CreateFrame('EditBox','KuiDebugEditBox',UIParent)
-    p:SetFrameStrata('DIALOG')
-    p:SetMultiLine(true)
-    p:SetAutoFocus(true)
-    p:SetFontObject(ChatFontNormal)
-    p:SetSize(450,300)
-    p:Hide()
+do
+    local debugpopup
 
-    p.orig_Hide = p.Hide
-    function p:Hide()
+    local function Popup_Show(self)
+        self.ScrollFrame:Show()
+        self.Background:Show()
+        self:orig_Show()
+    end
+    local function Popup_Hide(self)
+        self:ClearFocus()
         self:SetText("")
         self.ScrollFrame:Hide()
         self.Background:Hide()
         self:orig_Hide()
     end
-
-    p.orig_Show = p.Show
-    function p:Show()
-        self.ScrollFrame:Show()
-        self.Background:Show()
-        self:orig_Show()
-    end
-
-    function p:AddText(v)
+    local function Popup_AddText(self,v)
         if not v then return end
-        local m = p:GetText()
+        local m = self:GetText()
         if m ~= '' then
             m = m..'|n'
         end
         if type(v) == 'table' then
             v = kui.table_to_string(v)
         end
-        p:SetText(m..v)
+        self:SetText(m..v)
     end
-
-    p:SetScript('OnEscapePressed',function(self)
-        self:ClearFocus()
+    local function Popup_OnEscapePressed(self)
         self:Hide()
-        self.ScrollFrame:Hide()
-        self.Background:Hide()
-    end)
-
-    local s = CreateFrame('ScrollFrame','KuiDebugEditBoxScrollFrame',UIParent,'UIPanelScrollFrameTemplate')
-    s:SetMovable(true)
-    s:SetFrameStrata('DIALOG')
-    s:SetSize(450,300)
-    s:SetHitRectInsets(-10,-30,-10,-10)
-    s:SetPoint('CENTER')
-    s:SetScrollChild(p)
-    s:Hide()
-
-    s:SetScript('OnMouseDown',function(self,button)
+    end
+    local function ScrollFrame_OnMouseDown(self,button)
         if button == 'RightButton' and not self.is_moving then
             self:StartMoving()
             self.is_moving = true
         elseif button == 'LeftButton' then
             self:GetScrollChild():SetFocus()
         end
-    end)
-    s:SetScript('OnMouseUp',function(self,button)
+    end
+    local function ScrollFrame_OnMouseUp(self,button)
         if button == 'RightButton' and self.is_moving then
             self:StopMovingOrSizing()
             self.is_moving = nil
         end
-    end)
-
-    local bg = CreateFrame('Frame',nil,UIParent)
-    bg:SetFrameStrata('DIALOG')
-    bg:SetBackdrop({
-        bgFile = 'Interface\\ChatFrame\\ChatFrameBackground',
-        edgeFile = 'Interface\\Tooltips\\UI-Tooltip-border',
-        edgeSize = 16,
-        insets = { left = 4, right = 4, top = 4, bottom = 4 }
-    })
-    bg:SetBackdropColor(.05,.05,.05,.8)
-    bg:SetBackdropBorderColor(.5,.5,.5)
-    bg:SetPoint('TOPLEFT',s,-10,10)
-    bg:SetPoint('BOTTOMRIGHT',s,30,-10)
-    bg:Hide()
-
-    p.ScrollFrame = s
-    p.Background = bg
-
-    debugpopup = p
-end
-kui.DebugPopup = function()
-    -- create/get and return reference to debug EditBox
-    if not debugpopup then
-        CreateDebugPopup()
     end
 
-    debugpopup:Hide()
-    return debugpopup
+    local function CreateDebugPopup()
+        if debugpopup then return end
+
+        local p = CreateFrame('EditBox','KuiDebugEditBox',UIParent)
+        p:SetFrameStrata('DIALOG')
+        p:SetMultiLine(true)
+        p:SetAutoFocus(true)
+        p:SetFontObject(ChatFontNormal)
+        p:SetSize(450,300)
+        p:Hide()
+
+        p.orig_Hide = p.Hide
+        p.orig_Show = p.Show
+        p.Hide = Popup_Hide
+        p.Show = Popup_Show
+        p.AddText = Popup_AddText
+        p:SetScript('OnEscapePressed',Popup_OnEscapePressed)
+
+        local s = CreateFrame('ScrollFrame','KuiDebugEditBoxScrollFrame',UIParent,'UIPanelScrollFrameTemplate')
+        s:SetMovable(true)
+        s:SetFrameStrata('DIALOG')
+        s:SetSize(450,300)
+        s:SetHitRectInsets(-10,-30,-10,-10)
+        s:SetPoint('CENTER')
+        s:SetScrollChild(p)
+        s:Hide()
+
+        s:SetScript('OnMouseDown',ScrollFrame_OnMouseDown)
+        s:SetScript('OnMouseUp',ScrollFrame_OnMouseUp)
+
+        local bg = CreateFrame('Frame',nil,UIParent)
+        bg:SetFrameStrata('DIALOG')
+        bg:SetBackdrop({
+            bgFile = 'Interface\\ChatFrame\\ChatFrameBackground',
+            edgeFile = 'Interface\\Tooltips\\UI-Tooltip-border',
+            edgeSize = 16,
+            insets = { left = 4, right = 4, top = 4, bottom = 4 }
+        })
+        bg:SetBackdropColor(.05,.05,.05,.8)
+        bg:SetBackdropBorderColor(.5,.5,.5)
+        bg:SetPoint('TOPLEFT',s,-10,10)
+        bg:SetPoint('BOTTOMRIGHT',s,30,-10)
+        bg:Hide()
+
+        p.ScrollFrame = s
+        p.Background = bg
+
+        return p
+    end
+
+    kui.DebugPopup = function()
+        -- create/get and return reference to debug EditBox
+        CreateDebugPopup()
+        debugpopup:Hide()
+        return debugpopup
+    end
 end
 -- Frame fading functions ######################################################
 kui.frameFadeFrame = CreateFrame('Frame')
