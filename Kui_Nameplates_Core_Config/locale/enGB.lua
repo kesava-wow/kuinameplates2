@@ -7,7 +7,11 @@ L.common = {
     point_x = 'X point',
     point_y = 'Y point',
     offset_x = 'X offset',
-    offset_y = 'Y offset'
+    offset_y = 'Y offset',
+    width = 'Width',
+    height = 'Height',
+    offset = 'Offset',
+    layout = 'Layout',
 }
 L.page_names = {
     general     = 'General',
@@ -221,7 +225,10 @@ L.titles = {
     castbar_animate = 'Animate',
     castbar_animate_change_colour = 'Change colour',
     castbar_height = 'Bar height',
-    castbar_name_vertical_offset = 'Spell name v.offset',
+    castbar_name_vertical_offset = 'Spell name offset',
+    castbar_detach = 'Detach',
+    castbar_detach_combine = 'Overlay spell icon',
+    castbar_icon_side = 'Spell icon side',
 
     tank_mode = 'Enable tank mode',
     tankmode_force_enable = 'Force tank mode',
