@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 35
+local MAJOR, MINOR = 'Kui-1.0', 36
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -366,7 +366,7 @@ do
         p.ScrollFrame = s
         p.Background = bg
 
-        return p
+        debugpopup = p
     end
 
     kui.DebugPopup = function()
