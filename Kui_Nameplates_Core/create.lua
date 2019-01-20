@@ -1048,8 +1048,8 @@ do
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
           CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,SHIELD_H,SHIELD_W,
           CASTBAR_DETACH,CASTBAR_DETACH_HEIGHT,CASTBAR_DETACH_WIDTH,
-          CASTBAR_DETACH_OFFSET,CASTBAR_DETACH_COMBINE,CASTBAR_RATIO,
-          CASTBAR_ICON_SIDE
+          CASTBAR_DETACH_OFFSET,CASTBAR_DETACH_COMBINE,CASTBAR_DETACH_NAMEONLY,
+          CASTBAR_RATIO,CASTBAR_ICON_SIDE
 
     local function AnimGroup_Stop(self)
         self.frame:HideCastBar(nil,true)
@@ -1192,7 +1192,7 @@ do
     end
     local function UpdateCastBar(f)
         if not CASTBAR_ENABLED then return end
-        if f.IN_NAMEONLY then
+        if f.IN_NAMEONLY and (not CASTBAR_DETACH or not CASTBAR_DETACH_NAMEONLY) then
             f.handler:DisableElement('CastBar')
 
             if CASTBAR_ANIMATE and f.CastBar.AnimGroup:IsPlaying() then
@@ -1452,6 +1452,7 @@ do
         CASTBAR_DETACH_WIDTH = Scale(self.profile.castbar_detach_width)
         CASTBAR_DETACH_OFFSET = Scale(self.profile.castbar_detach_offset)
         CASTBAR_DETACH_COMBINE = CASTBAR_DETACH and self.profile.castbar_detach_combine
+        CASTBAR_DETACH_NAMEONLY = self.profile.castbar_detach_nameonly
         CASTBAR_RATIO = (1-(CASTBAR_DETACH_HEIGHT/CASTBAR_DETACH_WIDTH))/2
         CASTBAR_ICON_SIDE = self.profile.castbar_icon_side
 
