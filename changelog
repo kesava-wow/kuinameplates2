@@ -1,5 +1,7 @@
 BETA NOTES
 
+* add option castbar_detach_nameonly (show castbar in nameonly mode, if castbar detach is also enabled)
+
 * fix /knp dump
 
 * update locale
