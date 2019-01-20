@@ -98,6 +98,11 @@ end
 function core:GlowColourChange(f)
     -- update nameonly upon threat state changes
     self:NameOnlyCombatUpdate(f)
+
+    -- update to show name of units which are in combat with the player
+    self:ShowNameUpdate(f)
+    f:UpdateFrameSize()
+    f:UpdateNameText()
 end
 function core:CastBarShow(f)
     f:ShowCastBar()
@@ -149,11 +154,6 @@ end
 function core:Combat(f)
     -- enable/disable nameonly if enabled on enemies
     self:NameOnlyCombatUpdate(f)
-
-    -- update to show name of units which are in combat with the player
-    self:ShowNameUpdate(f)
-    f:UpdateFrameSize()
-    f:UpdateNameText()
 end
 -- events ######################################################################
 function core:QUEST_POI_UPDATE()
