@@ -8,15 +8,16 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 
+local k,listener,plugin,_
 local type,strsub,pairs,ipairs,unpack,tinsert,tremove=
       type,strsub,pairs,ipairs,unpack,tinsert,tremove
 
-local k,listener,plugin,_
 local listeners = {}
+
+local message = {}
+message.__index = message
+
 -------------------------------------------------------------- debug helpers --
-if addon.debug_messages then
-    addon.MESSAGE_LISTENERS = listeners
-end
 local function TableToString(tbl)
     if type(tbl) ~= 'table' then return end
     if type(tbl.state) == 'table' and type(tbl.state.name) == 'string' then
@@ -99,7 +100,7 @@ do
         end)
         local d = kui:DebugPopup()
         for i,v in ipairs(ev_sort) do
-            d:AddText('|cffffff88'..v[1]..'|r #'..v[2]..' | sum:'..format('%.4f',v[3])..'ms | avg:'..format('%.4f',v[4])..'ms')
+            d:AddText(format('|cffffff88%s|r #%d | sum: %.4fms | avg: %.4fms',unpack(v)))
         end
         d:Show()
     end
@@ -127,7 +128,7 @@ function addon:DispatchMessage(message, ...)
             if type(func) == 'function' then
                 func(listener,...)
             else
-                addon:print('|cffff0000no listener for m:'..message..' in '..(listener.name or 'nil'))
+                addon:print(format('|cffff0000no listener for m:%s in %s',message,listener.name or 'nil'))
             end
         end
 
@@ -220,9 +221,6 @@ local function event_frame_OnEvent(self,event,...)
     DispatchEventToListeners(event,nil,nil,...)
 end
 event_frame:SetScript('OnEvent',event_frame_OnEvent)
------------------------------------------------------------------- registrars --
-local message = {}
-message.__index = message
 ----------------------------------------------------------- message registrar --
 local function pluginHasMessage(table,message)
     return (type(table.__MESSAGES) == 'table' and table.__MESSAGES[message])
@@ -546,14 +544,13 @@ function addon:NewPlugin(name,priority,max_minor,enable_on_load)
     end
 
     local pluginTable = {
+        Enable = plugin_Enable,
+        Disable = plugin_Disable,
         name = name,
         enable_on_load = enable_on_load,
         plugin = true,
         priority = tonumber(priority) or 5
     }
-    pluginTable.Enable = plugin_Enable
-    pluginTable.Disable = plugin_Disable
-
     setmetatable(pluginTable, message)
     tinsert(addon.plugins, pluginTable)
 
@@ -573,15 +570,17 @@ function addon:NewElement(name,priority,max_minor)
     return ele
 end
 ------------------------------------------------------------ layout registrar --
--- the layout is always executed last
 function addon:Layout()
-    if addon.layout then return end
+    if self.layout then
+        self:ui_print('More than one layout is enabled.')
+        return
+    end
 
-    addon.layout = {
+    self.layout = {
         layout = true,
         priority = 100
     }
-    setmetatable(addon.layout, message)
+    setmetatable(self.layout, message)
 
-    return addon.layout
+    return self.layout
 end
