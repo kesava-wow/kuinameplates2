@@ -14,8 +14,8 @@ local type,strsub,pairs,ipairs,unpack,tinsert,tremove=
 
 local listeners = {}
 
-local message = {}
-message.__index = message
+local messages = {}
+messages.__index = messages
 
 -------------------------------------------------------------- debug helpers --
 local function TableToString(tbl)
@@ -40,11 +40,11 @@ local function VarArgsToString(...)
     end
     return ac
 end
-local function PrintDebugForMessage(message,listener,...)
-    if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['m:'..message] then return end
+local function PrintDebugForMessage(msg,listener,...)
+    if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['m:'..msg] then return end
 
     local ac = VarArgsToString(...)
-    addon:print('p:'..(listener.priority or '?')..' |cff88ff88m:'..message..'|r > '..(listener.name or 'nil')..(ac and ' |cffaaaaaa'..ac or ''))
+    addon:print('p:'..(listener.priority or '?')..' |cff88ff88m:'..msg..'|r > '..(listener.name or 'nil')..(ac and ' |cffaaaaaa'..ac or ''))
 end
 local function PrintDebugForEvent(event,table,unit,...)
     if addon.DEBUG_IGNORE and addon.DEBUG_IGNORE['e:'..event] then return end
@@ -106,34 +106,34 @@ do
     end
 end
 ----------------------------------------------------- core message dispatcher --
-function addon:DispatchMessage(message, ...)
-    if listeners[message] then
+function addon:DispatchMessage(msg,...)
+    if listeners[msg] then
         --@debug@
-        TraceStart('m:'..message)
+        TraceStart('m:'..msg)
         --@end-debug@
 
-        for i,listener_tbl in ipairs(listeners[message]) do
+        for i,listener_tbl in ipairs(listeners[msg]) do
             local listener,func = unpack(listener_tbl)
 
             if addon.debug_messages then
-                PrintDebugForMessage(message,listener,...)
+                PrintDebugForMessage(msg,listener,...)
             end
 
             if type(func) == 'string' and type(listener[func]) == 'function' then
                 func = listener[func]
-            elseif type(listener[message]) == 'function' then
-                func = listener[message]
+            elseif type(listener[msg]) == 'function' then
+                func = listener[msg]
             end
 
             if type(func) == 'function' then
                 func(listener,...)
             else
-                addon:print(format('|cffff0000no listener for m:%s in %s',message,listener.name or 'nil'))
+                addon:print(format('|cffff0000no listener for m:%s in %s',msg,listener.name or 'nil'))
             end
         end
 
         --@debug@
-        TraceEnd('m:'..message)
+        TraceEnd('m:'..msg)
         --@end-debug@
     end
 end
@@ -222,12 +222,12 @@ local function event_frame_OnEvent(self,event,...)
 end
 event_frame:SetScript('OnEvent',event_frame_OnEvent)
 ----------------------------------------------------------- message registrar --
-local function pluginHasMessage(table,message)
-    return (type(table.__MESSAGES) == 'table' and table.__MESSAGES[message])
+local function pluginHasMessage(table,msg)
+    return (type(table.__MESSAGES) == 'table' and table.__MESSAGES[msg])
 end
-function message.RegisterMessage(table,message,func)
+function messages.RegisterMessage(table,msg,func)
     if not table then return end
-    if not message or type(message) ~= 'string' then
+    if not msg or type(msg) ~= 'string' then
         addon:print('|cffff0000invalid message passed to RegisterMessage by '..(table.name or 'nil'))
         return
     end
@@ -236,26 +236,26 @@ function message.RegisterMessage(table,message,func)
         return
     end
 
-    if pluginHasMessage(table,message) then return end
+    if pluginHasMessage(table,msg) then return end
 
     if addon.debug_messages and table.name then
-        addon:print(table.name..' registered m:'..message)
+        addon:print(table.name..' registered m:'..msg)
     end
 
-    if not listeners[message] then
-        listeners[message] = {}
+    if not listeners[msg] then
+        listeners[msg] = {}
     end
 
     local insert_tbl = { table, func }
 
     -- insert by priority
-    if #listeners[message] > 0 then
+    if #listeners[msg] > 0 then
         local inserted
-        for k,listener in ipairs(listeners[message]) do
+        for k,listener in ipairs(listeners[msg]) do
             listener = listener[1]
             if listener.priority > table.priority then
                 -- insert before a higher priority plugin
-                tinsert(listeners[message], k, insert_tbl)
+                tinsert(listeners[msg], k, insert_tbl)
                 inserted = true
                 break
             end
@@ -263,34 +263,34 @@ function message.RegisterMessage(table,message,func)
 
         if not inserted then
             -- no higher priority plugin was found; insert at the end
-            tinsert(listeners[message], insert_tbl)
+            tinsert(listeners[msg], insert_tbl)
         end
     else
         -- no current listeners
-        tinsert(listeners[message], insert_tbl)
+        tinsert(listeners[msg], insert_tbl)
     end
 
     if not table.__MESSAGES then
         table.__MESSAGES = {}
     end
-    table.__MESSAGES[message] = true
+    table.__MESSAGES[msg] = true
 end
-function message.UnregisterMessage(table,message)
-    if not pluginHasMessage(table,message) then return end
-    if type(listeners[message]) == 'table' then
-        for i,listener_tbl in ipairs(listeners[message]) do
+function messages.UnregisterMessage(table,msg)
+    if not pluginHasMessage(table,msg) then return end
+    if type(listeners[msg]) == 'table' then
+        for i,listener_tbl in ipairs(listeners[msg]) do
             if listener_tbl[1] == table then
-                tremove(listeners[message],i)
-                table.__MESSAGES[message] = nil
+                tremove(listeners[msg],i)
+                table.__MESSAGES[msg] = nil
                 return
             end
         end
     end
 end
-function message.UnregisterAllMessages(table)
+function messages.UnregisterAllMessages(table)
     if type(table.__MESSAGES) ~= 'table' then return end
-    for message,_ in pairs(table.__MESSAGES) do
-        table:UnregisterMessage(message)
+    for msg,_ in pairs(table.__MESSAGES) do
+        table:UnregisterMessage(msg)
     end
     table.__MESSAGES = nil
 end
@@ -299,7 +299,7 @@ local function pluginHasEvent(table,event)
     -- true if plugin is registered for given event
     return (type(table.__EVENTS) == 'table' and table.__EVENTS[event])
 end
-function message.RegisterEvent(table,event,func,unit_only)
+function messages.RegisterEvent(table,event,func,unit_only)
     -- unit_only: only fire callback if a valid nameplate exists for event unit
     if func and type(func) ~= 'string' and type(func) ~= 'function' then
         addon:print('|cffff0000invalid function passed to RegisterEvent by '..(table.name or 'nil'))
@@ -352,10 +352,10 @@ function message.RegisterEvent(table,event,func,unit_only)
         event_frame:RegisterEvent(event)
     end
 end
-function message.RegisterUnitEvent(table,event,func)
+function messages.RegisterUnitEvent(table,event,func)
     table:RegisterEvent(event,func,true)
 end
-function message.UnregisterEvent(table,event)
+function messages.UnregisterEvent(table,event)
     if not pluginHasEvent(table,event) then return end
     if type(event_index[event]) == 'table' then
         for i,r_table in ipairs(event_index[event]) do
@@ -367,7 +367,7 @@ function message.UnregisterEvent(table,event)
         end
     end
 end
-function message.UnregisterAllEvents(table)
+function messages.UnregisterAllEvents(table)
     if type(table.__EVENTS) ~= 'table' then return end
     for event,_ in pairs(table.__EVENTS) do
         table:UnregisterEvent(event)
@@ -394,7 +394,7 @@ local function VerifyCallbackArguments(table,target,name,func)
 
     return target
 end
-function message.RegisterCallback(table,name,return_needed)
+function messages.RegisterCallback(table,name,return_needed)
     -- register a callback to this plugin
     -- return_needed: only allow one callback function
     if not table.__CALLBACKS then
@@ -402,7 +402,7 @@ function message.RegisterCallback(table,name,return_needed)
     end
     table.__CALLBACKS[name] = return_needed and 2 or 1
 end
-function message.AddCallback(table,target,name,func,priority)
+function messages.AddCallback(table,target,name,func,priority)
     -- add a callback function
     target = VerifyCallbackArguments(table,target,name,func)
     if not target then return end
@@ -442,7 +442,7 @@ function message.AddCallback(table,target,name,func,priority)
         end
     end
 end
-function message.RemoveCallback(table,target,name,func)
+function messages.RemoveCallback(table,target,name,func)
     -- remove callback function matching given arguments
     target = VerifyCallbackArguments(table,target,name,func)
     if not target then return end
@@ -460,14 +460,14 @@ function message.RemoveCallback(table,target,name,func)
         end
     end
 end
-function message.HasCallback(table,name)
+function messages.HasCallback(table,name)
     if  table.__CALLBACKS and table.__CALLBACKS[name] and table.callbacks and
         table.callbacks[name] and #table.callbacks[name] > 0
     then
         return true
     end
 end
-function message.RunCallback(table,name,...)
+function messages.RunCallback(table,name,...)
     -- run this plugin's named callback
     if not table:HasCallback(name) then return end
     if addon.debug_callbacks then
@@ -551,7 +551,7 @@ function addon:NewPlugin(name,priority,max_minor,enable_on_load)
         plugin = true,
         priority = tonumber(priority) or 5
     }
-    setmetatable(pluginTable, message)
+    setmetatable(pluginTable, messages)
     tinsert(addon.plugins, pluginTable)
 
     return pluginTable
@@ -580,7 +580,7 @@ function addon:Layout()
         layout = true,
         priority = 100
     }
-    setmetatable(self.layout, message)
+    setmetatable(self.layout, messages)
 
     return self.layout
 end
