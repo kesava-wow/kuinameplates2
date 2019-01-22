@@ -176,6 +176,7 @@ local function OnEvent(self,event,...)
         ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
         ClassNameplateBarWarlockFrame:UnregisterAllEvents()
         ClassNameplateManaBarFrame:UnregisterAllEvents()
+        ClassNameplateBrewmasterBarFrame:UnregisterAllEvents()
 
         NamePlateDriverFrame:SetClassNameplateManaBar(nil)
         NamePlateDriverFrame:SetClassNameplateBar(nil)
