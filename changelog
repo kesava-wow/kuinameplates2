@@ -1,5 +1,7 @@
 BETA NOTES
 
+* fix brewmaster monk bar texture on prd
+
 * fix delayed name display update
 
 * add option castbar_detach_nameonly (show castbar in nameonly mode, if castbar detach is also enabled)
