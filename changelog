@@ -1,15 +1,7 @@
-BETA NOTES
-
-* fix brewmaster monk bar texture on prd
-
-* fix delayed name display update
-
-* add option castbar_detach_nameonly (show castbar in nameonly mode, if castbar detach is also enabled)
-
-* fix /knp dump
-
-* update locale
-
-* add "detached" alternative layout for castbar
-- which can have the spell icon overlayed like an aura, or aligned to one side
-- the default design is unchanged
+* add "detached" alternative layout for castbars (/knp > castbars)
+- the spell icon can be overlayed like an aura, or aligned to one side.
+- the default is unchanged.
+* add option "spell icon side" (/knp > castbars)
+* add option castbar_detach_nameonly (show detached castbar in nameonly mode, not exposed in ui)
+* fix brewmaster monk vanilla PRD stagger bar is visible
+* fix delayed combat detection (e.g. name updates)
