@@ -174,6 +174,7 @@ function mod:OnEnable()
 
     self:RegisterEvent('GROUP_ROSTER_UPDATE','GroupUpdate')
     self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','SpecUpdate')
+    self:RegisterEvent('PLAYER_ENTERING_WORLD','SpecUpdate')
 
     self:SpecUpdate()
 end
