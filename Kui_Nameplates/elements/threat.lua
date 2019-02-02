@@ -11,14 +11,9 @@
 --   GlowColourChange = threat state changed
 local addon = KuiNameplates
 local ele = addon:NewElement('Threat',1)
-
-local UnitIsPlayer,UnitPlayerControlled=
-      UnitIsPlayer,UnitPlayerControlled
-
--- TODO config
-local threat_colours = {
-    { 1, 0, 0 },
-    { 1, .6, 0 }
+ele.colours = {
+    { 1,0,0 }, -- tanking
+    { 1,.6,0 } -- transition
 }
 -- messages ####################################################################
 function ele:Show(f)
@@ -41,7 +36,7 @@ function ele:UNIT_THREAT_LIST_UPDATE(event,f,unit)
         f.state.threat = threat_state
 
         local threat_colour = threat_state and (
-            threat_state > 0 and threat_colours[threat_state]
+            threat_state > 0 and self.colours[threat_state]
         )
         f.state.glow_colour = threat_colour
 
