@@ -1649,7 +1649,7 @@ do
     local function AuraFrame_CoreDynamic_OnVisibilityChange(self)
         if self.parent.IGNORE_VISIBILITY_BUBBLE then return end
         if not AURAS_PURGE_OPPOSITE and self.sibling.__width then
-            -- update sibling point if it's attached and initalised
+            -- update sibling point if it's attached and initialised
             AuraFrame_UpdateFrameSize(self.sibling)
         end
     end
