@@ -7,7 +7,6 @@ mod.colours = {
     { 1,1,0 },  -- player is gaining/losing threat
     { .6,0,1 }  -- other tank is tanking
 }
-
 local force_enable,force_offtank,spec_enabled,offtank_enable
 -- local functions #############################################################
 local function UpdateFrames()
@@ -180,6 +179,4 @@ function mod:OnEnable()
 end
 function mod:OnDisable()
     UpdateFrames()
-end
-function mod:Initialise()
 end
