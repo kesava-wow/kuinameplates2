@@ -1,7 +1,4 @@
-* add "detached" alternative layout for castbars (/knp > castbars)
-- the spell icon can be overlayed like an aura, or aligned to one side.
-- the default is unchanged.
-* add option "spell icon side" (/knp > castbars)
-* add option castbar_detach_nameonly (show detached castbar in nameonly mode, not exposed in ui)
-* fix brewmaster monk vanilla PRD stagger bar is visible
-* fix delayed combat detection (e.g. name updates)
+BETA NOTES
+
+* fix tank mode doesn't correctly enable if your spec is automatically changed
+* add options to change threat glow/bracket colours (finally)
