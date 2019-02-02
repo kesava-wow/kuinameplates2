@@ -1,4 +1,6 @@
 BETA NOTES
 
+* fix a typo
+
 * fix tank mode doesn't correctly enable if your spec is automatically changed
 * add options to change threat glow/bracket colours (finally)
