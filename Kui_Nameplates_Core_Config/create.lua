@@ -674,11 +674,14 @@ function threat:Initialise()
     local tankmode_force_enable = self:CreateCheckBox('tankmode_force_enable',true)
     local tankmode_force_offtank = self:CreateCheckBox('tankmode_force_offtank',true)
     local threatbracketsCheck = self:CreateCheckBox('threat_brackets')
+    local frame_glow_threat = self:CreateCheckBox('frame_glow_threat')
     local tankmode_colour_sep = self:CreateSeparator('tankmode_colour_sep')
     local tankmode_tank_colour = self:CreateColourPicker('tankmode_tank_colour')
     local tankmode_trans_colour = self:CreateColourPicker('tankmode_trans_colour')
     local tankmode_other_colour = self:CreateColourPicker('tankmode_other_colour')
-    local frame_glow_threat = self:CreateCheckBox('frame_glow_threat')
+    local tankmode_glow_colour_sep = self:CreateSeparator('tankmode_glow_colour_sep')
+    local tankmode_tank_glow_colour = self:CreateColourPicker('tankmode_tank_glow_colour')
+    local tankmode_trans_glow_colour = self:CreateColourPicker('tankmode_trans_glow_colour')
 
     tankmode_force_enable.enabled = function(p)
         return p.tank_mode
@@ -691,16 +694,27 @@ function threat:Initialise()
     tankmode_trans_colour.enabled = tankmode_force_enable.enabled
     tankmode_other_colour.enabled = tankmode_force_enable.enabled
 
+    tankmode_tank_glow_colour.enabled = function(p)
+        return p.threat_brackets or p.frame_glow_threat
+    end
+    tankmode_trans_glow_colour.enabled = tankmode_tank_glow_colour.enabled
+
     tankmodeCheck:SetPoint('TOPLEFT',10,-10)
     tankmode_force_enable:SetPoint('TOPLEFT',tankmodeCheck,'BOTTOMLEFT',10,0)
     tankmode_force_offtank:SetPoint('TOPLEFT',tankmode_force_enable,'BOTTOMLEFT')
     threatbracketsCheck:SetPoint('LEFT',tankmodeCheck,'RIGHT',190,0)
     frame_glow_threat:SetPoint('TOPLEFT',threatbracketsCheck,'BOTTOMLEFT')
 
-    tankmode_colour_sep:SetPoint('TOP',0,-110)
-    tankmode_tank_colour:SetPoint('TOPLEFT',15,-130)
-    tankmode_trans_colour:SetPoint('LEFT',tankmode_tank_colour,'RIGHT')
-    tankmode_other_colour:SetPoint('LEFT',tankmode_trans_colour,'RIGHT')
+    tankmode_colour_sep:SetWidth(190)
+    tankmode_colour_sep:SetPoint('TOPLEFT',10,-120)
+    tankmode_tank_colour:SetPoint('TOPLEFT',tankmode_colour_sep,'BOTTOMLEFT',10,-10)
+    tankmode_trans_colour:SetPoint('TOPLEFT',tankmode_tank_colour,'BOTTOMLEFT')
+    tankmode_other_colour:SetPoint('TOPLEFT',tankmode_trans_colour,'BOTTOMLEFT')
+
+    tankmode_glow_colour_sep:SetWidth(190)
+    tankmode_glow_colour_sep:SetPoint('LEFT',tankmode_colour_sep,210,0)
+    tankmode_tank_glow_colour:SetPoint('TOPLEFT',tankmode_glow_colour_sep,'BOTTOMLEFT',10,-10)
+    tankmode_trans_glow_colour:SetPoint('TOPLEFT',tankmode_tank_glow_colour,'BOTTOMLEFT')
 end
 -- classpowers #################################################################
 function classpowers:Initialise()
