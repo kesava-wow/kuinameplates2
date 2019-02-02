@@ -454,7 +454,7 @@ local function configChangedTankColour()
     }
     addon:GetPlugin('Threat').colours = {
         core.profile.tankmode_tank_glow_colour,
-        core.profile.tankmode_tranks_glow_colour,
+        core.profile.tankmode_trans_glow_colour,
     }
 end
 configChanged.tankmode_tank_colour = configChangedTankColour
