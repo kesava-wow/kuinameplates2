@@ -205,6 +205,8 @@ local default_config = {
     tankmode_tank_colour = { 0, 1, 0 },
     tankmode_trans_colour = { 1, 1, 0 },
     tankmode_other_colour = { .6, 0, 1 },
+    tankmode_tank_glow_colour = { 1, 0, 0 },
+    tankmode_trans_glow_colour = { 1, .6, 0 },
 
     classpowers_enable = true,
     classpowers_on_target = true,
@@ -445,16 +447,21 @@ configChanged.absorb_striped = configChangedAbsorb
 configChanged.colour_absorb = configChangedAbsorb
 
 local function configChangedTankColour()
-    local ele = addon:GetPlugin('TankMode')
-    ele.colours = {
+    addon:GetPlugin('TankMode').colours = {
         core.profile.tankmode_tank_colour,
         core.profile.tankmode_trans_colour,
-        core.profile.tankmode_other_colour
+        core.profile.tankmode_other_colour,
+    }
+    addon:GetPlugin('Threat').colours = {
+        core.profile.tankmode_tank_glow_colour,
+        core.profile.tankmode_tranks_glow_colour,
     }
 end
 configChanged.tankmode_tank_colour = configChangedTankColour
 configChanged.tankmode_trans_colour = configChangedTankColour
 configChanged.tankmode_other_colour = configChangedTankColour
+configChanged.tankmode_tank_glow_colour = configChangedTankColour
+configChanged.tankmode_trans_glow_colour = configChangedTankColour
 
 local function configChangedFrameSize()
     core:configChangedFrameSize()
