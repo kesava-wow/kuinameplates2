@@ -881,7 +881,7 @@ do
     -- frame glow prototype
     local glow_prototype = {}
     glow_prototype.__index = glow_prototype
-    function glow_prototype:SetColour(...)
+    function glow_prototype:SetVertexColor(...)
         for _,side in ipairs(self.sides) do
             local r,g,b,a = ...
             a = (a or 1) * .8
@@ -941,12 +941,12 @@ do
 
             if TARGET_GLOW and f.state.target then
                 -- target glow colour
-                f.ThreatGlow:SetColour(unpack(TARGET_GLOW_COLOUR))
+                f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                 f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                 f.TargetGlow:Show()
             elseif MOUSEOVER_GLOW and f.state.highlight then
                 -- mouseover glow
-                f.ThreatGlow:SetColour(unpack(MOUSEOVER_GLOW_COLOUR))
+                f.ThreatGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
                 f.TargetGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
                 f.TargetGlow:Show()
             else
@@ -954,14 +954,13 @@ do
 
                 if FRAME_GLOW_THREAT and f.state.glowing then
                     -- threat glow colour
-                    f.ThreatGlow:SetColour(unpack(f.state.glow_colour))
-                    f.ThreatGlow:SetAlpha(.6)
+                    f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
                 else
                     if GLOW_AS_SHADOW then
                         -- shadow
-                        f.ThreatGlow:SetColour(0,0,0,.3)
+                        f.ThreatGlow:SetVertexColor(0,0,0,.3)
                     else
-                        f.ThreatGlow:SetColour(0,0,0,0)
+                        f.ThreatGlow:SetVertexColor(0,0,0,0)
                     end
                 end
             end
