@@ -938,7 +938,7 @@ function opt:Initialise()
     CreatePopup()
     CreateProfileDropDown()
 
-    -- create profile buttons
+    -- profile buttons
     local function ProfileButtonOnShow(self)
         if opt.config.csv.profile == 'default' then
             self:Disable()
@@ -1022,7 +1022,7 @@ function opt:Initialise()
         )
     end)
 
-    -- create backgrounds
+    -- backgrounds
     local tl_bg = CreateFrame('Frame',nil,self)
     tl_bg:SetBackdrop({
         bgFile = 'Interface/ChatFrame/ChatFrameBackground',
@@ -1048,7 +1048,7 @@ function opt:Initialise()
     p_bg:SetPoint('TOPLEFT',tl_bg,'TOPRIGHT',3,0)
     p_bg:SetPoint('BOTTOMRIGHT',self,-10,10)
 
-    -- create tab container
+    -- tab container
     local tablist = CreateFrame('Frame',frame_name..'TabList',self)
     tablist:SetPoint('TOPLEFT',tl_bg,4,-4)
     tablist:SetPoint('BOTTOMRIGHT',tl_bg,-4,4)
