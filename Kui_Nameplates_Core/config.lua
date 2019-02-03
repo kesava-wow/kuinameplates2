@@ -205,8 +205,8 @@ local default_config = {
     tankmode_tank_colour = { 0, 1, 0 },
     tankmode_trans_colour = { 1, 1, 0 },
     tankmode_other_colour = { .6, 0, 1 },
-    tankmode_tank_glow_colour = { 1, 0, 0 },
-    tankmode_trans_glow_colour = { 1, .6, 0 },
+    tankmode_tank_glow_colour = { 1, 0, 0, .6 },
+    tankmode_trans_glow_colour = { 1, .6, 0, .6 },
 
     classpowers_enable = true,
     classpowers_on_target = true,
