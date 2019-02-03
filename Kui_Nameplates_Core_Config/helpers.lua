@@ -830,7 +830,8 @@ do
         local pg = opt:CreatePopupPage('confirm_dialog')
 
         local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
-        label:SetPoint('CENTER',0,10)
+        label:SetPoint('BOTTOMLEFT',pg,'LEFT',40,10)
+        label:SetPoint('RIGHT',-40,0)
 
         pg.label = label
         pg.PostShow = ConfirmDialog_PostShow
@@ -859,7 +860,8 @@ do
         local pg = opt:CreatePopupPage('text_entry')
 
         local label = pg:CreateFontString(nil,'ARTWORK','GameFontNormal')
-        label:SetPoint('CENTER',0,20)
+        label:SetPoint('BOTTOMLEFT',pg,'LEFT',40,20)
+        label:SetPoint('RIGHT',-40,0)
 
         local text = CreateFrame('EditBox',nil,pg,'InputBoxTemplate')
         text:SetAutoFocus(false)
