@@ -4,8 +4,8 @@ local LSM = LibStub('LibSharedMedia-3.0')
 local L = opt:GetLocale()
 
 local version = opt:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-version:SetTextColor(.5,.5,.5)
-version:SetPoint('TOPRIGHT',-12,-10)
+version:SetTextColor(.6,.6,.6)
+version:SetPoint('TOPRIGHT',-12,-8)
 version:SetText(string.format(
     L.titles.version,
     'KuiNameplates','Kesava','@project-version@'
