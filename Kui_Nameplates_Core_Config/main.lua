@@ -220,19 +220,19 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
 
                 if msg == name or msg == locale then
                     -- exact match
-                    found = f
+                    found = i
                     break
                 elseif not found and
                     (name:match('^'..msg) or locale:match('^'..msg))
                 then
                     -- starts-with match, continue searching for exact matches
-                    found = f
+                    found = i
                 end
             end
         end
 
         if found then
-            found:ShowPage()
+            opt:ShowPage(found)
         end
     end
 
