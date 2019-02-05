@@ -1,5 +1,11 @@
 BETA NOTES
 
+* config ui design changes
+* add a highlight on scrollable pages (which doesn't update correctly atm)
+* add copy/reset page buttons (paste function currently inaccessible)
+
+* re-add full frame glow
+
 * fix a typo
 
 * fix tank mode doesn't correctly enable if your spec is automatically changed
