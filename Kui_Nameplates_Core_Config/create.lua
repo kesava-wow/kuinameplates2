@@ -3,14 +3,6 @@ local opt = KuiNameplatesCoreConfig
 local LSM = LibStub('LibSharedMedia-3.0')
 local L = opt:GetLocale()
 
-local version = opt:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-version:SetTextColor(.6,.6,.6)
-version:SetPoint('TOPRIGHT',-12,-8)
-version:SetText(string.format(
-    L.titles.version,
-    'KuiNameplates','Kesava','@project-version@'
-))
-
 opt:Initialise()
 -- create pages ################################################################
 local general     = opt:CreateConfigPage('general')
@@ -26,8 +18,7 @@ local classpowers = opt:CreateConfigPage('classpowers')
 local bossmod     = opt:CreateConfigPage('bossmod')
 local cvars       = opt:CreateConfigPage('cvars')
 
--- show inital page
-opt.pages[1]:ShowPage()
+opt:ShowPage(1)
 
 -- create elements #############################################################
 -- general #####################################################################
@@ -892,5 +883,4 @@ function cvars:Initialise()
     cb:SetPoint('TOPLEFT',ov,'BOTTOMLEFT',0,-35)
     self_clamp_top:SetPoint('TOPLEFT',ct,'BOTTOMLEFT',0,-35)
     self_clamp_bottom:SetPoint('TOPLEFT',cb,'BOTTOMLEFT',0,-35)
-
 end

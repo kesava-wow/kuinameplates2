@@ -241,16 +241,16 @@ do
         if self:IsEnabled() and IsAltKeyDown() then
             self:SetValue(self:GetValue()+(self:GetValueStep()*delta))
             self:Set()
-        elseif self:GetParent().scroll then
+        else
             -- "passthrough" scroll to scrollframe
             -- although there is probably a correct way of doing this
-            delta = self:GetParent().scroll:GetVerticalScroll() - (240 * delta)
+            delta = opt.ScrollFrame:GetVerticalScroll() - (240 * delta)
             if delta < 0 then
                 delta = 0
-            elseif delta > self:GetParent().scroll:GetVerticalScrollRange() then
-                delta = self:GetParent().scroll:GetVerticalScrollRange()
+            elseif delta > opt.ScrollFrame:GetVerticalScrollRange() then
+                delta = opt.ScrollFrame:GetVerticalScrollRange()
             end
-            self:GetParent().scroll:SetVerticalScroll(delta)
+            opt.ScrollFrame:SetVerticalScroll(delta)
         end
     end
     local function SliderSetMinMaxValues(self,min,max)
@@ -457,26 +457,6 @@ function opt.CreateSeparator(parent,name,common_name)
 end
 -- page functions ##############################################################
 do
-    local function ShowPage(self)
-        if opt.active_page then
-            opt.active_page:HidePage()
-        end
-
-        self.tab.highlight:SetVertexColor(1,1,0)
-        self.tab:LockHighlight()
-
-        self.scroll:Show()
-        self:Show()
-
-        opt.active_page = self
-    end
-    local function HidePage(self)
-        self.tab.highlight:SetVertexColor(.196,.388,.8)
-        self.tab:UnlockHighlight()
-
-        self.scroll:Hide()
-        self:Hide()
-    end
     local function PageOnShow(self)
         if type(self.Initialise) == 'function' then
             self:Initialise()
@@ -494,9 +474,6 @@ do
         CreateSlider = opt.CreateSlider,
         CreateColourPicker = opt.CreateColourPicker,
         CreateSeparator = opt.CreateSeparator,
-
-        HidePage = HidePage,
-        ShowPage = ShowPage
     }
     local function BindPage(pg)
         for k,v in pairs(page_proto) do
@@ -512,24 +489,13 @@ do
         f:SetHeight(1)
         f:Hide()
         f.name = name
+        f.id = #self.pages + 1
         f.elements = {}
 
-        f.scroll = CreateFrame('ScrollFrame',frame_name..name..'PageScrollFrame',self,'UIPanelScrollFrameTemplate')
-        f.scroll:SetPoint('TOPLEFT',self.PageBG,4,-4)
-        f.scroll:SetPoint('BOTTOMRIGHT',self.PageBG,-26,4)
-        f.scroll:SetScrollChild(f)
-
-        if f.scroll.ScrollBar then
-            f.scroll.ScrollBar:SetBackdrop({bgFile='interface/buttons/white8x8'})
-            f.scroll.ScrollBar:SetBackdropColor(0,0,0,.2)
-        end
-
         BindPage(f)
-
         self:CreatePageTab(f)
-        f:HidePage()
+        self.pages[f.id] = f
 
-        tinsert(self.pages,f)
         return f
     end
     function opt:CreatePopupPage(name,w,h)
@@ -554,7 +520,7 @@ end
 do
     local function OnClick(self)
         PlaySound(S_CHECKBOX_ON)
-        self.child:ShowPage()
+        opt:ShowPage(self.child_id)
     end
     function opt:CreatePageTab(page)
         local tab = CreateFrame('Button',frame_name..page.name..'PageTab',self.TabList,'OptionsListButtonTemplate')
@@ -562,11 +528,10 @@ do
         tab:SetText(L.page_names[page.name] or page.name or 'Tab')
         tab:SetWidth(130)
 
-        tab.child = page
+        tab.child_id = page.id
         page.tab = tab
 
-        local pt = #self.pages > 0 and self.pages[#self.pages].tab
-
+        local pt = tab.child_id > 1 and self.pages[(tab.child_id - 1)].tab
         if pt then
             tab:SetPoint('TOPLEFT',pt,'BOTTOMLEFT',0,-1)
         else
@@ -617,12 +582,9 @@ do
         self:SetList(list)
         self:SetValue(opt.config.csv.profile)
     end
-    function CreateProfileDropDown()
-        local p_dd = pcdd:New(opt,L.titles['profile'])
+    function CreateProfileDropDown(parent)
+        local p_dd = pcdd:New(parent)
         p_dd.labelText:SetFontObject('GameFontNormalSmall')
-        p_dd:SetWidth(152)
-        p_dd:SetHeight(40)
-        p_dd:SetPoint('TOPLEFT',9,-15)
         p_dd:SetFrameStrata('TOOLTIP')
 
         p_dd.initialize = initialize
@@ -637,6 +599,8 @@ do
         p_dd:HookScript('OnShow',function(self)
             self:initialize()
         end)
+
+        return p_dd
     end
 end
 -- local popup functions #######################################################
@@ -933,125 +897,338 @@ do
         end)
     end
 end
--- init display ################################################################
+-- page helper #################################################################
+do
+    local function HidePage(page)
+        page.tab.highlight:SetVertexColor(.196,.388,.8)
+        page.tab:UnlockHighlight()
+        page:Hide()
+    end
+    function opt:ShowPage(page_id)
+        if self.active_page then
+            HidePage(self.active_page)
+            self.active_page = nil
+        end
+
+        local target = self.pages[page_id]
+        assert(target)
+        self.active_page = target
+
+        target.tab.highlight:SetVertexColor(1,1,0)
+        target.tab:LockHighlight()
+        target:Show()
+
+        self.ScrollFrame:SetScrollChild(target)
+        self.ScrollFrame.ScrollBar:SetValue(0)
+        self.ScrollFrame:ScrollUpdate()
+    end
+end
+-- current page script helpers #################################################
+do
+    local clipboard,clipboard_page
+    local function KuiConfig_ForceUpdate()
+        -- XXX expose something in kuiconfig for this
+        -- post updated profile to the saved variable
+        _G[opt.config.gsv_name].profiles[opt.config.csv.profile] = opt.config.profile
+        -- and force kuiconfig to update...
+        opt.config:SetProfile(opt.config.csv.profile)
+    end
+
+    function opt:CurrentPage_Name()
+        -- return localised name of current page
+        if not self.active_page or not self.active_page.name then return end
+        return L.page_names[self.active_page.name] or self.active_page.name
+    end
+    function opt:CurrentPage_Copy()
+        -- copy settings from current page into clipboard
+        assert(self.active_page.name)
+
+        clipboard = {}
+        clipboard_page = self.active_page.name
+
+        for e_name,e_frame in pairs(self.active_page.elements) do
+            -- get envs from elements...
+            env = e_frame.env
+            if env then
+                -- and their settings from the un-merged profile
+                clipboard[env] = self.config.profile[env]
+            end
+        end
+    end
+    function opt:CurrentPage_Paste()
+        -- paste setttings from clipboard into current profile
+        if not self:CurrentPage_CanPaste() then return end
+
+        for env,value in pairs(clipboard) do
+            self.config.profile[env] = value
+        end
+        KuiConfig_ForceUpdate()
+
+        clipboard = nil
+        clipboard_page = nil
+    end
+    function opt:CurrentPage_CanPaste()
+        -- true if the page settings in our clipboard match the current page
+        if not self.active_page then return end
+        if not clipboard or not clipboard_page then return end
+        if clipboard_page ~= self.active_page.name then return end
+        return true
+    end
+    function opt:CurrentPage_Reset()
+        -- reset settings on current page
+        for e_name,e_frame in pairs(self.active_page.elements) do
+            env = e_frame.env
+            if env then
+                self.config.profile[env] = nil
+            end
+        end
+        KuiConfig_ForceUpdate()
+    end
+end
+-- init category display #######################################################
+local function CreateBackground(invisible)
+    local new = CreateFrame('Frame',nil,opt)
+    if not invisible then
+        new:SetBackdrop({
+            bgFile = 'interface/buttons/white8x8',
+            edgeFile = 'Interface/Tooltips/UI-Tooltip-border',
+            edgeSize = 14,
+            insets = { left = 4, right = 4, top = 4, bottom = 4 }
+        })
+        new:SetBackdropColor(.1,.1,.1,.6)
+        new:SetBackdropBorderColor(.5,.5,.5)
+    end
+    return new
+end
+local function ProfileButtonOnShow(self)
+    if opt.config.csv.profile == 'default' then
+        self:Disable()
+    else
+        self:Enable()
+    end
+end
+local function GlowingScrollFrame_ScrollUpdate(self)
+    local offset = self:GetVerticalScroll()
+    if offset > 10 then
+        self.overscroll_top:Show()
+    else
+        self.overscroll_top:Hide()
+    end
+    if (self:GetVerticalScrollRange() - offset) > 10 then
+        self.overscroll_bottom:Show()
+    else
+        self.overscroll_bottom:Hide()
+    end
+end
+local function page_reset_callback(page,accept)
+    if accept then opt:CurrentPage_Reset() end
+end
+local function page_reset_OnClick(self)
+    opt.Popup:ShowPage(
+        'confirm_dialog',
+        'Are you sure you want to reset all options in the `%s` page?', -- XXX
+        self.callback
+    )
+end
+local function page_copy_OnClick(self)
+    opt:CurrentPage_Copy()
+end
+local function page_paste_OnClick(self)
+    opt:CurrentPage_Paste()
+end
+local function profile_copy_callback(page,accept)
+    if accept then
+        opt.config:CopyProfile(opt.config.csv.profile,page.editbox:GetText())
+    end
+end
+local function profile_copy_OnClick(self)
+    opt.Popup:ShowPage(
+        'text_entry',
+        L.titles['copy_profile_label'],
+        nil,
+        self.callback
+    )
+end
+local function profile_rename_callback(page,accept)
+    if accept then
+        opt.config:RenameProfile(opt.config.csv.profile,page.editbox:GetText())
+    end
+end
+local function profile_rename_OnClick(self)
+    opt.Popup:ShowPage(
+        'text_entry',
+        string.format(
+            L.titles['rename_profile_label'],
+            opt.config.csv.profile
+        ),
+        opt.config.csv.profile,
+        self.callback
+    )
+end
+local function profile_reset_callback(page,accept)
+    if accept then
+        opt.config:ResetProfile(opt.config.csv.profile)
+    end
+end
+local function profile_reset_OnClick(self)
+    opt.Popup:ShowPage(
+        'confirm_dialog',
+        string.format(L.titles.reset_profile_label,opt.config.csv.profile),
+        self.callback
+    )
+end
+local function profile_delete_callback(page,accept)
+    if accept then
+        opt.config:DeleteProfile(opt.config.csv.profile)
+    end
+end
+local function profile_delete_OnClick(self)
+    opt.Popup:ShowPage(
+        'confirm_dialog',
+        string.format(L.titles.delete_profile_label,opt.config.csv.profile),
+        self.callback
+    )
+end
 function opt:Initialise()
     CreatePopup()
-    CreateProfileDropDown()
-
-    -- profile buttons
-    local function ProfileButtonOnShow(self)
-        if opt.config.csv.profile == 'default' then
-            self:Disable()
-        else
-            self:Enable()
-        end
-    end
-
-    local p_delete = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
-    p_delete:SetPoint('TOPRIGHT',-10,-26)
-    p_delete:SetText(L.titles['delete_profile_title'])
-    p_delete:SetSize(109,22)
-    p_delete.callback = function(page,accept)
-        if accept then
-            opt.config:DeleteProfile(opt.config.csv.profile)
-        end
-    end
-    p_delete:SetScript('OnShow',ProfileButtonOnShow)
-    p_delete:SetScript('OnClick',function(self)
-        opt.Popup:ShowPage(
-            'confirm_dialog',
-            string.format(L.titles.delete_profile_label,opt.config.csv.profile),
-            self.callback
-        )
-    end)
-
-    local p_rename = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
-    p_rename:SetPoint('RIGHT',p_delete,'LEFT',-5,0)
-    p_rename:SetText(L.titles['rename_profile_title'])
-    p_rename:SetSize(109,22)
-    p_rename.callback = function(page,accept)
-        if accept then
-            opt.config:RenameProfile(opt.config.csv.profile,page.editbox:GetText())
-        end
-    end
-    p_rename:SetScript('OnShow',ProfileButtonOnShow)
-    p_rename:SetScript('OnClick',function(self)
-        opt.Popup:ShowPage(
-            'text_entry',
-            string.format(
-                L.titles['rename_profile_label'],
-                opt.config.csv.profile
-            ),
-            opt.config.csv.profile,
-            self.callback
-        )
-    end)
-
-    local p_reset = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
-    p_reset:SetPoint('RIGHT',p_rename,'LEFT',-5,0)
-    p_reset:SetText(L.titles['reset_profile_title'])
-    p_reset:SetSize(109,22)
-    p_reset.callback = function(page,accept)
-        if accept then
-            opt.config:ResetProfile(opt.config.csv.profile)
-        end
-    end
-    p_reset:SetScript('OnClick',function(self)
-        opt.Popup:ShowPage(
-            'confirm_dialog',
-            string.format(L.titles.reset_profile_label,opt.config.csv.profile),
-            self.callback
-        )
-    end)
-
-    local p_copy = CreateFrame('Button',nil,opt,'UIPanelButtonTemplate')
-    p_copy:SetPoint('RIGHT',p_reset,'LEFT',-5,0)
-    p_copy:SetText(L.titles['copy_profile_title'])
-    p_copy:SetSize(109,22)
-    p_copy.callback = function(page,accept)
-        if accept then
-            opt.config:CopyProfile(opt.config.csv.profile,page.editbox:GetText())
-        end
-    end
-    p_copy:SetScript('OnClick',function(self)
-        opt.Popup:ShowPage(
-            'text_entry',
-            L.titles['copy_profile_label'],
-            nil,
-            self.callback
-        )
-    end)
 
     -- backgrounds
-    local tl_bg = CreateFrame('Frame',nil,self)
-    tl_bg:SetBackdrop({
-        bgFile = 'Interface/ChatFrame/ChatFrameBackground',
-        edgeFile = 'Interface/Tooltips/UI-Tooltip-border',
-        edgeSize = 14,
-        insets = { left = 4, right = 4, top = 4, bottom = 4 }
-    })
-    tl_bg:SetBackdropColor(.1,.1,.1,.3)
-    tl_bg:SetBackdropBorderColor(.5,.5,.5)
-    tl_bg:SetPoint('TOPLEFT',self,10,-55)
-    tl_bg:SetPoint('BOTTOMLEFT',self,10,10)
+    local profile_buttons_bg = CreateBackground()
+    profile_buttons_bg:SetPoint('BOTTOMLEFT',10,10)
+    profile_buttons_bg:SetWidth(150)
+    profile_buttons_bg:SetHeight(100)
+
+    local page_buttons_bg = CreateBackground()
+    page_buttons_bg:SetPoint('BOTTOMLEFT',profile_buttons_bg,'TOPLEFT',0,5)
+    page_buttons_bg:SetWidth(150)
+    page_buttons_bg:SetHeight(45)
+
+    local tl_bg = CreateBackground()
+    tl_bg:SetPoint('BOTTOMLEFT',page_buttons_bg,'TOPLEFT',0,5)
+    tl_bg:SetPoint('TOP',0,-10)
     tl_bg:SetWidth(150)
 
-    local p_bg = CreateFrame('Frame',nil,self)
-    p_bg:SetBackdrop({
-        bgFile = 'Interface/ChatFrame/ChatFrameBackground',
-        edgeFile = 'Interface/Tooltips/UI-Tooltip-border',
-        edgeSize = 14,
-        insets = { left = 4, right = 4, top = 4, bottom = 4 }
-    })
-    p_bg:SetBackdropColor(.1,.1,.1,.3)
-    p_bg:SetBackdropBorderColor(.5,.5,.5)
+    local p_bg = CreateBackground()
     p_bg:SetPoint('TOPLEFT',tl_bg,'TOPRIGHT',3,0)
-    p_bg:SetPoint('BOTTOMRIGHT',self,-10,10)
+    p_bg:SetPoint('BOTTOMRIGHT',-10,10)
+
+    do
+        -- page scroll frame
+        local scrollframe = CreateFrame('ScrollFrame',frame_name..'PageScrollFrame',p_bg,'UIPanelScrollFrameTemplate')
+        scrollframe:SetPoint('TOPLEFT',p_bg,4,-4)
+        scrollframe:SetPoint('BOTTOMRIGHT',p_bg,-26,4)
+
+        scrollframe.ScrollBar:SetBackdrop({bgFile='interface/buttons/white8x8'})
+        scrollframe.ScrollBar:SetBackdropColor(0,0,0,.2)
+
+        local overscroll_f = CreateFrame('Frame',nil,scrollframe)
+
+        local os_top = overscroll_f:CreateTexture(nil,'OVERLAY')
+        os_top:SetTexture('interface/addons/kui_nameplates_core/media/target-glow')
+        os_top:SetVertexColor(.4,.8,1,.8)
+        os_top:SetPoint('TOPLEFT',scrollframe)
+        os_top:SetPoint('TOPRIGHT',scrollframe)
+        os_top:SetHeight(32)
+        scrollframe.overscroll_top = os_top
+
+        local os_bot = overscroll_f:CreateTexture(nil,'OVERLAY')
+        os_bot:SetTexture('interface/addons/kui_nameplates_core/media/target-glow')
+        os_bot:SetTexCoord(1,0,1,0)
+        os_bot:SetVertexColor(.4,.8,1,.8)
+        os_bot:SetPoint('BOTTOMLEFT',scrollframe)
+        os_bot:SetPoint('BOTTOMRIGHT',scrollframe)
+        os_bot:SetHeight(32)
+        scrollframe.overscroll_bottom = os_bot
+
+        scrollframe.ScrollUpdate = GlowingScrollFrame_ScrollUpdate
+        scrollframe:HookScript('OnShow',GlowingScrollFrame_ScrollUpdate)
+        scrollframe.ScrollBar:HookScript('OnValueChanged',function(self)
+            self:GetParent():ScrollUpdate()
+        end)
+
+        self.ScrollFrame = scrollframe
+    end
 
     -- tab container
     local tablist = CreateFrame('Frame',frame_name..'TabList',self)
     tablist:SetPoint('TOPLEFT',tl_bg,4,-4)
     tablist:SetPoint('BOTTOMRIGHT',tl_bg,-4,4)
+
+    -- page action buttons
+    local page_actions_text = page_buttons_bg:CreateFontString(nil,'ARTWORK')
+    page_actions_text:SetFont(STANDARD_TEXT_FONT,12,'OUTLINE')
+    page_actions_text:SetTextColor(.7,.7,.7)
+    page_actions_text:SetText(L.common['page'])
+    page_actions_text:SetPoint('TOP',page_buttons_bg,0,5)
+
+    local page_copy = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
+    page_copy:SetPoint('LEFT',page_buttons_bg,10,0)
+    page_copy:SetWidth(64)
+    page_copy:SetHeight(22)
+    page_copy:SetText(L.common['copy'])
+    page_copy:SetScript('OnClick',page_copy_OnClick)
+
+    local page_reset = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
+    page_reset:SetPoint('RIGHT',page_buttons_bg,-10,0)
+    page_reset:SetWidth(64)
+    page_reset:SetHeight(22)
+    page_reset:SetText(L.common['reset'])
+    page_reset.callback = page_reset_callback
+    page_reset:SetScript('OnClick',page_reset_OnClick)
+
+    -- profile buttons
+    local profile_actions_text = profile_buttons_bg:CreateFontString(nil,'ARTWORK')
+    profile_actions_text:SetFont(STANDARD_TEXT_FONT,12,'OUTLINE')
+    profile_actions_text:SetTextColor(.7,.7,.7)
+    profile_actions_text:SetText(L.common['profile'])
+    profile_actions_text:SetPoint('TOP',profile_buttons_bg,0,5)
+
+    local p_dd = CreateProfileDropDown(profile_buttons_bg)
+    p_dd:SetWidth(130)
+    p_dd:SetHeight(40)
+    p_dd:SetPoint('TOPLEFT',profile_buttons_bg,10,0)
+
+    local p_copy = CreateFrame('Button',nil,profile_buttons_bg,'UIPanelButtonTemplate')
+    p_copy:SetPoint('TOP',p_dd,'BOTTOM',0,-2)
+    p_copy:SetPoint('LEFT',10,0)
+    p_copy:SetText(L.common['copy'])
+    p_copy:SetSize(64,22)
+    p_copy.callback = profile_copy_callback
+    p_copy:SetScript('OnClick',profile_copy_OnClick)
+
+    local p_reset = CreateFrame('Button',nil,profile_buttons_bg,'UIPanelButtonTemplate')
+    p_reset:SetPoint('LEFT',p_copy,'RIGHT',3,0)
+    p_reset:SetText(L.common['reset'])
+    p_reset:SetSize(64,22)
+    p_reset.callback = profile_reset_callback
+    p_reset:SetScript('OnClick',profile_reset_OnClick)
+
+    local p_rename = CreateFrame('Button',nil,profile_buttons_bg,'UIPanelButtonTemplate')
+    p_rename:SetPoint('TOPLEFT',p_copy,'BOTTOMLEFT',0,-3)
+    p_rename:SetText(L.common['rename'])
+    p_rename:SetSize(64,22)
+    p_rename.callback = profile_rename_callback
+    p_rename:SetScript('OnShow',ProfileButtonOnShow)
+    p_rename:SetScript('OnClick',profile_rename_OnClick)
+
+    local p_delete = CreateFrame('Button',nil,profile_buttons_bg,'UIPanelButtonTemplate')
+    p_delete:SetPoint('LEFT',p_rename,'RIGHT',3,0)
+    p_delete:SetText(L.common['delete'])
+    p_delete:SetSize(64,22)
+    p_delete.callback = profile_delete_callback
+    p_delete:SetScript('OnShow',ProfileButtonOnShow)
+    p_delete:SetScript('OnClick',profile_delete_OnClick)
+
+    -- version string
+    local version = opt:CreateFontString(nil,'ARTWORK')
+    version:SetFont(STANDARD_TEXT_FONT,12,'OUTLINE')
+    version:SetTextColor(.7,.7,.7)
+    version:SetPoint('TOPLEFT',0,6)
+    version:SetPoint('RIGHT')
+    version:SetText(string.format(
+        L.titles.version,
+        'KuiNameplates','Kesava','beta-crouching-tiger-hidden-dragon'
+    ))
 
     self.TabList = tablist
     self.TabListBG = tl_bg

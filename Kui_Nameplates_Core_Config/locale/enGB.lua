@@ -12,6 +12,13 @@ L.common = {
     height = 'Height',
     offset = 'Offset',
     layout = 'Layout',
+    page = 'Page',
+    profile = 'Profile',
+    copy = 'Copy',
+    paste = 'Paste',
+    reset = 'Reset',
+    rename = 'Rename',
+    delete = 'Delete',
 }
 L.page_names = {
     general     = 'General',
