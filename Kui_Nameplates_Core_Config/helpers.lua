@@ -1026,7 +1026,7 @@ end
 local function page_reset_OnClick(self)
     opt.Popup:ShowPage(
         'confirm_dialog',
-        'Are you sure you want to reset all options in the `%s` page?', -- XXX
+        format(L.titles['reset_page_label'],opt:CurrentPage_Name()),
         self.callback
     )
 end
