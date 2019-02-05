@@ -1227,7 +1227,7 @@ function opt:Initialise()
     version:SetPoint('RIGHT')
     version:SetText(string.format(
         L.titles.version,
-        'KuiNameplates','Kesava','beta-crouching-tiger-hidden-dragon'
+        'KuiNameplates','Kesava','@project-version@'
     ))
 
     self.TabList = tablist
