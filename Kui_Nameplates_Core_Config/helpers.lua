@@ -1107,6 +1107,11 @@ function opt:Initialise()
     p_bg:SetPoint('BOTTOMRIGHT',-10,10)
     p_bg:SetPoint('LEFT',tl_bg,'RIGHT',3,0)
 
+    -- tab container
+    local tablist = CreateFrame('Frame',frame_name..'TabList',self)
+    tablist:SetPoint('TOPLEFT',tl_bg,4,-4)
+    tablist:SetPoint('BOTTOMRIGHT',tl_bg,-4,4)
+
     do
         -- page scroll frame
         local scrollframe = CreateFrame('ScrollFrame',frame_name..'PageScrollFrame',p_bg,'UIPanelScrollFrameTemplate')
@@ -1144,33 +1149,29 @@ function opt:Initialise()
 
         self.ScrollFrame = scrollframe
     end
+    do
+        -- page action buttons
+        local page_actions_text = page_buttons_bg:CreateFontString(nil,'ARTWORK')
+        page_actions_text:SetFont(STANDARD_TEXT_FONT,12,'OUTLINE')
+        page_actions_text:SetTextColor(.7,.7,.7)
+        page_actions_text:SetText(L.common['page'])
+        page_actions_text:SetPoint('TOP',page_buttons_bg,0,5)
 
-    -- tab container
-    local tablist = CreateFrame('Frame',frame_name..'TabList',self)
-    tablist:SetPoint('TOPLEFT',tl_bg,4,-4)
-    tablist:SetPoint('BOTTOMRIGHT',tl_bg,-4,4)
+        local page_copy = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
+        page_copy:SetPoint('LEFT',page_buttons_bg,10,0)
+        page_copy:SetWidth(64)
+        page_copy:SetHeight(22)
+        page_copy:SetText(L.common['copy'])
+        page_copy:SetScript('OnClick',page_copy_OnClick)
 
-    -- page action buttons
-    local page_actions_text = page_buttons_bg:CreateFontString(nil,'ARTWORK')
-    page_actions_text:SetFont(STANDARD_TEXT_FONT,12,'OUTLINE')
-    page_actions_text:SetTextColor(.7,.7,.7)
-    page_actions_text:SetText(L.common['page'])
-    page_actions_text:SetPoint('TOP',page_buttons_bg,0,5)
-
-    local page_copy = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
-    page_copy:SetPoint('LEFT',page_buttons_bg,10,0)
-    page_copy:SetWidth(64)
-    page_copy:SetHeight(22)
-    page_copy:SetText(L.common['copy'])
-    page_copy:SetScript('OnClick',page_copy_OnClick)
-
-    local page_reset = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
-    page_reset:SetPoint('RIGHT',page_buttons_bg,-10,0)
-    page_reset:SetWidth(64)
-    page_reset:SetHeight(22)
-    page_reset:SetText(L.common['reset'])
-    page_reset.callback = page_reset_callback
-    page_reset:SetScript('OnClick',page_reset_OnClick)
+        local page_reset = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
+        page_reset:SetPoint('RIGHT',page_buttons_bg,-10,0)
+        page_reset:SetWidth(64)
+        page_reset:SetHeight(22)
+        page_reset:SetText(L.common['reset'])
+        page_reset.callback = page_reset_callback
+        page_reset:SetScript('OnClick',page_reset_OnClick)
+    end
 
     -- profile buttons
     local profile_actions_text = profile_buttons_bg:CreateFontString(nil,'ARTWORK')
