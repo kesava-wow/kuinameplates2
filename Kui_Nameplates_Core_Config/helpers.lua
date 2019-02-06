@@ -1216,14 +1216,14 @@ function opt:Initialise()
     p_delete:SetScript('OnClick',profile_delete_OnClick)
 
     -- version string
-    local version = opt:CreateFontString(nil,'ARTWORK')
-    version:SetFont(STANDARD_TEXT_FONT,12,'OUTLINE')
+    local version = self:CreateFontString(nil,'ARTWORK')
+    version:SetFont(STANDARD_TEXT_FONT,10)
+    version:SetJustifyH('RIGHT')
     version:SetTextColor(.7,.7,.7)
-    version:SetPoint('TOPLEFT',0,6)
-    version:SetPoint('RIGHT')
-    version:SetText(string.format(
+    version:SetPoint('BOTTOMRIGHT',self,'TOPRIGHT',-10,4)
+    version:SetText(format(
         L.titles.version,
-        'KuiNameplates','Kesava','@project-version@'
+        'Kui Nameplates','Kesava','@project-version@'
     ))
 
     self.TabList = tablist
