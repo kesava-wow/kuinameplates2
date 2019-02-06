@@ -881,7 +881,7 @@ do
     function glow_prototype:SetVertexColor(...)
         for _,side in ipairs(self.sides) do
             local r,g,b,a = ...
-            a = (a or 1) * .8
+            a = (a or 1) * .6
             side:SetVertexColor(r,g,b,a)
         end
     end
