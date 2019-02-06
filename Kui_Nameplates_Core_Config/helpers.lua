@@ -1113,6 +1113,7 @@ function opt:Initialise()
         scrollframe:SetPoint('TOPLEFT',p_bg,4,-4)
         scrollframe:SetPoint('BOTTOMRIGHT',p_bg,-26,4)
 
+        scrollframe.ScrollBar.scrollStep = 50
         scrollframe.ScrollBar:SetBackdrop({bgFile='interface/buttons/white8x8'})
         scrollframe.ScrollBar:SetBackdropColor(0,0,0,.2)
 
