@@ -915,6 +915,8 @@ do
         self.ScrollFrame:SetScrollChild(target)
         self.ScrollFrame.ScrollBar:SetValue(0)
         self.ScrollFrame:ScrollUpdate()
+
+        self:CurrentPage_UpdateClipboardButton()
     end
 end
 -- current page script helpers #################################################
