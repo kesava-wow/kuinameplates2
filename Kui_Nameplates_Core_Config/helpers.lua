@@ -243,14 +243,7 @@ do
             self:Set()
         elseif self:GetParent().scroll then
             -- "passthrough" scroll to scrollframe
-            -- although there is probably a correct way of doing this
-            delta = self:GetParent().scroll:GetVerticalScroll() - (240 * delta)
-            if delta < 0 then
-                delta = 0
-            elseif delta > self:GetParent().scroll:GetVerticalScrollRange() then
-                delta = self:GetParent().scroll:GetVerticalScrollRange()
-            end
-            self:GetParent().scroll:SetVerticalScroll(delta)
+            self:GetParent().scroll:GetScript('OnMouseWheel')(self:GetParent().scroll,delta)
         end
     end
     local function SliderSetMinMaxValues(self,min,max)
