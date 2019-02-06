@@ -1088,23 +1088,24 @@ function opt:Initialise()
 
     -- backgrounds
     local profile_buttons_bg = CreateBackground()
-    profile_buttons_bg:SetPoint('BOTTOMLEFT',10,10)
+    profile_buttons_bg:SetPoint('TOPLEFT',10,-10)
     profile_buttons_bg:SetWidth(150)
     profile_buttons_bg:SetHeight(100)
 
     local page_buttons_bg = CreateBackground()
-    page_buttons_bg:SetPoint('BOTTOMLEFT',profile_buttons_bg,'TOPLEFT',0,5)
+    page_buttons_bg:SetPoint('BOTTOMLEFT',10,10)
     page_buttons_bg:SetWidth(150)
     page_buttons_bg:SetHeight(45)
 
     local tl_bg = CreateBackground()
-    tl_bg:SetPoint('BOTTOMLEFT',page_buttons_bg,'TOPLEFT',0,5)
-    tl_bg:SetPoint('TOP',0,-10)
+    tl_bg:SetPoint('TOPLEFT',profile_buttons_bg,'BOTTOMLEFT',0,-5)
+    tl_bg:SetPoint('BOTTOM',page_buttons_bg,'TOP',0,5)
     tl_bg:SetWidth(150)
 
     local p_bg = CreateBackground()
-    p_bg:SetPoint('TOPLEFT',tl_bg,'TOPRIGHT',3,0)
+    p_bg:SetPoint('TOP',0,-10)
     p_bg:SetPoint('BOTTOMRIGHT',-10,10)
+    p_bg:SetPoint('LEFT',tl_bg,'RIGHT',3,0)
 
     do
         -- page scroll frame
