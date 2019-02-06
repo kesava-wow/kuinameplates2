@@ -1,5 +1,11 @@
 BETA NOTES
 
+* adjust default threat glow colours
+* reduce full frame glow alpha
+* config ui: reduce scroll wheel scroll amount
+* config ui: implement page copy/paste button
+* config ui: move stuff around again
+
 * config ui design changes
 * add a highlight on scrollable pages (which doesn't update correctly atm)
 * add copy/reset page buttons (paste function currently inaccessible)
