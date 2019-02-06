@@ -584,6 +584,7 @@ do
     end
     function CreateProfileDropDown(parent)
         local p_dd = pcdd:New(parent)
+        p_dd.list_width = 175
         p_dd.labelText:SetFontObject('GameFontNormalSmall')
         p_dd:SetFrameStrata('TOOLTIP')
 
