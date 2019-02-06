@@ -944,8 +944,8 @@ do
             -- get envs from elements...
             env = e_frame.env
             if env then
-                -- and their settings from the un-merged profile
-                clipboard[env] = self.config.profile[env]
+                -- and their settings from the full profile
+                clipboard[env] = self.profile[env]
             end
         end
     end
