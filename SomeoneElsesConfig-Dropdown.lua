@@ -6,10 +6,11 @@
     This is a modified version of PhanxConfig-Dropdown.
     The vast majority of credit for it goes to Phanx.
 
-    * fixed for 7.3
-    * fixed dropdown list width to width of dropdown button
+    * fix for 7.3
+    * fix dropdown list width to width of dropdown button
+    * add dropdown.list_width
 ----------------------------------------------------------------------]]
-local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 4)
+local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 5)
 if not lib then return end
 
 lib.listFrames = lib.listFrames or {}
@@ -238,8 +239,15 @@ function CreateList(dropdown) -- local
     list:SetToplevel(true)
     list:Hide()
 
-    list:SetPoint("TOPLEFT", dropdown, "BOTTOMLEFT", 0, 3)
-    list:SetPoint("RIGHT")
+    if dropdown.list_width then
+        list:SetPoint("TOP", dropdown, "BOTTOM", 0, 3)
+        list:SetWidth(dropdown.list_width)
+    else
+        -- inherit dropdown button size
+        list:SetPoint("TOPLEFT", dropdown, "BOTTOMLEFT", 0, 3)
+        list:SetPoint("RIGHT")
+    end
+
     list:SetScript("OnShow", UpdateList)
 
     list.text = list:CreateFontString()
