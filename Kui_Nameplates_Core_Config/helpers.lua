@@ -978,6 +978,22 @@ do
         end
         KuiConfig_ForceUpdate()
     end
+    function opt:CurrentPage_ClipboardButtonClick(button)
+        if button == 'RightButton' or not self:CurrentPage_CanPaste() then
+            self:CurrentPage_Copy()
+        else
+            self:CurrentPage_Paste()
+        end
+        self:CurrentPage_UpdateClipboardButton()
+    end
+    function opt:CurrentPage_UpdateClipboardButton()
+        -- update managed button text
+        if self:CurrentPage_CanPaste() then
+            self.ClipboardButton:SetText(L.common['paste'])
+        else
+            self.ClipboardButton:SetText(L.common['copy'])
+        end
+    end
 end
 -- init category display #######################################################
 local function CreateBackground(invisible)
@@ -1024,11 +1040,8 @@ local function page_reset_OnClick(self)
         self.callback
     )
 end
-local function page_copy_OnClick(self)
-    opt:CurrentPage_Copy()
-end
-local function page_paste_OnClick(self)
-    opt:CurrentPage_Paste()
+local function page_copy_OnClick(self,button)
+    opt:CurrentPage_ClipboardButtonClick(button)
 end
 local function profile_copy_callback(page,accept)
     if accept then
@@ -1158,10 +1171,10 @@ function opt:Initialise()
         page_actions_text:SetPoint('TOP',page_buttons_bg,0,5)
 
         local page_copy = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
+        page_copy:RegisterForClicks('AnyUp')
         page_copy:SetPoint('LEFT',page_buttons_bg,10,0)
         page_copy:SetWidth(64)
         page_copy:SetHeight(22)
-        page_copy:SetText(L.common['copy'])
         page_copy:SetScript('OnClick',page_copy_OnClick)
 
         local page_reset = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
@@ -1171,6 +1184,9 @@ function opt:Initialise()
         page_reset:SetText(L.common['reset'])
         page_reset.callback = page_reset_callback
         page_reset:SetScript('OnClick',page_reset_OnClick)
+
+        self.ClipboardButton = page_copy
+        self:CurrentPage_UpdateClipboardButton()
     end
 
     -- profile buttons
