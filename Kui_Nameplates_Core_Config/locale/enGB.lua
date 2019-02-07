@@ -47,6 +47,7 @@ L.titles = {
     copy_profile_title = 'Copy profile',
     copy_profile_label = 'Enter name for new profile',
     reset_page_label = 'Reset all options in |cffffffff%s|r?',
+    paste_page_label = 'Copy |cffffffff%s|r settings from |cffffffff%s|r to |cffffffff%s|r?',
     version = '%s by %s @ Curse|nVersion %s',
 
     bar_texture = 'Bar texture',

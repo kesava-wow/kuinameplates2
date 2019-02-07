@@ -921,13 +921,18 @@ do
 end
 -- current page script helpers #################################################
 do
-    local clipboard,clipboard_page
+    local clipboard,clipboard_page,clipboard_profile
     local function KuiConfig_ForceUpdate()
         -- XXX expose something in kuiconfig for this
         -- post updated profile to the saved variable
         _G[opt.config.gsv_name].profiles[opt.config.csv.profile] = opt.config.profile
         -- and force kuiconfig to update...
         opt.config:SetProfile(opt.config.csv.profile)
+    end
+    local function callback(page,accept)
+        if accept then
+            opt:CurrentPage_Paste()
+        end
     end
 
     function opt:CurrentPage_Name()
@@ -941,6 +946,7 @@ do
 
         clipboard = {}
         clipboard_page = self.active_page.name
+        clipboard_profile = self.config.csv.profile
 
         for e_name,e_frame in pairs(self.active_page.elements) do
             -- get envs from elements...
@@ -960,15 +966,16 @@ do
         end
         KuiConfig_ForceUpdate()
 
-        clipboard = nil
-        clipboard_page = nil
+        clipboard,clipboard_page,clipboard_profile = nil,nil,nil
+        self:CurrentPage_UpdateClipboardButton()
     end
     function opt:CurrentPage_CanPaste()
         -- true if the page settings in our clipboard match the current page
-        if not self.active_page then return end
-        if not clipboard or not clipboard_page then return end
-        if clipboard_page ~= self.active_page.name then return end
-        return true
+        return (self.active_page and
+                clipboard and
+                clipboard_page and
+                clipboard_profile and
+                clipboard_page == self.active_page.name)
     end
     function opt:CurrentPage_Reset()
         -- reset settings on current page
@@ -983,10 +990,18 @@ do
     function opt:CurrentPage_ClipboardButtonClick(button)
         if button == 'RightButton' or not self:CurrentPage_CanPaste() then
             self:CurrentPage_Copy()
+            self:CurrentPage_UpdateClipboardButton()
         else
-            self:CurrentPage_Paste()
+            -- confirm paste
+            self.Popup:ShowPage(
+                'confirm_dialog',
+                format(L.titles['paste_page_label'],
+                    opt:CurrentPage_Name(),
+                    clipboard_profile,
+                    self.config.csv.profile),
+                callback
+            )
         end
-        self:CurrentPage_UpdateClipboardButton()
     end
     function opt:CurrentPage_UpdateClipboardButton()
         -- update managed button text
