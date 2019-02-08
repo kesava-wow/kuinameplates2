@@ -378,9 +378,9 @@ L.tooltips = {
     tankmode_force_offtank = 'Colour bars being tanked by other tanks in your group, even if you\'re not currently in a tanking specialisation',
     threat_brackets = 'Show triangles around nameplates to indicate threat status',
     frame_glow_threat = 'Change the colour of the frame glow to indicate threat status',
-    tankmode_tank_colour = 'Health bar colour to use when securely tanking',
-    tankmode_trans_colour = 'Health bar colour to use when gaining or losing threat',
-    tankmode_other_colour = 'Health bar colour to use when another tank is tanking.|n|nThis is only used if you are currently in a tanking specialisation, and requires the other tank to be in your group and to have their group role set to tank.',
+    tankmode_tank_colour = 'Health bar colour for enemies you are securely tanking',
+    tankmode_trans_colour = 'Health bar colour for enemies which are about to change targets',
+    tankmode_other_colour = 'Health bar colour for enemies being tanked by another tank in your group (or a player controlled pet, vehicle or totem).|n|nThis is only used if you are currently in a tanking specialisation, and requires the other tank to be in your group and to have their group role set to tank.',
 
     classpowers_enable = 'Show your class\' special resource, such as combo points, holy power, etc.',
     classpowers_on_target = 'Show on the frame of your target, rather than on the personal nameplate',
