@@ -1,5 +1,7 @@
 BETA NOTES
 
+* config ui: add paste confirm dialog
+
 * adjust default threat glow colours
 * reduce full frame glow alpha
 * config ui: reduce scroll wheel scroll amount
