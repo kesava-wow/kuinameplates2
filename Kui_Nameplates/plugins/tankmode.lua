@@ -114,11 +114,13 @@ function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
         local tank_unit = unit..'target'
 
         if UnitExists(tank_unit) and not UnitIsUnit(tank_unit,'player') then
-            if UnitInParty(tank_unit) or UnitInRaid(tank_unit) then
-                if UnitGroupRolesAssigned(tank_unit) == 'TANK' then
-                    -- unit is attacking another tank
-                    f.state.tank_mode_offtank = true
-                end
+            if ((UnitInParty(tank_unit) or UnitInRaid(tank_unit)) and
+                UnitGroupRolesAssigned(tank_unit) == 'TANK') or
+               (not UnitIsPlayer(tank_unit) and UnitPlayerControlled(tank_unit))
+            then
+                -- unit is attacking another group tank,
+                -- or a player controlled npc (pet, vehicle, totem)
+                f.state.tank_mode_offtank = true
             end
         end
     end
