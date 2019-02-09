@@ -52,10 +52,13 @@ end
 function mod:Initialise()
     -- generate matching pattern for locale
     -- replace format substitution with match anything
-    pattern = "^"..TOOLTIP_UNIT_LEVEL:gsub("%%.%$?s?",".+").."$"
-    pattern_type = "^"..TOOLTIP_UNIT_LEVEL_TYPE:gsub("%%.%$?s?",".+").."$"
-    pattern_class = "^"..TOOLTIP_UNIT_LEVEL_CLASS:gsub("%%.%$?s?",".+").."$"
-    pattern_class_type = "^"..TOOLTIP_UNIT_LEVEL_CLASS_TYPE:gsub("%%.%$?s?",".+").."$"
+    local function FixPattern(source)
+        return "^"..source:gsub("%%.%$?s?",".+").."$"
+    end
+    pattern = FixPattern(TOOLTIP_UNIT_LEVEL)
+    pattern_type = FixPattern(TOOLTIP_UNIT_LEVEL_TYPE)
+    pattern_class = FixPattern(TOOLTIP_UNIT_LEVEL_CLASS)
+    pattern_class_type = FixPattern(TOOLTIP_UNIT_LEVEL_CLASS_TYPE)
 end
 function mod:OnEnable()
     self:RegisterMessage('Show')
