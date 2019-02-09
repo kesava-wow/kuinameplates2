@@ -133,12 +133,7 @@ function mod:SpecUpdate()
     local spec = GetSpecialization()
     local role = spec and GetSpecializationRole(spec) or nil
 
-    if role == 'TANK' then
-        spec_enabled = true
-    else
-        spec_enabled = nil
-    end
-
+    spec_enabled = role == 'TANK'
     if spec_enabled ~= was_enabled then
         self:GroupUpdate(nil,true)
         UpdateFrames()
@@ -170,6 +165,8 @@ function mod:GroupUpdate(event,no_update)
 end
 -- register ####################################################################
 function mod:OnEnable()
+    spec_enabled = false
+
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('GlowColourChange')
 
