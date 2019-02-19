@@ -172,19 +172,16 @@ L["titles"] = {
 	["reset_profile_label"] = "Réinitialiser le profil |cffffffff%s|r?",
 	["state_icons"] = "Affiche l'icône d'état",
 	["tank_mode"] = "Active le mode tank",
-	["tankmode_colour_sep"] = "Couleurs de la barre du mode tank",
 	["tankmode_force_enable"] = "Forcer le mode tank",
 	["tankmode_force_offtank"] = "Forcer la détection hors-tank",
 	["tankmode_other_colour"] = "Hors-tank",
 	["tankmode_tank_colour"] = "Tanker",
-	["tankmode_trans_colour"] = "Transitionnel",
 	["target_arrows"] = "Afficher les flèches de cible",
 	["target_arrows_size"] = "Taille des flèches de cible",
 	["target_glow"] = "Afficher la lueur de la cible",
 	["target_glow_colour"] = "Couleur de la lueur de la cible",
 	["threat_brackets"] = "Afficher les crochets de menace",
 	["title_text_players"] = "Afficher le titre des autres joueurs",
-	["version"] = "%s par %s @ Curse, version %s",
 }
 
 L["tooltips"] = {

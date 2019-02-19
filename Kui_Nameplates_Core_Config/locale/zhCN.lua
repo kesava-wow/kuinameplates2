@@ -216,12 +216,10 @@ L["titles"] = {
 	["reset_profile_title"] = "重置配置",
 	["state_icons"] = "显示状态图标",
 	["tank_mode"] = "启用",
-	["tankmode_colour_sep"] = "仇恨染色",
 	["tankmode_force_enable"] = "强制启用坦克模式",
 	["tankmode_force_offtank"] = "强制换坦检测",
 	["tankmode_other_colour"] = "仇恨丢失",
 	["tankmode_tank_colour"] = "仇恨稳固",
-	["tankmode_trans_colour"] = "仇恨不稳",
 	["target_arrows"] = "显示目标箭头",
 	["target_arrows_size"] = "箭头大小",
 	["target_glow"] = "显示目标高亮",
@@ -229,7 +227,6 @@ L["titles"] = {
 	["threat_brackets"] = "显示仇恨括号",
 	["title_text_players"] = "显示玩家头衔",
 	["use_blizzard_personal"] = "忽略个人资源",
-	["version"] = "%s 作者: %s @ Curse, 版本 %s",
 }
 
 L["tooltips"] = {

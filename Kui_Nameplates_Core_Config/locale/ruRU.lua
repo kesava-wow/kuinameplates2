@@ -216,12 +216,10 @@ L["titles"] = {
 	["reset_profile_title"] = "Сброс профиля",
 	["state_icons"] = "Значок статуса",
 	["tank_mode"] = "Включить режим танка",
-	["tankmode_colour_sep"] = "Цвета полос в режиме танка",
 	["tankmode_force_enable"] = "Принудительный режим танка",
 	["tankmode_force_offtank"] = "Принудительное обнаружение офф-танка",
 	["tankmode_other_colour"] = "Офф-танк",
 	["tankmode_tank_colour"] = "Танкование",
-	["tankmode_trans_colour"] = "Переходный",
 	["target_arrows"] = "Стрелки на цели",
 	["target_arrows_size"] = "Размер стрелки цели",
 	["target_glow"] = "Свечение цели",
@@ -230,7 +228,6 @@ L["titles"] = {
 	["title_text_players"] = "Показывать звания игрока",
 	["use_blizzard_personal"] = [=[Игнорировать индикатор
 личного ресурса]=],
-	["version"] = "%s от %s @ Curse, версия %s",
 }
 
 L["tooltips"] = {

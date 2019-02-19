@@ -177,12 +177,10 @@ L["titles"] = {
 	["reset_profile_title"] = "프로필 초기화",
 	["state_icons"] = "상태 아이콘 표시",
 	["tank_mode"] = "방어 전담 모드 활성화",
-	["tankmode_colour_sep"] = "방어 전담 모드 색상",
 	["tankmode_force_enable"] = "강제 방어 전담 모드",
 	["tankmode_force_offtank"] = "강제 비-방어 감지",
 	["tankmode_other_colour"] = "비-방어",
 	["tankmode_tank_colour"] = "방어 중",
-	["tankmode_trans_colour"] = "위협 수준 변화 중",
 	["target_arrows"] = "대상 화살표 표시",
 	["target_arrows_size"] = "대상 화살표 크기",
 	["target_glow"] = "대상 불빛 표시",
@@ -190,7 +188,6 @@ L["titles"] = {
 	["threat_brackets"] = "위협 수준 괄호 표시",
 	["title_text_players"] = "플레이어 칭호 표시",
 	["use_blizzard_personal"] = "개인 이름표 무시",
-	["version"] = "%2$s @ Curse가 제작한 %1$s, 버전 %3$s",
 }
 
 L["tooltips"] = {

@@ -174,10 +174,8 @@ L["titles"] = {
 	["reset_profile_title"] = "Restablecer perfil",
 	["state_icons"] = "Iconos del estado",
 	["tank_mode"] = "Modo de tanque",
-	["tankmode_colour_sep"] = "Colores en modo tanque",
 	["tankmode_force_enable"] = "Forzar modo tanque",
 	["tankmode_tank_colour"] = "Tienes agro",
-	["tankmode_trans_colour"] = "Transicional",
 	["target_arrows"] = "Flechas de objetivo",
 	["target_arrows_size"] = "Tamaño de flechas de objectivo",
 	["target_glow"] = "Brillo de objetivo",
@@ -185,7 +183,6 @@ L["titles"] = {
 	["threat_brackets"] = "Triangulos de amenaza",
 	["title_text_players"] = "Títulos de jugadores",
 	["use_blizzard_personal"] = "Ignorar placa personal",
-	["version"] = "%s por %s @ Curse, version %s",
 }
 
 L["tooltips"] = {
