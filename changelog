@@ -1,21 +1,10 @@
 * add options to change threat glow/bracket colours
-
 * treat brewmaster ox statues, druid treants, etc. as off-tanks for tank mode colouring
-
 * fix tank mode doesn't correctly enable if your spec is automatically changed
-
 * config ui: reduce scroll wheel scroll amount
-
 * config ui: wrap long text on popups
-
-
 
 NOTE FOR BETA USERS:
 This is a "backport" - it doesn't include all the changes from the beta.
 Your settings from the beta for the new threat colour options will be reset if
 loaded on this version of KNP.
-
-
-
-Also there's a bunch of extra newlines in this changelog to see if that makes
-it display better in the twitch app.
