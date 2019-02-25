@@ -515,6 +515,7 @@ do
         if f.scroll.ScrollBar then
             f.scroll.ScrollBar:SetBackdrop({bgFile='interface/buttons/white8x8'})
             f.scroll.ScrollBar:SetBackdropColor(0,0,0,.2)
+            f.scroll.ScrollBar.scrollStep = 50
         end
 
         BindPage(f)
