@@ -543,6 +543,7 @@ configChanged.auras_purge_opposite = configChangedAuras
 configChanged.auras_side = configChangedAuras
 configChanged.auras_offset = configChangedAuras
 configChanged.auras_decimal_threshold = configChangedAuras
+configChanged.auras_per_row = configChangedAuras
 configChanged.auras_cd_size = configChangedAuras
 configChanged.auras_count_size = configChangedAuras
 configChanged.auras_cd_point_x = configChangedAuras
