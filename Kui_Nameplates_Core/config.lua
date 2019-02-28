@@ -173,6 +173,7 @@ local default_config = {
     auras_offset = 15,
     auras_decimal_threshold = 2, -- NEX
     auras_highlight_other = true, -- NEX
+    auras_per_row = 5, -- NEX
     auras_cd_size = 0,
     auras_count_size = 0,
 
