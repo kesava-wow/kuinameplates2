@@ -1617,7 +1617,7 @@ end
 -- auras #######################################################################
 do
     local AURAS_NORMAL_SIZE,AURAS_MINUS_SIZE,AURAS_CENTRE,
-          AURAS_ON_PERSONAL,AURAS_ON_FRIENDS,AURAS_ON_ENEMIES,AURAS_ON_MINOR,
+          AURAS_ON_PERSONAL,AURAS_ON_FRIENDS,AURAS_ON_ENEMIES,AURAS_ON_MINUS,
           AURAS_ENABLED,AURAS_SHOW_ALL_SELF,AURAS_HIDE_ALL_OTHER,
           AURAS_PURGE_SIZE,AURAS_SHOW_PURGE,AURAS_SIDE,AURAS_OFFSET,
           AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
@@ -1884,7 +1884,7 @@ do
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
         AURAS_ON_FRIENDS = self.profile.auras_on_friends
         AURAS_ON_ENEMIES = self.profile.auras_on_enemies
-        AURAS_ON_MINOR = self.profile.auras_on_minor
+        AURAS_ON_MINUS = self.profile.auras_on_minus
         AURAS_SIDE = self.profile.auras_side
         AURAS_SHOW_ALL_SELF = self.profile.auras_show_all_self
         AURAS_HIDE_ALL_OTHER = self.profile.auras_hide_all_other
