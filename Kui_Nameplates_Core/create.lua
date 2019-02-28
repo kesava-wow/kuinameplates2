@@ -1680,11 +1680,10 @@ do
     end
     local function AuraFrame_UpdateIconSize(self,minus)
         -- determine current icon size
-        local size = (self.purge and AURAS_PURGE_SIZE) or
+        local size = (self.id == 'core_purge' and AURAS_PURGE_SIZE) or
                      (minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE)
 
-
-        if not self.purge and self.size == size then
+        if self.id ~= 'core_purge' and self.size == size then
             -- no size update necessary
             size = nil
         end
