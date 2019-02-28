@@ -1857,16 +1857,16 @@ do
         AURAS_OFFSET = Scale(self.profile.auras_offset)
         AURAS_HIGHLIGHT_OTHER = self.profile.auras_highlight_other
         AURAS_PER_ROW = self.profile.auras_per_row
-        AURAS_CD_SIZE = self.profile.auras_cd_size
-        AURAS_COUNT_SIZE = self.profile.auras_count_size
+        AURAS_CD_SIZE = Scale(self.profile.auras_cd_size)
+        AURAS_COUNT_SIZE = Scale(self.profile.auras_count_size)
         AURAS_CD_POINT_X = self.profile.auras_cd_point_x
         AURAS_CD_POINT_Y = self.profile.auras_cd_point_y
-        AURAS_CD_OFFSET_X = self.profile.auras_cd_offset_x
-        AURAS_CD_OFFSET_Y = self.profile.auras_cd_offset_y
+        AURAS_CD_OFFSET_X = ScaleTextOffset(self.profile.auras_cd_offset_x)
+        AURAS_CD_OFFSET_Y = ScaleTextOffset(self.profile.auras_cd_offset_y)
         AURAS_COUNT_POINT_X = self.profile.auras_count_point_x
         AURAS_COUNT_POINT_Y = self.profile.auras_count_point_y
-        AURAS_COUNT_OFFSET_X = self.profile.auras_count_offset_x
-        AURAS_COUNT_OFFSET_Y = self.profile.auras_count_offset_y
+        AURAS_COUNT_OFFSET_X = ScaleTextOffset(self.profile.auras_count_offset_x)
+        AURAS_COUNT_OFFSET_Y = ScaleTextOffset(self.profile.auras_count_offset_y)
 
         if AURAS_TIMER_THRESHOLD < 0 then
             AURAS_TIMER_THRESHOLD = nil
