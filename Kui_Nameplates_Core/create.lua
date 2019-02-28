@@ -1836,32 +1836,29 @@ do
 
     -- config changed
     function core:SetAurasConfig()
+        AURAS_ENABLED = self.profile.auras_enabled
+        AURAS_PULSATE = self.profile.auras_pulsate
+        AURAS_CENTRE = self.profile.auras_centre
+        AURAS_SORT = self.profile.auras_sort
+        AURAS_TIMER_THRESHOLD = self.profile.auras_time_threshold
         AURAS_NORMAL_SIZE = Scale(self.profile.auras_icon_normal_size)
         AURAS_MINUS_SIZE = Scale(self.profile.auras_icon_minus_size)
-        AURAS_PURGE_SIZE = Scale(self.profile.auras_purge_size)
-        AURAS_OFFSET = Scale(self.profile.auras_offset)
-
-        AURAS_ENABLED = self.profile.auras_enabled
+        AURAS_ICON_SQUARENESS = self.profile.auras_icon_squareness
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
         AURAS_ON_FRIENDS = self.profile.auras_on_friends
         AURAS_ON_ENEMIES = self.profile.auras_on_enemies
         AURAS_ON_MINUS = self.profile.auras_on_minus
-        AURAS_SIDE = self.profile.auras_side
         AURAS_SHOW_ALL_SELF = self.profile.auras_show_all_self
         AURAS_HIDE_ALL_OTHER = self.profile.auras_hide_all_other
         AURAS_SHOW_PURGE = self.profile.auras_show_purge
-        AURAS_TIMER_THRESHOLD = self.profile.auras_time_threshold
+        AURAS_PURGE_SIZE = Scale(self.profile.auras_purge_size)
         AURAS_PURGE_OPPOSITE = self.profile.auras_purge_opposite
-        AURAS_CENTRE = self.profile.auras_centre
+        AURAS_SIDE = self.profile.auras_side
+        AURAS_OFFSET = Scale(self.profile.auras_offset)
         AURAS_HIGHLIGHT_OTHER = self.profile.auras_highlight_other
         AURAS_PER_ROW = self.profile.auras_per_row
-        AURAS_PULSATE = self.profile.auras_pulsate
-        AURAS_ICON_SQUARENESS = self.profile.auras_icon_squareness
-        AURAS_SORT = self.profile.auras_sort
-
         AURAS_CD_SIZE = self.profile.auras_cd_size
         AURAS_COUNT_SIZE = self.profile.auras_count_size
-
         AURAS_CD_POINT_X = self.profile.auras_cd_point_x
         AURAS_CD_POINT_Y = self.profile.auras_cd_point_y
         AURAS_CD_OFFSET_X = self.profile.auras_cd_offset_x
