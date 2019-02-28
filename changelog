@@ -1,24 +1,7 @@
 BETA NOTES
 
-* update locales
-
-* treat brewmaster ox statues, druid treants, etc. as off-tanks for tank mode colouring
-
-* config ui: add paste confirm dialog
-
+* re-add full frame glow
 * adjust default threat glow colours
 * reduce full frame glow alpha
-* config ui: reduce scroll wheel scroll amount
-* config ui: implement page copy/paste button
-* config ui: move stuff around again
-
-* config ui design changes
-* add a highlight on scrollable pages (which doesn't update correctly atm)
-* add copy/reset page buttons (paste function currently inaccessible)
-
-* re-add full frame glow
-
-* fix a typo
-
-* fix tank mode doesn't correctly enable if your spec is automatically changed
-* add options to change threat glow/bracket colours (finally)
+* config ui: add per-page copy/reset buttons
+* config ui: design changes
