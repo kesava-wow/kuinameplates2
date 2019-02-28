@@ -1578,7 +1578,8 @@ do
           AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
           PURGE_OFFSET,AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD,
           AURAS_PURGE_OPPOSITE,AURAS_HIGHLIGHT_OTHER,
-          AURAS_CD_SIZE,AURAS_COUNT_SIZE,AURAS_PER_ROW
+          AURAS_CD_SIZE,AURAS_COUNT_SIZE,AURAS_PER_ROW,
+          AURAS_PULSATE,AURAS_ICON_SQUARENESS,AURAS_SORT
 
     local AURAS_CD_POINT_X,AURAS_CD_POINT_Y,
           AURAS_CD_OFFSET_X,AURAS_CD_OFFSET_Y,
@@ -1689,10 +1690,10 @@ do
             y_spacing = 1,
 
             num_per_row = AURAS_PER_ROW,
-            pulsate = self.profile.auras_pulsate,
+            pulsate = AURAS_PULSATE,
             timer_threshold = AURAS_TIMER_THRESHOLD,
-            squareness = self.profile.auras_icon_squareness,
-            sort = self.profile.auras_sort,
+            squareness = AURAS_ICON_SQUARENESS,
+            sort = AURAS_SORT,
             centred = AURAS_CENTRE,
         })
         auras.__core = true
@@ -1711,8 +1712,8 @@ do
 
             pulsate = false,
             timer_threshold = AURAS_TIMER_THRESHOLD,
-            squareness = self.profile.auras_icon_squareness,
-            sort = self.profile.auras_sort,
+            squareness = AURAS_ICON_SQUARENESS,
+            sort = AURAS_SORT,
             centred = AURAS_CENTRE,
         })
         purge.__core = true
@@ -1854,6 +1855,9 @@ do
         AURAS_CENTRE = self.profile.auras_centre
         AURAS_HIGHLIGHT_OTHER = self.profile.auras_highlight_other
         AURAS_PER_ROW = self.profile.auras_per_row
+        AURAS_PULSATE = self.profile.auras_pulsate
+        AURAS_ICON_SQUARENESS = self.profile.auras_icon_squareness
+        AURAS_SORT = self.profile.auras_sort
 
         AURAS_CD_SIZE = self.profile.auras_cd_size
         AURAS_COUNT_SIZE = self.profile.auras_count_size
@@ -1911,22 +1915,22 @@ do
                 local cp = f.Auras.frames.core_purge
                 if cd then
                     cd.point[1] = AURAS_POINT_S
-                    cd.pulsate = self.profile.auras_pulsate
+                    cd.pulsate = AURAS_PULSATE
                     cd.num_per_row = AURAS_PER_ROW
                     cd.timer_threshold = AURAS_TIMER_THRESHOLD
-                    cd.squareness = self.profile.auras_icon_squareness
+                    cd.squareness = AURAS_ICON_SQUARENESS
                     cd.centred = AURAS_CENTRE
                     cd.__width = nil -- force size & position update
-                    cd:SetSort(self.profile.auras_sort)
+                    cd:SetSort(AURAS_SORT)
                 end
                 if cp and AURAS_SHOW_PURGE then
                     cp.point[1] = AURAS_PURGE_OPPOSITE and
                                   PURGE_POINT_S or AURAS_POINT_S
                     cp.timer_threshold = AURAS_TIMER_THRESHOLD
-                    cp.squareness = self.profile.auras_icon_squareness
+                    cp.squareness = AURAS_ICON_SQUARENESS
                     cp.centred = AURAS_CENTRE
                     cp.__width = nil
-                    cp:SetSort(self.profile.auras_sort)
+                    cp:SetSort(AURAS_SORT)
                 end
 
                 -- update all buttons
