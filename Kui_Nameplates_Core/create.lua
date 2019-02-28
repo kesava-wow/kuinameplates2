@@ -1683,7 +1683,6 @@ do
         local size = (self.purge and AURAS_PURGE_SIZE) or
                      (minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE)
 
-        self.num_per_row = (minus or self.purge) and 4 or 5
 
         if not self.purge and self.size == size then
             -- no size update necessary
