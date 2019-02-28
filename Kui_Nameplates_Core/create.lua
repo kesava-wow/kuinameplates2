@@ -1659,7 +1659,7 @@ do
         -- enable/disable aura frames on frame update
         if not AURAS_ENABLED or
            (not AURAS_ON_PERSONAL and f.state.personal) or
-           (not AURAS_ON_FRIENDS and f.state.friend) or
+           (not AURAS_ON_FRIENDS and f.state.friend and not f.state.personal) or
            (not AURAS_ON_ENEMIES and not f.state.friend) or
            (not AURAS_ON_MINUS and f.state.minus)
         then
