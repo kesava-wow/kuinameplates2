@@ -1,5 +1,12 @@
 BETA NOTES
 
+* add options auras_on_friends, auras_on_enemies, auras_on_minus (not exposed in ui)
+* add option auras_per_row (not exposed in ui)
+* allow showing auras purge frame when "show auras" is disabled
+* correctly propagate auras_highlight_other (not exposed in ui)
+* correctly apply global scale to auras text size and offset options
+* disable limit auras per row to 4 on minor units
+
 * re-add full frame glow
 * adjust default threat glow colours
 * reduce full frame glow alpha
