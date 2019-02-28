@@ -151,9 +151,9 @@ local default_config = {
 
     auras_enabled = true,
     auras_on_personal = true,
-    auras_on_friends = true,
-    auras_on_enemies = true,
-    auras_on_minus = true,
+    auras_on_friends = true, -- NEX
+    auras_on_enemies = true, -- NEX
+    auras_on_minus = true, -- NEX
     auras_pulsate = true,
     auras_centre = true,
     auras_sort = 2,
