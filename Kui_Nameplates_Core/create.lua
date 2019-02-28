@@ -1578,7 +1578,7 @@ do
           AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
           PURGE_OFFSET,AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD,
           AURAS_PURGE_OPPOSITE,AURAS_HIGHLIGHT_OTHER,
-          AURAS_CD_SIZE,AURAS_COUNT_SIZE
+          AURAS_CD_SIZE,AURAS_COUNT_SIZE,AURAS_PER_ROW
 
     local AURAS_CD_POINT_X,AURAS_CD_POINT_Y,
           AURAS_CD_OFFSET_X,AURAS_CD_OFFSET_Y,
@@ -1687,8 +1687,8 @@ do
             point = {'BOTTOMLEFT','LEFT','RIGHT'},
             x_spacing = 1,
             y_spacing = 1,
-            rows = 2,
 
+            num_per_row = AURAS_PER_ROW,
             pulsate = self.profile.auras_pulsate,
             timer_threshold = AURAS_TIMER_THRESHOLD,
             squareness = self.profile.auras_icon_squareness,
@@ -1853,6 +1853,7 @@ do
         AURAS_PURGE_OPPOSITE = self.profile.auras_purge_opposite
         AURAS_CENTRE = self.profile.auras_centre
         AURAS_HIGHLIGHT_OTHER = self.profile.auras_highlight_other
+        AURAS_PER_ROW = self.profile.auras_per_row
 
         AURAS_CD_SIZE = self.profile.auras_cd_size
         AURAS_COUNT_SIZE = self.profile.auras_count_size
@@ -1911,6 +1912,7 @@ do
                 if cd then
                     cd.point[1] = AURAS_POINT_S
                     cd.pulsate = self.profile.auras_pulsate
+                    cd.num_per_row = AURAS_PER_ROW
                     cd.timer_threshold = AURAS_TIMER_THRESHOLD
                     cd.squareness = self.profile.auras_icon_squareness
                     cd.centred = AURAS_CENTRE
