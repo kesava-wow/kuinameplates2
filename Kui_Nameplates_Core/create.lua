@@ -1669,10 +1669,10 @@ do
             AuraFrame_UpdateIconSize(f.Auras.frames.core_dynamic,f.state.minus)
         end
 
-        -- only show purge on hostiles
-        if not AURAS_ENABLED or not AURAS_SHOW_PURGE or f.state.friend then
+        if not AURAS_SHOW_PURGE or f.state.friend then
             f.Auras.frames.core_purge:Disable()
         else
+            -- only show purge on enemies
             f.Auras.frames.core_purge:Enable(true)
             AuraFrame_UpdateIconSize(f.Auras.frames.core_purge)
         end
