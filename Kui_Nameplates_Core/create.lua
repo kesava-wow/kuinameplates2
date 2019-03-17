@@ -80,6 +80,7 @@ local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
 local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
+local CASTBAR_DETACH
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -288,6 +289,8 @@ do
         GUILD_TEXT_NPCS = self.profile.guild_text_npcs
         GUILD_TEXT_PLAYERS = self.profile.guild_text_players
         TITLE_TEXT_PLAYERS = self.profile.title_text_players
+
+        CASTBAR_DETACH = self.profile.castbar_detach
     end
     function core:LSMMediaRegistered(msg,mediatype,key)
         -- callback registered in config.lua:InitialiseConfig
@@ -1047,7 +1050,7 @@ do
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
           CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,SHIELD_H,SHIELD_W,
-          CASTBAR_DETACH,CASTBAR_DETACH_HEIGHT,CASTBAR_DETACH_WIDTH,
+          CASTBAR_DETACH_HEIGHT,CASTBAR_DETACH_WIDTH,
           CASTBAR_DETACH_OFFSET,CASTBAR_DETACH_COMBINE,CASTBAR_DETACH_NAMEONLY,
           CASTBAR_RATIO,CASTBAR_ICON_SIDE
 
