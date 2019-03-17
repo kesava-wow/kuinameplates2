@@ -1073,10 +1073,12 @@ do
             -- glow inherits colour
             castbar.top:SetVertexColor(unpack(colour))
             castbar.bottom:SetVertexColor(unpack(colour))
-        else
-            -- glow as shadow (XXX should be common to frame glow)
+        elseif GLOW_AS_SHADOW then
             castbar.top:SetVertexColor(0,0,0,.2)
             castbar.bottom:SetVertexColor(0,0,0,.2)
+        else
+            castbar.top:SetVertexColor(0,0,0,0)
+            castbar.bottom:SetVertexColor(0,0,0,0)
         end
 
         if CASTBAR_DETACH_COMBINE and CASTBAR_SHOW_ICON then
