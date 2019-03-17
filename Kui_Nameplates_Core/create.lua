@@ -1024,11 +1024,12 @@ do
         self.r:SetVertexColor(...)
     end
     local function Arrows_UpdatePosition(self)
-        if self.parent.state.casting and
-           self.parent.SpellIcon and
-           self.parent.SpellIcon:IsVisible()
+        if not CASTBAR_DETACH and
+            self.parent.state.casting and
+            self.parent.SpellIcon and
+            self.parent.SpellIcon:IsVisible()
         then
-            -- move for cast bar spell icon
+            -- move for non-detached cast bar spell icon
             self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
                 TARGET_ARROWS_INSET-self.parent.SpellIcon.bg:GetWidth(),0)
         else
