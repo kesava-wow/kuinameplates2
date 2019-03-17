@@ -943,7 +943,7 @@ function core:InitialiseConfig()
 
     self.config:RegisterConfigChanged(self,'ConfigChanged')
 
-    -- update config locals in create.lua
+    -- initialise config locals in create.lua
     self:SetLocals()
 
     -- run config loaded functions
