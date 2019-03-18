@@ -914,7 +914,6 @@ do
 
         self.ScrollFrame:SetScrollChild(target)
         self.ScrollFrame.ScrollBar:SetValue(0)
-        self.ScrollFrame:ScrollUpdate()
 
         self:CurrentPage_UpdateClipboardButton()
     end
@@ -1034,19 +1033,6 @@ local function ProfileButtonOnShow(self)
         self:Enable()
     end
 end
-local function GlowingScrollFrame_ScrollUpdate(self)
-    local offset = self:GetVerticalScroll()
-    if offset > 10 then
-        self.overscroll_top:Show()
-    else
-        self.overscroll_top:Hide()
-    end
-    if (self:GetVerticalScrollRange() - offset) > 10 then
-        self.overscroll_bottom:Show()
-    else
-        self.overscroll_bottom:Hide()
-    end
-end
 local function page_reset_callback(page,accept)
     if accept then opt:CurrentPage_Reset() end
 end
@@ -1151,31 +1137,6 @@ function opt:Initialise()
         scrollframe.ScrollBar.scrollStep = 50
         scrollframe.ScrollBar:SetBackdrop({bgFile='interface/buttons/white8x8'})
         scrollframe.ScrollBar:SetBackdropColor(0,0,0,.2)
-
-        local overscroll_f = CreateFrame('Frame',nil,scrollframe)
-
-        local os_top = overscroll_f:CreateTexture(nil,'OVERLAY')
-        os_top:SetTexture('interface/addons/kui_nameplates_core/media/target-glow')
-        os_top:SetVertexColor(.4,.8,1,.8)
-        os_top:SetPoint('TOPLEFT',scrollframe)
-        os_top:SetPoint('TOPRIGHT',scrollframe)
-        os_top:SetHeight(32)
-        scrollframe.overscroll_top = os_top
-
-        local os_bot = overscroll_f:CreateTexture(nil,'OVERLAY')
-        os_bot:SetTexture('interface/addons/kui_nameplates_core/media/target-glow')
-        os_bot:SetTexCoord(1,0,1,0)
-        os_bot:SetVertexColor(.4,.8,1,.8)
-        os_bot:SetPoint('BOTTOMLEFT',scrollframe)
-        os_bot:SetPoint('BOTTOMRIGHT',scrollframe)
-        os_bot:SetHeight(32)
-        scrollframe.overscroll_bottom = os_bot
-
-        scrollframe.ScrollUpdate = GlowingScrollFrame_ScrollUpdate
-        scrollframe:HookScript('OnShow',GlowingScrollFrame_ScrollUpdate)
-        scrollframe.ScrollBar:HookScript('OnValueChanged',function(self)
-            self:GetParent():ScrollUpdate()
-        end)
 
         self.ScrollFrame = scrollframe
     end
