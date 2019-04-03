@@ -1,21 +1,13 @@
-* add options to change threat glow/bracket colours
-* treat brewmaster ox statues, druid treants, etc. as off-tanks for tank mode colouring
-* fix tank mode doesn't correctly enable if your spec is automatically changed
-* config ui: reduce scroll wheel scroll amount
-* config ui: wrap long text on popups
-
+* make frame glow full-frame again 
+* add bossmods line drawing capability
 * correctly hide detached castbar's shadow when frame shadow is disabled
 * fix lua error when both target arrows and castbar detach are enabled
+* allow showing auras purge frame when "show auras" is disabled
+* correctly apply global scale to auras text size and offset options
+* don't limit auras per row to 4 on minor units
+* adjust default threat glow colours
+* reduce full frame glow alpha
 
 * add options auras_on_friends, auras_on_enemies, auras_on_minus (not exposed in ui)
 * add option auras_per_row (not exposed in ui)
-* allow showing auras purge frame when "show auras" is disabled
 * correctly propagate auras_highlight_other (not exposed in ui)
-* correctly apply global scale to auras text size and offset options
-* disable limit auras per row to 4 on minor units
-
-* re-add full frame glow
-* adjust default threat glow colours
-* reduce full frame glow alpha
-* config ui: add per-page copy/reset buttons
-* config ui: design changes
