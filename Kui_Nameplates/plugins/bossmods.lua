@@ -581,9 +581,7 @@ function mod:UpdateFrame(f)
     local width = (ICON_SIZE * 3) + (1 * 2)
     f.BossModAuraFrame:SetSize(width,1)
     f.BossModAuraFrame:SetIconSize(ICON_SIZE)
-    f.BossModAuraFrame:SetPoint('BOTTOMLEFT', f, 'TOPLEFT',
-        floor((f:GetWidth() / 2) - (width / 2)) + ICON_X_OFFSET,
-        ICON_Y_OFFSET)
+    f.BossModAuraFrame:SetPoint('BOTTOM',f,'TOP',ICON_X_OFFSET,ICON_Y_OFFSET)
 end
 function mod:UpdateConfig()
     if not self.enabled then return end
