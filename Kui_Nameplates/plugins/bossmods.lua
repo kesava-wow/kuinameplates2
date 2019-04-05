@@ -53,6 +53,8 @@ local CONTROL_VISIBILITY = true
 local DECIMAL_THRESHOLD = 1
 local CLICKTHROUGH = false
 local LINE_COLOUR_DEFAULT = { 1, 0, 0, 1 }
+local DRAW_LINES = true
+local LINE_WIDTH = 4
 
 local plugin_ct,active_boss_auras
 local hidden_auras,num_hidden_auras,enable_warned
@@ -255,7 +257,7 @@ local function ShowNameplateAura(f, icon_tbl)
     if button then
         button.icon:SetDesaturated(desaturate)
 
-        if line then
+        if DRAW_LINES and line then
             f.BossModAuraFrame:ShowLine(texture,
                 type(line) == 'table' and line or LINE_COLOUR_DEFAULT)
         end
@@ -510,7 +512,7 @@ end
 -- external aura frame mixins ##################################################
 local function AuraFrame_CreateLine(self)
     local line = UIParent:CreateLine(nil,'OVERLAY')
-    line:SetThickness(4)
+    line:SetThickness(LINE_WIDTH)
     line:SetStartPoint('CENTER',UIParent)
     line:Hide()
     self.BM_line = line
@@ -582,6 +584,10 @@ function mod:UpdateFrame(f)
     f.BossModAuraFrame:SetSize(width,1)
     f.BossModAuraFrame:SetIconSize(ICON_SIZE)
     f.BossModAuraFrame:SetPoint('BOTTOM',f,'TOP',ICON_X_OFFSET,ICON_Y_OFFSET)
+
+    if f.BossModAuraFrame.BM_line then
+        f.BossModAuraFrame.BM_line:SetThickness(LINE_WIDTH)
+    end
 end
 function mod:UpdateConfig()
     if not self.enabled then return end
@@ -592,6 +598,8 @@ function mod:UpdateConfig()
         ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_Y_OFFSET
         CONTROL_VISIBILITY = addon.layout.BossModIcon.control_visibility
         CLICKTHROUGH = addon.layout.BossModIcon.clickthrough
+        DRAW_LINES = addon.layout.BossModIcon.lines
+        LINE_WIDTH = addon.layout.BossModIcon.line_width
     end
 
     for i,f in addon:Frames() do

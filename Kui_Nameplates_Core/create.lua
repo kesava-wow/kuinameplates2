@@ -2436,5 +2436,7 @@ function core:InitialiseElements()
         icon_y_offset = self.profile.bossmod_y_offset,
         control_visibility = self.profile.bossmod_control_visibility,
         clickthrough = self.profile.bossmod_clickthrough,
+        lines = self.profile.bossmod_lines,
+        line_width = self.profile.bossmod_line_width,
     }
 end
