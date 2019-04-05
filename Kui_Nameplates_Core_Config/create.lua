@@ -423,7 +423,7 @@ function nameonly:Initialise()
     nameonly_all_enemies.enabled = function(p)
         return p.nameonly and p.nameonly_enemies
     end
-    nameonly_damaged_enemies.enabled = function(p) 
+    nameonly_damaged_enemies.enabled = function(p)
         return p.nameonly and (p.nameonly_neutral or p.nameonly_enemies or p.nameonly_hostile_players)
     end
     nameonly_combat_hostile.enabled = nameonly_damaged_enemies.enabled
