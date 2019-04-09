@@ -230,12 +230,12 @@ local default_config = {
 
     bossmod_enable = true,
     bossmod_control_visibility = true,
-    bossmod_icon_size = 40,
+    bossmod_icon_size = 32,
     bossmod_x_offset = 0,
-    bossmod_y_offset = 30,
+    bossmod_y_offset = 35,
     bossmod_clickthrough = false,
     bossmod_lines = true,
-    bossmod_line_width = 4,
+    bossmod_line_width = 3,
 
     cvar_enable = false,
     cvar_show_friendly_npcs = GetCVarDefault('nameplateShowFriendlyNPCs')=="1",
