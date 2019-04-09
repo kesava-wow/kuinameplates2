@@ -1,11 +1,13 @@
 * make frame glow full-frame again
 * add bossmods line drawing capability (and an option to disable it)
-* correctly hide detached castbar's shadow when frame shadow is disabled
-* fix lua error when both target arrows and castbar detach are enabled
 * allow showing auras purge frame when "show auras" is disabled
+* correctly hide detached castbar's shadow when frame shadow is disabled
 * correctly apply global scale to auras text size and offset options
+* fix lua error when both target arrows and castbar detach are enabled
 * don't limit auras per row to 4 on minor units
 * adjust default threat glow colours
+* reduce default boss mod icon size
+* increase default boss mod y offset slightly
 
 * add options auras_on_friends, auras_on_enemies, auras_on_minus (not exposed in ui)
 * add option auras_per_row (not exposed in ui)
