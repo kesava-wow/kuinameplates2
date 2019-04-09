@@ -812,11 +812,11 @@ function bossmod:Initialise()
     bossmod_control_visibility:SetPoint('TOPLEFT',bossmod_enable,'BOTTOMLEFT',0,-10)
     bossmod_clickthrough:SetPoint('TOPLEFT',bossmod_control_visibility,'BOTTOMLEFT',10,0)
 
-    bossmod_lines:SetPoint('TOPLEFT',bossmod_control_visibility,'BOTTOMLEFT',0,-10)
+    bossmod_lines:SetPoint('TOPLEFT',bossmod_control_visibility,'BOTTOMLEFT',0,-40)
     bossmod_line_width:SetPoint('LEFT',bossmod_lines,'RIGHT',184,0)
 
-    bossmod_icon_size:SetPoint('TOP',0,-125)
-    bossmod_x_offset:SetPoint('TOPLEFT',10,-(125+60))
+    bossmod_icon_size:SetPoint('TOP',0,-170)
+    bossmod_x_offset:SetPoint('TOPLEFT',10,-(170+50))
     bossmod_y_offset:SetPoint('LEFT',bossmod_x_offset,'RIGHT',20,0)
 end
 -- cvars #######################################################################
