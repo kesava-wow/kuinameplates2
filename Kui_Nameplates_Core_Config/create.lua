@@ -787,7 +787,7 @@ function bossmod:Initialise()
     local bossmod_x_offset = self:CreateSlider('bossmod_x_offset',-200,200)
     local bossmod_y_offset = self:CreateSlider('bossmod_y_offset',-200,200)
     local bossmod_clickthrough = self:CreateCheckBox('bossmod_clickthrough',true)
-    local bossmod_lines = self:CreateCheckBox('bossmod_lines',true)
+    local bossmod_lines = self:CreateCheckBox('bossmod_lines')
     local bossmod_line_width = self:CreateSlider('bossmod_line_width',1,10)
 
     local function bossmod_enabled(p) return p.bossmod_enable end
