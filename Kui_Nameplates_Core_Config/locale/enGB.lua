@@ -267,6 +267,8 @@ L.titles = {
     bossmod_x_offset = 'Horizontal offset',
     bossmod_y_offset = 'Vertical offset',
     bossmod_clickthrough = 'Enable clickthrough when automatically shown',
+    bossmod_lines = 'Allow line drawing',
+    bossmod_line_width = 'Line width',
 
     cvar_enable = 'Allow Kui Nameplates to modify CVars',
     cvar_show_friendly_npcs = 'Always show friendly NPCs\' nameplates',
@@ -406,6 +408,7 @@ L.tooltips = {
     bossmod_x_offset = 'Horizontal offset of the boss aura icons',
     bossmod_y_offset = 'Vertical offset of the boss aura icons',
     bossmod_clickthrough = 'Disable the click-box of nameplates which are automatically enabled',
+    bossmod_lines = 'Allow boss mod addons to draw lines to nameplates. Colour is determined by the boss mod.',
 
     cvar_enable = 'When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.',
     cvar_show_friendly_npcs = '|cffffcc00nameplateShowFriendlyNPCs|r',
