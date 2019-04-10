@@ -1,5 +1,15 @@
 BETA NOTES
 
+* update locale
+
+* pull in changes from backport/2.22:
+* reduce default bossmod line width, icon size, increase y offset slightly
+* add bossmod_lines, bossmod_lines_width options
+* fix boss mod icon position
+* add boss mods line drawing capability
+
+* config ui: remove scroll indicators because ugh
+
 * correctly hide detached castbar's shadow when frame shadow is disabled
 * fix lua error when both target arrows and castbar detach are enabled
 
