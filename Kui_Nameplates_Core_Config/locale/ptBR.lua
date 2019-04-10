@@ -52,7 +52,6 @@ L["titles"] = {
 ]=],
 	["bossmod_control_visibility"] = [=[Permitir que os boss mods controlem a visibilidade das placas de identificação.
 ]=],
-	["bossmod_enable"] = "Habilitar módulo de comunicação de boss mod.",
 	["bossmod_icon_size"] = "Tamanho do ícone",
 	["bossmod_x_offset"] = "Deslocamento horizontal",
 	["bossmod_y_offset"] = "Deslocamento vertical",
@@ -185,9 +184,6 @@ L["tooltips"] = {
 ]=],
 	["bar_texture"] = "A textura usada para barras de status (fornecidas pelo LibSharedMedia).",
 	["bossmod_clickthrough"] = [=[Desativar a caixa de clique das placas de identificação que são ativadas automaticamente.
-]=],
-	["bossmod_control_visibility"] = "Addons de boss mods podem mandar uma mensagem para addons de placas de identificação informando-os para mantar placas de identificação habilitadas durante um encontro, ignorando outras configurações como alternar automaticamente em combate, para que informações extras possam ser exibidas nelas.|n|n|cffff6666IfSe você desabilitar essa opção e e você geralmente não tiver placas de identificação habilitadas, boss mods não serão capazes de te mostrar essa informação.",
-	["bossmod_enable"] = [=[Addons de boss mods podem se comunicar com addons de placa de identificação para exibir informações extras em placas de identificação em encontros relevantes, como buffs importantes ou debuffs lançados por chefes.
 ]=],
 	["bossmod_icon_size"] = [=[Tamanho dos ícones de auras do chefe
 ]=],
