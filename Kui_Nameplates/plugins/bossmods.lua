@@ -512,9 +512,12 @@ end
 -- external aura frame mixins ##################################################
 local function AuraFrame_CreateLine(self)
     local line = UIParent:CreateLine(nil,'OVERLAY')
+
+    line.GetPoint = function() return end
     line:SetThickness(LINE_WIDTH)
     line:SetStartPoint('CENTER',UIParent)
     line:Hide()
+
     self.BM_line = line
     return line
 end
