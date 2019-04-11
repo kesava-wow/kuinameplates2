@@ -1,3 +1,5 @@
+* fix boss mod lines conflicting with MoveAnything
+
 * make frame glow full-frame again (yes, i intend to make an option for this)
 * add bossmods line drawing capability (and an option to disable it)
 * allow showing auras purge frame when "show auras" is disabled
