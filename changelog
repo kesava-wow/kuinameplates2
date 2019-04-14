@@ -1,5 +1,7 @@
 BETA NOTES
 
+* "fix" lua errors if DBM is loaded but not initialised? or something?
+
 * fix boss mod lines conflicting with MoveAnything
 
 * update locale
