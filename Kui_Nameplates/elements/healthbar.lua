@@ -13,7 +13,7 @@ function addon.Nameplate.UpdateHealthColour(f,show)
     f = f.parent
 
     local r,g,b
-    local react = UnitReaction(f.unit,'player')
+    local react = UnitReaction(f.unit,'player') or 4
 
     if UnitIsTapDenied(f.unit) then
         r,g,b = unpack(ele.colours.tapped)
