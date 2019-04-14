@@ -628,7 +628,7 @@ function mod:OnEnable()
         end
 
         -- register addons' Enable callbacks
-        if DBM then
+        if DBM and DBM.RegisterCallback then
             DBM:RegisterCallback('BossMod_EnableFriendlyNameplates',function(...)
                 mod:BigWigs_EnableFriendlyNameplates(...)
             end)
