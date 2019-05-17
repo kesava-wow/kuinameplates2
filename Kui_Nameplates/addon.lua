@@ -166,21 +166,6 @@ local function OnEvent(self,event,...)
             plugin:Initialised()
         end
     end
-
-    -- disable the default class resource bars
-    if NamePlateDriverFrame and not self.USE_BLIZZARD_PERSONAL then
-        DeathKnightResourceOverlayFrame:UnregisterAllEvents()
-        ClassNameplateBarMageFrame:UnregisterAllEvents()
-        ClassNameplateBarWindwalkerMonkFrame:UnregisterAllEvents()
-        ClassNameplateBarPaladinFrame:UnregisterAllEvents()
-        ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
-        ClassNameplateBarWarlockFrame:UnregisterAllEvents()
-        ClassNameplateManaBarFrame:UnregisterAllEvents()
-        ClassNameplateBrewmasterBarFrame:UnregisterAllEvents()
-
-        NamePlateDriverFrame:SetClassNameplateManaBar(nil)
-        NamePlateDriverFrame:SetClassNameplateBar(nil)
-    end
 end
 ------------------------------------------- initialise addon scripts & events --
 addon:SetScript('OnEvent',OnEvent)

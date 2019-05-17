@@ -156,17 +156,6 @@ function core:Combat(f)
     self:NameOnlyCombatUpdate(f)
 end
 -- events ######################################################################
-function core:QUEST_POI_UPDATE()
-    -- update to show name of new quest NPCs
-    for _,frame in addon:Frames() do
-        if frame:IsShown() then
-            self:ShowNameUpdate(frame)
-            frame:UpdateFrameSize()
-            frame:UpdateNameText()
-            frame:UpdateLevelText()
-        end
-    end
-end
 function core:UNIT_NAME_UPDATE(event,f)
     -- update name text colour
     f:UpdateNameText()
@@ -375,7 +364,6 @@ function core:Initialise()
     self:RegisterMessage('Combat')
 
     -- register events
-    self:RegisterEvent('QUEST_POI_UPDATE')
     self:RegisterUnitEvent('UNIT_NAME_UPDATE')
 
     -- register callbacks

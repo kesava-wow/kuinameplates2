@@ -60,7 +60,3 @@ function ele:UNIT_THREAT_LIST_UPDATE(event,f,unit)
     end
 end
 -- register ####################################################################
-function ele:OnEnable()
-    self:RegisterMessage('Show')
-    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
-end

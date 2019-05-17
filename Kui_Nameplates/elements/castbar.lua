@@ -179,28 +179,3 @@ function ele:DisableOnFrame(frame)
     end
 end
 -- register ####################################################################
-function ele:OnDisable()
-    for i,f in addon:Frames() do
-        self:DisableOnFrame(f)
-    end
-end
-function ele:OnEnable()
-    self:RegisterMessage('Create')
-    self:RegisterMessage('Show')
-    self:RegisterMessage('Hide')
-
-    self:RegisterUnitEvent('UNIT_SPELLCAST_START','CastStart')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_STOP','CastStop')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastStop')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED','CastStop')
-
-    self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_START','CastStart')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_STOP')
-    self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_UPDATE','CastUpdate')
-
-    for i,f in addon:Frames() do
-        -- run create on missed frames
-        self:Create(f)
-    end
-end

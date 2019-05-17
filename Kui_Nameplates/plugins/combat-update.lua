@@ -53,7 +53,7 @@ end
 function mod:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterUnitEvent('UNIT_FACTION','Event')
-    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE','Event')
+    --self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE','Event')
 
     local f = CreateFrame('Frame')
     f:SetScript('OnUpdate',UpdateFrame_OnUpdate)

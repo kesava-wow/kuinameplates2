@@ -58,7 +58,6 @@ end
 -- mod functions ###############################################################
 function mod:SetForceEnable(b)
     force_enable = b == true
-    self:SpecUpdate()
 end
 function mod:SetForceOffTank(b)
     force_offtank = b == true
@@ -128,17 +127,6 @@ function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
     -- force update bar colour
     self:GlowColourChange(f)
 end
-function mod:SpecUpdate()
-    local was_enabled = spec_enabled
-    local spec = GetSpecialization()
-    local role = spec and GetSpecializationRole(spec) or nil
-
-    spec_enabled = role == 'TANK'
-    if spec_enabled ~= was_enabled then
-        self:GroupUpdate(nil,true)
-        UpdateFrames()
-    end
-end
 function mod:GroupUpdate(event,no_update)
     -- enable/disable off-tank detection
     if GetNumGroupMembers() > 0 and (spec_enabled or force_offtank) then
@@ -146,7 +134,7 @@ function mod:GroupUpdate(event,no_update)
             offtank_enable = true
 
             self:RegisterMessage('Show')
-            self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
+            --self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
 
             if not no_update then
                 UpdateFrames()
@@ -156,7 +144,7 @@ function mod:GroupUpdate(event,no_update)
         offtank_enable = nil
 
         self:UnregisterMessage('Show')
-        self:UnregisterEvent('UNIT_THREAT_LIST_UPDATE')
+        --self:UnregisterEvent('UNIT_THREAT_LIST_UPDATE')
 
         if not no_update then
             UpdateFrames()
@@ -171,10 +159,6 @@ function mod:OnEnable()
     self:RegisterMessage('GlowColourChange')
 
     self:RegisterEvent('GROUP_ROSTER_UPDATE','GroupUpdate')
-    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','SpecUpdate')
-    self:RegisterEvent('PLAYER_ENTERING_WORLD','SpecUpdate')
-
-    self:SpecUpdate()
 end
 function mod:OnDisable()
     UpdateFrames()

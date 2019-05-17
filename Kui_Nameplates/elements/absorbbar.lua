@@ -49,14 +49,3 @@ function ele:DisableOnFrame(f)
     end
 end
 -- register ####################################################################
-function ele:OnDisable()
-    for i,f in addon:Frames() do
-        self:DisableOnFrame(f)
-    end
-end
-function ele:OnEnable()
-    self:RegisterMessage('Show')
-
-    self:RegisterUnitEvent('UNIT_MAXHEALTH','AbsorbEvent')
-    self:RegisterUnitEvent('UNIT_ABSORB_AMOUNT_CHANGED','AbsorbEvent')
-end

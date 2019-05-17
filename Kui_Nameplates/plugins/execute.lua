@@ -5,11 +5,6 @@ local mod = addon:NewPlugin('Execute',4,nil,false)
 
 local EquipScanQueue,class,execute_range
 
-local specs = {
-    ['DRUID'] = {
-        [2] = 25 -- ferocious bite
-    }
-}
 local talents = {
     ['DRUID'] = {
         [21714] = -1, -- sabertooth (overrides ferocious bite)
@@ -50,13 +45,6 @@ local function GetExecuteRange()
     -- return execute range depending on class/spec/talents
     local r
 
-    if specs[class] then
-        local spec = GetSpecialization()
-        if spec and spec > 0 and specs[class][spec] then
-            r = specs[class][spec]
-        end
-    end
-
     if talents[class] then
         for id,v in pairs(talents[class]) do
             if IsTalentKnown(id) then
@@ -96,17 +84,7 @@ end
 -- mod functions ###############################################################
 function mod:SetExecuteRange(to)
     if not mod.enabled then return end
-    if type(to) == 'number' then
-        self:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
-        self:UnregisterEvent('PLAYER_FLAGS_CHANGED')
-        self:UnregisterEvent('PLAYER_EQUIPMENT_CHANGED')
-        execute_range = to
-    else
-        self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
-        self:RegisterEvent('PLAYER_FLAGS_CHANGED','PLAYER_SPECIALIZATION_CHANGED')
-        self:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
-        self:PLAYER_SPECIALIZATION_CHANGED()
-    end
+    execute_range = 20
 end
 -- messages ####################################################################
 function mod:HealthColourChange(f,caller)
@@ -151,27 +129,7 @@ end
 function mod:UNIT_HEALTH(event,f)
     self:HealthColourChange(f)
 end
-function mod:PLAYER_SPECIALIZATION_CHANGED()
-    execute_range = GetExecuteRange()
-end
 function mod:PLAYER_EQUIPMENT_CHANGED()
     EquipScanQueue:Show()
 end
 -- register ####################################################################
-function mod:OnEnable()
-    if not EquipScanQueue then
-        EquipScanQueue = CreateFrame('Frame')
-        EquipScanQueue:Hide()
-        EquipScanQueue:SetScript('OnUpdate',EquipScanQueue_Update)
-    end
-
-    self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
-    self:RegisterMessage('HealthColourChange')
-    self:RegisterMessage('Show','HealthColourChange')
-
-    self:SetExecuteRange()
-end
-function mod:Initialise()
-    class = select(2,UnitClass('player'))
-    self.colour = {1,1,1}
-end
