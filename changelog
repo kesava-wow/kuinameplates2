@@ -1,5 +1,7 @@
 BETA NOTES
 
+* fix potential lua errors relating to GetNamePlateForUnit returning non-kui frames
+
 * "fix" lua errors if DBM is loaded but not initialised? or something?
 
 * fix boss mod lines conflicting with MoveAnything
