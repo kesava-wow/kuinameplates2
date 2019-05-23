@@ -1,6 +1,8 @@
 BETA NOTES
 
 * fix potential lua errors relating to GetNamePlateForUnit returning non-kui frames
+* truncate overlong button string translations
+* update zhTW
 
 * "fix" lua errors if DBM is loaded but not initialised? or something?
 
