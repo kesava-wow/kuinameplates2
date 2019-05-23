@@ -8,20 +8,21 @@
 local addon = KuiNameplates
 --------------------------------------------------------------------------------
 -------------------------------------------------------- Core script handlers --
-local function FrameOnHide(self)
-    self.kui.handler:OnHide()
-end
-local function FrameOnShow(self)
+local function UnitFrame_OnShow(self)
+    -- hide blizzard nameplate frames
     if not addon.USE_BLIZZARD_PERSONAL or
        not self.unit or
        not UnitIsUnit(self.unit,'player')
     then
-        -- hide blizzard's nameplate
         self:Hide()
     end
 end
---------------------------------------------------------- frame level monitor --
+local function FrameOnHide(self)
+    self.kui.handler:OnHide()
+end
 local function FrameOnUpdate(self)
+    -- keep frame level in sync with default nameplates
+    -- TODO i think this might not be necessary anymore? (parent etc)
     self.kui:SetFrameLevel(self:GetFrameLevel())
 end
 ------------------------------------------------------------ Nameplate hooker --
@@ -50,11 +51,12 @@ function addon:HookNameplate(parent)
     end
 
     if parent.UnitFrame then
-        parent.UnitFrame:HookScript('OnShow',FrameOnShow)
+        parent.UnitFrame:HookScript('OnShow',UnitFrame_OnShow)
     end
 
     parent:HookScript('OnHide',FrameOnHide)
     parent:HookScript('OnUpdate',FrameOnUpdate)
+    -- API event NAME_PLATE_UNIT_ADDED shows frames via OnUnitAdded
 
     parent.kui = kui
     kui.handler:Create()
