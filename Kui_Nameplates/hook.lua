@@ -6,10 +6,6 @@
 -- Create base frame and hook scripts
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
-
-local WorldFrame = WorldFrame
-local select, strfind, setmetatable, floor
-    = select, strfind, setmetatable, floor
 --------------------------------------------------------------------------------
 -------------------------------------------------------- Core script handlers --
 local function FrameOnHide(self)
