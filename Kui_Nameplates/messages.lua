@@ -206,7 +206,7 @@ local function unit_event_frame_OnEvent(self,event,unit,...)
         return
     end
 
-    DispatchEventToListeners(event,unit,unit_frame,...)
+    DispatchEventToListeners(event,unit,frame,...)
 end
 unit_event_frame:SetScript('OnEvent',unit_event_frame_OnEvent)
 ---------------------------------------------------------- simple event frame --
