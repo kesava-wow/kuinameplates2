@@ -420,20 +420,18 @@ local function PositionFrame()
     end
 
     local frame
-
     if on_target then
         if UnitIsPlayer('target') or UnitCanAttack('player','target') then
-            frame = C_NamePlate.GetNamePlateForUnit('target')
-
-            if frame and frame.kui.state.reaction <= 4 then
-                frame = frame.kui
-            else
+            frame = addon:GetActiveNameplateForUnit('target')
+            if  not frame or
+                not frame.state.reaction or
+                frame.state.reaction > 4
+            then
                 frame = nil
             end
         end
     else
-        frame = C_NamePlate.GetNamePlateForUnit('player')
-        frame = frame and frame.kui or nil
+        frame = addon:GetActiveNameplateForUnit('player')
     end
 
     if not FRAME_POINT or not frame then

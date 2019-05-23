@@ -59,7 +59,6 @@ local LINE_WIDTH = 4
 local plugin_ct,active_boss_auras
 local hidden_auras,num_hidden_auras,enable_warned
 local prev_show_enemies,prev_show_friends
-local GetNamePlateForUnit
 local select = select
 
 -- callback registrars #########################################################
@@ -163,11 +162,8 @@ local function GetFrameByGUID(guid)
     end
 end
 local function GetFrameByName(name)
-    -- wrapper for GetNamePlateForUnit, return kui frame
-    local f = GetNamePlateForUnit(name)
-    if f then
-        return f.kui
-    end
+    -- syntactic wrapper for GetActiveNameplateForUnit
+    return addon:GetActiveNameplateForUnit(name)
 end
 local function AddToHiddenAuras(guid)
     -- maintain a list of auras which are currently off-screen for efficiency
@@ -613,7 +609,6 @@ end
 -- register ####################################################################
 function mod:OnEnable()
     if BigWigsLoader or DBM then
-        GetNamePlateForUnit = C_NamePlate.GetNamePlateForUnit
         plugin_ct = addon:GetPlugin('CombatToggle')
 
         self:RegisterMessage('Show')

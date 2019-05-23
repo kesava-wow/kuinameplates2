@@ -76,9 +76,9 @@ function ele:LostTarget(f)
 end
 -- events ######################################################################
 function ele:UPDATE_MOUSEOVER_UNIT(event)
-    local f = C_NamePlate.GetNamePlateForUnit('mouseover')
+    local f = addon:GetActiveNameplateForUnit('mouseover')
     if not f then return end
-    f.kui.handler:HighlightShow()
+    f.handler:HighlightShow()
 end
 -- register ####################################################################
 function ele:EnableOnFrame(f)

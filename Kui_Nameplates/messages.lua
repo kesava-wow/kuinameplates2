@@ -199,10 +199,8 @@ local function unit_event_frame_OnEvent(self,event,unit,...)
         return
     end
 
-    local unit_frame = C_NamePlate.GetNamePlateForUnit(unit)
-    unit_frame = unit_frame and unit_frame.kui
-
-    if not unit_frame or not unit_frame.unit then
+    local frame = addon:GetActiveNameplateForUnit(unit)
+    if not frame then
         -- this happens when restricted nameplates are visible,
         -- as events are still fired for those units
         return
