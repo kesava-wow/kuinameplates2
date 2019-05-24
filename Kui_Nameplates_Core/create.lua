@@ -1326,8 +1326,7 @@ do
             f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
             f.CastBar:SetPoint('BOTTOMRIGHT',f.CastBar.bg,-1,1)
 
-            if f.SpellIcon then
-                -- (spell icon must have a .bg when detach is disabled)
+            if CASTBAR_SHOW_ICON and f.SpellIcon then
                 f.SpellIcon:ClearAllPoints()
                 f.SpellIcon.bg:ClearAllPoints()
 
