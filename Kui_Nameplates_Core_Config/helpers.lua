@@ -63,6 +63,15 @@ local function GenericOnShow(self)
     end
 end
 -- element creation helpers ####################################################
+-- button ######################################################################
+local function CreateButton(parent)
+    local f = CreateFrame('Button',nil,parent,'UIPanelButtonTemplate')
+    if f.Text and f.Left and f.Right then
+        f.Text:SetPoint('LEFT',f.Left)
+        f.Text:SetPoint('RIGHT',f.Right)
+    end
+    return f
+end
 -- checkbox ####################################################################
 do
     local function Get(self)
@@ -863,12 +872,12 @@ do
         popup:SetScript('OnShow',PopupOnShow)
         popup:SetScript('OnHide',PopupOnHide)
 
-        local okay = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
+        local okay = CreateButton(popup)
         okay:SetText('OK')
         okay:SetSize(90,22)
         okay:SetPoint('BOTTOM',-45,20)
 
-        local cancel = CreateFrame('Button',nil,popup,'UIPanelButtonTemplate')
+        local cancel = CreateButton(popup)
         cancel:SetText('Cancel')
         cancel:SetSize(90,22)
         cancel:SetPoint('BOTTOM',45,20)
@@ -1148,14 +1157,14 @@ function opt:Initialise()
         page_actions_text:SetText(L.common['page'])
         page_actions_text:SetPoint('TOP',page_buttons_bg,0,5)
 
-        local page_copy = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
+        local page_copy = CreateButton(page_buttons_bg)
         page_copy:RegisterForClicks('AnyUp')
         page_copy:SetPoint('LEFT',page_buttons_bg,10,0)
         page_copy:SetWidth(64)
         page_copy:SetHeight(22)
         page_copy:SetScript('OnClick',page_copy_OnClick)
 
-        local page_reset = CreateFrame('Button',nil,page_buttons_bg,'UIPanelButtonTemplate')
+        local page_reset = CreateButton(page_buttons_bg)
         page_reset:SetPoint('RIGHT',page_buttons_bg,-10,0)
         page_reset:SetWidth(64)
         page_reset:SetHeight(22)
@@ -1179,7 +1188,7 @@ function opt:Initialise()
     p_dd:SetHeight(40)
     p_dd:SetPoint('TOPLEFT',profile_buttons_bg,10,0)
 
-    local p_copy = CreateFrame('Button',nil,profile_buttons_bg,'UIPanelButtonTemplate')
+    local p_copy = CreateButton(profile_buttons_bg)
     p_copy:SetPoint('TOP',p_dd,'BOTTOM',0,-2)
     p_copy:SetPoint('LEFT',10,0)
     p_copy:SetText(L.common['copy'])
@@ -1187,14 +1196,14 @@ function opt:Initialise()
     p_copy.callback = profile_copy_callback
     p_copy:SetScript('OnClick',profile_copy_OnClick)
 
-    local p_reset = CreateFrame('Button',nil,profile_buttons_bg,'UIPanelButtonTemplate')
+    local p_reset = CreateButton(profile_buttons_bg)
     p_reset:SetPoint('LEFT',p_copy,'RIGHT',3,0)
     p_reset:SetText(L.common['reset'])
     p_reset:SetSize(64,22)
     p_reset.callback = profile_reset_callback
     p_reset:SetScript('OnClick',profile_reset_OnClick)
 
-    local p_rename = CreateFrame('Button',nil,profile_buttons_bg,'UIPanelButtonTemplate')
+    local p_rename = CreateButton(profile_buttons_bg)
     p_rename:SetPoint('TOPLEFT',p_copy,'BOTTOMLEFT',0,-3)
     p_rename:SetText(L.common['rename'])
     p_rename:SetSize(64,22)
@@ -1202,7 +1211,7 @@ function opt:Initialise()
     p_rename:SetScript('OnShow',ProfileButtonOnShow)
     p_rename:SetScript('OnClick',profile_rename_OnClick)
 
-    local p_delete = CreateFrame('Button',nil,profile_buttons_bg,'UIPanelButtonTemplate')
+    local p_delete = CreateButton(profile_buttons_bg)
     p_delete:SetPoint('LEFT',p_rename,'RIGHT',3,0)
     p_delete:SetText(L.common['delete'])
     p_delete:SetSize(64,22)

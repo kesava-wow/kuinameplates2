@@ -23,12 +23,10 @@ end
 -- events ######################################################################
 function ele:TargetEvent()
     ClearTarget()
-
     if UnitExists('target') then
-        local new_target = C_NamePlate.GetNamePlateForUnit('target')
-        if new_target and new_target.kui and new_target.kui.unit then
-            -- target has a visible frame
-            GainedTarget(new_target.kui)
+        local new_target = addon:GetActiveNameplateForUnit('target')
+        if new_target then
+            GainedTarget(new_target)
         end
     end
 end
