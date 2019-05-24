@@ -20,10 +20,6 @@ end
 local function FrameOnHide(self)
     self.kui.handler:OnHide()
 end
-local function FrameOnUpdate(self)
-    -- keep frame level in sync with default nameplates
-    self.kui:SetFrameLevel(self:GetFrameLevel())
-end
 ------------------------------------------------------------ Nameplate hooker --
 function addon:HookNameplate(parent)
     local kui = CreateFrame('Frame','Kui'..parent:GetName(),parent)
@@ -54,7 +50,6 @@ function addon:HookNameplate(parent)
     end
 
     parent:HookScript('OnHide',FrameOnHide)
-    parent:HookScript('OnUpdate',FrameOnUpdate)
     -- API event NAME_PLATE_UNIT_ADDED shows frames via OnUnitAdded
 
     parent.kui = kui
