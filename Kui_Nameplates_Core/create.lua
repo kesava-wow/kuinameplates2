@@ -1521,9 +1521,11 @@ do
             end
 
             if f.SpellIcon then
+                -- determine spell icon visibility...
                 if CASTBAR_SHOW_ICON then
                     f.SpellIcon:Show()
 
+                    -- determine icon background visibility...
                     if f.SpellIcon.bg then
                         if CASTBAR_DETACH then
                             f.SpellIcon.bg:Hide()
@@ -1532,6 +1534,7 @@ do
                         end
                     end
                 else
+                    -- hide icon and background
                     f.SpellIcon:Hide()
 
                     if f.SpellIcon.bg then
