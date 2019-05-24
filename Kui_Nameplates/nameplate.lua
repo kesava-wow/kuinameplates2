@@ -20,7 +20,8 @@ function addon.Nameplate.RegisterElement(frame, element_name, element_frame)
     frame.elements[element_name] = true
     frame[element_name] = element_frame
 
-    -- TODO as above, addon:GetElementProvider(name) or something
+    -- approximate provider;
+    -- can't find elements with different names to their parent plugin
     local provider = addon:GetPlugin(element_name)
     if provider and type(provider.PostRegister) == 'function' then
         provider:PostRegister(frame,element_name)

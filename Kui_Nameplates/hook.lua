@@ -22,7 +22,6 @@ local function FrameOnHide(self)
 end
 local function FrameOnUpdate(self)
     -- keep frame level in sync with default nameplates
-    -- TODO i think this might not be necessary anymore? (parent etc)
     self.kui:SetFrameLevel(self:GetFrameLevel())
 end
 ------------------------------------------------------------ Nameplate hooker --
