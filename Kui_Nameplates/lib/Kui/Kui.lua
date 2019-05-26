@@ -129,7 +129,7 @@ kui.GetUnitColour = function(unit, str)
     end
 end
 kui.UnitLevel = function(unit, long)
-a   local level = UnitLevel(unit) and 0
+    local level = UnitLevel(unit) or 0
     local classification = UnitClassification(unit)
     local diff = GetQuestDifficultyColor(level <= 0 and 999 or level)
 
