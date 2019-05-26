@@ -131,10 +131,6 @@ local default_config = {
     colour_enemy_player = {.7,.2,.1},
     colour_enemy_pet = {.7,.2,.1},
 
-    absorb_enable = true,
-    absorb_striped = true,
-    colour_absorb = {.3,.7,1,.5},
-
     execute_enabled = true,
     execute_auto = true,
     execute_percent = 20,
@@ -211,22 +207,6 @@ local default_config = {
     tankmode_other_colour = { .6, 0, 1 },
     tankmode_tank_glow_colour = { .9, 0, 0, .6 },
     tankmode_trans_glow_colour = { .9, .5, 0, .6 },
-
-    classpowers_enable = true,
-    classpowers_on_target = true,
-    classpowers_size = 12,
-    classpowers_bar_width = 50,
-    classpowers_bar_height = 3,
-
-    classpowers_colour_deathknight = {1,.2,.3},
-    classpowers_colour_druid       = {1,1,.1},
-    classpowers_colour_paladin     = {1,1,.1},
-    classpowers_colour_rogue       = {1,1,.1},
-    classpowers_colour_mage        = {.5,.5,1},
-    classpowers_colour_monk        = {.3,1,.9},
-    classpowers_colour_warlock     = {.9,.6,1},
-    classpowers_colour_overflow    = {1,.3,.3},
-    classpowers_colour_inactive    = {.5,.5,.5,.7},
 
     bossmod_enable = true,
     bossmod_control_visibility = true,
@@ -439,19 +419,6 @@ configChanged.colour_enemy_class = configChangedReactionColour
 configChanged.colour_enemy_player = configChangedReactionColour
 configChanged.colour_enemy_pet = configChangedReactionColour
 
-local function configChangedAbsorb()
-    if core.profile.absorb_enable then
-        addon:GetPlugin('AbsorbBar'):Enable()
-    else
-        addon:GetPlugin('AbsorbBar'):Disable()
-    end
-
-    core:configChangedAbsorb()
-end
-configChanged.absorb_enable = configChangedAbsorb
-configChanged.absorb_striped = configChangedAbsorb
-configChanged.colour_absorb = configChangedAbsorb
-
 local function configChangedTankColour()
     addon:GetPlugin('TankMode').colours = {
         core.profile.tankmode_tank_colour,
@@ -586,48 +553,6 @@ configChanged.castbar_detach_width = configChangedCastBar
 configChanged.castbar_detach_offset = configChangedCastBar
 configChanged.castbar_detach_combine = configChangedCastBar
 configChanged.castbar_icon_side = configChangedCastBar
-
-function configChanged.classpowers_enable(v)
-    if v then
-        addon:GetPlugin('ClassPowers'):Enable()
-    else
-        addon:GetPlugin('ClassPowers'):Disable()
-    end
-end
-local function configChangedClassPowers()
-    core.ClassPowers.on_target = core.profile.classpowers_on_target
-    core.ClassPowers.icon_size = core.profile.classpowers_size
-    core.ClassPowers.bar_width = core.profile.classpowers_bar_width
-    core.ClassPowers.bar_height = core.profile.classpowers_bar_height
-    addon:GetPlugin('ClassPowers'):UpdateConfig()
-end
-configChanged.classpowers_size = configChangedClassPowers
-configChanged.classpowers_on_target = configChangedClassPowers
-configChanged.classpowers_bar_width = configChangedClassPowers
-configChanged.classpowers_bar_height = configChangedClassPowers
-
-local function configChangedClassPowersColour()
-    local class = select(2,UnitClass('player'))
-    if core.profile['classpowers_colour_'..strlower(class)] then
-        core.ClassPowers.colours[class] =  core.profile['classpowers_colour_'..strlower(class)]
-    end
-
-    core.ClassPowers.colours.overflow = core.profile.classpowers_colour_overflow
-    core.ClassPowers.colours.inactive = core.profile.classpowers_colour_inactive
-
-    if addon:GetPlugin('ClassPowers').enabled then
-        addon:GetPlugin('ClassPowers'):UpdateConfig()
-    end
-end
-configChanged.classpowers_colour_deathknight = configChangedClassPowersColour
-configChanged.classpowers_colour_druid = configChangedClassPowersColour
-configChanged.classpowers_colour_paladin = configChangedClassPowersColour
-configChanged.classpowers_colour_rogue = configChangedClassPowersColour
-configChanged.classpowers_colour_mage = configChangedClassPowersColour
-configChanged.classpowers_colour_monk = configChangedClassPowersColour
-configChanged.classpowers_colour_warlock = configChangedClassPowersColour
-configChanged.classpowers_colour_overflow = configChangedClassPowersColour
-configChanged.classpowers_colour_inactive = configChangedClassPowersColour
 
 function configChanged.execute_enabled(v)
     if v then
@@ -798,7 +723,6 @@ function configChanged.global_scale(v)
     configChangedCastBar()
     configChangedAuras()
     configChangedFontOption()
-    configChangedClassPowers()
     configChangedTextOffset()
     configChangedFrameSize()
 end
@@ -814,8 +738,6 @@ configLoaded.class_colour_friendly_names = configChangedNameColour
 configLoaded.nameonly = configChanged.nameonly
 
 configLoaded.colour_hated = configChangedReactionColour
-
-configLoaded.absorb_enable = configChanged.absorb_enable
 
 configLoaded.tank_mode = configChanged.tank_mode
 configLoaded.tankmode_force_enable = configChanged.tankmode_force_enable
@@ -834,14 +756,6 @@ configLoaded.cvar_enable = configChangedCVar
 configLoaded.state_icons = configChanged.state_icons
 
 configLoaded.combat_hostile = configChangedCombatAction
-
-function configLoaded.classpowers_enable(v)
-    if v then
-        addon:GetPlugin('ClassPowers'):Enable()
-    else
-        addon:GetPlugin('ClassPowers'):Disable()
-    end
-end
 
 local function configLoadedFadeRule()
     configChangedFadeRule(nil,true)

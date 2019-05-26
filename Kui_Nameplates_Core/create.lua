@@ -16,7 +16,6 @@
 -- health bar highlight = 2
 -- spell icon = 2
 -- castbar spark = 1
--- absorb bar = 1
 -- power bar = 0
 -- health bar = 0
 -- cast bar = 0
@@ -46,8 +45,6 @@ local core = KuiNameplatesCore
 
 -- frame fading plugin - called by some update functions
 local plugin_fading
--- class powers plugin - called by NameOnlyUpdateFunctions
-local plugin_classpowers
 
 -- common globals
 local UnitIsPlayer,UnitShouldDisplayName,
@@ -371,15 +368,6 @@ do
             UpdateStatusBar(f.Highlight)
             UpdateStatusBar(f.HealthBar)
             UpdateStatusBar(f.PowerBar)
-
-            if f.UpdateAbsorbBar then
-                f:UpdateAbsorbBar()
-            end
-        end
-
-        if addon.ClassPowersFrame then
-            UpdateStatusBar(addon.ClassPowersFrame.bar)
-            self.ClassPowers.bar_texture = BAR_TEXTURE
         end
     end
 end
@@ -387,12 +375,6 @@ function core:SetBarAnimation()
     for i,f in addon:Frames() do
         f.handler:SetBarAnimation(f.HealthBar,BAR_ANIMATION)
         f.handler:SetBarAnimation(f.PowerBar,BAR_ANIMATION)
-
-        if BAR_ANIMATION == 'smooth' then
-            f.handler:SetBarAnimation(f.AbsorbBar,BAR_ANIMATION)
-        else
-            f.handler:SetBarAnimation(f.AbsorbBar,nil)
-        end
     end
 end
 -- #############################################################################
@@ -526,70 +508,6 @@ do
         f.handler:RegisterElement('PowerBar',powerbar)
 
         f.UpdatePowerBar = UpdatePowerBar
-    end
-end
--- absorb bar ##################################################################
-do
-    local ABSORB_ENABLE,ABSORB_STRIPED,ABSORB_COLOUR
-
-    function core:configChangedAbsorb()
-        ABSORB_ENABLE = self.profile.absorb_enable
-        ABSORB_STRIPED = self.profile.absorb_striped
-        ABSORB_COLOUR = self.profile.colour_absorb
-
-        if ABSORB_ENABLE then
-            for k,f in addon:Frames() do
-                if not f.AbsorbBar then
-                    self:CreateAbsorbBar(f)
-                else
-                    f:UpdateAbsorbBar()
-                end
-            end
-        end
-    end
-
-    local function UpdateAbsorbBar(f)
-        if not ABSORB_ENABLE then return end
-        if ABSORB_STRIPED then
-            f.AbsorbBar.t:SetTexture(kui.m.t.stripebar,true,true)
-            f.AbsorbBar.t:SetHorizTile(true)
-            f.AbsorbBar.t:SetVertTile(true)
-        else
-            f.AbsorbBar.t:SetTexture(BAR_TEXTURE,false,false)
-            f.AbsorbBar.t:SetHorizTile(false)
-            f.AbsorbBar.t:SetVertTile(false)
-        end
-
-        f.AbsorbBar.t:SetDrawLayer('ARTWORK',1)
-        f.AbsorbBar:SetStatusBarColor(unpack(ABSORB_COLOUR))
-        f.AbsorbBar.spark:SetVertexColor(unpack(ABSORB_COLOUR))
-        f.AbsorbBar.spark:SetAlpha(1)
-    end
-    function core:CreateAbsorbBar(f)
-        if not ABSORB_ENABLE then return end
-
-        local bar = CreateStatusBar(f.HealthBar,nil,true)
-        bar:SetAllPoints(f.HealthBar)
-
-        bar.t = bar:CreateTexture(nil,'ARTWORK')
-        bar:SetStatusBarTexture(bar.t)
-
-        -- spark for over-absorb highlighting
-        local spark = bar:CreateTexture(nil,'ARTWORK',nil,7)
-        spark:SetTexture(KUI_MEDIA..'t/spark')
-        spark:SetWidth(12)
-        spark:SetPoint('TOP',bar,'TOPRIGHT',-1,4)
-        spark:SetPoint('BOTTOM',bar,'BOTTOMRIGHT',-1,-4)
-        bar.spark = spark
-
-        if BAR_ANIMATION == 'smooth' then
-            -- updated by core.SetBarAnimation (XXX twice?)
-            f.handler:SetBarAnimation(bar,BAR_ANIMATION)
-        end
-
-        f.handler:RegisterElement('AbsorbBar',bar)
-        f.UpdateAbsorbBar = UpdateAbsorbBar
-        f:UpdateAbsorbBar()
     end
 end
 -- name text ###################################################################
@@ -2005,43 +1923,6 @@ do
         -- (such as bossmods) rely on it
     end
 end
--- class powers ################################################################
-function core.ClassPowers_PostPositionFrame(cpf,parent)
-    if not parent or not cpf or not cpf:IsShown() then return end
-
-    -- change position in nameonly mode/on the player's nameplate
-    if parent.IN_NAMEONLY then
-        cpf:ClearAllPoints()
-
-        if parent.GuildText and parent.state.guild_text then
-            cpf:SetPoint('TOP',parent.GuildText,'BOTTOM',0,-3)
-        else
-            cpf:SetPoint('TOP',parent.NameText,'BOTTOM',0,-3)
-        end
-    elseif parent.state.personal then
-        cpf:ClearAllPoints()
-        cpf:SetPoint('CENTER',parent.HealthBar,'TOP',0,9)
-    end
-end
-function core.ClassPowers_CreateBar()
-    local bar = CreateStatusBar(addon.ClassPowersFrame)
-    bar:SetSize(
-        core.profile.classpowers_bar_width,
-        core.profile.classpowers_bar_height
-    )
-    bar:SetPoint('CENTER',0,-1)
-
-    bar.fill:SetParent(bar)
-    bar.fill:SetDrawLayer('BACKGROUND',2)
-
-    bar:SetBackdrop({
-        bgFile=kui.m.t.solid,
-        insets={top=-1,right=-1,bottom=-1,left=-1}
-    })
-    bar:SetBackdropColor(0,0,0,.9)
-
-    return bar
-end
 -- threat brackets #############################################################
 do
     local TB_TEXTURE = MEDIA..'threat-bracket'
@@ -2220,11 +2101,6 @@ do
         if f.ThreatBrackets then
             f:UpdateThreatBrackets()
         end
-
-        if f.NameOnlyGlow and addon.ClassPowersFrame and plugin_classpowers.enabled then
-            -- force-update classpowers position (to run our post)
-            plugin_classpowers:TargetUpdate()
-        end
     end
 
     local function NameOnlyEnable(f)
@@ -2402,43 +2278,10 @@ end
 -- init elements ###############################################################
 function core:InitialiseElements()
     plugin_fading = addon:GetPlugin('Fading')
-    plugin_classpowers = addon:GetPlugin('ClassPowers')
-
-    self.ClassPowers = {
-        on_target = self.profile.classpowers_on_target,
-        icon_size = Scale(self.profile.classpowers_size),
-        bar_width = Scale(self.profile.classpowers_bar_width),
-        bar_height = Scale(self.profile.classpowers_bar_height),
-        icon_texture = MEDIA..'combopoint-round',
-        icon_sprite = MEDIA..'combopoint',
-        icon_glow_texture = MEDIA..'combopoint-glow',
-        cd_texture = 'interface/playerframe/classoverlay-runecooldown',
-        bar_texture = BAR_TEXTURE,
-        point = { 'CENTER','bg','BOTTOM',0,1 },
-        colours = {
-            overflow = self.profile.classpowers_colour_overflow,
-            inactive = self.profile.classpowers_colour_inactive,
-        }
-    }
-
-    local class = select(2,UnitClass('player'))
-    if self.profile['classpowers_colour_'..strlower(class)] then
-        self.ClassPowers.colours[class] = self.profile['classpowers_colour_'..strlower(class)]
-    end
 
     local plugin_pb = addon:GetPlugin('PowerBar')
     if plugin_pb then
         -- set custom power colours
         plugin_pb.colours['MANA'] = { .30, .37, .74 }
     end
-
-    self.BossModIcon = {
-        icon_size = Scale(self.profile.bossmod_icon_size),
-        icon_x_offset = self.profile.bossmod_x_offset,
-        icon_y_offset = self.profile.bossmod_y_offset,
-        control_visibility = self.profile.bossmod_control_visibility,
-        clickthrough = self.profile.bossmod_clickthrough,
-        lines = self.profile.bossmod_lines,
-        line_width = self.profile.bossmod_line_width,
-    }
 end
