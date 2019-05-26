@@ -874,10 +874,10 @@ function core:ConfigChanged(config,k,v)
         -- profile changed;
         -- run all configChanged functions, skipping duplicates
         local called = {}
-        for _,f in pairs(configChanged) do
-            if not called[f] then
-                called[f] = true
-                f(core.profile[k])
+        for func_name,func in pairs(configChanged) do
+            if not called[func] then
+                called[func] = true
+                func(core.profile[func_name])
             end
         end
     end
