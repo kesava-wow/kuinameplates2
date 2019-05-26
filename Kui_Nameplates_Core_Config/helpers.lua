@@ -952,9 +952,9 @@ do
         clipboard_page = self.active_page.name
         clipboard_profile = self.config.csv.profile
 
-        for e_name,e_frame in pairs(self.active_page.elements) do
+        for _,e_frame in pairs(self.active_page.elements) do
             -- get envs from elements...
-            env = e_frame.env
+            local env = e_frame.env
             if env then
                 -- and their settings from the full profile
                 clipboard[env] = self.profile[env]
@@ -983,8 +983,8 @@ do
     end
     function opt:CurrentPage_Reset()
         -- reset settings on current page
-        for e_name,e_frame in pairs(self.active_page.elements) do
-            env = e_frame.env
+        for _,e_frame in pairs(self.active_page.elements) do
+            local env = e_frame.env
             if env then
                 self.config.profile[env] = nil
             end
