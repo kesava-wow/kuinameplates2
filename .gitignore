@@ -1,5 +1,5 @@
 *.sublime*
 *.swp
 *~
-
 dev
+.luacheckrc
