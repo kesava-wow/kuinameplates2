@@ -650,7 +650,7 @@ end
 configChanged.execute_auto = configChanged.execute_percent
 
 function configChanged.frame_glow_size()
-    for k,f in addon:Frames() do
+    for _,f in addon:Frames() do
         f:UpdateFrameGlowSize()
 
         if type(f.UpdateNameOnlyGlowSize) == 'function' then
@@ -874,7 +874,7 @@ function core:ConfigChanged(config,k,v)
         -- profile changed;
         -- run all configChanged functions, skipping duplicates
         local called = {}
-        for k,f in pairs(configChanged) do
+        for _,f in pairs(configChanged) do
             if not called[f] then
                 called[f] = true
                 f(core.profile[k])
@@ -886,7 +886,7 @@ function core:ConfigChanged(config,k,v)
         kui.print(self:GetActiveProfile())
     end
 
-    for i,f in addon:Frames() do
+    for _,f in addon:Frames() do
         -- hide and re-show frames
         if f:IsShown() then
             local unit = f.unit
@@ -906,7 +906,7 @@ function core:InitialiseConfig()
                 if not v then return end
                 KuiNameplatesCoreSaved.profiles[n][k] = v == 5 and 1 or v + 1
             end
-            for n,p in pairs(KuiNameplatesCoreSaved.profiles) do
+            for n,_ in pairs(KuiNameplatesCoreSaved.profiles) do
                 for _,k in next,{
                     'health_text_friend_max',
                     'health_text_friend_dmg',
@@ -987,7 +987,7 @@ function cc:QueueConfigChanged(name)
 end
 function cc:PLAYER_REGEN_ENABLED()
     -- pop queued functions
-    for i,f_tbl in ipairs(self.queue) do
+    for _,f_tbl in ipairs(self.queue) do
         if type(f_tbl[1]) == 'function' then
             f_tbl[1](unpack(f_tbl[2]))
         end

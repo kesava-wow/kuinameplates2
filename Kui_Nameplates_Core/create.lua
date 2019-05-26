@@ -302,14 +302,14 @@ do
 end
 function core:configChangedTargetArrows()
     if not TARGET_ARROWS then return end
-    for k,f in addon:Frames() do
+    for _,f in addon:Frames() do
         if not f.TargetArrows then
             self:CreateTargetArrows(f)
         end
     end
 end
 function core:configChangedFrameSize()
-    for k,f in addon:Frames() do
+    for _,f in addon:Frames() do
         if f.Auras and f.Auras.frames then
             -- force auras frame size + position update
             if f.Auras.frames.core_dynamic then
@@ -322,7 +322,7 @@ function core:configChangedFrameSize()
     end
 end
 function core:configChangedTextOffset()
-    for k,f in addon:Frames() do
+    for _,f in addon:Frames() do
         f:UpdateNameTextPosition()
         f:UpdateSpellNamePosition()
 
@@ -338,7 +338,7 @@ function core:configChangedTextOffset()
 end
 function core:configChangedFontOption()
     -- update font objects
-    for i,f in addon:Frames() do
+    for _,f in addon:Frames() do
         UpdateFontObject(f.NameText)
         UpdateFontObject(f.GuildText)
         UpdateFontObject(f.SpellName)
@@ -365,7 +365,7 @@ do
         end
     end
     function core:configChangedBarTexture()
-        for i,f in addon:Frames() do
+        for _,f in addon:Frames() do
             UpdateStatusBar(f.CastBar)
             UpdateStatusBar(f.Highlight)
             UpdateStatusBar(f.HealthBar)
@@ -383,7 +383,7 @@ do
     end
 end
 function core:SetBarAnimation()
-    for i,f in addon:Frames() do
+    for _,f in addon:Frames() do
         f.handler:SetBarAnimation(f.HealthBar,BAR_ANIMATION)
         f.handler:SetBarAnimation(f.PowerBar,BAR_ANIMATION)
 
@@ -537,7 +537,7 @@ do
         ABSORB_COLOUR = self.profile.colour_absorb
 
         if ABSORB_ENABLE then
-            for k,f in addon:Frames() do
+            for _,f in addon:Frames() do
                 if not f.AbsorbBar then
                     self:CreateAbsorbBar(f)
                 else
@@ -899,7 +899,7 @@ do
     end
     function glow_prototype:SetSize(size)
         if not tonumber(size) then return end
-        for i,side in ipairs(self.sides) do
+        for _,side in ipairs(self.sides) do
             side:SetSize(size,size)
         end
     end
@@ -1506,7 +1506,7 @@ do
         CASTBAR_RATIO = (1-(CASTBAR_DETACH_HEIGHT/CASTBAR_DETACH_WIDTH))/2
         CASTBAR_ICON_SIDE = self.profile.castbar_icon_side
 
-        for k,f in addon:Frames() do
+        for _,f in addon:Frames() do
             CreateOptionalElementsMaybe(f)
 
             if f.SpellShield then
@@ -1556,7 +1556,7 @@ do
         SHOW_STATE_ICONS = self.profile.state_icons
         ICON_SIZE = Scale(20)
 
-        for k,f in addon:Frames() do
+        for _,f in addon:Frames() do
             f:UpdateStateIconSize()
         end
     end
@@ -1957,7 +1957,7 @@ do
         end
 
         -- update config values within aura frames;
-        for k,f in addon:Frames() do
+        for _,f in addon:Frames() do
             if f.Auras and f.Auras.frames then
                 local cd = f.Auras.frames.core_dynamic
                 local cp = f.Auras.frames.core_purge
@@ -2054,23 +2054,23 @@ do
     local tb_prototype = {}
     tb_prototype.__index = tb_prototype
     function tb_prototype:SetVertexColor(...)
-        for k,v in ipairs(self.textures) do
+        for _,v in ipairs(self.textures) do
             v:SetVertexColor(...)
             v:SetAlpha(.8)
         end
     end
     function tb_prototype:Show(...)
-        for k,v in ipairs(self.textures) do
+        for _,v in ipairs(self.textures) do
             v:Show(...)
         end
     end
     function tb_prototype:Hide(...)
-        for k,v in ipairs(self.textures) do
+        for _,v in ipairs(self.textures) do
             v:Hide(...)
         end
     end
     function tb_prototype:SetSize(size)
-        for k,v in ipairs(self.textures) do
+        for _,v in ipairs(self.textures) do
             v:SetSize(size,size)
         end
     end
@@ -2176,7 +2176,7 @@ do
         NAMEONLY_COMBAT_FRIENDLY = self.profile.nameonly_combat_friends
 
         -- create target/threat glow
-        for k,f in addon:Frames() do
+        for _,f in addon:Frames() do
             self:CreateNameOnlyGlow(f)
         end
     end

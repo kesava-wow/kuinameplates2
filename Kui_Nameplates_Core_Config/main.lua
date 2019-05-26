@@ -37,7 +37,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             if knp.draw_frames then
                 KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
                 KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
-                for k,f in knp:Frames() do
+                for _,f in knp:Frames() do
                     f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
                     f:SetBackdropBorderColor(1,1,1)
                     f.parent:SetBackdrop({bgFile=kui.m.t.solid})
@@ -45,7 +45,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
                 end
             else
                 KuiNameplatesPlayerAnchor:SetBackdrop(nil)
-                for k,f in knp:Frames() do
+                for _,f in knp:Frames() do
                     f:SetBackdrop(nil)
                     f.parent:SetBackdrop(nil)
                 end
@@ -94,7 +94,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         local class = select(2,UnitClass('player'))
 
         local plugins_str
-        for i,plugin_tbl in ipairs(knp.plugins) do
+        for _,plugin_tbl in ipairs(knp.plugins) do
             if plugin_tbl.name then
                 local this_str
                 if plugin_tbl.enabled then
@@ -293,7 +293,7 @@ function opt:ConfigChanged(config,k)
         end
 
         -- re-run enabled of other options on the current page
-        for name,ele in pairs(self.active_page.elements) do
+        for _,ele in pairs(self.active_page.elements) do
             if ele.enabled then
                 if ele.enabled(self.profile) then
                     ele:Enable()

@@ -207,7 +207,7 @@ function healthbars:Initialise()
 
     function bar_texture:initialize()
         local list = {}
-        for k,f in ipairs(LSM:List(LSM.MediaType.STATUSBAR)) do
+        for _,f in ipairs(LSM:List(LSM.MediaType.STATUSBAR)) do
             tinsert(list,{
                 text = f,
                 value = f,
@@ -335,7 +335,7 @@ function text:Initialise()
 
     function font_face:initialize()
         local list = {}
-        for k,f in ipairs(LSM:List(LSM.MediaType.FONT)) do
+        for _,f in ipairs(LSM:List(LSM.MediaType.FONT)) do
             tinsert(list,{
                 text = f,
                 value = f,
