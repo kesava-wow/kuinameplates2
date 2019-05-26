@@ -1,3 +1,4 @@
+-- luacheck: globals SLASH_KUINAMEPLATESCORE1 SLASH_KUINAMEPLATESCORE2
 --------------------------------------------------------------------------------
 -- Kui Nameplates
 -- By Kesava at curse.com
