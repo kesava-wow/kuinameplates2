@@ -33,7 +33,7 @@ function ele:Show(f)
     f.handler:UpdateAbsorb()
 end
 -- events ######################################################################
-function ele:AbsorbEvent(event,f)
+function ele:AbsorbEvent(_,f)
     f.handler:UpdateAbsorb()
 end
 -- enable/disable per frame ####################################################
@@ -50,7 +50,7 @@ function ele:DisableOnFrame(f)
 end
 -- register ####################################################################
 function ele:OnDisable()
-    for i,f in addon:Frames() do
+    for _,f in addon:Frames() do
         self:DisableOnFrame(f)
     end
 end

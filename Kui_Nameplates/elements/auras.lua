@@ -216,7 +216,7 @@ local function button_OnUpdate(self,elapsed)
         end
     end
 end
-local function button_UpdateCooldown(self,duration,expiration)
+local function button_UpdateCooldown(self,_,expiration)
     if expiration and expiration > 0 then
         self.expiration = expiration
         self.cd_elap = 0
@@ -393,7 +393,7 @@ local function AuraFrame_GetAuras(self)
         if name and spellid and
            self:ShouldShowAura(spellid,name,duration,caster,can_purge,nps_own,nps_all,i)
         then
-            self:DisplayButton(spellid,name,icon,count,duration,expiration,caster,can_purge,i)
+            self:DisplayButton(spellid,icon,count,duration,expiration,caster,can_purge,i)
         end
     end
 end
@@ -442,7 +442,7 @@ local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,can_pu
         return nps_all or (nps_own and own)
     end
 end
-local function AuraFrame_DisplayButton(self,spellid,name,icon,count,duration,expiration,caster,can_purge,index)
+local function AuraFrame_DisplayButton(self,spellid,icon,count,duration,expiration,caster,can_purge,index)
     local button = self:GetButton(spellid)
 
     button:SetTexture(icon)
@@ -597,7 +597,7 @@ local function AuraFrame_SetIconSize(self,size)
     self.icon_ratio = (1 - (self.icon_height / size)) / 2
 
     -- update existing buttons
-    for k,button in ipairs(self.buttons) do
+    for _,button in ipairs(self.buttons) do
         button:SetWidth(size)
         button:SetHeight(self.icon_height)
         button.icon:SetTexCoord(.1,.9,.1+self.icon_ratio,.9-self.icon_ratio)
@@ -650,7 +650,7 @@ local function ExternalAuraFrame_AddAura(self,uid,icon,count,duration,expiration
         expiration = GetTime() + duration
     end
 
-    self:DisplayButton(uid,nil,icon,count,duration,expiration)
+    self:DisplayButton(uid,icon,count,duration,expiration)
     self:ArrangeButtons()
     self:UpdateVisibility()
 
@@ -807,7 +807,7 @@ function ele:Show(f)
 end
 function ele:Hide(f)
     if not f.Auras then return end
-    for i,frame in pairs(f.Auras.frames) do
+    for _,frame in pairs(f.Auras.frames) do
         frame:Hide()
     end
 end
@@ -820,7 +820,7 @@ function ele:FactionUpdate(f)
     end
 end
 -- events ######################################################################
-function ele:UNIT_AURA(event,f)
+function ele:UNIT_AURA(_,f)
     -- update each aura frame on this nameplate
     if not f.Auras then return end
     for _,auras_frame in pairs(f.Auras.frames) do
@@ -835,7 +835,7 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_AURA')
 end
 function ele:Initialised()
-    if type(addon.layout.Auras) ~= 'table' then 
+    if type(addon.layout.Auras) ~= 'table' then
         self:Disable()
         return
     end

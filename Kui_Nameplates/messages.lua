@@ -8,7 +8,6 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 
-local k,listener,plugin,_
 local type,strsub,pairs,ipairs,unpack,tinsert,tremove=
       type,strsub,pairs,ipairs,unpack,tinsert,tremove
 
@@ -72,7 +71,7 @@ do
         ev_start[uid] = GetAddOnCPUUsage('Kui_Nameplates')
     end
     function TraceEnd(uid)
-        if not addon.profiling or not ev_start or not ev_start[uid] then 
+        if not addon.profiling or not ev_start or not ev_start[uid] then
             return
         end
         UpdateAddOnCPUUsage()
@@ -99,7 +98,7 @@ do
             return a[sort_key] > b[sort_key]
         end)
         local d = kui:DebugPopup()
-        for i,v in ipairs(ev_sort) do
+        for _,v in ipairs(ev_sort) do
             d:AddText(format('|cffffff88%s|r #%d | sum: %.4fms | avg: %.4fms',unpack(v)))
         end
         d:Show()
@@ -112,7 +111,7 @@ function addon:DispatchMessage(msg,...)
         TraceStart('m:'..msg)
         --@end-debug@
 
-        for i,listener_tbl in ipairs(listeners[msg]) do
+        for _,listener_tbl in ipairs(listeners[msg]) do
             local listener,func = unpack(listener_tbl)
 
             if addon.debug_messages then
@@ -147,8 +146,8 @@ local function DispatchEventToListeners(event,unit,unit_frame,...)
     --@debug@
     TraceStart('e:'..event)
     --@end-debug@
- 
-    for i,listener_tbl in ipairs(event_index[event]) do
+
+    for _,listener_tbl in ipairs(event_index[event]) do
         local table,func = unpack(listener_tbl)
 
         -- resolve function...
@@ -486,7 +485,7 @@ function messages.RunCallback(table,name,...)
         --@end-debug@
         return table.callbacks[name][1](...)
     else
-        for i,cb in ipairs(table.callbacks[name]) do
+        for _,cb in ipairs(table.callbacks[name]) do
             cb[1](...)
         end
         --@debug@
@@ -555,7 +554,7 @@ function addon:NewPlugin(name,priority,max_minor,enable_on_load)
     return pluginTable
 end
 function addon:GetPlugin(name)
-    for i,plugin in ipairs(addon.plugins) do
+    for _,plugin in ipairs(addon.plugins) do
         if plugin.name == name then return plugin end
     end
 end

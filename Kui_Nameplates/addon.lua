@@ -5,7 +5,7 @@
 --------------------------------------------------------------------------------
 -- Initialise addon events & begin to find nameplates
 --------------------------------------------------------------------------------
-KuiNameplates = CreateFrame('Frame')
+_G['KuiNameplates'] = CreateFrame('Frame')
 local addon = KuiNameplates
 addon.MAJOR,addon.MINOR = 2,4
 
@@ -98,7 +98,7 @@ function addon:NAME_PLATE_UNIT_REMOVED(unit)
 end
 function addon:PLAYER_LEAVING_WORLD()
     if #framelist > 0 then
-        for i,f in self:Frames() do
+        for _,f in self:Frames() do
             if f:IsShown() then
                 f.handler:OnHide()
             end
@@ -118,7 +118,7 @@ function addon:UI_SCALE_CHANGED()
     end
 
     if #framelist > 0 then
-        for i,f in self:Frames() do
+        for _,f in self:Frames() do
             f:SetScale(self.uiscale)
         end
     end
@@ -146,7 +146,7 @@ local function OnEvent(self,event,...)
         -- sort to be initialised by order of priority
         sort(self.plugins, PluginSort)
 
-        for k,plugin in ipairs(self.plugins) do
+        for _,plugin in ipairs(self.plugins) do
             if type(plugin.Initialise) == 'function' then
                 plugin:Initialise()
             end
@@ -165,13 +165,17 @@ local function OnEvent(self,event,...)
 
     -- fire layout initialised to plugins
     -- for plugins to fetch values from the layout, etc
-    for k,plugin in ipairs(self.plugins) do
+    for _,plugin in ipairs(self.plugins) do
         if type(plugin.Initialised) == 'function' then
             plugin:Initialised()
         end
     end
 
     -- disable the default class resource bars
+    --luacheck: globals NamePlateDriverFrame DeathKnightResourceOverlayFrame ClassNameplateBarMageFrame
+    --luacheck: globals ClassNameplateBarWindwalkerMonkFrame ClassNameplateBarPaladinFrame
+    --luacheck: globals ClassNameplateBarRogueDruidFrame ClassNameplateBarWarlockFrame
+    --luacheck: globals ClassNameplateManaBarFrame ClassNameplateBrewmasterBarFrame
     if NamePlateDriverFrame and not self.USE_BLIZZARD_PERSONAL then
         DeathKnightResourceOverlayFrame:UnregisterAllEvents()
         ClassNameplateBarMageFrame:UnregisterAllEvents()

@@ -15,7 +15,7 @@ function ele:Show(f)
     f.handler:UpdateName()
 end
 -- events ######################################################################
-function ele:UNIT_NAME_UPDATE(event,f)
+function ele:UNIT_NAME_UPDATE(_,f)
     f.handler:UpdateName()
 end
 -- register ####################################################################

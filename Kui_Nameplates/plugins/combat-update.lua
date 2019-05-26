@@ -6,7 +6,6 @@
 --   Combat = combat state changed
 --   FactionUpdate = UNIT_FACTION event, or attackable state changed
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('CombatUpdate',0)
 
 local INTERVAL = 1
@@ -32,7 +31,7 @@ end
 local function UpdateFrame_OnUpdate(self,elap)
     elapsed = elapsed + elap
     if elapsed > INTERVAL then
-        for k,f in addon:Frames() do
+        for _,f in addon:Frames() do
             if f.unit then
                 Frame_Check(f)
             end

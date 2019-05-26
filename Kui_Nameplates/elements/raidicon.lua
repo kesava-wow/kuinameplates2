@@ -1,9 +1,6 @@
 -- listen for raid icon changes and dispatch to nameplates
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('RaidIcon')
-local GetRaidTargetIndex,SetRaidTargetIconTexture =
-      GetRaidTargetIndex,SetRaidTargetIconTexture
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateRaidIcon(f,show)
     f = f.parent
@@ -35,7 +32,7 @@ end
 -- events ######################################################################
 function ele:RAID_TARGET_UPDATE()
     -- update all frames
-    for k,f in addon:Frames() do
+    for _,f in addon:Frames() do
         if f:IsShown() then
             f.handler:UpdateRaidIcon()
         end

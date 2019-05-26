@@ -1,6 +1,5 @@
 -- provides f.state.arenaid when in an arena
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('ArenaID')
 
 local in_arena

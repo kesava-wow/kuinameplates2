@@ -25,6 +25,7 @@ function mod:Show(f)
         tooltip:SetOwner(UIParent,ANCHOR_NONE)
         tooltip:SetUnit(f.unit)
 
+        -- luacheck: globals KNPNPCTitleTooltipTextLeft2 KNPNPCTitleTooltipTextLeft3
         local gtext = cb_tooltips and
                       KNPNPCTitleTooltipTextLeft3:GetText() or
                       KNPNPCTitleTooltipTextLeft2:GetText()

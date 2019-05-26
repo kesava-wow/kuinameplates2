@@ -1,6 +1,5 @@
 -- change colour of health bar when tanking
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('TankMode')
 mod.colours = {
     { 0,1,0 },  -- player is tanking
@@ -11,7 +10,7 @@ local force_enable,force_offtank,spec_enabled,offtank_enable
 -- local functions #############################################################
 local function UpdateFrames()
     -- update threat colour on currently visible frames
-    for i,f in addon:Frames() do
+    for _,f in addon:Frames() do
         if f:IsShown() then
             if offtank_enable then
                 mod:Show(f)
@@ -98,7 +97,7 @@ function mod:GlowColourChange(f)
     end
 end
 -- events ######################################################################
-function mod:UNIT_THREAT_LIST_UPDATE(event,f,unit)
+function mod:UNIT_THREAT_LIST_UPDATE(_,f,unit)
     if  unit == 'player' or
         UnitIsUnit('player',unit) or
         UnitIsFriend('player',unit)
@@ -139,7 +138,7 @@ function mod:SpecUpdate()
         UpdateFrames()
     end
 end
-function mod:GroupUpdate(event,no_update)
+function mod:GroupUpdate(_,no_update)
     -- enable/disable off-tank detection
     if GetNumGroupMembers() > 0 and (spec_enabled or force_offtank) then
         if not offtank_enable then

@@ -19,7 +19,7 @@ function ele:Show(f)
     f.handler:UpdateLevel()
 end
 -- events ######################################################################
-function ele:UNIT_LEVEL(event,f)
+function ele:UNIT_LEVEL(_,f)
     f.handler:UpdateLevel()
 end
 function ele:PLAYER_ENTERING_WORLD()

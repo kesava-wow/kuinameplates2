@@ -17,7 +17,6 @@ local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Fading')
 
 local abs,pairs,ipairs,type,tinsert = math.abs,pairs,ipairs,type,tinsert
-local UnitExists,UnitIsUnit = UnitExists,UnitIsUnit
 local kff,kffr = kui.frameFade, kui.frameFadeRemoveFrame
 
 local UpdateFrame = CreateFrame('Frame')
@@ -49,7 +48,7 @@ local function FrameFade(frame,to)
     })
 end
 local function GetDesiredAlpha(frame)
-    for i,f_t in ipairs(fade_rules) do
+    for _,f_t in ipairs(fade_rules) do
         if f_t then
             local a = f_t[2](frame)
             if a then
@@ -91,7 +90,7 @@ function mod:UpdateFrame(f)
 end
 function mod:UpdateAllFrames()
     -- update alpha of all visible frames
-    for k,f in addon:Frames() do
+    for _,f in addon:Frames() do
         if f:IsShown() then
             self:UpdateFrame(f)
         end
@@ -190,7 +189,7 @@ function mod:OnDisable()
     wipe(fade_rules)
     UpdateFrame:SetScript('OnUpdate',nil)
 
-    for k,f in addon:Frames() do
+    for _,f in addon:Frames() do
         f:SetAlpha(1)
     end
 end

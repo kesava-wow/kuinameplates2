@@ -75,7 +75,7 @@ function ele:LostTarget(f)
     end
 end
 -- events ######################################################################
-function ele:UPDATE_MOUSEOVER_UNIT(event)
+function ele:UPDATE_MOUSEOVER_UNIT()
     local f = addon:GetActiveNameplateForUnit('mouseover')
     if not f then return end
     f.handler:HighlightShow()

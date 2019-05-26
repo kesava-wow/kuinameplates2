@@ -122,10 +122,9 @@ do
             SmoothBar(self,value)
         end
     end
-    local function SmootherOnUpdate(bar)
+    local function SmootherOnUpdate()
         local limit = 30/GetFramerate()
-
-        for bar, value in pairs(smoothing) do
+        for bar,value in pairs(smoothing) do
             local cur = bar:GetValue()
             local new = cur + min((value-cur)/3, max(value-cur, limit))
 
@@ -203,7 +202,7 @@ end
 function mod:Hide(f)
     -- clear animations
     if type(f.animated_bars) == 'table' then
-        for i,bar in ipairs(f.animated_bars) do
+        for _,bar in ipairs(f.animated_bars) do
             anims[bar.animation].clear(bar)
         end
     end

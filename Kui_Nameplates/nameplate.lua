@@ -7,7 +7,6 @@
 -- Update registered elements and dispatch messages
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
 local wipe = wipe
 
 addon.Nameplate = {}

@@ -138,14 +138,14 @@ function ele:CastStart(event,f,unit)
 
     f.handler:CastBarShow()
 end
-function ele:CastStop(event,f,unit,guid)
+function ele:CastStop(event,f,_,guid)
     if not f.state.casting or guid ~= f.cast_state.guid then return end
     f.handler:CastBarHide(
         (event == 'UNIT_SPELLCAST_INTERRUPTED' and ele.HIDE_INTERRUPT) or
         (event == 'UNIT_SPELLCAST_SUCCEEDED' and ele.HIDE_SUCCESS) or
         ele.HIDE_STOP)
 end
-function ele:CastUpdate(event,f,unit)
+function ele:CastUpdate(_,f,unit)
     local startTime,endTime
     if f.cast_state.channel then
         _,_,_,startTime,endTime = UnitChannelInfo(unit)
@@ -163,7 +163,7 @@ function ele:CastUpdate(event,f,unit)
 
     f.handler:CastBarShow()
 end
-function ele:UNIT_SPELLCAST_CHANNEL_STOP(event,f)
+function ele:UNIT_SPELLCAST_CHANNEL_STOP(_,f)
     if not f.state.casting or not f.cast_state.channel then return end
     f.handler:CastBarHide(ele.HIDE_STOP)
 end
@@ -180,7 +180,7 @@ function ele:DisableOnFrame(frame)
 end
 -- register ####################################################################
 function ele:OnDisable()
-    for i,f in addon:Frames() do
+    for _,f in addon:Frames() do
         self:DisableOnFrame(f)
     end
 end
@@ -199,7 +199,7 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_STOP')
     self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_UPDATE','CastUpdate')
 
-    for i,f in addon:Frames() do
+    for _,f in addon:Frames() do
         -- run create on missed frames
         self:Create(f)
     end

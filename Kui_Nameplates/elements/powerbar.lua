@@ -2,7 +2,7 @@
 local addon = KuiNameplates
 local ele = addon:NewElement('PowerBar')
 -- prototype additions #########################################################
-function addon.Nameplate.UpdatePower(f,on_show)
+function addon.Nameplate.UpdatePower(f)
     f = f.parent
     if f.elements.PowerBar then
         if f.state.power_type then
@@ -44,17 +44,17 @@ function addon.Nameplate.UpdatePowerType(f,on_show)
     end
 
     -- and bar values
-    f.handler:UpdatePower(on_show)
+    f.handler:UpdatePower()
 end
 -- messages ####################################################################
 function ele:Show(f)
     f.handler:UpdatePowerType(true)
 end
 -- events ######################################################################
-function ele:PowerTypeEvent(event,f)
+function ele:PowerTypeEvent(_,f)
     f.handler:UpdatePowerType()
 end
-function ele:PowerEvent(event,f)
+function ele:PowerEvent(_,f)
     f.handler:UpdatePower()
 end
 -- enable/disable per frame ####################################################

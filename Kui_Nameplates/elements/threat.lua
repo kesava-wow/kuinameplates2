@@ -22,7 +22,7 @@ function ele:Show(f)
     end
 end
 -- events ######################################################################
-function ele:UNIT_THREAT_LIST_UPDATE(event,f,unit)
+function ele:UNIT_THREAT_LIST_UPDATE(_,f,unit)
     if unit == 'player' or UnitIsUnit('player',unit) then return end
 
     local status = UnitThreatSituation('player',unit)
