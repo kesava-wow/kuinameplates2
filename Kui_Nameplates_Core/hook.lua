@@ -165,7 +165,7 @@ function core:QUEST_POI_UPDATE()
         end
     end
 end
-function core:UNIT_NAME_UPDATE(event,f)
+function core:UNIT_NAME_UPDATE(_,f)
     -- update name text colour
     f:UpdateNameText()
 end

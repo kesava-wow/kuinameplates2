@@ -291,7 +291,7 @@ do
 
         CASTBAR_DETACH = self.profile.castbar_detach
     end
-    function core:LSMMediaRegistered(msg,mediatype,key)
+    function core:LSMMediaRegistered(_,mediatype,key)
         -- callback registered in config.lua:InitialiseConfig
         if mediatype == LSM.MediaType.STATUSBAR and key == self.profile.bar_texture or
            mediatype == LSM.MediaType.FONT and key == self.profile.font_face
@@ -1832,7 +1832,7 @@ do
             )
         end
     end
-    function core.Auras_DisplayAura(frame,spellid,name,duration,caster,own,can_purge,nps_own,nps_all)
+    function core.Auras_DisplayAura(frame,spellid,name,duration,_,own,_,nps_own,nps_all)
         if not frame.__core then return end
         if frame.purge then
             -- force hide if excluded by spell list

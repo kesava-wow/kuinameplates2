@@ -933,7 +933,7 @@ do
         -- and force kuiconfig to update...
         opt.config:SetProfile(opt.config.csv.profile)
     end
-    local function callback(page,accept)
+    local function callback(_,accept)
         if accept then
             opt:CurrentPage_Paste()
         end
@@ -1038,7 +1038,7 @@ local function ProfileButtonOnShow(self)
         self:Enable()
     end
 end
-local function page_reset_callback(page,accept)
+local function page_reset_callback(_,accept)
     if accept then opt:CurrentPage_Reset() end
 end
 local function page_reset_OnClick(self)
@@ -1080,7 +1080,7 @@ local function profile_rename_OnClick(self)
         self.callback
     )
 end
-local function profile_reset_callback(page,accept)
+local function profile_reset_callback(_,accept)
     if accept then
         opt.config:ResetProfile(opt.config.csv.profile)
     end
@@ -1092,7 +1092,7 @@ local function profile_reset_OnClick(self)
         self.callback
     )
 end
-local function profile_delete_callback(page,accept)
+local function profile_delete_callback(_,accept)
     if accept then
         opt.config:DeleteProfile(opt.config.csv.profile)
     end

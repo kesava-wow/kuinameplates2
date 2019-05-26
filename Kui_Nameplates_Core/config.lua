@@ -367,7 +367,7 @@ end
 configChanged.combat_hostile = configChangedCombatAction
 configChanged.combat_friendly = configChangedCombatAction
 
-local function configChangedFadeRule(v,on_load)
+local function configChangedFadeRule(_,on_load)
     local plugin = addon:GetPlugin('Fading')
     if not on_load then
         -- don't reset on the configLoaded call
@@ -639,7 +639,7 @@ end
 function configChanged.execute_colour(v)
     addon:GetPlugin('Execute').colour = v
 end
-function configChanged.execute_percent(v)
+function configChanged.execute_percent()
     if core.profile.execute_auto then
         -- revert to automatic
         addon:GetPlugin('Execute'):SetExecuteRange()
@@ -649,7 +649,7 @@ function configChanged.execute_percent(v)
 end
 configChanged.execute_auto = configChanged.execute_percent
 
-function configChanged.frame_glow_size(v)
+function configChanged.frame_glow_size()
     for k,f in addon:Frames() do
         f:UpdateFrameGlowSize()
 
@@ -791,7 +791,7 @@ configChanged.cvar_disable_alpha = configChangedCVar
 configChanged.cvar_self_alpha = configChangedCVar
 configChanged.cvar_occluded_mult = configChangedCVar
 
-function configChanged.global_scale(v)
+function configChanged.global_scale()
     configChanged.frame_glow_size(core.profile.frame_glow_size)
     configChanged.state_icons()
     configChangedCastBar()

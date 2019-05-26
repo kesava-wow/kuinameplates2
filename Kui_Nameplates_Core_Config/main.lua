@@ -316,7 +316,7 @@ function opt:LayoutLoaded()
     self.profile = self.config:GetConfig()
 end
 
-opt:SetScript('OnEvent',function(self,event,addon)
+opt:SetScript('OnEvent',function(self,_,addon)
     if addon ~= folder then return end
     self:UnregisterEvent('ADDON_LOADED')
 
