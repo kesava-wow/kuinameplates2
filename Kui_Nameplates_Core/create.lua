@@ -141,7 +141,7 @@ do
 
         if spark then
             local texture = bar:GetStatusBarTexture()
-            local spark = bar:CreateTexture(nil,'ARTWORK',nil,spark_level or 7)
+            spark = bar:CreateTexture(nil,'ARTWORK',nil,spark_level or 7)
             spark:SetTexture(KUI_MEDIA..'t/spark')
             spark:SetWidth(12)
 

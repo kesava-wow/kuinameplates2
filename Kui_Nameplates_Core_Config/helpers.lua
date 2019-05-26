@@ -9,7 +9,7 @@ local S_MENU_OPEN = 850
 local S_MENU_CLOSE = 851
 
 local function GetLocaleString(common_key,name,fallback)
-    if common_key and L.common[common_key] then 
+    if common_key and L.common[common_key] then
         return L.common[common_key]
     end
     if name then
@@ -891,8 +891,8 @@ do
         CreatePopupPage_ConfirmDialog()
         CreatePopupPage_TextEntry()
 
-        opt:HookScript('OnHide',function(opt)
-            opt.Popup:Hide()
+        opt:HookScript('OnHide',function(self)
+            self.Popup:Hide()
         end)
     end
 end
