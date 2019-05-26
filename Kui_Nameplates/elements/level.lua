@@ -6,7 +6,7 @@ local instanced_pvp
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateLevel(f)
     f = f.parent
-    f.state.level = instanced_pvp and UnitLevel(f.unit) or UnitEffectiveLevel(f.unit) or 0
+    f.state.level = instanced_pvp and UnitLevel(f.unit) or 0
 
     if f.elements.LevelText then
         local l,cl,d = kui.UnitLevel(f.unit,nil,instanced_pvp)
