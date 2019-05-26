@@ -37,7 +37,6 @@
 -- target glow = -5
 --
 --------------------------------------------------------------------------------
-local folder,ns=...
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local LSM = LibStub('LibSharedMedia-3.0')
@@ -1630,7 +1629,7 @@ do
           AURAS_ENABLED,AURAS_SHOW_ALL_SELF,AURAS_HIDE_ALL_OTHER,
           AURAS_PURGE_SIZE,AURAS_SHOW_PURGE,AURAS_SIDE,AURAS_OFFSET,
           AURAS_POINT_S,AURAS_POINT_R,PURGE_POINT_S,PURGE_POINT_R,
-          PURGE_OFFSET,AURAS_Y_SPACING,AURAS_TIMER_THRESHOLD,
+          PURGE_OFFSET,AURAS_TIMER_THRESHOLD,
           AURAS_PURGE_OPPOSITE,AURAS_HIGHLIGHT_OTHER,
           AURAS_CD_SIZE,AURAS_COUNT_SIZE,AURAS_PER_ROW,
           AURAS_PULSATE,AURAS_ICON_SQUARENESS,AURAS_SORT
@@ -2077,7 +2076,7 @@ do
     end
     -- update
     local function UpdateThreatBrackets(f)
-        if not core.profile.threat_brackets or f.IN_NAMEONLY then
+        if not THREAT_BRACKETS or f.IN_NAMEONLY then
             f.ThreatBrackets:Hide()
             return
         end

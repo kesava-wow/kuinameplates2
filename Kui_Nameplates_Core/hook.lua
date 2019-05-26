@@ -5,9 +5,7 @@
 --------------------------------------------------------------------------------
 -- handle messages, events, initialise
 --------------------------------------------------------------------------------
-local folder,ns=...
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
 
 KuiNameplatesCore = addon:Layout()
 local core = KuiNameplatesCore

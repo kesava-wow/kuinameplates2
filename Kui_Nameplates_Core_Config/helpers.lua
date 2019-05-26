@@ -1,4 +1,3 @@
-local folder,ns = ...
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
 local pcdd = LibStub('SomeoneElsesConfig-Dropdown')
@@ -21,9 +20,6 @@ local function GetLocaleString(common_key,name,fallback)
 end
 
 -- generic scripts #############################################################
-local function EditBoxOnEscapePressed(self)
-    self:ClearFocus()
-end
 local function OnEnter(self)
     GameTooltip:SetOwner(self,'ANCHOR_TOPLEFT')
     GameTooltip:SetWidth(200)

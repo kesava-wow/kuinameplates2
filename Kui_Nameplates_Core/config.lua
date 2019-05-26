@@ -3,7 +3,6 @@
 -- By Kesava at curse.com
 -- All rights reserved
 --------------------------------------------------------------------------------
-local folder,ns=...
 local kui = LibStub('Kui-1.0')
 local kc = LibStub('KuiConfig-1.0')
 local LSM = LibStub('LibSharedMedia-3.0')

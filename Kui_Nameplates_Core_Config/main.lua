@@ -5,10 +5,9 @@
 --------------------------------------------------------------------------------
 -- configuration interface for the core layout
 --------------------------------------------------------------------------------
-local folder,ns = ...
+local folder = ...
 local knp = KuiNameplates
 local kui = LibStub('Kui-1.0')
-local kc = LibStub('KuiConfig-1.0')
 
 -- reuse container created by core:Initialise
 local opt = KuiNameplatesCoreConfig
