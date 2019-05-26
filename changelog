@@ -7,3 +7,4 @@
 * remove a no-longer-necessary update script, improving CPU usage whenever nameplates are visible
 - (this is a relic of a hack I used to have to do to get pixel-perfectness working on nameplates)
 
+
