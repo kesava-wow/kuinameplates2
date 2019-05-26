@@ -6,4 +6,9 @@ ignore = inc.ignore
 globals = {
     "LibStub",
     "KuiNameplates",
+    "KuiNameplatesCore",
+    "KuiNameplatesCoreConfig",
+    "KuiNameplatesCoreSaved",
+    "KuiNameplatesCoreCharacterSaved",
+    "KuiNameplatesPlayerAnchor",
 }
