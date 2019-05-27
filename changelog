@@ -1,3 +1,7 @@
+BETA NOTES
+
+* update external libraries (CallbackHandler and LibSharedMedia)
+
 * Config UI: slightly redesigned for taller pages
 * fix lua error relating to API functions returning non-kui plates
 * fix lua error related to missing functions in "DBM"
