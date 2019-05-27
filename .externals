@@ -1,0 +1,21 @@
+subtree kuilib Kui_Nameplates/lib/Kui/
+github-kesava:kesava-wow/kuilib.git
+
+subtree kuimedia Kui_Media/
+github-kesava:kesava-wow/kuimedia.git
+
+subtree kuiconfig Kui_Nameplates_Core/lib/KuiConfig/
+github-kesava:kesava-wow/kuiconfig.git
+
+subtree kuispelllist Kui_Nameplates_Core/lib/KuiSpellList/
+github-kesava:kesava-wow/kuispelllist.git
+
+subtree someonelsesconfig-dropdown Kui_Nameplates_Core_Config/lib/SomeoneElsesConfig-Dropdown/
+gitlab:rbtwrrr/SomeoneElsesConfig-Dropdown.git
+
+svn callbackhandler Kui_Nameplates_Core/lib/CallbackHandler-1.0/
+https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+
+svn libsharedmedia Kui_Nameplates_Core/lib/LibSharedMedia-3.0/
+https://repos.wowace.com/wow/libsharedmedia-3-0/trunk/LibSharedMedia-3.0
+
