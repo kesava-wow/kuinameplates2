@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 36
+local MAJOR, MINOR = 'Kui-1.0', 37
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -68,7 +68,7 @@ kui.table_to_string = function(tbl,depth)
 end
 kui.print = function(...)
     local msg
-    for k,v in ipairs({...}) do
+    for _,v in ipairs({...}) do
         if type(v) == 'table' then
             v = kui.table_to_string(v)
         end
@@ -381,7 +381,7 @@ kui.frameFadeFrame = CreateFrame('Frame')
 kui.FADEFRAMES = {}
 
 kui.frameIsFading = function(frame)
-    for index, value in pairs(kui.FADEFRAMES) do
+    for _,value in pairs(kui.FADEFRAMES) do
         if value == frame then
             return true
         end
@@ -392,7 +392,7 @@ kui.frameFadeRemoveFrame = function(frame)
 end
 kui.frameFadeOnUpdate = function(self, elapsed)
     local frame, info
-    for index, value in pairs(kui.FADEFRAMES) do
+    for _,value in pairs(kui.FADEFRAMES) do
         frame, info = value, value.fadeInfo
 
         if info.startDelay and info.startDelay > 0 then
