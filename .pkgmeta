@@ -17,6 +17,8 @@ move-folders:
 ignore:
     - .gitignore
     - .luacheckrc
+    - .externals
     - changelog
     - README.md
     - examples
+    - dev
