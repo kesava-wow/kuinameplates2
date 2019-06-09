@@ -70,8 +70,8 @@ end
 ------------------------------------------------------- Frame script handlers --
 function addon.Nameplate.OnShow(f)
     f = f.parent
-    addon:DispatchMessage('Show', f)
     f:Show()
+    addon:DispatchMessage('Show', f)
 end
 function addon.Nameplate.OnHide(f)
     f = f.parent
