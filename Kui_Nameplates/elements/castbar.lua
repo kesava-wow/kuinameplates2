@@ -145,6 +145,16 @@ function ele:CastStop(event,f,_,guid)
         (event == 'UNIT_SPELLCAST_SUCCEEDED' and ele.HIDE_SUCCESS) or
         ele.HIDE_STOP)
 end
+function ele:CastInterruptible(_,f,unit)
+    if not f.state.casting then return end
+    f.cast_state.interruptible = true
+    f.handler:CastBarShow()
+end
+function ele:CastNotInterruptible(_,f,unit)
+    if not f.state.casting then return end
+    f.cast_state.interruptible = false
+    f.handler:CastBarShow()
+end
 function ele:CastUpdate(_,f,unit)
     local startTime,endTime
     if f.cast_state.channel then
@@ -194,6 +204,9 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
     self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastStop')
     self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED','CastStop')
+
+    self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTIBLE','CastInterruptible')
+    self:RegisterUnitEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE','CastNotInterruptible')
 
     self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_START','CastStart')
     self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_STOP')
