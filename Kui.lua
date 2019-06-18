@@ -381,6 +381,11 @@ do
         self:orig_Show()
     end
     local function Popup_Hide(self)
+        -- run input callback
+        if type(self.callback) == 'function' then
+            self.callback(self:GetText())
+        end
+
         self:ClearFocus()
         self:SetText("")
         self.ScrollFrame:Hide()
@@ -400,14 +405,6 @@ do
     end
     local function Popup_OnEscapePressed(self)
         self:Hide()
-    end
-    local function Popup_OnHide(self)
-        -- run input callback
-        if type(self.callback) == 'function' then
-            print(self:GetText())
-            self.callback(self:GetText())
-        end
-        self:SetText('')
     end
     local function ScrollFrame_OnMouseDown(self,button)
         if button == 'RightButton' and not self.is_moving then
@@ -440,9 +437,7 @@ do
         p.Hide = Popup_Hide
         p.Show = Popup_Show
         p.AddText = Popup_AddText
-
         p:SetScript('OnEscapePressed',Popup_OnEscapePressed)
-        p:SetScript('OnHide',Popup_OnHide)
 
         local s = CreateFrame('ScrollFrame','KuiDebugEditBoxScrollFrame',UIParent,'UIPanelScrollFrameTemplate')
         s:SetMovable(true)
