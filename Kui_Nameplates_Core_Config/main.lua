@@ -268,12 +268,17 @@ end
 function command_func.import()
     local d = kui:DebugPopup(function(input)
         local profile_name = 'import test'
-        local table = kui.string_to_table(input)
-        print(input)
-        kui.print(table)
+        local table,tlen = kui.string_to_table(input)
+
+        if not table or tlen == 0 then
+            knp:ui_print('Import failed (empty table).')
+            return
+        end
 
         KuiNameplatesCore.config.csv.profile = profile_name
         KuiNameplatesCore.config:PostProfile(profile_name,table)
+
+        knp:ui_print(format('Switched to imported profile `%s`.',profile_name))
     end)
     d:Show()
 end
