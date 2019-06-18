@@ -322,16 +322,28 @@ function command_func.import()
 end
 
 function SlashCmdList.KUINAMEPLATESCORE(msg)
-    for _,command_name in ipairs(commands) do
-        if strfind(msg,'^'..command_name) then
-            local arg1,argv = strmatch(msg,'^'..command_name..'%s+([^%s]+)%s*(.*)%s*$')
-            if command_func[command_name](arg1,argv) == false then
+    if strmatch(msg,"[^%s]") then
+        local args = {}
+        for match in string.gmatch(msg,'[^%s]+') do
+        -- split input by whitespace into argument table
+            tinsert(args,match)
+        end
+
+        if #args > 0 and type(command_func[args[1]]) == 'function' then
+            -- run given command
+            local command_name = args[1]
+            tremove(args,1)
+
+            if command_func[command_name](unpack(args)) == false then
                 command_func.help(command_name)
             end
             return
         end
+
+        -- open config to named page
+        return command_func.config(unpack(args))
     end
-    return command_func.config(msg)
+    return command_func.config()
 end
 -- locale ######################################################################
 do
