@@ -31,7 +31,7 @@ local commands = {
     'set',
     'locale',
     'which',
-    'find'
+    'export',
 }
 local command_doc = {
     ['help'] = 'It\'s this message!',
@@ -58,6 +58,7 @@ local command_doc = {
         'Switch KNP\'s config language.',
         'Usage: /knp locale new_locale',
         'Enter `nil` for new_locale to reset to default.'},
+    ['export'] = 'Export the current profile as a string.',
 }
 local command_func = {}
 function command_func.help(arg1,argv)
@@ -192,7 +193,6 @@ function command_func.profile(arg1,argv)
     elseif argv and argv ~= '' then
         arg1 = arg1..' '..argv
     end
-
     if create or KuiNameplatesCore.config.gsv.profiles[arg1] then
         KuiNameplatesCore.config:SetProfile(arg1)
         knp:ui_print(format('Switched to profile `%s`.',arg1))
@@ -260,6 +260,14 @@ function command_func.which()
     if not t then return end
     knp:ui_print(t:GetName())
 end
+function command_func.export()
+    -- export the current profile as a string
+    local d = kui:DebugPopup()
+    d:AddText(KuiNameplatesCore.config:GetActiveProfile())
+    d:Show()
+    d:HighlightText()
+    return
+end
 command_func['*'] = function(arg1,argv)
     -- interpret msg as config page shortcut
     local L = opt:GetLocale()
@@ -307,7 +315,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
     end
     for c_id,c_name in ipairs(commands) do
         if strfind(msg,'^'..c_name) then
-            local arg1,argv = strmatch(msg,'^'..c_name..'%s+(%w+)%s*(.*)%s*$')
+            local arg1,argv = strmatch(msg,'^'..c_name..'%s+([^%s]+)%s*(.*)%s*$')
             if command_func[c_name](arg1,argv) == false then
                 command_func.help(c_name)
             end
