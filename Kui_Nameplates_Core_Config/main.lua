@@ -19,6 +19,285 @@ opt.pages = {}
 SLASH_KUINAMEPLATESCORE1 = '/knp'
 SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
+local commands = {
+    'help',
+    'debug',
+    'debug frames',
+    'debug all',
+    'debug ignore',
+    'trace',
+    'dump',
+    'profile',
+    'set',
+    'locale',
+    'which',
+    'find'
+}
+local command_doc = {
+    ['help'] = 'It\'s this message!',
+    ['debug'] = 'Toggle debug output. Spams your chat frame.',
+    ['debug frames'] = 'Toggle visible frame extents.',
+    ['debug all'] = 'Extra spam mode.',
+    ['debug ignore'] = {
+        'Toggle filtering given debug ID.',
+        'Usage: /knp debug ignore e:UNIT_NAME'},
+    ['dump'] = {
+        'Creates a text dump with KNP\'s version, your configuration and a list of modules.',
+        'Give me this in issue reports!'},
+    ['profile'] = {
+        'Switch to named profile.',
+        'Usage: /knp profile ! profile name',
+        'Remove `!` to disallow creation of a new profile.'},
+    ['set'] = {
+        'Set config key to value.',
+        'Usage: /knp set config_key value',
+        'Boolean: true, false. Colours: r,g,b[,a] (0.0 - 1.0).',
+        'Enter `nil` for value to reset a key to default.',
+        'Example: /knp set frame_width 132'},
+    ['locale'] = {
+        'Switch KNP\'s config language.',
+        'Usage: /knp locale new_locale',
+        'Enter `nil` for new_locale to reset to default.'},
+}
+local command_func = {}
+function command_func.help(arg1,argv)
+    if not arg1 or arg1 == '' then
+        knp:ui_print('Available commands:')
+        for c_id,c_name in ipairs(commands) do
+            local doc = command_doc[c_name]
+            if type(doc) == 'table' then doc = doc[1] end
+            if type(doc) == 'string' then
+                print('    '..c_name..' - '..doc)
+            end
+        end
+    else
+        if argv and argv ~= '' then
+            arg1 = arg1..' '..argv
+        end
+
+        local doc = command_doc[arg1]
+        if type(doc) == 'string' then
+            knp:ui_print(doc)
+        elseif type(doc) == 'table' then
+            for i,line in ipairs(doc) do
+                if i == 1 then
+                    knp:ui_print(line)
+                else
+                    print('    '..line)
+                end
+            end
+        else
+            knp:ui_print('No help for '..arg1)
+        end
+    end
+end
+function command_func.debug(arg1,argv)
+    if arg1 == 'frames' then
+        knp.draw_frames = not knp.draw_frames
+        if knp.draw_frames then
+            KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
+            KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
+            for k,f in knp:Frames() do
+                f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
+                f:SetBackdropBorderColor(1,1,1)
+                f.parent:SetBackdrop({bgFile=kui.m.t.solid})
+                f.parent:SetBackdropColor(0,0,0)
+            end
+        else
+            KuiNameplatesPlayerAnchor:SetBackdrop(nil)
+            for k,f in knp:Frames() do
+                f:SetBackdrop(nil)
+                f.parent:SetBackdrop(nil)
+            end
+        end
+    elseif arg1 == 'all' then
+        -- spam mode
+        knp.debug = true
+        knp.debug_messages = true
+        knp.debug_events = true
+        knp.debug_callbacks = true
+        if type(knp.DEBUG_IGNORE) == 'table' then
+            wipe(knp.DEBUG_IGNORE)
+        end
+    elseif arg1 == 'ignore' then
+        knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
+        knp.DEBUG_IGNORE[argv] = not knp.DEBUG_IGNORE[argv]
+    else
+        knp.debug = true
+        knp.debug_messages = not knp.debug_messages
+        knp.debug_events = knp.debug_messages
+        knp.debug_callbacks = knp.debug_messages
+    end
+end
+function command_func.trace(arg1,argv)
+    --@debug@
+    local script_profile = GetCVarBool('scriptProfile')
+    if arg1 == 'p' then
+        knp:PrintTrace(tonumber(argv))
+    elseif script_profile and arg1 == 'trace' and argv == 'off' then
+        if InCombatLockdown() then return end
+        SetCVar('scriptProfile',false)
+        ReloadUI()
+    elseif not script_profile then
+        if InCombatLockdown() then return end
+        SetCVar('scriptProfile',true)
+        ReloadUI()
+    else
+        knp.profiling = not knp.profiling
+        knp:print('Profiling '..(knp.profiling and 'started' or 'stopped'))
+    end
+    --@end-debug@
+    return
+end
+function command_func.dump()
+    local d = kui:DebugPopup()
+    local debug = knp.debug and '+debug' or ''
+    local custom = IsAddOnLoaded('Kui_Nameplates_Custom') and '+c' or ''
+    local barauras = IsAddOnLoaded('Kui_Nameplates_BarAuras') and '+ba' or ''
+    local extras = IsAddOnLoaded('Kui_Nameplates_Extras') and '+x' or ''
+    local locale = KuiNameplatesCoreSaved.LOCALE or GetLocale()
+    local class = select(2,UnitClass('player'))
+
+    local plugins_str
+    for _,plugin_tbl in ipairs(knp.plugins) do
+        if plugin_tbl.name then
+            local this_str
+            if plugin_tbl.enabled then
+                this_str = plugin_tbl.name
+            else
+                this_str = format('[%s]',plugin_tbl.name)
+            end
+            plugins_str = plugins_str and plugins_str..', '..this_str or this_str
+        end
+    end
+
+    d:AddText(format('%s %d.%d%s%s%s%s',
+        '@project-version@',knp.MAJOR,knp.MINOR,
+        debug,custom,barauras,extras))
+    d:AddText(format('%s %s',locale,class))
+
+    d:AddText(KuiNameplatesCore.config.csv)
+    d:AddText(KuiNameplatesCore.config:GetActiveProfile())
+    d:AddText(plugins_str)
+
+    d:Show()
+    d:HighlightText()
+    return
+end
+function command_func.profile(arg1,argv)
+    local create
+    if arg1 == '!' then
+        create = true
+        arg1 = argv
+    elseif argv and argv ~= '' then
+        arg1 = arg1..' '..argv
+    end
+
+    if create or KuiNameplatesCore.config.gsv.profiles[arg1] then
+        KuiNameplatesCore.config:SetProfile(arg1)
+        knp:ui_print(format('Switched to profile `%s`.',arg1))
+    else
+        knp:ui_print(format('No profile with name `%s`.',arg1))
+    end
+end
+function command_func.set(arg1,argv)
+    if not arg1 then return false end
+
+    local extant_v = KuiNameplatesCore.profile[arg1]
+    if type(extant_v) == 'nil' then
+        knp:ui_print(format('Invalid config key `%s`.',arg1))
+        return
+    end
+
+    if argv == 'nil' then
+        -- reset the key
+        argv = nil
+    else
+        if strlower(argv) == 'true' then
+            argv = true
+        elseif strlower(argv) == 'false' then
+            argv = false
+        elseif tonumber(argv) then
+            argv = tonumber(argv)
+        else
+            -- string; find colour tables
+            local r,g,b,a = strmatch(argv,'^([^,]-),([^,]-),([^,]-)$')
+            if not r then
+                r,g,b,a = strmatch(argv,'^([^,]-),([^,]-),([^,]-),([^,]-)$')
+            end
+
+            r,g,b,a = tonumber(r),tonumber(g),tonumber(b),tonumber(a)
+            if r and g and b then
+                argv = { r, g, b }
+                if a then
+                    tinsert(argv,a)
+                end
+            end
+        end
+
+        if type(extant_v) ~= type(argv) then
+            knp:ui_print(format('Invalid value for key (expected %s, got %s).',
+                type(extant_v),type(argv)))
+            return
+        end
+        if type(argv) == 'table' and #argv ~= #extant_v then
+            knp:ui_print(format('Invalid table length (expected %d, got %d).',
+                #extant_v,#argv))
+            return
+        end
+    end
+
+    KuiNameplatesCore.config:SetKey(arg1,argv)
+end
+function command_func.locale(arg1)
+    -- set locale and reload ui
+    if arg1 == 'nil' then arg1 = nil end
+    KuiNameplatesCoreSaved.LOCALE = arg1
+    ReloadUI()
+end
+function command_func.which()
+    local t = C_NamePlate.GetNamePlateForUnit('target')
+    if not t then return end
+    knp:ui_print(t:GetName())
+end
+command_func['*'] = function(arg1,argv)
+    -- interpret msg as config page shortcut
+    local L = opt:GetLocale()
+
+    if arg1 == '>' then
+        arg1 = argv
+    elseif argv and argv ~= '' then
+        arg1 = arg1..' '..argv
+    end
+
+    local found
+    for i,f in ipairs(opt.pages) do
+        if f.name then
+            local name = f.name
+            local locale = L.page_names[name] and
+                           strlower(L.page_names[name])
+
+            if arg1 == name or arg1 == locale then
+                -- exact match
+                found = i
+                break
+            elseif not found and
+                (name:match('^'..arg1) or locale:match('^'..arg1))
+            then
+                -- starts-with match, continue searching for exact matches
+                found = i
+            end
+        end
+    end
+
+    if found then
+        opt:ShowPage(found)
+    end
+
+    InterfaceOptionsFrame_OpenToCategory(opt.name)
+    InterfaceOptionsFrame_OpenToCategory(opt.name)
+end
+
 function SlashCmdList.KUINAMEPLATESCORE(msg)
     if strfind(msg,'&&') then
         -- extract rightmost command, recurse remaining left
@@ -26,220 +305,16 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         SlashCmdList.KUINAMEPLATESCORE(left)
         msg = right
     end
-    if strfind(msg,'^debug') then
-        local arg1,argv = strmatch(msg,'^debug%s+(%a+)%s*(.*)%s*$')
-        if not arg1 then
-            knp.debug = true
-            knp.debug_messages = not knp.debug_messages
-            knp.debug_events = knp.debug_messages
-            knp.debug_callbacks = knp.debug_messages
-        elseif arg1 == 'frames' then
-            knp.draw_frames = not knp.draw_frames
-            if knp.draw_frames then
-                KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
-                KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
-                for _,f in knp:Frames() do
-                    f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
-                    f:SetBackdropBorderColor(1,1,1)
-                    f.parent:SetBackdrop({bgFile=kui.m.t.solid})
-                    f.parent:SetBackdropColor(0,0,0)
-                end
-            else
-                KuiNameplatesPlayerAnchor:SetBackdrop(nil)
-                for _,f in knp:Frames() do
-                    f:SetBackdrop(nil)
-                    f.parent:SetBackdrop(nil)
-                end
+    for c_id,c_name in ipairs(commands) do
+        if strfind(msg,'^'..c_name) then
+            local arg1,argv = strmatch(msg,'^'..c_name..'%s+(%w+)%s*(.*)%s*$')
+            if command_func[c_name](arg1,argv) == false then
+                command_func.help(c_name)
             end
-        elseif arg1 == 'all' then
-            -- spam mode
-            knp.debug = true
-            knp.debug_messages = true
-            knp.debug_events = true
-            knp.debug_callbacks = true
-            if type(knp.DEBUG_IGNORE) == 'table' then
-                wipe(knp.DEBUG_IGNORE)
-            end
-        elseif knp.debug and argv and arg1 == 'ignore' then
-            knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
-            knp.DEBUG_IGNORE[argv] = not knp.DEBUG_IGNORE[argv]
-        end
-        return
-    elseif knp.debug and strfind(msg,'^trace') then
-        --@debug@
-        local script_profile = GetCVarBool('scriptProfile')
-        if strfind(msg,'^trace p') then
-            local k = strmatch(msg,'^trace p ?(%d*)$')
-            knp:PrintTrace(tonumber(k))
-        elseif script_profile and msg == 'trace off' then
-            if InCombatLockdown() then return end
-            SetCVar('scriptProfile',false)
-            ReloadUI()
-        elseif not script_profile then
-            if InCombatLockdown() then return end
-            SetCVar('scriptProfile',true)
-            ReloadUI()
-        else
-            knp.profiling = not knp.profiling
-            knp:print('Profiling '..(knp.profiling and 'started' or 'stopped'))
-        end
-        --@end-debug@
-        return
-    elseif strfind(msg,'^dump') then
-        local d = kui:DebugPopup()
-        local debug = knp.debug and '+debug' or ''
-        local custom = IsAddOnLoaded('Kui_Nameplates_Custom') and '+c' or ''
-        local barauras = IsAddOnLoaded('Kui_Nameplates_BarAuras') and '+ba' or ''
-        local extras = IsAddOnLoaded('Kui_Nameplates_Extras') and '+x' or ''
-        local locale = KuiNameplatesCoreSaved.LOCALE or GetLocale()
-        local class = select(2,UnitClass('player'))
-
-        local plugins_str
-        for _,plugin_tbl in ipairs(knp.plugins) do
-            if plugin_tbl.name then
-                local this_str
-                if plugin_tbl.enabled then
-                    this_str = plugin_tbl.name
-                else
-                    this_str = format('[%s]',plugin_tbl.name)
-                end
-                plugins_str = plugins_str and plugins_str..', '..this_str or this_str
-            end
-        end
-
-        d:AddText(format('%s %d.%d%s%s%s%s',
-            '@project-version@',knp.MAJOR,knp.MINOR,
-            debug,custom,barauras,extras))
-        d:AddText(format('%s %s',locale,class))
-
-        d:AddText(KuiNameplatesCore.config.csv)
-        d:AddText(KuiNameplatesCore.config:GetActiveProfile())
-        d:AddText(plugins_str)
-
-        d:Show()
-        d:HighlightText()
-        return
-    elseif strfind(msg,'^profile') then
-        local create,name = strmatch(msg,'^profile(!?)%s+(.-)%s*$')
-        create = create and create == '!'
-        if not name then
-            knp:ui_print('Switch to named profile. Usage: /knp profile[!] profile name')
-            print('    Affix command with `!` to allow creation of a new profile.')
             return
-        end
-        if create or KuiNameplatesCore.config.gsv.profiles[name] then
-            KuiNameplatesCore.config:SetProfile(name)
-            knp:ui_print(format('Switched to profile `%s`.',name))
-        else
-            knp:ui_print(format('No profile with name `%s`.',name))
-        end
-        return
-    elseif strfind(msg,'^set') then
-        local k,v = strmatch(msg,'^set (.-)%s+(.-)%s*$')
-        if not k or not v then
-            knp:ui_print('Set config key to value. Usage: /knp set config_key value')
-            print('    Boolean: true, false. Colours: r,g,b[,a] (0.0 - 1.0).')
-            print('    Enter "nil" for value to reset a key to default.')
-            print('    Example: /knp set frame_width 132')
-            return
-        end
-
-        local extant_v = KuiNameplatesCore.profile[k]
-        if type(extant_v) == 'nil' then
-            knp:ui_print(format('Invalid config key `%s`.',k))
-            return
-        end
-
-        if v == 'nil' then
-            -- reset the key
-            v = nil
-        else
-            if strlower(v) == 'true' then
-                v = true
-            elseif strlower(v) == 'false' then
-                v = false
-            elseif tonumber(v) then
-                v = tonumber(v)
-            else
-                -- string; find colour tables
-                local r,g,b,a = strmatch(v,'^([^,]-),([^,]-),([^,]-)$')
-                if not r then
-                    r,g,b,a = strmatch(v,'^([^,]-),([^,]-),([^,]-),([^,]-)$')
-                end
-
-                r,g,b,a = tonumber(r),tonumber(g),tonumber(b),tonumber(a)
-                if r and g and b then
-                    v = { r, g, b }
-                    if a then
-                        tinsert(v,a)
-                    end
-                end
-            end
-
-            if type(extant_v) ~= type(v) then
-                knp:ui_print(format('Invalid value for key (expected %s, got %s).',
-                    type(extant_v),type(v)))
-                return
-            end
-            if type(v) == 'table' and #v ~= #extant_v then
-                knp:ui_print(format('Invalid table length (expected %d, got %d).',
-                    #extant_v,#v))
-                return
-            end
-        end
-
-        KuiNameplatesCore.config:SetKey(k,v)
-        return
-    elseif strfind(msg,'^locale') then
-        -- set locale and reload ui
-        local new_locale = strmatch(msg,'^locale (.-)%s*$')
-        if not new_locale then
-            knp:ui_print('Switch KNP\'s config language. Usage: /knp locale new_locale')
-            print('    Enter "nil" for new_locale to reset to default.')
-            return
-        end
-        if new_locale == 'nil' then new_locale = nil end
-        KuiNameplatesCoreSaved.LOCALE = new_locale
-        ReloadUI()
-        return
-    elseif msg == 'which' then
-        local t = C_NamePlate.GetNamePlateForUnit('target')
-        if not t then return end
-        knp:ui_print(t:GetName())
-        return
-    elseif msg and msg ~= '' then
-        -- interpret msg as config page shortcut
-        local L = opt:GetLocale()
-        msg = gsub(strlower(msg),'^%s*>%s*','')
-
-        local found
-        for i,f in ipairs(opt.pages) do
-            if f.name then
-                local name = f.name
-                local locale = L.page_names[name] and
-                               strlower(L.page_names[name])
-
-                if msg == name or msg == locale then
-                    -- exact match
-                    found = i
-                    break
-                elseif not found and
-                    (name:match('^'..msg) or locale:match('^'..msg))
-                then
-                    -- starts-with match, continue searching for exact matches
-                    found = i
-                end
-            end
-        end
-
-        if found then
-            opt:ShowPage(found)
         end
     end
-
-    -- 6.2.2: call twice to force it to open to the correct frame
-    InterfaceOptionsFrame_OpenToCategory(opt.name)
-    InterfaceOptionsFrame_OpenToCategory(opt.name)
+    return command_func['*'](msg)
 end
 -- locale ######################################################################
 do
