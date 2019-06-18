@@ -1,5 +1,9 @@
 BETA NOTES
 
+* change slash command help text (/knp help)
+* add import command, for importing profile strings created with export
+* KuiConfig changes affecting profile creation, deletion, renaming, copying...
+
 * add help command and help text for current slash functions (`/knp help`)
 * add export command, like dump but only the profile (import not yet implemented)
 * fix error when setting default cvars via knp's set command
