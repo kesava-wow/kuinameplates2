@@ -36,16 +36,9 @@ local commands = {
     'import',
 }
 local command_doc = {
-    ['help'] = 'It\'s this message!',
+    ['help'] = 'It\'s this message! Use /knp help [command] for more.',
     ['debug'] = 'Toggle debug output. Spams your chat frame.',
-    ['debug frames'] = 'Toggle visible frame extents.',
-    ['debug all'] = 'Extra spam mode.',
-    ['debug ignore'] = {
-        'Toggle filtering given debug ID.',
-        'Usage: /knp debug ignore e:UNIT_NAME'},
-    ['dump'] = {
-        'Creates a text dump with KNP\'s version, your configuration and a list of modules.',
-        'Give me this in issue reports!'},
+    ['dump'] = 'Output debug information - give this to me if you\'re reporting a problem!',
     ['profile'] = {
         'Switch to named profile.',
         'Usage: /knp profile ! profile name',
@@ -61,6 +54,7 @@ local command_doc = {
         'Usage: /knp locale new_locale',
         'Enter `nil` for new_locale to reset to default.'},
     ['export'] = 'Export the current profile as a string.',
+    ['import'] = 'Import a profile created with the export command.',
 }
 local command_func = {}
 function command_func.help(arg1,argv)
