@@ -1,3 +1,4 @@
+-- luacheck: globals KuiNameplatesCoreConfig
 local opt = KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
 local pcdd = LibStub('SomeoneElsesConfig-Dropdown')
@@ -926,13 +927,6 @@ end
 -- current page script helpers #################################################
 do
     local clipboard,clipboard_page,clipboard_profile
-    local function KuiConfig_ForceUpdate()
-        -- XXX expose something in kuiconfig for this
-        -- post updated profile to the saved variable
-        _G[opt.config.gsv_name].profiles[opt.config.csv.profile] = opt.config.profile
-        -- and force kuiconfig to update...
-        opt.config:SetProfile(opt.config.csv.profile)
-    end
     local function callback(_,accept)
         if accept then
             opt:CurrentPage_Paste()
@@ -968,7 +962,7 @@ do
         for env,value in pairs(clipboard) do
             self.config.profile[env] = value
         end
-        KuiConfig_ForceUpdate()
+        self.config:PostProfile()
 
         clipboard,clipboard_page,clipboard_profile = nil,nil,nil
         self:CurrentPage_UpdateClipboardButton()
@@ -989,7 +983,7 @@ do
                 self.config.profile[env] = nil
             end
         end
-        KuiConfig_ForceUpdate()
+        self.config:PostProfile()
     end
     function opt:CurrentPage_ClipboardButtonClick(button)
         if button == 'RightButton' or not self:CurrentPage_CanPaste() then
