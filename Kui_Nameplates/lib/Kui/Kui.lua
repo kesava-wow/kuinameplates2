@@ -44,14 +44,14 @@ local ct = { -- classification table
 -- functions ###################################################################
 local function SortedTableIndex(tbl)
     local index = {}
-    for k,v in pairs(tbl) do
+    for k,_ in pairs(tbl) do
         tinsert(index,k)
     end
     table.sort(index,function(a,b)
         local str_a,str_b=tostring(a),tostring(b)
-        if a and not b then
+        if str_a and not str_b then
             return true
-        elseif b and not a then
+        elseif str_b and not str_a then
             return false
         else
             return strlower(a) < strlower(b)
@@ -97,6 +97,67 @@ kui.table_to_string = function(tbl,max_depth)
         end
     end
     return loop(tbl)
+end
+function kui.string_to_table(str)
+    -- convert string from above function back to table
+    -- (with restrictions)
+    local out_table = {}
+    local function loop(str,nested_table)
+        if str == '{}' or str == '{..}' then
+            return {}
+        end
+        if strfind(str,'{') == 1 then
+            -- remove surrounding brackets
+            str = strsub(str,2,strlen(str)-1)
+        end
+
+        local next_comma,next_equals,next_open,next_close =
+            strfind(str,','),strfind(str,'='),strfind(str,'{'),strfind(str,'}')
+
+        if nested_table or next_equals and not next_comma then
+            -- parse "key=value" into final array
+            local k = strsub(str,1,next_equals-1)
+            local v = strsub(str,next_equals+1)
+
+            -- convert string value
+            if strlower(v) == 'true' then
+                v = true
+            elseif strlower(v) == 'false' then
+                v = false
+            elseif strlower(v) == 'nil' then
+                v = nil
+            elseif tonumber(v) then
+                v = tonumber(v)
+            elseif strfind(v,'{') == 1 then
+                -- convert nested tables
+                v = kui.string_to_table(v)
+            end
+
+            out_table[k] = v
+            return
+        elseif next_open and next_equals and next_open == next_equals + 1 then
+            -- this value is a nested table,
+            -- find the comma after the end (or the end of the string)
+            local next_comma = strfind(str,',',next_close)
+            if next_comma then
+                loop(strsub(str,1,next_comma-1),true)
+                -- and continue...
+                loop(strsub(str,next_comma+1))
+            else
+                -- this is the final value
+                loop(str,true)
+            end
+            return
+        elseif next_comma and next_equals and next_equals < next_comma then
+            -- parse each delimited section
+            loop(strsub(str,1,next_comma-1))
+            -- and continue with the remaining text
+            loop(strsub(str,next_comma+1))
+            return
+        end
+    end
+    loop(str)
+    return out_table
 end
 kui.print = function(...)
     local msg
