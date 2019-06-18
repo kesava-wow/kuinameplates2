@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 38
+local MAJOR, MINOR = 'Kui-1.0', 39
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -44,7 +44,7 @@ local ct = { -- classification table
 -- functions ###################################################################
 local function SortedTableIndex(tbl)
     local index = {}
-    for k,_ in pairs(tbl) do
+    for k in pairs(tbl) do
         tinsert(index,k)
     end
     table.sort(index,function(a,b)
@@ -54,13 +54,13 @@ local function SortedTableIndex(tbl)
         elseif str_b and not str_a then
             return false
         else
-            return strlower(a) < strlower(b)
+            return strlower(str_a) < strlower(str_b)
         end
     end)
     return index
 end
-kui.table_to_string = function(tbl,max_depth)
-    -- convert table to string (with restrictions)
+kui.table_to_string = function(in_tbl,max_depth)
+    -- convert simple table to string (with restrictions)
     if not max_depth then
         max_depth = 3
     end
@@ -96,9 +96,9 @@ kui.table_to_string = function(tbl,max_depth)
             return str and '{'..str..'}' or '{}'
         end
     end
-    return loop(tbl)
+    return loop(in_tbl)
 end
-function kui.string_to_table(str)
+function kui.string_to_table(in_str)
     -- convert string from above function back to table
     -- (with restrictions)
     local out_table = {}
@@ -111,9 +111,7 @@ function kui.string_to_table(str)
             str = strsub(str,2,strlen(str)-1)
         end
 
-        local next_comma,next_equals,next_open,next_close =
-            strfind(str,','),strfind(str,'='),strfind(str,'{'),strfind(str,'}')
-
+        local next_comma,next_equals = strfind(str,','),strfind(str,'=')
         if nested_table or next_equals and not next_comma then
             -- parse "key=value" into final array
             local k = strsub(str,1,next_equals-1)
@@ -135,10 +133,14 @@ function kui.string_to_table(str)
 
             out_table[k] = v
             return
-        elseif next_open and next_equals and next_open == next_equals + 1 then
+        end
+
+        local next_open = strfind(str,'{')
+        if next_open and next_equals and next_open == next_equals + 1 then
             -- this value is a nested table,
             -- find the comma after the end (or the end of the string)
-            local next_comma = strfind(str,',',next_close)
+            -- XXX doesn't handle double-nested tables
+            next_comma = strfind(str,',',strfind(str,'}'))
             if next_comma then
                 loop(strsub(str,1,next_comma-1),true)
                 -- and continue...
@@ -148,7 +150,9 @@ function kui.string_to_table(str)
                 loop(str,true)
             end
             return
-        elseif next_comma and next_equals and next_equals < next_comma then
+        end
+
+        if next_comma and next_equals and next_equals < next_comma then
             -- parse each delimited section
             loop(strsub(str,1,next_comma-1))
             -- and continue with the remaining text
@@ -156,7 +160,7 @@ function kui.string_to_table(str)
             return
         end
     end
-    loop(str)
+    loop(in_str)
     return out_table
 end
 kui.print = function(...)
@@ -397,6 +401,14 @@ do
     local function Popup_OnEscapePressed(self)
         self:Hide()
     end
+    local function Popup_OnHide(self)
+        -- run input callback
+        if type(self.callback) == 'function' then
+            print(self:GetText())
+            self.callback(self:GetText())
+        end
+        self:SetText('')
+    end
     local function ScrollFrame_OnMouseDown(self,button)
         if button == 'RightButton' and not self.is_moving then
             self:StartMoving()
@@ -428,7 +440,9 @@ do
         p.Hide = Popup_Hide
         p.Show = Popup_Show
         p.AddText = Popup_AddText
+
         p:SetScript('OnEscapePressed',Popup_OnEscapePressed)
+        p:SetScript('OnHide',Popup_OnHide)
 
         local s = CreateFrame('ScrollFrame','KuiDebugEditBoxScrollFrame',UIParent,'UIPanelScrollFrameTemplate')
         s:SetMovable(true)
@@ -461,11 +475,17 @@ do
 
         debugpopup = p
     end
-
-    kui.DebugPopup = function()
+    function kui:DebugPopup(callback)
         -- create/get and return reference to debug EditBox
         CreateDebugPopup()
+
+        -- disable and hide popup if already visible
+        debugpopup.callback = nil
         debugpopup:Hide()
+
+        if type(callback) == 'function' then
+            debugpopup.callback = callback
+        end
         return debugpopup
     end
 end
