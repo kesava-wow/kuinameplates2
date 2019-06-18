@@ -33,6 +33,7 @@ local commands = {
     'locale',
     'which',
     'export',
+    'import',
 }
 local command_doc = {
     ['help'] = 'It\'s this message!',
@@ -268,7 +269,18 @@ function command_func.export()
     d:AddText(KuiNameplatesCore.config:GetActiveProfile())
     d:Show()
     d:HighlightText()
-    return
+end
+function command_func.import()
+    local d = kui:DebugPopup(function(input)
+        local profile_name = 'import test'
+        local table = kui.string_to_table(input)
+        print(input)
+        kui.print(table)
+
+        KuiNameplatesCore.config.csv.profile = profile_name
+        KuiNameplatesCore.config:PostProfile(profile_name,table)
+    end)
+    d:Show()
 end
 command_func['*'] = function(arg1,argv)
     -- interpret msg as config page shortcut
