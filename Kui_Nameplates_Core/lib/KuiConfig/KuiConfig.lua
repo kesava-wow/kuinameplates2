@@ -3,7 +3,7 @@
 -- By Kesava @ curse.com.
 -- All rights reserved.
 --]]
-local MAJOR, MINOR = 'KuiConfig-1.0', 6
+local MAJOR, MINOR = 'KuiConfig-1.0', 7
 local kc = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kc then
@@ -20,7 +20,7 @@ end
 --]]
 local function CallListeners(tbl,k,v)
     if type(tbl.listeners) == 'table' then
-        for i,listener_tbl in ipairs(tbl.listeners) do
+        for _,listener_tbl in ipairs(tbl.listeners) do
             local listener,func = unpack(listener_tbl)
 
             if  listener and
@@ -38,6 +38,27 @@ end
 -- config table prototype ######################################################
 local config_meta = {}
 config_meta.__index = config_meta
+
+--[[
+-- post the named profile to the saved variable
+-- falls back to currently active profile
+-- if p_table is a table, overwrite profile with p_table
+-- will create named profile if it does not exist
+-- also updates if the currently active profile is modified
+--]]
+function config_meta:PostProfile(p_name,p_table)
+    if not p_name then p_name = self.csv.profile end
+    if not p_table then p_table = self.profile end
+    assert(p_name and p_table)
+
+    _G[self.gsv_name].profiles[p_name] = p_table
+
+    if p_name == self.csv.profile then
+        -- if this is the active profile,
+        -- we also need to update the profile locals and call listeners
+        self:SetProfile(p_name)
+    end
+end
 
 --[[
 -- merges current active profile (self.profile) with given defaults and returns
@@ -67,18 +88,12 @@ function config_meta:GetConfig()
 end
 
 --[[
--- set config key [k] to value [v]
+-- set config key [k] to value [v] and update
 --]]
 function config_meta:SetKey(k,v)
     if not self.profile then return end
     self.profile[k] = v
-
-    -- post complete profile to saved variable
-    -- TODO set to other profiles maybe?
-    _G[self.gsv_name].profiles[self.csv.profile] = self.profile
-
-    -- dispatch to configChanged listeners
-    CallListeners(self,k,v)
+    self:PostProfile()
 end
 
 --[[
@@ -97,17 +112,24 @@ function config_meta:SetConfig(...)
 end
 
 --[[
--- set active profile to given name
--- will create a profile if given doesn't exist
+-- set active profile to given named profile
 --]]
 function config_meta:SetProfile(profile_name)
+    -- get/create named profile
+    self.profile = self:GetProfile(profile_name)
+
+    -- set character's profile
     _G[self.csv_name].profile = profile_name
     self.csv = _G[self.csv_name]
-    self.profile = self:GetProfile(profile_name)
 
     CallListeners(self)
 end
 
+--[[
+-- return profile table for given profile
+-- falls back to "default"
+-- creates profile if it doesn't exist
+--]]
 function config_meta:GetProfile(profile_name)
     if not profile_name then
         profile_name = 'default'
@@ -136,15 +158,12 @@ function config_meta:DeleteProfile(profile_name,no_set)
 end
 
 --[[
--- copy named profile to given name
+-- copy named profile to given name and switch to it
 --]]
 function config_meta:CopyProfile(profile_name,new_name)
     if not profile_name or not new_name or new_name == '' then return end
-
-    _G[self.gsv_name].profiles[new_name] = self:GetProfile(profile_name)
-    self.gsv.profiles[new_name] = _G[self.gsv_name].profiles[new_name]
-
-    self:SetProfile(new_name)
+    self.csv.profile = new_name
+    self:PostProfile(new_name,self:GetProfile(profile_name))
 end
 
 --[[
@@ -161,20 +180,16 @@ function config_meta:RenameProfile(profile_name,new_name)
 end
 
 --[[
--- reset named profile to defaults (by deleting and recreating it)
+-- reset named profile to defaults (by setting it to an empty table)
 --]]
 function config_meta:ResetProfile(profile_name)
     if not profile_name then return end
-
-    _G[self.gsv_name].profiles[profile_name] = nil
-    self.gsv.profiles[profile_name] = nil
-
-    self:SetProfile(profile_name)
+    self:PostProfile(profile_name,{})
 end
 
 --[[
 -- alias for GetProfile(active_profile_name)
--- sets config_meta.profile to active profile
+-- sets config_meta.profile to active profile and returns it
 --]]
 function config_meta:GetActiveProfile()
     self.profile = self:GetProfile(self.csv.profile)
