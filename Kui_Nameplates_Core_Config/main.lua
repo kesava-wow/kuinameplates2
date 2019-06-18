@@ -1,4 +1,5 @@
 -- luacheck: globals SLASH_KUINAMEPLATESCORE1 SLASH_KUINAMEPLATESCORE2
+-- luacheck: globals KuiNameplatesCore KuiNameplatesCoreConfig KuiNameplatesCoreSaved
 --------------------------------------------------------------------------------
 -- Kui Nameplates
 -- By Kesava at curse.com
@@ -64,11 +65,11 @@ local command_func = {}
 function command_func.help(arg1,argv)
     if not arg1 or arg1 == '' then
         knp:ui_print('Available commands:')
-        for c_id,c_name in ipairs(commands) do
-            local doc = command_doc[c_name]
+        for _,command_name in ipairs(commands) do
+            local doc = command_doc[command_name]
             if type(doc) == 'table' then doc = doc[1] end
             if type(doc) == 'string' then
-                print('    '..c_name..' - '..doc)
+                print('    '..command_name..' - '..doc)
             end
         end
     else
@@ -93,12 +94,13 @@ function command_func.help(arg1,argv)
     end
 end
 function command_func.debug(arg1,argv)
+    -- luacheck: globals KuiNameplatesPlayerAnchor
     if arg1 == 'frames' then
         knp.draw_frames = not knp.draw_frames
         if knp.draw_frames then
             KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
             KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
-            for k,f in knp:Frames() do
+            for _,f in knp:Frames() do
                 f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
                 f:SetBackdropBorderColor(1,1,1)
                 f.parent:SetBackdrop({bgFile=kui.m.t.solid})
@@ -106,7 +108,7 @@ function command_func.debug(arg1,argv)
             end
         else
             KuiNameplatesPlayerAnchor:SetBackdrop(nil)
-            for k,f in knp:Frames() do
+            for _,f in knp:Frames() do
                 f:SetBackdrop(nil)
                 f.parent:SetBackdrop(nil)
             end
@@ -313,11 +315,11 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         SlashCmdList.KUINAMEPLATESCORE(left)
         msg = right
     end
-    for c_id,c_name in ipairs(commands) do
-        if strfind(msg,'^'..c_name) then
-            local arg1,argv = strmatch(msg,'^'..c_name..'%s+([^%s]+)%s*(.*)%s*$')
-            if command_func[c_name](arg1,argv) == false then
-                command_func.help(c_name)
+    for _,command_name in ipairs(commands) do
+        if strfind(msg,'^'..command_name) then
+            local arg1,argv = strmatch(msg,'^'..command_name..'%s+([^%s]+)%s*(.*)%s*$')
+            if command_func[command_name](arg1,argv) == false then
+                command_func.help(command_name)
             end
             return
         end
