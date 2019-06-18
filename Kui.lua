@@ -102,6 +102,7 @@ function kui.string_to_table(in_str)
     -- convert string from above function back to table
     -- (with restrictions)
     local out_table = {}
+    local out_length = 0
     local function loop(str,nested_table)
         if str == '{}' or str == '{..}' then
             return {}
@@ -137,6 +138,7 @@ function kui.string_to_table(in_str)
             end
 
             out_table[k] = v
+            out_length = out_length + 1
             return
         end
 
@@ -166,7 +168,12 @@ function kui.string_to_table(in_str)
         end
     end
     loop(in_str)
-    return out_table
+
+    if out_length == 0 then
+        return
+    else
+        return out_table,out_length
+    end
 end
 kui.print = function(...)
     local msg
