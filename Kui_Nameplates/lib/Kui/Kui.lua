@@ -117,7 +117,12 @@ function kui.string_to_table(in_str)
             local k = strsub(str,1,next_equals-1)
             local v = strsub(str,next_equals+1)
 
-            -- convert string value
+            -- convert key
+            if tonumber(k) then
+                k = tonumber(k)
+            end
+
+            -- convert value
             if strlower(v) == 'true' then
                 v = true
             elseif strlower(v) == 'false' then
