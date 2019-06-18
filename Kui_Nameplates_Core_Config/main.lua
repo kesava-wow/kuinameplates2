@@ -22,10 +22,10 @@ SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
 local commands = {
     'help',
-    'debug',
-    'debug frames',
     'debug all',
     'debug ignore',
+    'debug frames',
+    'debug',
     'trace',
     'dump',
     'profile',
@@ -94,44 +94,45 @@ function command_func.help(arg1,argv)
         end
     end
 end
-function command_func.debug(arg1,argv)
+command_func['debug frames'] = function()
     -- luacheck: globals KuiNameplatesPlayerAnchor
-    if arg1 == 'frames' then
-        knp.draw_frames = not knp.draw_frames
-        if knp.draw_frames then
-            KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
-            KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
-            for _,f in knp:Frames() do
-                f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
-                f:SetBackdropBorderColor(1,1,1)
-                f.parent:SetBackdrop({bgFile=kui.m.t.solid})
-                f.parent:SetBackdropColor(0,0,0)
-            end
-        else
-            KuiNameplatesPlayerAnchor:SetBackdrop(nil)
-            for _,f in knp:Frames() do
-                f:SetBackdrop(nil)
-                f.parent:SetBackdrop(nil)
-            end
+    knp.draw_frames = not knp.draw_frames
+    if knp.draw_frames then
+        KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
+        KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
+        for _,f in knp:Frames() do
+            f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
+            f:SetBackdropBorderColor(1,1,1)
+            f.parent:SetBackdrop({bgFile=kui.m.t.solid})
+            f.parent:SetBackdropColor(0,0,0)
         end
-    elseif arg1 == 'all' then
-        -- spam mode
-        knp.debug = true
-        knp.debug_messages = true
-        knp.debug_events = true
-        knp.debug_callbacks = true
-        if type(knp.DEBUG_IGNORE) == 'table' then
-            wipe(knp.DEBUG_IGNORE)
-        end
-    elseif arg1 == 'ignore' then
-        knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
-        knp.DEBUG_IGNORE[argv] = not knp.DEBUG_IGNORE[argv]
     else
-        knp.debug = true
-        knp.debug_messages = not knp.debug_messages
-        knp.debug_events = knp.debug_messages
-        knp.debug_callbacks = knp.debug_messages
+        KuiNameplatesPlayerAnchor:SetBackdrop(nil)
+        for _,f in knp:Frames() do
+            f:SetBackdrop(nil)
+            f.parent:SetBackdrop(nil)
+        end
     end
+end
+command_func['debug all'] = function()
+    -- spam mode
+    knp.debug = true
+    knp.debug_messages = true
+    knp.debug_events = true
+    knp.debug_callbacks = true
+    if type(knp.DEBUG_IGNORE) == 'table' then
+        wipe(knp.DEBUG_IGNORE)
+    end
+end
+command_func['debug ignore'] = function(to_ignore)
+    knp.DEBUG_IGNORE = knp.DEBUG_IGNORE or {}
+    knp.DEBUG_IGNORE[to_ignore] = not knp.DEBUG_IGNORE[to_ignore]
+end
+function command_func.debug()
+    knp.debug = true
+    knp.debug_messages = not knp.debug_messages
+    knp.debug_events = knp.debug_messages
+    knp.debug_callbacks = knp.debug_messages
 end
 function command_func.trace(arg1,argv)
     --@debug@
