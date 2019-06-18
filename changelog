@@ -1,14 +1,7 @@
-* fix disappearing class powers when on target
+BETA NOTES
 
-* Config UI: slightly redesigned for taller pages
-* fix lua error relating to API functions returning non-kui plates
-* fix lua error related to missing functions in "DBM"
-* fix lua error related to castbars when switching profiles with certain settings
-* update locale
-
-* remove a no-longer-necessary update script, improving CPU usage whenever nameplates are visible
-- (this is a relic of a hack I used to have to do to get pixel-perfectness working on nameplates)
-
-* update external libraries (CallbackHandler and LibSharedMedia)
-
-
+* add help command and help text for current slash functions (`/knp help`)
+* add export command, like dump but only the profile (import not yet implemented)
+* fix error when setting default cvars via knp's set command
+* automatically select `/knp dump` output
+* update kuilib
