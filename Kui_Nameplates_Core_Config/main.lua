@@ -321,12 +321,6 @@ command_func['*'] = function(arg1,argv)
 end
 
 function SlashCmdList.KUINAMEPLATESCORE(msg)
-    if strfind(msg,'&&') then
-        -- extract rightmost command, recurse remaining left
-        local left,right = strmatch(msg,'^%s*(.+)%s*&&%s*(.-)%s*$')
-        SlashCmdList.KUINAMEPLATESCORE(left)
-        msg = right
-    end
     for _,command_name in ipairs(commands) do
         if strfind(msg,'^'..command_name) then
             local arg1,argv = strmatch(msg,'^'..command_name..'%s+([^%s]+)%s*(.*)%s*$')
