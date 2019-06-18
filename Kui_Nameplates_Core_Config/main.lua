@@ -88,6 +88,43 @@ function command_func.help(arg1,argv)
         end
     end
 end
+function command_func.config(arg1,argv)
+    -- interpret msg as config page shortcut
+    local L = opt:GetLocale()
+
+    if arg1 == '>' then
+        arg1 = argv
+    elseif argv and argv ~= '' then
+        arg1 = arg1..' '..argv
+    end
+
+    local found
+    for i,f in ipairs(opt.pages) do
+        if f.name then
+            local name = f.name
+            local locale = L.page_names[name] and
+                           strlower(L.page_names[name])
+
+            if arg1 == name or arg1 == locale then
+                -- exact match
+                found = i
+                break
+            elseif not found and
+                (name:match('^'..arg1) or locale:match('^'..arg1))
+            then
+                -- starts-with match, continue searching for exact matches
+                found = i
+            end
+        end
+    end
+
+    if found then
+        opt:ShowPage(found)
+    end
+
+    InterfaceOptionsFrame_OpenToCategory(opt.name)
+    InterfaceOptionsFrame_OpenToCategory(opt.name)
+end
 command_func['debug frames'] = function()
     -- luacheck: globals KuiNameplatesPlayerAnchor
     knp.draw_frames = not knp.draw_frames
@@ -282,43 +319,6 @@ function command_func.import()
     end)
     d:Show()
 end
-command_func['*'] = function(arg1,argv)
-    -- interpret msg as config page shortcut
-    local L = opt:GetLocale()
-
-    if arg1 == '>' then
-        arg1 = argv
-    elseif argv and argv ~= '' then
-        arg1 = arg1..' '..argv
-    end
-
-    local found
-    for i,f in ipairs(opt.pages) do
-        if f.name then
-            local name = f.name
-            local locale = L.page_names[name] and
-                           strlower(L.page_names[name])
-
-            if arg1 == name or arg1 == locale then
-                -- exact match
-                found = i
-                break
-            elseif not found and
-                (name:match('^'..arg1) or locale:match('^'..arg1))
-            then
-                -- starts-with match, continue searching for exact matches
-                found = i
-            end
-        end
-    end
-
-    if found then
-        opt:ShowPage(found)
-    end
-
-    InterfaceOptionsFrame_OpenToCategory(opt.name)
-    InterfaceOptionsFrame_OpenToCategory(opt.name)
-end
 
 function SlashCmdList.KUINAMEPLATESCORE(msg)
     for _,command_name in ipairs(commands) do
@@ -330,7 +330,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
             return
         end
     end
-    return command_func['*'](msg)
+    return command_func.config(msg)
 end
 -- locale ######################################################################
 do
