@@ -117,6 +117,7 @@ function SlashCmdList.KUINAMEPLATESCORE(msg)
         d:AddText(plugins_str)
 
         d:Show()
+        d:HighlightText()
         return
     elseif strfind(msg,'^profile') then
         local create,name = strmatch(msg,'^profile(!?)%s+(.-)%s*$')
