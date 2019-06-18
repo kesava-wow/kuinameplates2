@@ -22,18 +22,19 @@ SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
 local commands = {
     'help',
-    'debug all',
-    'debug ignore',
-    'debug frames',
-    'debug',
-    'trace',
-    'dump',
-    'profile',
+    'config',
     'set',
-    'locale',
-    'which',
+    'dump',
     'export',
     'import',
+    'locale',
+    'profile',
+    'debug all',
+    'debug frames',
+    'debug ignore',
+    'debug',
+    'trace',
+    'which',
 }
 local command_doc = {
     ['help'] = 'It\'s this message! Use /knp help [command] for more.',
