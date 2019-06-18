@@ -20,6 +20,13 @@ opt.pages = {}
 SLASH_KUINAMEPLATESCORE1 = '/knp'
 SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
+local colours = {
+    'ffffff','cccccc','ffff88','88ff88'
+}
+local function C(colour_id,in_str)
+    return '|cff'..colours[colour_id]..in_str..'|r'
+end
+
 local commands = {
     'help',
     'config',
@@ -40,6 +47,13 @@ local command_doc = {
     ['help'] = 'It\'s this message! Use /knp help [command] for more.',
     ['debug'] = 'Toggle debug output. Spams your chat frame.',
     ['dump'] = 'Output debug information - give this to me if you\'re reporting a problem!',
+    ['config'] = {
+        'Open configuration interface, optionally to a named page.',
+        'Type the name of a page, full or partial, to open directly to it.',
+        'This command is run by default if no other is matched.',
+        C(2,'Usage ')..C(3,' /knp config [')..C(4,'page')..C(3,']'),
+        C(2,'Example ')..C(3,' /knp ')..C(4,'aur')..'  Opens the auras page.'
+    },
     ['profile'] = {
         'Switch to named profile.',
         'Usage: /knp profile ! profile name',
