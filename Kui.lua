@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 37
+local MAJOR, MINOR = 'Kui-1.0', 38
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -42,29 +42,61 @@ local ct = { -- classification table
     worldboss = { 'b',  'boss'       }
 }
 -- functions ###################################################################
-kui.table_to_string = function(tbl,depth)
-    if depth and depth >= 3 then
-        return '{ ... }'
-    end
-    local str
+local function SortedTableIndex(tbl)
+    local index = {}
     for k,v in pairs(tbl) do
-        if type(v) ~= 'userdata' then
-            if type(v) == 'table' then
-                v = kui.table_to_string(v,(depth and depth+1 or 1))
-            elseif type(v) == 'function' then
-                v = 'function'
-            elseif type(v) == 'string' then
-                v = '"'..v..'"'
+        tinsert(index,k)
+    end
+    table.sort(index,function(a,b)
+        local str_a,str_b=tostring(a),tostring(b)
+        if a and not b then
+            return true
+        elseif b and not a then
+            return false
+        else
+            return strlower(a) < strlower(b)
+        end
+    end)
+    return index
+end
+kui.table_to_string = function(tbl,max_depth)
+    -- convert table to string (with restrictions)
+    if not max_depth then
+        max_depth = 3
+    end
+    local function loop(tbl,depth)
+        if depth and depth >= max_depth then
+            return '{..}'
+        else
+            local str
+            local tbl_index = SortedTableIndex(tbl)
+
+            for _,k in ipairs(tbl_index) do
+                local v = tbl[k]
+
+                if type(k) == 'string' or tostring(k) then
+                    k = tostring(k)
+                else
+                    k = '('..type(k)..')'
+                end
+
+                if type(v) == 'table' then
+                    v = loop(v,depth and depth+1 or 1)
+                elseif type(v) == 'number' then
+                    v = tonumber(string.format('%.3f',v))
+                elseif type(v) == 'string' or tostring(v) then
+                    v = tostring(v)
+                else
+                    v = '('..type(v)..')'
+                end
+
+                str = (str and str..',' or '')..k..'='..v
             end
 
-            if type(k) == 'string' then
-                k = '"'..k..'"'
-            end
-
-            str = (str and str..'|cff999999,|r ' or '|cff999999{|r ')..'|cffffff99['..tostring(k)..']|r |cff999999=|r |cffffffff'..tostring(v)..'|r'
+            return str and '{'..str..'}' or '{}'
         end
     end
-    return (str or '{ ')..' }'
+    return loop(tbl)
 end
 kui.print = function(...)
     local msg
