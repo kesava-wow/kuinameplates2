@@ -1,6 +1,9 @@
 BETA NOTES
 
+* change handling of slash command input
 * change slash command help text (/knp help)
+* remove "&&" command concatenation
+
 * add import command, for importing profile strings created with export
 * KuiConfig changes affecting profile creation, deletion, renaming, copying...
 
