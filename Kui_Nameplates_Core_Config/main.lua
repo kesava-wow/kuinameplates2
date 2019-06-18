@@ -103,15 +103,13 @@ function command_func.help(arg1,argv)
         end
     end
 end
-function command_func.config(arg1,argv)
+function command_func.config(...)
     -- interpret msg as config page shortcut
     local L = opt:GetLocale()
+    local msg = table.concat({...},' ')
 
-    if arg1 == '>' then
-        arg1 = argv
-    elseif argv and argv ~= '' then
-        arg1 = arg1..' '..argv
-    end
+    -- remove arrow from, e.g. "/knp > general"
+    msg = string.gsub(msg,'^[^%S]*>[^%S]*','')
 
     local found
     for i,f in ipairs(opt.pages) do
@@ -120,12 +118,12 @@ function command_func.config(arg1,argv)
             local locale = L.page_names[name] and
                            strlower(L.page_names[name])
 
-            if arg1 == name or arg1 == locale then
+            if msg == name or msg == locale then
                 -- exact match
                 found = i
                 break
             elseif not found and
-                (name:match('^'..arg1) or locale:match('^'..arg1))
+                (name:match('^'..msg) or locale:match('^'..msg))
             then
                 -- starts-with match, continue searching for exact matches
                 found = i
