@@ -60,17 +60,23 @@ local command_doc = {
     ['profile'] = {
         'Switch to named profile.',
         'Usage: /knp profile ! profile name',
-        'Remove `!` to disallow creation of a new profile.'},
+        'Remove `!` to disallow creation of a new profile.'
+    },
     ['set'] = {
         'Set config key to value.',
         'Usage: /knp set config_key value',
         'Boolean: true, false. Colours: r,g,b[,a] (0.0 - 1.0).',
         'Enter `nil` for value to reset a key to default.',
-        'Example: /knp set frame_width 132'},
+        'Example: /knp set frame_width 132'
+    },
+    ['find'] = {
+        'Search the available configuration keys.'
+    },
     ['locale'] = {
         'Switch KNP\'s config language.',
         'Usage: /knp locale new_locale',
-        'Enter `nil` for new_locale to reset to default.'},
+        'Enter `nil` for new_locale to reset to default.'
+    },
     ['export'] = 'Export the current profile as a string.',
     ['import'] = 'Import a profile created with the export command.',
 }
