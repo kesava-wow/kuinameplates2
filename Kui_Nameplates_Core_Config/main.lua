@@ -8,10 +8,12 @@
 -- configuration interface for the core layout
 --------------------------------------------------------------------------------
 local folder = ...
-local knp = KuiNameplates
 local kui = LibStub('Kui-1.0')
+local knp = KuiNameplates
+local core = KuiNameplatesCore
+local config -- set when layout is loaded
 
--- reuse container created by core:Initialise
+-- reuse category container created by core:Initialise
 local opt = KuiNameplatesCoreConfig
 assert(opt)
 opt.pages = {}
@@ -225,8 +227,8 @@ function command_func.dump()
         debug,custom,barauras,extras))
     d:AddText(format('%s %s',locale,class))
 
-    d:AddText(KuiNameplatesCore.config.csv)
-    d:AddText(KuiNameplatesCore.config:GetActiveProfile())
+    d:AddText(config.csv)
+    d:AddText(config:GetActiveProfile())
     d:AddText(plugins_str)
 
     d:Show()
@@ -241,8 +243,8 @@ function command_func.profile(arg1,argv)
     elseif argv and argv ~= '' then
         arg1 = arg1..' '..argv
     end
-    if create or KuiNameplatesCore.config.gsv.profiles[arg1] then
-        KuiNameplatesCore.config:SetProfile(arg1)
+    if create or config.gsv.profiles[arg1] then
+        config:SetProfile(arg1)
         knp:ui_print(format('Switched to profile `%s`.',arg1))
     else
         knp:ui_print(format('No profile with name `%s`.',arg1))
@@ -251,7 +253,7 @@ end
 function command_func.set(arg1,argv)
     if not arg1 then return false end
 
-    local extant_v = KuiNameplatesCore.profile[arg1]
+    local extant_v = opt.profile[arg1]
     if type(extant_v) == 'nil' then
         knp:ui_print(format('Invalid config key `%s`.',arg1))
         return
@@ -295,7 +297,7 @@ function command_func.set(arg1,argv)
         end
     end
 
-    KuiNameplatesCore.config:SetKey(arg1,argv)
+    config:SetKey(arg1,argv)
 end
 function command_func.locale(arg1)
     -- set locale and reload ui
@@ -311,7 +313,7 @@ end
 function command_func.export()
     -- export the current profile as a string
     local d = kui:DebugPopup()
-    d:AddText(KuiNameplatesCore.config:GetActiveProfile())
+    d:AddText(config:GetActiveProfile())
     d:Show()
     d:HighlightText()
 end
@@ -325,8 +327,8 @@ function command_func.import()
             return
         end
 
-        KuiNameplatesCore.config.csv.profile = profile_name
-        KuiNameplatesCore.config:PostProfile(profile_name,table)
+        config.csv.profile = profile_name
+        config:PostProfile(profile_name,table)
 
         knp:ui_print(format('Switched to imported profile `%s`.',profile_name))
     end)
@@ -395,7 +397,7 @@ do
     end
 end
 -- config handlers #############################################################
-function opt:ConfigChanged(config,k)
+function opt:ConfigChanged(_,k)
     self.profile = config:GetConfig()
     if not self.active_page then return end
 
@@ -428,9 +430,10 @@ function opt:LayoutLoaded()
     if not knp.layout then return end
     if self.config then return end
 
-    self.config = knp.layout.config
-
+    self.config = core.config
     self.config:RegisterConfigChanged(opt,'ConfigChanged')
+    config = self.config -- local alias for command functions
+
     self.profile = self.config:GetConfig()
 end
 
