@@ -23,10 +23,10 @@ SLASH_KUINAMEPLATESCORE1 = '/knp'
 SLASH_KUINAMEPLATESCORE2 = '/kuinameplates'
 
 local colours = {
-    'ffffff','cccccc','ffff88','88ff88'
+    '|cffffffff','|cffcccccc','|cffffff88','|cff88ff88'
 }
-local function C(colour_id,in_str)
-    return '|cff'..colours[colour_id]..in_str..'|r'
+local function C(colour_id)
+    return colours[colour_id]
 end
 
 local commands = {
@@ -53,8 +53,8 @@ local command_doc = {
         'Open configuration interface, optionally to a named page.',
         'Type the name of a page, full or partial, to open directly to it.',
         'This command is run by default if no other is matched.',
-        C(2,'Usage ')..C(3,' /knp config [')..C(4,'page')..C(3,']'),
-        C(2,'Example ')..C(3,' /knp ')..C(4,'aur')..'  Opens the auras page.'
+        format('%sUsage  %s%s|r [%s%s|r]',C(2),C(3),'/knp config',C(4),'page'),
+        format('%sExample  %s%s %s%s|r  Opens the auras page',C(2),C(3),'/knp',C(4),'aur'),
     },
     ['profile'] = {
         'Switch to named profile.',
