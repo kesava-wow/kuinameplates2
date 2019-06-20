@@ -33,6 +33,7 @@ local commands = {
     'help',
     'config',
     'set',
+    'find',
     'dump',
     'export',
     'import',
@@ -298,6 +299,55 @@ function command_func.set(arg1,argv)
     end
 
     config:SetKey(arg1,argv)
+end
+do
+    local PRINT_KEYS = 15
+    local key_index
+    function command_func.find(...)
+        -- list config keys
+        local msg = table.concat({...},' ')
+        local exact_match
+        local fuzzy_match_ix = {}
+
+        if not key_index then
+            -- initialise config key index
+            key_index = {}
+            for key in pairs(opt.profile) do
+                tinsert(key_index,key)
+            end
+            table.sort(key_index)
+        end
+
+        for _,key in ipairs(key_index) do
+            -- search for input in config keys
+            if msg == key then
+                exact_match = key
+                break
+            else
+                local matches_all = true
+                for _,search in pairs({...}) do
+                    if not key:match(search) then
+                        matches_all = false
+                        break
+                    end
+                end
+                if matches_all then
+                    tinsert(fuzzy_match_ix,key)
+                end
+            end
+        end
+
+        -- generate output
+        if exact_match then
+            knp:ui_print(exact_match)
+        elseif #fuzzy_match_ix > 0 then
+            local concat = table.concat(fuzzy_match_ix,', ',1,min(#fuzzy_match_ix,PRINT_KEYS))
+            if #fuzzy_match_ix > PRINT_KEYS then
+                concat = concat..format(' %s... and %d more',C(2),#fuzzy_match_ix-PRINT_KEYS)
+            end
+            knp:ui_print(concat)
+        end
+    end
 end
 function command_func.locale(arg1)
     -- set locale and reload ui
