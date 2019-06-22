@@ -28,6 +28,13 @@ local colours = {
 local function C(colour_id)
     return colours[colour_id]
 end
+local function C_command(command,option)
+    return C(3)..'/knp '..(
+           (command and
+           ((option and command..' '..C(4)..option) or command)) or
+           (option and C(4)..option or '')
+           )..'|r'
+end
 
 local commands = {
     'help',
@@ -47,35 +54,51 @@ local commands = {
     'which',
 }
 local command_doc = {
-    ['help'] = 'It\'s this message! Use /knp help [command] for more.',
+    ['help'] = format('It\'s this message! Use  %s  for more.',
+        C_command('help','command')),
     ['debug'] = 'Toggle debug output. Spams your chat frame.',
     ['dump'] = 'Output debug information - give this to me if you\'re reporting a problem!',
     ['config'] = {
         'Open configuration interface, optionally to a named page.',
         'Type the name of a page, full or partial, to open directly to it.',
         'This command is run by default if no other is matched.',
-        format('%sUsage  %s%s|r [%s%s|r]',C(2),C(3),'/knp config',C(4),'page'),
-        format('%sExample  %s%s %s%s|r  Opens the auras page',C(2),C(3),'/knp',C(4),'aur'),
+        format('%sUsage|r  %s',
+            C(2),C_command('config','page')),
+        format('%sExample|r  %s  Opens the auras page',
+            C(2),'/knp aur'),
     },
     ['profile'] = {
         'Switch to named profile.',
-        'Usage: /knp profile ! profile name',
-        'Remove `!` to disallow creation of a new profile.'
+        format('%sUsage|r  %s',
+            C(2),C_command('profile','! profile name')),
+        format('%sExample|r  %s  Switch to profile %s if it exists',
+            C(2),'/knp profile mine','mine'),
+        format('%sExample|r  %s  Switch to profile %s, creating it if it does not exist',
+            C(2),'/knp profile ! new','new'),
     },
     ['set'] = {
-        'Set config key to value.',
-        'Usage: /knp set config_key value',
-        'Boolean: true, false. Colours: r,g,b[,a] (0.0 - 1.0).',
-        'Enter `nil` for value to reset a key to default.',
-        'Example: /knp set frame_width 132'
+        'Set configuration key to value.',
+        format('%sUsage|r  %s',
+            C(2),C_command('set','key value')),
+        format('Supported values are boolean (%s), colours (%s), numbers, text and %s.',
+            'true, false','r,g,b[,a] (0.0 - 1.0)','nil'),
+        format('Enter  %s  as  %s  to reset the key to default.',
+            'nil','value'),
+        format('Use  %s  to search available configuration keys.','/knp find'),
+        format('%sExample|r  %s',
+            C(2),'/knp set frame_width 132'),
+        format('%sExample|r  %s  Set %s to purple at 50%% alpha.',
+            C(2),'/knp set target_glow_colour .5,0,1,.5','target_glow_colour')
     },
     ['find'] = {
         'Search the available configuration keys.'
     },
     ['locale'] = {
         'Switch KNP\'s config language.',
-        'Usage: /knp locale new_locale',
-        'Enter `nil` for new_locale to reset to default.'
+        format('%sUsage|r  %s',
+            C(2),C_command('locale','new_locale')),
+        format('Enter  %s  as  %s  to reset to WoW\'s default.',
+            'nil','new_locale'),
     },
     ['export'] = 'Export the current profile as a string.',
     ['import'] = 'Import a profile created with the export command.',
@@ -88,7 +111,7 @@ function command_func.help(arg1,argv)
             local doc = command_doc[command_name]
             if type(doc) == 'table' then doc = doc[1] end
             if type(doc) == 'string' then
-                print('    '..command_name..' - '..doc)
+                print(format('    %s%s|r   %s',C(3),command_name,doc))
             end
         end
     else
