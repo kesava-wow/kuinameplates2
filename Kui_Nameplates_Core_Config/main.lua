@@ -330,12 +330,12 @@ function command_func.set(arg1,argv)
     config:SetKey(arg1,argv)
 end
 do
+    local L_NO_TITLE = C(2)..'(no description)'
     local PRINT_KEYS = 15
     local key_index
+
     function command_func.find(...)
         -- list config keys
-        local msg = table.concat({...},' ')
-        local exact_match
         local fuzzy_match_ix = {}
 
         if not key_index then
@@ -349,32 +349,37 @@ do
 
         for _,key in ipairs(key_index) do
             -- search for input in config keys
-            if msg == key then
-                exact_match = key
-                break
-            else
-                local matches_all = true
-                for _,search in pairs({...}) do
-                    if not key:match(search) then
-                        matches_all = false
-                        break
-                    end
+            local matches_all = true
+            for _,search in pairs({...}) do
+                if not key:match(search) then
+                    matches_all = false
+                    break
                 end
-                if matches_all then
-                    tinsert(fuzzy_match_ix,key)
-                end
+            end
+            if matches_all then
+                tinsert(fuzzy_match_ix,key)
             end
         end
 
         -- generate output
-        if exact_match then
-            knp:ui_print(exact_match)
-        elseif #fuzzy_match_ix > 0 then
-            local concat = table.concat(fuzzy_match_ix,', ',1,min(#fuzzy_match_ix,PRINT_KEYS))
-            if #fuzzy_match_ix > PRINT_KEYS then
-                concat = concat..format(' %s... and %d more',C(2),#fuzzy_match_ix-PRINT_KEYS)
+        if not fuzzy_match_ix or #fuzzy_match_ix == 0 then
+            knp:ui_print('No matches')
+        else
+            knp:ui_print('Matches found')
+            if #fuzzy_match_ix <= 5 then
+                -- show multiple matches with config titles
+                local L = opt:GetLocale()
+                for _,key in ipairs(fuzzy_match_ix) do
+                    print(format('    %s%s|r  %s',C(3),key,L.titles[key] or L_NO_TITLE))
+                end
+            else
+                -- list matches
+                local concat = table.concat(fuzzy_match_ix,', ',1,min(#fuzzy_match_ix,PRINT_KEYS))
+                if #fuzzy_match_ix > PRINT_KEYS then
+                    concat = concat..format(' %s... and %d more',C(2),#fuzzy_match_ix-PRINT_KEYS)
+                end
+                print('    '..concat)
             end
-            knp:ui_print(concat)
         end
     end
 end
