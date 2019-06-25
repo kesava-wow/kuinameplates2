@@ -104,8 +104,8 @@ local command_doc = {
     ['import'] = 'Import a profile created with the export command.',
 }
 local command_func = {}
-function command_func.help(arg1,argv)
-    if not arg1 or arg1 == '' then
+function command_func.help(command,...)
+    if not command then
         knp:ui_print('Available commands:')
         for _,command_name in ipairs(commands) do
             local doc = command_doc[command_name]
@@ -115,11 +115,8 @@ function command_func.help(arg1,argv)
             end
         end
     else
-        if argv and argv ~= '' then
-            arg1 = arg1..' '..argv
-        end
-
-        local doc = command_doc[arg1]
+        local args = table.concat({command,...},' ')
+        local doc = command_doc[args]
         if type(doc) == 'string' then
             knp:ui_print(doc)
         elseif type(doc) == 'table' then
@@ -131,7 +128,7 @@ function command_func.help(arg1,argv)
                 end
             end
         else
-            knp:ui_print('No help for '..arg1)
+            knp:ui_print('No help for '..args)
         end
     end
 end
