@@ -506,25 +506,9 @@ function mod:BigWigs_HideNameplateAura(is_guid,name,icon)
     end
 end
 -- external aura frame mixins ##################################################
-local function AuraFrame_CreateLine(self)
-    local line = UIParent:CreateLine(nil,'OVERLAY')
-
-    line.GetPoint = function() return end
-    line:SetThickness(LINE_WIDTH)
-    line:SetStartPoint('CENTER',UIParent)
-    line:Hide()
-
-    self.BM_line = line
-    return line
-end
-local function AuraFrame_ShowLine(self,parent,colour)
-    if self.spellids[parent] then
-        local line = self.BM_line or self:CreateLine()
-        line.parent = parent
-        line:SetColorTexture(unpack(colour))
-        line:SetEndPoint('BOTTOM',self.parent,0,-10)
-        line:Show()
-    end
+local function AuraFrame_ShowLine()
+    -- XXX lines disabled backport/2.24-8.2
+    return
 end
 local function AuraFrame_HideLine(self,parent)
     if not self.BM_line then return end
@@ -568,7 +552,6 @@ function mod:Create(f)
     })
     f.BossModAuraFrame:Hide()
 
-    f.BossModAuraFrame.CreateLine = AuraFrame_CreateLine
     f.BossModAuraFrame.ShowLine = AuraFrame_ShowLine
     f.BossModAuraFrame.HideLine = AuraFrame_HideLine
 
