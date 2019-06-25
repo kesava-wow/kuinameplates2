@@ -1,4 +1,4 @@
-## Interface: 80100
+## Interface: 80200
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates:|r |cffffffffCore Config|r
 ## Notes: Load-on-demand configuration interface for Kui Nameplates Core.
