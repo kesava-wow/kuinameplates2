@@ -210,22 +210,28 @@ function command_func.debug()
     knp.debug_events = knp.debug_messages
     knp.debug_callbacks = knp.debug_messages
 end
-function command_func.trace(arg1,argv)
+function command_func.trace(command,...)
     --@debug@
     local script_profile = GetCVarBool('scriptProfile')
-    if arg1 == 'p' then
-        knp:PrintTrace(tonumber(argv))
-    elseif script_profile and arg1 == 'trace' and argv == 'off' then
-        if InCombatLockdown() then return end
-        SetCVar('scriptProfile',false)
-        ReloadUI()
-    elseif not script_profile then
-        if InCombatLockdown() then return end
-        SetCVar('scriptProfile',true)
-        ReloadUI()
-    else
+    local args = table.concat({...},' ')
+    if command == 'p' then
+        knp:PrintTrace(tonumber(args))
+        return
+    elseif command == 't' then
+        if script_profile then
+            if InCombatLockdown() then return end
+            SetCVar('scriptProfile',false)
+            ReloadUI()
+        else
+            if InCombatLockdown() then return end
+            SetCVar('scriptProfile',true)
+            ReloadUI()
+        end
+        return
+    elseif script_profile then
         knp.profiling = not knp.profiling
         knp:print('Profiling '..(knp.profiling and 'started' or 'stopped'))
+        return
     end
     --@end-debug@
     return
