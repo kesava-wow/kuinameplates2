@@ -1,14 +1,6 @@
-* fix disappearing class powers when on target
+* disable boss mod line drawing
+* fix forbidden frame interaction related to personal-anchor
+* bump tocs
 
-* Config UI: slightly redesigned for taller pages
-* fix lua error relating to API functions returning non-kui plates
-* fix lua error related to missing functions in "DBM"
-* fix lua error related to castbars when switching profiles with certain settings
-* update locale
-
-* remove a no-longer-necessary update script, improving CPU usage whenever nameplates are visible
-- (this is a relic of a hack I used to have to do to get pixel-perfectness working on nameplates)
-
-* update external libraries (CallbackHandler and LibSharedMedia)
-
-
+Note for beta users:
+This is a "backport", it doesn't include changes from the current beta.
