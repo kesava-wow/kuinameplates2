@@ -1,5 +1,12 @@
 BETA NOTES
 
+* add find command, to search for configuration keys (for use with /knp set)
+* alter slash command help text, colours, etc
+* add profile names to export and import commands
+* prevent import overwriting extant profiles
+* fix kui debug popup can block input if the callback fails
+* fix help, trace, profile commands
+
 * change handling of slash command input
 * change slash command help text (/knp help)
 * remove "&&" command concatenation
