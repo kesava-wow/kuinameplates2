@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 39
+local MAJOR, MINOR = 'Kui-1.0', 40
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -386,23 +386,22 @@ end
 -- editbox debug popup #########################################################
 do
     local debugpopup
-
     local function Popup_Show(self)
         self.ScrollFrame:Show()
         self.Background:Show()
         self:orig_Show()
     end
     local function Popup_Hide(self)
-        -- run input callback
-        if type(self.callback) == 'function' then
-            self.callback(self:GetText())
-        end
-
         self:ClearFocus()
-        self:SetText("")
+        self:orig_Hide()
         self.ScrollFrame:Hide()
         self.Background:Hide()
-        self:orig_Hide()
+
+        if type(self.callback) == 'function' then
+            -- run input callback
+            self.callback(self:GetText())
+        end
+        self:SetText("")
     end
     local function Popup_AddText(self,v)
         if not v then return end
