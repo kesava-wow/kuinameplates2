@@ -289,54 +289,54 @@ function command_func.profile(allow_create,...)
         knp:ui_print(format('No profile with name `%s`',profile_name))
     end
 end
-function command_func.set(arg1,argv)
-    if not arg1 then return false end
+function command_func.set(key,value)
+    if not key then return false end
 
-    local extant_v = opt.profile[arg1]
+    local extant_v = opt.profile[key]
     if type(extant_v) == 'nil' then
-        knp:ui_print(format('Invalid config key `%s`',arg1))
+        knp:ui_print(format('Invalid config key `%s`',key))
         return
     end
 
-    if argv == 'nil' then
+    if value == 'nil' then
         -- reset the key
-        argv = nil
+        value = nil
     else
-        if strlower(argv) == 'true' then
-            argv = true
-        elseif strlower(argv) == 'false' then
-            argv = false
-        elseif tonumber(argv) then
-            argv = tonumber(argv)
+        if strlower(value) == 'true' then
+            value = true
+        elseif strlower(value) == 'false' then
+            value = false
+        elseif tonumber(value) then
+            value = tonumber(value)
         else
             -- string; find colour tables
-            local r,g,b,a = strmatch(argv,'^([^,]-),([^,]-),([^,]-)$')
+            local r,g,b,a = strmatch(value,'^([^,]-),([^,]-),([^,]-)$')
             if not r then
-                r,g,b,a = strmatch(argv,'^([^,]-),([^,]-),([^,]-),([^,]-)$')
+                r,g,b,a = strmatch(value,'^([^,]-),([^,]-),([^,]-),([^,]-)$')
             end
 
             r,g,b,a = tonumber(r),tonumber(g),tonumber(b),tonumber(a)
             if r and g and b then
-                argv = { r, g, b }
+                value = { r, g, b }
                 if a then
-                    tinsert(argv,a)
+                    tinsert(value,a)
                 end
             end
         end
 
-        if type(extant_v) ~= type(argv) then
+        if type(extant_v) ~= type(value) then
             knp:ui_print(format('Invalid value for key (expected %s, got %s)',
-                type(extant_v),type(argv)))
+                type(extant_v),type(value)))
             return
         end
-        if type(argv) == 'table' and #argv ~= #extant_v then
+        if type(value) == 'table' and #value ~= #extant_v then
             knp:ui_print(format('Invalid table length (expected %d, got %d)',
-                #extant_v,#argv))
+                #extant_v,#value))
             return
         end
     end
 
-    config:SetKey(arg1,argv)
+    config:SetKey(key,value)
 end
 do
     local L_NO_TITLE = C(2)..'(no description)' -- XXX locale
