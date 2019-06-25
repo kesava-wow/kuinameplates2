@@ -270,19 +270,23 @@ function command_func.dump()
     d:Show()
     d:HighlightText()
 end
-function command_func.profile(arg1,argv)
-    local create
-    if arg1 == '!' then
+function command_func.profile(allow_create,...)
+    local create,profile_name
+    if allow_create == '!' then
         create = true
-        arg1 = argv
-    elseif argv and argv ~= '' then
-        arg1 = arg1..' '..argv
-    end
-    if create or config.gsv.profiles[arg1] then
-        config:SetProfile(arg1)
-        knp:ui_print(format('Switched to profile `%s`',arg1))
+        profile_name = table.concat({...},' ')
     else
-        knp:ui_print(format('No profile with name `%s`',arg1))
+        profile_name = table.concat({allow_create,...},' ')
+    end
+    if not profile_name or profile_name == '' then
+        return false
+    end
+
+    if config.gsv.profiles[profile_name] or create then
+        config:SetProfile(profile_name)
+        knp:ui_print(format('Switched to profile `%s`',profile_name))
+    else
+        knp:ui_print(format('No profile with name `%s`',profile_name))
     end
 end
 function command_func.set(arg1,argv)
