@@ -219,7 +219,6 @@ function command_func.trace(command,...)
     local args = table.concat({...},' ')
     if command == 'p' then
         knp:PrintTrace(tonumber(args))
-        return
     elseif command == 't' then
         if script_profile then
             if InCombatLockdown() then return end
@@ -230,11 +229,9 @@ function command_func.trace(command,...)
             SetCVar('scriptProfile',true)
             ReloadUI()
         end
-        return
     elseif script_profile then
         knp.profiling = not knp.profiling
         knp:print('Profiling '..(knp.profiling and 'started' or 'stopped'))
-        return
     end
     --@end-debug@
     return
@@ -272,7 +269,6 @@ function command_func.dump()
 
     d:Show()
     d:HighlightText()
-    return
 end
 function command_func.profile(arg1,argv)
     local create
