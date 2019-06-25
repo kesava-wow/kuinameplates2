@@ -405,8 +405,15 @@ function command_func.which()
 end
 function command_func.export()
     -- export the current profile as a string
+    local profile_name = config.csv.profile
+    local profile_table = config:GetActiveProfile()
+    if type(profile_name) ~= 'string' or type(profile_table) ~= 'table' then
+        knp:ui_print('Current profile is invalid')
+        return
+    end
+
     local d = kui:DebugPopup()
-    d:AddText(config:GetActiveProfile())
+    d:AddText(profile_name..kui.table_to_string(profile_table))
     d:Show()
     d:HighlightText()
 end
