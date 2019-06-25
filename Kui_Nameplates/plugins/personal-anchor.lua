@@ -9,12 +9,13 @@ local function Reset()
     anchor:Hide()
 
     -- set a default point
-    anchor:SetPoint('CENTER',UIParent)
+    anchor:SetPoint('CENTER')
     anchor:SetSize(1,1)
 end
 -- messages ####################################################################
 function mod:Show(f)
     if f.state.personal then
+        anchor:ClearAllPoints()
         anchor:SetParent(f.parent)
         anchor:SetAllPoints(f.parent)
         anchor:Show()
