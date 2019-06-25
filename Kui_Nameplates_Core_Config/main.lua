@@ -77,18 +77,19 @@ local command_doc = {
             C(2),'/knp profile ! new','new'),
     },
     ['set'] = {
-        'Set configuration key to value.',
+        'Set configuration key to value',
         format('%sUsage|r  %s',
             C(2),C_command('set','key value')),
-        format('Supported values are boolean (%s), colours (%s), numbers, text and %s.',
-            'true, false','r,g,b[,a] (0.0 - 1.0)','nil'),
-        format('Enter  %s  as  %s  to reset the key to default.',
+        format('Enter  %s  as  %s  to reset the key to default',
             'nil','value'),
-        format('Use  %s  to search available configuration keys.','/knp find'),
+        format('Use  %s  to search available configuration keys',
+            C_command('find')),
+        format('%sSupported values|r  bool  %s%s|r  colour  %s%s|r  number  text',
+            C(2),C(2),'true/false',C(2),'r,g,b,a (0-1)'),
         format('%sExample|r  %s',
             C(2),'/knp set frame_width 132'),
-        format('%sExample|r  %s  Set %s to purple at 50%% alpha.',
-            C(2),'/knp set target_glow_colour .5,0,1,.5','target_glow_colour')
+        format('%sExample|r  %s',
+            C(2),'/knp set target_glow_colour .5,0,1,.5')
     },
     ['find'] = {
         'Search the available configuration keys.'
