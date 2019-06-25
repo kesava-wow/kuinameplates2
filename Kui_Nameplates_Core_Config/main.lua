@@ -392,10 +392,10 @@ do
         end
     end
 end
-function command_func.locale(arg1)
+function command_func.locale(new_locale)
     -- set locale and reload ui
-    if arg1 == 'nil' then arg1 = nil end
-    KuiNameplatesCoreSaved.LOCALE = arg1
+    if new_locale == 'nil' then new_locale = nil end
+    KuiNameplatesCoreSaved.LOCALE = new_locale
     ReloadUI()
 end
 function command_func.which()
