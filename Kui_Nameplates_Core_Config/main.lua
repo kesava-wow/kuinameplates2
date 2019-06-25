@@ -417,11 +417,28 @@ function command_func.export()
     d:Show()
     d:HighlightText()
 end
-function command_func.import()
+function command_func.import(arg1)
+    local create = arg1 == '!'
     local d = kui:DebugPopup(function(input)
-        local profile_name = 'import test'
-        local table,tlen = kui.string_to_table(input)
+        local profile_name
+        local first_bracket = strfind(input,'{')
+        if first_bracket and first_bracket > 1 then
+            -- get profile name, if available
+            profile_name = strsub(input,1,first_bracket-1)
+            input = strsub(input,first_bracket)
+        else
+            profile_name = 'import'
+        end
 
+        if config.gsv.profiles[profile_name] and not create then
+            -- profile with this name already exists
+            knp:ui_print(format('Import failed (profile  %s  exists - use  %s  to ignore)',
+                profile_name,C_command('import','!'))
+            )
+            return
+        end
+
+        local table,tlen = kui.string_to_table(input)
         if not table or tlen == 0 then
             knp:ui_print('Import failed (empty table)')
             return
