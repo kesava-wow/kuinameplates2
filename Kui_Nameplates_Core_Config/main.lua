@@ -53,6 +53,7 @@ local commands = {
     'trace',
     'which',
 }
+-- XXX generate doc text (locale)
 local command_doc = {
     ['help'] = format('It\'s this message! Use  %s  for more.',
         C_command('help','command')),
