@@ -57,25 +57,25 @@ local commands = {
 local command_doc = {
     ['help'] = format('It\'s this message! Use  %s  for more.',
         C_command('help','command')),
-    ['debug'] = 'Toggle debug output. Spams your chat frame.',
+    ['debug'] = 'Toggle debug output (spams your chat frame)',
     ['dump'] = 'Output debug information - give this to me if you\'re reporting a problem!',
     ['config'] = {
-        'Open configuration interface, optionally to a named page.',
-        'Type the name of a page, full or partial, to open directly to it.',
-        'This command is run by default if no other is matched.',
+        'Open configuration interface, optionally to a named page',
         format('%sUsage|r  %s',
             C(2),C_command('config','page')),
+        'Enter the name of a page, full or partial, to open it',
+        'This command is run by default if no other is matched',
         format('%sExample|r  %s  Opens the auras page',
-            C(2),'/knp aur'),
+            C(2),C_command(nil,'aur')),
     },
     ['profile'] = {
-        'Switch to named profile.',
+        'Switch to named profile',
         format('%sUsage|r  %s',
             C(2),C_command('profile','! profile name')),
         format('%sExample|r  %s  Switch to profile %s if it exists',
-            C(2),'/knp profile mine','mine'),
+            C(2),C_command('profile','mine'),'mine'),
         format('%sExample|r  %s  Switch to profile %s, creating it if it does not exist',
-            C(2),'/knp profile ! new','new'),
+            C(2),C_command('profile','! new'),'new'),
     },
     ['set'] = {
         'Set configuration key to value',
@@ -88,27 +88,31 @@ local command_doc = {
         format('%sSupported values|r  bool  %s%s|r  colour  %s%s|r  number  text',
             C(2),C(2),'true/false',C(2),'r,g,b,a (0-1)'),
         format('%sExample|r  %s',
-            C(2),'/knp set frame_width 132'),
+            C(2),C_command('set','frame_width 132')),
         format('%sExample|r  %s',
-            C(2),'/knp set target_glow_colour .5,0,1,.5')
+            C(2),C_command('set','target_glow_colour','.5,0,1,.5')),
     },
     ['find'] = {
-        'Search the available configuration keys.'
+        'Search available configuration keys',
+        format('%sUsage|r  %s',
+            C(2),C_command('find','search text')),
+        format('%sExample|r  %s',
+            C(2),C_command('find','cvar always show')),
     },
     ['locale'] = {
-        'Switch KNP\'s config language.',
+        'Switch KNP\'s config language',
         format('%sUsage|r  %s',
-            C(2),C_command('locale','new_locale')),
-        format('Enter  %s  as  %s  to reset to WoW\'s default.',
-            'nil','new_locale'),
+            C(2),C_command('locale','new locale')),
+        format('Enter  %s  as  %s  to reset to WoW\'s default',
+            'nil','new locale'),
     },
-    ['export'] = 'Export the current profile as a string.',
-    ['import'] = 'Import a profile created with the export command.',
+    ['export'] = 'Export the current profile as a string',
+    ['import'] = 'Import a profile created with the export command',
 }
 local command_func = {}
 function command_func.help(command,...)
     if not command then
-        knp:ui_print('Available commands:')
+        knp:ui_print('Available commands')
         for _,command_name in ipairs(commands) do
             local doc = command_doc[command_name]
             if type(doc) == 'table' then doc = doc[1] end
@@ -280,9 +284,9 @@ function command_func.profile(arg1,argv)
     end
     if create or config.gsv.profiles[arg1] then
         config:SetProfile(arg1)
-        knp:ui_print(format('Switched to profile `%s`.',arg1))
+        knp:ui_print(format('Switched to profile `%s`',arg1))
     else
-        knp:ui_print(format('No profile with name `%s`.',arg1))
+        knp:ui_print(format('No profile with name `%s`',arg1))
     end
 end
 function command_func.set(arg1,argv)
@@ -290,7 +294,7 @@ function command_func.set(arg1,argv)
 
     local extant_v = opt.profile[arg1]
     if type(extant_v) == 'nil' then
-        knp:ui_print(format('Invalid config key `%s`.',arg1))
+        knp:ui_print(format('Invalid config key `%s`',arg1))
         return
     end
 
@@ -321,12 +325,12 @@ function command_func.set(arg1,argv)
         end
 
         if type(extant_v) ~= type(argv) then
-            knp:ui_print(format('Invalid value for key (expected %s, got %s).',
+            knp:ui_print(format('Invalid value for key (expected %s, got %s)',
                 type(extant_v),type(argv)))
             return
         end
         if type(argv) == 'table' and #argv ~= #extant_v then
-            knp:ui_print(format('Invalid table length (expected %d, got %d).',
+            knp:ui_print(format('Invalid table length (expected %d, got %d)',
                 #extant_v,#argv))
             return
         end
@@ -412,14 +416,14 @@ function command_func.import()
         local table,tlen = kui.string_to_table(input)
 
         if not table or tlen == 0 then
-            knp:ui_print('Import failed (empty table).')
+            knp:ui_print('Import failed (empty table)')
             return
         end
 
         config.csv.profile = profile_name
         config:PostProfile(profile_name,table)
 
-        knp:ui_print(format('Switched to imported profile `%s`.',profile_name))
+        knp:ui_print(format('Switched to imported profile `%s`',profile_name))
     end)
     d:Show()
 end
