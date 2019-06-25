@@ -417,8 +417,8 @@ function command_func.export()
     d:Show()
     d:HighlightText()
 end
-function command_func.import(arg1)
-    local create = arg1 == '!'
+function command_func.import(allow_overwrite)
+    local create = allow_overwrite == '!'
     local d = kui:DebugPopup(function(input)
         local profile_name
         local first_bracket = strfind(input,'{')
