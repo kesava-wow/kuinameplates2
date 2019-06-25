@@ -339,8 +339,8 @@ function command_func.set(arg1,argv)
     config:SetKey(arg1,argv)
 end
 do
-    local L_NO_TITLE = C(2)..'(no description)'
-    local PRINT_KEYS = 15
+    local L_NO_TITLE = C(2)..'(no description)' -- XXX locale
+    local PRINT_KEYS,PRINT_TITLES = 15,10
     local key_index
 
     function command_func.find(...)
@@ -360,7 +360,7 @@ do
             -- search for input in config keys
             local matches_all = true
             for _,search in pairs({...}) do
-                if not key:match(search) then
+                if not key:match(strlower(search)) then
                     matches_all = false
                     break
                 end
@@ -375,7 +375,7 @@ do
             knp:ui_print('No matches')
         else
             knp:ui_print('Matches found')
-            if #fuzzy_match_ix <= 5 then
+            if #fuzzy_match_ix <= PRINT_TITLES then
                 -- show multiple matches with config titles
                 local L = opt:GetLocale()
                 for _,key in ipairs(fuzzy_match_ix) do
