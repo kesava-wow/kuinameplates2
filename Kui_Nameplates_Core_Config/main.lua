@@ -1,5 +1,5 @@
--- luacheck: globals SLASH_KUINAMEPLATESCORE1 SLASH_KUINAMEPLATESCORE2
--- luacheck: globals KuiNameplatesCore KuiNameplatesCoreConfig KuiNameplatesCoreSaved
+-- luacheck:globals SLASH_KUINAMEPLATESCORE1 SLASH_KUINAMEPLATESCORE2
+-- luacheck:globals KuiNameplatesCoreSaved
 --------------------------------------------------------------------------------
 -- Kui Nameplates
 -- By Kesava at curse.com
@@ -10,11 +10,11 @@
 local folder = ...
 local kui = LibStub('Kui-1.0')
 local knp = KuiNameplates
-local core = KuiNameplatesCore
+local core = KuiNameplatesCore --luacheck:globals KuiNameplatesCore
 local config -- set when layout is loaded
 
 -- reuse category container created by core:Initialise
-local opt = KuiNameplatesCoreConfig
+local opt = KuiNameplatesCoreConfig --luacheck:globals KuiNameplatesCoreConfig
 assert(opt)
 opt.pages = {}
 
@@ -174,7 +174,7 @@ function command_func.config(...)
     InterfaceOptionsFrame_OpenToCategory(opt.name)
 end
 command_func['debug frames'] = function()
-    -- luacheck: globals KuiNameplatesPlayerAnchor
+    -- luacheck:globals KuiNameplatesPlayerAnchor
     knp.draw_frames = not knp.draw_frames
     if knp.draw_frames then
         KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})

@@ -1,4 +1,4 @@
--- luacheck: globals DBM BigWigsLoader
+-- luacheck:globals DBM BigWigsLoader
 --[[
     Boss mod callback handlers
 

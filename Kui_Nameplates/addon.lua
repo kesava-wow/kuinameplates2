@@ -172,18 +172,23 @@ local function OnEvent(self,event,...)
     end
 
     -- disable the default class resource bars
-    --luacheck: globals NamePlateDriverFrame DeathKnightResourceOverlayFrame ClassNameplateBarMageFrame
-    --luacheck: globals ClassNameplateBarWindwalkerMonkFrame ClassNameplateBarPaladinFrame
-    --luacheck: globals ClassNameplateBarRogueDruidFrame ClassNameplateBarWarlockFrame
-    --luacheck: globals ClassNameplateManaBarFrame ClassNameplateBrewmasterBarFrame
+    --luacheck:globals NamePlateDriverFrame
     if NamePlateDriverFrame and not self.USE_BLIZZARD_PERSONAL then
+        --luacheck:globals DeathKnightResourceOverlayFrame
         DeathKnightResourceOverlayFrame:UnregisterAllEvents()
+        --luacheck:globals ClassNameplateBarMageFrame
         ClassNameplateBarMageFrame:UnregisterAllEvents()
+        --luacheck:globals ClassNameplateBarWindwalkerMonkFrame
         ClassNameplateBarWindwalkerMonkFrame:UnregisterAllEvents()
+        --luacheck:globals ClassNameplateBarPaladinFrame
         ClassNameplateBarPaladinFrame:UnregisterAllEvents()
+        --luacheck:globals ClassNameplateBarRogueDruidFrame
         ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
+        --luacheck:globals ClassNameplateBarWarlockFrame
         ClassNameplateBarWarlockFrame:UnregisterAllEvents()
+        --luacheck:globals ClassNameplateManaBarFrame
         ClassNameplateManaBarFrame:UnregisterAllEvents()
+        --luacheck:globals ClassNameplateBrewmasterBarFrame
         ClassNameplateBrewmasterBarFrame:UnregisterAllEvents()
 
         NamePlateDriverFrame:SetClassNameplateManaBar(nil)

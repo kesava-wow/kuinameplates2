@@ -1,5 +1,4 @@
--- luacheck: globals KuiNameplatesCoreConfig
-local opt = KuiNameplatesCoreConfig
+local opt = KuiNameplatesCoreConfig -- luacheck:globals KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
 local pcdd = LibStub('SomeoneElsesConfig-Dropdown')
 local L = opt:GetLocale()

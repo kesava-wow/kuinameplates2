@@ -3,9 +3,8 @@
 -- By Kesava at curse.com
 -- All rights reserved
 --------------------------------------------------------------------------------
--- element create/update functions
--- draw layers -----------------------------------------------------------------
---
+-- layout's element create/update functions
+-- draw layers reference -------------------------------------------------------
 -- HealthBar/CastBar ###########################################################
 -- ARTWORK
 -- powerbar spark = 7
@@ -35,13 +34,12 @@
 -- threat brackets = 0
 -- frame glow = -5
 -- target glow = -5
---
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local LSM = LibStub('LibSharedMedia-3.0')
 local KSL = LibStub('KuiSpellList-2.0')
-local core = KuiNameplatesCore
+local core = KuiNameplatesCore --luacheck:globals KuiNameplatesCore
 
 -- frame fading plugin - called by some update functions
 local plugin_fading
