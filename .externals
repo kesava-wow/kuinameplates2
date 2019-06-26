@@ -1,6 +1,9 @@
 subtree kuilib Kui_Nameplates/lib/Kui/
 github-kesava:kesava-wow/kuilib.git
 
+svn libstub Kui_Nameplates/lib/LibStub.lua
+https://repos.wowace.com/wow/libstub/trunk/LibStub.lua
+
 subtree kuimedia Kui_Media/
 github-kesava:kesava-wow/kuimedia.git
 
