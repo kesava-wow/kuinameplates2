@@ -1,5 +1,10 @@
 BETA NOTES
 
+* merge changes from backport/2.24-8.2:
+* disable boss mod line drawing due to API changes in 8.2
+* fix lua error related to a forbidden anchor interaction with personal-anchor
+* bump toc
+
 * add find command, to search for configuration keys (for use with /knp set)
 * alter slash command help text, colours, etc
 * add profile names to export and import commands
