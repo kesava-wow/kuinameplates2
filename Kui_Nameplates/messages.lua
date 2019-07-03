@@ -569,7 +569,7 @@ end
 ------------------------------------------------------------ layout registrar --
 function addon:Layout()
     if self.layout then
-        self:ui_print('More than one layout is enabled.')
+        self:ui_print('More than one layout tried to load. This is bad.')
         return
     end
 
