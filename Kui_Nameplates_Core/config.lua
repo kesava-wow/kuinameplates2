@@ -233,8 +233,6 @@ local default_config = {
     bossmod_x_offset = 0,
     bossmod_y_offset = 35,
     bossmod_clickthrough = false,
-    bossmod_lines = true,
-    bossmod_line_width = 3,
 
     cvar_enable = false,
     cvar_show_friendly_npcs = GetCVarDefault('nameplateShowFriendlyNPCs')=="1",
@@ -694,8 +692,6 @@ local function configChangedBossMod()
     core.BossModIcon.icon_y_offset = core.profile.bossmod_y_offset
     core.BossModIcon.control_visibility = core.profile.bossmod_control_visibility
     core.BossModIcon.clickthrough = core.profile.bossmod_clickthrough
-    core.BossModIcon.lines = core.profile.bossmod_lines
-    core.BossModIcon.line_width = core.profile.bossmod_line_width
 
     if addon:GetPlugin('BossMods').enabled then
         addon:GetPlugin('BossMods'):UpdateConfig()
@@ -706,8 +702,6 @@ configChanged.bossmod_icon_size = configChangedBossMod
 configChanged.bossmod_x_offset = configChangedBossMod
 configChanged.bossmod_y_offset = configChangedBossMod
 configChanged.bossmod_clickthrough = configChangedBossMod
-configChanged.bossmod_lines = configChangedBossMod
-configChanged.bossmod_line_width = configChangedBossMod
 
 local function UpdateCVars()
     SetCVar('nameplateShowFriendlyNPCs',core.profile.cvar_show_friendly_npcs)

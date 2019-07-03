@@ -786,8 +786,6 @@ function bossmod:Initialise()
     local bossmod_x_offset = self:CreateSlider('bossmod_x_offset',-200,200)
     local bossmod_y_offset = self:CreateSlider('bossmod_y_offset',-200,200)
     local bossmod_clickthrough = self:CreateCheckBox('bossmod_clickthrough',true)
-    local bossmod_lines = self:CreateCheckBox('bossmod_lines')
-    local bossmod_line_width = self:CreateSlider('bossmod_line_width',1,10)
 
     local function bossmod_enabled(p) return p.bossmod_enable end
     bossmod_control_visibility.enabled = bossmod_enabled
@@ -795,15 +793,10 @@ function bossmod:Initialise()
     bossmod_x_offset.enabled = bossmod_enabled
     bossmod_y_offset.enabled = bossmod_enabled
     bossmod_clickthrough.enabled = function(p) return p.bossmod_enable and p.bossmod_control_visibility end
-    bossmod_lines.enabled = bossmod_enabled
-    bossmod_line_width.enabled = function(p) return p.bossmod_enable and p.bossmod_lines end
 
     bossmod_enable:SetPoint('TOPLEFT',10,-10)
     bossmod_control_visibility:SetPoint('TOPLEFT',bossmod_enable,'BOTTOMLEFT',0,-10)
     bossmod_clickthrough:SetPoint('TOPLEFT',bossmod_control_visibility,'BOTTOMLEFT',10,0)
-
-    bossmod_lines:SetPoint('TOPLEFT',bossmod_control_visibility,'BOTTOMLEFT',0,-40)
-    bossmod_line_width:SetPoint('LEFT',bossmod_lines,'RIGHT',184,0)
 
     bossmod_icon_size:SetPoint('TOP',0,-170)
     bossmod_x_offset:SetPoint('TOPLEFT',10,-(170+50))

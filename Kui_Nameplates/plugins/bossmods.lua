@@ -52,9 +52,6 @@ local L_HOSTILE = 'hostile'
 local ICON_SIZE, ICON_X_OFFSET, ICON_Y_OFFSET = 30,0,0
 local CONTROL_VISIBILITY = true
 local CLICKTHROUGH = false
-local LINE_COLOUR_DEFAULT = { 1, 0, 0, 1 }
-local DRAW_LINES = true
-local LINE_WIDTH = 4
 
 local plugin_ct,active_boss_auras
 local hidden_auras,num_hidden_auras,enable_warned
@@ -246,17 +243,12 @@ end
 local function ShowNameplateAura(f, icon_tbl)
     if not f or not icon_tbl or not f.BossModAuraFrame then return end
 
-    local texture,desaturate,expiration,line = unpack(icon_tbl)
+    local texture,desaturate,expiration = unpack(icon_tbl)
     if not texture then return end
 
     local button = f.BossModAuraFrame:AddAura(nil,texture,nil,nil,expiration)
     if button then
         button.icon:SetDesaturated(desaturate)
-
-        if DRAW_LINES and line then
-            f.BossModAuraFrame:ShowLine(texture,
-                type(line) == 'table' and line or LINE_COLOUR_DEFAULT)
-        end
     end
 
     -- there is an aura active on this frame
@@ -275,10 +267,8 @@ local function HideNameplateAura(f,icon)
 
     if not icon then
         f.BossModAuraFrame:HideAllButtons()
-        f.BossModAuraFrame:HideLine()
     else
         f.BossModAuraFrame:RemoveAura(nil,icon)
-        f.BossModAuraFrame:HideLine(icon)
     end
 
     if not f.BossModAuraFrame:IsShown() then
@@ -449,7 +439,7 @@ do
     end
 end
 -- show/hide icon on nameplate belonging to given name
-function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate,add_line,line_colour)
+function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate)
     -- these should not be called during combat
     -- DisableFriendlyNameplates also wipes boss auras
     if not self.enabled or not name or not icon then return end
@@ -465,7 +455,6 @@ function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate,add
         icon,
         desaturate,
         duration and GetTime()+duration,
-        add_line and (line_colour or true)
     })
 
     -- immediately show new aura if frame is currently visible
@@ -505,18 +494,6 @@ function mod:BigWigs_HideNameplateAura(is_guid,name,icon)
         HideNameplateAura(GetFrameByName(name),icon)
     end
 end
--- external aura frame mixins ##################################################
-local function AuraFrame_ShowLine()
-    -- XXX lines disabled backport/2.24-8.2
-    return
-end
-local function AuraFrame_HideLine(self,parent)
-    if not self.BM_line then return end
-    if parent and self.spellids[parent] and self.BM_line.parent ~= parent then
-        return
-    end
-    self.BM_line:Hide()
-end
 -- messages ####################################################################
 function mod:Show(f)
     -- restore previously hidden auras, if any
@@ -552,9 +529,6 @@ function mod:Create(f)
     })
     f.BossModAuraFrame:Hide()
 
-    f.BossModAuraFrame.ShowLine = AuraFrame_ShowLine
-    f.BossModAuraFrame.HideLine = AuraFrame_HideLine
-
     self:UpdateFrame(f)
 end
 -- mod functions ###############################################################
@@ -566,10 +540,6 @@ function mod:UpdateFrame(f)
     f.BossModAuraFrame:SetSize(width,1)
     f.BossModAuraFrame:SetIconSize(ICON_SIZE)
     f.BossModAuraFrame:SetPoint('BOTTOM',f,'TOP',ICON_X_OFFSET,ICON_Y_OFFSET)
-
-    if f.BossModAuraFrame.BM_line then
-        f.BossModAuraFrame.BM_line:SetThickness(LINE_WIDTH)
-    end
 end
 function mod:UpdateConfig()
     if not self.enabled then return end
@@ -580,8 +550,6 @@ function mod:UpdateConfig()
         ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_Y_OFFSET
         CONTROL_VISIBILITY = addon.layout.BossModIcon.control_visibility
         CLICKTHROUGH = addon.layout.BossModIcon.clickthrough
-        DRAW_LINES = addon.layout.BossModIcon.lines
-        LINE_WIDTH = addon.layout.BossModIcon.line_width
     end
 
     for _,f in addon:Frames() do
