@@ -458,11 +458,9 @@ function messages.RemoveCallback(table,target,name,func)
     end
 end
 function messages.HasCallback(table,name)
-    if  table.__CALLBACKS and table.__CALLBACKS[name] and table.callbacks and
-        table.callbacks[name] and #table.callbacks[name] > 0
-    then
-        return true
-    end
+    return (table.__CALLBACKS and table.__CALLBACKS[name] and
+            table.callbacks and table.callbacks[name] and
+            #table.callbacks[name] > 0)
 end
 function messages.RunCallback(table,name,...)
     -- run this plugin's named callback
