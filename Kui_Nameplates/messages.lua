@@ -498,7 +498,10 @@ local function plugin_Enable(table)
         table.enabled = true
 
         if type(table.OnEnable) == 'function' then
-            table:OnEnable()
+            if table:OnEnable() == false then
+                -- plugin rejected enable
+                table.enabled = nil
+            end
         end
     end
 end
