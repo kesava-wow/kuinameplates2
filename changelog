@@ -1,5 +1,14 @@
 BETA NOTES
 
+* this release should work on both classic and retail
+* the following notes only apply to classic:
+- there are likely to be some errors which I didn't find,
+- various options are still visible for features which don't exist (auras, castbars, ...)
+- you'll need to check the option to enable loading out of date addons (because I need to set up packaging correctly)
+- thanks <3
+
+* remove inactive boss mods' line code
+
 * merge changes from backport/2.24-8.2:
 * disable boss mod line drawing due to API changes in 8.2
 * fix lua error related to a forbidden anchor interaction with personal-anchor
