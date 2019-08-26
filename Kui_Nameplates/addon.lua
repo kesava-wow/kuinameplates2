@@ -7,6 +7,7 @@
 --------------------------------------------------------------------------------
 _G['KuiNameplates'] = CreateFrame('Frame')
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 addon.MAJOR,addon.MINOR = 2,4
 
 --@debug@
@@ -173,7 +174,7 @@ local function OnEvent(self,event,...)
 
     -- disable the default class resource bars
     --luacheck:globals NamePlateDriverFrame
-    if NamePlateDriverFrame and not self.USE_BLIZZARD_PERSONAL then
+    if NamePlateDriverFrame and not self.USE_BLIZZARD_PERSONAL and not kui.CLASSIC then
         --luacheck:globals DeathKnightResourceOverlayFrame
         DeathKnightResourceOverlayFrame:UnregisterAllEvents()
         --luacheck:globals ClassNameplateBarMageFrame

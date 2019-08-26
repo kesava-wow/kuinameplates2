@@ -1,5 +1,6 @@
 -- recolour health bars in execute range
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Execute',4,nil,false)
 
 local EquipScanQueue,class,execute_range
@@ -49,10 +50,12 @@ local function GetExecuteRange()
     -- return execute range depending on class/spec/talents
     local r
 
-    if specs[class] then
-        local spec = GetSpecialization()
-        if spec and spec > 0 and specs[class][spec] then
-            r = specs[class][spec]
+    if type(GetSpecialization) == 'function' then
+        if specs[class] then
+            local spec = GetSpecialization()
+            if spec and spec > 0 and specs[class][spec] then
+                r = specs[class][spec]
+            end
         end
     end
 
@@ -100,11 +103,15 @@ function mod:SetExecuteRange(to)
         self:UnregisterEvent('PLAYER_FLAGS_CHANGED')
         self:UnregisterEvent('PLAYER_EQUIPMENT_CHANGED')
         execute_range = to
-    else
+    elseif not kui.CLASSIC then
+        -- force immediate auto-detect
         self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
         self:RegisterEvent('PLAYER_FLAGS_CHANGED','PLAYER_SPECIALIZATION_CHANGED')
         self:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
         self:PLAYER_SPECIALIZATION_CHANGED()
+    else
+        -- default (only for classic)
+        execute_range = 20
     end
 end
 -- messages ####################################################################

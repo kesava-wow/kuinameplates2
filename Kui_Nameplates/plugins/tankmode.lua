@@ -1,5 +1,6 @@
 -- change colour of health bar when tanking
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('TankMode')
 mod.colours = {
     { 0,1,0 },  -- player is tanking
@@ -128,6 +129,7 @@ function mod:UNIT_THREAT_LIST_UPDATE(_,f,unit)
     self:GlowColourChange(f)
 end
 function mod:SpecUpdate()
+    if not self.enabled then return end
     local was_enabled = spec_enabled
     local spec = GetSpecialization()
     local role = spec and GetSpecializationRole(spec) or nil
@@ -164,6 +166,8 @@ function mod:GroupUpdate(_,no_update)
 end
 -- register ####################################################################
 function mod:OnEnable()
+    if kui.CLASSIC then return false end -- XXX nil out for classic
+
     spec_enabled = false
 
     self:RegisterMessage('HealthColourChange')

@@ -10,6 +10,7 @@
 -- provides message: GlowColourChange
 --   GlowColourChange = threat state changed
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Threat',1)
 ele.colours = {
     { 1,0,0 }, -- tanking
@@ -61,6 +62,8 @@ function ele:UNIT_THREAT_LIST_UPDATE(_,f,unit)
 end
 -- register ####################################################################
 function ele:OnEnable()
+    if kui.CLASSIC then return false end -- XXX nil out for classic
+
     self:RegisterMessage('Show')
     self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
 end

@@ -8,6 +8,7 @@
 -- handle messages, events, initialise
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 
 KuiNameplatesCore = addon:Layout()
 local core = KuiNameplatesCore
@@ -375,7 +376,10 @@ function core:Initialise()
     self:RegisterMessage('Combat')
 
     -- register events
-    self:RegisterEvent('QUEST_POI_UPDATE')
+    if not kui.CLASSIC then
+        self:RegisterEvent('QUEST_POI_UPDATE')
+    end
+
     self:RegisterUnitEvent('UNIT_NAME_UPDATE')
 
     -- register callbacks

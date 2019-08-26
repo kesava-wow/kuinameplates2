@@ -37,6 +37,7 @@
             True upon frame hiding or element being disabled.
 ]]
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('CastBar')
 local _
 
@@ -169,6 +170,7 @@ function ele:UNIT_SPELLCAST_CHANNEL_STOP(_,f)
 end
 -- enable/disable per frame ####################################################
 function ele:EnableOnFrame(frame)
+    if not self.enabled then return end
     if frame:IsShown() then
         self:Show(frame)
     end
@@ -185,6 +187,8 @@ function ele:OnDisable()
     end
 end
 function ele:OnEnable()
+    if kui.CLASSIC then return false end -- XXX nil out for classic
+
     self:RegisterMessage('Create')
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')

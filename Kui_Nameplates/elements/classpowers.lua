@@ -71,6 +71,7 @@
 
 ]]
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('ClassPowers')
 local class,power_type,power_type_tag,highlight_at,cpf,initialised
 local power_mod,power_display_partial
@@ -764,6 +765,7 @@ function ele:UNIT_MAXHEALTH()
 end
 -- register ####################################################################
 function ele:OnEnable()
+    if kui.CLASSIC then return false end -- XXX nil out for classic
     if not initialised then return end
     if not cpf then
         self:Disable()

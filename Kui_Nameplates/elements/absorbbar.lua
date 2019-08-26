@@ -1,4 +1,5 @@
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('AbsorbBar')
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateAbsorb(f)
@@ -38,6 +39,7 @@ function ele:AbsorbEvent(_,f)
 end
 -- enable/disable per frame ####################################################
 function ele:EnableOnFrame(f)
+    if not self.enabled then return end
     if f:IsShown() then
         self:Show(f)
     end
@@ -55,6 +57,8 @@ function ele:OnDisable()
     end
 end
 function ele:OnEnable()
+    if kui.CLASSIC then return false end -- XXX nil out for classic
+
     self:RegisterMessage('Show')
 
     self:RegisterUnitEvent('UNIT_MAXHEALTH','AbsorbEvent')

@@ -592,6 +592,7 @@ function configChanged.classpowers_enable(v)
     end
 end
 local function configChangedClassPowers()
+    if not core.ClassPowers then return end
     core.ClassPowers.on_target = core.profile.classpowers_on_target
     core.ClassPowers.icon_size = core.profile.classpowers_size
     core.ClassPowers.bar_width = core.profile.classpowers_bar_width
@@ -604,6 +605,8 @@ configChanged.classpowers_bar_width = configChangedClassPowers
 configChanged.classpowers_bar_height = configChangedClassPowers
 
 local function configChangedClassPowersColour()
+    if not core.ClassPowers then return end
+
     local class = select(2,UnitClass('player'))
     if core.profile['classpowers_colour_'..strlower(class)] then
         core.ClassPowers.colours[class] =  core.profile['classpowers_colour_'..strlower(class)]

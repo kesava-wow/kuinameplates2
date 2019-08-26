@@ -6,6 +6,7 @@
 --   Combat = combat state changed
 --   FactionUpdate = UNIT_FACTION event, or attackable state changed
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('CombatUpdate',0)
 
 local INTERVAL = 1
@@ -52,7 +53,10 @@ end
 function mod:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterUnitEvent('UNIT_FACTION','Event')
-    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE','Event')
+
+    if not kui.CLASSIC then
+        self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE','Event')
+    end
 
     local f = CreateFrame('Frame')
     f:SetScript('OnUpdate',UpdateFrame_OnUpdate)
