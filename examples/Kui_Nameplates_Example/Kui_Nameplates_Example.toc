@@ -1,7 +1,0 @@
-## Interface: 70300
-## Author: Kesava
-## Title: Kui |cff9966ffNameplates|r Example
-## Notes: Simple example layout for Kui_Nameplates
-## Dependencies: Kui_Nameplates
-
-main.lua

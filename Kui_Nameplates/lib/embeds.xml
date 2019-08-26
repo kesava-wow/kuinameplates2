@@ -1,4 +1,0 @@
-<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
-    <Script file="LibStub.lua"/>
-    <Script file="Kui/Kui.lua"/>
-</Ui>
