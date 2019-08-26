@@ -1,9 +1,17 @@
-local MAJOR, MINOR = 'Kui-1.0', 40
+local MAJOR, MINOR = 'Kui-1.0', 41
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
     -- already registered
     return
+end
+
+-- check if we're running in classic & expose
+local version = GetBuildInfo()
+local CLASSIC
+if strsub(version,0,1) == "1" then
+    CLASSIC = true
+    kui.CLASSIC = CLASSIC
 end
 
 -- media # XXX LEGACY #########################################################
@@ -238,7 +246,13 @@ kui.GetUnitColour = function(unit, str)
     end
 end
 kui.UnitLevel = function(unit, long, real)
-    local level = real and UnitLevel(unit) or UnitEffectiveLevel(unit)
+    local level
+    if CLASSIC then
+        level = UnitLevel(unit) or 0
+    else
+        level = real and UnitLevel(unit) or UnitEffectiveLevel(unit)
+    end
+
     local classification = UnitClassification(unit)
     local diff = GetQuestDifficultyColor(level <= 0 and 999 or level)
 
