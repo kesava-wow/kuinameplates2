@@ -1,1 +1,1 @@
-Use the master branch!
+[Use the master branch!](https://github.com/kesava-wow/kuinameplates2/tree/master)
