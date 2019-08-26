@@ -1,5 +1,5 @@
 # Kui Nameplates
-Prettier nameplates. Download releases [at Curse](http://www.curse.com/addons/wow/kuinameplates).
+Prettier nameplates. Download releases [at Curse](https://www.curseforge.com/wow/addons/kuinameplates).
 
 ---
 
