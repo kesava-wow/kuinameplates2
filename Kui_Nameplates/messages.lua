@@ -561,8 +561,8 @@ function addon:GetPlugin(name)
 end
 -------------------------------------------------- external element registrar --
 -- elements are just plugins with a lower default priority
-function addon:NewElement(name,priority,max_minor)
-    local ele = self:NewPlugin(name,tonumber(priority) or 0,max_minor,true)
+function addon:NewElement(name,priority,max_minor,enable_on_load)
+    local ele = self:NewPlugin(name,tonumber(priority) or 0,max_minor,enable_on_load)
     ele.plugin = nil
     ele.element = true
     return ele
