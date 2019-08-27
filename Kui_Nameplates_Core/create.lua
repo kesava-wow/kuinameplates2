@@ -1736,6 +1736,8 @@ do
         -- for both frames:
         -- initial icon size set by AuraFrame_UpdateIconSize < UpdateAuras
         -- frame width & point set by AuraFrame_UpdateFrameSize < _UpdateIconSize
+        f.UpdateAuras = UpdateAuras
+
         if kui.CLASSIC then return end
         local auras = f.handler:CreateAuraFrame({
             id = 'core_dynamic',
@@ -1776,8 +1778,6 @@ do
 
         auras.sibling = purge
         purge.sibling = auras
-
-        f.UpdateAuras = UpdateAuras
     end
 
     -- callbacks

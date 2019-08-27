@@ -57,10 +57,12 @@ local function UncolourHealthBar(f)
 end
 -- mod functions ###############################################################
 function mod:SetForceEnable(b)
+    if not self.enabled then return end
     force_enable = b == true
     self:SpecUpdate()
 end
 function mod:SetForceOffTank(b)
+    if not self.enabled then return end
     force_offtank = b == true
     self:GroupUpdate(nil,true)
     UpdateFrames()
@@ -142,6 +144,7 @@ function mod:SpecUpdate()
 end
 function mod:GroupUpdate(_,no_update)
     -- enable/disable off-tank detection
+    if not self.enabled then return end
     if GetNumGroupMembers() > 0 and (spec_enabled or force_offtank) then
         if not offtank_enable then
             offtank_enable = true
