@@ -1708,24 +1708,28 @@ do
     local function UpdateAuras(f)
         -- enable/disable aura frames on frame update
         if kui.CLASSIC then return end
-        if not AURAS_ENABLED or
-           (not AURAS_ON_PERSONAL and f.state.personal) or
-           (not AURAS_ON_FRIENDS and f.state.friend and not f.state.personal) or
-           (not AURAS_ON_ENEMIES and not f.state.friend) or
-           (not AURAS_ON_MINUS and f.state.minus)
-        then
-            f.Auras.frames.core_dynamic:Disable()
-        else
-            f.Auras.frames.core_dynamic:Enable(true)
-            AuraFrame_UpdateIconSize(f.Auras.frames.core_dynamic,f.state.minus)
+        if not f.Auras or not f.Auras.frames then return end
+        if f.Auras.frames.core_dynamic then
+            if not AURAS_ENABLED or
+               (not AURAS_ON_PERSONAL and f.state.personal) or
+               (not AURAS_ON_FRIENDS and f.state.friend and not f.state.personal) or
+               (not AURAS_ON_ENEMIES and not f.state.friend) or
+               (not AURAS_ON_MINUS and f.state.minus)
+            then
+                f.Auras.frames.core_dynamic:Disable()
+            else
+                f.Auras.frames.core_dynamic:Enable(true)
+                AuraFrame_UpdateIconSize(f.Auras.frames.core_dynamic,f.state.minus)
+            end
         end
-
-        if not AURAS_SHOW_PURGE or f.state.friend then
-            f.Auras.frames.core_purge:Disable()
-        else
-            -- only show purge on enemies
-            f.Auras.frames.core_purge:Enable(true)
-            AuraFrame_UpdateIconSize(f.Auras.frames.core_purge)
+        if f.Auras.frames.core_purge then
+            if not AURAS_SHOW_PURGE or f.state.friend then
+                f.Auras.frames.core_purge:Disable()
+            else
+                -- only show purge on enemies
+                f.Auras.frames.core_purge:Enable(true)
+                AuraFrame_UpdateIconSize(f.Auras.frames.core_purge)
+            end
         end
     end
     function core:CreateAuras(f)
