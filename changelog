@@ -1,5 +1,7 @@
 BETA NOTES
 
+* update kuilib (possibly fixing issues after reloading on classic)
+
 * this release should work on both classic and retail
 - (on classic) there are likely to be some errors which I didn't find,
 - various options are still visible for features which don't exist (auras, castbars, ...)
