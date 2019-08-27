@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 41
+local MAJOR, MINOR = 'Kui-1.0', 42
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -6,13 +6,8 @@ if not kui then
     return
 end
 
--- check if we're running in classic & expose
-local version = GetBuildInfo()
-local CLASSIC
-if strsub(version,0,1) == "1" then
-    CLASSIC = true
-    kui.CLASSIC = CLASSIC
-end
+local CLASSIC = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+kui.CLASSIC = CLASSIC
 
 -- media # XXX LEGACY #########################################################
 local media = "Interface\\AddOns\\Kui_Media\\"
