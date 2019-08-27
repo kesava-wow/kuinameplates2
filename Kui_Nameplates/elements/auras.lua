@@ -803,17 +803,20 @@ function ele:UpdateConfig()
 end
 -- messages ####################################################################
 function ele:Show(f)
+    if not self.enabled then return end
     self:FactionUpdate(f)
 end
 function ele:Hide(f)
-    if not f.Auras then return end
+    if not self.enabled then return end
+    if not f.Auras or not f.Auras.frames then return end
     for _,frame in pairs(f.Auras.frames) do
         frame:Hide()
     end
 end
 function ele:FactionUpdate(f)
     -- update each aura frame on this nameplate
-    if not f.Auras then return end
+    if not self.enabled then return end
+    if not f.Auras or not f.Auras.frames then return end
     for _,auras_frame in pairs(f.Auras.frames) do
         auras_frame:FactionUpdate()
         auras_frame:Update()
@@ -822,7 +825,8 @@ end
 -- events ######################################################################
 function ele:UNIT_AURA(_,f)
     -- update each aura frame on this nameplate
-    if not f.Auras then return end
+    if not self.enabled then return end
+    if not f.Auras or not f.Auras.frames then return end
     for _,auras_frame in pairs(f.Auras.frames) do
         auras_frame:Update()
     end

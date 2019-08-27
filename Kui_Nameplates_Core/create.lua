@@ -1707,6 +1707,7 @@ do
 
     local function UpdateAuras(f)
         -- enable/disable aura frames on frame update
+        if kui.CLASSIC then return end
         if not AURAS_ENABLED or
            (not AURAS_ON_PERSONAL and f.state.personal) or
            (not AURAS_ON_FRIENDS and f.state.friend and not f.state.personal) or
@@ -1731,6 +1732,7 @@ do
         -- for both frames:
         -- initial icon size set by AuraFrame_UpdateIconSize < UpdateAuras
         -- frame width & point set by AuraFrame_UpdateFrameSize < _UpdateIconSize
+        if kui.CLASSIC then return end
         local auras = f.handler:CreateAuraFrame({
             id = 'core_dynamic',
             max = 10,
