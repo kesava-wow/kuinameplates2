@@ -1707,7 +1707,6 @@ do
 
     local function UpdateAuras(f)
         -- enable/disable aura frames on frame update
-        if kui.CLASSIC then return end
         if not f.Auras or not f.Auras.frames then return end
         if f.Auras.frames.core_dynamic then
             if not AURAS_ENABLED or
@@ -1738,7 +1737,6 @@ do
         -- frame width & point set by AuraFrame_UpdateFrameSize < _UpdateIconSize
         f.UpdateAuras = UpdateAuras
 
-        if kui.CLASSIC then return end
         local auras = f.handler:CreateAuraFrame({
             id = 'core_dynamic',
             max = 10,
@@ -1853,9 +1851,12 @@ do
                 return 2
             end
 
-            -- force hide infinite duration unless whitelisted
-            if duration == 0 and not nps_all and not nps_own then
-                return 1
+            if not kui.CLASSIC then
+                -- force hide infinite duration unless whitelisted
+                -- (duration data is limited on classic)
+                if duration == 0 and not nps_all and not nps_own then
+                    return 1
+                end
             end
 
             -- force hide if excluded by spell list, as above
