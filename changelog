@@ -1,6 +1,10 @@
 BETA NOTES
 
-* update kuilib (possibly fixing issues after reloading on classic)
+* [classic] show auras with unknown duration
+
+* [classic] fix errors caused by enabling forced tank mode
+
+* [classic] update kuilib (possibly fixing issues after reloading)
 
 * this release should work on both classic and retail
 - (on classic) there are likely to be some errors which I didn't find,
