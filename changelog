@@ -1,5 +1,7 @@
 BETA NOTES
 
+* pack and disable debug
+
 * [classic] show all auras cast by player (as classic doesn't distinguish "important" spells)
 
 * [classic] show combo points
