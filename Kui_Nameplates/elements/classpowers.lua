@@ -579,6 +579,7 @@ function ele:PowerInit()
                 if form and form == 2 then
                     power_type = Enum.PowerType.ComboPoints
                 end
+            end
         end
     else
         power_type = powers[class]
