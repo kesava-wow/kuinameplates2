@@ -1,5 +1,7 @@
 BETA NOTES
 
+* [classic] show all auras cast by player (as classic doesn't distinguish "important" spells)
+
 * [classic] show combo points
 - always visible on druids - disable it in KNP for now
 
