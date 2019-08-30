@@ -565,20 +565,20 @@ function ele:PowerInit()
                 cpf:RegisterUnitEvent('UNIT_AURA','player')
                 self.UNIT_AURA_func = self.Paladin_WatchFiresOfJustice
             end
-        elseif class == 'DRUID' and (
-           (spec == 1 and IsTalentKnown(BALANCE_FERAL_AFFINITY_TALENT_ID)) or
-           (spec == 3 and IsTalentKnown(GUARDIAN_FERAL_AFFINITY_TALENT_ID)) or
-           (spec == 4 and IsTalentKnown(RESTO_FERAL_AFFINITY_TALENT_ID))
-           )
-        then
-            -- if feral affinity is known, we need to watch for shapeshifts
-            -- into cat form
-            self:RegisterEvent('UPDATE_SHAPESHIFT_FORM')
+        elseif class == 'DRUID' then
+            if kui.CLASSIC or (
+               (spec == 1 and IsTalentKnown(BALANCE_FERAL_AFFINITY_TALENT_ID)) or
+               (spec == 3 and IsTalentKnown(GUARDIAN_FERAL_AFFINITY_TALENT_ID)) or
+               (spec == 4 and IsTalentKnown(RESTO_FERAL_AFFINITY_TALENT_ID))
+            ) then
+                -- if feral affinity is known, we need to watch for shapeshifts
+                -- into cat form
+                self:RegisterEvent('UPDATE_SHAPESHIFT_FORM')
 
-            local form = GetShapeshiftForm()
-            if form and form == 2 then
-                power_type = Enum.PowerType.ComboPoints
-            end
+                local form = GetShapeshiftForm()
+                if form and form == 2 then
+                    power_type = Enum.PowerType.ComboPoints
+                end
         end
     else
         power_type = powers[class]
