@@ -1,3 +1,5 @@
+root Kui_Media Kui_Nameplates Kui_Nameplates_Core Kui_Nameplates_Core_Config
+
 subtree kuilib Kui_Nameplates/lib/Kui/
 github-kesava:kesava-wow/kuilib.git
 
