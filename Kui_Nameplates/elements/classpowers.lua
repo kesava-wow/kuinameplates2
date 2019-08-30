@@ -808,7 +808,7 @@ function ele:Initialise()
     if kui.CLASSIC then
         -- power types by class/spec
         powers = {
-            DRUID = { [2] = Enum.PowerType.ComboPoints },
+            DRUID = Enum.PowerType.ComboPoints,
             ROGUE = Enum.PowerType.ComboPoints,
         }
         -- tags returned by the UNIT_POWER and UNIT_MAXPOWER events
