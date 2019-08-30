@@ -739,7 +739,6 @@ function ele:UNIT_MAXHEALTH()
 end
 -- register ####################################################################
 function ele:OnEnable()
-    if kui.CLASSIC then return false end -- XXX nil out for classic
     if not initialised then return end
     if not cpf then
         self:Disable()
@@ -748,10 +747,12 @@ function ele:OnEnable()
 
     self:UpdateConfig()
 
-    -- This event is sometimes spammed upon entering/leaving instanced PVP.
-    -- It's always called at least once, and during this first call,
-    -- UnitPowerMax returns 0 for some reason. (#125)
-    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
+    if not kui.CLASSIC then
+        -- This event is sometimes spammed upon entering/leaving instanced PVP.
+        -- It's always called at least once, and during this first call,
+        -- UnitPowerMax returns 0 for some reason. (#125)
+        self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','PowerInit')
+    end
 
     self:PowerInit()
 end
