@@ -460,7 +460,7 @@ function ele:UpdateConfig()
         return
     end
 
-    on_target         = addon.layout.ClassPowers.on_target
+    on_target         = kui.CLASSIC or addon.layout.ClassPowers.on_target
     ICON_SIZE         = addon.layout.ClassPowers.icon_size or 10
     ICON_SPACING      = addon.layout.ClassPowers.icon_spacing or 1
     ICON_TEXTURE      = addon.layout.ClassPowers.icon_texture
