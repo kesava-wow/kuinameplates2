@@ -77,35 +77,9 @@ local class,power_type,power_type_tag,highlight_at,cpf,initialised
 local power_mod,power_display_partial
 local on_target
 local orig_SetVertexColor
--- power types by class/spec
-local powers = {
-    DEATHKNIGHT = Enum.PowerType.Runes,
-    DRUID       = { [2] = Enum.PowerType.ComboPoints },
-    PALADIN     = { [3] = Enum.PowerType.HolyPower },
-    ROGUE       = Enum.PowerType.ComboPoints,
-    MAGE        = { [1] = Enum.PowerType.ArcaneCharges },
-    MONK        = { [1] = 'stagger', [3] = Enum.PowerType.Chi },
-    WARLOCK     = Enum.PowerType.SoulShards,
-    --PRIEST      = Enum.PowerType.Mana,
-}
--- tags returned by the UNIT_POWER and UNIT_MAXPOWER events
-local power_tags = {
-    [Enum.PowerType.Runes]          = 'RUNES',
-    [Enum.PowerType.ComboPoints]   = 'COMBO_POINTS',
-    [Enum.PowerType.HolyPower]     = 'HOLY_POWER',
-    [Enum.PowerType.ArcaneCharges] = 'ARCANE_CHARGES',
-    [Enum.PowerType.Chi]            = 'CHI',
-    [Enum.PowerType.SoulShards]    = 'SOUL_SHARDS',
-    --[Enum.PowerType.Mana]           = 'MANA',
-}
--- power types which render as a bar
-local bar_powers = {
-    ['stagger'] = true,
-    --[Enum.PowerType.Mana] = true
-}
+local powers,power_tags,bar_powers
 -- icon config
 local colours = {
-    --PRIEST      = { 0,0,1 },
     DEATHKNIGHT = { 1, .2, .3 },
     DRUID       = { 1, 1, .1 },
     PALADIN     = { 1, 1, .1 },
@@ -279,7 +253,7 @@ local function UpdateIcons()
         power_max = UnitPowerMax('player',power_type)
     end
 
-    if bar_powers[power_type] then
+    if bar_powers and bar_powers[power_type] then
         -- create/update power bar
         if cpf.icons then
             -- destroy existing icons
@@ -827,4 +801,39 @@ function ele:Initialise()
     self:RegisterCallback('PostRuneUpdate')
     self:RegisterCallback('PostPowerUpdate')
     self:RegisterCallback('PostPositionFrame')
+
+    -- initialise powers
+    if kui.CLASSIC then
+        -- power types by class/spec
+        powers = {
+            DRUID = { [2] = Enum.PowerType.ComboPoints },
+            ROGUE = Enum.PowerType.ComboPoints,
+        }
+        -- tags returned by the UNIT_POWER and UNIT_MAXPOWER events
+        power_tags = {
+            [Enum.PowerType.ComboPoints] = 'COMBO_POINTS',
+        }
+    else
+        powers = {
+            DEATHKNIGHT = Enum.PowerType.Runes,
+            DRUID       = { [2] = Enum.PowerType.ComboPoints },
+            PALADIN     = { [3] = Enum.PowerType.HolyPower },
+            ROGUE       = Enum.PowerType.ComboPoints,
+            MAGE        = { [1] = Enum.PowerType.ArcaneCharges },
+            MONK        = { [1] = 'stagger', [3] = Enum.PowerType.Chi },
+            WARLOCK     = Enum.PowerType.SoulShards,
+        }
+        power_tags = {
+            [Enum.PowerType.Runes]         = 'RUNES',
+            [Enum.PowerType.ComboPoints]   = 'COMBO_POINTS',
+            [Enum.PowerType.HolyPower]     = 'HOLY_POWER',
+            [Enum.PowerType.ArcaneCharges] = 'ARCANE_CHARGES',
+            [Enum.PowerType.Chi]           = 'CHI',
+            [Enum.PowerType.SoulShards]    = 'SOUL_SHARDS',
+        }
+        -- power types which render as a bar
+        bar_powers = {
+            ['stagger'] = true,
+        }
+    end
 end
