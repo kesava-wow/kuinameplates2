@@ -712,7 +712,7 @@ function ele:UPDATE_SHAPESHIFT_FORM()
     self:PowerInit()
 end
 function ele:Paladin_WatchFiresOfJustice(_,unit)
-    -- TODO it would probably be more efficient to watch the combat log for this
+    -- TODO it would definitely be more efficient to watch the combat log for this
     if AuraUtil.FindAura(AuraUtil_IDPredicate,unit,nil,FIRES_OF_JUSTICE_SPELL_ID) then
         highlight_at = 2
     else
