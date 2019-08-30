@@ -420,6 +420,11 @@ local function AuraFrame_ShouldShowAura(self,spellid,name,duration,caster,can_pu
     if not name or not spellid then return end
     name = strlower(name)
 
+    if kui.CLASSIC then
+        -- show all own auras on classic
+        nps_own = true
+    end
+
     local own = (caster == 'player' or caster == 'pet' or caster == 'vehicle')
     local cbr = ele:RunCallback('DisplayAura',self,spellid,name,duration,
         caster,own,can_purge,nps_own,nps_all,index)
