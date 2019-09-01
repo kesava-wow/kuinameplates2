@@ -1,7 +1,8 @@
 ## Interface: 80200
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates
-## Notes: Kesava's nameplate framework.|nRemember to enable Kui Nameplates Core (or another layout), too!
+## Notes: Kesava's nameplate framework.|nDoes nothing by itself.
+## OptionalDeps: ThreatClassic-1.0
 
 lib\embeds.xml
 
