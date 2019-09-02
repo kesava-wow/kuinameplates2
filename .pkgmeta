@@ -1,5 +1,4 @@
-package-as:
-    Kui_Nameplates
+package-as: Kui_Nameplates
 
 manual-changelog:
     filename: changelog
