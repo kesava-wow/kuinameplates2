@@ -8,6 +8,8 @@
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates
 ## Notes: Kesava's nameplate framework.|nDoes nothing by itself.
+## X-Curse-Project-ID: 35095
+## X-WoWI-ID: 19390
 ## OptionalDeps: ThreatClassic-1.0
 
 lib\embeds.xml
