@@ -12,6 +12,7 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Threat',1)
+local ThreatLib,UnitThreatSituation
 ele.colours = {
     { 1,0,0 }, -- tanking
     { 1,.6,0 } -- transition
@@ -24,6 +25,7 @@ function ele:Show(f)
 end
 -- events ######################################################################
 function ele:UNIT_THREAT_LIST_UPDATE(_,f,unit)
+    if not unit or not UnitThreatSituation then return end
     if unit == 'player' or UnitIsUnit('player',unit) then return end
 
     local status = UnitThreatSituation('player',unit)
@@ -61,9 +63,32 @@ function ele:UNIT_THREAT_LIST_UPDATE(_,f,unit)
     end
 end
 -- register ####################################################################
-function ele:OnEnable()
-    if kui.CLASSIC then return false end -- XXX nil out for classic
+function ele:Initialise()
+    if kui.CLASSIC then
+        ThreatLib = LibStub('ThreatClassic-1.0')
+        if not ThreatLib then return end
 
+        local function ThreatLib_ThreatUpdated()
+            for _,f in addon:Frames() do
+                self:UNIT_THREAT_LIST_UPDATE(nil,f,f.unit)
+            end
+        end
+
+        UnitThreatSituation = ThreatLib.UnitThreatSituation
+        ThreatLib:RegisterCallback('ThreatUpdated',ThreatLib_ThreatUpdated)
+    else
+        UnitThreatSituation = _G['UnitThreatSituation']
+    end
+end
+function ele:OnEnable()
     self:RegisterMessage('Show')
-    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
+
+    if not kui.CLASSIC then
+        self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
+    end
+end
+function ele:OnDisable()
+    if ThreatLib then
+        ThreatLib:UnregisterAllCallbacks()
+    end
 end
