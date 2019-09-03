@@ -2,7 +2,7 @@ package-as: Kui_Nameplates
 
 manual-changelog:
     filename: changelog
-    markup-type: creole
+    markup-type: markdown
 
 enable-nolib-creation:
     no
