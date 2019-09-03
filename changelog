@@ -1,5 +1,7 @@
 BETA NOTES
 
+* (some more packaging changes to fix the retail beta)
+
 * [classic] add LibClassicDurations
 * [classic] enable tank mode bar colouring (but not offtank detection)
 * [classic] use threatlib if it is loaded by another addon
