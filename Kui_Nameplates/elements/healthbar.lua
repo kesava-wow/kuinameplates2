@@ -2,6 +2,7 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('HealthBar')
+local RMH
 
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateHealthColour(f,show)
@@ -72,8 +73,13 @@ end
 function addon.Nameplate.UpdateHealth(f,show)
     f = f.parent
 
-    f.state.health_cur = UnitHealth(f.unit)
-    f.state.health_max = UnitHealthMax(f.unit)
+    if RMH then
+        f.state.health_cur, f.state.health_max = RMH.GetUnitHealth(f.unit)
+    else
+        f.state.health_cur = UnitHealth(f.unit)
+        f.state.health_max = UnitHealthMax(f.unit)
+    end
+
     f.state.health_deficit = f.state.health_max - f.state.health_cur
     f.state.health_per =
         f.state.health_cur > 0 and f.state.health_max > 0 and
@@ -108,6 +114,9 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
 end
 function ele:Initialise()
+    if kui.CLASSIC and RealMobHealth then
+        RMH = RealMobHealth
+    end
     self.colours = {
         hated    = { .7, .2, .1 },
         neutral  = {  1, .8,  0 },
