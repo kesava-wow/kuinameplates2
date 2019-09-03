@@ -60,12 +60,17 @@ end
 function addon:Frames()
     return ipairs(framelist)
 end
+function addon:GetNameplateForUnit(unit)
+    -- return nameplate.kui for unit if it exists
+    assert(unit)
+    local f = C_NamePlate.GetNamePlateForUnit(unit)
+    if f and f.kui then return f.kui end
+end
 function addon:GetActiveNameplateForUnit(unit)
     -- return nameplate.kui for unit, if extant, visible and maybe functional
-    local f = C_NamePlate.GetNamePlateForUnit(unit)
-    if f and f.kui and f.kui.unit and f.kui:IsShown() then
-        return f.kui
-    end
+    assert(unit)
+    local f = self:GetNameplateForUnit(unit)
+    if f.unit and f:IsShown() then return f end
 end
 --------------------------------------------------------------------------------
 function addon:NAME_PLATE_CREATED(frame)
