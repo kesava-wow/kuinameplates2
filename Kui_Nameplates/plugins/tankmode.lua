@@ -101,6 +101,7 @@ function mod:GlowColourChange(f)
 end
 -- events ######################################################################
 function mod:UNIT_THREAT_LIST_UPDATE(_,f,unit)
+    if not self.enabled then return end
     if  unit == 'player' or
         UnitIsUnit('player',unit) or
         UnitIsFriend('player',unit)
@@ -110,19 +111,21 @@ function mod:UNIT_THREAT_LIST_UPDATE(_,f,unit)
 
     f.state.tank_mode_offtank = nil
 
-    local status = UnitThreatSituation('player',unit)
-    if not status or status < 3 then
-        -- player isn't tanking; get current target
-        local tank_unit = unit..'target'
+    if not kui.CLASSIC then
+        local status = UnitThreatSituation('player',unit)
+        if not status or status < 3 then
+            -- player isn't tanking; get current target
+            local tank_unit = unit..'target'
 
-        if UnitExists(tank_unit) and not UnitIsUnit(tank_unit,'player') then
-            if ((UnitInParty(tank_unit) or UnitInRaid(tank_unit)) and
-                UnitGroupRolesAssigned(tank_unit) == 'TANK') or
-               (not UnitIsPlayer(tank_unit) and UnitPlayerControlled(tank_unit))
-            then
-                -- unit is attacking another group tank,
-                -- or a player controlled npc (pet, vehicle, totem)
-                f.state.tank_mode_offtank = true
+            if UnitExists(tank_unit) and not UnitIsUnit(tank_unit,'player') then
+                if ((UnitInParty(tank_unit) or UnitInRaid(tank_unit)) and
+                    UnitGroupRolesAssigned(tank_unit) == 'TANK') or
+                   (not UnitIsPlayer(tank_unit) and UnitPlayerControlled(tank_unit))
+                then
+                    -- unit is attacking another group tank,
+                    -- or a player controlled npc (pet, vehicle, totem)
+                    f.state.tank_mode_offtank = true
+                end
             end
         end
     end
@@ -132,6 +135,7 @@ function mod:UNIT_THREAT_LIST_UPDATE(_,f,unit)
 end
 function mod:SpecUpdate()
     if not self.enabled then return end
+    if kui.CLASSIC then return end -- XXX no role data on classic
     local was_enabled = spec_enabled
     local spec = GetSpecialization()
     local role = spec and GetSpecializationRole(spec) or nil
@@ -145,6 +149,7 @@ end
 function mod:GroupUpdate(_,no_update)
     -- enable/disable off-tank detection
     if not self.enabled then return end
+    if kui.CLASSIC then return end -- XXX no role data on classic
     if GetNumGroupMembers() > 0 and (spec_enabled or force_offtank) then
         if not offtank_enable then
             offtank_enable = true
@@ -169,18 +174,18 @@ function mod:GroupUpdate(_,no_update)
 end
 -- register ####################################################################
 function mod:OnEnable()
-    if kui.CLASSIC then return false end -- XXX nil out for classic
-
     spec_enabled = false
 
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('GlowColourChange')
 
-    self:RegisterEvent('GROUP_ROSTER_UPDATE','GroupUpdate')
-    self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','SpecUpdate')
-    self:RegisterEvent('PLAYER_ENTERING_WORLD','SpecUpdate')
+    if not kui.CLASSIC then
+        self:RegisterEvent('GROUP_ROSTER_UPDATE','GroupUpdate')
+        self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','SpecUpdate')
+        self:RegisterEvent('PLAYER_ENTERING_WORLD','SpecUpdate')
 
-    self:SpecUpdate()
+        self:SpecUpdate()
+    end
 end
 function mod:OnDisable()
     UpdateFrames()
