@@ -111,6 +111,7 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Auras',1)
+local AuraLib,UnitAura
 
 local strlower,tinsert,tsort,     pairs,ipairs =
       strlower,tinsert,table.sort,pairs,ipairs
@@ -836,12 +837,28 @@ function ele:UNIT_AURA(_,f)
         auras_frame:Update()
     end
 end
+-- aura lib callback ###########################################################
+local function AuraLib_UNIT_BUFF(_,unit)
+    local f = addon:GetActiveNameplateForUnit(unit)
+    if f then
+        ele:UNIT_AURA(nil,f)
+    end
+end
 -- register ####################################################################
 function ele:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
     self:RegisterMessage('FactionUpdate')
     self:RegisterUnitEvent('UNIT_AURA')
+
+    if AuraLib then
+        AuraLib.RegisterCallback(self,'UNIT_BUFF',AuraLib_UNIT_BUFF)
+    end
+end
+function ele:OnDisable()
+    if AuraLib then
+        AuraLib.UnregisterAllCallbacks(self)
+    end
 end
 function ele:Initialised()
     if type(addon.layout.Auras) ~= 'table' then
@@ -851,6 +868,18 @@ function ele:Initialised()
     self:UpdateConfig()
 end
 function ele:Initialise()
+    if kui.CLASSIC then
+        AuraLib = LibStub('LibClassicDurations')
+        if not AuraLib then return end
+
+        AuraLib:Register('KuiNameplates')
+        UnitAura = function(...)
+            return AuraLib:UnitAura(...)
+        end
+    else
+        UnitAura = _G['UnitAura']
+    end
+
     -- register callbacks
     self:RegisterCallback('ArrangeButtons',true)
     self:RegisterCallback('CreateAuraButton',true)
