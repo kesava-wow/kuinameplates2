@@ -79,7 +79,9 @@ function ele:Initialise()
             end
         end
 
-        UnitThreatSituation = ThreatLib.UnitThreatSituation
+        UnitThreatSituation = function(...)
+            return ThreatLib:UnitThreatSituation(...)
+        end
         ThreatLib:RegisterCallback('ThreatUpdated',ThreatLib_ThreatUpdated)
     else
         UnitThreatSituation = _G['UnitThreatSituation']
