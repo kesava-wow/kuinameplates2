@@ -14,6 +14,7 @@ move-folders:
     Kui_Nameplates/Kui_Nameplates: Kui_Nameplates
 
 ignore:
+    - Kui_Nameplates/lib/LibClassicDurations
     - .gitignore
     - .luacheckrc
     - .externals
