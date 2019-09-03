@@ -1,6 +1,6 @@
 BETA NOTES
 
-* (some more packaging changes to fix the retail beta)
+* [classic] use RealMobHealth if installed
 
 * [classic] add LibClassicDurations
 * [classic] enable tank mode bar colouring (but not offtank detection)
