@@ -868,6 +868,15 @@ function ele:Initialised()
     self:UpdateConfig()
 end
 function ele:Initialise()
+    -- register callbacks
+    self:RegisterCallback('ArrangeButtons',true)
+    self:RegisterCallback('CreateAuraButton',true)
+    self:RegisterCallback('PostCreateAuraButton')
+    self:RegisterCallback('PostDisplayAuraButton')
+    self:RegisterCallback('PostCreateAuraFrame')
+    self:RegisterCallback('PostUpdateAuraFrame')
+    self:RegisterCallback('DisplayAura',true)
+
     if kui.CLASSIC then
         AuraLib = LibStub('LibClassicDurations')
         if not AuraLib then return end
@@ -879,13 +888,4 @@ function ele:Initialise()
     else
         UnitAura = _G['UnitAura']
     end
-
-    -- register callbacks
-    self:RegisterCallback('ArrangeButtons',true)
-    self:RegisterCallback('CreateAuraButton',true)
-    self:RegisterCallback('PostCreateAuraButton')
-    self:RegisterCallback('PostDisplayAuraButton')
-    self:RegisterCallback('PostCreateAuraFrame')
-    self:RegisterCallback('PostUpdateAuraFrame')
-    self:RegisterCallback('DisplayAura',true)
 end
