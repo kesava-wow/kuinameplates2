@@ -2,7 +2,10 @@
     <Script file="LibStub.lua"/>
     <Script file="Kui/Kui.lua"/>
 
-    <!--@non-retail@-->
+    <!--@non-retail@
     <Include file="LibClassicDurations\LibClassicDurations.xml"/>
-    <!--@end-non-retail@-->
+    @end-non-retail@-->
+    <!--@debug@-->
+    <Include file="LibClassicDurations\LibClassicDurations.xml"/>
+    <!--@end-debug@-->
 </Ui>
