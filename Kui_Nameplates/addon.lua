@@ -72,6 +72,14 @@ function addon:GetActiveNameplateForUnit(unit)
     local f = self:GetNameplateForUnit(unit)
     if f.unit and f:IsShown() then return f end
 end
+function addon:GetNameplateForGuid(guid)
+    assert(guid)
+    for _,f in self:Frames() do
+        if f.unit and f.guid == guid and f:IsShown() then
+            return f
+        end
+    end
+end
 --------------------------------------------------------------------------------
 function addon:NAME_PLATE_CREATED(frame)
     self:HookNameplate(frame)
