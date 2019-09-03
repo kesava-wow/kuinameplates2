@@ -82,7 +82,6 @@ function ele:Initialise()
         UnitThreatSituation = function(...)
             return ThreatLib:UnitThreatSituation(...)
         end
-        ThreatLib:RegisterCallback('ThreatUpdated',ThreatLib_ThreatUpdated)
     else
         UnitThreatSituation = _G['UnitThreatSituation']
     end
@@ -90,12 +89,14 @@ end
 function ele:OnEnable()
     self:RegisterMessage('Show')
 
-    if not kui.CLASSIC then
+    if ThreatLib then
+        ThreatLib.RegisterCallback(self,'ThreatUpdated',ThreatLib_ThreatUpdated)
+    else
         self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
     end
 end
 function ele:OnDisable()
     if ThreatLib then
-        ThreatLib:UnregisterAllCallbacks()
+        ThreatLib.UnregisterAllCallbacks(self)
     end
 end
