@@ -74,7 +74,7 @@ end
 -- register ####################################################################
 function ele:Initialise()
     if kui.CLASSIC then
-        ThreatLib = LibStub('ThreatClassic-1.0')
+        ThreatLib = LibStub('ThreatClassic-1.0',true)
         if not ThreatLib then return end
 
         UnitThreatSituation = function(...)

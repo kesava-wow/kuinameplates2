@@ -878,7 +878,7 @@ function ele:Initialise()
     self:RegisterCallback('DisplayAura',true)
 
     if kui.CLASSIC then
-        AuraLib = LibStub('LibClassicDurations')
+        AuraLib = LibStub('LibClassicDurations',true)
         if not AuraLib then return end
 
         AuraLib:Register('KuiNameplates')
