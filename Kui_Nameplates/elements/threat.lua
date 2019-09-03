@@ -68,8 +68,13 @@ function ele:Initialise()
         ThreatLib = LibStub('ThreatClassic-1.0')
         if not ThreatLib then return end
 
-        local function ThreatLib_ThreatUpdated()
-            for _,f in addon:Frames() do
+        local player_guid = UnitGUID('player')
+        local function ThreatLib_ThreatUpdated(_,unit_guid,target_guid)
+            if not unit_guid or not target_guid then return end
+            if unit_guid ~= player_guid then return end
+
+            local f = addon:GetNameplateForGuid(target_guid)
+            if f and f.unit then
                 self:UNIT_THREAT_LIST_UPDATE(nil,f,f.unit)
             end
         end
