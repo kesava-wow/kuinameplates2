@@ -64,6 +64,7 @@ function addon.Nameplate.OnUnitAdded(f,unit)
     else
         f.state.personal = UnitIsUnit(unit,'player')
         f.unit = unit
+        f.guid = UnitGUID(unit)
         f.handler:OnShow()
     end
 end
@@ -81,6 +82,7 @@ function addon.Nameplate.OnHide(f)
     addon:DispatchMessage('Hide', f)
 
     f.unit = nil
+    f.guid = nil
     wipe(f.state)
 end
 function addon.Nameplate.Create(f)
