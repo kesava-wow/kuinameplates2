@@ -70,7 +70,7 @@ function addon:GetActiveNameplateForUnit(unit)
     -- return nameplate.kui for unit, if extant, visible and maybe functional
     assert(unit)
     local f = self:GetNameplateForUnit(unit)
-    if f.unit and f:IsShown() then return f end
+    if f and f.unit and f:IsShown() then return f end
 end
 function addon:GetNameplateForGuid(guid)
     assert(guid)
