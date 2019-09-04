@@ -8,7 +8,7 @@
 _G['KuiNameplates'] = CreateFrame('Frame')
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
-addon.MAJOR,addon.MINOR = 2,4
+addon.MAJOR,addon.MINOR = 2,5
 
 --@debug@
 addon.debug = true
