@@ -1,4 +1,5 @@
-root Kui_Media Kui_Nameplates Kui_Nameplates_Core Kui_Nameplates_Core_Config
+meta root Kui_Media Kui_Nameplates Kui_Nameplates_Core Kui_Nameplates_Core_Config
+meta repo kesava-wow/kuinameplates2.git
 
 subtree kuilib Kui_Nameplates/lib/Kui/
 github-kesava:kesava-wow/kuilib.git
@@ -23,4 +24,7 @@ https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
 
 svn libsharedmedia Kui_Nameplates_Core/lib/LibSharedMedia-3.0/
 https://repos.wowace.com/wow/libsharedmedia-3-0/trunk/LibSharedMedia-3.0
+
+subtree libclassicdurations Kui_Nameplates/lib/LibClassicDurations
+github-kesava:rgd87/LibClassicDurations.git
 
