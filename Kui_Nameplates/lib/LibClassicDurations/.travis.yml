@@ -1,0 +1,24 @@
+language: minimal
+
+addons:
+  apt:
+    packages:
+      - luarocks
+
+install: luarocks install --local luacheck
+
+script: /home/travis/.luarocks/bin/luacheck . --no-color -q
+
+after_success:
+  - mv -v .loader/*.toc .
+  - git add -f ./*.toc
+  - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
+
+branches:
+  only:
+  - /^\d+\.\d+(\.\d+)?(-\S*)?$/
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always

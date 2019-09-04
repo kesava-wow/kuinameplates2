@@ -1,0 +1,12 @@
+package-as: LibClassicDurations
+enable-nolib-creation: no
+
+externals:
+    LibStub:
+        url: svn://svn.wowace.com/wow/libstub/mainline/tags/1.0
+        tag: latest
+    CallbackHandler-1.0:
+        url: svn://svn.wowace.com/wow/callbackhandler/mainline/trunk/CallbackHandler-1.0
+        tag: latest
+
+
