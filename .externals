@@ -1,23 +1,25 @@
 meta root Kui_Media Kui_Nameplates Kui_Nameplates_Core Kui_Nameplates_Core_Config
 meta repo kesava-wow/kuinameplates2.git
 
-subtree kuilib Kui_Nameplates/lib/Kui/
+git-subtree kuilib Kui_Nameplates/lib/Kui/
 github-kesava:kesava-wow/kuilib.git
 
-subtree kuimedia Kui_Media/
+git-subtree kuimedia Kui_Media/
 github-kesava:kesava-wow/kuimedia.git
 
-subtree kuiconfig Kui_Nameplates_Core/lib/KuiConfig/
+git-subtree kuiconfig Kui_Nameplates_Core/lib/KuiConfig/
 github-kesava:kesava-wow/kuiconfig.git
 
-subtree kuispelllist Kui_Nameplates_Core/lib/KuiSpellList/
+git-subtree kuispelllist Kui_Nameplates_Core/lib/KuiSpellList/
 github-kesava:kesava-wow/kuispelllist.git
 
-subtree someonelsesconfig-dropdown Kui_Nameplates_Core_Config/lib/SomeoneElsesConfig-Dropdown/
+git-subtree someonelsesconfig-dropdown Kui_Nameplates_Core_Config/lib/SomeoneElsesConfig-Dropdown/
 gitlab:rbtwrrr/SomeoneElsesConfig-Dropdown.git
 
-subtree libclassicdurations Kui_Nameplates/lib/LibClassicDurations
+git-partial libclassicdurations Kui_Nameplates/lib/LibClassicDurations
 github-kesava:rgd87/LibClassicDurations.git
+classAbilities.lua core.lua diminishingReturns.lua
+LibClassicDurations.xml npcAbilities.lua
 
 svn libstub Kui_Nameplates/lib/LibStub.lua
 https://repos.wowace.com/wow/libstub/trunk/LibStub.lua
