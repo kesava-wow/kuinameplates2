@@ -15,6 +15,7 @@ move-folders:
 
 ignore:
     - Kui_Nameplates/lib/LibClassicDurations
+    - Kui_Nameplates/lib/LibClassicCasterino
     - .gitignore
     - .luacheckrc
     - .externals

@@ -4,8 +4,10 @@
 
     <!--@non-retail@
     <Include file="LibClassicDurations\LibClassicDurations.xml"/>
+    <Include file="LibClassicCasterino\LibClassicCasterino.xml"/>
     @end-non-retail@-->
     <!--@debug@-->
     <Include file="LibClassicDurations\LibClassicDurations.xml"/>
+    <Include file="LibClassicCasterino\LibClassicCasterino.xml"/>
     <!--@end-debug@-->
 </Ui>
