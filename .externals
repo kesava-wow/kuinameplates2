@@ -21,6 +21,10 @@ github-kesava:rgd87/LibClassicDurations.git
 classAbilities.lua core.lua diminishingReturns.lua
 LibClassicDurations.xml npcAbilities.lua
 
+git-partial libclassiccasterino Kui_Nameplates/lib/LibClassicCasterino
+github-kesava:rgd87/LibClassicCasterino.git
+LibClassicCasterino.lua
+
 svn libstub Kui_Nameplates/lib/LibStub.lua
 https://repos.wowace.com/wow/libstub/trunk/LibStub.lua
 
