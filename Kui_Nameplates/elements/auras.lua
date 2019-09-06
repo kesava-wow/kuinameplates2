@@ -111,7 +111,8 @@
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local ele = addon:NewElement('Auras',1)
-local AuraLib,UnitAura
+local AuraLib
+local UnitAura = _G['UnitAura']
 
 local strlower,tinsert,tsort,     pairs,ipairs =
       strlower,tinsert,table.sort,pairs,ipairs
@@ -885,7 +886,5 @@ function ele:Initialise()
         UnitAura = function(...)
             return AuraLib:UnitAura(...)
         end
-    else
-        UnitAura = _G['UnitAura']
     end
 end
