@@ -1,5 +1,16 @@
+Since classic-5:
+* enable aura timers (using LibClassicDurations)
+* enable castbars (using LibClassicCasterino)
+* use RealMobHealth if available
+
+(also:)
+* threat features can be enabled but currently rely on another addon embedding LibThreatClassic, such as DBM-Classic
+- once LibThreatClassic is available, check "force tank mode" to enable health bar colouring
+
+
 BETA NOTES
 
+* yup, it's still a beta disguised as a normal release
 * [classic] use libClassicCasterino to provide cast data
 
 * bump minor (to 5; customs with a max minor of 4 will stop loading)
