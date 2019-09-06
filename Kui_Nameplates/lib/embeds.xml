@@ -3,11 +3,11 @@
     <Script file="Kui/Kui.lua"/>
 
     <!--@non-retail@
+    <Script file="LibClassicCasterino\LibClassicCasterino.lua"/>
     <Include file="LibClassicDurations\LibClassicDurations.xml"/>
-    <Include file="LibClassicCasterino\LibClassicCasterino.xml"/>
     @end-non-retail@-->
     <!--@debug@-->
+    <Script file="LibClassicCasterino\LibClassicCasterino.lua"/>
     <Include file="LibClassicDurations\LibClassicDurations.xml"/>
-    <Include file="LibClassicCasterino\LibClassicCasterino.xml"/>
     <!--@end-debug@-->
 </Ui>
