@@ -238,16 +238,16 @@ function ele:OnEnable()
         self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_STOP')
         self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_UPDATE','CastUpdate')
     elseif LibCC then
-        LibCC.RegisterCallback(ele,'UNIT_SPELLCAST_START',LibCC_CastStart)
-        LibCC.RegisterCallback(ele,'UNIT_SPELLCAST_STOP',LibCC_CastStop)
-        LibCC.RegisterCallback(ele,'UNIT_SPELLCAST_DELAYED',LibCC_CastUpdate)
-        LibCC.RegisterCallback(ele,'UNIT_SPELLCAST_INTERRUPTED',LibCC_CastStop)
-        LibCC.RegisterCallback(ele,'UNIT_SPELLCAST_SUCCEEDED',LibCC_CastStop)
-        LibCC.RegisterCallback(ele,'UNIT_SPELLCAST_FAILED',LibCC_CastStop)
+        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_START',LibCC_CastStart)
+        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_STOP',LibCC_CastStop)
+        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_DELAYED',LibCC_CastUpdate)
+        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_INTERRUPTED',LibCC_CastStop)
+        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_SUCCEEDED',LibCC_CastStop)
+        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_FAILED',LibCC_CastStop)
 
-        LibCC.RegisterCallback(ele,'UNIT_SPELLCAST_CHANNEL_START',LibCC_CastStart)
-        LibCC.RegisterCallback(ele,'UNIT_SPELLCAST_CHANNEL_STOP',LibCC_ChannelStop)
-        LibCC.RegisterCallback(ele,'UNIT_SPELLCAST_CHANNEL_UPDATE',LibCC_CastUpdate)
+        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_CHANNEL_START',LibCC_CastStart)
+        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_CHANNEL_STOP',LibCC_ChannelStop)
+        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_CHANNEL_UPDATE',LibCC_CastUpdate)
     else
         return false
     end
