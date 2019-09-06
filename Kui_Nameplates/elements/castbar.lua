@@ -218,6 +218,9 @@ function ele:Initialise()
     end
 end
 function ele:OnDisable()
+    if LibCC then
+        LibCC.UnregisterAllCallbacks(self)
+    end
     for _,f in addon:Frames() do
         self:DisableOnFrame(f)
     end
