@@ -129,7 +129,7 @@ function ele:CastStart(event,f,unit)
     if not name then return end
 
     f.state.casting            = true
-    f.cast_state.name          = text
+    f.cast_state.name          = text or name
     f.cast_state.icon          = texture
     f.cast_state.guid          = guid
     f.cast_state.interruptible = not notInterruptible
