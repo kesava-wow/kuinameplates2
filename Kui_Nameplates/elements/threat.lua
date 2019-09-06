@@ -85,13 +85,15 @@ function ele:Initialise()
     end
 end
 function ele:OnEnable()
-    self:RegisterMessage('Show')
-
     if not kui.CLASSIC then
         self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE')
     elseif ThreatLib then
         ThreatLib.RegisterCallback(self,'ThreatUpdated',ThreatLib_ThreatUpdated)
+    else
+        return false
     end
+
+    self:RegisterMessage('Show')
 end
 function ele:OnDisable()
     if ThreatLib then
