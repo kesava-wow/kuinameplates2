@@ -142,7 +142,7 @@ end
 function ele:CastStop(event,f,_,guid)
     if not f.state.casting or guid ~= f.cast_state.guid then return end
     f.handler:CastBarHide(
-        (event == 'UNIT_SPELLCAST_INTERRUPTED' and ele.HIDE_INTERRUPT) or
+        ((event == 'UNIT_SPELLCAST_INTERRUPTED' or event == 'UNIT_SPELLCAST_FAILED') and ele.HIDE_INTERRUPT) or
         (event == 'UNIT_SPELLCAST_SUCCEEDED' and ele.HIDE_SUCCESS) or
         ele.HIDE_STOP)
 end
