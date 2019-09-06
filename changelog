@@ -1,5 +1,7 @@
 BETA NOTES
 
+* [classic] use libClassicCasterino to provide cast data
+
 * bump minor (to 5; customs with a max minor of 4 will stop loading)
 
 * [classic] update LibClassicDurations
