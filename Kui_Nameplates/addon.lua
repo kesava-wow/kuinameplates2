@@ -38,7 +38,8 @@ addon.DEBUG_IGNORE = {
 -- can be changed during run time:
 addon.IGNORE_UISCALE = nil
 -- should be set in layout initialise, if desired:
-addon.USE_BLIZZARD_PERSONAL = nil
+addon.USE_BLIZZARD_PERSONAL = nil -- hide kui on personal nameplate
+addon.STRATA = nil -- kui frame strata
 
 local framelist = {}
 

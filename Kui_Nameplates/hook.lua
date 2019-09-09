@@ -6,6 +6,7 @@
 -- Create base frame and hook scripts
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
+local STRATA
 --------------------------------------------------------------------------------
 -------------------------------------------------------- Core script handlers --
 local function UnitFrame_OnShow(self)
@@ -24,9 +25,14 @@ end
 function addon:HookNameplate(parent)
     local kui = CreateFrame('Frame','Kui'..parent:GetName(),parent)
 
+    if STRATA == nil then
+        -- import strata on first hook
+        STRATA = addon.STRATA or false
+    end
+
     kui:Hide()
     kui:SetAllPoints()
-    kui:SetFrameStrata('BACKGROUND')
+    kui:SetFrameStrata(STRATA or 'BACKGROUND')
     kui:SetFrameLevel(0)
     kui:SetScale(addon.uiscale)
 
