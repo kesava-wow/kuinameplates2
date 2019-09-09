@@ -146,12 +146,12 @@ function ele:CastStop(event,f,_,guid)
         (event == 'UNIT_SPELLCAST_SUCCEEDED' and ele.HIDE_SUCCESS) or
         ele.HIDE_STOP)
 end
-function ele:CastInterruptible(_,f,unit)
+function ele:CastInterruptible(_,f)
     if not f.state.casting then return end
     f.cast_state.interruptible = true
     f.handler:CastBarShow()
 end
-function ele:CastNotInterruptible(_,f,unit)
+function ele:CastNotInterruptible(_,f)
     if not f.state.casting then return end
     f.cast_state.interruptible = false
     f.handler:CastBarShow()
@@ -255,7 +255,6 @@ function ele:OnEnable()
         LibCC.RegisterCallback(self,'UNIT_SPELLCAST_STOP',LibCC_CastStop)
         LibCC.RegisterCallback(self,'UNIT_SPELLCAST_DELAYED',LibCC_CastUpdate)
         LibCC.RegisterCallback(self,'UNIT_SPELLCAST_INTERRUPTED',LibCC_CastStop)
-        LibCC.RegisterCallback(self,'UNIT_SPELLCAST_SUCCEEDED',LibCC_CastStop)
         LibCC.RegisterCallback(self,'UNIT_SPELLCAST_FAILED',LibCC_CastStop)
 
         LibCC.RegisterCallback(self,'UNIT_SPELLCAST_CHANNEL_START',LibCC_CastStart)
