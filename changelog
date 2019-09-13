@@ -1,3 +1,7 @@
+Since classic-6:
+* fix rendering issues with default nameplates when KNP frame width is changed
+
+
 Since classic-5:
 * enable aura timers (using LibClassicDurations)
 * enable castbars (using LibClassicCasterino)
@@ -10,7 +14,9 @@ Since classic-5:
 
 BETA NOTES
 
-* yup, it's still a beta disguised as a normal release
+* register _INTERRUPTIBLE cast events
+* [classic] disable C_NamePlate size calls In UpdateClickboxSize
+
 * [classic] use libClassicCasterino to provide cast data
 
 * bump minor (to 5; customs with a max minor of 4 will stop loading)
