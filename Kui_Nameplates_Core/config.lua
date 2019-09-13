@@ -262,13 +262,12 @@ local default_config = {
     auras_count_offset_y = -2,
 }
 -- local functions #############################################################
+local GLOBAL_SCALE
 local function Scale(v)
-    if not tonumber(core.profile.global_scale) or
-       core.profile.global_scale == 1
-    then
+    if not tonumber(GLOBAL_SCALE) or GLOBAL_SCALE == 1 then
         return v
     else
-        return floor((v*core.profile.global_scale)+.5)
+        return floor((v*GLOBAL_SCALE)+.5)
     end
 end
 local function UpdateClickboxSize()
@@ -790,6 +789,7 @@ configChanged.cvar_self_alpha = configChangedCVar
 configChanged.cvar_occluded_mult = configChangedCVar
 
 function configChanged.global_scale()
+    GLOBAL_SCALE = core.profile.global_scale
     configChanged.frame_glow_size(core.profile.frame_glow_size)
     configChanged.state_icons()
     configChangedCastBar()
