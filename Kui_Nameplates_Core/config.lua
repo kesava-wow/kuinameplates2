@@ -272,6 +272,7 @@ local function Scale(v)
     end
 end
 local function UpdateClickboxSize()
+    if kui.CLASSIC then return end -- XXX functions exist, but break display
     local o_width = (Scale(core.profile.frame_width) * addon.uiscale) + 10
     local o_height = (Scale(core.profile.frame_height) * addon.uiscale) + 20
 
