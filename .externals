@@ -28,7 +28,7 @@ LibClassicCasterino.lua
 svn libstub Kui_Nameplates/lib/LibStub.lua
 https://repos.wowace.com/wow/libstub/trunk/LibStub.lua
 
-svn callbackhandler Kui_Nameplates_Core/lib/CallbackHandler-1.0/
+svn callbackhandler Kui_Nameplates/lib/CallbackHandler-1.0/
 https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
 
 svn libsharedmedia Kui_Nameplates_Core/lib/LibSharedMedia-3.0/
