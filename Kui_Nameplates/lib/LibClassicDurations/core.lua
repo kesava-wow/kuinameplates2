@@ -59,9 +59,9 @@ Usage example 2:
     end)
 
 --]================]
+if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then return end
 
-
-local MAJOR, MINOR = "LibClassicDurations", 17
+local MAJOR, MINOR = "LibClassicDurations", 23
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
@@ -100,6 +100,7 @@ local callbacks = lib.callbacks
 local guids = lib.guids
 local spells = lib.spells
 local npc_spells = lib.npc_spells
+local indirectRefreshSpells
 
 
 local PURGE_INTERVAL = 900
@@ -115,6 +116,7 @@ local tinsert = table.insert
 local unpack = unpack
 local GetAuraDurationByUnitDirect
 local enableEnemyBuffTracking = false
+local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER
 
 f:SetScript("OnEvent", function(self, event, ...)
     return self[event](self, event, ...)
@@ -126,6 +128,7 @@ local SpellDataVersions = lib.dataVersions
 function lib:SetDataVersion(dataType, version)
     SpellDataVersions[dataType] = version
     npc_spells = lib.npc_spells
+    indirectRefreshSpells = lib.indirectRefreshSpells
 end
 
 function lib:GetDataVersion(dataType)
@@ -309,16 +312,33 @@ end
 -- COMBAT LOG
 ---------------------------
 
-local function cleanDuration(duration, spellID, srcGUID)
+local function cleanDuration(duration, spellID, srcGUID, comboPoints)
     if type(duration) == "function" then
         local isSrcPlayer = srcGUID == UnitGUID("player")
-        local comboPoints
-        if isSrcPlayer and playerClass == "ROGUE" then
-            comboPoints = GetCP()
-        end
+        -- Passing startTime for the sole reason of identifying different Rupture/KS applications for Rogues
+        -- Then their duration func will cache one actual duration calculated at the moment of application
         return duration(spellID, isSrcPlayer, comboPoints)
     end
     return duration
+end
+
+local function RefreshTimer(srcGUID, dstGUID, spellID)
+    local guidTable = guids[dstGUID]
+    if not guidTable then return end
+
+    local spellTable = guidTable[spellID]
+    if not spellTable then return end
+
+    local applicationTable
+    if spellTable.applications then
+        applicationTable = spellTable.applications[srcGUID]
+    else
+        applicationTable = spellTable
+    end
+    if not applicationTable then return end
+
+    applicationTable[2] = GetTime() -- set start time to now
+    return true
 end
 
 local function SetTimer(srcGUID, dstGUID, dstName, dstFlags, spellID, spellName, opts, auraType, doRemove)
@@ -366,8 +386,12 @@ local function SetTimer(srcGUID, dstGUID, dstName, dstFlags, spellID, spellName,
         applicationTable = spellTable
     end
 
-    -- local duration = cleanDuration(opts.duration, spellID, srcGUID)
     local duration = opts.duration
+    local isDstPlayer = bit_band(dstFlags, COMBATLOG_OBJECT_CONTROL_PLAYER) > 0
+    if isDstPlayer and opts.pvpduration then
+        duration = opts.pvpduration
+    end
+
     if not duration then
         return SetTimer(srcGUID, dstGUID, dstName, dstFlags, spellID, spellName, opts, auraType, true)
     end
@@ -381,10 +405,18 @@ local function SetTimer(srcGUID, dstGUID, dstName, dstFlags, spellID, spellName,
     --     -- local temporaryDuration = cleanDuration(opts.duration, spellID, srcGUID)
     --     expirationTime = now + duration
     -- end
+
     applicationTable[1] = duration
     applicationTable[2] = now
     -- applicationTable[2] = expirationTime
     applicationTable[3] = auraType
+
+    local isSrcPlayer = srcGUID == UnitGUID("player")
+    local comboPoints
+    if isSrcPlayer and playerClass == "ROGUE" then
+        comboPoints = GetCP()
+    end
+    applicationTable[4] = comboPoints
 
     guidAccessTimes[dstGUID] = now
 end
@@ -400,8 +432,10 @@ local function NotifyGUIDBuffChange(dstGUID)
 end
 
 local lastSpellCastName
+local lastSpellCastTime = 0
 function f:UNIT_SPELLCAST_SUCCEEDED(event, unit, castID, spellID)
     lastSpellCastName = GetSpellInfo(spellID)
+    lastSpellCastTime = GetTime()
 end
 
 local SunderArmorName = GetSpellInfo(11597)
@@ -415,10 +449,19 @@ function f:COMBAT_LOG_EVENT_UNFILTERED(event)
     dstGUID, dstName, dstFlags, dstFlags2,
     spellID, spellName, spellSchool, auraType, amount = CombatLogGetCurrentEventInfo()
 
-    if spellName == SunderArmorName then
-        if eventType == "SPELL_CAST_SUCCESS" then
-            eventType = "SPELL_AURA_REFRESH"
-            auraType = "DEBUFF"
+    if indirectRefreshSpells[spellName] then
+        local refreshTable = indirectRefreshSpells[spellName]
+        if refreshTable.event == eventType then
+            local targetSpellID = refreshTable.targetSpellID
+
+            local condition = refreshTable.condition
+            if condition then
+                local isMine = bit_band(srcFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) == COMBATLOG_OBJECT_AFFILIATION_MINE
+                if not condition(isMine) then return end
+            end
+
+            RefreshTimer(srcGUID, dstGUID, targetSpellID)
+            return
         end
     end
 
@@ -461,7 +504,10 @@ function f:COMBAT_LOG_EVENT_UNFILTERED(event)
                 eventType == "SPELL_AURA_APPLIED" or
                 eventType == "SPELL_AURA_APPLIED_DOSE"
             then
-                if not opts.castFilter or lastSpellCastName == spellName or isEnemyBuff then
+                if not opts.castFilter or
+                    (lastSpellCastName == spellName and lastSpellCastTime + 1 > GetTime()) or
+                    isEnemyBuff
+                then
                     SetTimer(srcGUID, dstGUID, dstName, dstFlags, spellID, spellName, opts, auraType)
                 end
             elseif eventType == "SPELL_AURA_REMOVED" then
@@ -495,8 +541,8 @@ end
 ---------------------------
 local makeBuffInfo = function(spellID, applicationTable, dstGUID, srcGUID)
     local name, rank, icon, castTime, minRange, maxRange, _spellId = GetSpellInfo(spellID)
-    local durationFunc, startTime = unpack(applicationTable)
-    local duration = cleanDuration(durationFunc, spellID, srcGUID) -- srcGUID isn't needed actually
+    local durationFunc, startTime, auraType, comboPoints = unpack(applicationTable)
+    local duration = cleanDuration(durationFunc, spellID, srcGUID, comboPoints) -- srcGUID isn't needed actually
     -- no DRs on buffs
     local expirationTime = startTime + duration
     if duration == 0 then
@@ -631,8 +677,9 @@ local function GetGUIDAuraTime(dstGUID, spellName, spellID, srcGUID, isStacking)
                 applicationTable = spellTable
             end
             if not applicationTable then return end
-            local durationFunc, startTime = unpack(applicationTable)
-            local duration = cleanDuration(durationFunc, spellID, srcGUID)
+            local durationFunc, startTime, auraType, comboPoints = unpack(applicationTable)
+            local duration = cleanDuration(durationFunc, spellID, srcGUID, comboPoints)
+            if not duration then return nil end
             local mul = getDRMul(dstGUID, spellID)
             -- local mul = getDRMul(dstGUID, lastRankID)
             duration = duration * mul
@@ -670,6 +717,7 @@ function lib:GetLastRankSpellIDByName(spellName)
     return spellNameToID[spellName]
 end
 
+-- Will not work for cp-based durations, KS and Rupture
 function lib:GetDurationForRank(spellName, spellID, srcGUID)
     local lastRankID = spellNameToID[spellName]
     local opts = spells[lastRankID]
