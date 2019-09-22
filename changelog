@@ -1,3 +1,9 @@
+**Since classic-7**
+
+* fix error loading due to a new library depedency etc
+
+
+
 **Since classic-6**
 
 * fix rendering issues with default nameplates when KNP frame width is changed
