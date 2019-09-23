@@ -114,7 +114,7 @@ function ele:OnEnable()
     self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
 end
 function ele:Initialise()
-    if kui.CLASSIC and RealMobHealth then
+    if kui.CLASSIC and RealMobHealth and RealMobHealth.GetUnitHealth then
         RMH = RealMobHealth
     end
     self.colours = {
