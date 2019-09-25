@@ -1851,12 +1851,9 @@ do
                 return 2
             end
 
-            if not kui.CLASSIC then
-                -- force hide infinite duration unless whitelisted
-                -- (duration data is limited on classic)
-                if duration == 0 and not nps_all and not nps_own then
-                    return 1
-                end
+            -- force hide infinite duration unless whitelisted
+            if duration == 0 and not nps_all and not nps_own then
+                return 1
             end
 
             -- force hide if excluded by spell list, as above
