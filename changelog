@@ -1,16 +1,10 @@
-**Since classic-7**
+**BETA NOTES**
+
+* test packaging of both releases simultaneously...
 
 * fix error loading due to a new library depedency etc
 
-
-
-**Since classic-6**
-
 * fix rendering issues with default nameplates when KNP frame width is changed
-
-
-
-**Since classic-5**
 
 * enable aura timers (using LibClassicDurations)
 * enable castbars (using LibClassicCasterino)
@@ -18,10 +12,6 @@
 * threat features can be enabled but currently rely on another addon embedding LibThreatClassic, such as DBM-Classic
 - (once LibThreatClassic is available, check "force tank mode" to enable
 health bar colouring)
-
-
-
-**BETA NOTES**
 
 * register _INTERRUPTIBLE cast events
 * [classic] disable C_NamePlate size calls In UpdateClickboxSize
