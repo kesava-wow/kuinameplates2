@@ -1,69 +1,15 @@
-**BETA NOTES**
 
-* test packaging of both releases simultaneously...
-
-* fix error loading due to a new library depedency etc
-
-* fix rendering issues with default nameplates when KNP frame width is changed
-
-* enable aura timers (using LibClassicDurations)
-* enable castbars (using LibClassicCasterino)
-* use RealMobHealth if available
-* threat features can be enabled but currently rely on another addon embedding LibThreatClassic, such as DBM-Classic
-- (once LibThreatClassic is available, check "force tank mode" to enable
-health bar colouring)
-
+* add profile export and import commands: /knp export, /knp import
+* various backend changes regarding slash commands, see: /knp help
+* automatically select `/knp dump` output
+* fix kui debug popup can block input if the callback fails
+* remove inactive boss mods' line code
 * register _INTERRUPTIBLE cast events
-* [classic] disable C_NamePlate size calls In UpdateClickboxSize
-
-* [classic] use libClassicCasterino to provide cast data
-
+* bump toc
 * bump minor (to 5; customs with a max minor of 4 will stop loading)
 
-* [classic] update LibClassicDurations
 
-* [classic] use RealMobHealth if installed
+* [classic] (i still need to disable or hide various options which can't be implemented)
+* [classic] threat features can be enabled but currently rely on another addon embedding LibThreatClassic, such as DBM-Classic
+* [classic] (once LibThreatClassic is available, check "force tank mode" to enable health bar colouring)
 
-* [classic] add LibClassicDurations
-* [classic] enable tank mode bar colouring (but not offtank detection)
-* [classic] use threatlib if it is loaded by another addon
-
-* pack and disable debug
-* [classic] show all auras cast by player (as classic doesn't distinguish "important" spells)
-* [classic] show combo points
-- always visible on druids - disable it in KNP for now
-* [classic] show auras with unknown duration
-* [classic] fix errors caused by enabling forced tank mode
-* [classic] update kuilib (possibly fixing issues after reloading)
-
-* this release should work on both classic and retail
-- (on classic) there are likely to be some errors which I didn't find,
-- various options are still visible for features which don't exist (auras, castbars, ...)
-- you'll need to check the option to enable loading out of date addons
-
-* remove inactive boss mods' line code
-
-* merge changes from backport/2.24-8.2:
-* disable boss mod line drawing due to API changes in 8.2
-* fix lua error related to a forbidden anchor interaction with personal-anchor
-* bump toc
-
-* add find command, to search for configuration keys (for use with /knp set)
-* alter slash command help text, colours, etc
-* add profile names to export and import commands
-* prevent import overwriting extant profiles
-* fix kui debug popup can block input if the callback fails
-* fix help, trace, profile commands
-
-* change handling of slash command input
-* change slash command help text (/knp help)
-* remove "&&" command concatenation
-
-* add import command, for importing profile strings created with export
-* KuiConfig changes affecting profile creation, deletion, renaming, copying...
-
-* add help command and help text for current slash functions (`/knp help`)
-* add export command, like dump but only the profile (import not yet implemented)
-* fix error when setting default cvars via knp's set command
-* automatically select `/knp dump` output
-* update kuilib
