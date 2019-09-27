@@ -1,15 +1,12 @@
 
-* add profile export and import commands: /knp export, /knp import
-* various backend changes regarding slash commands, see: /knp help
+* add profile export and import commands: `/knp export`, `/knp import`
+* various backend changes regarding slash commands, see `/knp help` (not currently localised)
+* alter config interface layout
+* add per-page copy and reset buttons to config
 * automatically select `/knp dump` output
 * fix kui debug popup can block input if the callback fails
 * remove inactive boss mods' line code
 * register _INTERRUPTIBLE cast events
 * bump toc
 * bump minor (to 5; customs with a max minor of 4 will stop loading)
-
-
-* [classic] (i still need to disable or hide various options which can't be implemented)
-* [classic] threat features can be enabled but currently rely on another addon embedding LibThreatClassic, such as DBM-Classic
-* [classic] (once LibThreatClassic is available, check "force tank mode" to enable health bar colouring)
 
