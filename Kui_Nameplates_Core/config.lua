@@ -67,6 +67,8 @@ local default_config = {
     nameonly_combat_hostile = true,
     nameonly_combat_hostile_player = true,
     nameonly_combat_friends = true,
+    nameonly_level = false,
+    nameonly_level_players_only = false,
     guild_text_npcs = true,
     guild_text_players = false,
     title_text_players = false,
@@ -516,6 +518,8 @@ configChanged.nameonly_damaged_friends = configChanged.nameonly
 configChanged.nameonly_combat_hostile = configChanged.nameonly
 configChanged.nameonly_combat_hostile_player = configChanged.nameonly
 configChanged.nameonly_combat_friends = configChanged.nameonly
+configChanged.nameonly_level = configChanged.nameonly
+configChanged.nameonly_level_players_only = configChanged.nameonly
 
 local function configChangedAuras()
     core:SetAurasConfig()

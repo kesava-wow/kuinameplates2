@@ -368,6 +368,8 @@ function nameonly:Initialise()
     local nameonly_combat_hostile = self:CreateCheckBox('nameonly_combat_hostile',true)
     local nameonly_combat_hostile_player = self:CreateCheckBox('nameonly_combat_hostile_player',true)
     local nameonly_combat_friends = self:CreateCheckBox('nameonly_combat_friends',true)
+    local nameonly_level = self:CreateCheckBox('nameonly_level')
+    local nameonly_level_players_only = self:CreateCheckBox('nameonly_level_players_only',true)
     local guild_text_npcs = self:CreateCheckBox('guild_text_npcs')
     local guild_text_players = self:CreateCheckBox('guild_text_players')
     local title_text_players = self:CreateCheckBox('title_text_players')
@@ -379,6 +381,8 @@ function nameonly:Initialise()
     guild_text_npcs.enabled = nameonly_no_font_style.enabled
     guild_text_players.enabled = nameonly_no_font_style.enabled
     title_text_players.enabled = nameonly_no_font_style.enabled
+    nameonly_level.enabled = nameonly_no_font_style.enabled
+    nameonly_level_players_only.enabled = function(p) return p.nameonly and p.nameonly_level end
 
     nameonlyCheck:SetPoint('TOPLEFT',10,-10)
 
@@ -428,6 +432,8 @@ function nameonly:Initialise()
     guild_text_players:SetPoint('TOPLEFT',nameonly_health_colour,'BOTTOMLEFT')
     title_text_players:SetPoint('LEFT',guild_text_players,'RIGHT',190,0)
     guild_text_npcs:SetPoint('TOPLEFT',guild_text_players,'BOTTOMLEFT')
+    nameonly_level:SetPoint('LEFT',guild_text_npcs,'RIGHT',190,0)
+    nameonly_level_players_only:SetPoint('TOPLEFT',nameonly_level,'BOTTOMLEFT',10,0)
 end
 -- frame sizes #################################################################
 function framesizes:Initialise()

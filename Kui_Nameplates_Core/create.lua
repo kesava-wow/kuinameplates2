@@ -286,6 +286,8 @@ do
         GUILD_TEXT_NPCS = self.profile.guild_text_npcs
         GUILD_TEXT_PLAYERS = self.profile.guild_text_players
         TITLE_TEXT_PLAYERS = self.profile.title_text_players
+        NAMEONLY_LEVEL = self.profile.nameonly_level
+        NAMEONLY_LEVEL_PLAYERS_ONLY = self.profile.nameonly_level_players_only
 
         CASTBAR_DETACH = self.profile.castbar_detach
     end
@@ -728,14 +730,19 @@ end
 -- level text ##################################################################
 do
     local function UpdateLevelText(f)
-        if f.IN_NAMEONLY then return end
-        if not core.profile.level_text or f.state.minus or f.state.personal then
+        if not core.profile.level_text or f.state.minus or f.state.personal or
+           f.IN_NAMEONLY and
+            (not NAMEONLY_LEVEL or
+             NAMEONLY_LEVEL_PLAYERS_ONLY and not UnitIsPlayer(f.unit))
+        then
             f.LevelText:Hide()
         else
             f.LevelText:ClearAllPoints()
 
             if f.state.no_name then
                 f.LevelText:SetPoint('LEFT',2,0)
+            elseif f.IN_NAMEONLY then
+                f.LevelText:SetPoint('RIGHT',f.NameText,'LEFT')
             else
                 f.LevelText:SetPoint('BOTTOMLEFT',2,BOT_VERTICAL_OFFSET)
             end
@@ -2157,7 +2164,8 @@ do
           NAMEONLY_HOSTILE_NPCS,NAMEONLY_DAMAGED_ENEMIES,NAMEONLY_FRIENDLY_NPCS,
           NAMEONLY_DAMAGED_FRIENDS,NAMEONLY_COMBAT_HOSTILE,
           NAMEONLY_COMBAT_FRIENDLY,NAMEONLY_HOSTILE_PLAYERS,
-          NAMEONLY_FRIENDLY_PLAYERS,NAMEONLY_COMBAT_HOSTILE_PLAYER
+          NAMEONLY_FRIENDLY_PLAYERS,NAMEONLY_COMBAT_HOSTILE_PLAYER,
+          NAMEONLY_LEVEL,NAMEONLY_LEVEL_PLAYERS_ONLY
 
     function core:configChangedNameOnly()
         NAMEONLY_ENABLED = self.profile.nameonly
@@ -2176,6 +2184,8 @@ do
         NAMEONLY_COMBAT_HOSTILE = self.profile.nameonly_combat_hostile
         NAMEONLY_COMBAT_HOSTILE_PLAYER = self.profile.nameonly_combat_hostile_player
         NAMEONLY_COMBAT_FRIENDLY = self.profile.nameonly_combat_friends
+        NAMEONLY_LEVEL = self.profile.nameonly_level
+        NAMEONLY_LEVEL_PLAYERS_ONLY = self.profile.nameonly_level_players_only
 
         -- create target/threat glow
         for _,f in addon:Frames() do
@@ -2214,6 +2224,7 @@ do
         f:UpdateRaidIcon()
         f:UpdateCastBar()
         f:UpdateGuildText()
+        f:UpdateLevelText()
 
         if f.TargetArrows then
             f:UpdateTargetArrows()
@@ -2243,13 +2254,24 @@ do
         f.NameText:SetPoint('CENTER',.5,0+FRAME_VERTICAL_OFFSET)
         f.NameText:Show()
 
+        if NAMEONLY_LEVEL and (not NAMEONLY_LEVEL_PLAYERS_ONLY or UnitIsPlayer(f.unit))
+        then
+            f.LevelText:SetParent(f)
+            f.LevelText:ClearAllPoints()
+            f.LevelText:SetPoint('LEFT',f.NameText,'RIGHT')
+            f.LevelText:Show()
+        end
+
         f.NameText.fontobject_shadow = true
         f.GuildText.fontobject_shadow = true
+        f.LevelText.fontobject_shadow = true
         f.NameText.fontobject_no_style = NAMEONLY_NO_FONT_STYLE
         f.GuildText.fontobject_no_style = NAMEONLY_NO_FONT_STYLE
+        f.LevelText.fontobject_no_style = NAMEONLY_NO_FONT_STYLE
 
         UpdateFontObject(f.NameText)
         UpdateFontObject(f.GuildText)
+        UpdateFontObject(f.LevelText)
 
         if FADE_AVOID_NAMEONLY then
             plugin_fading:UpdateFrame(f)
@@ -2274,11 +2296,14 @@ do
         -- nil fontobject overrides
         f.NameText.fontobject_shadow = nil
         f.NameText.fontobject_no_style = nil
+        f.LevelText.fontobject_no_style = nil
         f.GuildText.fontobject_shadow = nil
         f.GuildText.fontobject_no_style = nil
+        f.LevelText.fontobject_no_style = nil
 
         UpdateFontObject(f.NameText)
         UpdateFontObject(f.GuildText)
+        UpdateFontObject(f.LevelText)
 
         if FADE_AVOID_NAMEONLY then
             plugin_fading:UpdateFrame(f)
