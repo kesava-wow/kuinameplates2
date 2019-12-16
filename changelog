@@ -1,3 +1,4 @@
+* (classic) bump toc
 
 * add profile export and import commands: `/knp export`, `/knp import`
 * various backend changes regarding slash commands, see `/knp help` (not currently localised)
