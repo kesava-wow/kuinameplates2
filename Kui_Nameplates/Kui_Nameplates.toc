@@ -10,7 +10,7 @@
 ## Notes: Kesava's nameplate framework.|nDoes nothing by itself.
 ## X-Curse-Project-ID: 35095
 ## X-WoWI-ID: 19390
-## OptionalDeps: BigWigs, DBM-Core, RealMobHealth, ThreatClassic-1.0
+## OptionalDeps: BigWigs, DBM-Core, RealMobHealth, ThreatClassic-1.0, LibThreatClassic2
 
 lib\embeds.xml
 

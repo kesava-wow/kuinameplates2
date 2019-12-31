@@ -74,8 +74,10 @@ end
 -- register ####################################################################
 function ele:Initialise()
     if kui.CLASSIC then
-        ThreatLib = LibStub('ThreatClassic-1.0',true)
-        if not ThreatLib then return end
+        ThreatLib = LibStub('LibThreatClassic2',true) or LibStub('ThreatClassic-1.0',true)
+        if not ThreatLib or not ThreatLib.UnitThreatSituation then
+            return addon:print('no threat library')
+        end
 
         UnitThreatSituation = function(...)
             return ThreatLib:UnitThreatSituation(...)
