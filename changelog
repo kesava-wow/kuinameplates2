@@ -1,3 +1,6 @@
+* (classic) embed LibThreatClassic2, so threat features are available without another addon
+* (classic) update LibClassicCasterino, LibClassicDurations
+
 * (classic) bump toc
 
 * add profile export and import commands: `/knp export`, `/knp import`
