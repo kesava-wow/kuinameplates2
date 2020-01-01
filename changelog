@@ -1,4 +1,5 @@
-* (classic) embed LibThreatClassic2, so threat features are available without another addon
+* (classic) fix a conflict with recent versions of DBM
+* (classic) make threat features available without another addon
 * (classic) update LibClassicCasterino, LibClassicDurations
 
 * (classic) bump toc
