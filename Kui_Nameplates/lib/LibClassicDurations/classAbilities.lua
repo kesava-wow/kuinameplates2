@@ -1,7 +1,7 @@
 local lib = LibStub and LibStub("LibClassicDurations", true)
 if not lib then return end
 
-local Type, Version = "SpellTable", 50
+local Type, Version = "SpellTable", 51
 if lib:GetDataVersion(Type) >= Version then return end  -- older versions didn't have that function
 
 local Spell = lib.AddAura
@@ -537,7 +537,6 @@ Spell({ 704, 7658, 7659, 11717 }, { duration = 120 }) -- Curse of Recklessness
 Spell( 603 ,{ duration = 60, stacking = true }) -- Curse of Doom
 Spell( 18223 ,{ duration = 12 }) -- Curse of Exhaustion
 Spell( 6358, {
-    pvpduration = 20,
     duration = function(spellID, isSrcPlayer)
         if isSrcPlayer then
             local mul = 1 + Talent(18754, 18755, 18756)*0.1
