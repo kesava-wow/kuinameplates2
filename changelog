@@ -1,3 +1,6 @@
+* (retail) bump toc
+* (classic) update LibThreatClassic2, LibClassicDurations
+
 * (classic) fix a conflict with recent versions of DBM
 * (classic) make threat features available without another addon
 * (classic) update LibClassicCasterino, LibClassicDurations
