@@ -88,7 +88,7 @@ if _G.WOW_PROJECT_ID ~= _G.WOW_PROJECT_CLASSIC then return end
 
 _G.THREATLIB_LOAD_MODULES = false -- don't load modules unless we update this file
 
-local MAJOR, MINOR = "LibThreatClassic2", 5 -- Bump minor on changes, Major is constant lib identifier
+local MAJOR, MINOR = "LibThreatClassic2", 6 -- Bump minor on changes, Major is constant lib identifier
 assert(LibStub, MAJOR .. " requires LibStub")
 
 -- if this version or a newer one is already installed, go no further
@@ -110,7 +110,7 @@ LibStub("AceAddon-3.0"):EmbedLibraries(ThreatLib,
 LibStub.libs[MAJOR] = ThreatLib
 LibStub.minors[MAJOR] = MINOR
 
-_G.THREATLIB_LOAD_MODULES = true 
+_G.THREATLIB_LOAD_MODULES = true
 
 -- Update this when backwards incompatible changes are made
 local LAST_BACKWARDS_COMPATIBLE_REVISION = 2
@@ -166,23 +166,23 @@ end
 
 ThreatLib.OnCommReceive = {}
 ThreatLib.playerName = UnitName("player")
-ThreatLib.partyMemberAgents = ThreatLib.partyMemberAgents or {}
-ThreatLib.lastPublishedThreat = ThreatLib.lastPublishedThreat or {player = {}, pet = {}}
-ThreatLib.threatOffsets = ThreatLib.threatOffsets or {player = {}, pet = {}}
-ThreatLib.publishInterval = ThreatLib.publishInterval or nil
-ThreatLib.lastPublishTime = ThreatLib.lastPublishTime or 0
-ThreatLib.dontPublishThreat = (ThreatLib.dontPublishThreat ~= nil and ThreatLib.dontPublishThreat) or false
-ThreatLib.partyMemberRevisions = ThreatLib.partyMemberRevisions or {}
-ThreatLib.threatTargets = ThreatLib.threatTargets or {}
+ThreatLib.partyMemberAgents = {}
+ThreatLib.lastPublishedThreat = {player = {}, pet = {}}
+ThreatLib.threatOffsets = {player = {}, pet = {}}
+ThreatLib.publishInterval = nil
+ThreatLib.lastPublishTime = 0
+ThreatLib.dontPublishThreat = false
+ThreatLib.partyMemberRevisions = {}
+ThreatLib.threatTargets = {}
 ThreatLib.latestSeenRevision = MINOR -- set later, to get the latest version of the whole lib
 ThreatLib.isIncompatible = nil
 ThreatLib.lastCompatible = LAST_BACKWARDS_COMPATIBLE_REVISION
-ThreatLib.currentPartySize = ThreatLib.currentPartySize or 0
-ThreatLib.latestSeenSender = ThreatLib.latestSeenSender or nil
-ThreatLib.partyUnits = ThreatLib.partyUnits or {}
+ThreatLib.currentPartySize = 0
+ThreatLib.latestSeenSender = nil
+ThreatLib.partyUnits = {}
 
-ThreatLib.GUIDNameLookup = ThreatLib.GUIDNameLookup or setmetatable({}, { __index = function() return "<unknown>" end })
-ThreatLib.threatLog = ThreatLib.threatLog or {}
+ThreatLib.GUIDNameLookup = setmetatable({}, { __index = function() return "<unknown>" end })
+ThreatLib.threatLog = {}
 local guidLookup = ThreatLib.GUIDNameLookup
 
 local threatTargets = ThreatLib.threatTargets
@@ -198,6 +198,7 @@ local new, del, newHash, newSet = ThreatLib.new, ThreatLib.del, ThreatLib.newHas
 -- For development
 ThreatLib.DebugEnabled = false
 ThreatLib.alwaysRunOnSolo = false
+ThreatLib.LogThreat = false -- logs threat in ThreatLib.threatLog and enables ADD_THREAT debug
 
 ------------------------------------------------
 -- Utility Functions
@@ -208,9 +209,9 @@ local tableCount, usedTableCount = 0, 0
 -- #NODOC
 function ThreatLib:Debug(msg, ...)
 	if self.DebugEnabled then
-		if _G.ChatFrame5 then
+		if _G.ChatFrame4 then
 			local a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p = ...
-			_G.ChatFrame5:AddMessage(("|cffffcc00ThreatLib-Debug: |r" .. msg):format(
+			_G.ChatFrame4:AddMessage(("|cffffcc00ThreatLib-Debug: |r" .. msg):format(
 				tostring(a),
 				tostring(b),
 				tostring(c),
@@ -229,10 +230,11 @@ function ThreatLib:Debug(msg, ...)
 				tostring(p)
 			))
 		else
-			_G.DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00ThreatLib-Debug: |rPlease create ChatFrame5 for ThreatLib debug messages.")
+			_G.DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00ThreatLib-Debug: |rPlease create ChatFrame4 for ThreatLib debug messages.")
 		end
 	end
 end
+ThreatLib:Debug("Loading modules revision %s", MINOR)
 
 function ThreatLib:GroupDistribution()
 	if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
@@ -442,19 +444,23 @@ function ThreatLib:Log(action, from, to, threat)
 end
 
 function ThreatLib:GetSpellID(spellName, unit, auraType)
+
 	-- get spellID from auras
 	if auraType and unit then
+		local spellId = nil
 		if auraType == AURA_TYPE_DEBUFF then
-			return select(10, AuraUtil.FindAuraByName(spellName, unit, "HARMFUL")) or 0
+			spellId = select(10, AuraUtil.FindAuraByName(spellName, unit, "HARMFUL"))
 		else
-			return select(10, AuraUtil.FindAuraByName(spellName, unit)) or 0
+			spellId = select(10, AuraUtil.FindAuraByName(spellName, unit))
+		end
+		if spellId then
+			return spellId
 		end
 	-- get spellID from cache/spellbook
-	else
-		-- eventually build a cache from UNIT_SPELLCAST_* events to track lower ranks
-		-- for now, we just assume max rank and get that spellID from the spellbook
-		return select(7, GetSpellInfo(spellName)) or 0
 	end
+	-- eventually build a cache from UNIT_SPELLCAST_* events to track lower ranks
+	-- for now, we just assume max rank and get that spellID from the spellbook
+	return select(7, GetSpellInfo(spellName)) or 0
 end
 
 ThreatLib.prefix = "LTC2"
@@ -666,7 +672,7 @@ end
 function ThreatLib:OnEnable()
 	if not initialized then self:OnInitialize() end
 
-	ThreatLib:Debug("Enabling LibThreatClassic module")
+	ThreatLib:Debug("Enabling LibThreatClassic module revision %s", MINOR)
 
 	self:UnregisterAllEvents()
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -677,9 +683,12 @@ function ThreatLib:OnEnable()
 	self:RegisterEvent("PLAYER_ALIVE")
 	self:RegisterEvent("PLAYER_LOGIN")
 
+	-- disable all modules including old revision for full reboot
+	for k in pairs(self.modules) do
+		self:DisableModule(k)
+	end
 	-- (re)boot the NPC core
-	self:DisableModule("NPCCore")
-	self:EnableModule("NPCCore")
+	self:EnableModule("NPCCore-r"..MINOR)
 
 	-- Do event registrations here, as a Blizzard bug seems to be causing lockups if these are registered too early
 	self:RegisterEvent("GROUP_ROSTER_UPDATE")
@@ -720,35 +729,35 @@ function ThreatLib:PLAYER_ENTERING_WORLD(force)
 		self:Debug("Disabling, so lonely :'(")
 		self.running = false
 	else
-		self:Debug("Activating...self.alwaysRunOnSolo: %s", self.alwaysRunOnSolo)
+		self:Debug("Activating revision %s... self.alwaysRunOnSolo: %s", MINOR, self.alwaysRunOnSolo)
 		self.running = true
 	end
 	if previousRunning ~= self.running or force then
 		self:Debug("Dispatching event...")
 		if self.running then
 			_callbacks:Fire("Activate")
-			self:EnableModule("Player")
+			self:EnableModule("Player-r"..MINOR)
 			if UnitExists("pet") then
-				self:EnableModule("Pet")
+				self:EnableModule("Pet-r"..MINOR)
 			end
 		else
 			_callbacks:Fire("Deactivate")
-			self:DisableModule("Player")
-			self:DisableModule("Pet")
+			self:DisableModule("Player-r"..MINOR)
+			self:DisableModule("Pet-r"..MINOR)
 		end
 	end
 end
 
 function ThreatLib:PLAYER_LOGIN()
-	self:DisableModule("Player")
-	self:DisableModule("Pet")
+	self:DisableModule("Player-r"..MINOR)
+	self:DisableModule("Pet-r"..MINOR)
 	self:PLAYER_ENTERING_WORLD(true)
 end
 
 function ThreatLib:PLAYER_ALIVE()
 	if not self.booted then
-		self:DisableModule("Player")
-		self:DisableModule("Pet")
+		self:DisableModule("Player-r"..MINOR)
+		self:DisableModule("Pet-r"..MINOR)
 		self.booted = true
 		self:PLAYER_ENTERING_WORLD(true)
 	end
@@ -852,10 +861,10 @@ function ThreatLib:UNIT_PET(event, unit)
 	if unit ~= "player" then return end
 	local exists = UnitExists("pet")
 	if exists and self.running then
-		self:DisableModule("Pet")
-		self:EnableModule("Pet")
+		self:DisableModule("Pet-r"..MINOR)
+		self:EnableModule("Pet-r"..MINOR)
 	else
-		self:DisableModule("Pet")
+		self:DisableModule("Pet-r"..MINOR)
 	end
 	self:GROUP_ROSTER_UPDATE()	--- Does gaining or losing a pet already fire this? Is this needed?
 end
@@ -865,7 +874,7 @@ function ThreatLib:GROUP_ROSTER_UPDATE()
 		self:CancelTimer(timers.UpdateParty, true)
 		timers.UpdateParty = nil
 	end
-	timers.UpdateParty = self:ScheduleTimer("UpdateParty", 0.5)
+	timers.UpdateParty = self:ScheduleTimer("UpdateParty", 1.0)
 end
 ------------------------------------------------------------------------
 -- Handled Chat Messages
@@ -903,8 +912,8 @@ end
 
 do
 	local function wipeAllThreatFunc(self)
-		self:GetModule("Player"):MultiplyThreat(0)
-		local petModule = self:GetModule("Pet")
+		self:GetModule("Player-r"..MINOR):MultiplyThreat(0)
+		local petModule = self:GetModule("Pet-r"..MINOR)
 		if petModule:IsEnabled() then
 			petModule:MultiplyThreat(0)
 		end
@@ -928,19 +937,19 @@ end
 
 local cooldownTimes = {}
 local function mobThreatWipeFunc(self, mob_id)
-	local IDs = self:GetModule("Player"):GetGUIDsByNPCID(mob_id)
+	local IDs = self:GetModule("Player-r"..MINOR):GetGUIDsByNPCID(mob_id)
 	for i = 1, #IDs do
 		local id = IDs[i]
-		self:GetModule("Player"):SetTargetThreat(id, 0)
+		self:GetModule("Player-r"..MINOR):SetTargetThreat(id, 0)
 		self:ResetTPS(id, true)
 		self:ClearStoredThreatTables(id)
 	end
 
 	if UnitExists("pet") then
-		local IDs = self:GetModule("Pet"):GetGUIDsByNPCID(mob_id)
+		local IDs = self:GetModule("Pet-r"..MINOR):GetGUIDsByNPCID(mob_id)
 		for i = 1, #IDs do
 			local id = IDs[i]
-			self:GetModule("Pet"):SetTargetThreat(id, 0)
+			self:GetModule("Pet-r"..MINOR):SetTargetThreat(id, 0)
 			self:ResetTPS(id, true)
 			self:ClearStoredThreatTables(id)
 		end
@@ -972,10 +981,10 @@ function ThreatLib.OnCommReceive:MISDIRECT_THREAT(sender, distribution, target_p
 	if select(2, UnitClass(sender)) ~= "HUNTER" then return end
 	ThreatLib:Debug("%s is a hunter, continuing", sender)
 	if target_player_guid == UnitGUID("player") then
-		self:GetModule("Player"):AddTargetThreat(target_enemy_guid, amount)
+		self:GetModule("Player-r"..MINOR):AddTargetThreat(target_enemy_guid, amount)
 		ThreatLib:Debug("Added %s threat to player", amount)
 	elseif UnitExists("pet") and target_player_guid == UnitGUID("pet") then
-		self:GetModule("Pet"):AddTargetThreat(target_enemy_guid, amount)
+		self:GetModule("Pet-r"..MINOR):AddTargetThreat(target_enemy_guid, amount)
 		ThreatLib:Debug("Added %s threat to pet", amount)
 	end
 end
@@ -1004,13 +1013,13 @@ function ThreatLib.OnCommReceive:CLIENT_INFO(sender, distribution, revision, use
 end
 
 function ThreatLib.OnCommReceive:ACTIVATE_NPC_MODULE(sender, distribution, module_id)
-	self:GetModule("NPCCore"):ActivateModule(module_id)
+	self:GetModule("NPCCore-r"..MINOR):ActivateModule(module_id)
 end
 
 function ThreatLib.OnCommReceive:SET_NPC_MODULE_VALUE(sender, distribution, var_name, var_value)
 	if not partyUnits[sender] then return end
 	if self:IsGroupOfficer(partyUnits[sender]) then
-		self:GetModule("NPCCore"):SetModuleVar(var_name, var_value)
+		self:GetModule("NPCCore-r"..MINOR):SetModuleVar(var_name, var_value)
 		self:Debug("%s set variable %q = %q", sender, var_name, var_value)
 	end
 end
@@ -1156,8 +1165,8 @@ do
 	-- #NODOC
 	function ThreatLib:PublishThreat(force)
 		if (not inParty and not inRaid) or self.dontPublishThreat then return end
-		local playerMsg = getThreatString("player", "Player", force)
-		local petMsg = getThreatString("pet", "Pet", force)
+		local playerMsg = getThreatString("player", "Player-r"..MINOR, force)
+		local petMsg = getThreatString("pet", "Pet-r"..MINOR, force)
 
 		if playerMsg then
 			self:SendCommRaw(self:GroupDistribution(), "THREAT_UPDATE", playerMsg)
@@ -1301,7 +1310,7 @@ end
 ------------------------------------------------------------------------
 function ThreatLib:EncounterMobs()
 	-- TODO: Re-enable mob count
-	return max(1, self:GetModule("Player"):NumMobs())
+	return max(1, self:GetModule("Player-r"..MINOR):NumMobs())
 end
 
 ------------------------------------------------------------------------
@@ -1457,7 +1466,7 @@ function ThreatLib:SendThreatTo(targetPlayer, targetEnemy, threat)
 
 	if UnitExists("pet") and UnitGUID("pet") == targetPlayer then
 		ThreatLib:Debug("Sending threat to pet")
-		self:GetModule("Pet"):AddTargetThreat(targetEnemy, threat)
+		self:GetModule("Pet-r"..MINOR):AddTargetThreat(targetEnemy, threat)
 	else
 		ThreatLib:Debug("Sending threat to player, %s on %s to %s", threat, targetEnemy, targetPlayer)
 		self:SendComm(self:GroupDistribution(), "MISDIRECT_THREAT", targetPlayer, targetEnemy, threat)
