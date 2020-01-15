@@ -6,11 +6,11 @@
     This is a modified version of PhanxConfig-Dropdown.
     The vast majority of credit for it goes to Phanx.
 
-    * fix for 7.3
+    * "fix" for 8.3
     * fix dropdown list width to width of dropdown button
     * add dropdown.list_width
 ----------------------------------------------------------------------]]
-local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 5)
+local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 6)
 if not lib then return end
 
 lib.listFrames = lib.listFrames or {}
@@ -24,6 +24,12 @@ local S_igMainMenuOptionCheckBoxOn = 856
 
 local CreateList
 
+local function CloseDropdowns()
+    for i = 1, #lib.listFrames do
+        lib.listFrames[i]:Hide()
+    end
+end
+
 local function OpenDropdown(dropdown)
     local list = dropdown.list
     if not list then
@@ -32,7 +38,7 @@ local function OpenDropdown(dropdown)
     end
 
     local show = not list:IsShown()
-    CloseDropDownMenus()
+    CloseDropdowns()
 
     if show then
         list:Show()
@@ -53,13 +59,7 @@ local function OpenDropdown(dropdown)
     end
 end
 
-local function CloseDropdowns(_, _, dropDownFrame, _, _, _, _, clickedButton)
-    for i = 1, #lib.listFrames do
-        lib.listFrames[i]:Hide()
-    end
-end
-
-hooksecurefunc("CloseDropDownMenus", CloseDropdowns)
+--hooksecurefunc("CloseDropDownMenus", CloseDropdowns) -- XXX 8.3 closes dropdown before click fires
 hooksecurefunc("ToggleDropDownMenu", CloseDropdowns)
 
 ------------------------------------------------------------------------
