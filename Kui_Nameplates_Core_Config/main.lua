@@ -36,6 +36,7 @@ local function C_command(command,option)
            )..'|r'
 end
 
+-- command index (purely for ordering help output)
 local commands = {
     'help',
     'config',
@@ -46,12 +47,7 @@ local commands = {
     'import',
     'locale',
     'profile',
-    'debug all',
-    'debug frames',
-    'debug ignore',
     'debug',
-    'trace',
-    'which',
 }
 -- XXX generate doc text (locale, delayed? etc)
 local command_doc = {
