@@ -237,6 +237,7 @@ L.titles = {
     castbar_name_vertical_offset = 'Spell name offset',
     castbar_detach = 'Detach',
     castbar_detach_combine = 'Overlay spell icon',
+    castbar_detach_nameonly = 'Show in name-only mode',
     castbar_icon_side = 'Spell icon side',
 
     tank_mode = 'Enable tank mode',

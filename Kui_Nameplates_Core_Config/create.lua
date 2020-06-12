@@ -598,6 +598,7 @@ function castbars:Initialise()
     local castbar_detach_height = self:CreateSlider('castbar_detach_height',3,50,nil,'height')
     local castbar_detach_offset = self:CreateSlider('castbar_detach_offset',1,20,nil,'offset')
     local castbar_detach_combine = self:CreateCheckBox('castbar_detach_combine',true)
+    local castbar_detach_nameonly = self:CreateCheckBox('castbar_detach_nameonly',true)
     local castbar_icon_side = self:CreateDropDown('castbar_icon_side')
     castbar_icon_side.SelectTable = { 'Left','Right' } -- TODO l10n
 
@@ -625,8 +626,9 @@ function castbars:Initialise()
     castbar_layout_sep:SetPoint('TOP',0,-260)
     castbar_detach:SetPoint('TOPLEFT',10,-260-15)
     castbar_detach_combine:SetPoint('TOPLEFT',castbar_detach,'BOTTOMLEFT',10,0)
+    castbar_detach_nameonly:SetPoint('TOPLEFT',castbar_detach_combine,'BOTTOMLEFT')
     castbar_icon_side:SetPoint('LEFT',castbar_detach,'RIGHT',170,-8)
-    castbar_detach_width:SetPoint('TOPLEFT',castbar_detach,'BOTTOMLEFT',0,-50)
+    castbar_detach_width:SetPoint('TOPLEFT',castbar_detach,'BOTTOMLEFT',0,-70)
     castbar_detach_height:SetPoint('LEFT',castbar_detach_width,'RIGHT',22,0)
     castbar_detach_offset:SetPoint('LEFT',castbar_detach_height,'RIGHT',22,0)
 
@@ -657,6 +659,7 @@ function castbars:Initialise()
     castbar_detach_combine.enabled = function(p)
         return p.castbar_enable and p.castbar_detach and p.castbar_icon
     end
+    castbar_detach_nameonly.enabled = castbar_detach_width.enabled
 end
 -- threat ######################################################################
 function threat:Initialise()
