@@ -98,6 +98,7 @@ local default_config = {
     font_size_small = 10,
     name_text = true,
     level_text = false,
+    level_nameonly = false,
     health_text = false,
     name_vertical_offset = -2,
     bot_vertical_offset = -3,
@@ -317,14 +318,6 @@ end
 function configChanged.tankmode_force_offtank(v)
     local ele = addon:GetPlugin('TankMode')
     ele:SetForceOffTank(v)
-end
-
-function configChanged.level_text(v)
-    if v then
-        addon:GetPlugin('LevelText'):Enable()
-    else
-        addon:GetPlugin('LevelText'):Disable()
-    end
 end
 
 function configChanged.bar_texture()
@@ -822,7 +815,6 @@ configLoaded.tankmode_tank_colour = configChangedTankColour
 configLoaded.auras_enabled = configChangedAuras
 
 configLoaded.castbar_enable = configChanged.castbar_enable
-configLoaded.level_text = configChanged.level_text
 
 configLoaded.clickthrough_self = QueueClickthroughUpdate
 

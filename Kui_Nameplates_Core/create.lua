@@ -69,7 +69,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS,HEALTH_TEXT_FRIEND_MAX,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
       HIDE_NAMES,GLOBAL_SCALE,FRAME_VERTICAL_OFFSET,
-      MOUSEOVER_HIGHLIGHT,HIGHLIGHT_OPACITY
+      MOUSEOVER_HIGHLIGHT,HIGHLIGHT_OPACITY,LEVEL_TEXT,LEVEL_IN_NAMEONLY
 
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
@@ -251,6 +251,9 @@ do
         FRAME_HEIGHT_PERSONAL = Scale(self.profile.frame_height_personal)
         POWER_BAR_HEIGHT = Scale(self.profile.powerbar_height)
         FRAME_VERTICAL_OFFSET = self.profile.frame_vertical_offset
+
+        LEVEL_TEXT = self.profile.level_text
+        LEVEL_NAMEONLY = self.profile.level_nameonly
 
         FRAME_GLOW_SIZE = Scale(self.profile.frame_glow_size)
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
@@ -689,7 +692,7 @@ do
             SetNameTextColour(f)
 
             -- update name text colour to with health percent
-            core:NameOnlySetNameTextToHealth(f)
+            core:NameOnlyUpdateNameText(f)
         elseif SHOW_NAME_TEXT or SHOW_ARENA_ID then
             if SHOW_NAME_TEXT and TITLE_TEXT_PLAYERS then
                 -- reset name to title-less
@@ -728,10 +731,10 @@ end
 -- level text ##################################################################
 do
     local function UpdateLevelText(f)
-        if f.IN_NAMEONLY then return end
-        if not core.profile.level_text or f.state.minus or f.state.personal then
-            f.LevelText:Hide()
-        else
+        if LEVEL_TEXT and not f.IN_NAMEONLY and
+           not f.state.minus and
+           not f.state.personal
+        then
             f.LevelText:ClearAllPoints()
 
             if f.state.no_name then
@@ -2284,26 +2287,31 @@ do
             plugin_fading:UpdateFrame(f)
         end
     end
-    function core:NameOnlySetNameTextToHealth(f)
+    function core:NameOnlyUpdateNameText(f)
         -- set name text colour to approximate health
-        if not f.IN_NAMEONLY or not NAMEONLY_HEALTH_COLOUR then return end
+        if not f.IN_NAMEONLY then return end
+        if NAMEONLY_HEALTH_COLOUR then
+            if f.state.health_cur and f.state.health_cur > 0 and
+               f.state.health_max and f.state.health_max > 0
+            then
+                local health_len =
+                    strlen(f.state.name) *
+                    (f.state.health_cur / f.state.health_max)
 
-        if f.state.health_cur and f.state.health_cur > 0 and
-           f.state.health_max and f.state.health_max > 0
-        then
-            local health_len =
-                strlen(f.state.name) *
-                (f.state.health_cur / f.state.health_max)
-
-            f.NameText:SetText(
-                kui.utf8sub(f.state.name, 0, health_len)..
-                '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
-            )
+                f.NameText:SetText(
+                    kui.utf8sub(f.state.name, 0, health_len)..
+                    '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
+                )
+            end
+        end
+        if LEVEL_NAMEONLY then
+            local r,g,b=f.LevelText:GetTextColor()
+            f.NameText:SetText(string.format('|cff%02x%02x%02x',r*255,g*255,b*255)..f.LevelText:GetText()..'|r '..f.NameText:GetText())
         end
     end
     function core:NameOnlyHealthUpdate(f)
         if NAMEONLY_DAMAGED_FRIENDS or not f.state.friend then
-            self:NameOnlySetNameTextToHealth(f)
+            self:NameOnlyUpdateNameText(f)
         else
             -- disable/enable based on health
             self:NameOnlyUpdate(f)

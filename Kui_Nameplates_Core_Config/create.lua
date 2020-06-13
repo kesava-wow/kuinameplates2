@@ -371,6 +371,7 @@ function nameonly:Initialise()
     local guild_text_npcs = self:CreateCheckBox('guild_text_npcs')
     local guild_text_players = self:CreateCheckBox('guild_text_players')
     local title_text_players = self:CreateCheckBox('title_text_players')
+    local level_nameonly = self:CreateCheckBox('level_nameonly')
     local vis_sep = self:CreateSeparator('nameonly_visibility_sep')
     local text_sep = self:CreateSeparator('nameonly_text_sep','text')
 
@@ -420,6 +421,7 @@ function nameonly:Initialise()
     nameonly_combat_hostile_player.enabled = function(p)
         return p.nameonly and p.nameonly_combat_hostile and (p.nameonly_neutral or p.nameonly_enemies)
     end
+    level_nameonly.enabled = nameonly_neutral.enabled
 
     -- "text"
     text_sep:SetPoint('TOP',0,-285)
@@ -428,6 +430,7 @@ function nameonly:Initialise()
     guild_text_players:SetPoint('TOPLEFT',nameonly_health_colour,'BOTTOMLEFT')
     title_text_players:SetPoint('LEFT',guild_text_players,'RIGHT',190,0)
     guild_text_npcs:SetPoint('TOPLEFT',guild_text_players,'BOTTOMLEFT')
+    level_nameonly:SetPoint('LEFT',guild_text_npcs,'RIGHT',190,0)
 end
 -- frame sizes #################################################################
 function framesizes:Initialise()

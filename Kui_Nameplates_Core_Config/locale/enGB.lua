@@ -156,6 +156,7 @@ L.titles = {
     name_text = 'Show name text',
     hide_names = 'Hide non-tracked names',
     level_text = 'Show level text',
+    level_nameonly = 'Show level',
     health_text = 'Show health text',
     name_vertical_offset = 'Name v.offset',
     bot_vertical_offset = 'Level/health v.offset',
