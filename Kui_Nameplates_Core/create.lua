@@ -2214,6 +2214,7 @@ do
         -- update elements affected by nameonly
         f:UpdateNameText()
         f:UpdateHealthText()
+        f:UpdateLevelText()
         f:UpdateFrameGlow()
         f:UpdateStateIcon()
         f:UpdateRaidIcon()
