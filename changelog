@@ -1,21 +1,3 @@
-* fix unresponsive dropdown menus in 8.3
-* (retail) bump toc
-* (classic) update LibThreatClassic2, LibClassicDurations
-
-* (classic) fix a conflict with recent versions of DBM
-* (classic) make threat features available without another addon
-* (classic) update LibClassicCasterino, LibClassicDurations
-
+* add option to show detached castbar in name-only
+* add option to show level in name-only
 * (classic) bump toc
-
-* add profile export and import commands: `/knp export`, `/knp import`
-* various backend changes regarding slash commands, see `/knp help` (not currently localised)
-* alter config interface layout
-* add per-page copy and reset buttons to config
-* automatically select `/knp dump` output
-* fix kui debug popup can block input if the callback fails
-* remove inactive boss mods' line code
-* register _INTERRUPTIBLE cast events
-* bump toc
-* bump minor (to 5; customs with a max minor of 4 will stop loading)
-
