@@ -8,7 +8,7 @@ addons:
 install: luarocks install --local luacheck
 
 script:
-    - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g 1.13.3 -m .pkgmeta-classic.yml
+    - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g 1.13.4 -m .pkgmeta-classic.yml
     - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -m .pkgmeta.yml
 
 notifications:
