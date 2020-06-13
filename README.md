@@ -1,6 +1,6 @@
 # LibThreatClassic2 [!["Open Issues"](https://img.shields.io/github/issues-raw/dfherr/LibThreatClassic2.svg)](https://github.com/dfherr/LibThreatClassic2/issues)
 
-Successor project for [https://github.com/EsreverWoW/LibThreatClassic](https://github.com/EsreverWoW/LibThreatClassic)
+Threat tracking for World of Warcraft Classic. Successor project for [https://github.com/EsreverWoW/LibThreatClassic](https://github.com/EsreverWoW/LibThreatClassic)
 
 The latest version of this library will always be available through the addon [ThreatClassic2](https://github.com/dfherr/ThreatClassic2)
 
@@ -34,25 +34,9 @@ Libs/LibThreatClassic2:
   tag: latest
 ```
 
-## Added fixes
+## Changelog
 
-* Fixed LibStub versioning system (automatically use newest version if multiple LibThreatClassic2 minor versions are available)
-* fix Execute threat multiplier for Warriors
-* fix Revenge rank 5 bonus threat
-* fix Maul threat multiplier for Druids
-* Druid Feral instincts fixed
-* Warrior defiance 3% instead of 5% per talent point
-* SPELL_HEAL / overheal and absorb handling
-* Fixed Instance group distribution errors
-* Onyxia boss module
-* Ragnaros boss module
-* Paladin blessings
-
-## TODO
-
-* Improved voidwalker talent
-* ...
-
+See https://github.com/dfherr/LibThreatClassic2/releases
 
 ## License
 

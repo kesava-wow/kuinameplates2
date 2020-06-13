@@ -23,7 +23,7 @@ ThreatLib:GetModule("NPCCore-r"..MINOR):RegisterModule(NEFARIAN_ID, function(Nef
 	} end)
 
 	Nefarian:RegisterTranslation("frFR", function() return {
-		["BURN! You wretches! BURN!"] = nil, -- STRING NEEDED
+		["BURN! You wretches! BURN!"] = "BRÛLEZ, misérables ! BRÛLEZ !",
 	} end)
 
 	Nefarian:RegisterTranslation("itIT", function() return {
@@ -43,7 +43,7 @@ ThreatLib:GetModule("NPCCore-r"..MINOR):RegisterModule(NEFARIAN_ID, function(Nef
 	} end)
 
 	Nefarian:RegisterTranslation("zhCN", function() return {
-		["BURN! You wretches! BURN!"] = "燃烧吧！你这个",
+		["BURN! You wretches! BURN!"] = "燃烧吧，你们这些悲惨的家伙！燃烧吧！",
 	} end)
 
 	Nefarian:RegisterTranslation("zhTW", function() return {
