@@ -4,7 +4,7 @@ Author: d87
 --]================]
 if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then return end
 
-local MAJOR, MINOR = "LibClassicCasterino", 29
+local MAJOR, MINOR = "LibClassicCasterino", 32
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
@@ -56,6 +56,7 @@ local castTimeCacheStartTimes = setmetatable({}, { __mode = "v" })
 
 local AIMED_SHOT = GetSpellInfo(19434)
 local MULTI_SHOT = GetSpellInfo(25294)
+local AimedDelay = 1
 local castingAimedShot = false
 local playerGUID = UnitGUID("player")
 
@@ -129,6 +130,7 @@ local function CastStart(srcGUID, castType, spellName, spellID, overrideCastTime
     if castType == "CAST" then
         if srcGUID == playerGUID and (spellName == AIMED_SHOT or spellName == MULTI_SHOT) then
             castingAimedShot = true
+            AimedDelay = 1
             movecheckGUIDs[srcGUID] = MOVECHECK_TIMEOUT
             if spellName == MULTI_SHOT then
                 casters[srcGUID][5] = startTime + 500
@@ -167,7 +169,8 @@ function f:COMBAT_LOG_EVENT_UNFILTERED(event)
     local timestamp, eventType, hideCaster,
     srcGUID, srcName, srcFlags, srcFlags2,
     dstGUID, dstName, dstFlags, dstFlags2,
-    spellID, spellName, arg3, arg4, arg5 = CombatLogGetCurrentEventInfo()
+    spellID, spellName, arg3, arg4, arg5,
+    arg6, resisted, blocked, absorbed = CombatLogGetCurrentEventInfo()
 
     local isSrcPlayer = bit_band(srcFlags, COMBATLOG_OBJECT_TYPE_PLAYER_OR_PET) > 0
     if isSrcPlayer and spellID == 0 then
@@ -258,14 +261,35 @@ function f:COMBAT_LOG_EVENT_UNFILTERED(event)
                 CastStop(srcGUID, "CHANNEL", "STOP")
             end
         end
+    elseif castingAimedShot and dstGUID == UnitGUID("player") then
+        if eventType == "SWING_DAMAGE" or
+           eventType == "ENVIRONMENTAL_DAMAGE" or
+           eventType == "RANGE_DAMAGE" or
+           eventType == "SPELL_DAMAGE"
+        then
+            if resisted or blocked or absorbed then return end
+            local currentCast = casters[UnitGUID("player")]
+            if currentCast then
+                refreshCastTable(currentCast, currentCast[1], currentCast[2], currentCast[3], currentCast[4], currentCast[5] + (AimedDelay *1000))
+                if AimedDelay > 0.2 then
+                    AimedDelay = AimedDelay - 0.2
+                end
+                callbacks:Fire("UNIT_SPELLCAST_DELAYED", "player")
+            end
+        end
     end
 
 end
 
 local castTimeIncreases = {
-    [1714] = 1.6,    -- Curse of Tongues (60%)
-    [5760] = 1.6,    -- Mind-Numbing Poison (60%)
-    [1098] = 1.3,    -- Enslave Demon
+    [1714] = 1.5,    -- Curse of Tongues (Rank 1) (50%)
+    [11719] = 1.6,   -- Curse of Tongues (Rank 2) (60%)
+    [5760] = 1.4,    -- Mind-Numbing Poison (Rank 1) (40%)
+    [8692] = 1.5,    -- Mind-Numbing Poison (Rank 2) (50%)
+    [11398] = 1.6,   -- Mind-Numbing Poison (Rank 3) (60%)
+    [1098] = 1.3,    -- Enslave Demon (Rank 1) (30%)
+    [11725] = 1.3,   -- Enslave Demon (Rank 2) (30%)
+    [11726] = 1.3,   -- Enslave Demon (Rank 3) (30%)
 }
 local attackTimeDecreases = {
     [6150] = 1.3,    -- Quick Shots/ Imp Aspect of the Hawk (Aimed)
