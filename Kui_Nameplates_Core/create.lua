@@ -744,6 +744,8 @@ do
             end
 
             f.LevelText:Show()
+        else
+            f.LevelText:Hide()
         end
     end
     function core:CreateLevelText(f)
