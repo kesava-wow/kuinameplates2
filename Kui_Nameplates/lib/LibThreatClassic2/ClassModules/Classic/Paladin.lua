@@ -9,11 +9,15 @@ local Paladin = ThreatLib:GetOrCreateModule("Player-r"..MINOR)
 
 local SCHOOL_MASK_HOLY = _G.SCHOOL_MASK_HOLY or 0x02
 
+local format = _G.format
 local UnitClass = _G.UnitClass
-local UnitInRange = _G.UnitInRange
+local UnitIsVisible = _G.UnitIsVisible
 local UnitIsGhost = _G.UnitIsGhost
 local UnitIsConnected = _G.UnitIsConnected
 local IsInRaid = _G.IsInRaid
+local GetPlayerInfoByGUID = _G.GetPlayerInfoByGUID
+local GetNumGroupMembers = _G.GetNumGroupMembers
+local GetNumSubgroupMembers = _G.GetNumSubgroupMembers
 local righteousFuryMod = 1
 
 local _G = _G
@@ -107,10 +111,10 @@ local CLEANSE_SPELL_ID = 4987
 function Paladin:ClassInit()
 	--adding threat for blessings
 	for k, v in pairs(threatValues.greaterBlessing) do
-		self.CastLandedHandlers[k] = self.GreaterBlessing
+		self.CastSuccessHandlers[k] = self.GreaterBlessing
 	end
 	for k, v in pairs(threatValues.lesserBlessing) do
-		self.CastLandedHandlers[k] = self.Blessing
+		self.CastSuccessHandlers[k] = self.Blessing
 	end
 
 	self.schoolThreatMods[SCHOOL_MASK_HOLY] = self.RighteousFury
@@ -127,15 +131,8 @@ function Paladin:ClassInit()
 		self.AbilityHandlers[HolyHealIDs[i]] = healMod
 	end
 
-	-- Judgement
-	-- This is a maximum of like 10 TPS, do we really need it?
-	-- We'll track first-lands, but not worry about refreshes.
-	self.CastLandedHandlers[20271] = function(self, spellID, recipient)
-		self:AddTargetThreat(recipient, self:RighteousFury(57))
-	end
-
 	local holyShield = function(self, amt)
-		return self:RighteousFury(amt) * 1.2
+		return amt * 1.2
 	end
 	local holyShieldIDs = {20925, 20927, 20928}
 	for i = 1, #holyShieldIDs do
@@ -169,39 +166,44 @@ function Paladin:ScanTalents()
 end
 
 function Paladin:Blessing(spellID, recipient)
-	result = self:RighteousFury(threatValues.lesserBlessing[spellID])
+	local result = self:RighteousFury(threatValues.lesserBlessing[spellID])
 	self:AddThreat(result)
 end
 
 function Paladin:GreaterBlessing(spellID, recipient, spellName )
-	locClass, engClass, locRace, engRace, gender, name, server = GetPlayerInfoByGUID(recipient)
-	className = locClass:upper()
-	numberOfClass = self:ClassCounter(className)
-	result = self:RighteousFury(threatValues.greaterBlessing[spellID]) * numberOfClass
+	local _, className = GetPlayerInfoByGUID(recipient)
+	local numberOfClass = className and self:ClassCounter(className) or 1
+	local result = self:RighteousFury(threatValues.greaterBlessing[spellID]) * numberOfClass
 	self:AddThreat(result)
 end
 
 function Paladin:ClassCounter(className)
 	local countClass = 0
-	if UnitClass("player"):upper() == className then
-		countClass = countClass + 1
-	end
-	local unitString = nil 
+	local unitToken
+	local numMembers
 
 	if IsInRaid() then
-		unitString = "raid%d"
+		unitToken = "raid%d"
+		numMembers = GetNumGroupMembers()
 	else
-		unitString = "party%d"
+		unitToken = "party%d"
+		numMembers = GetNumSubgroupMembers()
+
+		if select(2, UnitClass("player")) == className then
+			countClass = countClass + 1
+		end
 	end
 
-	for i=0,GetNumGroupMembers() do
-		unitid=(unitString):format(i)
-		if UnitIsConnected(unitid) and UnitInRange(unitid) and not UnitIsGhost(unitid) then
-			if UnitClass(unitid):upper() == className then
+	for i = 1, numMembers do
+		local unit = format(unitToken, i)
+
+		if UnitIsConnected(unit) and UnitIsVisible(unit) and not UnitIsGhost(unit) then
+			if select(2, UnitClass(unit)) == className then
 				countClass = countClass + 1
 			end
 		end
 	end
+
 	return countClass
 end
 

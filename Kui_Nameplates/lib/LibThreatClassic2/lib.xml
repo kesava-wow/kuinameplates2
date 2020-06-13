@@ -34,10 +34,12 @@
 	<Script file="NPCModules\MoltenCore\Trash.lua" />
 	<Script file="NPCModules\MoltenCore\Shazzrah.lua" />
 	<Script file="NPCModules\MoltenCore\Ragnaros.lua" />
+	<Script file="NPCModules\BlackwingLair\BroodlordLashlayer.lua" />
 	<Script file="NPCModules\BlackwingLair\Firemaw.lua" />
 	<Script file="NPCModules\BlackwingLair\Flamegor.lua" />
 	<Script file="NPCModules\BlackwingLair\Ebonroc.lua" />
 	<Script file="NPCModules\BlackwingLair\Nefarian.lua" />
+	<Script file="NPCModules\ZulGurub\Hakkar.lua" />
 	<Script file="NPCModules\AQ40\Ouro.lua" />
 	<Script file="NPCModules\Naxxramas\Kelthuzad.lua" />
 	<Script file="NPCModules\Naxxramas\Noth.lua" />
