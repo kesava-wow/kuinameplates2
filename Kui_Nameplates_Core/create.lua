@@ -69,7 +69,8 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS,HEALTH_TEXT_FRIEND_MAX,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
       HIDE_NAMES,GLOBAL_SCALE,FRAME_VERTICAL_OFFSET,
-      MOUSEOVER_HIGHLIGHT,HIGHLIGHT_OPACITY,LEVEL_TEXT,LEVEL_NAMEONLY
+      MOUSEOVER_HIGHLIGHT,HIGHLIGHT_OPACITY,LEVEL_TEXT,LEVEL_NAMEONLY,
+      HEALTH_TEXT_PERCENT_SYMBOL
 
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
@@ -281,10 +282,12 @@ do
         SHOW_NAME_TEXT = self.profile.name_text
         SHOW_ARENA_ID = self.profile.show_arena_id
         HIDE_NAMES = self.profile.hide_names
+
         HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
         HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
         HEALTH_TEXT_HOSTILE_MAX = self.profile.health_text_hostile_max
         HEALTH_TEXT_HOSTILE_DMG = self.profile.health_text_hostile_dmg
+        HEALTH_TEXT_PERCENT_SYMBOL = self.profile.health_text_percent_symbol and '%' or ''
 
         GUILD_TEXT_NPCS = self.profile.guild_text_npcs
         GUILD_TEXT_PLAYERS = self.profile.guild_text_players
@@ -759,11 +762,10 @@ end
 -- health text #################################################################
 do
     local function HealthDisplay_Percent(s)
-        local v = s.health_per
-        if v < 1 then
-            return format('%.1f',v)
+        if s.health_per < 1 then
+            return format('%.1f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
         else
-            return ceil(v)
+            return ceil(s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
         end
     end
     local health_display_funcs = {
@@ -772,7 +774,7 @@ do
         function(s) return kui.num(s.health_max) end,
         HealthDisplay_Percent,
         function(s) return '-'..kui.num(s.health_deficit) end,
-        function(s) return kui.num(s.health_cur)..'  '..HealthDisplay_Percent(s)..'%' end,
+        function(s) return kui.num(s.health_cur)..'  '..HealthDisplay_Percent(s) end,
         function(s) return kui.num(s.health_cur)..'  -'..kui.num(s.health_deficit) end,
     }
     local function GetHealthDisplay(f,key)
