@@ -1,3 +1,8 @@
+(BETA)
+* add option target_arrows_texture (not exposed in ui)
+* disable health_text_percent_symbol by default
+* fix set command help text
+
 * add option to show detached castbar in name-only mode
 * add option to show level in name-only mode
 * add option to show health text percent symbol
