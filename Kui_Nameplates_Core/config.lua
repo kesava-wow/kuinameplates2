@@ -118,7 +118,7 @@ local default_config = {
     health_text_friend_dmg = 5,
     health_text_hostile_max = 1,
     health_text_hostile_dmg = 4,
-    health_text_percent_symbol = true,
+    health_text_percent_symbol = false,
 
     colour_hated = {.7,.2,.1},
     colour_neutral = {1,.8,0},
