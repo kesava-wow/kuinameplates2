@@ -86,7 +86,7 @@ local command_doc = {
         format('%sExample|r  %s',
             C(2),C_command('set','frame_width 132')),
         format('%sExample|r  %s',
-            C(2),C_command('set','target_glow_colour','.5,0,1,.5')),
+            C(2),C_command('set','target_glow_colour .8,.25,1,.8')),
     },
     ['find'] = {
         'Search available configuration keys',
