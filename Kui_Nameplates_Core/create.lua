@@ -74,7 +74,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
 
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
-local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET
+local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET,TARGET_ARROWS_TEXTURE
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR
 local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
@@ -233,6 +233,8 @@ do
         TARGET_ARROWS = self.profile.target_arrows
         TARGET_ARROWS_SIZE = Scale(self.profile.target_arrows_size)
         TARGET_ARROWS_INSET = Scale(self.profile.target_arrows_inset)
+        TARGET_ARROWS_TEXTURE = self.profile.target_arrows_texture
+
         TARGET_GLOW = self.profile.target_glow
         TARGET_GLOW_COLOUR = self.profile.target_glow_colour
         MOUSEOVER_GLOW = self.profile.mouseover_glow
@@ -307,9 +309,7 @@ end
 function core:configChangedTargetArrows()
     if not TARGET_ARROWS then return end
     for _,f in addon:Frames() do
-        if not f.TargetArrows then
-            self:CreateTargetArrows(f)
-        end
+        self:CreateTargetArrows(f)
     end
 end
 function core:configChangedFrameSize()
@@ -1057,7 +1057,8 @@ do
         end
 
         if f.state.target then
-            -- update size, colour
+            f.TargetArrows.l:SetTexture(TARGET_ARROWS_TEXTURE)
+            f.TargetArrows.r:SetTexture(TARGET_ARROWS_TEXTURE)
             f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetArrows:SetSize(TARGET_ARROWS_SIZE)
 
@@ -1071,11 +1072,9 @@ do
         if not TARGET_ARROWS or f.TargetArrows then return end
 
         local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
-        left:SetTexture(MEDIA..'target-arrow')
         left:SetBlendMode('ADD')
 
         local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
-        right:SetTexture(MEDIA..'target-arrow')
         right:SetBlendMode('ADD')
         right:SetTexCoord(1,0,0,1)
 

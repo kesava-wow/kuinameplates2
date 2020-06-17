@@ -44,6 +44,7 @@ local default_config = {
     target_arrows = false,
     target_arrows_size = 28,
     target_arrows_inset = 0, -- NEX
+    target_arrows_texture = 'interface/addons/kui_nameplates_core/media/target-arrow', -- NEX
     use_blizzard_personal = false,
     frame_vertical_offset = 0,
     show_arena_id = true, -- NEX
@@ -302,6 +303,7 @@ end
 local configChanged = {}
 function configChanged.target_arrows(v)
     if v then
+        -- create arrows if needed
         core:configChangedTargetArrows()
     end
 end
