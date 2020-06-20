@@ -297,7 +297,7 @@ L.tooltips = {
     combat_hostile = 'Action to take on hostile frames upon entering and leaving combat.',
     combat_friendly = 'Action to take on friendly frames upon entering and leaving combat.',
 
-    ignore_uiscale = 'Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nYou\'ll also need to disable the nameplate scaling CVars.|n|nThis is necessary even if you do not have UI scale enabled.',
+    ignore_uiscale = 'Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nYou\'ll also need to disable the nameplate scaling CVars.|n|nThis may be necessary even if you do not have UI scale enabled.',
     use_blizzard_personal = 'Don\'t skin the personal nameplate or its class powers.|n|nRequires a UI reload.',
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
