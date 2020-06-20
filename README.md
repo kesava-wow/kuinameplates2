@@ -5,7 +5,7 @@ Prettier nameplates. Download releases [at Curse](https://www.curseforge.com/wow
 
 Reporting issues
 ----------------
-Issues submitted [here](https://github.com/kesava-wow/kuinameplates2/issues) won't necessarily receive a response, but I do read all of them. If you just want to ask a question or get in touch with me, the comments on Curse are a better option. I (usually) try to respond to all of those.
+Issues submitted [here](https://github.com/kesava-wow/kuinameplates2/issues) won't necessarily receive a response, but I do read all of them.
 
 When submitting an issue:
 - Separate distinct issues into multiple tickets. It's easier to work with that way.
