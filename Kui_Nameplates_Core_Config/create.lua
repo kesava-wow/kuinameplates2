@@ -37,6 +37,9 @@ function general:Initialise()
     local target_arrows = self:CreateCheckBox('target_arrows')
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
 
+    use_blizzard_personal.require_reload = true
+    use_blizzard_powers.require_reload = true
+
     target_glow_colour.enabled = function(p) return p.target_glow or p.target_arrows end
     mouseover_glow_colour.enabled = function(p) return p.mouseover_glow end
     target_arrows_size.enabled = function(p) return p.target_arrows end
@@ -824,6 +827,7 @@ function cvars:Initialise()
     -- nameplateShowOnlyNames
     local no = self:CreateCheckBox('cvar_name_only')
     no.enabled = sfn.enabled
+    no.require_reload = true
     -- nameplate{Min,Max}Scale
     local ds = self:CreateCheckBox('cvar_disable_scale')
     ds.enabled = sfn.enabled

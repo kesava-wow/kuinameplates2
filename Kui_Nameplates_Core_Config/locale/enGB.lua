@@ -292,6 +292,8 @@ L.titles = {
     cvar_occluded_mult = 'Line-of-sight alpha',
 }
 L.tooltips = {
+    reload_hint = 'Requires a UI reload.',
+
     bar_texture = 'The texture used for status bars (provided by LibSharedMedia)',
     bar_animation = 'The style of animation to use on health/power bars',
 
@@ -299,7 +301,7 @@ L.tooltips = {
     combat_friendly = 'Action to take on friendly frames upon entering and leaving combat.',
 
     ignore_uiscale = 'Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nYou\'ll also need to disable the nameplate scaling CVars.|n|nThis may be necessary even if you do not have UI scale enabled.',
-    use_blizzard_personal = 'Don\'t skin the personal nameplate or its class powers.|n|nRequires a UI reload.',
+    use_blizzard_personal = 'Don\'t skin the personal nameplate or its class powers.',
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
     clickthrough_self = 'Disable the click-box of your personal nameplate',
@@ -416,7 +418,7 @@ L.tooltips = {
 
     cvar_enable = 'When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.',
     cvar_show_friendly_npcs = '|cffffcc00nameplateShowFriendlyNPCs|r',
-    cvar_name_only = '|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.|n|nRequires a UI reload.',
+    cvar_name_only = '|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.',
     cvar_personal_show_always = '|cffffcc00nameplatePersonalShowAlways|r',
     cvar_personal_show_combat = '|cffffcc00nameplatePersonalShowInCombat|r',
     cvar_personal_show_target = '|cffffcc00nameplatePersonalShowWithTarget|r|n|nShow the personal nameplate whenever you have an attackable target.',

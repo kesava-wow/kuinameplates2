@@ -34,6 +34,11 @@ local function OnEnter(self)
         GameTooltip:AddLine(L.tooltips[self.env],1,1,1,true)
     end
 
+    if self.require_reload then
+        -- add reload hint
+        GameTooltip:AddLine('|n'..L.tooltips['reload_hint'],1,.6,.6,true)
+    end
+
     GameTooltip:Show()
 end
 local function OnLeave(self)
