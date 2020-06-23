@@ -6,9 +6,14 @@ local ele = addon:NewElement('ClassPowers2')
 local kui = LibStub('Kui-1.0')
 if not ele then return end
 
-local POWERS,POWERS_CLASS,POWER_TAGS
+local FRAMELOCK,POWERS,POWERS_CLASS,POWER_TAGS
 local frame,player_class,player_spec,player_power_type,power_mod,power_tag
 
+-- scripts #####################################################################
+local function FrameLockNil(self)
+    self:SetScript('OnUpdate',nil)
+    FRAMELOCK=nil
+end
 -- functions ###################################################################
 local function GetPowerType(spec)
     if type(POWERS_CLASS) == 'table' then
@@ -18,8 +23,19 @@ local function GetPowerType(spec)
     end
 end
 local function PowerUpdate()
-    -- get number (div mod), get max
-    -- .... that's it?
+    -- fire power update callback
+    if not FRAMELOCK then
+        FRAMELOCK=true
+        frame:SetScript('OnUpdate',FrameLockNil)
+        ele:RunCallback('PowerUpdate',ele:GetCurrent(),ele:GetMax())
+    end
+end
+-- "public" functions #########################################################
+function ele:GetCurrent()
+    return UnitPower('player',player_power_type,true) / power_mod
+end
+function ele:GetMax()
+    return UnitPowerMax('player',player_power_type)
 end
 -- events ######################################################################
 function ele:PowerInit()
@@ -31,7 +47,7 @@ function ele:PowerInit()
 
     -- TODO checks based on class/spec (e.g. druid, feral affinity)
 
-    power_mod = UnitPowerDisplayMod(power_type)
+    power_mod = UnitPowerDisplayMod(player_power_type) or 1
     power_tag = POWER_TAGS[player_power_type]
 
     self:RegisterEvent('PLAYER_ENTERING_WORLD')
@@ -55,12 +71,6 @@ function ele:UNIT_POWER_FREQUENT(...)
     self:PowerEvent(...)
 end
 -- messages ####################################################################
-function ele:Create()
-end
-function ele:Show()
-end
-function ele:Hide()
-end
 function ele:Initialised()
     -- non-KNP unit event handler
     frame = CreateFrame('Frame')
@@ -76,8 +86,8 @@ function ele:Initialise()
     player_class = select(2,UnitClass('player'))
 
     -- register our callbacks
-    -- self:RegisterCallback('')
-    -- self:RegisterCallback('',true) -- true to restrict to a single callback
+    self:RegisterCallback('PowerUpdate')
+    self:RegisterCallback('RuneUpdate')
 
     -- initialise powers table
     if kui.CLASSIC then
