@@ -179,7 +179,7 @@ do
     local function LoadConfig()
         if IsAddOnLoaded('Kui_Nameplates_Core_Config') then return end
         if InCombatLockdown() then
-            print('|cff9966ffKui Nameplates|r: Delaying configuration load until after combat ends.')
+            addon:ui_print('Delaying configuration load until after combat ends.')
             opt:RegisterEvent('PLAYER_REGEN_ENABLED')
             return
         end
