@@ -25,6 +25,7 @@ elements/absorbbar.lua
 elements/castbar.lua
 elements/highlight.lua
 elements/classpowers.lua
+elements/classpowers2.lua
 elements/classification.lua
 elements/name.lua
 elements/level.lua
