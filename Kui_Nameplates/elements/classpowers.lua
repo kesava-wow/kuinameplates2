@@ -739,6 +739,11 @@ function ele:UNIT_MAXHEALTH()
 end
 -- register ####################################################################
 function ele:OnEnable()
+    if true then
+        self:Disable()
+        return
+    end
+
     if not initialised then return end
     if not cpf then
         self:Disable()
