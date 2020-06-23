@@ -498,7 +498,7 @@ function auras:Initialise()
     local purge_size = self:CreateSlider('auras_purge_size',10,50)
     local side = self:CreateDropDown('auras_side')
     local purge_opposite = self:CreateCheckBox('auras_purge_opposite',true)
-    local offset = self:CreateSlider('auras_offset',-1,30)
+    local offset = self:CreateSlider('auras_offset',-1,60)
     side.SelectTable = {'Top','Bottom'} -- TODO l10n
 
     purge_size.enabled = function(p) return p.auras_show_purge end
