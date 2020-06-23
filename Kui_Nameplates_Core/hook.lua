@@ -122,6 +122,8 @@ function core:GainedTarget(f)
     f:UpdateFrameSize()
     f:UpdateLevelText()
     self:NameOnlyUpdateFunctions(f)
+
+    self:ClassPowersTargetUpdate()
 end
 function core:LostTarget(f)
     f.state.target = nil
@@ -134,6 +136,8 @@ function core:LostTarget(f)
     f:UpdateFrameSize()
     f:UpdateLevelText()
     self:NameOnlyUpdateFunctions(f)
+
+    self:ClassPowersTargetUpdate()
 end
 function core:ClassificationChanged(f)
     f:UpdateStateIcon()
@@ -357,6 +361,7 @@ function core:Initialise()
     plugin_fading = addon:GetPlugin('Fading')
 
     self:InitialiseConfig()
+    self:CreateClassPowerContainer()
 
     -- register messages
     self:RegisterMessage('Create')
@@ -389,6 +394,7 @@ function core:Initialise()
     self:AddCallback('Auras','DisplayAura',self.Auras_DisplayAura)
     self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
     self:AddCallback('ClassPowers','CreateBar',self.ClassPowers_CreateBar)
+    self:AddCallback('ClassPowers2','PowerUpdate',self.ClassPowers2_PowerUpdate)
 
     -- set element configuration tables
     self:InitialiseElements()

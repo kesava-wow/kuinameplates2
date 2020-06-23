@@ -2047,6 +2047,139 @@ function core.ClassPowers_CreateBar()
 
     return bar
 end
+-- class powers 2 ##############################################################
+do
+    local frame,power_current,power_max
+    local CONTAINER_Y = -3
+    local DYNAMIC_WIDTH = true
+    local DYNAMIC_WIDTH_MINIMUM = 6
+    local DYNAMIC_PERCENT = .8
+    local ICON_WIDTH = 10
+    local ICON_HEIGHT = 6
+    local ICON_SPACING = 2
+
+    local function Icon_SetColour(icon,...)
+       icon.fill:SetVertexColor(...)
+    end
+    local function CreateIcon()
+        -- create and return a single icon
+        local icon = frame:CreateTexture(nil,'BACKGROUND',nil,0)
+        icon:SetTexture('interface/buttons/white8x8')
+        icon:SetVertexColor(0,0,0,.9)
+        icon:SetHeight(ICON_HEIGHT)
+
+        icon.fill = frame:CreateTexture(nil,'BACKGROUND',nil,1)
+        icon.fill:SetTexture(BAR_TEXTURE)
+        icon.fill:SetPoint('TOPLEFT',icon,1,-1)
+        icon.fill:SetPoint('BOTTOMRIGHT',icon,-1,1)
+
+        icon.SetColour = Icon_SetColour
+
+        return icon
+    end
+    local function UpdateIcon(index)
+        -- update specific icon at this index
+        local icon = frame.icons[index]
+        if index > power_max then
+            icon:Hide()
+        else
+            icon:Show()
+        end
+        if index <= power_current then
+            icon:SetColour(1,1,.1,1)
+        else
+            icon:SetColour(1,1,.1,.3)
+        end
+    end
+    local function PositionIcons()
+        -- position (and resize) icons
+        local previous
+        for i=1,power_max do
+            local icon = frame.icons[i]
+            icon:SetWidth(ICON_WIDTH)
+            if previous then
+                icon:SetPoint('LEFT',previous,'RIGHT',ICON_SPACING,0)
+            else
+                icon:SetPoint('TOPLEFT')
+            end
+            previous = icon
+        end
+    end
+    local function UpdateContainer()
+        -- show/hide and position container frame
+        if power_max == 0 then
+            frame:Hide()
+            return
+        end
+
+        local target = UnitExists('target') and addon:GetActiveNameplateForUnit('target')
+        if target then
+            frame:SetParent(target)
+            frame:SetFrameLevel(target:GetFrameLevel()+1)
+            frame:ClearAllPoints()
+            frame:Show()
+
+            if DYNAMIC_WIDTH then
+                local total_width = floor(target.HealthBar:GetWidth()*DYNAMIC_PERCENT)
+                ICON_WIDTH = floor(total_width / power_max) - ICON_SPACING
+                ICON_WIDTH = max(ICON_WIDTH,DYNAMIC_WIDTH_MINIMUM)
+                --print('dynamic icon width',ICON_WIDTH)
+            end
+
+            -- calculate width and centre based on ICON_WIDTH
+            local total_width = ceil((ICON_WIDTH*power_max)+(ICON_SPACING*(power_max-1)))
+            local remain = ceil(target.HealthBar:GetWidth()) - total_width
+
+            frame:SetWidth(total_width)
+            frame:SetPoint('BOTTOMLEFT',target.HealthBar,ceil(remain/2),CONTAINER_Y)
+
+            PositionIcons()
+        else
+            frame:Hide()
+        end
+    end
+    local function CreateIcons()
+        for i=1,power_max do
+            if not frame.icons[i] then
+                local icon = CreateIcon()
+                frame.icons[i] = icon
+            end
+        end
+    end
+    local function UpdateIcons()
+        -- update icon visibility / colours
+        --print(power_current,power_max)
+        if #frame.icons < power_max then
+            CreateIcons()
+        end
+        for i=1,#frame.icons do
+            UpdateIcon(i)
+        end
+        PositionIcons()
+    end
+
+    function core.ClassPowers2_PowerUpdate(...)
+        --print('ClassPowers2_PowerUpdate')
+        power_current,power_max=...
+        UpdateIcons()
+    end
+    function core:CreateClassPowerContainer()
+        -- create tied to player frame ...
+        frame = CreateFrame('Frame','KNPClassPowers2')
+        frame:SetSize(2,ICON_HEIGHT)
+        frame:Hide()
+        --frame:SetBackdrop({bgFile='interface/buttons/white8x8'})
+        --frame:SetBackdropColor(1,1,1,.9)
+
+        frame.icons = {}
+        frame.active_icons = 0
+
+        self.ClassPowersFrame = frame
+    end
+    function core:ClassPowersTargetUpdate()
+        UpdateContainer()
+    end
+end
 -- threat brackets #############################################################
 do
     local TB_TEXTURE = MEDIA..'threat-bracket'
