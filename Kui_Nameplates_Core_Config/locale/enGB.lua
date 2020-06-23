@@ -301,7 +301,7 @@ L.tooltips = {
     combat_friendly = 'Action to take on friendly frames upon entering and leaving combat.',
 
     ignore_uiscale = 'Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nYou\'ll also need to disable the nameplate scaling CVars.|n|nThis may be necessary even if you do not have UI scale enabled.',
-    use_blizzard_personal = 'Don\'t skin the personal nameplate or its class powers.',
+    use_blizzard_personal = 'Don\'t skin the personal resource display, which can be enabled in Interface > Names.',
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
     clickthrough_self = 'Disable the click-box of your personal nameplate',
