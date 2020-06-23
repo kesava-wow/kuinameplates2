@@ -823,10 +823,10 @@ function cvars:Initialise()
     sfn.enabled = function(p) return p.cvar_enable end
     -- nameplateShowOnlyNames
     local no = self:CreateCheckBox('cvar_name_only')
-    no.enabled  = sfn.enabled
+    no.enabled = sfn.enabled
     -- nameplate{Min,Max}Scale
     local ds = self:CreateCheckBox('cvar_disable_scale')
-    ds.enabled  = sfn.enabled
+    ds.enabled = sfn.enabled
     -- nameplatePersonalShowAlways
     local psa = self:CreateCheckBox('cvar_personal_show_always')
     psa.enabled = sfn.enabled
@@ -839,15 +839,15 @@ function cvars:Initialise()
     -- nameplateMaxDistance
     local md = self:CreateSlider('cvar_max_distance',5,100)
     md:SetValueStep(5)
-    md.enabled  = sfn.enabled
+    md.enabled = sfn.enabled
     -- nameplate{Other,Large}TopInset
     local ct = self:CreateSlider('cvar_clamp_top',-.1,.5)
     ct:SetValueStep(.01)
-    ct.enabled  = sfn.enabled
+    ct.enabled = sfn.enabled
     -- nameplate{Other,Large}BottomInset
     local cb = self:CreateSlider('cvar_clamp_bottom',-.1,.5)
     cb:SetValueStep(.01)
-    cb.enabled  = sfn.enabled
+    cb.enabled = sfn.enabled
     -- nameplateSelfTopInset
     local self_clamp_top = self:CreateSlider('cvar_self_clamp_top',-.1,.5)
     self_clamp_top:SetValueStep(.01)
@@ -859,7 +859,7 @@ function cvars:Initialise()
     -- nameplateOverlapV
     local ov = self:CreateSlider('cvar_overlap_v',0,5)
     ov:SetValueStep(.1)
-    ov.enabled  = sfn.enabled
+    ov.enabled = sfn.enabled
     -- nameplate{Min,Max,Selected}Alpha
     local disable_alpha = self:CreateCheckBox('cvar_disable_alpha')
     disable_alpha.enabled = sfn.enabled

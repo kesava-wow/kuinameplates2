@@ -287,6 +287,7 @@ local function UpdateClickboxSize()
     end
 
     if addon.USE_BLIZZARD_PERSONAL then
+        -- obey width, use static height
         C_NamePlate.SetNamePlateSelfSize(
             core.profile.frame_width_personal - 10,
             45
