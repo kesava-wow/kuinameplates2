@@ -26,6 +26,7 @@ function general:Initialise()
     local combat_friendly = self:CreateDropDown('combat_friendly')
     local ignore_uiscale = self:CreateCheckBox('ignore_uiscale')
     local use_blizzard_personal = self:CreateCheckBox('use_blizzard_personal')
+    local use_blizzard_powers = self:CreateCheckBox('use_blizzard_powers',true)
     local glow_as_shadow = self:CreateCheckBox('glow_as_shadow')
     local state_icons = self:CreateCheckBox('state_icons')
     local target_glow = self:CreateCheckBox('target_glow')
@@ -39,6 +40,7 @@ function general:Initialise()
     target_glow_colour.enabled = function(p) return p.target_glow or p.target_arrows end
     mouseover_glow_colour.enabled = function(p) return p.mouseover_glow end
     target_arrows_size.enabled = function(p) return p.target_arrows end
+    use_blizzard_powers.enabled = function(p) return not p.use_blizzard_personal end
 
     combat_hostile.SelectTable = {
         L.titles.dd_combat_toggle_nothing,
@@ -52,6 +54,7 @@ function general:Initialise()
 
     ignore_uiscale:SetPoint('TOPLEFT',10,-55)
     use_blizzard_personal:SetPoint('LEFT',ignore_uiscale,'RIGHT',190,0)
+    use_blizzard_powers:SetPoint('TOPLEFT',use_blizzard_personal,'BOTTOMLEFT',10,0)
 
     state_icons:SetPoint('TOPLEFT',ignore_uiscale,'BOTTOMLEFT',0,-10)
     target_glow:SetPoint('TOPLEFT',state_icons,'BOTTOMLEFT')

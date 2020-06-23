@@ -46,6 +46,7 @@ local default_config = {
     target_arrows_inset = 0, -- NEX
     target_arrows_texture = 'interface/addons/kui_nameplates_core/media/target-arrow', -- NEX
     use_blizzard_personal = false,
+    use_blizzard_powers = false,
     frame_vertical_offset = 0,
     show_arena_id = true, -- NEX
 
@@ -662,10 +663,6 @@ function configChanged.ignore_uiscale(v)
     QueueClickboxUpdate()
 end
 
-function configChanged.use_blizzard_personal(v)
-    addon.USE_BLIZZARD_PERSONAL = v
-end
-
 local function ClickthroughUpdate()
     C_NamePlate.SetNamePlateSelfClickThrough(core.profile.clickthrough_self)
     C_NamePlate.SetNamePlateFriendlyClickThrough(core.profile.clickthrough_friend)
@@ -849,7 +846,12 @@ function configLoaded.ignore_uiscale(v)
     addon:UI_SCALE_CHANGED()
 end
 
-configLoaded.use_blizzard_personal = configChanged.use_blizzard_personal
+function configLoaded.use_blizzard_personal(v)
+    addon.USE_BLIZZARD_PERSONAL = v
+end
+function configLoaded.use_blizzard_powers(v)
+    addon.USE_BLIZZARD_POWERS = v
+end
 
 configLoaded.bossmod_enable = configChanged.bossmod_enable
 

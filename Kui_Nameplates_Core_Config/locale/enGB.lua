@@ -63,6 +63,7 @@ L.titles = {
 
     ignore_uiscale = 'Pixel correction',
     use_blizzard_personal = 'Ignore personal nameplate',
+    use_blizzard_powers = 'Show default class powers',
 
     clickthrough_sep = 'Clickthrough frames',
     clickthrough_self = 'Personal',
