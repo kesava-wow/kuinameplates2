@@ -39,6 +39,7 @@ addon.DEBUG_IGNORE = {
 addon.IGNORE_UISCALE = nil
 -- should be set in layout initialise, if desired:
 addon.USE_BLIZZARD_PERSONAL = nil
+addon.USE_BLIZZARD_POWERS = nil
 
 local framelist = {}
 
@@ -188,26 +189,29 @@ local function OnEvent(self,event,...)
 
     -- disable the default class resource bars
     --luacheck:globals NamePlateDriverFrame
-    if NamePlateDriverFrame and not self.USE_BLIZZARD_PERSONAL and not kui.CLASSIC then
-        --luacheck:globals DeathKnightResourceOverlayFrame
-        DeathKnightResourceOverlayFrame:UnregisterAllEvents()
-        --luacheck:globals ClassNameplateBarMageFrame
-        ClassNameplateBarMageFrame:UnregisterAllEvents()
-        --luacheck:globals ClassNameplateBarWindwalkerMonkFrame
-        ClassNameplateBarWindwalkerMonkFrame:UnregisterAllEvents()
-        --luacheck:globals ClassNameplateBarPaladinFrame
-        ClassNameplateBarPaladinFrame:UnregisterAllEvents()
-        --luacheck:globals ClassNameplateBarRogueDruidFrame
-        ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
-        --luacheck:globals ClassNameplateBarWarlockFrame
-        ClassNameplateBarWarlockFrame:UnregisterAllEvents()
-        --luacheck:globals ClassNameplateManaBarFrame
-        ClassNameplateManaBarFrame:UnregisterAllEvents()
-        --luacheck:globals ClassNameplateBrewmasterBarFrame
-        ClassNameplateBrewmasterBarFrame:UnregisterAllEvents()
-
-        NamePlateDriverFrame:SetClassNameplateManaBar(nil)
-        NamePlateDriverFrame:SetClassNameplateBar(nil)
+    if NamePlateDriverFrame and not kui.CLASSIC then
+        if not self.USE_BLIZZARD_PERSONAL then
+            NamePlateDriverFrame:SetClassNameplateManaBar(nil)
+            NamePlateDriverFrame:SetClassNameplateBar(nil)
+            --luacheck:globals ClassNameplateManaBarFrame
+            ClassNameplateManaBarFrame:UnregisterAllEvents()
+        end
+        if not self.USE_BLIZZARD_PERSONAL and not self.USE_BLIZZARD_POWERS then
+            --luacheck:globals DeathKnightResourceOverlayFrame
+            DeathKnightResourceOverlayFrame:UnregisterAllEvents()
+            --luacheck:globals ClassNameplateBarMageFrame
+            ClassNameplateBarMageFrame:UnregisterAllEvents()
+            --luacheck:globals ClassNameplateBarWindwalkerMonkFrame
+            ClassNameplateBarWindwalkerMonkFrame:UnregisterAllEvents()
+            --luacheck:globals ClassNameplateBarPaladinFrame
+            ClassNameplateBarPaladinFrame:UnregisterAllEvents()
+            --luacheck:globals ClassNameplateBarRogueDruidFrame
+            ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
+            --luacheck:globals ClassNameplateBarWarlockFrame
+            ClassNameplateBarWarlockFrame:UnregisterAllEvents()
+            --luacheck:globals ClassNameplateBrewmasterBarFrame
+            ClassNameplateBrewmasterBarFrame:UnregisterAllEvents()
+        end
     end
 end
 ------------------------------------------- initialise addon scripts & events --
