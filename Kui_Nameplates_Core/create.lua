@@ -665,17 +665,15 @@ do
             return
         else
             -- NPCs; reaction colour
-            if not f.state.attackable and f.state.reaction >= 4 then
+            if f.state.reaction > 4 then
                 -- friendly
                 f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_FRIENDLY))
+            elseif f.state.reaction == 4 then
+                -- neutral, attackable
+                f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_NEUTRAL))
             else
-                if f.state.reaction == 4 then
-                    -- neutral, attackable
-                    f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_NEUTRAL))
-                else
-                    -- hostile
-                    f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_HOSTILE))
-                end
+                -- hostile
+                f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_HOSTILE))
             end
         end
 
