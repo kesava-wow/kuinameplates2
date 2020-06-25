@@ -669,7 +669,7 @@ do
                 -- friendly
                 f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_FRIENDLY))
             elseif f.state.reaction == 4 then
-                -- neutral, attackable
+                -- neutral
                 f.NameText:SetTextColor(unpack(NAME_COLOUR_NPC_NEUTRAL))
             else
                 -- hostile
