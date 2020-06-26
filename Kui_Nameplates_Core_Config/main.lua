@@ -40,6 +40,7 @@ end
 local commands = {
     'help',
     'config',
+    'get',
     'set',
     'find',
     'dump',
@@ -72,6 +73,13 @@ local command_doc = {
             C(2),C_command('profile','mine'),'mine'),
         format('%sExample|r  %s  Switch to profile %s, creating it if it does not exist',
             C(2),C_command('profile','! new'),'new'),
+    },
+    ['get'] = {
+        'Show current value of configuration key',
+        format('%sUsage|r  %s',
+            C(2),C_command('get','key')),
+        format('Use  %s  to search available configuration keys',
+            C_command('find')),
     },
     ['set'] = {
         'Set configuration key to value',
@@ -286,6 +294,21 @@ function command_func.profile(allow_create,...)
     else
         knp:ui_print(format('No profile with name `%s`',profile_name))
     end
+end
+function command_func.get(key)
+    if not key then return false end
+    local v = core.profile[key]
+    local out
+    if type(v) == 'table' then
+        out = kui.table_to_string(v)
+    elseif type(v) == 'number' then
+        out = tonumber(string.format('%.3f',v))
+    elseif type(v) == 'string' or tostring(v) then
+        out = tostring(v)
+    else
+        out = '('..type(v)..')'
+    end
+    knp:ui_print(key..' = '..out)
 end
 function command_func.set(key,value)
     if not key then return false end
