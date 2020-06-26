@@ -1,6 +1,8 @@
 BETA
 
-* add option use_blizzard_powers
+* add option use_blizzard_powers (implied by use_blizzard_personal)
+* use neutral text colour on friendly neutral NPCs in name-only mode
+* use default colour picker in config (such that you can install another addon like ColorPickerPlus to get better accuracy, copy/paste, etc.)
 * increase auras_offset soft-max (so you can match the default interface)
 
 * add option target_arrows_texture (not exposed in ui)
