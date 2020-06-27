@@ -395,6 +395,7 @@ function core:Initialise()
     self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
     self:AddCallback('ClassPowers','CreateBar',self.ClassPowers_CreateBar)
     self:AddCallback('ClassPowers2','PowerUpdate',self.ClassPowers2_PowerUpdate)
+    self:AddCallback('ClassPowers2','RuneUpdate',self.ClassPowers2_RuneUpdate)
 
     -- set element configuration tables
     self:InitialiseElements()

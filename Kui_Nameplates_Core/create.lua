@@ -2049,7 +2049,7 @@ function core.ClassPowers_CreateBar()
 end
 -- class powers 2 ##############################################################
 do
-    local frame,power_current,power_max
+    local frame,power_current,power_max,power_mod
     local CONTAINER_Y = -3
     local DYNAMIC_WIDTH = true
     local DYNAMIC_WIDTH_MINIMUM = 6
@@ -2061,6 +2061,14 @@ do
     local function Icon_SetColour(icon,...)
        icon.fill:SetVertexColor(...)
     end
+    local function Icon_SetValue(icon,v)
+        if v == 0 then
+            icon.fill:Hide()
+        else
+            icon.fill:Show()
+            icon.fill:SetWidth((icon:GetWidth()-2)*v)
+        end
+    end
     local function CreateIcon()
         -- create and return a single icon
         local icon = frame:CreateTexture(nil,'BACKGROUND',nil,0)
@@ -2071,9 +2079,11 @@ do
         icon.fill = frame:CreateTexture(nil,'BACKGROUND',nil,1)
         icon.fill:SetTexture(BAR_TEXTURE)
         icon.fill:SetPoint('TOPLEFT',icon,1,-1)
-        icon.fill:SetPoint('BOTTOMRIGHT',icon,-1,1)
+        icon.fill:SetPoint('BOTTOMLEFT',icon,1,1)
 
         icon.SetColour = Icon_SetColour
+        icon.SetValue = Icon_SetValue
+        icon:SetValue(1)
 
         return icon
     end
@@ -2083,12 +2093,20 @@ do
         if index > power_max then
             icon:Hide()
         else
-            icon:Show()
+            icon:SetValue(1)
         end
-        if index <= power_current then
+        if index <= power_current/power_mod then
             icon:SetColour(1,1,.1,1)
         else
             icon:SetColour(1,1,.1,.3)
+            if power_mod > 1 then
+                -- graduate fill
+                if index == ceil(power_current/power_mod) then
+                    icon:SetValue((power_current%power_mod)/power_mod)
+                else
+                    icon:SetValue(0)
+                end
+            end
         end
     end
     local function PositionIcons()
@@ -2160,7 +2178,18 @@ do
 
     function core.ClassPowers2_PowerUpdate(...)
         --print('ClassPowers2_PowerUpdate')
-        power_current,power_max=...
+        power_current,power_max,power_mod=...
+        UpdateIcons()
+    end
+    function core.ClassPowers2_RuneUpdate(...)
+        local c=0
+        for i=1,6 do
+            local _,_,charged=GetRuneCooldown(i)
+            if charged then
+                c=c+1
+            end
+        end
+        power_current,power_max=c,6
         UpdateIcons()
     end
     function core:CreateClassPowerContainer()

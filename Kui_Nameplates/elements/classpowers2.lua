@@ -7,7 +7,7 @@ local kui = LibStub('Kui-1.0')
 if not ele then return end
 
 local FRAMELOCK,POWERS,POWERS_CLASS,POWER_TAGS
-local frame,player_class,player_spec,player_power_type,power_mod,power_tag
+local frame,player_class,player_spec,player_power_type,power_tag
 
 -- scripts #####################################################################
 local function FrameLockNil(self)
@@ -22,48 +22,72 @@ local function GetPowerType(spec)
         return POWERS_CLASS
     end
 end
-local function PowerUpdate()
-    -- fire power update callback
+local function UpdateWrapper(...)
     if not FRAMELOCK then
         FRAMELOCK=true
         frame:SetScript('OnUpdate',FrameLockNil)
-        ele:RunCallback('PowerUpdate',ele:GetCurrent(),ele:GetMax())
+        ele:RunCallback(...)
     end
+end
+local function PowerUpdate()
+    -- fire power update callback
+    UpdateWrapper('PowerUpdate',ele:GetCurrent(),ele:GetMax(),ele:GetDisplayMod())
+end
+local function RuneUpdate()
+    -- fire rune update callback
+    UpdateWrapper('RuneUpdate')
 end
 -- "public" functions #########################################################
 function ele:GetCurrent()
-    return UnitPower('player',player_power_type,true) / power_mod
+    return UnitPower('player',player_power_type,true)
 end
 function ele:GetMax()
     return UnitPowerMax('player',player_power_type)
 end
+function ele:GetDisplayMod()
+    return UnitPowerDisplayMod(player_power_type) or 1
+end
 -- events ######################################################################
 function ele:PowerInit()
     self:UnregisterEvent('PLAYER_ENTERING_WORLD')
+    self:UnregisterEvent('RUNE_POWER_UPDATE')
     frame:UnregisterAllEvents()
 
     player_power_type = GetPowerType(GetSpecialization())
     if not player_power_type then return end
 
-    -- TODO checks based on class/spec (e.g. druid, feral affinity)
+    if player_class == 'DEATHKNIGHT' then
+        -- uses RUNE_POWER_UPDATE instead of UNIT_POWER_*
+        self:RegisterEvent('RUNE_POWER_UPDATE','RuneEvent')
+        -- XXX with display moving to layout, we only need to provide
+        -- cooldown data, so RuneDaemon doesn't need to be ported here.
+    else
+        -- generic class powers
+        power_tag = POWER_TAGS[player_power_type]
 
-    power_mod = UnitPowerDisplayMod(player_power_type) or 1
-    power_tag = POWER_TAGS[player_power_type]
+        -- we use a non-KNP unit event for these for efficiency
+        frame:RegisterUnitEvent('UNIT_MAXPOWER','player')
+        frame:RegisterUnitEvent('UNIT_POWER_FREQUENT','player')
+    end
 
     self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-    -- we use a non-KNP unit event for these for efficiency
-    frame:RegisterUnitEvent('UNIT_MAXPOWER','player')
-    frame:RegisterUnitEvent('UNIT_POWER_FREQUENT','player')
 end
 function ele:PLAYER_ENTERING_WORLD()
-    PowerUpdate()
+    if player_class == 'DEATHKNIGHT' then
+        RuneUpdate()
+    else
+        PowerUpdate()
+    end
 end
 function ele:PowerEvent(event,_,tag)
     if tag == power_tag then
         PowerUpdate()
     end
 end
+function ele:RuneEvent()
+    RuneUpdate()
+end
+-- frame event wrappers #######################################################
 function ele:UNIT_MAXPOWER(...)
     self:PowerEvent(...)
 end
