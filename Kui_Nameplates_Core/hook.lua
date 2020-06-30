@@ -122,8 +122,6 @@ function core:GainedTarget(f)
     f:UpdateFrameSize()
     f:UpdateLevelText()
     self:NameOnlyUpdateFunctions(f)
-
-    self:ClassPowersTargetUpdate()
 end
 function core:LostTarget(f)
     f.state.target = nil
@@ -136,8 +134,6 @@ function core:LostTarget(f)
     f:UpdateFrameSize()
     f:UpdateLevelText()
     self:NameOnlyUpdateFunctions(f)
-
-    self:ClassPowersTargetUpdate()
 end
 function core:ClassificationChanged(f)
     f:UpdateStateIcon()

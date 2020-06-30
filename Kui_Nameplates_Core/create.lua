@@ -2398,6 +2398,9 @@ do
             -- force-update classpowers position (to run our post)
             plugin_classpowers:TargetUpdate()
         end
+
+        -- XXX if classpowers2 is enabled...
+        self:ClassPowersTargetUpdate()
     end
 
     local function NameOnlyEnable(f)
