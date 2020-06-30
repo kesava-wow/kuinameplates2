@@ -2051,10 +2051,11 @@ end
 do
     local frame,power_current,power_max,power_mod
     local CONTAINER_Y = -3
-    local DYNAMIC_WIDTH = true
+    local CONTAINER_Y_NAMEONLY = 19
+    local DYNAMIC_WIDTH = false
     local DYNAMIC_WIDTH_MINIMUM = 6
     local DYNAMIC_PERCENT = .8
-    local ICON_WIDTH = 10
+    local ICON_WIDTH = 6
     local ICON_HEIGHT = 6
     local ICON_SPACING = 2
 
@@ -2083,7 +2084,6 @@ do
 
         icon.SetColour = Icon_SetColour
         icon.SetValue = Icon_SetValue
-        icon:SetValue(1)
 
         return icon
     end
@@ -2123,6 +2123,24 @@ do
             previous = icon
         end
     end
+    local function CreateIcons()
+        for i=1,power_max do
+            if not frame.icons[i] then
+                local icon = CreateIcon()
+                frame.icons[i] = icon
+            end
+        end
+    end
+    local function UpdateIcons()
+        -- update icon visibility / colours
+        if #frame.icons < power_max then
+            CreateIcons()
+        end
+        for i=1,#frame.icons do
+            UpdateIcon(i)
+        end
+        PositionIcons()
+    end
     local function UpdateContainer()
         -- show/hide and position container frame
         if power_max == 0 then
@@ -2146,34 +2164,21 @@ do
 
             -- calculate width and centre based on ICON_WIDTH
             local total_width = ceil((ICON_WIDTH*power_max)+(ICON_SPACING*(power_max-1)))
-            local remain = ceil(target.HealthBar:GetWidth()) - total_width
-
             frame:SetWidth(total_width)
-            frame:SetPoint('BOTTOMLEFT',target.HealthBar,ceil(remain/2),CONTAINER_Y)
+
+            if target.IN_NAMEONLY then
+                local remain = ceil(target:GetWidth()) - total_width
+                frame:SetPoint('BOTTOMLEFT',target,ceil(remain/2),CONTAINER_Y_NAMEONLY)
+            else
+                local remain = ceil(target.HealthBar:GetWidth()) - total_width
+                frame:SetPoint('BOTTOMLEFT',target.HealthBar,ceil(remain/2),CONTAINER_Y)
+            end
 
             PositionIcons()
+            UpdateIcons()
         else
             frame:Hide()
         end
-    end
-    local function CreateIcons()
-        for i=1,power_max do
-            if not frame.icons[i] then
-                local icon = CreateIcon()
-                frame.icons[i] = icon
-            end
-        end
-    end
-    local function UpdateIcons()
-        -- update icon visibility / colours
-        --print(power_current,power_max)
-        if #frame.icons < power_max then
-            CreateIcons()
-        end
-        for i=1,#frame.icons do
-            UpdateIcon(i)
-        end
-        PositionIcons()
     end
 
     function core.ClassPowers2_PowerUpdate(...)
