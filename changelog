@@ -1,5 +1,9 @@
 BETA
 
+* add get command
+* change some titles and tooltips
+* move fade_avoid_casting_hostile
+
 * add option use_blizzard_powers (implied by use_blizzard_personal)
 * use neutral text colour on friendly neutral NPCs in name-only mode
 * use default colour picker in config (such that you can install another addon like ColorPickerPlus to get better accuracy, copy/paste, etc.)
