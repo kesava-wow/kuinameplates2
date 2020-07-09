@@ -132,8 +132,8 @@ function fade_rules:Initialise()
     avoid_c:SetPoint('LEFT',avoid_t,'RIGHT',190,0)
 
     avoid_cf:SetPoint('TOPLEFT',avoid_t,'BOTTOMLEFT',0,-10)
-    avoid_ch:SetPoint('LEFT',avoid_cf,'RIGHT',190,0)
-    avoid_ci:SetPoint('TOPLEFT',avoid_cf,'BOTTOMLEFT',10,0)
+    avoid_ch:SetPoint('TOPLEFT',avoid_cf,'BOTTOMLEFT')
+    avoid_ci:SetPoint('TOPLEFT',avoid_ch,'BOTTOMLEFT',10,0)
     avoid_cu:SetPoint('TOPLEFT',avoid_ci,'BOTTOMLEFT')
 end
 -- healthbars ##################################################################
