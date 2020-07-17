@@ -8,15 +8,6 @@
 local addon = KuiNameplates
 --------------------------------------------------------------------------------
 -------------------------------------------------------- Core script handlers --
-local function UnitFrame_OnShow(self)
-    -- hide blizzard nameplate frames
-    if not addon.USE_BLIZZARD_PERSONAL or
-       not self.unit or
-       not UnitIsUnit(self.unit,'player')
-    then
-        self:Hide()
-    end
-end
 local function FrameOnHide(self)
     self.kui.handler:OnHide()
 end
@@ -43,10 +34,6 @@ function addon:HookNameplate(parent)
         parent:SetBackdropColor(0,0,0)
         kui:SetBackdrop({edgeFile='interface/buttons/white8x8',edgeSize=1})
         kui:SetBackdropBorderColor(1,1,1)
-    end
-
-    if parent.UnitFrame then
-        parent.UnitFrame:HookScript('OnShow',UnitFrame_OnShow)
     end
 
     parent:HookScript('OnHide',FrameOnHide)
