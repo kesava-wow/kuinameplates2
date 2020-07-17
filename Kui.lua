@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 42
+local MAJOR, MINOR = 'Kui-1.0', 44
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -188,7 +188,6 @@ kui.print = function(...)
     end
     print(GetTime()..': '..(msg or 'nil'))
 end
--- unit helpers ################################################################
 kui.GetClassColour = function(class, str)
     if not class then
         class = select(2, UnitClass('player'))
@@ -208,9 +207,24 @@ kui.GetClassColour = function(class, str)
     elseif str then
         return string.format("%02x%02x%02x", class.r*255, class.g*255, class.b*255)
     else
+        -- XXX this is a direct reference
         return class
     end
 end
+kui.SetTextureToClass = function(texture,class,with_border,ymod)
+    local coords = CLASS_ICON_TCOORDS[class]
+    if not with_border then
+        coords={
+            coords[1]+.02,
+            coords[2]-.02,
+            coords[3]+.02+(ymod or 0),
+            coords[4]-.02-(ymod or 0)
+        }
+    end
+    texture:SetTexture('interface/glues/charactercreate/ui-charactercreate-classes')
+    texture:SetTexCoord(unpack(coords))
+end
+-- unit helpers ################################################################
 kui.UnitIsPet = function(unit)
     return (not UnitIsPlayer(unit) and UnitPlayerControlled(unit))
 end
@@ -226,6 +240,7 @@ kui.GetUnitColour = function(unit, str)
         r,g,b = .5,.5,.5
     else
         if UnitIsPlayer(unit) or kui.UnitIsPet(unit) then
+            -- XXX this inherits the direct reference (if str==nil)
             return kui.GetClassColour(unit, str)
         else
             r, g, b = UnitSelectionColor(unit)
