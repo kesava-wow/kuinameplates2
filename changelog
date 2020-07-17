@@ -1,5 +1,9 @@
 BETA
 
+* update KuiLib
+* (classic) update libClassicDurations
+* (classic) remove libThreatClassic2
+
 * add get command
 * change some titles and tooltips
 * move fade_avoid_casting_hostile
