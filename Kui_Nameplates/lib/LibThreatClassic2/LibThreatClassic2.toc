@@ -1,8 +1,0 @@
-## Interface: 11303
-## Title: LibThreatClassic2
-## Author: Dennis-Florian Herr (dfherr)
-## Notes: Library for multi-target threat tracking in WoW Classic.
-## OptionalDeps: Ace3, CallbackHandler-1.0
-## X-Category: Library
-
-lib.xml

@@ -25,9 +25,6 @@ git-partial libclassiccasterino Kui_Nameplates/lib/LibClassicCasterino
 github-kesava:rgd87/LibClassicCasterino.git
 LibClassicCasterino.lua
 
-git-subtree libthreatclassic2 Kui_Nameplates/lib/LibThreatClassic2
-github-kesava:dfherr/LibThreatClassic2.git
-
 svn libstub Kui_Nameplates/lib/LibStub.lua
 https://repos.wowace.com/wow/libstub/trunk/LibStub.lua
 
