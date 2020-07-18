@@ -13,7 +13,7 @@ addon.MAJOR,addon.MINOR = 2,5
 --@debug@
 addon.debug = true
 --addon.debug_config = true
-addon.debug_units = true
+--addon.debug_units = true
 --addon.debug_messages = true
 --addon.debug_events = true
 --addon.debug_callbacks = true
@@ -92,7 +92,7 @@ end
 function addon:NAME_PLATE_UNIT_ADDED(unit)
     local f = C_NamePlate.GetNamePlateForUnit(unit)
     if not f or not f.kui then return end
-
+    
     if addon.debug_units then
         self:print('unit |cff88ff88added|r: '..unit..' ('..UnitName(unit)..')')
     end
@@ -104,7 +104,10 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
         return
     end
 
-    f.UnitFrame:Hide()
+    if f.UnitFrame then
+        f.UnitFrame:Hide()
+    end
+
     f.kui.handler:OnUnitAdded(unit)
 end
 function addon:NAME_PLATE_UNIT_REMOVED(unit)

@@ -36,8 +36,9 @@ function addon:HookNameplate(parent)
         kui:SetBackdropBorderColor(1,1,1)
     end
 
+    -- XXX 901, .UnitFrame doesn't stay hidden when interface options is
+    -- opened, and some other cases. Old OnShow script doesn't stick.
     parent:HookScript('OnHide',FrameOnHide)
-    -- API event NAME_PLATE_UNIT_ADDED shows frames via OnUnitAdded
 
     parent.kui = kui
     kui.handler:Create()
