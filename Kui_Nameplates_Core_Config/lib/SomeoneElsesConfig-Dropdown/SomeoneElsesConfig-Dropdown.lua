@@ -6,11 +6,12 @@
     This is a modified version of PhanxConfig-Dropdown.
     The vast majority of credit for it goes to Phanx.
 
+    * fix for 9.0
     * "fix" for 8.3
     * fix dropdown list width to width of dropdown button
     * add dropdown.list_width
 ----------------------------------------------------------------------]]
-local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 6)
+local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 7)
 if not lib then return end
 
 lib.listFrames = lib.listFrames or {}
@@ -234,7 +235,7 @@ function CreateList(dropdown) -- local
 
     id = id + 1
 
-    local list = CreateFrame("Button", "SomeoneElsesConfigDropdown" .. id, dropdown)
+    local list = CreateFrame("Button", "SomeoneElsesConfigDropdown" .. id, dropdown, BackdropTemplateMixin and "BackdropTemplate" or nil)
     list:SetFrameStrata("DIALOG")
     list:SetToplevel(true)
     list:Hide()
