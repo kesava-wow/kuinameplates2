@@ -97,15 +97,17 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
         self:print('unit |cff88ff88added|r: '..unit..' ('..UnitName(unit)..')')
     end
 
-    if (f.UnitFrame and f.UnitFrame.WidgetContainer and f.UnitFrame.WidgetContainer:IsShown()) or
-       (self.USE_BLIZZARD_PERSONAL and UnitIsUnit(unit,'player'))
-    then
+    if self.USE_BLIZZARD_PERSONAL and UnitIsUnit(unit,'player') then
         -- don't process anything for the personal nameplate if disabled
         return
     end
 
     if f.UnitFrame then
         f.UnitFrame:Hide()
+
+        if f.UnitFrame.WidgetContainer then
+            f.UnitFrame.WidgetContainer:SetParent(f)
+        end
     end
 
     f.kui.handler:OnUnitAdded(unit)
