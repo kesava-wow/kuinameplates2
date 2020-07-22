@@ -92,16 +92,21 @@ end
 function addon:NAME_PLATE_UNIT_ADDED(unit)
     local f = C_NamePlate.GetNamePlateForUnit(unit)
     if not f or not f.kui then return end
-    f = f.kui
 
     if addon.debug_units then
         self:print('unit |cff88ff88added|r: '..unit..' ('..UnitName(unit)..')')
     end
 
-    if not self.USE_BLIZZARD_PERSONAL or not UnitIsUnit(unit,'player') then
-        -- don't process anything for the personal nameplate if disabled
-        f.handler:OnUnitAdded(unit)
+    if self.USE_BLIZZARD_PERSONAL and UnitIsUnit(unit,'player') then
+    -- don't process anything for the personal nameplate if disabled
+       return
     end
+
+    if f.UnitFrame then
+        f.UnitFrame:Hide()
+    end
+
+    f.kui.handler:OnUnitAdded(unit)
 end
 function addon:NAME_PLATE_UNIT_REMOVED(unit)
     local f = self:GetActiveNameplateForUnit(unit)

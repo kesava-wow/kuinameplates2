@@ -10,10 +10,7 @@ local addon = KuiNameplates
 -------------------------------------------------------- Core script handlers --
 local function UnitFrame_OnShow(self)
     -- hide blizzard nameplate frames
-    if not addon.USE_BLIZZARD_PERSONAL or
-       not self.unit or
-       not UnitIsUnit(self.unit,'player')
-    then
+    if self:GetParent().kui and self:GetParent().kui:IsShown() then
         self:Hide()
     end
 end
