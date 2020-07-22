@@ -47,6 +47,10 @@ function addon:HookNameplate(parent)
 
     if parent.UnitFrame then
         parent.UnitFrame:HookScript('OnShow',UnitFrame_OnShow)
+
+        if parent.UnitFrame.WidgetContainer then
+            parent.UnitFrame.WidgetContainer:SetParent(parent)
+        end
     end
 
     parent:HookScript('OnHide',FrameOnHide)
