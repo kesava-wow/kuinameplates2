@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 44
+local MAJOR, MINOR = 'Kui-1.0', 45
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -6,8 +6,13 @@ if not kui then
     return
 end
 
+--luacheck:globals WOW_PROJECT_ID WOW_PROJECT_CLASSIC
 local CLASSIC = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 kui.CLASSIC = CLASSIC
+
+-- XXX 8X -> 90 compatibility helper
+local SHADOWLANDS = select(4,GetBuildInfo()) >= 90000
+kui.UNIT_HEALTH = SHADOWLANDS and 'UNIT_HEALTH' or 'UNIT_HEALTH_FREQUENT'
 
 -- media # XXX LEGACY #########################################################
 local media = "Interface\\AddOns\\Kui_Media\\"
@@ -212,6 +217,7 @@ kui.GetClassColour = function(class, str)
     end
 end
 kui.SetTextureToClass = function(texture,class,with_border,ymod)
+    --luacheck:globals CLASS_ICON_TCOORDS
     local coords = CLASS_ICON_TCOORDS[class]
     if not with_border then
         coords={
