@@ -314,7 +314,7 @@ do
         label:SetText(GetLocaleString(common_name,name,'Slider'))
         label:SetPoint('BOTTOM',slider,'TOP')
 
-        local display = CreateFrame('EditBox',nil,slider)
+        local display = CreateFrame('EditBox',nil,slider,BackdropTemplateMixin and "BackdropTemplate" or nil)
         display:SetFontObject('GameFontHighlightSmall')
         display:SetSize(50,15)
         display:SetPoint('TOP',slider,'BOTTOM',0,1)
@@ -413,7 +413,7 @@ do
         container.env = name
         container.common_name = common_name
 
-        local block = CreateFrame('Frame',nil,container)
+        local block = CreateFrame('Frame',nil,container,BackdropTemplateMixin and "BackdropTemplate" or nil)
         block:SetBackdrop({
             bgFile='interface/buttons/white8x8',
             edgeFile='interface/buttons/white8x8',
@@ -745,7 +745,7 @@ do
 
     -- create popup ############################################################
     function CreatePopup()
-        local popup = CreateFrame('Frame',nil,opt)
+        local popup = CreateFrame('Frame',nil,opt,BackdropTemplateMixin and "BackdropTemplate" or nil)
         popup:SetBackdrop({
             bgFile='interface/buttons/white8x8',
             edgeFile='interface/dialogframe/ui-dialogbox-border',
@@ -911,7 +911,7 @@ do
 end
 -- init category display #######################################################
 local function CreateBackground(invisible)
-    local new = CreateFrame('Frame',nil,opt)
+    local new = CreateFrame('Frame',nil,opt,BackdropTemplateMixin and "BackdropTemplate" or nil)
     if not invisible then
         new:SetBackdrop({
             bgFile = 'interface/buttons/white8x8',
@@ -1031,10 +1031,13 @@ function opt:Initialise()
         local scrollframe = CreateFrame('ScrollFrame',frame_name..'PageScrollFrame',p_bg,'UIPanelScrollFrameTemplate')
         scrollframe:SetPoint('TOPLEFT',p_bg,4,-4)
         scrollframe:SetPoint('BOTTOMRIGHT',p_bg,-26,4)
-
         scrollframe.ScrollBar.scrollStep = 50
-        scrollframe.ScrollBar:SetBackdrop({bgFile='interface/buttons/white8x8'})
-        scrollframe.ScrollBar:SetBackdropColor(0,0,0,.2)
+
+        local bg = scrollframe:CreateTexture(nil,'ARTWORK')
+        bg:SetTexture('interface/buttons/white8x8')
+        bg:SetVertexColor(0,0,0,.2)
+        bg:SetAllPoints(scrollframe.ScrollBar)
+        scrollframe.ScrollBar.bg = bg
 
         self.ScrollFrame = scrollframe
     end
