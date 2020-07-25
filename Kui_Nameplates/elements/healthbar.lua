@@ -111,7 +111,7 @@ end
 function ele:OnEnable()
     self:RegisterMessage('Show')
     self:RegisterMessage('FactionUpdate')
-    self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
+    self:RegisterUnitEvent(kui.UNIT_HEALTH,'UNIT_HEALTH')
 end
 function ele:Initialise()
     if kui.CLASSIC and RealMobHealth and RealMobHealth.GetUnitHealth then

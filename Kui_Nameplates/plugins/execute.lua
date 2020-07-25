@@ -171,7 +171,7 @@ function mod:OnEnable()
         EquipScanQueue:SetScript('OnUpdate',EquipScanQueue_Update)
     end
 
-    self:RegisterUnitEvent('UNIT_HEALTH_FREQUENT','UNIT_HEALTH')
+    self:RegisterUnitEvent(kui.UNIT_HEALTH,'UNIT_HEALTH')
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('Show','HealthColourChange')
 

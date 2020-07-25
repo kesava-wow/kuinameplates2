@@ -27,6 +27,7 @@ addon.DEBUG_IGNORE = {
     ['m:HealthColourChange'] = true,
     ['e:UNIT_POWER_UPDATE'] = true,
     ['e:UNIT_POWER_FREQUENT'] = true,
+    ['e:UNIT_HEALTH'] = true,
     ['e:UNIT_HEALTH_FREQUENT'] = true,
     ['e:UNIT_AURA'] = true,
     ['e:UNIT_ABSORB_AMOUNT_CHANGED'] = true,
