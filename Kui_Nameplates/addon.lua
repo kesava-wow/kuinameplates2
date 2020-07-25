@@ -98,12 +98,17 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
     end
 
     if self.USE_BLIZZARD_PERSONAL and UnitIsUnit(unit,'player') then
-    -- don't process anything for the personal nameplate if disabled
-       return
+        -- don't process anything for the personal nameplate if disabled
+        return
     end
 
     if f.UnitFrame then
         f.UnitFrame:Hide()
+
+        if f.UnitFrame.WidgetContainer then
+            -- reparent widget container (xp bars, that thing in bastion...)
+            f.UnitFrame.WidgetContainer:SetParent(f)
+        end
     end
 
     f.kui.handler:OnUnitAdded(unit)
