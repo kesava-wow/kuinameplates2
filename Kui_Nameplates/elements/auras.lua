@@ -601,7 +601,7 @@ local function AuraFrame_SetIconSize(self,size)
 
     self.size = size
     self.icon_height = floor(size * self.squareness)
-    self.icon_ratio = (1 - (self.icon_height / size)) / 2
+    self.icon_ratio = (1 - (self.icon_height / size)) / 2.5
 
     -- update existing buttons
     for _,button in ipairs(self.buttons) do
