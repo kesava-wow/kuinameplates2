@@ -1505,7 +1505,7 @@ do
         CASTBAR_DETACH_OFFSET = Scale(self.profile.castbar_detach_offset)
         CASTBAR_DETACH_COMBINE = CASTBAR_DETACH and self.profile.castbar_detach_combine
         CASTBAR_DETACH_NAMEONLY = self.profile.castbar_detach_nameonly
-        CASTBAR_RATIO = (1-(CASTBAR_DETACH_HEIGHT/CASTBAR_DETACH_WIDTH))/2
+        CASTBAR_RATIO = (1-(CASTBAR_DETACH_HEIGHT/CASTBAR_DETACH_WIDTH))/2.5
         CASTBAR_ICON_SIDE = self.profile.castbar_icon_side
 
         for _,f in addon:Frames() do
