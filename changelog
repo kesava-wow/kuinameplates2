@@ -1,31 +1,22 @@
-BETA
-
-* cross-compatibility with shadowlands beta
-
-* show default UI's experience bars
-
-* update SomeoneElsesConfig-Dropdown
-* (classic) update libClassicCasterino
-
-* update KuiLib
-* (classic) update libClassicDurations
-* (classic) remove libThreatClassic2
-
-* add get command
-* change some titles and tooltips
-* move fade_avoid_casting_hostile
-
-* add option use_blizzard_powers (implied by use_blizzard_personal)
-* use neutral text colour on friendly neutral NPCs in name-only mode
-* use default colour picker in config (such that you can install another addon like ColorPickerPlus to get better accuracy, copy/paste, etc.)
-* increase auras_offset soft-max (so you can match the default interface)
-
-* add option target_arrows_texture (not exposed in ui)
-* disable health_text_percent_symbol by default
-* fix set command help text
 
 * add option to show detached castbar in name-only mode
 * add option to show level in name-only mode
 * add option to show health text percent symbol
-* (classic) update libClassicCasterino, libClassicDurations, libThreatClassic2
+* add option to show blizzard class powers (implied when personal nameplate is ignored)
+* add option target_arrows_texture (not exposed in ui)
+* add get command
+* use neutral text colour on friendly neutral NPCs in name-only mode
+* use default colour picker in config (install another addon like ColorPickerPlus to get better accuracy, copy/paste, etc.)
+* move fade_avoid_casting_hostile
+* change some titles and tooltips
+* increase auras_offset soft-max
+* fix default UI experience bars aren't visible
+* fix set command help text
+* cross-compatibility with shadowlands beta
+* update KuiLib
+* update SomeoneElsesConfig-Dropdown
+* (classic) update libClassicCasterino
+* (classic) update libClassicDurations
+* (classic) remove libThreatClassic2
 * (classic) bump toc
+
