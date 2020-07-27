@@ -111,7 +111,7 @@ function mod:UNIT_THREAT_LIST_UPDATE(_,f,unit)
 
     f.state.tank_mode_offtank = nil
 
-    if not kui.CLASSIC then
+    if not kui.CLASSIC then -- XXX no role data on classic
         local status = UnitThreatSituation('player',unit)
         if not status or status < 3 then
             -- player isn't tanking; get current target
