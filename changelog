@@ -1,4 +1,6 @@
 
+* fix colour pickers reset eachother
+
 * add option to show detached castbar in name-only mode
 * add option to show level in name-only mode
 * add option to show health text percent symbol
