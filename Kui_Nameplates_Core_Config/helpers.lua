@@ -366,14 +366,14 @@ end
 -- colour picker ###############################################################
 do
     --luacheck:globals ColorPickerFrame OpacitySliderFrame
-    local CLICKED_ENV
+    local CLICKED_ENV,CLICKED_HAS_ALPHA
     local function ColorPickerFrame_func(previous)
         local r,g,b,a
         if previous then
             r,g,b,a=unpack(previous)
         else
             r,g,b=ColorPickerFrame:GetColorRGB()
-            if OpacitySliderFrame:IsShown() then
+            if CLICKED_HAS_ALPHA then
                 a=1-OpacitySliderFrame:GetValue()
             end
         end
@@ -397,12 +397,13 @@ do
     local function ColourPickerOnClick(self)
         local val = opt.profile[self.env]
         CLICKED_ENV = self.env
+        CLICKED_HAS_ALPHA = #val==4
 
         ColorPickerFrame.func = ColorPickerFrame_func
         ColorPickerFrame.opacityFunc = ColorPickerFrame_func
         ColorPickerFrame.cancelFunc = ColorPickerFrame_func
-        ColorPickerFrame.hasOpacity = #val==4
-        ColorPickerFrame.opacity = val[4] and (1-val[4]) or 1
+        ColorPickerFrame.hasOpacity = CLICKED_HAS_ALPHA
+        ColorPickerFrame.opacity = CLICKED_HAS_ALPHA and (1-val[4]) or 1
         ColorPickerFrame.previousValues = {unpack(val)}
         ColorPickerFrame:SetColorRGB(val[1],val[2],val[3])
         ColorPickerFrame:Show()
