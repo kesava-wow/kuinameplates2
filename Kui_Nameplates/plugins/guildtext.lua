@@ -6,7 +6,7 @@ local mod = addon:NewPlugin('GuildText')
 local UnitIsPlayer,UnitIsOtherPlayersPet,GetGuildInfo=
       UnitIsPlayer,UnitIsOtherPlayersPet,GetGuildInfo
 
-local tooltip = CreateFrame('GameTooltip','KNPNPCTitleTooltip',UIParent,'GameTooltipTemplate')
+local tooltip = CreateFrame('GameTooltip','KNPNPCTitleTooltip',nil,'GameTooltipTemplate')
 local cb_tooltips
 local pattern,pattern_type,pattern_class,pattern_class_type
 
@@ -22,15 +22,13 @@ function mod:Show(f)
         end
     elseif not UnitIsOtherPlayersPet(f.unit) then
         -- parse NPC tooltip
-        tooltip:SetOwner(UIParent,ANCHOR_NONE)
+        tooltip:SetOwner(WorldFrame,'ANCHOR_NONE')
         tooltip:SetUnit(f.unit)
 
         -- luacheck:globals KNPNPCTitleTooltipTextLeft2 KNPNPCTitleTooltipTextLeft3
         local gtext = cb_tooltips and
                       KNPNPCTitleTooltipTextLeft3:GetText() or
                       KNPNPCTitleTooltipTextLeft2:GetText()
-
-        tooltip:Hide()
 
         -- ignore strings matching TOOLTIP_UNIT_LEVEL
         if not gtext or
