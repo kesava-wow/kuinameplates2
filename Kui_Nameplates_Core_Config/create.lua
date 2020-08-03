@@ -1,4 +1,4 @@
-local opt = KuiNameplatesCoreConfig
+local opt = KuiNameplatesCoreConfig --luacheck:globals KuiNameplatesCoreConfig
 local LSM = LibStub('LibSharedMedia-3.0')
 local L = opt:GetLocale()
 

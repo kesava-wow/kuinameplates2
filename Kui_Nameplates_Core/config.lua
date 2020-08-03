@@ -7,7 +7,7 @@ local kui = LibStub('Kui-1.0')
 local kc = LibStub('KuiConfig-1.0')
 local LSM = LibStub('LibSharedMedia-3.0')
 local addon = KuiNameplates
-local core = KuiNameplatesCore
+local core = KuiNameplatesCore --luacheck:globals KuiNameplatesCore
 -- local event frame
 local cc = CreateFrame('Frame')
 -- add media to LSM ############################################################
@@ -892,6 +892,7 @@ function core:ConfigChanged(config,k,v)
     end
 end
 function core:InitialiseConfig()
+    --luacheck:globals KuiNameplatesCoreSaved KuiNameplatesCoreConfig
     --@alpha@
     if not KuiNameplatesCoreSaved or not KuiNameplatesCoreSaved.SHUT_UP then
         addon:ui_print('You are using an alpha release;')
