@@ -892,44 +892,6 @@ function core:ConfigChanged(config,k,v)
     end
 end
 function core:InitialiseConfig()
-    if KuiNameplatesCoreSaved then
-        -- XXX 2.15>2.16 health display transition
-        if not KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] then
-            KuiNameplatesCoreSaved['216_HEALTH_TRANSITION'] = true
-            -- re-jigger health display patterns on all profiles (where set)
-            local upd = function(n,k)
-                local v = KuiNameplatesCoreSaved.profiles[n][k]
-                if not v then return end
-                KuiNameplatesCoreSaved.profiles[n][k] = v == 5 and 1 or v + 1
-            end
-            for n,_ in pairs(KuiNameplatesCoreSaved.profiles) do
-                for _,k in next,{
-                    'health_text_friend_max',
-                    'health_text_friend_dmg',
-                    'health_text_hostile_max',
-                    'health_text_hostile_dmg'
-                } do
-                    upd(n,k)
-                end
-            end
-        end
-        -- XXX 2.16.1>2.16.2
-        if not KuiNameplatesCoreSaved['2162_PERSONAL_FRAME_SIZE_TRANSITION'] then
-            KuiNameplatesCoreSaved['2162_PERSONAL_FRAME_SIZE_TRANSITION'] = true
-            -- frame_width_personal was previously pixel-corrected even if
-            -- use_blizzard_personal was enabled, so counteract that
-            local upd = function(n,k)
-                local v = KuiNameplatesCoreSaved.profiles[n][k]
-                if not addon.uiscale or not v or v == 132 then return end
-                KuiNameplatesCoreSaved.profiles[n][k] = floor(v * addon.uiscale) + 10
-            end
-            for n,p in pairs(KuiNameplatesCoreSaved.profiles) do
-                if p.use_blizzard_personal then
-                    upd(n,'frame_width_personal')
-                end
-            end
-        end
-    end
     --@alpha@
     if not KuiNameplatesCoreSaved or not KuiNameplatesCoreSaved.SHUT_UP then
         addon:ui_print('You are using an alpha release;')
