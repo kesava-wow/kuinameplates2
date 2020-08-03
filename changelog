@@ -1,4 +1,6 @@
 
+* remove old config transition helpers
+
 * fix colour pickers reset eachother
 * [classic] bump toc
 
