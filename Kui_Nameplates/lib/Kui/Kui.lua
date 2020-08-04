@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 45
+local MAJOR, MINOR = 'Kui-1.0', 46
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -526,102 +526,232 @@ do
     end
 end
 -- Frame fading functions ######################################################
-kui.frameFadeFrame = CreateFrame('Frame')
-kui.FADEFRAMES = {}
+do
+    local frameFadeFrame = CreateFrame('Frame')
+    local FADEFRAMES = {}
 
-kui.frameIsFading = function(frame)
-    for _,value in pairs(kui.FADEFRAMES) do
-        if value == frame then
-            return true
-        end
-    end
-end
-kui.frameFadeRemoveFrame = function(frame)
-    tDeleteItem(kui.FADEFRAMES, frame)
-end
-kui.frameFadeOnUpdate = function(self, elapsed)
-    local frame, info
-    for _,value in pairs(kui.FADEFRAMES) do
-        frame, info = value, value.fadeInfo
+    local function OnUpdate(self, elapsed)
+        local frame, info
+        for _,value in pairs(FADEFRAMES) do
+            frame, info = value, value.fadeInfo
 
-        if info.startDelay and info.startDelay > 0 then
-            info.startDelay = info.startDelay - elapsed
-        else
-            info.fadeTimer = (info.fadeTimer and info.fadeTimer + elapsed) or 0
-
-            if info.fadeTimer < info.timeToFade then
-                -- perform animation in either direction
-                if info.mode == 'IN' then
-                    frame:SetAlpha(
-                        (info.fadeTimer / info.timeToFade) *
-                        (info.endAlpha - info.startAlpha) +
-                        info.startAlpha
-                    )
-                elseif info.mode == 'OUT' then
-                    frame:SetAlpha(
-                        ((info.timeToFade - info.fadeTimer) / info.timeToFade) *
-                        (info.startAlpha - info.endAlpha) + info.endAlpha
-                    )
-                end
+            if info.startDelay and info.startDelay > 0 then
+                info.startDelay = info.startDelay - elapsed
             else
-                -- animation has ended
-                frame:SetAlpha(info.endAlpha)
+                info.fadeTimer = (info.fadeTimer and info.fadeTimer + elapsed) or 0
 
-                if info.fadeHoldTime and info.fadeHoldTime > 0 then
-                    info.fadeHoldTime = info.fadeHoldTime - elapsed
+                if info.fadeTimer < info.timeToFade then
+                    -- perform animation in either direction
+                    if info.mode == 'IN' then
+                        frame:SetAlpha(
+                            (info.fadeTimer / info.timeToFade) *
+                            (info.endAlpha - info.startAlpha) +
+                            info.startAlpha
+                        )
+                    elseif info.mode == 'OUT' then
+                        frame:SetAlpha(
+                            ((info.timeToFade - info.fadeTimer) / info.timeToFade) *
+                            (info.startAlpha - info.endAlpha) + info.endAlpha
+                        )
+                    end
                 else
-                    kui.frameFadeRemoveFrame(frame)
+                    -- animation has ended
+                    frame:SetAlpha(info.endAlpha)
 
-                    if info.finishedFunc then
-                        info.finishedFunc(frame)
-                        info.finishedFunc = nil
+                    if info.fadeHoldTime and info.fadeHoldTime > 0 then
+                        info.fadeHoldTime = info.fadeHoldTime - elapsed
+                    else
+                        kui.frameFadeRemoveFrame(frame)
+
+                        if info.finishedFunc then
+                            info.finishedFunc(frame)
+                            info.finishedFunc = nil
+                        end
                     end
                 end
             end
         end
+
+        if #FADEFRAMES == 0 then
+            self:SetScript('OnUpdate', nil)
+        end
     end
 
-    if #kui.FADEFRAMES == 0 then
-        self:SetScript('OnUpdate', nil)
+    function kui.frameIsFading(frame)
+        for _,value in pairs(FADEFRAMES) do
+            if value == frame then
+                return true
+            end
+        end
+    end
+    function kui.frameFadeRemoveFrame(frame)
+        tDeleteItem(FADEFRAMES, frame)
+    end
+
+    --[[
+        info = {
+            mode            = "IN" (nil) or "OUT",
+            startAlpha      = alpha value to start at,
+            endAlpha        = alpha value to end at,
+            timeToFade      = duration of animation,
+            startDelay      = seconds to wait before starting animation,
+            fadeHoldTime    = seconds to wait after ending animation before calling finishedFunc,
+            finishedFunc    = function to call after animation has ended,
+        }
+        the `info` table is directly modified.
+    ]]
+    function kui.frameFade(frame,info)
+        if not frame then return end
+        if kui.frameIsFading(frame) then
+            -- cancel the current operation
+            -- the code calling this should make sure not to interrupt a
+            -- necessary finishedFunc. This will entirely skip it.
+            kui.frameFadeRemoveFrame(frame)
+        end
+
+        info        = info or {}
+        info.mode   = info.mode or 'IN'
+
+        if info.mode == 'IN' then
+            info.startAlpha = info.startAlpha or 0
+            info.endAlpha   = info.endAlpha or 1
+        elseif info.mode == 'OUT' then
+            info.startAlpha = info.startAlpha or 1
+            info.endAlpha   = info.endAlpha or 0
+        end
+
+        frame:SetAlpha(info.startAlpha)
+        frame.fadeInfo = info
+
+        tinsert(FADEFRAMES, frame)
+        frameFadeFrame:SetScript('OnUpdate', OnUpdate)
     end
 end
---[[
-    info = {
-        mode            = "IN" (nil) or "OUT",
-        startAlpha      = alpha value to start at,
-        endAlpha        = alpha value to end at,
-        timeToFade      = duration of animation,
-        startDelay      = seconds to wait before starting animation,
-        fadeHoldTime    = seconds to wait after ending animation before calling finishedFunc,
-        finishedFunc    = function to call after animation has ended,
+-- eight-slice helper ##########################################################
+-- simple helper for three-sided textures (not standard edgeFiles),
+-- stretches textures rather than repeating,
+-- creates texture objects in given frame,
+-- can be arbitrarily positioned
+do
+    -- this expects a quartered square: top left, top, left, blank.
+    local COORDS = {
+        { 0, .5, 0, .5 }, -- top left
+        { .5, 1, 0, .5 }, -- top
+        { .5, 0, 0, .5 }, -- top right
+        { .5, 0, .5, 1 }, -- right
+        { .5, 0, .5, 0 }, -- bottom right
+        { .5, 1, .5, 0 }, -- bottom
+        { 0, .5, .5, 0 }, -- bottom left
+        { 0, .5, .5, 1 }, -- left
+    }
+    local POINTS = {
+        { 'BOTTOMRIGHT', 'TOPLEFT', 1, -1 }, -- top left
+        { { 'BOTTOMLEFT', 'TOPLEFT', 1, -1 }, -- top
+          { 'BOTTOMRIGHT', 'TOPRIGHT', -1, -1 }
+        },
+        { 'BOTTOMLEFT', 'TOPRIGHT', -1, -1 }, -- top right
+        { { 'TOPLEFT', 'TOPRIGHT', -1, -1 }, -- right
+          { 'BOTTOMLEFT', 'BOTTOMRIGHT', -1, 1 }
+        },
+        { 'TOPLEFT', 'BOTTOMRIGHT', -1, 1 }, -- bottom right
+        { { 'TOPRIGHT', 'BOTTOMRIGHT', -1, 1 }, -- bottom
+          { 'TOPLEFT', 'BOTTOMLEFT', 1, 1 }
+        },
+        { 'TOPRIGHT', 'BOTTOMLEFT', 1, 1 }, -- bottom left
+        { { 'BOTTOMRIGHT', 'BOTTOMLEFT', 1, 1 }, -- left
+          { 'TOPRIGHT', 'TOPLEFT', 1, -1 }
+        }
     }
 
-    If you plan to reuse `info`, it should be passed as a single table,
-    NOT a reference, as the table will be directly edited.
-]]
-kui.frameFade = function(frame, info)
-    if not frame then return end
-    if kui.frameIsFading(frame) then
-        -- cancel the current operation
-        -- the code calling this should make sure not to interrupt a
-        -- necessary finishedFunc. This will entirely skip it.
-        kui.frameFadeRemoveFrame(frame)
+    local PROTOTYPE = {}
+    PROTOTYPE.__index = PROTOTYPE
+    function PROTOTYPE:SetVertexColor(...)
+        for _,side in ipairs(self.sides) do
+            side:SetVertexColor(...)
+        end
+    end
+    function PROTOTYPE:Show(...)
+        for _,side in ipairs(self.sides) do
+            side:Show()
+        end
+    end
+    function PROTOTYPE:Hide(...)
+        for _,side in ipairs(self.sides) do
+            side:Hide()
+        end
+    end
+    function PROTOTYPE:SetSize(size)
+        for _,side in ipairs(self.sides) do
+            side:SetSize(size,size)
+        end
+    end
+    function PROTOTYPE:SetAlpha(...)
+        for _,side in ipairs(self.sides) do
+            side:SetAlpha(...)
+        end
+    end
+    function PROTOTYPE:SetAllPoints(parent,inset)
+        local top,bottom,left,right
+        if type(inset) == 'table' then
+            top,bottom,left,right =
+                inset.top or 0,
+                inset.bottom or 0,
+                inset.left or 0,
+                inset.right or 0
+        else
+            inset = inset or 0
+            top,bottom,left,right = inset,inset,inset,inset
+        end
+
+        for i=1,#POINTS do
+            local side = self.sides[i]
+            local point = POINTS[i]
+            if type(point[1]) == 'table' then
+                -- flat side
+                local a,b,c,d
+                if i == 2 then
+                    a,b,c,d = left,top,right,top
+                elseif i == 4 then
+                    a,b,c,d = right,top,right,bottom
+                elseif i == 6 then
+                    a,b,c,d = right,bottom,left,bottom
+                elseif i == 8 then
+                    a,b,c,d = left,bottom,left,top
+                end
+                side:SetPoint(point[1][1],parent,point[1][2],point[1][3]*a,point[1][4]*b)
+                side:SetPoint(point[2][1],parent,point[2][2],point[2][3]*c,point[2][4]*d)
+            else
+                -- corner
+                local a,b
+                if i == 1 then
+                    a,b = left,top
+                elseif i == 3 then
+                    a,b = right,top
+                elseif i == 5 then
+                    a,b = right,bottom
+                elseif i == 7 then
+                    a,b = left,bottom
+                end
+                side:SetPoint(point[1],parent,point[2],point[3]*a,point[4]*b)
+            end
+        end
     end
 
-    info        = info or {}
-    info.mode   = info.mode or 'IN'
+    function kui.CreateEightSlice(parent,texture,layer,sublevel)
+        assert(parent and type(parent.CreateTexture) == 'function')
+        assert(texture)
+        layer = layer or 'BACKGROUND'
+        sublevel = sublevel or -5
 
-    if info.mode == 'IN' then
-        info.startAlpha = info.startAlpha or 0
-        info.endAlpha   = info.endAlpha or 1
-    elseif info.mode == 'OUT' then
-        info.startAlpha = info.startAlpha or 1
-        info.endAlpha   = info.endAlpha or 0
+        local this = { sides = {} }
+        setmetatable(this,PROTOTYPE)
+
+        for i=1,#POINTS do
+            local side = parent:CreateTexture(nil,layer,nil,sublevel)
+            side:SetTexture(texture)
+            side:SetTexCoord(unpack(COORDS[i]))
+            tinsert(this.sides,side)
+        end
+        return this
     end
-
-    frame:SetAlpha(info.startAlpha)
-    frame.fadeInfo = info
-
-    tinsert(kui.FADEFRAMES, frame)
-    kui.frameFadeFrame:SetScript('OnUpdate', kui.frameFadeOnUpdate)
 end
