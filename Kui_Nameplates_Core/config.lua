@@ -879,7 +879,7 @@ function core:ConfigChanged(config,k,v)
     end
 
     if addon.debug and addon.debug_config then
-        kui.print(self:GetActiveProfile())
+        kui.print(self.config.profile)
     end
 
     for _,f in addon:Frames() do
