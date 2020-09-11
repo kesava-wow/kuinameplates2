@@ -1,30 +1,5 @@
+
 * THIS VERSION IS UNTESTED ON RETAIL!
 * (beta) fix default nameplates become visible sometimes
 * change default frame sizes
-
-* remove old config transition helpers
-
-* fix colour pickers reset eachother
-* [classic] bump toc
-
-* add option to show detached castbar in name-only mode
-* add option to show level in name-only mode
-* add option to show health text percent symbol
-* add option to show blizzard class powers (implied when personal nameplate is ignored)
-* add option target_arrows_texture (not exposed in ui)
-* add get command
-* use neutral text colour on friendly neutral NPCs in name-only mode
-* use default colour picker in config (install another addon like ColorPickerPlus to get better accuracy, copy/paste, etc.)
-* move fade_avoid_casting_hostile
-* change some titles and tooltips
-* increase auras_offset soft-max
-* fix default UI experience bars aren't visible
-* fix set command help text
-* cross-compatibility with shadowlands beta
-* update KuiLib
-* update SomeoneElsesConfig-Dropdown
-* (classic) update libClassicCasterino
-* (classic) update libClassicDurations
-* (classic) remove libThreatClassic2
-* (classic) bump toc
 
