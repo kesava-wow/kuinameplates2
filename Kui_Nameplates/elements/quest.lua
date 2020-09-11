@@ -60,7 +60,6 @@ local function UpdateQuestState(frame,dispatch)
     local str = GetQuestTextForUnit(frame.unit)
     if str ~= frame.state.quest then
         frame.state.quest = str
-        addon:print(str)
         if dispatch then
             addon:DispatchMessage('QuestUpdate',frame)
         end

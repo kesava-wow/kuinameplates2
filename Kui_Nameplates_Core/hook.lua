@@ -161,19 +161,14 @@ function core:Combat(f)
 end
 function core:QuestUpdate(f)
     f:UpdateQuestIcon()
+
+    -- test name visibility on quest NPCs
+    self:ShowNameUpdate(f)
+    f:UpdateFrameSize()
+    f:UpdateNameText()
+    f:UpdateLevelText()
 end
 -- events ######################################################################
-function core:QUEST_POI_UPDATE()
-    -- update to show name of new quest NPCs
-    for _,frame in addon:Frames() do
-        if frame:IsShown() then
-            self:ShowNameUpdate(frame)
-            frame:UpdateFrameSize()
-            frame:UpdateNameText()
-            frame:UpdateLevelText()
-        end
-    end
-end
 function core:UNIT_NAME_UPDATE(_,f)
     -- update name text colour
     f:UpdateNameText()
@@ -383,10 +378,6 @@ function core:Initialise()
     self:RegisterMessage('QuestUpdate')
 
     -- register events
-    if not kui.CLASSIC then
-        self:RegisterEvent('QUEST_POI_UPDATE')
-    end
-
     self:RegisterUnitEvent('UNIT_NAME_UPDATE')
 
     -- register callbacks
