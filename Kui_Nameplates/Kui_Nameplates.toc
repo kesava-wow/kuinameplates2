@@ -35,6 +35,7 @@ elements/target.lua
 elements/threat.lua
 elements/auras.lua
 elements/raidicon.lua
+elements/quest.lua
 
 plugins/animation.lua
 plugins/arenaid.lua

@@ -38,6 +38,7 @@ function core:Create(f)
     self:CreateStateIcon(f)
     self:CreateRaidIcon(f)
     self:CreateNameOnlyGlow(f)
+    self:CreateQuestIcon(f)
 end
 function core:Show(f)
     -- state helpers
@@ -72,6 +73,8 @@ function core:Show(f)
     f:UpdateCastBar()
     -- set guild text
     f:UpdateGuildText()
+    -- go over the top on the comments
+    f:UpdateQuestIcon()
 
     if f.TargetArrows then
         -- show/hide target arrows
@@ -155,6 +158,9 @@ end
 function core:Combat(f)
     -- enable/disable nameonly if enabled on enemies
     self:NameOnlyCombatUpdate(f)
+end
+function core:QuestUpdate(f)
+    f:UpdateQuestIcon()
 end
 -- events ######################################################################
 function core:QUEST_POI_UPDATE()
@@ -374,6 +380,7 @@ function core:Initialise()
     self:RegisterMessage('OnEnter')
     self:RegisterMessage('OnLeave')
     self:RegisterMessage('Combat')
+    self:RegisterMessage('QuestUpdate')
 
     -- register events
     if not kui.CLASSIC then

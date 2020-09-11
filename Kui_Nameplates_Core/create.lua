@@ -2123,6 +2123,26 @@ do
         f.UpdateThreatBrackets = UpdateThreatBrackets
     end
 end
+-- quest icon ##################################################################
+do
+    local function UpdateQuestIcon(frame)
+        if frame.state.quest then
+            frame.QuestIcon:Show()
+        else
+            frame.QuestIcon:Hide()
+        end
+    end
+    function core:CreateQuestIcon(frame)
+        local icon = frame:CreateTexture()
+        icon:SetAtlas('QuestNormal')
+        icon:SetSize(18,18) -- XXX scale
+        icon:SetPoint('RIGHT',frame.bg,'LEFT',-5,0)
+        icon:Hide()
+
+        frame.QuestIcon = icon
+        frame.UpdateQuestIcon = UpdateQuestIcon
+    end
+end
 -- name show/hide ##############################################################
 function core:ShowNameUpdate(f)
     if  not FADE_UNTRACKED and
