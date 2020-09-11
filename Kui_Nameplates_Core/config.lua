@@ -143,12 +143,12 @@ local default_config = {
     execute_percent = 20,
     execute_colour = {1,1,1},
 
-    frame_width = 132,
-    frame_height = 13,
+    frame_width = 128,
+    frame_height = 16,
     frame_width_minus = 72,
-    frame_height_minus = 8,
-    frame_width_personal = 132,
-    frame_height_personal = 13,
+    frame_height_minus = 14,
+    frame_width_personal = 128,
+    frame_height_personal = 16,
     powerbar_height = 3,
     global_scale = 1,
 

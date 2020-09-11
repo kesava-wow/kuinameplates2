@@ -411,6 +411,7 @@ local function UpdateFrameSize(f)
         f:SetSize(FRAME_WIDTH,FRAME_HEIGHT)
     end
 
+    -- XXX probably obsolete with target size
     if f.state.no_name and not f.state.personal then
         f:SetHeight(FRAME_HEIGHT_MINUS)
     end
