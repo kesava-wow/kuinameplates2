@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 46
+local MAJOR, MINOR = 'Kui-1.0', 47
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -754,4 +754,39 @@ do
         end
         return this
     end
+end
+-- frame-locked callback helper ###############################################
+do
+    local function Nil(self)
+        self.instance.framelocked = nil
+        self:SetScript('OnUpdate',nil)
+        kui.print('framelock unlocked something')
+    end
+    local FrameLockMixin = {}
+    -- true if this is the first time FrameLock has been called this frame
+    function FrameLockMixin:FrameLock()
+        if self.framelocked then
+            kui.print('framelock blocked a call')
+            return
+        end
+        self.framelocked = true
+
+        if not self.FrameLockFrame then
+            self.FrameLockFrame = CreateFrame('Frame')
+            self.FrameLockFrame.instance = self
+        end
+        self.FrameLockFrame:SetScript('OnUpdate',Nil)
+
+        kui.print('framelock ran something')
+        return true
+    end
+    -- common usage; run given function at most once per frame
+    -- (with no knowledge as to which function was actually run,
+    -- so should only be used for one function at a time)
+    function FrameLockMixin:FrameLockFunc(func,...)
+        if self:FrameLock() then
+            return func(...)
+        end
+    end
+    kui.FrameLockMixin = FrameLockMixin
 end
