@@ -760,13 +760,11 @@ do
     local function Nil(self)
         self.instance.framelocked = nil
         self:SetScript('OnUpdate',nil)
-        kui.print('framelock unlocked something')
     end
     local FrameLockMixin = {}
     -- true if this is the first time FrameLock has been called this frame
     function FrameLockMixin:FrameLock()
         if self.framelocked then
-            kui.print('framelock blocked a call')
             return
         end
         self.framelocked = true
@@ -777,7 +775,6 @@ do
         end
         self.FrameLockFrame:SetScript('OnUpdate',Nil)
 
-        kui.print('framelock ran something')
         return true
     end
     -- common usage; run given function at most once per frame
