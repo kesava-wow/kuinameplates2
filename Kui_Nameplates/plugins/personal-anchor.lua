@@ -34,6 +34,9 @@ function mod:OnEnable()
         Reset()
 
         if KuiNameplates.draw_frames then
+            if not anchor.SetBackdrop then
+                Mixin(anchor,BackdropTemplateMixin)
+            end
             anchor:SetBackdrop({
                 edgeFile = 'interface/buttons/white8x8',
                 edgeSize = 1

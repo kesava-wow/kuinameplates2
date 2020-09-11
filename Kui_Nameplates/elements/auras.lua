@@ -710,6 +710,9 @@ local function CreateAuraFrame(parent)
     auraframe.spellids = {}
 
     if addon.draw_frames then
+        if not auraframe.SetBackdrop then
+            Mixin(auraframe,BackdropTemplateMixin)
+        end
         auraframe:SetBackdrop({
             bgFile='interface/buttons/white8x8'
         })

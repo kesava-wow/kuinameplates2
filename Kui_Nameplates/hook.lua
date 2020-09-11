@@ -42,6 +42,10 @@ function addon:HookNameplate(parent)
 
     if self.draw_frames then
         -- debug; visible frames
+        if not parent.SetBackdrop then
+            Mixin(parent,BackdropTemplateMixin)
+            Mixin(kui,BackdropTemplateMixin)
+        end
         parent:SetBackdrop({bgFile='interface/buttons/white8x8'})
         parent:SetBackdropColor(0,0,0)
         kui:SetBackdrop({edgeFile='interface/buttons/white8x8',edgeSize=1})
