@@ -7,7 +7,10 @@
 
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates
-## Notes: Kesava's nameplate framework.|nDoes nothing by itself.
+## Notes: Kesava's nameplate framework.|nDoes nothing without a layout.
+## Version: @project-version@
+## X-License: All Rights Reserved.
+## X-Website: https://github.com/kesava-wow/kuinameplates2
 ## X-Curse-Project-ID: 35095
 ## X-WoWI-ID: 19390
 ## OptionalDeps: BigWigs, DBM-Core, RealMobHealth, ThreatClassic-1.0, LibThreatClassic2
