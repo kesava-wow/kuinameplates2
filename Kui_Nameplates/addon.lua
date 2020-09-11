@@ -224,6 +224,10 @@ local function OnEvent(self,event,...)
             ClassNameplateBrewmasterBarFrame:UnregisterAllEvents()
         end
     end
+    -- hide default unit frames
+    if NamePlateDriverFrame then
+        hooksecurefunc(NamePlateDriverFrame,'AcquireUnitFrame',self.NamePlateDriverFrame_AcquireUnitFrame)
+    end
 end
 ------------------------------------------- initialise addon scripts & events --
 addon:SetScript('OnEvent',OnEvent)
