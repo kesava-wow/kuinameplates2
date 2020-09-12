@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 47
+local MAJOR, MINOR = 'Kui-1.0', 48
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -12,6 +12,7 @@ kui.CLASSIC = CLASSIC
 
 -- XXX 8X -> 90 compatibility helper
 local SHADOWLANDS = select(4,GetBuildInfo()) >= 90000
+kui.SHADOWLANDS = SHADOWLANDS
 kui.UNIT_HEALTH = SHADOWLANDS and 'UNIT_HEALTH' or 'UNIT_HEALTH_FREQUENT'
 
 -- media # XXX LEGACY #########################################################
@@ -739,7 +740,7 @@ do
 
     function kui.CreateEightSlice(parent,texture,layer,sublevel)
         assert(parent and type(parent.CreateTexture) == 'function')
-        assert(texture)
+        texture = texture or 'interface/buttons/white8x8'
         layer = layer or 'BACKGROUND'
         sublevel = sublevel or -5
 
