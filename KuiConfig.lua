@@ -3,7 +3,7 @@
 -- By Kesava @ curse.com.
 -- All rights reserved.
 --]]
-local MAJOR, MINOR = 'KuiConfig-1.0', 7
+local MAJOR, MINOR = 'KuiConfig-1.0', 8
 local kc = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kc then
@@ -39,25 +39,27 @@ end
 local config_meta = {}
 config_meta.__index = config_meta
 
+function config_meta:ProfileExists(name)
+    return type(self.gsv.profiles[name]) == 'table'
+end
+
 --[[
 -- post the named profile to the saved variable
 -- falls back to currently active profile
 -- if p_table is a table, overwrite profile with p_table
--- will create named profile if it does not exist
--- also updates if the currently active profile is modified
 --]]
 function config_meta:PostProfile(p_name,p_table)
     if not p_name then p_name = self.csv.profile end
     if not p_table then p_table = self.profile end
     assert(p_name and p_table)
-
     _G[self.gsv_name].profiles[p_name] = p_table
+end
 
-    if p_name == self.csv.profile then
-        -- if this is the active profile,
-        -- we also need to update the profile locals and call listeners
-        self:SetProfile(p_name)
-    end
+--[[
+-- post the local copy of the character's saved variable to the global
+]]
+function config_meta:PostCharacter()
+    _G[self.csv_name] = self.csv
 end
 
 --[[
@@ -94,6 +96,7 @@ function config_meta:SetKey(k,v)
     if not self.profile then return end
     self.profile[k] = v
     self:PostProfile()
+    CallListeners(self,k,v)
 end
 
 --[[
@@ -112,16 +115,17 @@ function config_meta:SetConfig(...)
 end
 
 --[[
--- set active profile to given named profile
+-- switch to given profile, creating it if it doesn't already exist
 --]]
 function config_meta:SetProfile(profile_name)
-    -- get/create named profile
+    -- get or create named profile
     self.profile = self:GetProfile(profile_name)
 
-    -- set character's profile
-    _G[self.csv_name].profile = profile_name
-    self.csv = _G[self.csv_name]
+    -- remember profile for this character
+    self.csv.profile = profile_name
+    self:PostCharacter()
 
+    -- inform listeners of profile change / run callbacks
     CallListeners(self)
 end
 
@@ -135,7 +139,7 @@ function config_meta:GetProfile(profile_name)
         profile_name = 'default'
     end
 
-    if not self.gsv.profiles[profile_name] then
+    if not self:ProfileExists(profile_name) then
         self.gsv.profiles[profile_name] = {}
     end
 
@@ -162,8 +166,8 @@ end
 --]]
 function config_meta:CopyProfile(profile_name,new_name)
     if not profile_name or not new_name or new_name == '' then return end
-    self.csv.profile = new_name
     self:PostProfile(new_name,self:GetProfile(profile_name))
+    self:SetProfile(new_name)
 end
 
 --[[
@@ -185,6 +189,7 @@ end
 function config_meta:ResetProfile(profile_name)
     if not profile_name then return end
     self:PostProfile(profile_name,{})
+    self:SetProfile(profile_name)
 end
 
 --[[
