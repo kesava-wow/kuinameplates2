@@ -1682,10 +1682,10 @@ do
             end
         end
     end
-    local function AuraFrame_UpdateIconSize(self,minus)
+    local function AuraFrame_UpdateIconSize(self,state)
         -- determine current icon size
         local size = (self.id == 'core_purge' and AURAS_PURGE_SIZE) or
-                     (minus and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE)
+                     ((state.minus and not state.target) and AURAS_MINUS_SIZE or AURAS_NORMAL_SIZE)
 
         if self.id ~= 'core_purge' and self.size == size then
             -- no size update necessary
@@ -1716,7 +1716,7 @@ do
                 f.Auras.frames.core_dynamic:Disable()
             else
                 f.Auras.frames.core_dynamic:Enable(true)
-                AuraFrame_UpdateIconSize(f.Auras.frames.core_dynamic,f.state.minus)
+                AuraFrame_UpdateIconSize(f.Auras.frames.core_dynamic,f.state)
             end
         end
         if f.Auras.frames.core_purge then
