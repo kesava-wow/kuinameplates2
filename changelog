@@ -1,4 +1,6 @@
 
+* (retail) fix lua error related to NamePlateDriverFrame
+
 * add a quest indicator (no options right now)
 
 * (beta) fix default nameplates become visible sometimes
