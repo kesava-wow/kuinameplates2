@@ -265,19 +265,21 @@ local default_config = {
     auras_count_offset_x = 5,
     auras_count_offset_y = -2,
 }
--- local functions #############################################################
+-- global scale helper #########################################################
+-- for frame/texture sizes; apply global scale to given value
 local GLOBAL_SCALE
-local function Scale(v)
+function core:Scale(v)
     if not tonumber(GLOBAL_SCALE) or GLOBAL_SCALE == 1 then
         return v
     else
         return floor((v*GLOBAL_SCALE)+.5)
     end
 end
+-- local functions #############################################################
 local function UpdateClickboxSize()
     if kui.CLASSIC then return end -- XXX functions exist, but break display
-    local o_width = (Scale(core.profile.frame_width) * addon.uiscale) + 10
-    local o_height = (Scale(core.profile.frame_height) * addon.uiscale) + 20
+    local o_width = (core:Scale(core.profile.frame_width) * addon.uiscale) + 10
+    local o_height = (core:Scale(core.profile.frame_height) * addon.uiscale) + 20
 
     if C_NamePlate.SetNamePlateOtherSize then
         C_NamePlate.SetNamePlateOtherSize(o_width,o_height)
@@ -293,8 +295,8 @@ local function UpdateClickboxSize()
             45
         )
     else
-        local p_width = (Scale(core.profile.frame_width_personal) * addon.uiscale) + 10
-        local p_height = (Scale(core.profile.frame_height_personal) * addon.uiscale) + 20
+        local p_width = (core:Scale(core.profile.frame_width_personal) * addon.uiscale) + 10
+        local p_height = (core:Scale(core.profile.frame_height_personal) * addon.uiscale) + 20
         C_NamePlate.SetNamePlateSelfSize(p_width,p_height)
     end
 end

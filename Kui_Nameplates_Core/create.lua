@@ -61,14 +61,14 @@ local POINT_X_ASSOC = { 'LEFT', 'CENTER', 'RIGHT' }
 local POINT_Y_ASSOC = { 'TOP', 'CENTER', 'BOTTOM' }
 
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
-      FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,POWER_BAR_HEIGHT,
-      FONT,FONT_STYLE,FONT_SHADOW,FONT_SIZE_NORMAL,
-      FONT_SIZE_SMALL,NAME_VERTICAL_OFFSET,
+      FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,
+      POWER_BAR_HEIGHT,FONT,FONT_STYLE,FONT_SHADOW,
+      FONT_SIZE_NORMAL,FONT_SIZE_SMALL,NAME_VERTICAL_OFFSET,
       BOT_VERTICAL_OFFSET,BAR_TEXTURE,BAR_ANIMATION,
       SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID,GUILD_TEXT_NPCS,
       GUILD_TEXT_PLAYERS,TITLE_TEXT_PLAYERS,HEALTH_TEXT_FRIEND_MAX,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
-      HIDE_NAMES,GLOBAL_SCALE,FRAME_VERTICAL_OFFSET,
+      HIDE_NAMES,FRAME_VERTICAL_OFFSET,
       MOUSEOVER_HIGHLIGHT,HIGHLIGHT_OPACITY,LEVEL_TEXT,LEVEL_NAMEONLY,
       HEALTH_TEXT_PERCENT_SYMBOL
 
@@ -188,12 +188,8 @@ local function CreateFontString(parent,small)
 
     return f
 end
-local function Scale(v)
-    if not GLOBAL_SCALE or GLOBAL_SCALE == 1 then return v end
-    return floor((v*GLOBAL_SCALE)+.5)
-end
 local function ScaleTextOffset(v)
-    return floor(Scale(v)) - .5
+    return floor(core:Scale(v)) - .5
 end
 local function ResolvePointPair(x,y)
     -- convert x/y to single point
@@ -227,12 +223,12 @@ do
         -- set config locals to reduce table lookup
         UpdateMediaLocals()
 
-        GLOBAL_SCALE = self.profile.global_scale
+
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
         TARGET_ARROWS = self.profile.target_arrows
-        TARGET_ARROWS_SIZE = Scale(self.profile.target_arrows_size)
-        TARGET_ARROWS_INSET = Scale(self.profile.target_arrows_inset)
+        TARGET_ARROWS_SIZE = self:Scale(self.profile.target_arrows_size)
+        TARGET_ARROWS_INSET = self:Scale(self.profile.target_arrows_inset)
         TARGET_ARROWS_TEXTURE = self.profile.target_arrows_texture
 
         TARGET_GLOW = self.profile.target_glow
@@ -244,21 +240,21 @@ do
         GLOW_AS_SHADOW = self.profile.glow_as_shadow
 
         THREAT_BRACKETS = self.profile.threat_brackets
-        THREAT_BRACKETS_SIZE = Scale(self.profile.threat_brackets_size)
+        THREAT_BRACKETS_SIZE = self:Scale(self.profile.threat_brackets_size)
 
-        FRAME_WIDTH = Scale(self.profile.frame_width)
-        FRAME_HEIGHT = Scale(self.profile.frame_height)
-        FRAME_WIDTH_MINUS = Scale(self.profile.frame_width_minus)
-        FRAME_HEIGHT_MINUS = Scale(self.profile.frame_height_minus)
-        FRAME_WIDTH_PERSONAL = Scale(self.profile.frame_width_personal)
-        FRAME_HEIGHT_PERSONAL = Scale(self.profile.frame_height_personal)
-        POWER_BAR_HEIGHT = Scale(self.profile.powerbar_height)
+        FRAME_WIDTH = self:Scale(self.profile.frame_width)
+        FRAME_HEIGHT = self:Scale(self.profile.frame_height)
+        FRAME_WIDTH_MINUS = self:Scale(self.profile.frame_width_minus)
+        FRAME_HEIGHT_MINUS = self:Scale(self.profile.frame_height_minus)
+        FRAME_WIDTH_PERSONAL = self:Scale(self.profile.frame_width_personal)
+        FRAME_HEIGHT_PERSONAL = self:Scale(self.profile.frame_height_personal)
+        POWER_BAR_HEIGHT = self:Scale(self.profile.powerbar_height)
         FRAME_VERTICAL_OFFSET = self.profile.frame_vertical_offset
 
         LEVEL_TEXT = self.profile.level_text
         LEVEL_NAMEONLY = self.profile.level_nameonly
 
-        FRAME_GLOW_SIZE = Scale(self.profile.frame_glow_size)
+        FRAME_GLOW_SIZE = self:Scale(self.profile.frame_glow_size)
         FRAME_GLOW_THREAT = self.profile.frame_glow_threat
 
         NAME_VERTICAL_OFFSET = ScaleTextOffset(self.profile.name_vertical_offset)
@@ -266,8 +262,8 @@ do
 
         FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
         FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
-        FONT_SIZE_NORMAL = Scale(self.profile.font_size_normal)
-        FONT_SIZE_SMALL = Scale(self.profile.font_size_small)
+        FONT_SIZE_NORMAL = self:Scale(self.profile.font_size_normal)
+        FONT_SIZE_SMALL = self:Scale(self.profile.font_size_small)
 
         FADE_UNTRACKED = self.profile.fade_untracked
         FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
@@ -1487,7 +1483,7 @@ do
 
     function core:SetCastBarConfig()
         CASTBAR_ENABLED = self.profile.castbar_enable
-        CASTBAR_HEIGHT = Scale(self.profile.castbar_height)
+        CASTBAR_HEIGHT = self:Scale(self.profile.castbar_height)
         CASTBAR_COLOUR = self.profile.castbar_colour
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
@@ -1497,13 +1493,13 @@ do
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
         CASTBAR_SPACING = self.profile.castbar_spacing
-        SHIELD_H = Scale(16)
+        SHIELD_H = self:Scale(16)
         SHIELD_W = SHIELD_H * .84375
 
         CASTBAR_DETACH = self.profile.castbar_detach
-        CASTBAR_DETACH_HEIGHT = Scale(self.profile.castbar_detach_height)
-        CASTBAR_DETACH_WIDTH = Scale(self.profile.castbar_detach_width)
-        CASTBAR_DETACH_OFFSET = Scale(self.profile.castbar_detach_offset)
+        CASTBAR_DETACH_HEIGHT = self:Scale(self.profile.castbar_detach_height)
+        CASTBAR_DETACH_WIDTH = self:Scale(self.profile.castbar_detach_width)
+        CASTBAR_DETACH_OFFSET = self:Scale(self.profile.castbar_detach_offset)
         CASTBAR_DETACH_COMBINE = CASTBAR_DETACH and self.profile.castbar_detach_combine
         CASTBAR_DETACH_NAMEONLY = self.profile.castbar_detach_nameonly
         CASTBAR_RATIO = (1-(CASTBAR_DETACH_HEIGHT/CASTBAR_DETACH_WIDTH))/2.5
@@ -1557,7 +1553,7 @@ do
 
     function core:configChangedStateIcons()
         SHOW_STATE_ICONS = self.profile.state_icons
-        ICON_SIZE = Scale(20)
+        ICON_SIZE = self:Scale(20)
 
         for _,f in addon:Frames() do
             f:UpdateStateIconSize()
@@ -1899,8 +1895,8 @@ do
         AURAS_CENTRE = self.profile.auras_centre
         AURAS_SORT = self.profile.auras_sort
         AURAS_TIMER_THRESHOLD = self.profile.auras_time_threshold
-        AURAS_NORMAL_SIZE = Scale(self.profile.auras_icon_normal_size)
-        AURAS_MINUS_SIZE = Scale(self.profile.auras_icon_minus_size)
+        AURAS_NORMAL_SIZE = self:Scale(self.profile.auras_icon_normal_size)
+        AURAS_MINUS_SIZE = self:Scale(self.profile.auras_icon_minus_size)
         AURAS_ICON_SQUARENESS = self.profile.auras_icon_squareness
         AURAS_ON_PERSONAL = self.profile.auras_on_personal
         AURAS_ON_FRIENDS = self.profile.auras_on_friends
@@ -1909,14 +1905,14 @@ do
         AURAS_SHOW_ALL_SELF = self.profile.auras_show_all_self
         AURAS_HIDE_ALL_OTHER = self.profile.auras_hide_all_other
         AURAS_SHOW_PURGE = self.profile.auras_show_purge
-        AURAS_PURGE_SIZE = Scale(self.profile.auras_purge_size)
+        AURAS_PURGE_SIZE = self:Scale(self.profile.auras_purge_size)
         AURAS_PURGE_OPPOSITE = self.profile.auras_purge_opposite
         AURAS_SIDE = self.profile.auras_side
-        AURAS_OFFSET = Scale(self.profile.auras_offset)
+        AURAS_OFFSET = self:Scale(self.profile.auras_offset)
         AURAS_HIGHLIGHT_OTHER = self.profile.auras_highlight_other
         AURAS_PER_ROW = self.profile.auras_per_row
-        AURAS_CD_SIZE = Scale(self.profile.auras_cd_size)
-        AURAS_COUNT_SIZE = Scale(self.profile.auras_count_size)
+        AURAS_CD_SIZE = self:Scale(self.profile.auras_cd_size)
+        AURAS_COUNT_SIZE = self:Scale(self.profile.auras_count_size)
         AURAS_CD_POINT_X = self.profile.auras_cd_point_x
         AURAS_CD_POINT_Y = self.profile.auras_cd_point_y
         AURAS_CD_OFFSET_X = ScaleTextOffset(self.profile.auras_cd_offset_x)
@@ -2032,8 +2028,8 @@ end
 function core.ClassPowers_CreateBar()
     local bar = CreateStatusBar(addon.ClassPowersFrame)
     bar:SetSize(
-        core.profile.classpowers_bar_width,
-        core.profile.classpowers_bar_height
+        self:Scale(core.profile.classpowers_bar_width),
+        self:Scale(core.profile.classpowers_bar_height)
     )
     bar:SetPoint('CENTER',0,-1)
 
