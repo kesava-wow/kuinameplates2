@@ -445,6 +445,8 @@ end
 function framesizes:Initialise()
     local frame_width = self:CreateSlider('frame_width',20,200)
     local frame_height = self:CreateSlider('frame_height',3,40)
+    local frame_width_target = self:CreateSlider('frame_width_target',20,200)
+    local frame_height_target = self:CreateSlider('frame_height_target',3,40)
     local frame_width_minus = self:CreateSlider('frame_width_minus',20,200)
     local frame_height_minus = self:CreateSlider('frame_height_minus',3,40)
     local frame_width_personal = self:CreateSlider('frame_width_personal',20,200)
@@ -462,17 +464,19 @@ function framesizes:Initialise()
 
     frame_width:SetPoint('TOPLEFT',10,-25)
     frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
-    frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-35)
+    frame_width_target:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-35)
+    frame_height_target:SetPoint('LEFT',frame_width_target,'RIGHT',20,0)
+    frame_width_personal:SetPoint('TOPLEFT',frame_width_target,'BOTTOMLEFT',0,-35)
     frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
     frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-35)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
 
-    element_sep:SetPoint('TOP',0,-195)
-    powerbar_height:SetPoint('TOPLEFT',10,-225)
+    element_sep:SetPoint('TOP',0,-235)
+    powerbar_height:SetPoint('TOPLEFT',10,-265)
     frame_glow_size:SetPoint('LEFT',powerbar_height,'RIGHT',20,0)
 
-    scale_sep:SetPoint('TOP',0,-295)
-    global_scale:SetPoint('TOP',0,-325)
+    scale_sep:SetPoint('TOP',0,-335)
+    global_scale:SetPoint('TOP',0,-365)
 end
 -- auras #######################################################################
 function auras:Initialise()

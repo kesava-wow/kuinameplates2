@@ -143,12 +143,14 @@ local default_config = {
     execute_percent = 20,
     execute_colour = {1,1,1},
 
-    frame_width = 128,
-    frame_height = 16,
+    frame_width = 100,
+    frame_height = 14,
     frame_width_minus = 72,
     frame_height_minus = 14,
     frame_width_personal = 128,
     frame_height_personal = 16,
+    frame_width_target = 128,
+    frame_height_target = 16,
     powerbar_height = 3,
     global_scale = 1,
 
@@ -474,6 +476,8 @@ configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize
 configChanged.frame_width_minus = configChangedFrameSize
 configChanged.frame_height_minus = configChangedFrameSize
+configChanged.frame_width_target = configChangedFrameSize
+configChanged.frame_height_target = configChangedFrameSize
 
 local function configChangedFontOption()
     core:configChangedFontOption()

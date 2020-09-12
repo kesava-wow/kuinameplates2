@@ -61,8 +61,8 @@ local POINT_X_ASSOC = { 'LEFT', 'CENTER', 'RIGHT' }
 local POINT_Y_ASSOC = { 'TOP', 'CENTER', 'BOTTOM' }
 
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
-      FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,
-      POWER_BAR_HEIGHT,FONT,FONT_STYLE,FONT_SHADOW,
+      FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,FRAME_WIDTH_TARGET,
+      FRAME_HEIGHT_TARGET,POWER_BAR_HEIGHT,FONT,FONT_STYLE,FONT_SHADOW,
       FONT_SIZE_NORMAL,FONT_SIZE_SMALL,NAME_VERTICAL_OFFSET,
       BOT_VERTICAL_OFFSET,BAR_TEXTURE,BAR_ANIMATION,
       SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID,GUILD_TEXT_NPCS,
@@ -223,7 +223,6 @@ do
         -- set config locals to reduce table lookup
         UpdateMediaLocals()
 
-
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
         TARGET_ARROWS = self.profile.target_arrows
@@ -248,6 +247,8 @@ do
         FRAME_HEIGHT_MINUS = self:Scale(self.profile.frame_height_minus)
         FRAME_WIDTH_PERSONAL = self:Scale(self.profile.frame_width_personal)
         FRAME_HEIGHT_PERSONAL = self:Scale(self.profile.frame_height_personal)
+        FRAME_WIDTH_TARGET = self:Scale(self.profile.frame_width_target)
+        FRAME_HEIGHT_TARGET = self:Scale(self.profile.frame_height_target)
         POWER_BAR_HEIGHT = self:Scale(self.profile.powerbar_height)
         FRAME_VERTICAL_OFFSET = self.profile.frame_vertical_offset
 
@@ -399,17 +400,14 @@ end
 -- frame background ############################################################
 local function UpdateFrameSize(f)
     -- set frame size and position
-    if f.state.minus then
-        f:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
-    elseif f.state.personal then
+    if f.state.personal then
         f:SetSize(FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL)
+    elseif f.state.target then
+        f:SetSize(FRAME_WIDTH_TARGET,FRAME_HEIGHT_TARGET)
+    elseif f.state.minus then
+        f:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
     else
         f:SetSize(FRAME_WIDTH,FRAME_HEIGHT)
-    end
-
-    -- XXX probably obsolete with target size
-    if f.state.no_name and not f.state.personal then
-        f:SetHeight(FRAME_HEIGHT_MINUS)
     end
 
     f:SetPoint('CENTER',0,FRAME_VERTICAL_OFFSET)
