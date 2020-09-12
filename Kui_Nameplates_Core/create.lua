@@ -2435,9 +2435,7 @@ function core:InitialiseElements()
     -- initialise classpowers...
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
-        icon_size = Scale(self.profile.classpowers_size),
-        bar_width = Scale(self.profile.classpowers_bar_width),
-        bar_height = Scale(self.profile.classpowers_bar_height),
+        icon_size = self:Scale(self.profile.classpowers_size),
         icon_texture = MEDIA..'combopoint-round',
         icon_sprite = MEDIA..'combopoint',
         icon_glow_texture = MEDIA..'combopoint-glow',
@@ -2463,7 +2461,7 @@ function core:InitialiseElements()
 
     -- initialise boss mods...
     self.BossModIcon = {
-        icon_size = Scale(self.profile.bossmod_icon_size),
+        icon_size = self:Scale(self.profile.bossmod_icon_size),
         icon_x_offset = self.profile.bossmod_x_offset,
         icon_y_offset = self.profile.bossmod_y_offset,
         control_visibility = self.profile.bossmod_control_visibility,

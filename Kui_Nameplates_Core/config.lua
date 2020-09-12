@@ -594,9 +594,7 @@ end
 local function configChangedClassPowers()
     if not core.ClassPowers then return end
     core.ClassPowers.on_target = core.profile.classpowers_on_target
-    core.ClassPowers.icon_size = core.profile.classpowers_size
-    core.ClassPowers.bar_width = core.profile.classpowers_bar_width
-    core.ClassPowers.bar_height = core.profile.classpowers_bar_height
+    core.ClassPowers.icon_size = core:Scale(core.profile.classpowers_size)
     addon:GetPlugin('ClassPowers'):UpdateConfig()
 end
 configChanged.classpowers_size = configChangedClassPowers
@@ -686,9 +684,9 @@ configChanged.bossmod_enable = function(v)
     end
 end
 local function configChangedBossMod()
-    core.BossModIcon.icon_size = core.profile.bossmod_icon_size
-    core.BossModIcon.icon_x_offset = core.profile.bossmod_x_offset
-    core.BossModIcon.icon_y_offset = core.profile.bossmod_y_offset
+    core.BossModIcon.icon_size = core:Scale(core.profile.bossmod_icon_size)
+    core.BossModIcon.icon_x_offset = core:Scale(core.profile.bossmod_x_offset)
+    core.BossModIcon.icon_y_offset = core:Scale(core.profile.bossmod_y_offset)
     core.BossModIcon.control_visibility = core.profile.bossmod_control_visibility
     core.BossModIcon.clickthrough = core.profile.bossmod_clickthrough
 
