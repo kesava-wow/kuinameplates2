@@ -1655,12 +1655,11 @@ do
             core.Auras_PostUpdateAuraFrame(self)
         end
 
-        self.__h_offset = AURAS_CENTRE and
-            floor((self.parent.bg:GetWidth() - self.__width) / 2) or
-            0
-        self:ClearAllPoints()
-
         -- update position
+        self:ClearAllPoints()
+        self.__h_offset = AURAS_CENTRE and
+            floor((self.parent.bg:GetWidth() - self.__width) / 2) or 0
+
         if self.id == 'core_dynamic' or
            (not AURAS_PURGE_OPPOSITE and not self.sibling:IsShown())
         then
