@@ -1,3 +1,7 @@
+* add frame_width_target and frame_height_target
+* use normal aura size on minus units when targeted
+* normal frames with hidden names no longer use frame_height_minus
+* fix global scale doesn't apply to class powers or boss mods when changed
 
 * (retail) fix lua error related to NamePlateDriverFrame
 
