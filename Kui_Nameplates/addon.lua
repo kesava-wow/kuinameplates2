@@ -225,7 +225,7 @@ local function OnEvent(self,event,...)
         end
     end
     -- hide default unit frames
-    if NamePlateDriverFrame then
+    if NamePlateDriverFrame and NamePlateDriverFrame.AcquireUnitFrame then
         hooksecurefunc(NamePlateDriverFrame,'AcquireUnitFrame',self.NamePlateDriverFrame_AcquireUnitFrame)
     end
 end
