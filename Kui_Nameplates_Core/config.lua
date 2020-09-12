@@ -783,7 +783,6 @@ configChanged.cvar_self_alpha = configChangedCVar
 configChanged.cvar_occluded_mult = configChangedCVar
 
 function configChanged.global_scale()
-    GLOBAL_SCALE = core.profile.global_scale
     configChanged.frame_glow_size(core.profile.frame_glow_size)
     configChanged.state_icons()
     configChangedCastBar()
@@ -857,9 +856,15 @@ end
 configLoaded.bossmod_enable = configChanged.bossmod_enable
 
 -- init config #################################################################
+local function UpdateProfile()
+    core.profile = core.config:GetConfig()
+    GLOBAL_SCALE = core.profile.global_scale
+
+    -- initialise config locals in create.lua
+    core:SetLocals()
+end
 function core:ConfigChanged(config,k,v)
-    self.profile = config:GetConfig()
-    self:SetLocals()
+    UpdateProfile()
 
     if k then
         -- call affected key's configChanged function
@@ -903,12 +908,8 @@ function core:InitialiseConfig()
     --@end-alpha@
 
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
-    self.profile = self.config:GetConfig()
-
     self.config:RegisterConfigChanged(self,'ConfigChanged')
-
-    -- initialise config locals in create.lua
-    self:SetLocals()
+    UpdateProfile()
 
     -- run config loaded functions
     for k,f in pairs(configLoaded) do
