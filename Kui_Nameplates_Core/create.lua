@@ -1655,12 +1655,11 @@ do
 
             -- update frame height
             core.Auras_PostUpdateAuraFrame(self)
-
-            self.__h_offset = AURAS_CENTRE and
-                floor((self.parent.bg:GetWidth() - self.__width) / 2) or
-                0
         end
 
+        self.__h_offset = AURAS_CENTRE and
+            floor((self.parent.bg:GetWidth() - self.__width) / 2) or
+            0
         self:ClearAllPoints()
 
         -- update position
