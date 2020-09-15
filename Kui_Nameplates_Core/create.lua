@@ -848,68 +848,6 @@ do
 end
 -- frame glow ##################################################################
 do
-    local GLOW_POINTS = {
-        { 'BOTTOMRIGHT', 'TOPLEFT', 1, -1 },
-        { { 'BOTTOMLEFT', 'TOPLEFT', 1, -1 },
-          { 'BOTTOMRIGHT', 'TOPRIGHT', -1, -1 }
-        },
-        { 'BOTTOMLEFT', 'TOPRIGHT', -1, -1 },
-        { { 'TOPLEFT', 'TOPRIGHT', -1, -1 },
-          { 'BOTTOMLEFT', 'BOTTOMRIGHT', -1, 1 }
-        },
-        { 'TOPLEFT', 'BOTTOMRIGHT', -1, 1 },
-        { { 'TOPRIGHT', 'BOTTOMRIGHT', -1, 1 },
-          { 'TOPLEFT', 'BOTTOMLEFT', 1, 1 }
-        },
-        { 'TOPRIGHT', 'BOTTOMLEFT', 1, 1 },
-        { { 'BOTTOMRIGHT', 'BOTTOMLEFT', 1, 1 },
-          { 'TOPRIGHT', 'TOPLEFT', 1, -1 }
-        }
-    }
-    local GLOW_TEXTURE_COORDS = {
-        { 0, .5, 0, .5 }, -- top left
-        { .5, 1, 0, .5 }, -- top
-        { .5, 0, 0, .5 }, -- top right
-        { .5, 0, .5, 1 }, -- right
-        { .5, 0, .5, 0 }, -- bottom right
-        { .5, 1, .5, 0 }, -- bottom
-        { 0, .5, .5, 0 }, -- bottom left
-        { 0, .5, .5, 1 }, -- left
-    }
-
-    -- frame glow prototype
-    local glow_prototype = {}
-    glow_prototype.__index = glow_prototype
-    function glow_prototype:SetVertexColor(...)
-        for _,side in ipairs(self.sides) do
-            local r,g,b,a = ...
-            a = (a or 1) * .6
-            side:SetVertexColor(r,g,b,a)
-        end
-    end
-    function glow_prototype:Show()
-        for _,side in ipairs(self.sides) do
-            side:Show()
-        end
-    end
-    function glow_prototype:Hide()
-        for _,side in ipairs(self.sides) do
-            side:Hide()
-        end
-    end
-    function glow_prototype:SetSize(size)
-        if not tonumber(size) then return end
-        for _,side in ipairs(self.sides) do
-            side:SetSize(size,size)
-        end
-    end
-    function glow_prototype:SetAlpha(...)
-        for _,side in ipairs(self.sides) do
-            side:SetAlpha(...)
-        end
-    end
-
-    -- update
     local function UpdateFrameGlow(f)
         -- update colour of ThreatGlow or NameOnlyGlow
         if f.IN_NAMEONLY then
@@ -971,30 +909,8 @@ do
         f.TargetGlow:SetHeight(FRAME_GLOW_SIZE)
     end
     function core:CreateFrameGlow(f)
-        local glow = { sides = {} }
-        setmetatable(glow,glow_prototype)
-
-        for i=1,8 do
-            local side = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-            side:SetTexture(KUI_MEDIA..'t/shadowBorder')
-
-            side:SetTexCoord(unpack(GLOW_TEXTURE_COORDS[i]))
-
-            local point = GLOW_POINTS[i]
-
-            if type(point[1]) == 'table' then
-                -- flat side
-                side:SetPoint(point[1][1],f.bg,point[1][2],point[1][3],point[1][4])
-                side:SetPoint(point[2][1],f.bg,point[2][2],point[2][3],point[2][4])
-            else
-                -- corner
-                side:SetPoint(point[1],f.bg,point[2],point[3],point[4])
-            end
-
-            tinsert(glow.sides,side)
-        end
-
-        glow:SetSize(FRAME_GLOW_SIZE)
+        local glow = kui.CreateEightSlice(f,KUI_MEDIA..'t/shadowBorder','BACKGROUND',-5)
+        glow:SetAllPoints(f.bg)
         f.handler:RegisterElement('ThreatGlow',glow)
 
         local target_glow = f:CreateTexture(nil,'BACKGROUND',nil,-5)
