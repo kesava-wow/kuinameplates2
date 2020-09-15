@@ -1,3 +1,8 @@
+* add spark to healthbar
+* add frame_glow_size_target
+* reduce default frame_glow_size
+* reduce frame shadow alpha slightly
+
 * add frame_width_target and frame_height_target
 * use normal aura size on minus units when targeted
 * normal frames with hidden names no longer use frame_height_minus
