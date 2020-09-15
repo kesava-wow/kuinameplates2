@@ -1,7 +1,11 @@
+* use target glow size on threat glow, mouseover glow
+
 * add spark to healthbar
 * add frame_glow_size_target
+* increase frame glow maximum alpha
 * reduce default frame_glow_size
 * reduce frame shadow alpha slightly
+* fix mouseover glow shows on target
 
 * add frame_width_target and frame_height_target
 * use normal aura size on minus units when targeted
