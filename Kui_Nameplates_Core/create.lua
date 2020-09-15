@@ -488,7 +488,7 @@ do
         f.HealthBar:SetHeight(hb_height)
     end
     function core:CreateHealthBar(f)
-        local healthbar = CreateStatusBar(f)
+        local healthbar = CreateStatusBar(f,true)
 
         healthbar:SetPoint('TOPLEFT',f.bg,1,-1)
         healthbar:SetPoint('RIGHT',f.bg,-1,0)
