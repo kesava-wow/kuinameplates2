@@ -854,6 +854,11 @@ do
             f.TargetGlow:Hide()
 
             if f.NameOnlyGlow then
+                f.NameOnlyGlow:SetPoint('TOPLEFT',f.NameText,
+                    -6-FRAME_GLOW_SIZE_TARGET,FRAME_GLOW_SIZE_TARGET)
+                f.NameOnlyGlow:SetPoint('BOTTOMRIGHT',f.NameText,
+                     6+FRAME_GLOW_SIZE_TARGET,-FRAME_GLOW_SIZE_TARGET)
+
                 if TARGET_GLOW and f.state.target then
                     f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                     f.NameOnlyGlow:Show()
@@ -870,6 +875,8 @@ do
             end
         else
             f.ThreatGlow:Show()
+            f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
+            f.TargetGlow:SetHeight(FRAME_GLOW_SIZE_TARGET)
 
             if f.NameOnlyGlow then
                 f.NameOnlyGlow:Hide()
@@ -877,6 +884,7 @@ do
 
             if TARGET_GLOW and f.state.target then
                 -- target glow colour
+                f.ThreatGlow:SetSize(FRAME_GLOW_SIZE_TARGET)
                 f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                 f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                 f.TargetGlow:Show()
@@ -902,11 +910,6 @@ do
             end
         end
     end
-    local function UpdateFrameGlowSize(f)
-        if not f.ThreatGlow then return end
-        f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
-        f.TargetGlow:SetHeight(FRAME_GLOW_SIZE)
-    end
     function core:CreateFrameGlow(f)
         local glow = kui.CreateEightSlice(f,KUI_MEDIA..'t/shadowBorder','BACKGROUND',-5)
         glow:SetAllPoints(f.bg)
@@ -919,8 +922,6 @@ do
         f.TargetGlow = target_glow
 
         f.UpdateFrameGlow = UpdateFrameGlow
-        f.UpdateFrameGlowSize = UpdateFrameGlowSize
-        f:UpdateFrameGlowSize()
     end
 end
 -- target arrows ###############################################################
@@ -2117,26 +2118,15 @@ do
         end
     end
 
-    do
-        local function UpdateNameOnlyGlowSize(f)
-            if not f.NameOnlyGlow then return end
-            f.NameOnlyGlow:SetPoint('TOPLEFT',f.NameText,
-                -6-FRAME_GLOW_SIZE,  FRAME_GLOW_SIZE)
-            f.NameOnlyGlow:SetPoint('BOTTOMRIGHT',f.NameText,
-                 6+FRAME_GLOW_SIZE, -FRAME_GLOW_SIZE)
-        end
-        function core:CreateNameOnlyGlow(f)
-            if f.NameOnlyGlow then return end
+    function core:CreateNameOnlyGlow(f)
+        if f.NameOnlyGlow then return end
 
-            local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
-            g:SetTexture(KUI_MEDIA..'t/spark-flat')
-            g:Hide()
+        local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
+        g:SetTexture(KUI_MEDIA..'t/spark-flat')
+        g:Hide()
+        -- size set in UpdateFrameGlow
 
-            f.NameOnlyGlow = g
-            f.UpdateNameOnlyGlowSize = UpdateNameOnlyGlowSize
-
-            f:UpdateNameOnlyGlowSize()
-        end
+        f.NameOnlyGlow = g
     end
 
     function core:NameOnlyUpdateFunctions(f)

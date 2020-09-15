@@ -653,16 +653,6 @@ function configChanged.execute_percent()
 end
 configChanged.execute_auto = configChanged.execute_percent
 
-function configChanged.frame_glow_size()
-    for _,f in addon:Frames() do
-        f:UpdateFrameGlowSize()
-
-        if type(f.UpdateNameOnlyGlowSize) == 'function' then
-            f:UpdateNameOnlyGlowSize()
-        end
-    end
-end
-
 function configChanged.ignore_uiscale(v)
     addon.IGNORE_UISCALE = v
     addon:UI_SCALE_CHANGED()
@@ -788,7 +778,6 @@ configChanged.cvar_self_alpha = configChangedCVar
 configChanged.cvar_occluded_mult = configChangedCVar
 
 function configChanged.global_scale()
-    configChanged.frame_glow_size(core.profile.frame_glow_size)
     configChanged.state_icons()
     configChangedCastBar()
     configChangedAuras()
