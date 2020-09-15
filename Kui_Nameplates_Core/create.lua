@@ -875,7 +875,6 @@ do
             end
         else
             f.ThreatGlow:Show()
-            f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
             f.TargetGlow:SetHeight(FRAME_GLOW_SIZE_TARGET)
 
             if f.NameOnlyGlow then
@@ -890,6 +889,7 @@ do
                 f.TargetGlow:Show()
             elseif MOUSEOVER_GLOW and f.state.highlight and not f.state.target then
                 -- mouseover glow
+                f.ThreatGlow:SetSize(FRAME_GLOW_SIZE_TARGET)
                 f.ThreatGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
                 f.TargetGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
                 f.TargetGlow:Show()
@@ -898,8 +898,10 @@ do
 
                 if FRAME_GLOW_THREAT and f.state.glowing then
                     -- threat glow colour
+                    f.ThreatGlow:SetSize(FRAME_GLOW_SIZE_TARGET)
                     f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
                 else
+                    f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
                     if GLOW_AS_SHADOW then
                         -- shadow
                         f.ThreatGlow:SetVertexColor(0,0,0,.2)
