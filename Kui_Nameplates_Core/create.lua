@@ -888,7 +888,7 @@ do
                 f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                 f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                 f.TargetGlow:Show()
-            elseif MOUSEOVER_GLOW and f.state.highlight then
+            elseif MOUSEOVER_GLOW and f.state.highlight and not f.state.target then
                 -- mouseover glow
                 f.ThreatGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
                 f.TargetGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
