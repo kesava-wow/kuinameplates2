@@ -1,4 +1,5 @@
 * (just pushing this release to beta because it fixes double-plates in shadowlands)
+* add options show_quest_icon, frame_target_size (not exposed, both disabled by default)
 
 * use target glow size on threat glow, mouseover glow
 
