@@ -50,6 +50,7 @@ local default_config = {
     use_blizzard_powers = false,
     frame_vertical_offset = 0,
     show_arena_id = true, -- NEX
+    show_quest_icon = false, -- NEX (XXX enable by default)
 
     clickthrough_self = false,
     clickthrough_friend = false,
@@ -152,6 +153,7 @@ local default_config = {
     frame_height_personal = 16,
     frame_width_target = 128,
     frame_height_target = 16,
+    frame_target_size = false, -- NEX (XXX enable by default)
     powerbar_height = 3,
     global_scale = 1,
 

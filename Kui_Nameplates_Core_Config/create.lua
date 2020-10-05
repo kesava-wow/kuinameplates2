@@ -461,6 +461,8 @@ function framesizes:Initialise()
     global_scale:SetValueStep(.05)
 
     frame_height_personal.enabled = function(p) return not p.use_blizzard_personal end
+    frame_width_target.enabled = function(p) return p.frame_target_size end
+    frame_height_target.enabled = frame_width_target.enabled
 
     frame_width:SetPoint('TOPLEFT',10,-25)
     frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)

@@ -70,7 +70,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
       HIDE_NAMES,FRAME_VERTICAL_OFFSET,
       MOUSEOVER_HIGHLIGHT,HIGHLIGHT_OPACITY,LEVEL_TEXT,LEVEL_NAMEONLY,
-      HEALTH_TEXT_PERCENT_SYMBOL
+      HEALTH_TEXT_PERCENT_SYMBOL,SHOW_QUEST_ICON,FRAME_TARGET_SIZE
 
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
@@ -251,6 +251,7 @@ do
         FRAME_HEIGHT_TARGET = self:Scale(self.profile.frame_height_target)
         POWER_BAR_HEIGHT = self:Scale(self.profile.powerbar_height)
         FRAME_VERTICAL_OFFSET = self.profile.frame_vertical_offset
+        FRAME_TARGET_SIZE = self.profile.frame_target_size
 
         LEVEL_TEXT = self.profile.level_text
         LEVEL_NAMEONLY = self.profile.level_nameonly
@@ -294,6 +295,8 @@ do
         TITLE_TEXT_PLAYERS = self.profile.title_text_players
 
         CASTBAR_DETACH = self.profile.castbar_detach
+
+        SHOW_QUEST_ICON = self.profile.show_quest_icon
     end
     function core:LSMMediaRegistered(_,mediatype,key)
         -- callback registered in config.lua:InitialiseConfig
@@ -403,7 +406,7 @@ local function UpdateFrameSize(f)
     -- set frame size and position
     if f.state.personal then
         f:SetSize(FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL)
-    elseif f.state.target then
+    elseif FRAME_TARGET_SIZE and f.state.target then
         f:SetSize(FRAME_WIDTH_TARGET,FRAME_HEIGHT_TARGET)
     elseif f.state.minus then
         f:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
@@ -2038,7 +2041,7 @@ end
 -- quest icon ##################################################################
 do
     local function UpdateQuestIcon(frame)
-        if frame.state.quest then
+        if SHOW_QUEST_ICON and frame.state.quest then
             frame.QuestIcon:Show()
         else
             frame.QuestIcon:Hide()
