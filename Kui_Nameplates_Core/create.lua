@@ -70,7 +70,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
       HIDE_NAMES,FRAME_VERTICAL_OFFSET,
       MOUSEOVER_HIGHLIGHT,HIGHLIGHT_OPACITY,LEVEL_TEXT,LEVEL_NAMEONLY,
-      HEALTH_TEXT_PERCENT_SYMBOL
+      HEALTH_TEXT_PERCENT_SYMBOL,SHOW_QUEST_ICON
 
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
@@ -223,7 +223,6 @@ do
         -- set config locals to reduce table lookup
         UpdateMediaLocals()
 
-
         BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
 
         TARGET_ARROWS = self.profile.target_arrows
@@ -292,6 +291,8 @@ do
         TITLE_TEXT_PLAYERS = self.profile.title_text_players
 
         CASTBAR_DETACH = self.profile.castbar_detach
+
+        SHOW_QUEST_ICON = self.profile.show_quest_icon
     end
     function core:LSMMediaRegistered(_,mediatype,key)
         -- callback registered in config.lua:InitialiseConfig
@@ -856,9 +857,9 @@ do
 
             if f.NameOnlyGlow then
                 f.NameOnlyGlow:SetPoint('TOPLEFT',f.NameText,
-                    -6-FRAME_GLOW_SIZE_TARGET,FRAME_GLOW_SIZE_TARGET)
+                    -6-FRAME_GLOW_SIZE,FRAME_GLOW_SIZE)
                 f.NameOnlyGlow:SetPoint('BOTTOMRIGHT',f.NameText,
-                     6+FRAME_GLOW_SIZE_TARGET,-FRAME_GLOW_SIZE_TARGET)
+                     6+FRAME_GLOW_SIZE,-FRAME_GLOW_SIZE)
 
                 if TARGET_GLOW and f.state.target then
                     f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
@@ -877,7 +878,7 @@ do
         else
             f.ThreatGlow:Show()
             f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
-            f.TargetGlow:SetHeight(FRAME_GLOW_SIZE_TARGET)
+            f.TargetGlow:SetHeight(FRAME_GLOW_SIZE)
 
             if f.NameOnlyGlow then
                 f.NameOnlyGlow:Hide()
@@ -885,7 +886,7 @@ do
 
             if TARGET_GLOW and f.state.target then
                 -- target glow colour
-                f.ThreatGlow:SetSize(FRAME_GLOW_SIZE_TARGET)
+                f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
                 f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                 f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                 f.TargetGlow:Show()
@@ -2038,7 +2039,7 @@ end
 -- quest icon ##################################################################
 do
     local function UpdateQuestIcon(frame)
-        if frame.state.quest then
+        if SHOW_QUEST_ICON and frame.state.quest then
             frame.QuestIcon:Show()
         else
             frame.QuestIcon:Hide()
