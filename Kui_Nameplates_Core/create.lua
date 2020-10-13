@@ -1945,8 +1945,8 @@ end
 function core.ClassPowers_CreateBar()
     local bar = CreateStatusBar(addon.ClassPowersFrame)
     bar:SetSize(
-        self:Scale(core.profile.classpowers_bar_width),
-        self:Scale(core.profile.classpowers_bar_height)
+        core:Scale(core.profile.classpowers_bar_width),
+        core:Scale(core.profile.classpowers_bar_height)
     )
     bar:SetPoint('CENTER',0,-1)
 
