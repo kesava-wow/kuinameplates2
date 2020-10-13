@@ -1,6 +1,8 @@
 * increase frame glow maximum brightness
-* fix global scale doesn't apply to class powers or boss mods when changed
-* (retail) fix lua error related to NamePlateDriverFrame
-* (beta) fix default nameplates become visible sometimes
 * reduce frame shadow alpha slightly
 * change default frame sizes
+* fix global scale doesn't apply to class powers or boss mods when changed
+* fix global scale doesn't apply to class powers bar
+* fix lua error when creating class powers bar
+* (retail) fix lua error related to NamePlateDriverFrame
+* (beta) fix default nameplates become visible sometimes
