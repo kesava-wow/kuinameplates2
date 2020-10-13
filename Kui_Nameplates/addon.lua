@@ -203,11 +203,11 @@ local function OnEvent(self,event,...)
     if NamePlateDriverFrame and not kui.CLASSIC then
         if not self.USE_BLIZZARD_PERSONAL then
             NamePlateDriverFrame:SetClassNameplateManaBar(nil)
-            NamePlateDriverFrame:SetClassNameplateBar(nil)
             --luacheck:globals ClassNameplateManaBarFrame
             ClassNameplateManaBarFrame:UnregisterAllEvents()
         end
         if not self.USE_BLIZZARD_PERSONAL and not self.USE_BLIZZARD_POWERS then
+            NamePlateDriverFrame:SetClassNameplateBar(nil)
             --luacheck:globals DeathKnightResourceOverlayFrame
             DeathKnightResourceOverlayFrame:UnregisterAllEvents()
             --luacheck:globals ClassNameplateBarMageFrame
