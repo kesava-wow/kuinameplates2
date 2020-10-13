@@ -1,5 +1,13 @@
-* (just pushing this release to beta because it fixes double-plates in shadowlands)
-* add options show_quest_icon, frame_target_size (not exposed, both disabled by default)
+ALPHA NOTES
+
+ALPHA USERS PLEASE NOTE: the alpha is currently on a separate branch from the beta and release versions; you might notice behaviour fluctuating as you get automatic updates.
+
+* increase class powers bar size
+* fix global scale does not apply to class powers bar
+* fix use_blizzard_powers is inconsistent (maybe)
+* (enable the following options by default again)
+
+* add options show_quest_icon, frame_target_size
 
 * use target glow size on threat glow, mouseover glow
 
