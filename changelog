@@ -1,6 +1,7 @@
 * increase frame glow maximum brightness
 * reduce frame shadow alpha slightly
 * change default frame sizes
+* increase class powers bar size
 * fix global scale doesn't apply to class powers or boss mods when changed
 * fix global scale doesn't apply to class powers bar
 * fix lua error when creating class powers bar

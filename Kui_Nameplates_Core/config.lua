@@ -219,8 +219,8 @@ local default_config = {
     classpowers_enable = true,
     classpowers_on_target = true,
     classpowers_size = 12,
-    classpowers_bar_width = 50,
-    classpowers_bar_height = 3,
+    classpowers_bar_width = 80,
+    classpowers_bar_height = 5,
 
     classpowers_colour_deathknight = {1,.2,.3},
     classpowers_colour_druid       = {1,1,.1},
