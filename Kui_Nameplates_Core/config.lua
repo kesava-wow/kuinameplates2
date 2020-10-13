@@ -596,6 +596,8 @@ local function configChangedClassPowers()
     if not core.ClassPowers then return end
     core.ClassPowers.on_target = core.profile.classpowers_on_target
     core.ClassPowers.icon_size = core:Scale(core.profile.classpowers_size)
+    core.ClassPowers.bar_width = core:Scale(core.profile.classpowers_bar_width)
+    core.ClassPowers.bar_height = core:Scale(core.profile.classpowers_bar_height)
     addon:GetPlugin('ClassPowers'):UpdateConfig()
 end
 configChanged.classpowers_size = configChangedClassPowers

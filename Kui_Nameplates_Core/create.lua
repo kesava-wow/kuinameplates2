@@ -1945,14 +1945,15 @@ end
 function core.ClassPowers_CreateBar()
     local bar = CreateStatusBar(addon.ClassPowersFrame)
     bar:SetSize(
-        core:Scale(core.profile.classpowers_bar_width),
-        core:Scale(core.profile.classpowers_bar_height)
+        core.ClassPowers.bar_width,
+        core.ClassPowers.bar_height
     )
     bar:SetPoint('CENTER',0,-1)
 
     bar.fill:SetParent(bar)
     bar.fill:SetDrawLayer('BACKGROUND',2)
 
+    Mixin(bar,BackdropTemplateMixin)
     bar:SetBackdrop({
         bgFile=kui.m.t.solid,
         insets={top=-1,right=-1,bottom=-1,left=-1}
@@ -2342,6 +2343,8 @@ function core:InitialiseElements()
     self.ClassPowers = {
         on_target = self.profile.classpowers_on_target,
         icon_size = self:Scale(self.profile.classpowers_size),
+        bar_width = self:Scale(self.profile.classpowers_bar_width),
+        bar_height = self:Scale(self.profile.classpowers_bar_height),
         icon_texture = MEDIA..'combopoint-round',
         icon_sprite = MEDIA..'combopoint',
         icon_glow_texture = MEDIA..'combopoint-glow',
