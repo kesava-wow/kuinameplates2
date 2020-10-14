@@ -5,5 +5,5 @@
 * fix global scale doesn't apply to class powers or boss mods when changed
 * fix global scale doesn't apply to class powers bar
 * fix lua error when creating class powers bar
-* (retail) fix lua error related to NamePlateDriverFrame
-* (beta) fix default nameplates become visible sometimes
+* (beta/prepatch) fix default nameplates become visible sometimes
+* bump toc
