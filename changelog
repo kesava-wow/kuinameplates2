@@ -7,3 +7,5 @@
 * fix lua error when creating class powers bar
 * (beta/prepatch) fix default nameplates become visible sometimes
 * bump toc
+
+* (dummy push to casually nudge curse into serving the correct version)
