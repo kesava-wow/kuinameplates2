@@ -863,9 +863,8 @@ do
         if not self:CurrentPage_CanPaste() then return end
 
         for env,value in pairs(clipboard) do
-            self.config.profile[env] = value
+            self.config:SetKey(env,value)
         end
-        self.config:PostProfile()
 
         clipboard,clipboard_page,clipboard_profile = nil,nil,nil
         self:CurrentPage_UpdateClipboardButton()
@@ -881,12 +880,10 @@ do
     function opt:CurrentPage_Reset()
         -- reset settings on current page
         for _,e_frame in pairs(self.active_page.elements) do
-            local env = e_frame.env
-            if env then
-                self.config.profile[env] = nil
+            if e_frame.env then
+                self.config:ResetKey(e_frame.env)
             end
         end
-        self.config:PostProfile()
     end
     function opt:CurrentPage_ClipboardButtonClick(button)
         if button == 'RightButton' or not self:CurrentPage_CanPaste() then
