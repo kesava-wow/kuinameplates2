@@ -2,6 +2,8 @@ ALPHA NOTES
 
 ALPHA USERS PLEASE NOTE: the alpha is currently on a separate branch from the beta and release versions; you might notice behaviour fluctuating as you get automatic updates.
 
+* fix lua error when forbidden nameplates are created
+
 * (alpha is no longer packaged for 835)
 
 * increase class powers bar size
