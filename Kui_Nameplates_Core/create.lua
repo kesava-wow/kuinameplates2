@@ -219,85 +219,89 @@ do
         BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,core.profile.bar_texture)
         FONT = LSM:Fetch(LSM.MediaType.FONT,core.profile.font_face)
     end
+    local function p1()
+        BAR_ANIMATION = ANIM_ASSOC[core.profile.bar_animation]
+
+        TARGET_ARROWS = core.profile.target_arrows
+        TARGET_ARROWS_SIZE = core:Scale(core.profile.target_arrows_size)
+        TARGET_ARROWS_INSET = core:Scale(core.profile.target_arrows_inset)
+        TARGET_ARROWS_TEXTURE = core.profile.target_arrows_texture
+
+        TARGET_GLOW = core.profile.target_glow
+        TARGET_GLOW_COLOUR = core.profile.target_glow_colour
+        MOUSEOVER_GLOW = core.profile.mouseover_glow
+        MOUSEOVER_GLOW_COLOUR = core.profile.mouseover_glow_colour
+        MOUSEOVER_HIGHLIGHT = core.profile.mouseover_highlight
+        HIGHLIGHT_OPACITY = core.profile.mouseover_highlight_opacity
+        GLOW_AS_SHADOW = core.profile.glow_as_shadow
+
+        THREAT_BRACKETS = core.profile.threat_brackets
+        THREAT_BRACKETS_SIZE = core:Scale(core.profile.threat_brackets_size)
+
+        FRAME_WIDTH = core:Scale(core.profile.frame_width)
+        FRAME_HEIGHT = core:Scale(core.profile.frame_height)
+        FRAME_WIDTH_MINUS = core:Scale(core.profile.frame_width_minus)
+        FRAME_HEIGHT_MINUS = core:Scale(core.profile.frame_height_minus)
+        FRAME_WIDTH_PERSONAL = core:Scale(core.profile.frame_width_personal)
+        FRAME_HEIGHT_PERSONAL = core:Scale(core.profile.frame_height_personal)
+        FRAME_WIDTH_TARGET = core:Scale(core.profile.frame_width_target)
+        FRAME_HEIGHT_TARGET = core:Scale(core.profile.frame_height_target)
+        POWER_BAR_HEIGHT = core:Scale(core.profile.powerbar_height)
+        FRAME_VERTICAL_OFFSET = core.profile.frame_vertical_offset
+        FRAME_TARGET_SIZE = core.profile.frame_target_size
+
+        LEVEL_TEXT = core.profile.level_text
+        LEVEL_NAMEONLY = core.profile.level_nameonly
+
+        FRAME_GLOW_SIZE = core:Scale(core.profile.frame_glow_size)
+        FRAME_GLOW_THREAT = core.profile.frame_glow_threat
+        FRAME_GLOW_SIZE_TARGET = core:Scale(core.profile.frame_glow_size_target)
+
+        NAME_VERTICAL_OFFSET = ScaleTextOffset(core.profile.name_vertical_offset)
+        BOT_VERTICAL_OFFSET = ScaleTextOffset(core.profile.bot_vertical_offset)
+
+        FONT_STYLE = FONT_STYLE_ASSOC[core.profile.font_style]
+        FONT_SHADOW = core.profile.font_style == 3 or core.profile.font_style == 4
+        FONT_SIZE_NORMAL = core:Scale(core.profile.font_size_normal)
+        FONT_SIZE_SMALL = core:Scale(core.profile.font_size_small)
+    end
+    local function p2()
+        FADE_UNTRACKED = core.profile.fade_untracked
+        FADE_AVOID_NAMEONLY = core.profile.fade_avoid_nameonly
+        FADE_AVOID_MOUSEOVER = core.profile.fade_avoid_mouseover
+        FADE_AVOID_TRACKED = core.profile.fade_avoid_tracked
+        FADE_AVOID_COMBAT = core.profile.fade_avoid_combat
+        FADE_AVOID_CASTING =
+            (core.profile.fade_avoid_casting_friendly
+            or core.profile.fade_avoid_casting_hostile) and
+            (core.profile.fade_avoid_casting_interruptible or
+            core.profile.fade_avoid_casting_uninterruptible)
+
+        SHOW_HEALTH_TEXT = core.profile.health_text
+        SHOW_NAME_TEXT = core.profile.name_text
+        SHOW_ARENA_ID = core.profile.show_arena_id
+        HIDE_NAMES = core.profile.hide_names
+
+        HEALTH_TEXT_FRIEND_MAX = core.profile.health_text_friend_max
+        HEALTH_TEXT_FRIEND_DMG = core.profile.health_text_friend_dmg
+        HEALTH_TEXT_HOSTILE_MAX = core.profile.health_text_hostile_max
+        HEALTH_TEXT_HOSTILE_DMG = core.profile.health_text_hostile_dmg
+        HEALTH_TEXT_PERCENT_SYMBOL = core.profile.health_text_percent_symbol and '%' or ''
+
+        GUILD_TEXT_NPCS = core.profile.guild_text_npcs
+        GUILD_TEXT_PLAYERS = core.profile.guild_text_players
+        TITLE_TEXT_PLAYERS = core.profile.title_text_players
+
+        CASTBAR_DETACH = core.profile.castbar_detach
+        CASTBAR_MATCH_FRAME_WIDTH = core.profile.castbar_detach_match_frame_width
+
+        SHOW_QUEST_ICON = core.profile.show_quest_icon
+    end
     function core:SetLocals()
         -- set config locals to reduce table lookup
         UpdateMediaLocals()
-
-        BAR_ANIMATION = ANIM_ASSOC[self.profile.bar_animation]
-
-        TARGET_ARROWS = self.profile.target_arrows
-        TARGET_ARROWS_SIZE = self:Scale(self.profile.target_arrows_size)
-        TARGET_ARROWS_INSET = self:Scale(self.profile.target_arrows_inset)
-        TARGET_ARROWS_TEXTURE = self.profile.target_arrows_texture
-
-        TARGET_GLOW = self.profile.target_glow
-        TARGET_GLOW_COLOUR = self.profile.target_glow_colour
-        MOUSEOVER_GLOW = self.profile.mouseover_glow
-        MOUSEOVER_GLOW_COLOUR = self.profile.mouseover_glow_colour
-        MOUSEOVER_HIGHLIGHT = self.profile.mouseover_highlight
-        HIGHLIGHT_OPACITY = self.profile.mouseover_highlight_opacity
-        GLOW_AS_SHADOW = self.profile.glow_as_shadow
-
-        THREAT_BRACKETS = self.profile.threat_brackets
-        THREAT_BRACKETS_SIZE = self:Scale(self.profile.threat_brackets_size)
-
-        FRAME_WIDTH = self:Scale(self.profile.frame_width)
-        FRAME_HEIGHT = self:Scale(self.profile.frame_height)
-        FRAME_WIDTH_MINUS = self:Scale(self.profile.frame_width_minus)
-        FRAME_HEIGHT_MINUS = self:Scale(self.profile.frame_height_minus)
-        FRAME_WIDTH_PERSONAL = self:Scale(self.profile.frame_width_personal)
-        FRAME_HEIGHT_PERSONAL = self:Scale(self.profile.frame_height_personal)
-        FRAME_WIDTH_TARGET = self:Scale(self.profile.frame_width_target)
-        FRAME_HEIGHT_TARGET = self:Scale(self.profile.frame_height_target)
-        POWER_BAR_HEIGHT = self:Scale(self.profile.powerbar_height)
-        FRAME_VERTICAL_OFFSET = self.profile.frame_vertical_offset
-        FRAME_TARGET_SIZE = self.profile.frame_target_size
-
-        LEVEL_TEXT = self.profile.level_text
-        LEVEL_NAMEONLY = self.profile.level_nameonly
-
-        FRAME_GLOW_SIZE = self:Scale(self.profile.frame_glow_size)
-        FRAME_GLOW_THREAT = self.profile.frame_glow_threat
-        FRAME_GLOW_SIZE_TARGET = self:Scale(self.profile.frame_glow_size_target)
-
-        NAME_VERTICAL_OFFSET = ScaleTextOffset(self.profile.name_vertical_offset)
-        BOT_VERTICAL_OFFSET = ScaleTextOffset(self.profile.bot_vertical_offset)
-
-        FONT_STYLE = FONT_STYLE_ASSOC[self.profile.font_style]
-        FONT_SHADOW = self.profile.font_style == 3 or self.profile.font_style == 4
-        FONT_SIZE_NORMAL = self:Scale(self.profile.font_size_normal)
-        FONT_SIZE_SMALL = self:Scale(self.profile.font_size_small)
-
-        FADE_UNTRACKED = self.profile.fade_untracked
-        FADE_AVOID_NAMEONLY = self.profile.fade_avoid_nameonly
-        FADE_AVOID_MOUSEOVER = self.profile.fade_avoid_mouseover
-        FADE_AVOID_TRACKED = self.profile.fade_avoid_tracked
-        FADE_AVOID_COMBAT = self.profile.fade_avoid_combat
-        FADE_AVOID_CASTING =
-            (self.profile.fade_avoid_casting_friendly
-            or self.profile.fade_avoid_casting_hostile) and
-            (self.profile.fade_avoid_casting_interruptible or
-            self.profile.fade_avoid_casting_uninterruptible)
-
-        SHOW_HEALTH_TEXT = self.profile.health_text
-        SHOW_NAME_TEXT = self.profile.name_text
-        SHOW_ARENA_ID = self.profile.show_arena_id
-        HIDE_NAMES = self.profile.hide_names
-
-        HEALTH_TEXT_FRIEND_MAX = self.profile.health_text_friend_max
-        HEALTH_TEXT_FRIEND_DMG = self.profile.health_text_friend_dmg
-        HEALTH_TEXT_HOSTILE_MAX = self.profile.health_text_hostile_max
-        HEALTH_TEXT_HOSTILE_DMG = self.profile.health_text_hostile_dmg
-        HEALTH_TEXT_PERCENT_SYMBOL = self.profile.health_text_percent_symbol and '%' or ''
-
-        GUILD_TEXT_NPCS = self.profile.guild_text_npcs
-        GUILD_TEXT_PLAYERS = self.profile.guild_text_players
-        TITLE_TEXT_PLAYERS = self.profile.title_text_players
-
-        CASTBAR_DETACH = self.profile.castbar_detach
-        CASTBAR_MATCH_FRAME_WIDTH = self.profile.castbar_detach_match_frame_width
-
-        SHOW_QUEST_ICON = self.profile.show_quest_icon
+        p1()
+        p2()
     end
     function core:LSMMediaRegistered(_,mediatype,key)
         -- callback registered in config.lua:InitialiseConfig
