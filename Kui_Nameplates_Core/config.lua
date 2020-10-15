@@ -206,6 +206,7 @@ local default_config = {
     castbar_detach_offset = 5,
     castbar_detach_combine = true,
     castbar_detach_nameonly = false,
+    castbar_detach_match_frame_width = true, -- NEX
     castbar_icon_side = 1,
 
     tank_mode = true,

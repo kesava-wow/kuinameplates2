@@ -78,7 +78,7 @@ local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET,TARGET_ARROWS_TEXTURE
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR,FRAME_GLOW_SIZE_TARGET
 local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
-local CASTBAR_DETACH
+local CASTBAR_DETACH,CASTBAR_MATCH_FRAME_WIDTH
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -295,6 +295,7 @@ do
         TITLE_TEXT_PLAYERS = self.profile.title_text_players
 
         CASTBAR_DETACH = self.profile.castbar_detach
+        CASTBAR_MATCH_FRAME_WIDTH = self.profile.castbar_detach_match_frame_width
 
         SHOW_QUEST_ICON = self.profile.show_quest_icon
     end
@@ -419,6 +420,10 @@ local function UpdateFrameSize(f)
     f:UpdateMainBars()
     f:SpellIconSetWidth()
     f:UpdateAuras()
+
+    if CASTBAR_MATCH_FRAME_WIDTH then
+        f:UpdateCastbarSize()
+    end
 end
 function core:CreateBackground(f)
     local bg = f:CreateTexture(nil,'BACKGROUND',nil,1)
@@ -1210,8 +1215,14 @@ do
 
         if CASTBAR_DETACH then
             -- castbar detached from main frame
-            f.CastBar.bg:SetSize(CASTBAR_DETACH_WIDTH,CASTBAR_DETACH_HEIGHT)
-            f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_DETACH_OFFSET)
+            if CASTBAR_MATCH_FRAME_WIDTH then
+                f.CastBar.bg:SetHeight(CASTBAR_DETACH_HEIGHT)
+                f.CastBar.bg:SetPoint('TOPLEFT',f.bg,'BOTTOMLEFT',0,-CASTBAR_DETACH_OFFSET)
+                f.CastBar.bg:SetPoint('TOPRIGHT',f.bg,'BOTTOMRIGHT',0,0)
+            else
+                f.CastBar.bg:SetSize(CASTBAR_DETACH_WIDTH,CASTBAR_DETACH_HEIGHT)
+                f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_DETACH_OFFSET)
+            end
 
             if CASTBAR_SHOW_ICON and f.SpellIcon then
                 if CASTBAR_DETACH_COMBINE then
