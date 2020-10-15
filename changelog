@@ -2,6 +2,9 @@ ALPHA NOTES
 
 ALPHA USERS PLEASE NOTE: the alpha is currently on a separate branch from the beta and release versions; you might notice behaviour fluctuating as you get automatic updates.
 
+* add option castbar_detach_match_frame_width (not exposed)
+* hide castbar shield by default
+
 * fix lua error when forbidden nameplates are created
 * fix config page copy/reset
 
