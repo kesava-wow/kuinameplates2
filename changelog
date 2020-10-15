@@ -1,3 +1,6 @@
+* fix lua error when forbidden nameplates are created
+* fix config page copy/reset
+
 * increase frame glow maximum brightness
 * reduce frame shadow alpha slightly
 * change default frame sizes
