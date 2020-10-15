@@ -862,7 +862,7 @@ local function UpdateProfile()
     -- initialise config locals in create.lua
     core:SetLocals()
 end
-function core:ConfigChanged(config,k,v)
+function core:ConfigChanged(_,k,v)
     UpdateProfile()
 
     if k then
