@@ -11,7 +11,7 @@
     * fix dropdown list width to width of dropdown button
     * add dropdown.list_width
 ----------------------------------------------------------------------]]
-local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 7)
+local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 8)
 if not lib then return end
 
 lib.listFrames = lib.listFrames or {}
@@ -111,7 +111,7 @@ local function ListButton_OnClick(self)
 end
 
 local function CreateListButton(parent)
-    local button = CreateFrame("Button", nil, parent)
+    local button = CreateFrame("Button", nil, parent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     button:SetHeight(UIDROPDOWNMENU_BUTTON_HEIGHT)
 --[[
     local bg = button:CreateTexture(nil, "BACKGROUND")
