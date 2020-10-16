@@ -818,7 +818,7 @@ function ele:Initialise()
         powers = {
             DEATHKNIGHT = Enum.PowerType.Runes,
             DRUID       = { [2] = Enum.PowerType.ComboPoints },
-            PALADIN     = { [3] = Enum.PowerType.HolyPower },
+            PALADIN     = Enum.PowerType.HolyPower,
             ROGUE       = Enum.PowerType.ComboPoints,
             MAGE        = { [1] = Enum.PowerType.ArcaneCharges },
             MONK        = { [1] = 'stagger', [3] = Enum.PowerType.Chi },
