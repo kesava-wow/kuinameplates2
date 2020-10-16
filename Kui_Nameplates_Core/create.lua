@@ -216,8 +216,10 @@ do
         nil,'smooth','cutaway'
     }
     local function UpdateMediaLocals()
-        BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,core.profile.bar_texture)
-        FONT = LSM:Fetch(LSM.MediaType.FONT,core.profile.font_face)
+        core.BAR_TEXTURE = LSM:Fetch(LSM.MediaType.STATUSBAR,core.profile.bar_texture) or kui.m.t.bar
+        core.FONT = LSM:Fetch(LSM.MediaType.FONT,core.profile.font_face) or kui.m.f.roboto
+        BAR_TEXTURE = core.BAR_TEXTURE
+        FONT = core.FONT
     end
     local function p1()
         BAR_ANIMATION = ANIM_ASSOC[core.profile.bar_animation]
