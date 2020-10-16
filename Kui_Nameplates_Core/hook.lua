@@ -114,29 +114,20 @@ end
 function core:CastBarHide(f,...)
     f:HideCastBar(...)
 end
-function core:GainedTarget(f)
-    f.state.target = true
-
-    -- disable nameonly on target
+function core:TargetUpdate(f)
     self:NameOnlyUpdate(f)
-    -- show name on target
     self:ShowNameUpdate(f)
-
     f:UpdateFrameSize()
     f:UpdateLevelText()
     self:NameOnlyUpdateFunctions(f)
 end
+function core:GainedTarget(f)
+    f.state.target = true
+    self:TargetUpdate(f)
+end
 function core:LostTarget(f)
     f.state.target = nil
-
-    -- toggle nameonly depending on state
-    self:NameOnlyUpdate(f)
-    -- hide name depending on state
-    self:ShowNameUpdate(f)
-
-    f:UpdateFrameSize()
-    f:UpdateLevelText()
-    self:NameOnlyUpdateFunctions(f)
+    self:TargetUpdate(f)
 end
 function core:ClassificationChanged(f)
     f:UpdateStateIcon()
