@@ -1,4 +1,7 @@
 
+* enable class power on holy/prot paladins
+* show class powers on any target
+
 * fix lua error when opening bar texture dropdown
 
 * fix lua error when forbidden nameplates are created
