@@ -445,6 +445,8 @@ end
 function framesizes:Initialise()
     local frame_width = self:CreateSlider('frame_width',20,200)
     local frame_height = self:CreateSlider('frame_height',3,40)
+    local frame_target_size = self:CreateCheckBox('frame_target_size')
+    local frame_minus_size = self:CreateCheckBox('frame_minus_size')
     local frame_width_target = self:CreateSlider('frame_width_target',20,200)
     local frame_height_target = self:CreateSlider('frame_height_target',3,40)
     local frame_width_minus = self:CreateSlider('frame_width_minus',20,200)
@@ -461,17 +463,28 @@ function framesizes:Initialise()
     global_scale:SetValueStep(.05)
 
     frame_height_personal.enabled = function(p) return not p.use_blizzard_personal end
+
     frame_width_target.enabled = function(p) return p.frame_target_size end
     frame_height_target.enabled = frame_width_target.enabled
 
+    frame_width_target:SetWidth(120)
+    frame_height_target:SetWidth(120)
+    frame_width_minus:SetWidth(120)
+    frame_height_minus:SetWidth(120)
+
     frame_width:SetPoint('TOPLEFT',10,-25)
     frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
-    frame_width_target:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-35)
+
+    frame_target_size:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-30)
+    frame_width_target:SetPoint('LEFT',frame_target_size,140,0)
     frame_height_target:SetPoint('LEFT',frame_width_target,'RIGHT',20,0)
-    frame_width_personal:SetPoint('TOPLEFT',frame_width_target,'BOTTOMLEFT',0,-35)
-    frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
-    frame_width_minus:SetPoint('TOPLEFT',frame_width_personal,'BOTTOMLEFT',0,-35)
+
+    frame_minus_size:SetPoint('TOPLEFT',frame_target_size,'BOTTOMLEFT',0,-25)
+    frame_width_minus:SetPoint('LEFT',frame_minus_size,140,0)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
+
+    frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-140)
+    frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
 
     element_sep:SetPoint('TOP',0,-235)
     powerbar_height:SetPoint('TOPLEFT',10,-265)
