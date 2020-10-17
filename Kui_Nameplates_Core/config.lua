@@ -106,6 +106,9 @@ local default_config = {
     health_text = false,
     name_vertical_offset = -2,
     bot_vertical_offset = -3,
+    name_constrain = false, -- NEX
+    name_constrain_offset = 5, -- NEX
+    name_constrain_justify = 1, -- NEX
 
     name_colour_white_in_bar_mode = true,
     class_colour_friendly_names = true,
@@ -491,18 +494,22 @@ configChanged.font_size_normal = configChangedFontOption
 configChanged.font_size_small = configChangedFontOption
 configChanged.font_style = configChangedFontOption
 
-local function configChangedNameColour()
-    core:configChangedNameColour()
+local function configChangedName()
+    core:configChangedName()
+    core:configChangedTextOffset()
 end
-configChanged.name_colour_white_in_bar_mode = configChangedNameColour
-configChanged.class_colour_friendly_names = configChangedNameColour
-configChanged.class_colour_enemy_names = configChangedNameColour
-configChanged.name_colour_brighten_class = configChangedNameColour
-configChanged.name_colour_player_friendly = configChangedNameColour
-configChanged.name_colour_player_hostile = configChangedNameColour
-configChanged.name_colour_npc_friendly = configChangedNameColour
-configChanged.name_colour_npc_neutral = configChangedNameColour
-configChanged.name_colour_npc_hostile = configChangedNameColour
+configChanged.name_constrain = configChangedName
+configChanged.name_constrain_offset = configChangedName
+configChanged.name_constrain_justify = configChangedName
+configChanged.name_colour_white_in_bar_mode = configChangedName
+configChanged.class_colour_friendly_names = configChangedName
+configChanged.class_colour_enemy_names = configChangedName
+configChanged.name_colour_brighten_class = configChangedName
+configChanged.name_colour_player_friendly = configChangedName
+configChanged.name_colour_player_hostile = configChangedName
+configChanged.name_colour_npc_friendly = configChangedName
+configChanged.name_colour_npc_neutral = configChangedName
+configChanged.name_colour_npc_hostile = configChangedName
 
 function configChanged.nameonly()
     core:configChangedNameOnly()
@@ -798,7 +805,7 @@ configLoaded.fade_non_target_alpha = configChanged.fade_non_target_alpha
 configLoaded.fade_conditional_alpha = configChanged.fade_conditional_alpha
 configLoaded.fade_speed = configChanged.fade_speed
 
-configLoaded.class_colour_friendly_names = configChangedNameColour
+configLoaded.class_colour_friendly_names = configChangedName
 
 configLoaded.nameonly = configChanged.nameonly
 

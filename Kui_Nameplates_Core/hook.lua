@@ -75,6 +75,8 @@ function core:Show(f)
     f:UpdateGuildText()
     -- go over the top on the comments
     f:UpdateQuestIcon()
+    -- yup
+    f:UpdateNameTextPosition()
 
     if f.TargetArrows then
         -- show/hide target arrows

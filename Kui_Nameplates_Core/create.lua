@@ -56,7 +56,7 @@ local UnitIsPlayer,UnitShouldDisplayName,
 local KUI_MEDIA = 'interface/addons/kui_media/'
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
 
--- global enum tables (XXX used by auras only at the moment)
+-- global enum tables (aura frames, text justifications, ... }
 local POINT_X_ASSOC = { 'LEFT', 'CENTER', 'RIGHT' }
 local POINT_Y_ASSOC = { 'TOP', 'CENTER', 'BOTTOM' }
 
@@ -335,7 +335,6 @@ function core:configChangedFrameSize()
 end
 function core:configChangedTextOffset()
     for _,f in addon:Frames() do
-        f:UpdateNameTextPosition()
         f:UpdateSpellNamePosition()
 
         if f.Auras and f.Auras.frames then
@@ -611,12 +610,12 @@ do
           CLASS_COLOUR_ENEMY_NAMES,NAME_COLOUR_BRIGHTEN_CLASS,
           NAME_COLOUR_PLAYER_FRIENDLY,NAME_COLOUR_PLAYER_HOSTILE,
           NAME_COLOUR_NPC_FRIENDLY,NAME_COLOUR_NPC_NEUTRAL,
-          NAME_COLOUR_NPC_HOSTILE
+          NAME_COLOUR_NPC_HOSTILE,CONSTRAIN,CONSTRAIN_OFFSET,CONSTRAIN_JUSTIFY
 
     -- adjusted class colours, built as needed
     local CLASS_COLOURS
 
-    function core:configChangedNameColour()
+    function core:configChangedName()
         CLASS_COLOURS = nil
         NAME_COLOUR_WHITE_IN_BAR_MODE = self.profile.name_colour_white_in_bar_mode
         CLASS_COLOUR_FRIENDLY_NAMES = self.profile.class_colour_friendly_names
@@ -627,6 +626,10 @@ do
         NAME_COLOUR_NPC_FRIENDLY = self.profile.name_colour_npc_friendly
         NAME_COLOUR_NPC_NEUTRAL = self.profile.name_colour_npc_neutral
         NAME_COLOUR_NPC_HOSTILE = self.profile.name_colour_npc_hostile
+
+        CONSTRAIN = self.profile.name_constrain
+        CONSTRAIN_OFFSET = ScaleTextOffset(self.profile.name_constrain_offset)
+        CONSTRAIN_JUSTIFY = self.profile.name_constrain_justify
     end
 
     local function GetClassColour(f)
@@ -727,7 +730,19 @@ do
         end
     end
     local function UpdateNameTextPosition(f)
-        f.NameText:SetPoint('BOTTOM',f.HealthBar,'TOP',0,NAME_VERTICAL_OFFSET)
+        if f.IN_NAMEONLY then
+            -- position in nameonly is set by NameOnlyEnable
+            return
+        end
+        if CONSTRAIN then
+            -- constrain to healthbar
+            f.NameText:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT',CONSTRAIN_OFFSET,NAME_VERTICAL_OFFSET)
+            f.NameText:SetPoint('RIGHT',f.HealthBar,-CONSTRAIN_OFFSET,0)
+            f.NameText:SetJustifyH(POINT_X_ASSOC[CONSTRAIN_JUSTIFY])
+        else
+            -- or float above
+            f.NameText:SetPoint('BOTTOM',f.HealthBar,'TOP',0,NAME_VERTICAL_OFFSET)
+        end
     end
     function core:CreateNameText(f)
         local nametext = CreateFontString(f)
@@ -735,8 +750,6 @@ do
 
         f.UpdateNameTextPosition = UpdateNameTextPosition
         f.UpdateNameText = UpdateNameText
-
-        f:UpdateNameTextPosition()
     end
 end
 -- level text ##################################################################
