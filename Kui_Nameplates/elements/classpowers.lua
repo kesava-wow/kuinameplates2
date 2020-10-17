@@ -396,15 +396,7 @@ local function PositionFrame()
 
     local frame
     if on_target then
-        if UnitIsPlayer('target') or UnitCanAttack('player','target') then
-            frame = addon:GetActiveNameplateForUnit('target')
-            if  not frame or
-                not frame.state.reaction or
-                frame.state.reaction > 4
-            then
-                frame = nil
-            end
-        end
+        frame = addon:GetActiveNameplateForUnit('target')
     else
         frame = addon:GetActiveNameplateForUnit('player')
     end
