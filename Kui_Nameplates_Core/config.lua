@@ -49,7 +49,7 @@ local default_config = {
     target_arrows_texture = 'interface/addons/kui_nameplates_core/media/target-arrow', -- NEX
     use_blizzard_personal = false,
     use_blizzard_powers = false,
-    frame_vertical_offset = 0,
+    frame_vertical_offset = 0, -- NEX
     show_arena_id = true, -- NEX
     show_quest_icon = true, -- TODO NEX (and pos,size...)
 
