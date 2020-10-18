@@ -881,18 +881,16 @@ do
             f.TargetGlow:Hide()
 
             if f.NameOnlyGlow then
-                f.NameOnlyGlow:SetPoint('TOPLEFT',f.NameText,
-                    -6-FRAME_GLOW_SIZE_TARGET,FRAME_GLOW_SIZE_TARGET)
-                f.NameOnlyGlow:SetPoint('BOTTOMRIGHT',f.NameText,
-                     6+FRAME_GLOW_SIZE_TARGET,-FRAME_GLOW_SIZE_TARGET)
-
                 if TARGET_GLOW and f.state.target then
+                    f.NameOnlyGlow:SetSize(FRAME_GLOW_SIZE_TARGET)
                     f.NameOnlyGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                     f.NameOnlyGlow:Show()
                 elseif MOUSEOVER_GLOW and f.state.highlight then
+                    f.NameOnlyGlow:SetSize(FRAME_GLOW_SIZE_TARGET)
                     f.NameOnlyGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
                     f.NameOnlyGlow:Show()
                 elseif FRAME_GLOW_THREAT and f.state.glowing then
+                    f.NameOnlyGlow:SetSize(FRAME_GLOW_SIZE_THREAT)
                     f.NameOnlyGlow:SetVertexColor(unpack(f.state.glow_colour))
                     f.NameOnlyGlow:SetAlpha(.6)
                     f.NameOnlyGlow:Show()
@@ -2154,14 +2152,19 @@ do
         end
     end
 
+    local function NameOnlyGlow_SetSize(self,size)
+        self:SetPoint('TOPLEFT',self:GetParent().NameText,-6-size,size)
+        self:SetPoint('BOTTOMRIGHT',self:GetParent().NameText,6+size,-size)
+    end
     function core:CreateNameOnlyGlow(f)
         if f.NameOnlyGlow then return end
 
         local g = f:CreateTexture(nil,'BACKGROUND',nil,-5)
         g:SetTexture(KUI_MEDIA..'t/spark-flat')
         g:Hide()
-        -- size set in UpdateFrameGlow
+        -- initial size set in UpdateFrameGlow
 
+        g.SetSize = NameOnlyGlow_SetSize
         f.NameOnlyGlow = g
     end
 
