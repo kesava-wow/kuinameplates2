@@ -76,7 +76,8 @@ local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
 local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET,TARGET_ARROWS_TEXTURE
 local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
-      GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR,FRAME_GLOW_SIZE_TARGET
+      GLOW_AS_SHADOW,MOUSEOVER_GLOW,MOUSEOVER_GLOW_COLOUR,
+      FRAME_GLOW_SIZE_TARGET,FRAME_GLOW_SIZE_THREAT
 local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
 local CASTBAR_DETACH,CASTBAR_MATCH_FRAME_WIDTH
 
@@ -255,9 +256,10 @@ do
         LEVEL_TEXT = core.profile.level_text
         LEVEL_NAMEONLY = core.profile.level_nameonly
 
-        FRAME_GLOW_SIZE = core:Scale(core.profile.frame_glow_size)
+        FRAME_GLOW_SIZE = core:Scale(core.profile.frame_glow_size_shadow)
         FRAME_GLOW_THREAT = core.profile.frame_glow_threat
         FRAME_GLOW_SIZE_TARGET = core:Scale(core.profile.frame_glow_size_target)
+        FRAME_GLOW_SIZE_THREAT = core:Scale(core.profile.frame_glow_size_threat)
 
         NAME_VERTICAL_OFFSET = ScaleTextOffset(core.profile.name_vertical_offset)
         BOT_VERTICAL_OFFSET = ScaleTextOffset(core.profile.bot_vertical_offset)
@@ -923,7 +925,7 @@ do
 
                 if FRAME_GLOW_THREAT and f.state.glowing then
                     -- threat glow colour
-                    f.ThreatGlow:SetSize(FRAME_GLOW_SIZE_TARGET)
+                    f.ThreatGlow:SetSize(FRAME_GLOW_SIZE_THREAT)
                     f.ThreatGlow:SetVertexColor(unpack(f.state.glow_colour))
                 else
                     f.ThreatGlow:SetSize(FRAME_GLOW_SIZE)
