@@ -456,7 +456,9 @@ function framesizes:Initialise()
 
     local element_sep = self:CreateSeparator('framesizes_element_sep')
     local powerbar_height = self:CreateSlider('powerbar_height',1,20)
-    local frame_glow_size = self:CreateSlider('frame_glow_size',4,16)
+    local glow_size_shadow = self:CreateSlider('frame_glow_size_shadow',1,30)
+    local glow_size_target = self:CreateSlider('frame_glow_size_target',1,30)
+    local glow_size_threat = self:CreateSlider('frame_glow_size_threat',1,30)
 
     local scale_sep = self:CreateSeparator('framesizes_scale_sep')
     local global_scale = self:CreateSlider('global_scale',.5,2)
@@ -466,16 +468,24 @@ function framesizes:Initialise()
 
     frame_width_target.enabled = function(p) return p.frame_target_size end
     frame_height_target.enabled = frame_width_target.enabled
+    frame_width_minus.enabled = function(p) return p.frame_minus_size end
+    frame_height_minus.enabled = frame_width_minus.enabled
 
     frame_width_target:SetWidth(120)
     frame_height_target:SetWidth(120)
     frame_width_minus:SetWidth(120)
     frame_height_minus:SetWidth(120)
+    glow_size_shadow:SetWidth(120)
+    glow_size_target:SetWidth(120)
+    glow_size_threat:SetWidth(120)
 
     frame_width:SetPoint('TOPLEFT',10,-25)
     frame_height:SetPoint('LEFT',frame_width,'RIGHT',20,0)
 
-    frame_target_size:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-30)
+    frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-35)
+    frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
+
+    frame_target_size:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-90)
     frame_width_target:SetPoint('LEFT',frame_target_size,140,0)
     frame_height_target:SetPoint('LEFT',frame_width_target,'RIGHT',20,0)
 
@@ -483,15 +493,14 @@ function framesizes:Initialise()
     frame_width_minus:SetPoint('LEFT',frame_minus_size,140,0)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
 
-    frame_width_personal:SetPoint('TOPLEFT',frame_width,'BOTTOMLEFT',0,-140)
-    frame_height_personal:SetPoint('LEFT',frame_width_personal,'RIGHT',20,0)
+    element_sep:SetPoint('TOP',0,-245)
+    powerbar_height:SetPoint('TOPLEFT',10,-325)
+    glow_size_shadow:SetPoint('TOPLEFT',10,-275)
+    glow_size_target:SetPoint('LEFT',glow_size_shadow,'RIGHT',20,0)
+    glow_size_threat:SetPoint('LEFT',glow_size_target,'RIGHT',20,0)
 
-    element_sep:SetPoint('TOP',0,-235)
-    powerbar_height:SetPoint('TOPLEFT',10,-265)
-    frame_glow_size:SetPoint('LEFT',powerbar_height,'RIGHT',20,0)
-
-    scale_sep:SetPoint('TOP',0,-335)
-    global_scale:SetPoint('TOP',0,-365)
+    scale_sep:SetPoint('TOP',0,-380)
+    global_scale:SetPoint('TOP',0,-405)
 end
 -- auras #######################################################################
 function auras:Initialise()
