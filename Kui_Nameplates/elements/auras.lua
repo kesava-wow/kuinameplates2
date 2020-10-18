@@ -323,6 +323,7 @@ local function CreateAuraButton(parent)
         cd:SetPoint('TOPLEFT',-2,2)
 
         button.icon   = icon
+        button.bg     = bg
         button.count  = count
         button.cd     = cd
     end
