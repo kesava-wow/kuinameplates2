@@ -157,7 +157,8 @@ local default_config = {
     frame_height_personal = 16,
     frame_width_target = 128,
     frame_height_target = 16,
-    frame_target_size = true, -- TODO NEX
+    frame_target_size = true,
+    frame_minus_size = true,
     powerbar_height = 3,
     global_scale = 1,
 
