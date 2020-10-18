@@ -354,10 +354,9 @@ L.tooltips = {
     health_text_hostile_max = 'Health text format used on hostile units at full health',
     health_text_hostile_dmg = 'Health text format used on damaged hostile units',
 
-    frame_width_minus = 'Width for minus mobs',
-    frame_height_minus = 'Height for minus mobs and frames with a hidden name',
+    frame_minus_size = 'Alternate frame size for small mobs flagged as "minus"',
+    frame_target_size = 'Alternate frame size for the current target',
     frame_width_personal = 'Width of personal resource display (enabled in Interface > Names)',
-    frame_height_personal = 'Height of personal resource display (enabled in Interface > Names)',
     powerbar_height = 'Height of the power bar on the personal resource display',
     global_scale = 'Scale all nameplates by this amount (obeying the pixel grid)',
 
