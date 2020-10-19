@@ -226,7 +226,7 @@ local function CreateBar()
     local bar = ele:RunCallback('CreateBar')
 
     if not bar then
-        bar = CreateFrame('StatusBar',nil,cpf)
+        bar = CreateFrame('StatusBar',nil,cpf,BackdropTemplateMixin and 'BackdropTemplate' or nil)
         bar:SetStatusBarTexture(BAR_TEXTURE)
         bar:SetSize(BAR_WIDTH,BAR_HEIGHT)
 
