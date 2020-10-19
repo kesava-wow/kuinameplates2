@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 48
+local MAJOR, MINOR = 'Kui-1.0', 49
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -462,6 +462,9 @@ do
             self.is_moving = nil
         end
     end
+    local function CloseButton_OnClick(self)
+        debugpopup:Hide()
+    end
 
     local function CreateDebugPopup()
         if debugpopup then return end
@@ -489,11 +492,12 @@ do
         s:SetPoint('CENTER')
         s:SetScrollChild(p)
         s:Hide()
+        s.ScrollBar:SetPoint('TOPLEFT',s,'TOPRIGHT',6,-38)
 
         s:SetScript('OnMouseDown',ScrollFrame_OnMouseDown)
         s:SetScript('OnMouseUp',ScrollFrame_OnMouseUp)
 
-        local bg = CreateFrame('Frame',nil,UIParent)
+        local bg = CreateFrame('Frame',nil,UIParent,BackdropTemplateMixin and 'BackdropTemplate' or nil)
         bg:SetFrameStrata('DIALOG')
         bg:SetBackdrop({
             bgFile = 'Interface\\ChatFrame\\ChatFrameBackground',
@@ -506,6 +510,10 @@ do
         bg:SetPoint('TOPLEFT',s,-10,10)
         bg:SetPoint('BOTTOMRIGHT',s,30,-10)
         bg:Hide()
+
+        local button = CreateFrame('Button',nil,bg,'UIPanelCloseButton')
+        button:SetPoint('TOPRIGHT',bg)
+        button:SetScript('OnClick',CloseButton_OnClick)
 
         p.ScrollFrame = s
         p.Background = bg
@@ -671,12 +679,12 @@ do
             side:SetVertexColor(...)
         end
     end
-    function PROTOTYPE:Show(...)
+    function PROTOTYPE:Show()
         for _,side in ipairs(self.sides) do
             side:Show()
         end
     end
-    function PROTOTYPE:Hide(...)
+    function PROTOTYPE:Hide()
         for _,side in ipairs(self.sides) do
             side:Hide()
         end
