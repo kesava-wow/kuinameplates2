@@ -109,6 +109,9 @@ function core:GlowColourChange(f)
     self:ShowNameUpdate(f)
     f:UpdateFrameSize()
     f:UpdateNameText()
+    -- health and level move when name is hidden
+    f:UpdateHealthText()
+    f:UpdateLevelText()
 end
 function core:CastBarShow(f)
     f:ShowCastBar()
