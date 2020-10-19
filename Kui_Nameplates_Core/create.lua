@@ -2096,15 +2096,6 @@ do
 end
 -- name show/hide ##############################################################
 function core:ShowNameUpdate(f)
-    if  not FADE_UNTRACKED and
-        not FADE_AVOID_TRACKED and
-        not FADE_AVOID_COMBAT and
-        f.IN_NAMEONLY
-    then
-        -- no need to calculate when in name-only (unless fade rules are used)
-        return
-    end
-
     if f.state.target or
        f.state.threat or
        UnitShouldDisplayName(f.unit)
