@@ -493,7 +493,7 @@ do
         s:SetScript('OnMouseDown',ScrollFrame_OnMouseDown)
         s:SetScript('OnMouseUp',ScrollFrame_OnMouseUp)
 
-        local bg = CreateFrame('Frame',nil,UIParent)
+        local bg = CreateFrame('Frame',nil,UIParent,BackdropTemplateMixin and 'BackdropTemplate' or nil)
         bg:SetFrameStrata('DIALOG')
         bg:SetBackdrop({
             bgFile = 'Interface\\ChatFrame\\ChatFrameBackground',
