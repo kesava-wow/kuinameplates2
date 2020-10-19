@@ -2,6 +2,9 @@ ALPHA NOTES
 
 ALPHA USERS PLEASE NOTE: the alpha is currently on a separate branch from the beta and release versions; you might notice behaviour fluctuating as you get automatic updates.
 
+* fix kui debug popup (fix import/export/dump slash commands)
+* add close button to debug popup
+
 * add options frame_target_size, frame_minus_size, glow_size_target, glow_size_threat
 * add options name_constrain, name_constrain_offset, name_constrain_justify (not exposed)
 
