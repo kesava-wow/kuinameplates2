@@ -31,8 +31,8 @@ end
 local function C_command(command,option)
     return C(3)..'/knp '..(
            (command and
-           ((option and command..' '..C(4)..option) or command)) or
-           (option and C(4)..option or '')
+           ((option and command..' '..C(4)..option..'|r') or command)) or
+           (option and C(4)..option..'|r' or '')
            )..'|r'
 end
 
@@ -52,7 +52,7 @@ local commands = {
 }
 -- XXX generate doc text (locale, delayed? etc)
 local command_doc = {
-    ['help'] = format('It\'s this message! Use  %s  for more.',
+    ['help'] = format('This message. Use  %s  for more.',
         C_command('help','command')),
     ['debug'] = 'Toggle debug output (spams your chat frame)',
     ['dump'] = 'Output debug information - give this to me if you\'re reporting a problem!',
