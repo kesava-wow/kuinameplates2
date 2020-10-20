@@ -768,7 +768,7 @@ function classpowers:Initialise()
     on_friends:SetPoint('TOPLEFT',classpowers_on_target,'BOTTOMLEFT',10,0)
     on_enemies:SetPoint('TOPLEFT',on_friends,'BOTTOMLEFT')
 
-    classpowers_colour:SetPoint('LEFT',classpowers_enable,220,-25)
+    classpowers_colour:SetPoint('LEFT',classpowers_enable,220,-22)
     classpowers_colour_overflow:SetPoint('TOP',classpowers_colour,'BOTTOM')
     classpowers_colour_inactive:SetPoint('TOP',classpowers_colour_overflow,'BOTTOM')
 
