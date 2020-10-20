@@ -2,6 +2,8 @@ ALPHA NOTES
 
 ALPHA USERS PLEASE NOTE: the alpha is currently on a separate branch from the beta and release versions; you might notice behaviour fluctuating as you get automatic updates.
 
+* add classpowers_on_friends, classpowers_on_enemies (both enabled by default)
+
 * correctly update level/health text position on threat change
 
 * fix kui debug popup (fix import/export/dump slash commands)
