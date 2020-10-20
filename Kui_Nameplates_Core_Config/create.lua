@@ -757,13 +757,19 @@ function classpowers:Initialise()
     local classpowers_colour = self:CreateColourPicker('classpowers_colour')
     local classpowers_colour_overflow = self:CreateColourPicker('classpowers_colour_overflow')
     local classpowers_colour_inactive = self:CreateColourPicker('classpowers_colour_inactive')
+    local on_friends = self:CreateCheckBox('classpowers_on_friends',true)
+    local on_enemies = self:CreateCheckBox('classpowers_on_enemies',true)
 
     classpowers_enable:SetPoint('TOPLEFT',10,-10)
     classpowers_on_target:SetPoint('TOPLEFT',classpowers_enable,'BOTTOMLEFT',10,0)
-    classpowers_colour:SetPoint('TOPLEFT',classpowers_on_target,'BOTTOMLEFT',-6,-10)
-    classpowers_colour_overflow:SetPoint('LEFT',classpowers_colour,'RIGHT')
-    classpowers_colour_inactive:SetPoint('LEFT',classpowers_colour_overflow,'RIGHT')
-    classpowers_size:SetPoint('TOPLEFT',classpowers_colour,'BOTTOMLEFT',-4,-20)
+    on_friends:SetPoint('TOPLEFT',classpowers_on_target,'BOTTOMLEFT',10,0)
+    on_enemies:SetPoint('TOPLEFT',on_friends,'BOTTOMLEFT')
+
+    classpowers_colour:SetPoint('LEFT',classpowers_enable,220,-25)
+    classpowers_colour_overflow:SetPoint('TOP',classpowers_colour,'BOTTOM')
+    classpowers_colour_inactive:SetPoint('TOP',classpowers_colour_overflow,'BOTTOM')
+
+    classpowers_size:SetPoint('TOP',0,-140)
 
     function classpowers_colour:Get()
         -- get colour from current class
@@ -795,6 +801,10 @@ function classpowers:Initialise()
     local function classpowers_enabled(p) return p.classpowers_enable end
     classpowers_on_target.enabled = classpowers_enabled
     classpowers_size.enabled = classpowers_enabled
+    on_friends.enabled = function(p)
+        return classpowers_enabled(p) and p.classpowers_on_target
+    end
+    on_enemies.enabled = on_friends.enabled
 
     local function classpowers_colour_enabled(p)
         if classpowers_enabled(p) then
@@ -814,7 +824,8 @@ function classpowers:Initialise()
         classpowers_bar_width:SetValueStep(2)
         classpowers_bar_height:SetValueStep(2)
 
-        classpowers_bar_width:SetPoint('TOPLEFT',classpowers_size,'BOTTOMLEFT',0,-30)
+        classpowers_bar_width:SetPoint('LEFT',10,0)
+        classpowers_bar_width:SetPoint('TOP',classpowers_size,'BOTTOM',0,-40)
         classpowers_bar_height:SetPoint('LEFT',classpowers_bar_width,'RIGHT',20,0)
 
         classpowers_bar_width.enabled = classpowers_enabled

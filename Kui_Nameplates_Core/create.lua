@@ -80,6 +80,7 @@ local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       FRAME_GLOW_SIZE_TARGET,FRAME_GLOW_SIZE_THREAT
 local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
 local CASTBAR_DETACH,CASTBAR_MATCH_FRAME_WIDTH
+local CLASSPOWERS_ON_FRIENDS,CLASSPOWERS_ON_ENEMIES
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -301,6 +302,9 @@ do
         CASTBAR_MATCH_FRAME_WIDTH = core.profile.castbar_detach_match_frame_width
 
         SHOW_QUEST_ICON = core.profile.show_quest_icon
+
+        CLASSPOWERS_ON_FRIENDS = core.profile.classpowers_on_friends
+        CLASSPOWERS_ON_ENEMIES = core.profile.classpowers_on_enemies
     end
     function core:SetLocals()
         -- set config locals to reduce table lookup
@@ -1962,8 +1966,20 @@ do
     end
 end
 -- class powers ################################################################
+local function ClassPowers_StateFilter(state)
+    if state.friend then
+        return CLASSPOWERS_ON_FRIENDS
+    else
+        return CLASSPOWERS_ON_ENEMIES
+    end
+end
 function core.ClassPowers_PostPositionFrame(cpf,parent)
     if not parent or not cpf or not cpf:IsShown() then return end
+
+    if not ClassPowers_StateFilter(parent.state) then
+        -- hide on friends/enemies
+        return cpf:Hide()
+    end
 
     -- change position in nameonly mode/on the player's nameplate
     if parent.IN_NAMEONLY then

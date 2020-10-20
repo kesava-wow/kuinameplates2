@@ -228,6 +228,8 @@ local default_config = {
 
     classpowers_enable = true,
     classpowers_on_target = true,
+    classpowers_on_friends = true,
+    classpowers_on_enemies = true,
     classpowers_size = 12,
     classpowers_bar_width = 80,
     classpowers_bar_height = 5,
