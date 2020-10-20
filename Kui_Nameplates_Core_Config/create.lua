@@ -470,6 +470,9 @@ function framesizes:Initialise()
     frame_height_target.enabled = frame_width_target.enabled
     frame_width_minus.enabled = function(p) return p.frame_minus_size end
     frame_height_minus.enabled = frame_width_minus.enabled
+    glow_size_shadow.enabled = function(p) return p.glow_as_shadow end
+    glow_size_target.enabled = function(p) return p.target_glow or p.mouseover_glow end
+    glow_size_target.enabled = function(p) return p.target_glow or p.mouseover_glow end
 
     frame_width_target:SetWidth(120)
     frame_height_target:SetWidth(120)
