@@ -8,7 +8,6 @@
 -- handle messages, events, initialise
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
 
 KuiNameplatesCore = addon:Layout()
 local core = KuiNameplatesCore
