@@ -51,7 +51,7 @@ local default_config = {
     use_blizzard_powers = false,
     frame_vertical_offset = 0, -- NEX
     show_arena_id = true, -- NEX
-    show_quest_icon = true, -- TODO NEX (and pos,size...)
+    show_quest_icon = false, -- NEX
 
     clickthrough_self = false,
     clickthrough_friend = false,
