@@ -1,56 +1,21 @@
 ALPHA NOTES
 
-ALPHA USERS PLEASE NOTE: the alpha is currently on a separate branch from the beta and release versions; you might notice behaviour fluctuating as you get automatic updates.
-
-* add classpowers_on_friends, classpowers_on_enemies (both enabled by default)
-* update locale (enGB)
-
-* correctly update level/health text position on threat change
-
-* fix kui debug popup (fix import/export/dump slash commands)
-* add close button to debug popup
-
-* add options frame_target_size, frame_minus_size, glow_size_target, glow_size_threat
+* add options to show class powers on friendly or hostile targets
+* add option to disable resizing of frames flagged as minus
+* add option to resize the current target
+* add options to resize frame glow for target and threat
 * add options name_constrain, name_constrain_offset, name_constrain_justify (not exposed)
-
-* enable class powers on holy/prot paladins
-* show class powers on any target
-
-* fix lua error when opening bar texture dropdown
-
 * add option castbar_detach_match_frame_width (not exposed)
-* hide castbar shield by default
-
-* fix lua error when forbidden nameplates are created
-* fix config page copy/reset
-
-* (alpha is no longer packaged for 835)
-
-* increase class powers bar size
-* fix global scale does not apply to class powers bar
-* fix use_blizzard_powers is inconsistent (maybe)
-* (enable the following options by default again)
-
-* add options show_quest_icon, frame_target_size
-
-* use target glow size on threat glow, mouseover glow
-
+* add option show_quest_icon (not exposed)
 * add spark to healthbar
-* add frame_glow_size_target
+* change default frame sizes
+* increase default class powers bar size
+* hide castbar shield by default
 * increase frame glow maximum alpha
 * reduce default frame_glow_size
 * reduce frame shadow alpha slightly
-* fix mouseover glow shows on target
-
-* add frame_width_target and frame_height_target
-* use normal aura size on minus units when targeted
 * normal frames with hidden names no longer use frame_height_minus
+* correctly update level/health text position on threat change
+* fix global scale doesn't apply to class powers bar
 * fix global scale doesn't apply to class powers or boss mods when changed
-
-* (retail) fix lua error related to NamePlateDriverFrame
-
-* add a quest indicator (no options right now)
-
-* (beta) fix default nameplates become visible sometimes
-* change default frame sizes
-
+* fix use_blizzard_powers is inconsistent (maybe)
