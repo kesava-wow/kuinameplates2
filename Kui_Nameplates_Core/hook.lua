@@ -41,7 +41,7 @@ function core:Create(f)
 end
 function core:Show(f)
     -- state helpers
-    f.state.friend = UnitIsFriend('player',f.unit)
+    f.state.friend = f.state.reaction > 4 or UnitIsFriend('player',f.unit)
     f.state.class = select(2,UnitClass(f.unit))
     f.state.player = UnitIsPlayer(f.unit)
 
@@ -92,9 +92,8 @@ function core:HealthUpdate(f)
     self:NameOnlyHealthUpdate(f)
 end
 function core:HealthColourChange(f)
-    f.state.friend = UnitIsFriend('player',f.unit)
-
-    -- update nameonly upon faction changes
+    -- faction/reaction change
+    f.state.friend = f.state.reaction > 4 or UnitIsFriend('player',f.unit)
     self:NameOnlyCombatUpdate(f)
 end
 function core:PowerTypeUpdate(f)
