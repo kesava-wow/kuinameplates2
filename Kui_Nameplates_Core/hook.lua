@@ -155,12 +155,6 @@ function core:Combat(f)
 end
 function core:QuestUpdate(f)
     f:UpdateQuestIcon()
-
-    -- test name visibility on quest NPCs
-    self:ShowNameUpdate(f)
-    f:UpdateFrameSize()
-    f:UpdateNameText()
-    f:UpdateLevelText()
 end
 -- events ######################################################################
 function core:UNIT_NAME_UPDATE(_,f)
