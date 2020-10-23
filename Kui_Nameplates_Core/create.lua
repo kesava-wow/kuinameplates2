@@ -2263,8 +2263,9 @@ do
         end
     end
     function core:NameOnlyUpdateNameText(f)
-        -- set name text colour to approximate health
         if not f.IN_NAMEONLY then return end
+
+        local text
         if NAMEONLY_HEALTH_COLOUR then
             if f.state.health_cur and f.state.health_cur > 0 and
                f.state.health_max and f.state.health_max > 0
@@ -2272,16 +2273,20 @@ do
                 local health_len =
                     strlen(f.state.name) *
                     (f.state.health_cur / f.state.health_max)
-
-                f.NameText:SetText(
-                    kui.utf8sub(f.state.name, 0, health_len)..
+                -- name w/grey health deficit
+                text = kui.utf8sub(f.state.name, 0, health_len)..
                     '|cff666666'..kui.utf8sub(f.state.name, health_len+1)
-                )
             end
         end
+
         if LEVEL_NAMEONLY then
             local r,g,b=f.LevelText:GetTextColor()
-            f.NameText:SetText(string.format('|cff%02x%02x%02x',r*255,g*255,b*255)..f.LevelText:GetText()..'|r '..f.NameText:GetText())
+            text = string.format('|cff%02x%02x%02x',r*255,g*255,b*255)..
+                f.LevelText:GetText()..'|r '..(text or f.state.name)
+        end
+
+        if text then
+            f.NameText:SetText(text)
         end
     end
     function core:NameOnlyHealthUpdate(f)
