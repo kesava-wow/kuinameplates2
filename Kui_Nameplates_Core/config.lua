@@ -924,9 +924,28 @@ function core:InitialiseConfig()
     end
     --@end-alpha@
 
+    if KuiNameplatesCoreSaved and
+       not KuiNameplatesCoreSaved['226_AURAS_TRANSITION']
+    then
+        -- rewrite old auras_cd/auras_count vars on all profiles where set
+        local function upd(prefix,profile)
+            local px = tonumber(profile[prefix..'_point_x'] or default_config[prefix..'_point_x'])
+            local py = tonumber(profile[prefix..'_point_y'] or default_config[prefix..'_point_y'])
+            profile[prefix..'_point'] = px * py
+            profile[prefix..'_x'] = tonumber(profile[prefix..'_offset_x'])
+            profile[prefix..'_y'] = tonumber(profile[prefix..'_offset_y'])
+        end
+        for _,profile in pairs(KuiNameplatesCoreSaved.profiles) do
+            upd('auras_cd',profile)
+            upd('auras_count',profile)
+        end
+    end
+
     self.config = kc:Initialise('KuiNameplatesCore',default_config)
     self.config:RegisterConfigChanged(self,'ConfigChanged')
     UpdateProfile()
+
+    KuiNameplatesCoreSaved['226_AURAS_TRANSITION'] = true
 
     -- run config loaded functions
     for k,f in pairs(configLoaded) do
