@@ -19,6 +19,11 @@ local cvars       = opt:CreateConfigPage('cvars')
 
 opt:ShowPage(1)
 
+-- helpers #####################################################################
+local function MovablePopupButton_OnClick(button)
+    opt.Popup:ShowPage('movable',button.env)
+end
+
 -- create elements #############################################################
 -- general #####################################################################
 function general:Initialise()
@@ -566,8 +571,17 @@ function auras:Initialise()
     local colour_short = self:CreateColourPicker('auras_colour_short')
     local colour_medium = self:CreateColourPicker('auras_colour_medium')
     local colour_long = self:CreateColourPicker('auras_colour_long')
+
     local auras_cd_text_sep = self:CreateSeparator('auras_cd_text_sep')
     local auras_count_text_sep = self:CreateSeparator('auras_count_text_sep')
+
+    local auras_cd_button = self:CreateButton('auras_cd','position')
+    auras_cd_button:SetPoint('TOP',auras_cd_text_sep,'BOTTOM')
+    auras_cd_button:SetScript('OnClick',MovablePopupButton_OnClick)
+
+    local auras_count_button = self:CreateButton('auras_count','position')
+    auras_count_button:SetPoint('TOP',auras_count_text_sep,'BOTTOM')
+    auras_count_button:SetScript('OnClick',MovablePopupButton_OnClick)
 
     colour_short:SetWidth(135)
 
