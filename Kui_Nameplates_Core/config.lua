@@ -268,6 +268,16 @@ local default_config = {
     cvar_self_alpha = 1,
     cvar_occluded_mult = tonumber(GetCVarDefault('nameplateOccludedAlphaMult')),
 
+    -- XXX legacy aura variables; kept for transition
+    -- transition logic: p=px*py;x=ox;y=oy.
+    auras_cd_point_x = 1,
+    auras_cd_point_y = 1,
+    auras_cd_offset_x = -4,
+    auras_cd_offset_y = 3,
+    auras_count_point_x = 3,
+    auras_count_point_y = 3,
+    auras_count_offset_x = 5,
+    auras_count_offset_y = -2,
     -- simple movables; XXX to be moved once KuiConfig supports subtables
     -- auras text overrides
     auras_cd_point = 1, -- TOPLEFT
