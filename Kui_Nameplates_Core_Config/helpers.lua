@@ -835,17 +835,23 @@ do
         list:SetScript('OnShow',Movable_PointDropdown_UpdateList)
         return list
     end
-    local function Movable_PreShow(self,prefix)
+    local function Movable_PreShow(self,prefix,keys,minmax)
         self.header.Text:SetText(GetLocaleString(nil,prefix))
         for k,ele in pairs(self.elements) do
-            ele.env = prefix..'_'..k
+            ele.env = keys and keys[k] or prefix..'_'..k
+            if ele.SetMinMaxValues then
+                ele:SetMinMaxValues(unpack(minmax and minmax[k] or self.minmax[k]))
+            end
         end
-        -- XXX we want to support hiding an option if the val doesn't exist;
-        -- we can check with: opt.profile[env]
     end
     local function CreatePopupPage_Movable()
         local pg = opt:CreatePopupPage('movable')
-        pg.size = { 400,190 }
+        pg.size = {400,190}
+        pg.minmax = {
+            size = {1,100},
+            x = {-50,50},
+            y = {-50,50},
+        }
 
         local header = CreateFrame('Frame',nil,pg,'DialogHeaderTemplate')
         header:SetPoint('CENTER',pg,'TOP')
@@ -868,7 +874,6 @@ do
         y:SetPoint('TOP',85,-100)
         y:SetWidth(150)
 
-        --pg.label = label
         pg.header = header
         pg.elements = { size = size, point = point, x = x, y = y }
         pg.PreShow = Movable_PreShow
