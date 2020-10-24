@@ -790,8 +790,10 @@ do
         list:SetBackdropColor(0,0,0,.85)
         list:SetPoint('TOP',self,'BOTTOM',0,3)
         list:SetSize(129,85)
-        list.buttons = {}
+        list:SetFrameStrata('DIALOG')
+        list:SetToplevel(true)
         list:Hide()
+        list.buttons = {}
 
         local pb,pc
         for i=1,9 do
