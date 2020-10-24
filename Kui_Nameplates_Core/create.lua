@@ -755,7 +755,7 @@ do
             -- constrain to healthbar
             f.NameText:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT',CONSTRAIN_OFFSET,NAME_VERTICAL_OFFSET)
             f.NameText:SetPoint('RIGHT',f.HealthBar,-CONSTRAIN_OFFSET,0)
-            f.NameText:SetJustifyH(POINT_X_ASSOC[CONSTRAIN_JUSTIFY])
+            f.NameText:SetJustifyH(JUSTIFY_ASSOC[CONSTRAIN_JUSTIFY])
         else
             -- or float above
             f.NameText:SetPoint('BOTTOM',f.HealthBar,'TOP',0,NAME_VERTICAL_OFFSET)
