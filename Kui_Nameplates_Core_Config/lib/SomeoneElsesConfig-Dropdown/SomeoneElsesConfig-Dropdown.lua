@@ -5,13 +5,10 @@
 
     This is a modified version of PhanxConfig-Dropdown.
     The vast majority of credit for it goes to Phanx.
-
-    * fix for 9.0
-    * "fix" for 8.3
-    * fix dropdown list width to width of dropdown button
-    * add dropdown.list_width
 ----------------------------------------------------------------------]]
-local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 8)
+--luacheck:globals UIDROPDOWNMENU_BUTTON_HEIGHT UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT UIDROPDOWNMENU_BORDER_HEIGHT
+--luacheck:globals GameFontNormal GameFontDisable GameFontDisableSmall GameFontHighlight GameFontHighlightSmall
+local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 9)
 if not lib then return end
 
 lib.listFrames = lib.listFrames or {}
@@ -44,23 +41,24 @@ local function OpenDropdown(dropdown)
     if show then
         list:Show()
         list:Raise()
-        local selectedIndex
+
         local items, selected = dropdown.items, dropdown.selected
-        for i = 1, #items do
-            if items[i] == selected then
-                selectedIndex = i
-                break
+        if items and selected then
+            local selectedIndex
+            for i = 1, #items do
+                if items[i] == selected then
+                    selectedIndex = i
+                    break
+                end
             end
-        end
-        if selectedIndex then
-            local _, maxScroll = list.scrollFrame.ScrollBar:GetMinMaxValues()
-            list.scrollFrame.ScrollBar:SetValue((maxScroll / (#items - 15)) * (selectedIndex - 5))
-            -- #TODO: where does this 15 come from in BlizzBugsSuck ???
+            if selectedIndex then
+                local _, maxScroll = list.scrollFrame.ScrollBar:GetMinMaxValues()
+                list.scrollFrame.ScrollBar:SetValue((maxScroll / (#items - 15)) * (selectedIndex - 5))
+            end
         end
     end
 end
 
---hooksecurefunc("CloseDropDownMenus", CloseDropdowns) -- XXX 8.3 closes dropdown before click fires
 hooksecurefunc("ToggleDropDownMenu", CloseDropdowns)
 
 ------------------------------------------------------------------------
@@ -122,6 +120,7 @@ local function CreateListButton(parent)
     local label = button:CreateFontString(nil, "OVERLAY")
     label:SetPoint("LEFT", 27, 0)
     label:SetPoint("RIGHT")
+    --luacheck:globals GameFontHighlightSmallLeft
     label:SetFont((GameFontHighlightSmallLeft:GetFont()), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT)
     label:SetJustifyH("LEFT")
     label:SetWordWrap()
@@ -149,6 +148,7 @@ end
 
 local emptyList = {
     {
+        --luacheck:globals GRAY_FONT_COLOR_CODE EMPTY
         text = GRAY_FONT_COLOR_CODE .. EMPTY,
         value = EMPTY,
         disabled = true,
@@ -174,6 +174,8 @@ local function UpdateList(self)
 
     local scrollFrame = self.scrollFrame
     local offset = scrollFrame.offset
+
+    --luacheck:globals FauxScrollFrame_Update
     FauxScrollFrame_Update(scrollFrame, #items, listSize, UIDROPDOWNMENU_BUTTON_HEIGHT)
 
     local selected = dropdown.selected
@@ -233,6 +235,12 @@ function CreateList(dropdown) -- local
         return dropdown.list
     end
 
+    if dropdown.CreateListOverride then
+        local list = dropdown:CreateListOverride()
+        dropdown.list = list
+        return list
+    end
+
     id = id + 1
 
     local list = CreateFrame("Button", "SomeoneElsesConfigDropdown" .. id, dropdown, BackdropTemplateMixin and "BackdropTemplate" or nil)
@@ -269,6 +277,7 @@ function CreateList(dropdown) -- local
     list.scrollFrame:SetPoint("TOPLEFT", 12, -14)
     list.scrollFrame:SetPoint("BOTTOMRIGHT", -36, 13)
     list.scrollFrame:SetScript("OnVerticalScroll", function(self, delta)
+        --luacheck:globals FauxScrollFrame_OnVerticalScroll
         FauxScrollFrame_OnVerticalScroll(self, delta, UIDROPDOWNMENU_BUTTON_HEIGHT, function() UpdateList(list) end)
     end)
 
@@ -434,8 +443,8 @@ function lib:New(parent, name, tooltipText, items, keepShownOnClick)
     button:SetScript("OnClick", Button_OnClick)
     dropdown.button = button
 
-    for name, func in pairs(methods) do
-        dropdown[name] = func
+    for method, func in pairs(methods) do
+        dropdown[method] = func
     end
 
     dropdown.labelText:SetText(name)
