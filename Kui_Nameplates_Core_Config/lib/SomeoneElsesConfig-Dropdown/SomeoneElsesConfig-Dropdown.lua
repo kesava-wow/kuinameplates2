@@ -235,62 +235,58 @@ function CreateList(dropdown) -- local
         return dropdown.list
     end
 
-    if dropdown.CreateListOverride then
-        local list = dropdown:CreateListOverride()
-        dropdown.list = list
-        return list
-    end
-
     id = id + 1
 
-    local list = CreateFrame("Button", "SomeoneElsesConfigDropdown" .. id, dropdown, BackdropTemplateMixin and "BackdropTemplate" or nil)
-    list:SetFrameStrata("DIALOG")
-    list:SetToplevel(true)
-    list:Hide()
-
-    if dropdown.list_width then
-        list:SetPoint("TOP", dropdown, "BOTTOM", 0, 3)
-        list:SetWidth(dropdown.list_width)
+    local list
+    if dropdown.CreateListOverride then
+        list = dropdown:CreateListOverride()
     else
-        -- inherit dropdown button size
-        list:SetPoint("TOPLEFT", dropdown, "BOTTOMLEFT", 0, 3)
-        list:SetPoint("RIGHT")
-    end
+        list = CreateFrame("Button", "SomeoneElsesConfigDropdown" .. id, dropdown, BackdropTemplateMixin and "BackdropTemplate" or nil)
+        list:SetFrameStrata("DIALOG")
+        list:SetToplevel(true)
+        list:Hide()
 
-    list:SetScript("OnShow", UpdateList)
-
-    list.text = list:CreateFontString()
-    list.text:SetFont((GameFontNormal:GetFont()), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT + 2)
-
-    list.buttons = setmetatable({}, { __index = function(t, i)
-        local button = CreateListButton(list)
-        if i > 1 then
-            button:SetPoint("TOPLEFT", t[i-1], "BOTTOMLEFT")
+        if dropdown.list_width then
+            list:SetPoint("TOP", dropdown, "BOTTOM", 0, 3)
+            list:SetWidth(dropdown.list_width)
         else
-            button:SetPoint("TOPLEFT", 15, -15)
+            -- inherit dropdown button size
+            list:SetPoint("TOPLEFT", dropdown, "BOTTOMLEFT", 0, 3)
+            list:SetPoint("RIGHT")
         end
-        t[i] = button
-        return button
-    end })
 
-    list.scrollFrame = CreateFrame("ScrollFrame", list:GetName() .. "ScrollFrame", list, "FauxScrollFrameTemplate")
-    list.scrollFrame:SetPoint("TOPLEFT", 12, -14)
-    list.scrollFrame:SetPoint("BOTTOMRIGHT", -36, 13)
-    list.scrollFrame:SetScript("OnVerticalScroll", function(self, delta)
-        --luacheck:globals FauxScrollFrame_OnVerticalScroll
-        FauxScrollFrame_OnVerticalScroll(self, delta, UIDROPDOWNMENU_BUTTON_HEIGHT, function() UpdateList(list) end)
-    end)
+        list:SetScript("OnShow", UpdateList)
 
-    list:SetBackdrop({
-        bgFile = "Interface\\Buttons\\White8x8",
-        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-        insets = { left = 11, right = 12, top = 12, bottom = 11 },
-        tile = true, tileSize = 32, edgeSize = 32,
-    })
-    list:SetBackdropColor(0,0,0,.85)
+        list.text = list:CreateFontString()
+        list.text:SetFont((GameFontNormal:GetFont()), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT + 2)
 
-    --list:SetScript("OnHide", list.Hide) -- wat
-    --list:SetScript("OnClick", list.Hide) -- wat
+        list.buttons = setmetatable({}, { __index = function(t, i)
+            local button = CreateListButton(list)
+            if i > 1 then
+                button:SetPoint("TOPLEFT", t[i-1], "BOTTOMLEFT")
+            else
+                button:SetPoint("TOPLEFT", 15, -15)
+            end
+            t[i] = button
+            return button
+        end })
+
+        list.scrollFrame = CreateFrame("ScrollFrame", list:GetName() .. "ScrollFrame", list, "FauxScrollFrameTemplate")
+        list.scrollFrame:SetPoint("TOPLEFT", 12, -14)
+        list.scrollFrame:SetPoint("BOTTOMRIGHT", -36, 13)
+        list.scrollFrame:SetScript("OnVerticalScroll", function(self, delta)
+            --luacheck:globals FauxScrollFrame_OnVerticalScroll
+            FauxScrollFrame_OnVerticalScroll(self, delta, UIDROPDOWNMENU_BUTTON_HEIGHT, function() UpdateList(list) end)
+        end)
+
+        list:SetBackdrop({
+            bgFile = "Interface\\Buttons\\White8x8",
+            edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+            insets = { left = 11, right = 12, top = 12, bottom = 11 },
+            tile = true, tileSize = 32, edgeSize = 32,
+        })
+        list:SetBackdropColor(0,0,0,.85)
+    end
 
     tinsert(lib.listFrames, list)
     dropdown.list = list
