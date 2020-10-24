@@ -300,7 +300,8 @@ do
     end
 
     function opt.CreateSlider(parent, name, min, max, small, common_name)
-        local slider = CreateFrame('Slider',frame_name..name..'Slider',parent,'OptionsSliderTemplate')
+        local this_name = frame_name and name and (frame_name..name..'Slider')
+        local slider = CreateFrame('Slider',this_name,parent,'OptionsSliderTemplate')
         slider:SetWidth(190)
         slider:SetHeight(15)
         slider:SetOrientation('HORIZONTAL')
@@ -309,7 +310,7 @@ do
         slider:EnableMouseWheel(true)
 
         local label = slider:CreateFontString(
-            slider:GetName()..'Label','ARTWORK',
+            this_name and this_name..'Label','ARTWORK',
             (small and 'GameFontNormalSmall' or 'GameFontNormal'))
         label:SetText(GetLocaleString(common_name,name,'Slider'))
         label:SetPoint('BOTTOM',slider,'TOP')
