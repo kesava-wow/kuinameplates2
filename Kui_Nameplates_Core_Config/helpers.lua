@@ -667,24 +667,25 @@ do
         end
 
         if self.pages[page_name] then
-            self.pages[page_name]:Show()
-            self.active_page = self.pages[page_name]
-
-            if self.active_page.size then
-                self:SetSize(unpack(self.active_page.size))
-            else
-                self:SetSize(400,150)
+            local pg = self.pages[page_name]
+            if type(pg.PreShow) == 'function' then
+                pg:PreShow(...)
             end
 
-            if type(self.active_page.PostShow) == 'function' then
-                self.active_page:PostShow(...)
+            pg:Show()
+            self.active_page = pg
+
+            if pg.size then
+                self:SetSize(unpack(pg.size))
+            else
+                self:SetSize(400,150)
             end
         end
 
         self:Show()
     end
     -- confirm dialog ##########################################################
-    local function ConfirmDialog_PostShow(self,desc,callback)
+    local function ConfirmDialog_PreShow(self,desc,callback)
         self.label:SetText('')
         self.callback = nil
 
@@ -703,14 +704,14 @@ do
         label:SetPoint('RIGHT',-40,0)
 
         pg.label = label
-        pg.PostShow = ConfirmDialog_PostShow
+        pg.PreShow = ConfirmDialog_PreShow
     end
 
     -- text-entry dialog (rename, copy, new) ###################################
     local function TextEntry_OnShow(self)
         self.editbox:SetFocus()
     end
-    local function TextEntry_PostShow(self,desc,default,callback)
+    local function TextEntry_PreShow(self,desc,default,callback)
         self.callback = nil
         self.label:SetText('')
         self.editbox:SetText('')
@@ -741,7 +742,7 @@ do
 
         pg.label = label
         pg.editbox = text
-        pg.PostShow = TextEntry_PostShow
+        pg.PreShow = TextEntry_PreShow
 
         pg:SetScript('OnShow',TextEntry_OnShow)
         text:SetScript('OnEnterPressed',TextEntry_OnEnterPressed)
