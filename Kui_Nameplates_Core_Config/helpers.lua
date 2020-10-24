@@ -1,4 +1,5 @@
 local opt = KuiNameplatesCoreConfig -- luacheck:globals KuiNameplatesCoreConfig
+local core = KuiNameplatesCore -- luacheck:globals KuiNameplatesCore
 local frame_name = 'KuiNameplatesCoreConfig'
 local pcdd = LibStub('SomeoneElsesConfig-Dropdown')
 local L = opt:GetLocale()
@@ -7,6 +8,7 @@ local S_CHECKBOX_ON = 856
 local S_CHECKBOX_OFF = 857
 local S_MENU_OPEN = 850
 local S_MENU_CLOSE = 851
+local S_BUTTON = 1115
 
 local function GetLocaleString(common_key,name,fallback)
     if common_key and L.common[common_key] then
@@ -749,6 +751,123 @@ do
         text:SetScript('OnEscapePressed',TextEntry_OnEscapePressed)
     end
 
+    -- simple movable (size/point) ########################################
+    local function Movable_PointDropdown_Button_OnClick(self)
+        local dropdown = self:GetParent():GetParent()
+        dropdown.selected = self.value
+        dropdown.valueText:SetText(self.text)
+        dropdown.list:Hide()
+
+        local callback = dropdown.OnValueChanged or dropdown.callback
+        if callback then
+            callback(dropdown,self.value,self.text)
+        end
+        PlaySound(S_BUTTON)
+    end
+    local function Movable_PointDropdown_UpdateList(self)
+        local selected = self:GetParent().selected
+        if not selected then return end
+        for _,button in ipairs(self.buttons) do
+            if button.value == selected then
+                button.icon:SetVertexColor(.6,.5,0)
+            else
+                button.icon:SetVertexColor(.2,.2,.2)
+            end
+        end
+    end
+    local function Movable_PointDropdown_CreateList(self)
+        local list = CreateFrame('Button',nil,self,BackdropTemplateMixin and 'BackdropTemplate' or nil)
+        list:SetBackdrop({
+            bgFile = 'interface/buttons/white8x8',
+            edgeFile = 'interface/dialogframe/ui-dialogbox-border',
+            insets = { left = 11, right = 12, top = 12, bottom = 11 },
+            tile = true, tileSize = 32, edgeSize = 32,
+        })
+        list:SetBackdropColor(0,0,0,.85)
+        list:SetPoint('TOP',self,'BOTTOM',0,3)
+        list:SetSize(129,85)
+        list.buttons = {}
+        list:Hide()
+
+        local pb,pc
+        for i=1,9 do
+            local button = CreateFrame('Button',nil,list)
+            button:SetSize(32,18)
+            button.value = i
+            button.text = core.POINT_ASSOC[i]
+
+            local icon = button:CreateTexture(nil,'BORDER')
+            icon:SetTexture('interface/buttons/white8x8')
+            icon:SetAllPoints(button)
+            button.icon = icon
+
+            local hl = button:CreateTexture(nil,'HIGHLIGHT')
+            hl:SetTexture('interface/buttons/white8x8')
+            hl:SetAllPoints(button)
+            hl:SetAlpha(.5)
+            button.hl = hl
+
+            button:SetHighlightTexture(hl)
+            button:SetScript('OnClick',Movable_PointDropdown_Button_OnClick)
+
+            if pb then
+                if pc and i%3 == 1 then
+                    button:SetPoint('TOPLEFT',pc,'TOPRIGHT',3,0)
+                else
+                    button:SetPoint('TOPLEFT',pb,'BOTTOMLEFT',0,-3)
+                end
+            else
+                button:SetPoint('TOPLEFT',13,-13)
+            end
+
+            pb = button
+            if i%3 == 1 then pc = button end
+
+            tinsert(list.buttons,button)
+        end
+
+        list:SetScript('OnShow',Movable_PointDropdown_UpdateList)
+        return list
+    end
+    local function Movable_PreShow(self,prefix)
+        self.header.Text:SetText(GetLocaleString(nil,prefix))
+        for k,ele in pairs(self.elements) do
+            ele.env = prefix..'_'..k
+        end
+        -- XXX we want to support hiding an option if the val doesn't exist;
+        -- we can check with: opt.profile[env]
+    end
+    local function CreatePopupPage_Movable()
+        local pg = opt:CreatePopupPage('movable')
+        pg.size = { 400,190 }
+
+        local header = CreateFrame('Frame',nil,pg,'DialogHeaderTemplate')
+        header:SetPoint('CENTER',pg,'TOP')
+
+        local size = opt.CreateSlider(pg,nil,0,100,nil,'size')
+        size:SetPoint('TOP',-85,-50)
+        size:SetWidth(150)
+
+        local point = opt.CreateDropDown(pg,nil,'point')
+        point.SelectTable = core.POINT_ASSOC
+        point:SetPoint('TOP',85,-40)
+        point:SetWidth(150)
+        point.CreateListOverride = Movable_PointDropdown_CreateList
+
+        local x = opt.CreateSlider(pg,nil,-100,100,nil,'offset_x')
+        x:SetPoint('TOP',-85,-100)
+        x:SetWidth(150)
+
+        local y = opt.CreateSlider(pg,nil,-100,100,nil,'offset_y')
+        y:SetPoint('TOP',85,-100)
+        y:SetWidth(150)
+
+        --pg.label = label
+        pg.header = header
+        pg.elements = { size = size, point = point, x = x, y = y }
+        pg.PreShow = Movable_PreShow
+    end
+
     -- create popup ############################################################
     function CreatePopup()
         local popup = CreateFrame('Frame',nil,opt,BackdropTemplateMixin and "BackdropTemplate" or nil)
@@ -796,6 +915,7 @@ do
         -- create required pages
         CreatePopupPage_ConfirmDialog()
         CreatePopupPage_TextEntry()
+        CreatePopupPage_Movable()
 
         opt:HookScript('OnHide',function(self)
             self.Popup:Hide()
