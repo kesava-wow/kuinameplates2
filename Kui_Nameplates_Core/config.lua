@@ -268,15 +268,14 @@ local default_config = {
     cvar_self_alpha = 1,
     cvar_occluded_mult = tonumber(GetCVarDefault('nameplateOccludedAlphaMult')),
 
-    -- point+offset variables
-    auras_cd_point_x = 1,
-    auras_cd_point_y = 1,
-    auras_cd_offset_x = -4,
-    auras_cd_offset_y = 3,
-    auras_count_point_x = 3,
-    auras_count_point_y = 3,
-    auras_count_offset_x = 5,
-    auras_count_offset_y = -2,
+    -- simple movables; XXX to be moved once KuiConfig supports subtables
+    -- auras text overrides
+    auras_cd_point = 1, -- TOPLEFT
+    auras_cd_x = -4,
+    auras_cd_y = 3,
+    auras_count_point = 9, -- BOTTOMRIGHT
+    auras_count_x = 5,
+    auras_count_y = -2,
 }
 -- global scale helper #########################################################
 -- for frame/texture sizes; apply global scale to given value
@@ -566,14 +565,12 @@ configChanged.auras_highlight_other = configChangedAuras
 configChanged.auras_per_row = configChangedAuras
 configChanged.auras_cd_size = configChangedAuras
 configChanged.auras_count_size = configChangedAuras
-configChanged.auras_cd_point_x = configChangedAuras
-configChanged.auras_cd_point_y = configChangedAuras
-configChanged.auras_cd_offset_x = configChangedAuras
-configChanged.auras_cd_offset_y = configChangedAuras
-configChanged.auras_count_point_x = configChangedAuras
-configChanged.auras_count_point_y = configChangedAuras
-configChanged.auras_count_offset_x = configChangedAuras
-configChanged.auras_count_offset_y = configChangedAuras
+configChanged.auras_cd_point = configChangedAuras
+configChanged.auras_cd_x = configChangedAuras
+configChanged.auras_cd_y = configChangedAuras
+configChanged.auras_count_point = configChangedAuras
+configChanged.auras_count_x = configChangedAuras
+configChanged.auras_count_y = configChangedAuras
 
 local function configChangedCastBar()
     core:SetCastBarConfig()

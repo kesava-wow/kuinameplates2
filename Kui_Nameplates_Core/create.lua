@@ -62,13 +62,8 @@ local UnitIsPlayer,UnitShouldDisplayName,
       UnitIsPlayer,UnitShouldDisplayName,
       strlen,format,pairs,ipairs,floor,ceil,unpack
 
--- config locals
 local KUI_MEDIA = 'interface/addons/kui_media/'
 local MEDIA = 'interface/addons/kui_nameplates_core/media/'
-
--- global enum tables (aura frames, text justifications, ... }
-local POINT_X_ASSOC = { 'LEFT', 'CENTER', 'RIGHT' }
-local POINT_Y_ASSOC = { 'TOP', 'CENTER', 'BOTTOM' }
 
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,FRAME_WIDTH_TARGET,
@@ -202,18 +197,6 @@ local function CreateFontString(parent,small)
 end
 local function ScaleTextOffset(v)
     return floor(core:Scale(v)) - .5
-end
-local function ResolvePointPair(x,y)
-    -- convert x/y to single point
-    if x == 2 and y == 2 then
-        return 'CENTER'
-    elseif x == 2 then
-        return POINT_Y_ASSOC[y]
-    elseif y == 2 then
-        return POINT_X_ASSOC[x]
-    else
-        return POINT_Y_ASSOC[y]..POINT_X_ASSOC[x]
-    end
 end
 -- config functions ############################################################
 do
@@ -1599,10 +1582,8 @@ do
           AURAS_CD_SIZE,AURAS_COUNT_SIZE,AURAS_PER_ROW,
           AURAS_PULSATE,AURAS_ICON_SQUARENESS,AURAS_SORT
 
-    local AURAS_CD_POINT_X,AURAS_CD_POINT_Y,
-          AURAS_CD_OFFSET_X,AURAS_CD_OFFSET_Y,
-          AURAS_COUNT_POINT_X,AURAS_COUNT_POINT_Y,
-          AURAS_COUNT_OFFSET_X,AURAS_COUNT_OFFSET_Y
+    local AURAS_CD_POINT,AURAS_CD_OFFSET_X,AURAS_CD_OFFSET_Y,
+          AURAS_COUNT_POINT,AURAS_COUNT_OFFSET_X,AURAS_COUNT_OFFSET_Y
 
     local function AuraFrame_UpdateFrameSize(self,to_size)
         -- frame width changes depending on icon size, needs to be correct if
@@ -1752,20 +1733,14 @@ do
         -- move text to obey our settings
         button.cd.fontobject_shadow = true
         button.cd:ClearAllPoints()
-        button.cd:SetPoint(
-            ResolvePointPair(AURAS_CD_POINT_X,AURAS_CD_POINT_Y),
-            AURAS_CD_OFFSET_X, AURAS_CD_OFFSET_Y
-        )
-        button.cd:SetJustifyH(POINT_X_ASSOC[AURAS_CD_POINT_X])
+        button.cd:SetPoint(POINT_ASSOC[AURAS_CD_POINT],
+            AURAS_CD_OFFSET_X,AURAS_CD_OFFSET_Y)
 
         button.count.fontobject_shadow = true
         button.count.fontobject_small = true
         button.count:ClearAllPoints()
-        button.count:SetPoint(
-            ResolvePointPair(AURAS_COUNT_POINT_X,AURAS_COUNT_POINT_Y),
-            AURAS_COUNT_OFFSET_X, AURAS_COUNT_OFFSET_Y
-        )
-        button.count:SetJustifyH(POINT_X_ASSOC[AURAS_COUNT_POINT_X])
+        button.count:SetPoint(POINT_ASSOC[AURAS_COUNT_POINT],
+            AURAS_COUNT_OFFSET_X,AURAS_COUNT_OFFSET_Y)
 
         if frame.__core and not button.hl then
             -- create owner highlight
@@ -1881,14 +1856,12 @@ do
         AURAS_PER_ROW = self.profile.auras_per_row
         AURAS_CD_SIZE = self:Scale(self.profile.auras_cd_size)
         AURAS_COUNT_SIZE = self:Scale(self.profile.auras_count_size)
-        AURAS_CD_POINT_X = self.profile.auras_cd_point_x
-        AURAS_CD_POINT_Y = self.profile.auras_cd_point_y
-        AURAS_CD_OFFSET_X = ScaleTextOffset(self.profile.auras_cd_offset_x)
-        AURAS_CD_OFFSET_Y = ScaleTextOffset(self.profile.auras_cd_offset_y)
-        AURAS_COUNT_POINT_X = self.profile.auras_count_point_x
-        AURAS_COUNT_POINT_Y = self.profile.auras_count_point_y
-        AURAS_COUNT_OFFSET_X = ScaleTextOffset(self.profile.auras_count_offset_x)
-        AURAS_COUNT_OFFSET_Y = ScaleTextOffset(self.profile.auras_count_offset_y)
+        AURAS_CD_POINT = self.profile.auras_cd_point
+        AURAS_CD_OFFSET_X = ScaleTextOffset(self.profile.auras_cd_x)
+        AURAS_CD_OFFSET_Y = ScaleTextOffset(self.profile.auras_cd_y)
+        AURAS_COUNT_POINT = self.profile.auras_count_point
+        AURAS_COUNT_OFFSET_X = ScaleTextOffset(self.profile.auras_count_x)
+        AURAS_COUNT_OFFSET_Y = ScaleTextOffset(self.profile.auras_count_y)
 
         if AURAS_TIMER_THRESHOLD < 0 then
             AURAS_TIMER_THRESHOLD = nil
