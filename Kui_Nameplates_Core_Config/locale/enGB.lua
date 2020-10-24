@@ -1,9 +1,12 @@
+-- luacheck:globals KuiNameplatesCoreConfig
 local L = KuiNameplatesCoreConfig:Locale('enGB')
 if not L then return end
 
 L.common = {
     text = 'Text',
+    size = 'Size',
     font_size = 'Font size',
+    point = 'Point',
     point_x = 'X point',
     point_y = 'Y point',
     offset_x = 'X offset',
