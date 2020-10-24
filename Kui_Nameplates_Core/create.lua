@@ -41,6 +41,16 @@ local LSM = LibStub('LibSharedMedia-3.0')
 local KSL = LibStub('KuiSpellList-2.0')
 local core = KuiNameplatesCore --luacheck:globals KuiNameplatesCore
 
+-- associative tables used by config
+core.POINT_ASSOC = {
+    'TOPLEFT','LEFT','BOTTOMLEFT',
+    'TOP','CENTER','BOTTOM',
+    'TOPRIGHT','RIGHT','BOTTOMRIGHT'
+}
+core.JUSTIFY_ASSOC = { 'LEFT','CENTER','RIGHT' }
+local POINT_ASSOC = core.POINT_ASSOC
+local JUSTIFY_ASSOC = core.JUSTIFY_ASSOC
+
 -- frame fading plugin - called by some update functions
 local plugin_fading
 -- class powers plugin - called by NameOnlyUpdateFunctions
