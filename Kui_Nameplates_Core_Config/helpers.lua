@@ -837,15 +837,27 @@ do
     end
     local function Movable_PreShow(self,prefix,keys,minmax)
         self.header.Text:SetText(GetLocaleString(nil,prefix))
+        self.cancel = {}
+
         for k,ele in pairs(self.elements) do
-            ele.env = keys and keys[k] or prefix..'_'..k
+            local env = keys and keys[k] or prefix..'_'..k
+            ele.env = env
+            self.cancel[env] = opt.profile[env]
+
             if ele.SetMinMaxValues then
                 ele:SetMinMaxValues(unpack(minmax and minmax[k] or self.minmax[k]))
             end
         end
     end
+    local function Movable_Callback(self,okay)
+        if okay then return end
+        for env,val in pairs(self.cancel) do
+            opt.config:SetKey(env,val)
+        end
+    end
     local function CreatePopupPage_Movable()
         local pg = opt:CreatePopupPage('movable')
+        pg.callback = Movable_Callback
         pg.size = {400,190}
         pg.minmax = {
             size = {1,100},
