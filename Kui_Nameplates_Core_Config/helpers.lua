@@ -1,6 +1,6 @@
 local opt = KuiNameplatesCoreConfig -- luacheck:globals KuiNameplatesCoreConfig
 local frame_name = 'KuiNameplatesCoreConfig'
-local pcdd = LibStub('SomeoneElsesConfig-Dropdown')
+local ddlib = LibStub('KuiDropdown')
 local L = opt:GetLocale()
 
 local S_CHECKBOX_ON = 856
@@ -184,7 +184,7 @@ do
     end
 
     function opt.CreateDropDown(parent, name, common_name)
-        local dd = pcdd:New(parent,GetLocaleString(common_name,name,'Dropdown'))
+        local dd = ddlib:New(parent,GetLocaleString(common_name,name,'Dropdown'))
         dd.labelText:SetFontObject('GameFontNormalSmall')
         dd:SetWidth(200)
         dd:SetHeight(40)
@@ -611,7 +611,7 @@ do
         self:SetValue(opt.config.csv.profile)
     end
     function CreateProfileDropDown(parent)
-        local p_dd = pcdd:New(parent)
+        local p_dd = ddlib:New(parent)
         p_dd.list_width = 175
         p_dd.labelText:SetFontObject('GameFontNormalSmall')
         p_dd:SetFrameStrata('TOOLTIP')
