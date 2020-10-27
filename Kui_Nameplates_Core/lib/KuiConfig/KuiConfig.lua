@@ -3,7 +3,7 @@
 -- By Kesava @ curse.com.
 -- All rights reserved.
 --]]
-local MAJOR, MINOR = 'KuiConfig-1.0', 8
+local MAJOR, MINOR = 'KuiConfig-1.0', 9
 local kc = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kc then
@@ -97,6 +97,14 @@ function config_meta:SetKey(k,v)
     self.profile[k] = v
     self:PostProfile()
     CallListeners(self,k,v)
+end
+
+--[[
+-- return config key [k]
+--]]
+function config_meta:GetKey(k)
+    if not self.profile then return end
+    return self.profile[k]
 end
 
 --[[
