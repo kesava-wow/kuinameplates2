@@ -474,7 +474,7 @@ function command_func.import(allow_overwrite)
 end
 
 function SlashCmdList.KUINAMEPLATESCORE(msg)
-    if strmatch(msg,"[^%s]") then
+    if msg and strmatch(msg,"[^%s]") then
         local args = {}
         for match in string.gmatch(msg,'[^%s]+') do
         -- split input by whitespace into argument table
