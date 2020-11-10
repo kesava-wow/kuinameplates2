@@ -201,8 +201,6 @@ L["tooltips"] = {
 	["castbar_showfriend"] = "Mostrar barras de lançamento em placas de identificação de aliados (note que barras de lançamento não são mostradas em quadros que tiverem o modo de somente-nome ativo).",
 	["castbar_showpersonal"] = "Mostra a barra de lançamento na placa de identificação do seu personagem, se habilitado.",
 	["castbar_unin_colour"] = "Cor da barra de lançamento quando não pode ser interrompido.|n|nTambém usado para indicar um lançamento interrompido se animação está habilitada.",
-	["class_colour_enemy_names"] = "Cor dos nomes dos jogadores inimigos pela cor de suas classes.",
-	["class_colour_friendly_names"] = "Cor dos nomes dos jogadores aliados pela cor de suas classes.",
 	["classpowers_bar_height"] = "Altura da barra de recursos",
 	["classpowers_bar_width"] = "Largura da barra de recursos",
 	["classpowers_colour"] = "Cor dos recursos de classe para a classe atual",
@@ -229,3 +227,4 @@ L["tooltips"] = {
 ]=],
 	["nameonly_target"] = "Também usar apenas-nomes no seu alvo.",
 }
+
