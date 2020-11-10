@@ -104,8 +104,7 @@ L["titles"] = {
 ]=],
 	["cvar_personal_show_target"] = "Mostrar placa de identificação pessoal com um alvo",
 	["cvar_show_friendly_npcs"] = "Sempre mostrar as placas de identificação de NPCs aliados",
-	["dd_auras_sort_index"] = [=[
-Índice da aura]=],
+	["dd_auras_sort_index"] = "Índice da aura",
 	["dd_auras_sort_time"] = "Tempo restante",
 	["dd_bar_animation_smooth"] = "Suave",
 	["dd_combat_toggle_hide"] = [=[Esconder, depois mostrar
