@@ -1,5 +1,10 @@
 ALPHA NOTES
 
+* add options frame_padding_x, frame_padding_y (not exposed)
+* fix /knp debug frames
+
+* update locale
+
 * add options to show class powers on friendly or hostile targets
 * add option to disable resizing of frames flagged as minus
 * add option to resize the current target
