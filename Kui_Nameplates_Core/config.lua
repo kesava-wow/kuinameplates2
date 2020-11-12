@@ -108,8 +108,8 @@ local default_config = {
     name_vertical_offset = -3,
     bot_vertical_offset = -3,
     name_constrain = false, -- NEX
-    name_constrain_offset = 5, -- NEX
-    name_constrain_justify = 1, -- NEX
+    name_constrain_offset = -20, -- NEX
+    name_constrain_justify = 2, -- NEX
 
     name_colour_white_in_bar_mode = true,
     class_colour_friendly_names = true,
