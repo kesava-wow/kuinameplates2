@@ -259,7 +259,6 @@ local default_config = {
     cvar_personal_show_always = GetCVarDefault('nameplatePersonalShowAlways')=="1",
     cvar_personal_show_combat = GetCVarDefault('nameplatePersonalShowInCombat')=="1",
     cvar_personal_show_target = GetCVarDefault('nameplatePersonalShowWithTarget')=="1",
-    cvar_max_distance = tonumber(GetCVarDefault('nameplateMaxDistance')),
     cvar_clamp_top = tonumber(GetCVarDefault('nameplateOtherTopInset')),
     cvar_clamp_bottom = tonumber(GetCVarDefault('nameplateOtherBottomInset')),
     cvar_self_clamp_top = tonumber(GetCVarDefault('nameplateSelfTopInset')),
@@ -724,7 +723,6 @@ local function UpdateCVars()
     SetCVar('nameplatePersonalShowAlways',core.profile.cvar_personal_show_always)
     SetCVar('nameplatePersonalShowInCombat',core.profile.cvar_personal_show_combat)
     SetCVar('nameplatePersonalShowWithTarget',core.profile.cvar_personal_show_target)
-    SetCVar('nameplateMaxDistance',core.profile.cvar_max_distance)
     SetCVar('nameplateOtherTopInset',core.profile.cvar_clamp_top)
     SetCVar('nameplateLargeTopInset',core.profile.cvar_clamp_top)
     SetCVar('nameplateOtherBottomInset',core.profile.cvar_clamp_bottom)
@@ -789,7 +787,6 @@ configChanged.cvar_show_friendly_npcs = configChangedCVar
 configChanged.cvar_personal_show_always = configChangedCVar
 configChanged.cvar_personal_show_combat = configChangedCVar
 configChanged.cvar_personal_show_target = configChangedCVar
-configChanged.cvar_max_distance = configChangedCVar
 configChanged.cvar_clamp_top = configChangedCVar
 configChanged.cvar_clamp_bottom = configChangedCVar
 configChanged.cvar_self_clamp_top = configChangedCVar

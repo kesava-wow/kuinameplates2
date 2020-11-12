@@ -882,10 +882,6 @@ function cvars:Initialise()
     -- nameplatePersonalShowWithTarget
     local pst = self:CreateCheckBox('cvar_personal_show_target')
     pst.enabled = sfn.enabled
-    -- nameplateMaxDistance
-    local md = self:CreateSlider('cvar_max_distance',5,100)
-    md:SetValueStep(5)
-    md.enabled = sfn.enabled
     -- nameplate{Other,Large}TopInset
     local ct = self:CreateSlider('cvar_clamp_top',-.1,.5)
     ct:SetValueStep(.01)
@@ -934,10 +930,9 @@ function cvars:Initialise()
     psc:SetPoint('TOPLEFT',psa,'BOTTOMLEFT',0,0)
     pst:SetPoint('TOPLEFT',psc,'BOTTOMLEFT',0,0)
 
-    md:SetPoint('TOPLEFT',10,-330)
-    ov:SetPoint('LEFT',md,'RIGHT',20,0)
-    ct:SetPoint('TOPLEFT',md,'BOTTOMLEFT',0,-35)
-    cb:SetPoint('TOPLEFT',ov,'BOTTOMLEFT',0,-35)
+    ov:SetPoint('TOP',0,-330)
+    ct:SetPoint('TOPLEFT',10,-380)
+    cb:SetPoint('LEFT',ct,'RIGHT',20,0)
     self_clamp_top:SetPoint('TOPLEFT',ct,'BOTTOMLEFT',0,-35)
     self_clamp_bottom:SetPoint('TOPLEFT',cb,'BOTTOMLEFT',0,-35)
 end
