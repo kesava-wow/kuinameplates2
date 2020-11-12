@@ -196,11 +196,20 @@ function command_func.debug(arg,...)
         -- toggle frame visibility
         knp.draw_frames = not knp.draw_frames
         if knp.draw_frames then
+            if not KuiNameplatesPlayerAnchor.SetBackdrop then
+                Mixin(KuiNameplatesPlayerAnchor,BackdropTemplateMixin)
+            end
             KuiNameplatesPlayerAnchor:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
             KuiNameplatesPlayerAnchor:SetBackdropBorderColor(0,0,1)
             for _,f in knp:Frames() do
+                if not f.SetBackdrop then
+                    Mixin(f,BackdropTemplateMixin)
+                end
                 f:SetBackdrop({edgeFile=kui.m.t.solid,edgeSize=1})
                 f:SetBackdropBorderColor(1,1,1)
+                if not f.parent.SetBackdrop then
+                    Mixin(f.parent,BackdropTemplateMixin)
+                end
                 f.parent:SetBackdrop({bgFile=kui.m.t.solid})
                 f.parent:SetBackdropColor(0,0,0)
             end
