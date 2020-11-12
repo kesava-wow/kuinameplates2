@@ -1,7 +1,10 @@
 ALPHA NOTES
 
 * add options frame_padding_x, frame_padding_y (not exposed)
-* fix /knp debug frames
+* fix `/knp debug frames`
+* fix class powers don't show on personal frame
+* remove cvar_max_distance (disabled on client)
+* move name text slightly
 
 * update locale
 
