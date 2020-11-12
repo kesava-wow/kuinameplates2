@@ -1967,7 +1967,9 @@ do
 end
 -- class powers ################################################################
 local function ClassPowers_StateFilter(state)
-    if state.friend then
+    if state.personal then
+        return true
+    elseif state.friend then
         return CLASSPOWERS_ON_FRIENDS
     else
         return CLASSPOWERS_ON_ENEMIES
