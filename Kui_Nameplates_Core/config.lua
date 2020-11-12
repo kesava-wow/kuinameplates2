@@ -159,6 +159,8 @@ local default_config = {
     frame_height_target = 16,
     frame_target_size = true,
     frame_minus_size = true,
+    frame_padding_x = 10,
+    frame_padding_y = 20,
     powerbar_height = 3,
     global_scale = 1,
 
@@ -291,8 +293,11 @@ end
 -- local functions #############################################################
 local function UpdateClickboxSize()
     if kui.CLASSIC then return end -- XXX functions exist, but break display
-    local o_width = (core:Scale(core.profile.frame_width) * addon.uiscale) + 10
-    local o_height = (core:Scale(core.profile.frame_height) * addon.uiscale) + 20
+    local x_pad = core:Scale(core.profile.frame_padding_x)
+    local y_pad = core:Scale(core.profile.frame_padding_y)
+
+    local o_width = (core:Scale(core.profile.frame_width) * addon.uiscale) + x_pad
+    local o_height = (core:Scale(core.profile.frame_height) * addon.uiscale) + y_pad
 
     if C_NamePlate.SetNamePlateOtherSize then
         C_NamePlate.SetNamePlateOtherSize(o_width,o_height)
@@ -304,12 +309,12 @@ local function UpdateClickboxSize()
     if addon.USE_BLIZZARD_PERSONAL then
         -- obey width, use static height
         C_NamePlate.SetNamePlateSelfSize(
-            core.profile.frame_width_personal - 10,
+            core.profile.frame_width_personal - x_pad,
             45
         )
     else
-        local p_width = (core:Scale(core.profile.frame_width_personal) * addon.uiscale) + 10
-        local p_height = (core:Scale(core.profile.frame_height_personal) * addon.uiscale) + 20
+        local p_width = (core:Scale(core.profile.frame_width_personal) * addon.uiscale) + x_pad
+        local p_height = (core:Scale(core.profile.frame_height_personal) * addon.uiscale) + y_pad
         C_NamePlate.SetNamePlateSelfSize(p_width,p_height)
     end
 end
@@ -489,6 +494,8 @@ configChanged.frame_width_minus = configChangedFrameSize
 configChanged.frame_height_minus = configChangedFrameSize
 configChanged.frame_width_target = configChangedFrameSize
 configChanged.frame_height_target = configChangedFrameSize
+configChanged.frame_padding_x = configChangedFrameSize
+configChanged.frame_padding_y = configChangedFrameSize
 
 local function configChangedFontOption()
     core:configChangedFontOption()
