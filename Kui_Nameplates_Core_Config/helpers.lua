@@ -488,8 +488,11 @@ function opt.CreateSeparator(parent,name,common_name)
     shadow:SetPoint('BOTTOMRIGHT',line,'TOPRIGHT')
 
     local label = parent:CreateFontString(nil,'ARTWORK','GameFontNormal')
-    label:SetText(GetLocaleString(common_name,name,'Separator'))
     label:SetPoint('CENTER',line,0,10)
+
+    if name or common_name then
+        label:SetText(GetLocaleString(common_name,name,'Separator'))
+    end
 
     line.label = label
     line.shadow = shadow
