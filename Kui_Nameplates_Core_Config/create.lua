@@ -480,14 +480,16 @@ function framesizes:Initialise()
     local frame_height_minus = self:CreateSlider('frame_height_minus',3,40,nil,'height')
     local frame_width_personal = self:CreateSlider('frame_width_personal',20,200)
     local frame_height_personal = self:CreateSlider('frame_height_personal',3,40)
+    local frame_padding_x = self:CreateSlider('frame_padding_x',0,50)
+    local frame_padding_y = self:CreateSlider('frame_padding_y',0,50)
 
-    local element_sep = self:CreateSeparator('framesizes_element_sep')
+    local element_sep = self:CreateSeparator()
     local powerbar_height = self:CreateSlider('powerbar_height',1,20)
     local glow_size_shadow = self:CreateSlider('frame_glow_size_shadow',1,30)
     local glow_size_target = self:CreateSlider('frame_glow_size_target',1,30)
     local glow_size_threat = self:CreateSlider('frame_glow_size_threat',1,30)
 
-    local scale_sep = self:CreateSeparator('framesizes_scale_sep')
+    local scale_sep = self:CreateSeparator()
     local global_scale = self:CreateSlider('global_scale',.5,2)
     global_scale:SetValueStep(.05)
 
@@ -523,14 +525,17 @@ function framesizes:Initialise()
     frame_width_minus:SetPoint('LEFT',frame_minus_size,140,0)
     frame_height_minus:SetPoint('LEFT',frame_width_minus,'RIGHT',20,0)
 
-    element_sep:SetPoint('TOP',0,-245)
-    powerbar_height:SetPoint('TOPLEFT',10,-325)
-    glow_size_shadow:SetPoint('TOPLEFT',10,-275)
+    frame_padding_x:SetPoint('TOPLEFT',frame_minus_size,'BOTTOMLEFT',0,-50)
+    frame_padding_y:SetPoint('LEFT',frame_padding_x,'RIGHT',20,0)
+
+    element_sep:SetPoint('TOP',0,-310)
+    glow_size_shadow:SetPoint('TOPLEFT',element_sep,'BOTTOMLEFT',0,-30)
     glow_size_target:SetPoint('LEFT',glow_size_shadow,'RIGHT',20,0)
     glow_size_threat:SetPoint('LEFT',glow_size_target,'RIGHT',20,0)
+    powerbar_height:SetPoint('TOPLEFT',glow_size_shadow,'BOTTOMLEFT',0,-35)
 
-    scale_sep:SetPoint('TOP',0,-380)
-    global_scale:SetPoint('TOP',0,-405)
+    scale_sep:SetPoint('TOP',0,-440)
+    global_scale:SetPoint('TOP',scale_sep,'BOTTOM',0,-30)
 end
 -- auras #######################################################################
 function auras:Initialise()
