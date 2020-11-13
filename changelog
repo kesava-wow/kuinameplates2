@@ -1,5 +1,9 @@
 ALPHA NOTES
 
+* implement config popup for certain movable elements
+* add options for quest icon size and position
+* add options for raid icon size and position
+
 * add options frame_padding_x, frame_padding_y (not exposed)
 * fix `/knp debug frames`
 * fix class powers don't show on personal frame
