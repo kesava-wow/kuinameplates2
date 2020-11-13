@@ -278,8 +278,6 @@ L.titles = {
     bossmod_x_offset = 'Horizontal offset',
     bossmod_y_offset = 'Vertical offset',
     bossmod_clickthrough = 'Enable clickthrough when automatically shown',
-    bossmod_lines = 'Allow line drawing',
-    bossmod_line_width = 'Line width',
 
     cvar_enable = 'Allow Kui Nameplates to modify CVars',
     cvar_show_friendly_npcs = 'Always show friendly NPCs\' nameplates',
@@ -314,7 +312,7 @@ L.tooltips = {
     use_blizzard_personal = 'Don\'t skin the personal resource display, which can be enabled in Interface > Names.',
     state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
 
-    clickthrough_self = 'Disable the click-box of your personal nameplate',
+    clickthrough_self = 'Disable the click-box of the personal nameplate',
     clickthrough_friend = 'Disable the click-box of friendly nameplates',
     clickthrough_enemy = 'Disable the click-box of enemy nameplates',
 
@@ -406,24 +404,14 @@ L.tooltips = {
     tankmode_trans_colour = 'Health bar colour for enemies which are about to change targets',
     tankmode_other_colour = 'Health bar colour for enemies being tanked by another tank in your group (or a player controlled pet, vehicle or totem).|n|nThis is only used if you are currently in a tanking specialisation, and requires the other tank to be in your group and to have their group role set to tank.',
 
-    classpowers_enable = 'Show your class\' special resource, such as combo points, holy power, etc.',
-    classpowers_on_target = 'Show on the frame of your target, rather than on the personal nameplate',
-    classpowers_size = 'Size of the class powers icons',
-    classpowers_bar_width = 'Width of the stagger bar',
-    classpowers_bar_height = 'Height of the stagger bar',
-    classpowers_colour = 'Colour of the class powers icons for the current class',
-    classpowers_colour_overflow = 'Colour of class powers "overflow"',
-    classpowers_colour_inactive = 'Colour of inactive class power icons',
+    classpowers_enable = 'Show class-specific special powers, like combo points, holy power, ...',
+    classpowers_on_target = 'Show class powers on the target\'s nameplate',
 
     bossmod_enable = 'Supported boss mods can communicate with KNP to show encounter-specific auras and draw lines to nameplates.',
     bossmod_control_visibility = 'Allow boss mods to show nameplates if they are used for auras in an encounter.',
-    bossmod_icon_size = 'Size of the boss aura icons',
-    bossmod_x_offset = 'Horizontal offset of the boss aura icons',
-    bossmod_y_offset = 'Vertical offset of the boss aura icons',
     bossmod_clickthrough = 'Disable the click-box of nameplates which are automatically enabled',
-    bossmod_lines = 'Allow boss mod addons to draw lines to nameplates. Colour is determined by the boss mod.',
 
-    cvar_enable = 'When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.|n|nIf this option is disabled, KNP will not modify CVars, even to return them to defaults.',
+    cvar_enable = 'When enabled, Kui Nameplates will attempt to lock the CVars on this page to the values set here.',
     cvar_show_friendly_npcs = '|cffffcc00nameplateShowFriendlyNPCs|r',
     cvar_name_only = '|cffffcc00nameplateShowOnlyNames|r|n|nHide the health bar of the default nameplates in situations where friendly nameplates cannot be otherwise modified by addons.',
     cvar_personal_show_always = '|cffffcc00nameplatePersonalShowAlways|r',
