@@ -225,8 +225,8 @@ L.titles = {
     auras_purge_opposite = 'Purge on opposite',
     auras_side = 'Side',
     auras_offset = 'Vertical offset',
-    auras_cd_text_sep = 'Cooldown',
-    auras_count_text_sep = 'Count',
+    auras_cd_movable = 'Cooldown',
+    auras_count_movable = 'Count',
 
     castbar_enable = 'Enable',
     castbar_colour = 'Bar colour',
