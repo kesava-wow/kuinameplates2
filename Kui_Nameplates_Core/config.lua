@@ -294,7 +294,7 @@ local default_config = {
     show_raid_icon = true,
     raid_icon_size = 26,
     raid_icon_point = 8,
-    raid_icon_x = 5,
+    raid_icon_x = 31,
     raid_icon_y = 0,
 }
 -- global scale helper #########################################################
