@@ -106,7 +106,6 @@ local default_config = {
     health_text = false,
     name_vertical_offset = -3,
     bot_vertical_offset = -3,
-    name_constrain = false, -- NEX
     name_constrain_offset = -20, -- NEX
     name_constrain_justify = 2, -- NEX
 

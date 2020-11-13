@@ -608,7 +608,7 @@ do
           CLASS_COLOUR_ENEMY_NAMES,NAME_COLOUR_BRIGHTEN_CLASS,
           NAME_COLOUR_PLAYER_FRIENDLY,NAME_COLOUR_PLAYER_HOSTILE,
           NAME_COLOUR_NPC_FRIENDLY,NAME_COLOUR_NPC_NEUTRAL,
-          NAME_COLOUR_NPC_HOSTILE,CONSTRAIN,CONSTRAIN_OFFSET,CONSTRAIN_JUSTIFY
+          NAME_COLOUR_NPC_HOSTILE,CONSTRAIN_OFFSET,CONSTRAIN_JUSTIFY
 
     -- adjusted class colours, built as needed
     local CLASS_COLOURS
@@ -625,7 +625,6 @@ do
         NAME_COLOUR_NPC_NEUTRAL = self.profile.name_colour_npc_neutral
         NAME_COLOUR_NPC_HOSTILE = self.profile.name_colour_npc_hostile
 
-        CONSTRAIN = self.profile.name_constrain
         CONSTRAIN_OFFSET = ScaleTextOffset(self.profile.name_constrain_offset)
         CONSTRAIN_JUSTIFY = self.profile.name_constrain_justify
     end
@@ -732,15 +731,9 @@ do
             -- position in nameonly is set by NameOnlyEnable
             return
         end
-        if CONSTRAIN then
-            -- constrain to healthbar
-            f.NameText:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT',CONSTRAIN_OFFSET,NAME_VERTICAL_OFFSET)
-            f.NameText:SetPoint('RIGHT',f.HealthBar,-CONSTRAIN_OFFSET,0)
-            f.NameText:SetJustifyH(JUSTIFY_ASSOC[CONSTRAIN_JUSTIFY])
-        else
-            -- or float above
-            f.NameText:SetPoint('BOTTOM',f.HealthBar,'TOP',0,NAME_VERTICAL_OFFSET)
-        end
+        f.NameText:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT',CONSTRAIN_OFFSET,NAME_VERTICAL_OFFSET)
+        f.NameText:SetPoint('RIGHT',f.HealthBar,-CONSTRAIN_OFFSET,0)
+        f.NameText:SetJustifyH(JUSTIFY_ASSOC[CONSTRAIN_JUSTIFY])
     end
     function core:CreateNameText(f)
         local nametext = CreateFontString(f)
