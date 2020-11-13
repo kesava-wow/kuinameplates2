@@ -1,22 +1,20 @@
 --[[--------------------------------------------------------------------
-    SomeoneElsesConfig-Dropdown
-    Kesava @ Curse.com
-    All rights reserved
+    KuiDropdown
+    kesava-wow @ github
 
     This is a modified version of PhanxConfig-Dropdown.
     The vast majority of credit for it goes to Phanx.
 ----------------------------------------------------------------------]]
+--luacheck:globals SOUNDKIT
 --luacheck:globals UIDROPDOWNMENU_BUTTON_HEIGHT UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT UIDROPDOWNMENU_BORDER_HEIGHT
 --luacheck:globals GameFontNormal GameFontDisable GameFontDisableSmall GameFontHighlight GameFontHighlightSmall
-local lib = LibStub:NewLibrary("SomeoneElsesConfig-Dropdown", 9)
+local NAME = 'KuiDropdown'
+local lib = LibStub:NewLibrary(NAME, 1)
 if not lib then return end
 
 lib.listFrames = lib.listFrames or {}
 
 local MAX_LIST_SIZE = 15
-
-local S_UChatScrollButton = 1115
-local S_igMainMenuOptionCheckBoxOn = 856
 
 ------------------------------------------------------------------------
 
@@ -101,7 +99,7 @@ local function ListButton_OnClick(self)
         callback(dropdown, self.value, self:GetText())
     end
 
-    PlaySound(S_UChatScrollButton)
+    PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON)
 
     if dropdown.keepShownOnClick then
         OpenDropdown(dropdown)
@@ -111,12 +109,7 @@ end
 local function CreateListButton(parent)
     local button = CreateFrame("Button", nil, parent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     button:SetHeight(UIDROPDOWNMENU_BUTTON_HEIGHT)
---[[
-    local bg = button:CreateTexture(nil, "BACKGROUND")
-    bg:SetPoint("BOTTOMLEFT", 1, 1)
-    bg:SetPoint("TOPRIGHT", -1, -1)
-    bg:SetTexture(0, 128, 255, 0.25)
-]]
+
     local label = button:CreateFontString(nil, "OVERLAY")
     label:SetPoint("LEFT", 27, 0)
     label:SetPoint("RIGHT")
@@ -125,7 +118,7 @@ local function CreateListButton(parent)
     label:SetJustifyH("LEFT")
     label:SetWordWrap()
     button:SetFontString(label)
-    button.label = label -- DEPRECATED
+    button.label = label
 
     local check = button:CreateTexture(nil, "ARTWORK")
     check:SetPoint("LEFT")
@@ -241,7 +234,7 @@ function CreateList(dropdown) -- local
     if dropdown.CreateListOverride then
         list = dropdown:CreateListOverride()
     else
-        list = CreateFrame("Button", "SomeoneElsesConfigDropdown" .. id, dropdown, BackdropTemplateMixin and "BackdropTemplate" or nil)
+        list = CreateFrame("Button", NAME..id, dropdown, BackdropTemplateMixin and "BackdropTemplate" or nil)
         list:SetFrameStrata("DIALOG")
         list:SetToplevel(true)
         list:Hide()
@@ -296,7 +289,7 @@ end
 ------------------------------------------------------------------------
 
 local function Button_OnClick(self)
-    PlaySound(S_igMainMenuOptionCheckBoxOn)
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 
     local dropdown = self:GetParent()
     OpenDropdown(dropdown)
@@ -355,7 +348,7 @@ end
 ------------------------------------------------------------------------
 
 function lib:New(parent, name, tooltipText, items, keepShownOnClick)
-    assert(type(parent) == "table" and type(rawget(parent, 0)) == "userdata", "SomeoneElsesConfig-Dropdown: parent must be a frame")
+    assert(type(parent) == "table" and type(rawget(parent, 0)) == "userdata", NAME..': parent must be a frame')
 
     local dropdown = CreateFrame("Frame", nil, parent)
     dropdown:SetSize(200, 48)
@@ -363,11 +356,7 @@ function lib:New(parent, name, tooltipText, items, keepShownOnClick)
     dropdown:SetScript("OnEnter", Frame_OnEnter)
     dropdown:SetScript("OnLeave", Frame_OnLeave)
     dropdown:SetScript("OnHide", Frame_OnHide)
---[[
-    dropdown.bg = dropdown:CreateTexture(nil, "BACKGROUND")
-    dropdown.bg:SetAllPoints(true)
-    dropdown.bg:SetTexture(0, 0.5, 0, 0.5)
-]]
+
     local left = dropdown:CreateTexture(nil, "BORDER")
     left:SetPoint("TOPLEFT", dropdown, "BOTTOMLEFT", -16, 47)
     left:SetSize(25, 64)

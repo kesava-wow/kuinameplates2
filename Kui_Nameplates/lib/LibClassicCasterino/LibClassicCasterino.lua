@@ -4,7 +4,7 @@ Author: d87
 --]================]
 if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then return end
 
-local MAJOR, MINOR = "LibClassicCasterino", 34
+local MAJOR, MINOR = "LibClassicCasterino", 35
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
@@ -152,11 +152,11 @@ local function CastStop(srcGUID, castType, suffix, suffix2 )
         movecheckGUIDs[srcGUID] = nil
 
         if castType == "CAST" then
+            local event = "UNIT_SPELLCAST_"..suffix
             if srcGUID == playerGUID and castingAimedShot then
                 castingAimedShot = false
                 callbacks:Fire(event, "player")
             end
-            local event = "UNIT_SPELLCAST_"..suffix
             FireToUnits(event, srcGUID)
             if suffix2 then
                 FireToUnits("UNIT_SPELLCAST_"..suffix2, srcGUID)

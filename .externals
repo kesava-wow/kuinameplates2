@@ -8,13 +8,13 @@ git-subtree kuimedia Kui_Media/
 github-kesava:kesava-wow/kuimedia.git
 
 git-subtree kuiconfig Kui_Nameplates_Core/lib/KuiConfig/
-github-kesava:kesava-wow/kuiconfig.git
+github-kesava:kesava-wow/kuiconfig.git 1.0
 
 git-subtree kuispelllist Kui_Nameplates_Core/lib/KuiSpellList/
 github-kesava:kesava-wow/kuispelllist.git
 
-git-subtree someonelsesconfig-dropdown Kui_Nameplates_Core_Config/lib/SomeoneElsesConfig-Dropdown/
-gitlab:rbtwrrr/SomeoneElsesConfig-Dropdown.git
+git-subtree kuidropdown Kui_Nameplates_Core_Config/lib/KuiDropdown/
+gitlab:rbtwrrr/KuiDropdown.git
 
 git-partial libclassicdurations Kui_Nameplates/lib/LibClassicDurations
 github-kesava:rgd87/LibClassicDurations.git
