@@ -11,6 +11,7 @@ L.common = {
     point_y = 'Y point',
     offset_x = 'X offset',
     offset_y = 'Y offset',
+    position = 'Position',
     width = 'Width',
     height = 'Height',
     offset = 'Offset',
@@ -296,6 +297,9 @@ L.titles = {
     cvar_disable_alpha = 'Disable fading',
     cvar_self_alpha = 'Self alpha',
     cvar_occluded_mult = 'Line-of-sight alpha',
+
+    show_quest_icon = 'Quest icon',
+    show_raid_icon = 'Raid icon',
 }
 L.tooltips = {
     reload_hint = 'Requires a UI reload.',
