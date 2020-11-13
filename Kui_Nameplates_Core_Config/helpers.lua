@@ -69,12 +69,18 @@ end
 -- button ######################################################################
 function opt:CreateButton(env,common_name)
     local f = CreateFrame('Button',nil,self,'UIPanelButtonTemplate')
+    f:SetScript('OnShow',GenericOnShow)
     if f.Text and f.Left and f.Right then
         f.Text:SetPoint('LEFT',f.Left)
         f.Text:SetPoint('RIGHT',f.Right)
         f.Text:SetText(GetLocaleString(common_name,env,'Button'))
     end
-    f.env = env
+    if env then
+        f.env = env
+        if type(self.elements) == 'table' then
+            self.elements[env] = f
+        end
+    end
     return f
 end
 local CreateButton = opt.CreateButton -- legacy alias
