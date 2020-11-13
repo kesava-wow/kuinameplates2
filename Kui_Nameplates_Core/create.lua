@@ -75,7 +75,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       HEALTH_TEXT_FRIEND_DMG,HEALTH_TEXT_HOSTILE_MAX,HEALTH_TEXT_HOSTILE_DMG,
       HIDE_NAMES,FRAME_VERTICAL_OFFSET,
       MOUSEOVER_HIGHLIGHT,HIGHLIGHT_OPACITY,LEVEL_TEXT,LEVEL_NAMEONLY,
-      HEALTH_TEXT_PERCENT_SYMBOL,SHOW_QUEST_ICON,FRAME_TARGET_SIZE,
+      HEALTH_TEXT_PERCENT_SYMBOL,FRAME_TARGET_SIZE,
       FRAME_MINUS_SIZE
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
@@ -293,8 +293,6 @@ do
 
         CASTBAR_DETACH = core.profile.castbar_detach
         CASTBAR_MATCH_FRAME_WIDTH = core.profile.castbar_detach_match_frame_width
-
-        SHOW_QUEST_ICON = core.profile.show_quest_icon
 
         CLASSPOWERS_ON_FRIENDS = core.profile.classpowers_on_friends
         CLASSPOWERS_ON_ENEMIES = core.profile.classpowers_on_enemies
@@ -2077,6 +2075,14 @@ do
 end
 -- quest icon ##################################################################
 do
+    local SHOW_QUEST_ICON,QUEST_ICON_SIZE,QUEST_ICON_POINT,
+          QUEST_ICON_X,QUEST_ICON_Y
+    local function Init(icon)
+        icon:ClearAllPoints()
+        icon:SetSize(QUEST_ICON_SIZE,QUEST_ICON_SIZE)
+        icon:SetPoint(POINT_ASSOC[QUEST_ICON_POINT],
+            QUEST_ICON_X,QUEST_ICON_Y)
+    end
     local function UpdateQuestIcon(frame)
         if SHOW_QUEST_ICON and frame.state.quest then
             frame.QuestIcon:Show()
@@ -2085,14 +2091,29 @@ do
         end
     end
     function core:CreateQuestIcon(frame)
-        local icon = frame:CreateTexture()
+        local icon = frame:CreateTexture(nil,'ARTWORK',nil,6)
         icon:SetAtlas('QuestNormal')
-        icon:SetSize(18,18) -- XXX scale
-        icon:SetPoint('RIGHT',frame.bg,'LEFT',-5,0)
         icon:Hide()
+        Init(icon)
 
         frame.QuestIcon = icon
         frame.UpdateQuestIcon = UpdateQuestIcon
+    end
+    function core:configChangedQuestIcon()
+        SHOW_QUEST_ICON = self.profile.show_quest_icon
+        QUEST_ICON_SIZE = self:Scale(self.profile.quest_icon_size)
+        QUEST_ICON_POINT = self.profile.quest_icon_point
+        QUEST_ICON_X = self:Scale(self.profile.quest_icon_x)
+        QUEST_ICON_Y = self:Scale(self.profile.quest_icon_y)
+
+        if SHOW_QUEST_ICON then
+            -- update existing icons...
+            for _,f in addon:Frames() do
+                if f.QuestIcon then
+                    Init(f.QuestIcon)
+                end
+            end
+        end
     end
 end
 -- name show/hide ##############################################################
