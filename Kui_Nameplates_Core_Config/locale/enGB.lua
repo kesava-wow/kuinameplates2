@@ -190,8 +190,6 @@ L.titles = {
     dd_health_text_current_percent = 'Current + percent',
     dd_health_text_current_deficit = 'Current + deficit',
 
-    framesizes_element_sep = 'Elements',
-    framesizes_scale_sep = 'Scale',
     frame_width_personal = 'Personal width',
     frame_height_personal = 'Personal height',
     frame_target_size = 'Target size',
@@ -201,6 +199,8 @@ L.titles = {
     frame_glow_size_shadow = 'Shadow size',
     frame_glow_size_target = 'Target glow size',
     frame_glow_size_threat = 'Threat glow size',
+    frame_padding_x = 'Clickbox padding width',
+    frame_padding_y = 'Clickbox padding height',
 
     auras_enabled = 'Show auras',
     auras_on_personal = 'Show on personal frame',
