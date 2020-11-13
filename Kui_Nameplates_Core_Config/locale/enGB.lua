@@ -232,7 +232,7 @@ L.titles = {
     castbar_enable = 'Enable',
     castbar_colour = 'Bar colour',
     castbar_unin_colour = 'Uninterruptible colour',
-    castbar_showpersonal = 'On personal frame',
+    castbar_showpersonal = 'On personal',
     castbar_icon = 'Spell icon',
     castbar_name = 'Spell name',
     castbar_shield = 'Uninterruptible shield',
@@ -387,7 +387,7 @@ L.tooltips = {
     auras_count_size = 'Set to 0 to inherit \'small\' font size',
 
     castbar_enable = 'Enable the cast bar element',
-    castbar_showpersonal = 'Show the cast bar on your character\'s nameplate if it is enabled',
+    castbar_showpersonal = 'Show the cast bar on the personal nameplate',
     castbar_shield = 'Show a shield icon on the cast bar during casts which cannot be interrupted',
     castbar_showall = 'Show cast bars on all nameplates, rather than on just the current target',
     castbar_showfriend = 'Show cast bars on friendly nameplates (note that cast bars are not shown on frames which have name-only mode active)',
