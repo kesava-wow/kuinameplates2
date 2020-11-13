@@ -21,7 +21,7 @@ opt:ShowPage(1)
 
 -- helpers #####################################################################
 local function MovablePopupButton_OnClick(button)
-    opt.Popup:ShowPage('movable',button.env)
+    opt.Popup:ShowPage('movable',button.movable_prefix,button.env,button.movable_keys,button.movable_minmax)
 end
 
 -- create elements #############################################################
@@ -572,28 +572,27 @@ function auras:Initialise()
     local colour_medium = self:CreateColourPicker('auras_colour_medium')
     local colour_long = self:CreateColourPicker('auras_colour_long')
 
-    local auras_cd_text_sep = self:CreateSeparator('auras_cd_text_sep')
-    local auras_count_text_sep = self:CreateSeparator('auras_count_text_sep')
-
-    local auras_cd_button = self:CreateButton('auras_cd','position')
-    auras_cd_button:SetPoint('TOP',auras_cd_text_sep,'BOTTOM')
+    local auras_cd_button = self:CreateButton('auras_cd_movable')
+    auras_cd_button:SetWidth(120)
+    auras_cd_button.movable_prefix = 'auras_cd'
+    auras_cd_button.movable_minmax = { size = { 0,20 } } -- uses 0 to inherit..
     auras_cd_button:SetScript('OnClick',MovablePopupButton_OnClick)
 
-    local auras_count_button = self:CreateButton('auras_count','position')
-    auras_count_button:SetPoint('TOP',auras_count_text_sep,'BOTTOM')
+    local auras_count_button = self:CreateButton('auras_count_movable')
+    auras_count_button:SetWidth(120)
+    auras_count_button.movable_prefix = 'auras_count'
+    auras_count_button.movable_minmax = { size = { 0,20 } }
     auras_count_button:SetScript('OnClick',MovablePopupButton_OnClick)
 
     colour_short:SetWidth(135)
 
-    auras_text_sep:SetPoint('TOP',0,-460)
+    auras_text_sep:SetPoint('TOP',0,-450)
     colour_short:SetPoint('TOPLEFT',auras_text_sep,'BOTTOMLEFT',4,-15)
     colour_medium:SetPoint('LEFT',colour_short,'RIGHT')
     colour_long:SetPoint('LEFT',colour_medium,'RIGHT')
 
-    auras_cd_text_sep:SetWidth(190)
-    auras_count_text_sep:SetWidth(190)
-    auras_cd_text_sep:SetPoint('TOPLEFT',10,-540)
-    auras_count_text_sep:SetPoint('LEFT',auras_cd_text_sep,210,0)
+    auras_cd_button:SetPoint('TOPLEFT',auras_text_sep,'BOTTOMLEFT',0,-50)
+    auras_count_button:SetPoint('TOP',auras_text_sep,'BOTTOM',0,-50)
 end
 -- cast bars ###################################################################
 function castbars:Initialise()

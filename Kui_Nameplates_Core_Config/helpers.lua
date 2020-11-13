@@ -835,8 +835,8 @@ do
         list:SetScript('OnShow',Movable_PointDropdown_UpdateList)
         return list
     end
-    local function Movable_PreShow(self,prefix,keys,minmax)
-        self.header.Text:SetText(GetLocaleString(nil,prefix))
+    local function Movable_PreShow(self,prefix,button_env,keys,minmax)
+        self.header.Text:SetText(GetLocaleString(nil,button_env))
         self.cancel = {}
 
         for k,ele in pairs(self.elements) do
