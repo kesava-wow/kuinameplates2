@@ -1,5 +1,8 @@
 ALPHA NOTES
 
+* remove name_constrain; always use name_constrain_justify and name_constrain_offset
+* expose frame_padding_{x,y}
+
 * implement config popup for certain movable elements
 * add options for quest icon size and position
 * add options for raid icon size and position
