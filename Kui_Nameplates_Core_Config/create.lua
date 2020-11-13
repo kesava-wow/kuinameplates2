@@ -42,6 +42,22 @@ function general:Initialise()
     local target_arrows = self:CreateCheckBox('target_arrows')
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
 
+    local show_quest_icon = self:CreateCheckBox('show_quest_icon')
+    local quest_icon_position = self:CreateButton('show_quest_icon','position')
+    quest_icon_position:SetWidth(120)
+    quest_icon_position.movable_prefix = 'quest_icon'
+    quest_icon_position.movable_minmax = { size = { 8,48 } }
+    quest_icon_position:SetScript('OnClick',MovablePopupButton_OnClick)
+    quest_icon_position.enabled = function(p) return p.show_quest_icon end
+
+    local show_raid_icon = self:CreateCheckBox('show_raid_icon')
+    local raid_icon_position = self:CreateButton('show_raid_icon','position')
+    raid_icon_position:SetWidth(120)
+    raid_icon_position.movable_prefix = 'raid_icon'
+    raid_icon_position.movable_minmax = { size = { 8,48 } }
+    raid_icon_position:SetScript('OnClick',MovablePopupButton_OnClick)
+    raid_icon_position.enabled = function(p) return p.show_raid_icon end
+
     use_blizzard_personal.require_reload = true
     use_blizzard_powers.require_reload = true
 
@@ -71,7 +87,13 @@ function general:Initialise()
     mouseover_glow_colour:SetPoint('LEFT',mouseover_glow,'RIGHT',194,0)
     mouseover_highlight:SetPoint('TOPLEFT',mouseover_glow,'BOTTOMLEFT')
     glow_as_shadow:SetPoint('TOPLEFT',mouseover_highlight,'BOTTOMLEFT')
-    target_arrows:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,-20)
+
+    show_quest_icon:SetPoint('TOPLEFT',glow_as_shadow,'BOTTOMLEFT',0,-20)
+    quest_icon_position:SetPoint('LEFT',show_quest_icon,'RIGHT',120,0)
+    show_raid_icon:SetPoint('TOPLEFT',show_quest_icon,'BOTTOMLEFT')
+    raid_icon_position:SetPoint('LEFT',show_raid_icon,'RIGHT',120,0)
+
+    target_arrows:SetPoint('TOPLEFT',show_raid_icon,'BOTTOMLEFT',0,-20)
     target_arrows_size:SetPoint('LEFT',target_arrows,'RIGHT',184,0)
 
     local clickthrough_sep = self:CreateSeparator('clickthrough_sep')
@@ -79,10 +101,10 @@ function general:Initialise()
     local clickthrough_friend = self:CreateCheckBox('clickthrough_friend')
     local clickthrough_enemy = self:CreateCheckBox('clickthrough_enemy')
 
-    clickthrough_sep:SetPoint('TOP',0,-305)
-    clickthrough_self:SetPoint('TOPLEFT',10,-320)
-    clickthrough_friend:SetPoint('TOPLEFT',(10+155),-320)
-    clickthrough_enemy:SetPoint('TOPLEFT',(10+155*2),-320)
+    clickthrough_sep:SetPoint('TOP',0,-380)
+    clickthrough_self:SetPoint('TOPLEFT',clickthrough_sep,'BOTTOMLEFT',0,-10)
+    clickthrough_friend:SetPoint('LEFT',clickthrough_self,'RIGHT',130,0)
+    clickthrough_enemy:SetPoint('LEFT',clickthrough_friend,'RIGHT',130,0)
 end
 -- fade rules popup ############################################################
 function fade_rules:Initialise()
