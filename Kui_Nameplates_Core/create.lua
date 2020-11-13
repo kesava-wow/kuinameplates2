@@ -1545,27 +1545,43 @@ do
 end
 -- raid icons ##################################################################
 do
-    local function UpdateRaidIcon(f)
-        f.RaidIcon:ClearAllPoints()
-
-        if f.IN_NAMEONLY then
-            f.RaidIcon:SetParent(f)
-            f.RaidIcon:SetDrawLayer('ARTWORK',1)
-            f.RaidIcon:SetPoint('LEFT',f.NameText,f.NameText:GetStringWidth()+2,0)
-        else
-            f.RaidIcon:SetParent(f.HealthBar)
-            f.RaidIcon:SetDrawLayer('ARTWORK',6)
-            f.RaidIcon:SetPoint('LEFT',f.HealthBar,'RIGHT',5,0)
-        end
+    local SHOW_RAID_ICON,RAID_ICON_SIZE,RAID_ICON_POINT,RAID_ICON_X,RAID_ICON_Y
+    local function Init(icon)
+        icon:ClearAllPoints()
+        icon:SetSize(RAID_ICON_SIZE,RAID_ICON_SIZE)
+        icon:SetPoint(POINT_ASSOC[RAID_ICON_POINT],
+            RAID_ICON_X,RAID_ICON_Y)
     end
     function core:CreateRaidIcon(f)
-        local raidicon = f:CreateTexture()
+        local raidicon = f:CreateTexture(nil,'ARTWORK',nil,6)
         raidicon:SetTexture('interface/targetingframe/ui-raidtargetingicons')
-        raidicon:SetSize(26,26)
-
-        f.UpdateRaidIcon = UpdateRaidIcon
-
+        raidicon:Hide()
+        Init(raidicon)
         f.handler:RegisterElement('RaidIcon',raidicon)
+    end
+    function core:configChangedRaidIcon()
+        SHOW_RAID_ICON = self.profile.show_raid_icon
+        RAID_ICON_SIZE = self:Scale(self.profile.raid_icon_size)
+        RAID_ICON_POINT = self.profile.raid_icon_point
+        RAID_ICON_X = self:Scale(self.profile.raid_icon_x)
+        RAID_ICON_Y = self:Scale(self.profile.raid_icon_y)
+
+        if SHOW_RAID_ICON then
+            addon:GetPlugin('RaidIcon'):Enable()
+        else
+            addon:GetPlugin('RaidIcon'):Disable()
+        end
+
+        -- update existing icons...
+        for _,f in addon:Frames() do
+            if f.RaidIcon then
+                if SHOW_RAID_ICON then
+                    Init(f.RaidIcon)
+                else
+                    f.RaidIcon:Hide()
+                end
+            end
+        end
     end
 end
 -- auras #######################################################################
@@ -2195,7 +2211,6 @@ do
         f:UpdateLevelText()
         f:UpdateFrameGlow()
         f:UpdateStateIcon()
-        f:UpdateRaidIcon()
         f:UpdateCastBar()
         f:UpdateGuildText()
 

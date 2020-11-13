@@ -66,15 +66,13 @@ function core:Show(f)
     f:UpdateHealthText()
     -- set state icon
     f:UpdateStateIcon()
-    -- position raid icon
-    f:UpdateRaidIcon()
     -- enable/disable castbar
     f:UpdateCastBar()
     -- set guild text
     f:UpdateGuildText()
-    -- go over the top on the comments
+
     f:UpdateQuestIcon()
-    -- yup
+
     f:UpdateNameTextPosition()
 
     if f.TargetArrows then
