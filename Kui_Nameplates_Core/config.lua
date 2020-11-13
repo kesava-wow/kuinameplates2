@@ -821,6 +821,8 @@ function configChanged.global_scale()
     configChangedClassPowers()
     configChangedTextOffset()
     configChangedFrameSize()
+    configChanged.show_quest_icon()
+    configChanged.show_raid_icon()
 end
 
 -- simple-movables #############################################################
