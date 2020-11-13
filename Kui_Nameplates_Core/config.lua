@@ -51,7 +51,6 @@ local default_config = {
     use_blizzard_powers = false,
     frame_vertical_offset = 0, -- NEX
     show_arena_id = true, -- NEX
-    show_quest_icon = false, -- NEX
 
     clickthrough_self = false,
     clickthrough_friend = false,
@@ -287,6 +286,16 @@ local default_config = {
     auras_count_point = 9, -- BOTTOMRIGHT
     auras_count_x = 5,
     auras_count_y = -2,
+    show_quest_icon = true,
+    quest_icon_size = 18,
+    quest_icon_point = 2,
+    quest_icon_x = -18,
+    quest_icon_y = 0,
+    show_raid_icon = true,
+    raid_icon_size = 26,
+    raid_icon_point = 8,
+    raid_icon_x = 5,
+    raid_icon_y = 0,
 }
 -- global scale helper #########################################################
 -- for frame/texture sizes; apply global scale to given value
@@ -814,6 +823,28 @@ function configChanged.global_scale()
     configChangedFrameSize()
 end
 
+-- simple-movables #############################################################
+do
+    local function this()
+        core:configChangedQuestIcon()
+    end
+    configChanged.show_quest_icon = this
+    configChanged.quest_icon_size = this
+    configChanged.quest_icon_point = this
+    configChanged.quest_icon_x = this
+    configChanged.quest_icon_y = this
+end
+do
+    local function this()
+        core:configChangedRaidIcon()
+    end
+    configChanged.show_raid_icon = this
+    configChanged.raid_icon_size = this
+    configChanged.raid_icon_point = this
+    configChanged.raid_icon_x = this
+    configChanged.raid_icon_y = this
+end
+
 -- config loaded functions #####################################################
 local configLoaded = {}
 configLoaded.fade_non_target_alpha = configChanged.fade_non_target_alpha
@@ -875,6 +906,9 @@ function configLoaded.use_blizzard_powers(v)
 end
 
 configLoaded.bossmod_enable = configChanged.bossmod_enable
+
+configLoaded.show_quest_icon = configChanged.show_quest_icon
+configLoaded.show_raid_icon = configChanged.show_raid_icon
 
 -- init config #################################################################
 local function UpdateProfile()
