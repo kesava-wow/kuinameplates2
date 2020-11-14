@@ -261,7 +261,6 @@ L["titles"] = {
 	["title_text_players"] = "Titre des autres joueurs",
 	["use_blizzard_personal"] = "Ignorer la barre perso",
 	["use_blizzard_powers"] = "Ressources de classe par défaut",
-	["version"] = "%s by %s @ Curse|nVersion %s",
 }
 
 L["tooltips"] = {

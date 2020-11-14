@@ -268,7 +268,6 @@ L["titles"] = {
 	["title_text_players"] = "显示玩家头衔",
 	["use_blizzard_personal"] = "忽略个人姓名板",
 	["use_blizzard_powers"] = "显示默认职业能量",
-	["version"] = "%s 由 %s @ Curse|n版本 %s",
 }
 
 L["tooltips"] = {
