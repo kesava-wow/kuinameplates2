@@ -184,11 +184,6 @@ L["tooltips"] = {
 	["bar_texture"] = "A textura usada para barras de status (fornecidas pelo LibSharedMedia).",
 	["bossmod_clickthrough"] = [=[Desativar a caixa de clique das placas de identificação que são ativadas automaticamente.
 ]=],
-	["bossmod_icon_size"] = [=[Tamanho dos ícones de auras do chefe
-]=],
-	["bossmod_x_offset"] = [=[Deslocamento horizontal dos ícones de auras do chefe
-]=],
-	["bossmod_y_offset"] = "Deslocamento vertical dos ícones de auras do chefe",
 	["castbar_animate"] = "Desaparecer a barra de lançamento quando um lançamento acabar.",
 	["castbar_animate_change_colour"] = "Muda a cor da barra de lançamento quando um lançamento acaba, tornando mais fácil de dizer a diferença entre lançamentos interrompidos, cancelados e bem sucedidos.",
 	["castbar_colour"] = "Cor da barra de lançamento.|n|nTambém usado para indicar um lançamento bem sucedido se a animação estiver habilitada.",
@@ -200,14 +195,8 @@ L["tooltips"] = {
 	["castbar_showfriend"] = "Mostrar barras de lançamento em placas de identificação de aliados (note que barras de lançamento não são mostradas em quadros que tiverem o modo de somente-nome ativo).",
 	["castbar_showpersonal"] = "Mostra a barra de lançamento na placa de identificação do seu personagem, se habilitado.",
 	["castbar_unin_colour"] = "Cor da barra de lançamento quando não pode ser interrompido.|n|nTambém usado para indicar um lançamento interrompido se animação está habilitada.",
-	["classpowers_bar_height"] = "Altura da barra de recursos",
-	["classpowers_bar_width"] = "Largura da barra de recursos",
-	["classpowers_colour"] = "Cor dos recursos de classe para a classe atual",
-	["classpowers_colour_inactive"] = [=[Cor dos ícones de recurso da classe inativo.
-]=],
 	["classpowers_enable"] = "Mostra o recurso especial da sua classe, tal como pontos de combo, poder sagrado, etc.",
 	["classpowers_on_target"] = "Mostrar no quadro do seu alvo, em vez de na sua própria placa de identificação",
-	["classpowers_size"] = "Tamanho dos ícones dos poderes de classe",
 	["colour_friendly_pet"] = [=[Note que ajudantes aliados ​​geralmente não possuem placas de identificação
 ]=],
 	["colour_player"] = "A cor da barra de vida de outros jogadores aliados",
