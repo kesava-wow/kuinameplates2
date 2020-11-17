@@ -230,6 +230,7 @@ L.titles = {
     auras_count_movable = 'Count',
 
     castbar_enable = 'Enable',
+    disable_blizzard_castbar = 'Disable Blizzard castbar',
     castbar_colour = 'Bar colour',
     castbar_unin_colour = 'Uninterruptible colour',
     castbar_showpersonal = 'On personal',

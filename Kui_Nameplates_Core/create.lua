@@ -1024,7 +1024,7 @@ do
 end
 -- castbar #####################################################################
 do
-    local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
+    local CASTBAR_ENABLED,DISABLE_BLIZZARD_CASTBAR,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
           CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,SHIELD_H,SHIELD_W,
@@ -1174,6 +1174,26 @@ do
         end
     end
     local function UpdateCastBar(f)
+        if DISABLE_BLIZZARD_CASTBAR then
+            CastingBarFrame.RegisterEvent = function() end
+            CastingBarFrame:UnregisterAllEvents()
+            CastingBarFrame:Hide()
+        else
+            CastingBarFrame.RegisterEvent = nil
+            CastingBarFrame:UnregisterAllEvents()
+            CastingBarFrame:RegisterUnitEvent("UNIT_SPELLCAST_START", "player")
+            CastingBarFrame:RegisterUnitEvent("UNIT_SPELLCAST_STOP", "player")
+            CastingBarFrame:RegisterUnitEvent("UNIT_SPELLCAST_FAILED", "player")
+            CastingBarFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
+            CastingBarFrame:RegisterEvent("UNIT_SPELLCAST_DELAYED")
+            CastingBarFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
+            CastingBarFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
+            CastingBarFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
+            CastingBarFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
+            CastingBarFrame:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
+            CastingBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+        end
+
         if not CASTBAR_ENABLED then return end
         if f.IN_NAMEONLY and (not CASTBAR_DETACH or not CASTBAR_DETACH_NAMEONLY) then
             f.handler:DisableElement('CastBar')
@@ -1423,6 +1443,7 @@ do
 
     function core:SetCastBarConfig()
         CASTBAR_ENABLED = self.profile.castbar_enable
+        DISABLE_BLIZZARD_CASTBAR = self.profile.disable_blizzard_castbar
         CASTBAR_HEIGHT = self:Scale(self.profile.castbar_height)
         CASTBAR_COLOUR = self.profile.castbar_colour
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour

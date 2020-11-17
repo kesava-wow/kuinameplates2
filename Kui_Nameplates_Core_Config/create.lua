@@ -624,6 +624,8 @@ end
 -- cast bars ###################################################################
 function castbars:Initialise()
     local castbar_enable = self:CreateCheckBox('castbar_enable')
+    local disable_blizzard_castbar = self:CreateCheckBox('disable_blizzard_castbar')
+    disable_blizzard_castbar.require_reload = true
     local castbar_colour = self:CreateColourPicker('castbar_colour')
     local castbar_unin_colour = self:CreateColourPicker('castbar_unin_colour')
     local castbar_personal = self:CreateCheckBox('castbar_showpersonal')
@@ -649,7 +651,8 @@ function castbars:Initialise()
     castbar_icon_side.SelectTable = { 'Left','Right' } -- TODO l10n
 
     castbar_enable:SetPoint('TOPLEFT',10,-10)
-    castbar_name:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
+    disable_blizzard_castbar:SetPoint('TOPLEFT', castbar_enable, 'BOTTOMLEFT')
+    castbar_name:SetPoint('TOPLEFT',disable_blizzard_castbar,'BOTTOMLEFT')
     castbar_shield:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
 
     castbar_icon:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT',0,0)

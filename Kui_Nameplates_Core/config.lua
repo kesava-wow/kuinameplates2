@@ -191,6 +191,7 @@ local default_config = {
     auras_count_size = 0,
 
     castbar_enable = true,
+    disable_blizzard_castbar = false,
     castbar_colour = {.75,.75,.9},
     castbar_unin_colour = {.8,.3,.3},
     castbar_showpersonal = false,
