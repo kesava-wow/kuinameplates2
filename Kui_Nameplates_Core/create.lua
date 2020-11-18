@@ -11,7 +11,6 @@
 -- raid icon (bar) = 6
 -- target arrows = 4
 -- state icon = 4
--- spell shield = 3
 -- health bar highlight = 2
 -- spell icon = 2
 -- castbar spark = 1
@@ -1025,9 +1024,9 @@ end
 -- castbar #####################################################################
 do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
-          CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
+          CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
-          CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,SHIELD_H,SHIELD_W,
+          CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,
           CASTBAR_DETACH_HEIGHT,CASTBAR_DETACH_WIDTH,
           CASTBAR_DETACH_OFFSET,CASTBAR_DETACH_COMBINE,CASTBAR_DETACH_NAMEONLY,
           CASTBAR_RATIO,CASTBAR_ICON_SIDE
@@ -1078,16 +1077,8 @@ do
 
         if f.cast_state.interruptible then
             CastBarSetColour(f.CastBar,CASTBAR_COLOUR)
-
-            if f.elements.SpellShield then
-                f.SpellShield:Hide()
-            end
         else
             CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR,true)
-
-            if f.elements.SpellShield then
-                f.SpellShield:Show()
-            end
         end
 
         f.CastBar:Show()
@@ -1130,9 +1121,6 @@ do
             end
             if f.SpellIcon then
                 f.SpellIcon:Hide()
-            end
-            if f.SpellShield then
-                f.SpellShield:Hide()
             end
         else
             -- soft hide; set state colours, text, start animation
@@ -1298,19 +1286,6 @@ do
         f.SpellIcon.bg = bg
         return bg
     end
-    local function CreateSpellShield(f)
-        -- cast shield
-        local shield = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 3)
-        shield:SetTexture(MEDIA..'Shield')
-        shield:SetTexCoord(0, .84375, 0, 1)
-        shield:SetSize(SHIELD_W,SHIELD_H)
-        shield:SetPoint('LEFT', f.CastBar.bg, -7, 0)
-        shield:SetVertexColor(.5, .5, .7)
-        shield:Hide()
-
-        f.handler:RegisterElement('SpellShield', shield)
-        return shield
-    end
     local function CreateSpellName(f)
         local spellname = CreateFontString(f.CastBar,FONT_SIZE_SMALL)
         spellname:SetWordWrap()
@@ -1363,9 +1338,6 @@ do
         end
         if CASTBAR_SHOW_ICON and not CASTBAR_DETACH and not f.SpellIcon.bg then
             CreateSpellIconBackground(f)
-        end
-        if CASTBAR_SHOW_SHIELD and not f.SpellShield then
-            CreateSpellShield(f)
         end
         if CASTBAR_ANIMATE and not f.CastBar.AnimGroup then
             CreateAnimGroup(f)
@@ -1428,13 +1400,10 @@ do
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
         CASTBAR_SHOW_NAME = self.profile.castbar_name
-        CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
         CASTBAR_NAME_VERTICAL_OFFSET = ScaleTextOffset(self.profile.castbar_name_vertical_offset)
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
         CASTBAR_SPACING = self.profile.castbar_spacing
-        SHIELD_H = self:Scale(16)
-        SHIELD_W = SHIELD_H * .84375
 
         CASTBAR_DETACH = self.profile.castbar_detach
         CASTBAR_DETACH_HEIGHT = self:Scale(self.profile.castbar_detach_height)
@@ -1447,15 +1416,6 @@ do
 
         for _,f in addon:Frames() do
             CreateOptionalElementsMaybe(f)
-
-            if f.SpellShield then
-                if CASTBAR_SHOW_SHIELD then
-                    f.handler:EnableElement('SpellShield')
-                    f.SpellShield:SetSize(SHIELD_W,SHIELD_H)
-                else
-                    f.handler:DisableElement('SpellShield')
-                end
-            end
 
             if f.SpellIcon then
                 -- determine spell icon visibility...
