@@ -16,6 +16,7 @@ lib\embeds.xml
 main.lua
 
 locale\deDE.lua
+locale\esES.lua
 locale\esMX.lua
 locale\frFR.lua
 locale\koKR.lua
