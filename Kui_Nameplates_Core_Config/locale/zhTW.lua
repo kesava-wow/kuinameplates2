@@ -278,6 +278,7 @@ L["titles"] = {
 	["title_text_players"] = "顯示玩家頭銜",
 	["use_blizzard_personal"] = "忽略個人資源",
 	["use_blizzard_powers"] = "顯示預設職業能量",
+	["version"] = "%s 由%s 在%s|n版本 %s",
 }
 
 L["tooltips"] = {
