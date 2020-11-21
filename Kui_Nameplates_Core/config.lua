@@ -233,7 +233,7 @@ local default_config = {
     classpowers_bar_width = 80,
     classpowers_bar_height = 5,
     classpowers_y = 1,
-    classpowers_y_nameonly = -3,
+    classpowers_y_nameonly = -4,
     classpowers_y_personal = -8,
 
     classpowers_colour_deathknight = {1,.2,.3},
