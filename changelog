@@ -1,5 +1,7 @@
 ALPHA NOTES
 
+* add classpowers_y,classpowers_y_nameonly,classpowers_y_personal (not exposed)
+
 * bump toc
 * update locales, add esES
 * remove castbar_shield
