@@ -1,6 +1,9 @@
 ALPHA NOTES
 
 * add classpowers_y,classpowers_y_nameonly,classpowers_y_personal (not exposed)
+* move classpowers on personal to bottom by default
+* increase default name_constrain_offset
+* fix combo points aren't shown in cat form
 
 * bump toc
 * update locales, add esES
