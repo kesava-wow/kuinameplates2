@@ -85,6 +85,7 @@ local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
 local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
 local CASTBAR_DETACH,CASTBAR_MATCH_FRAME_WIDTH
 local CLASSPOWERS_ON_FRIENDS,CLASSPOWERS_ON_ENEMIES
+local CLASSPOWERS_Y,CLASSPOWERS_Y_NAMEONLY,CLASSPOWERS_Y_PERSONAL
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -295,6 +296,9 @@ do
 
         CLASSPOWERS_ON_FRIENDS = core.profile.classpowers_on_friends
         CLASSPOWERS_ON_ENEMIES = core.profile.classpowers_on_enemies
+        CLASSPOWERS_Y = core:Scale(core.profile.classpowers_y)
+        CLASSPOWERS_Y_NAMEONLY = core:Scale(core.profile.classpowers_y_nameonly)
+        CLASSPOWERS_Y_PERSONAL = core:Scale(core.profile.classpowers_y_personal)
     end
     function core:SetLocals()
         -- set config locals to reduce table lookup
@@ -1916,56 +1920,58 @@ do
     end
 end
 -- class powers ################################################################
-local function ClassPowers_StateFilter(state)
-    if state.personal then
-        return true
-    elseif state.friend then
-        return CLASSPOWERS_ON_FRIENDS
-    else
-        return CLASSPOWERS_ON_ENEMIES
-    end
-end
-function core.ClassPowers_PostPositionFrame(cpf,parent)
-    if not parent or not cpf or not cpf:IsShown() then return end
-
-    if not ClassPowers_StateFilter(parent.state) then
-        -- hide on friends/enemies
-        return cpf:Hide()
-    end
-
-    -- change position in nameonly mode/on the player's nameplate
-    if parent.IN_NAMEONLY then
-        cpf:ClearAllPoints()
-
-        if parent.GuildText and parent.state.guild_text then
-            cpf:SetPoint('TOP',parent.GuildText,'BOTTOM',0,-3)
+do
+    local function ClassPowers_StateFilter(state)
+        if state.personal then
+            return true
+        elseif state.friend then
+            return CLASSPOWERS_ON_FRIENDS
         else
-            cpf:SetPoint('TOP',parent.NameText,'BOTTOM',0,-3)
+            return CLASSPOWERS_ON_ENEMIES
         end
-    elseif parent.state.personal then
-        cpf:ClearAllPoints()
-        cpf:SetPoint('CENTER',parent.HealthBar,'TOP',0,9)
     end
-end
-function core.ClassPowers_CreateBar()
-    local bar = CreateStatusBar(addon.ClassPowersFrame)
-    bar:SetSize(
-        core.ClassPowers.bar_width,
-        core.ClassPowers.bar_height
-    )
-    bar:SetPoint('CENTER',0,-1)
+    function core.ClassPowers_PostPositionFrame(cpf,parent)
+        if not parent or not cpf or not cpf:IsShown() then return end
 
-    bar.fill:SetParent(bar)
-    bar.fill:SetDrawLayer('BACKGROUND',2)
+        if not ClassPowers_StateFilter(parent.state) then
+            -- hide on friends/enemies
+            return cpf:Hide()
+        end
 
-    Mixin(bar,BackdropTemplateMixin)
-    bar:SetBackdrop({
-        bgFile=kui.m.t.solid,
-        insets={top=-1,right=-1,bottom=-1,left=-1}
-    })
-    bar:SetBackdropColor(0,0,0,.9)
+        -- override frame position
+        cpf:ClearAllPoints()
+        if parent.IN_NAMEONLY then
+            if parent.GuildText and parent.state.guild_text then
+                cpf:SetPoint('TOP',parent.GuildText,'BOTTOM',0,CLASSPOWERS_Y_NAMEONLY)
+            else
+                cpf:SetPoint('TOP',parent.NameText,'BOTTOM',0,CLASSPOWERS_Y_NAMEONLY)
+            end
+        elseif parent.state.personal then
+            cpf:SetPoint('CENTER',parent.bg,'BOTTOM',0,CLASSPOWERS_Y_PERSONAL)
+        else
+            cpf:SetPoint('CENTER',parent.bg,'BOTTOM',0,CLASSPOWERS_Y)
+        end
+    end
+    function core.ClassPowers_CreateBar()
+        local bar = CreateStatusBar(addon.ClassPowersFrame)
+        bar:SetSize(
+            core.ClassPowers.bar_width,
+            core.ClassPowers.bar_height
+        )
+        bar:SetPoint('CENTER',0,-1)
 
-    return bar
+        bar.fill:SetParent(bar)
+        bar.fill:SetDrawLayer('BACKGROUND',2)
+
+        Mixin(bar,BackdropTemplateMixin)
+        bar:SetBackdrop({
+            bgFile=kui.m.t.solid,
+            insets={top=-1,right=-1,bottom=-1,left=-1}
+        })
+        bar:SetBackdropColor(0,0,0,.9)
+
+        return bar
+    end
 end
 -- threat brackets #############################################################
 do
