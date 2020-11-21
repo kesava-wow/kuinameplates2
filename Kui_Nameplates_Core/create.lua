@@ -1941,7 +1941,7 @@ do
         -- override frame position
         cpf:ClearAllPoints()
         if parent.IN_NAMEONLY then
-            if parent.GuildText and parent.state.guild_text then
+            if parent.GuildText and parent.GuildText:IsShown() then
                 cpf:SetPoint('TOP',parent.GuildText,'BOTTOM',0,CLASSPOWERS_Y_NAMEONLY)
             else
                 cpf:SetPoint('TOP',parent.NameText,'BOTTOM',0,CLASSPOWERS_Y_NAMEONLY)
