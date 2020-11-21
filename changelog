@@ -1,5 +1,9 @@
 ALPHA NOTES
 
+* bump toc
+* update locales, add esES
+* remove castbar_shield
+
 * remove name_constrain; always use name_constrain_justify and name_constrain_offset
 * expose frame_padding_{x,y}
 
