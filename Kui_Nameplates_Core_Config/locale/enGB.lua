@@ -95,7 +95,7 @@ L.titles = {
     nameonly_visibility_sep = 'Use name-only mode on...',
 
     glow_as_shadow = 'Frame shadow',
-    state_icons = 'State icons',
+    state_icons = 'Rare/boss icon',
     target_glow = 'Target glow',
     target_glow_colour = 'Target glow colour',
     mouseover_glow = 'Mouseover glow',
@@ -310,7 +310,7 @@ L.tooltips = {
 
     ignore_uiscale = 'Fix pixel alignment issues related to interface scaling. Compensate for the size difference by adjusting /knp > frame sizes > global scale.|n|nYou\'ll also need to disable the nameplate scaling CVars.|n|nThis may be necessary even if you do not have UI scale enabled.',
     use_blizzard_personal = 'Don\'t skin the personal resource display, which can be enabled in Interface > Names.',
-    state_icons = 'Show an icon on bosses and rare units (hidden when level text is shown)',
+    state_icons = '(Hidden if level text is enabled)',
 
     clickthrough_self = 'Disable the click-box of the personal nameplate',
     clickthrough_friend = 'Disable the click-box of friendly nameplates',
