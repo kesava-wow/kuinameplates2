@@ -629,7 +629,6 @@ function castbars:Initialise()
     local castbar_personal = self:CreateCheckBox('castbar_showpersonal')
     local castbar_icon = self:CreateCheckBox('castbar_icon')
     local castbar_name = self:CreateCheckBox('castbar_name')
-    local castbar_shield = self:CreateCheckBox('castbar_shield')
     local castbar_all = self:CreateCheckBox('castbar_showall')
     local castbar_friend = self:CreateCheckBox('castbar_showfriend',true)
     local castbar_enemy = self:CreateCheckBox('castbar_showenemy',true)
@@ -650,9 +649,7 @@ function castbars:Initialise()
 
     castbar_enable:SetPoint('TOPLEFT',10,-10)
     castbar_name:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
-    castbar_shield:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
-
-    castbar_icon:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT',0,0)
+    castbar_icon:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
 
     castbar_personal:SetPoint('TOPLEFT',castbar_icon,'BOTTOMLEFT',0,-10)
     castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
@@ -669,8 +666,9 @@ function castbars:Initialise()
     castbar_detach_height:SetWidth(120)
     castbar_detach_offset:SetWidth(120)
 
-    castbar_layout_sep:SetPoint('TOP',0,-260)
-    castbar_detach:SetPoint('TOPLEFT',10,-260-15)
+    castbar_layout_sep:SetPoint('TOP',0,-230)
+    castbar_detach:SetPoint('LEFT',10,0)
+    castbar_detach:SetPoint('TOP',castbar_layout_sep,'BOTTOM',0,-10)
     castbar_detach_combine:SetPoint('TOPLEFT',castbar_detach,'BOTTOMLEFT',10,0)
     castbar_detach_nameonly:SetPoint('TOPLEFT',castbar_detach_combine,'BOTTOMLEFT')
     castbar_icon_side:SetPoint('LEFT',castbar_detach,'RIGHT',170,-8)
@@ -689,7 +687,6 @@ function castbars:Initialise()
         return p.castbar_icon and (not p.castbar_detach or not p.castbar_detach_combine)
     end
     castbar_name.enabled = castbar_colour.enabled
-    castbar_shield.enabled = castbar_colour.enabled
     castbar_all.enabled = castbar_colour.enabled
     castbar_height.enabled = function(p) return p.castbar_enable and not p.castbar_detach end
     castbar_friend.enabled = function(p) return p.castbar_enable and p.castbar_showall end
