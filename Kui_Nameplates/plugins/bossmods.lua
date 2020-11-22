@@ -440,8 +440,6 @@ do
 end
 -- show/hide icon on nameplate belonging to given name
 function mod:BigWigs_ShowNameplateAura(is_guid,name,icon,duration,desaturate)
-    -- these should not be called during combat
-    -- DisableFriendlyNameplates also wipes boss auras
     if not self.enabled or not name or not icon then return end
 
     local guid = is_guid and name or UnitGUID(name)
