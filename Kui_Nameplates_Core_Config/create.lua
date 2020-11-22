@@ -861,8 +861,8 @@ function bossmod:Initialise()
     bossmod_control_visibility:SetPoint('TOPLEFT',bossmod_enable,'BOTTOMLEFT',0,-10)
     bossmod_clickthrough:SetPoint('TOPLEFT',bossmod_control_visibility,'BOTTOMLEFT',10,0)
 
-    bossmod_icon_size:SetPoint('TOP',0,-170)
-    bossmod_x_offset:SetPoint('TOPLEFT',10,-(170+50))
+    bossmod_icon_size:SetPoint('TOP',0,-120)
+    bossmod_x_offset:SetPoint('TOPLEFT',10,-(120+50))
     bossmod_y_offset:SetPoint('LEFT',bossmod_x_offset,'RIGHT',20,0)
 end
 -- cvars #######################################################################
