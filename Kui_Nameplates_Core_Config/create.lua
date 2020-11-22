@@ -21,7 +21,11 @@ opt:ShowPage(1)
 
 -- helpers #####################################################################
 local function MovablePopupButton_OnClick(button)
-    opt.Popup:ShowPage('movable',button.movable_prefix,button.env,button.movable_keys,button.movable_minmax)
+    opt.Popup:ShowPage('movable',
+        button.movable_prefix,
+        button.movable_title or button.env,
+        button.movable_keys,
+        button.movable_minmax)
 end
 
 -- create elements #############################################################
@@ -43,16 +47,18 @@ function general:Initialise()
     local target_arrows_size = self:CreateSlider('target_arrows_size',20,60)
 
     local show_quest_icon = self:CreateCheckBox('show_quest_icon')
-    local quest_icon_position = self:CreateButton('show_quest_icon','position')
+    local quest_icon_position = self:CreateButton('quest_icon_position','position')
     quest_icon_position:SetWidth(120)
+    quest_icon_position.movable_title = 'show_quest_icon'
     quest_icon_position.movable_prefix = 'quest_icon'
     quest_icon_position.movable_minmax = { size = { 8,48 } }
     quest_icon_position:SetScript('OnClick',MovablePopupButton_OnClick)
     quest_icon_position.enabled = function(p) return p.show_quest_icon end
 
     local show_raid_icon = self:CreateCheckBox('show_raid_icon')
-    local raid_icon_position = self:CreateButton('show_raid_icon','position')
+    local raid_icon_position = self:CreateButton('raid_icon_position','position')
     raid_icon_position:SetWidth(120)
+    raid_icon_position.movable_title = 'show_raid_icon'
     raid_icon_position.movable_prefix = 'raid_icon'
     raid_icon_position.movable_minmax = { size = { 8,48 } }
     raid_icon_position:SetScript('OnClick',MovablePopupButton_OnClick)
