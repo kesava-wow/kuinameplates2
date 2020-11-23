@@ -2,6 +2,7 @@ local opt = KuiNameplatesCoreConfig -- luacheck:globals KuiNameplatesCoreConfig
 local core = KuiNameplatesCore -- luacheck:globals KuiNameplatesCore
 local frame_name = 'KuiNameplatesCoreConfig'
 local ddlib = LibStub('KuiDropdown')
+local kui = LibStub('Kui-1.0')
 local L = opt:GetLocale()
 
 local S_CHECKBOX_ON = 856
@@ -845,7 +846,9 @@ do
         return list
     end
     local function Movable_PreShow(self,prefix,button_env,keys,minmax)
-        self.header.Text:SetText(GetLocaleString(nil,button_env))
+        if self.header then
+            self.header.Text:SetText(GetLocaleString(nil,button_env))
+        end
         self.cancel = {}
 
         for k,ele in pairs(self.elements) do
@@ -874,8 +877,12 @@ do
             y = {-50,50},
         }
 
-        local header = CreateFrame('Frame',nil,pg,'DialogHeaderTemplate')
-        header:SetPoint('CENTER',pg,'TOP')
+        if not kui.CLASSIC then
+            -- XXX #507 DialogHeaderTemplate doesn't exist on classic as of 902
+            local header = CreateFrame('Frame',nil,pg,'DialogHeaderTemplate')
+            header:SetPoint('CENTER',pg,'TOP')
+            pg.header = header
+        end
 
         local size = opt.CreateSlider(pg,nil,0,100,nil,'size')
         size:SetPoint('TOP',-85,-50)
@@ -895,7 +902,6 @@ do
         y:SetPoint('TOP',85,-100)
         y:SetWidth(150)
 
-        pg.header = header
         pg.elements = { size = size, point = point, x = x, y = y }
         pg.PreShow = Movable_PreShow
     end
