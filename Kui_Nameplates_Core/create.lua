@@ -134,7 +134,7 @@ do
             local fill = bar:CreateTexture(nil,'BACKGROUND',nil,2)
             fill:SetTexture(BAR_TEXTURE)
             fill:SetAllPoints(bar)
-            fill:SetAlpha(.2)
+            fill:SetAlpha(.3)
 
             bar.fill = fill
 
