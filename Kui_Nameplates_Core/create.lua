@@ -3,36 +3,7 @@
 -- By Kesava at curse.com
 -- All rights reserved
 --------------------------------------------------------------------------------
--- layout's element create/update functions
--- draw layers reference -------------------------------------------------------
--- HealthBar/CastBar ###########################################################
--- ARTWORK
--- powerbar spark = 7
--- raid icon (bar) = 6
--- target arrows = 4
--- state icon = 4
--- health bar highlight = 2
--- spell icon = 2
--- castbar spark = 1
--- absorb bar = 1
--- power bar = 0
--- health bar = 0
--- cast bar = 0
---
--- BACKGROUND
--- castbar background = 1
--- spell icon bg = 1
---
--- Frame #######################################################################
--- ARTWORK
--- raid icon (nameonly) = 1
---
--- BACKGROUND
--- healthbar fill background = 2
--- frame background = 1
--- threat brackets = 0
--- frame glow = -5
--- target glow = -5
+-- layout's create/update/callback functions
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
