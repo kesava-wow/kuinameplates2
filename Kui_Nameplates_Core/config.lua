@@ -29,6 +29,7 @@ local DEFAULT_BAR = 'Kui status bar'
 local default_config = {
     bar_texture = DEFAULT_BAR,
     bar_animation = 3,
+    bar_spark = true, -- NEX XXX requires reload
     combat_hostile = 1,
     combat_friendly = 1,
     ignore_uiscale = false,

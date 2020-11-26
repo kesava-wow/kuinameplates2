@@ -75,7 +75,7 @@ local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       HIDE_NAMES,FRAME_VERTICAL_OFFSET,
       MOUSEOVER_HIGHLIGHT,HIGHLIGHT_OPACITY,LEVEL_TEXT,LEVEL_NAMEONLY,
       HEALTH_TEXT_PERCENT_SYMBOL,FRAME_TARGET_SIZE,
-      FRAME_MINUS_SIZE
+      FRAME_MINUS_SIZE,BAR_SPARK
 local FADE_UNTRACKED,FADE_AVOID_NAMEONLY,FADE_AVOID_MOUSEOVER,
       FADE_AVOID_TRACKED,FADE_AVOID_COMBAT,FADE_AVOID_CASTING
 local TARGET_ARROWS,TARGET_ARROWS_SIZE,TARGET_ARROWS_INSET,TARGET_ARROWS_TEXTURE
@@ -263,6 +263,8 @@ do
         FONT_SHADOW = core.profile.font_style == 3 or core.profile.font_style == 4
         FONT_SIZE_NORMAL = core:Scale(core.profile.font_size_normal)
         FONT_SIZE_SMALL = core:Scale(core.profile.font_size_small)
+
+        BAR_SPARK = core.profile.bar_spark
     end
     local function p2()
         FADE_UNTRACKED = core.profile.fade_untracked
@@ -502,7 +504,7 @@ do
         f.HealthBar:SetHeight(hb_height)
     end
     function core:CreateHealthBar(f)
-        local healthbar = CreateStatusBar(f,true)
+        local healthbar = CreateStatusBar(f,BAR_SPARK)
 
         healthbar:SetPoint('TOPLEFT',f.bg,1,-1)
         healthbar:SetPoint('RIGHT',f.bg,-1,0)
@@ -531,7 +533,7 @@ do
         end
     end
     function core:CreatePowerBar(f)
-        local powerbar = CreateStatusBar(f.HealthBar,true)
+        local powerbar = CreateStatusBar(f.HealthBar,BAR_SPARK)
         powerbar:SetPoint('TOPLEFT',f.HealthBar,'BOTTOMLEFT',0,-1)
         powerbar:SetPoint('RIGHT',f.bg,-1,0)
 
@@ -1087,7 +1089,10 @@ do
 
         f.CastBar:Show()
         f.CastBar.bg:Show()
-        f.CastBar.spark:Show()
+
+        if f.CastBar.spark then
+            f.CastBar.spark:Show()
+        end
 
         if CASTBAR_SHOW_ICON and f.SpellIcon then
             f.SpellIcon:Show()
@@ -1106,8 +1111,10 @@ do
         end
     end
     local function HideCastBar(f,hide_cause,force)
-        -- always hide spark instantly
-        f.CastBar.spark:Hide()
+        if f.CastBar.spark then
+            -- always hide spark instantly
+            f.CastBar.spark:Hide()
+        end
 
         if force or not CASTBAR_ANIMATE then
             -- hide instantly
@@ -1353,7 +1360,7 @@ do
     end
 
     function core:CreateCastBar(f)
-        local castbar = CreateStatusBar(f,true,nil,true,1)
+        local castbar = CreateStatusBar(f,BAR_SPARK,nil,true,1)
         castbar:Hide()
 
         local bg = castbar:CreateTexture(nil,'BACKGROUND',nil,1)
@@ -1953,7 +1960,7 @@ do
         end
     end
     function core.ClassPowers_CreateBar()
-        local bar = CreateStatusBar(addon.ClassPowersFrame)
+        local bar = CreateStatusBar(addon.ClassPowersFrame,BAR_SPARK)
         bar:SetSize(
             core.ClassPowers.bar_width,
             core.ClassPowers.bar_height
