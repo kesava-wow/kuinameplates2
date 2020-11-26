@@ -1,3 +1,6 @@
+* add option bar_spark (not exposed)
+* on first run, disable frame target size on profiles with a larger normal size
+
 * add quest icon
 * add option to resize the current target
 * add option to disable resizing of frames flagged as minus
