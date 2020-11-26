@@ -985,9 +985,9 @@ function core:InitialiseConfig()
             -- disable frame_target_size on extant profiles if
             -- frame_{width/height} is greater than the target size
             for _,profile in pairs(KuiNameplatesCoreSaved.profiles) do
-                if profile.frame_target_size and
-                   (profile.frame_width > profile.frame_width_target or
-                   profile.frame_height > profile.frame_height_target)
+                if (profile.frame_target_size or profile.frame_target_size == nil) and
+                   ((profile.frame_width and profile.frame_width > (profile.frame_width_target or default_config.frame_width_target)) or
+                   (profile.frame_height and profile.frame_height > (profile.frame_height_target or default_config.frame_height_target)))
                 then
                     profile.frame_target_size = false
                 end
