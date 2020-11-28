@@ -1414,7 +1414,7 @@ do
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
         CASTBAR_SPACING = self.profile.castbar_spacing
-        SHIELD_H = self:Scale(16)
+        SHIELD_H = self:Scale(self.profile.castbar_shield_size)
         SHIELD_W = SHIELD_H * .84375
 
         CASTBAR_DETACH = self.profile.castbar_detach
