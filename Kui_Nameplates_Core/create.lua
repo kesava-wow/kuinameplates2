@@ -55,8 +55,7 @@ local TARGET_GLOW,TARGET_GLOW_COLOUR,FRAME_GLOW_THREAT,FRAME_GLOW_SIZE,
       FRAME_GLOW_SIZE_TARGET,FRAME_GLOW_SIZE_THREAT
 local THREAT_BRACKETS,THREAT_BRACKETS_SIZE
 local CASTBAR_DETACH,CASTBAR_MATCH_FRAME_WIDTH
-local CLASSPOWERS_ON_FRIENDS,CLASSPOWERS_ON_ENEMIES
-local CLASSPOWERS_Y,CLASSPOWERS_Y_NAMEONLY,CLASSPOWERS_Y_PERSONAL
+local CLASSPOWERS_ON_FRIENDS,CLASSPOWERS_ON_ENEMIES,CLASSPOWERS_Y
 
 -- helper functions ############################################################
 local CreateStatusBar
@@ -270,11 +269,10 @@ do
         CLASSPOWERS_ON_FRIENDS = core.profile.classpowers_on_friends
         CLASSPOWERS_ON_ENEMIES = core.profile.classpowers_on_enemies
         CLASSPOWERS_Y = core:Scale(core.profile.classpowers_y)
-        CLASSPOWERS_Y_NAMEONLY = core:Scale(core.profile.classpowers_y_nameonly)
-        CLASSPOWERS_Y_PERSONAL = core:Scale(core.profile.classpowers_y_personal)
     end
     function core:SetLocals()
         -- set config locals to reduce table lookup
+        -- yes this is a bit extreme isn't it
         UpdateMediaLocals()
         p1()
         p2()
@@ -1956,15 +1954,12 @@ do
         end
 
         -- override frame position
+        -- XXX we ~could~ use pixel-corrected positions but it doesn't matter
+        -- too much with textures; @classpowers2 fixes this anyway
         cpf:ClearAllPoints()
         if parent.IN_NAMEONLY then
-            if parent.GuildText and parent.GuildText:IsShown() then
-                cpf:SetPoint('TOP',parent.GuildText,'BOTTOM',0,CLASSPOWERS_Y_NAMEONLY)
-            else
-                cpf:SetPoint('TOP',parent.NameText,'BOTTOM',0,CLASSPOWERS_Y_NAMEONLY)
-            end
-        elseif parent.state.personal then
-            cpf:SetPoint('CENTER',parent.bg,'BOTTOM',0,CLASSPOWERS_Y_PERSONAL)
+            -- (we add a -2 here as a margin between text
+            cpf:SetPoint('TOP',parent.GuildText and parent.GuildText:IsShown() and parent.GuildText or parent.NameText,'BOTTOM',0,CLASSPOWERS_Y-2)
         else
             cpf:SetPoint('CENTER',parent.bg,'BOTTOM',0,CLASSPOWERS_Y)
         end
