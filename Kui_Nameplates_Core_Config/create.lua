@@ -772,6 +772,7 @@ function classpowers:Initialise()
     local classpowers_colour_inactive = self:CreateColourPicker('classpowers_colour_inactive')
     local on_friends = self:CreateCheckBox('classpowers_on_friends',true)
     local on_enemies = self:CreateCheckBox('classpowers_on_enemies',true)
+    local classpowers_y = self:CreateSlider('classpowers_y',-50,50,nil,'offset_y')
 
     classpowers_enable:SetPoint('TOPLEFT',10,-10)
     classpowers_on_target:SetPoint('TOPLEFT',classpowers_enable,'BOTTOMLEFT',10,0)
@@ -782,7 +783,8 @@ function classpowers:Initialise()
     classpowers_colour_overflow:SetPoint('TOP',classpowers_colour,'BOTTOM')
     classpowers_colour_inactive:SetPoint('TOP',classpowers_colour_overflow,'BOTTOM')
 
-    classpowers_size:SetPoint('TOP',0,-140)
+    classpowers_size:SetPoint('TOPLEFT',10,-140)
+    classpowers_y:SetPoint('LEFT',classpowers_size,'RIGHT',20,0)
 
     function classpowers_colour:Get()
         -- get colour from current class
@@ -814,6 +816,7 @@ function classpowers:Initialise()
     local function classpowers_enabled(p) return p.classpowers_enable end
     classpowers_on_target.enabled = classpowers_enabled
     classpowers_size.enabled = classpowers_enabled
+    classpowers_y.enabled = classpowers_enabled
     on_friends.enabled = function(p)
         return classpowers_enabled(p) and p.classpowers_on_target
     end
