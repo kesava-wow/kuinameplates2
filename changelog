@@ -1,3 +1,10 @@
+BETA
+
+* add classpowers vertical offset option
+* add castbar_shield_size (not exposed)
+* revert remove castbar shield
+* people who read changelogs are my favourite, hmu
+
 * add option bar_spark (not exposed)
 * on first run, disable frame target size on profiles with a larger normal size
 
