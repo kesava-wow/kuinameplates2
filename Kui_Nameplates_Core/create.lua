@@ -964,11 +964,11 @@ do
         if not TARGET_ARROWS or f.TargetArrows then return end
 
         local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
-        left:SetBlendMode('ADD')
+        left:SetBlendMode('BLEND')
+        left:SetTexCoord(1,0,0,1)
 
         local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
-        right:SetBlendMode('ADD')
-        right:SetTexCoord(1,0,0,1)
+        right:SetBlendMode('BLEND')
 
         local arrows = {
             Hide = Arrows_Hide,
