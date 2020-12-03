@@ -1,6 +1,9 @@
 BETA
 
-* re-pushing this, too...
+* re-enable castbar shield by default
+* increase default castbar shield size slightly
+* increase default (attached) castbar height slightly
+* reduce bar spark frame level
 
 * add classpowers vertical offset option
 * add castbar_shield_size (not exposed)
