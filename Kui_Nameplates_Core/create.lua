@@ -876,12 +876,14 @@ do
                 f.ThreatGlow:SetSize(FRAME_GLOW_SIZE_TARGET)
                 f.ThreatGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
                 f.TargetGlow:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
+                f.TargetGlow:SetAlpha(1)
                 f.TargetGlow:Show()
             elseif MOUSEOVER_GLOW and f.state.highlight and not f.state.target then
                 -- mouseover glow
                 f.ThreatGlow:SetSize(FRAME_GLOW_SIZE_TARGET)
                 f.ThreatGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
                 f.TargetGlow:SetVertexColor(unpack(MOUSEOVER_GLOW_COLOUR))
+                f.TargetGlow:SetAlpha(1)
                 f.TargetGlow:Show()
             else
                 f.TargetGlow:Hide()
@@ -928,7 +930,9 @@ do
     end
     local function Arrows_SetVertexColor(self,...)
         self.l:SetVertexColor(...)
+        self.l:SetAlpha(1)
         self.r:SetVertexColor(...)
+        self.r:SetAlpha(1)
     end
     local function Arrows_UpdatePosition(self)
         if not CASTBAR_DETACH and
