@@ -1015,25 +1015,13 @@ do
         if CASTBAR_DETACH or not f.SpellIcon or not f.SpellIcon.bg then return end
         f.SpellIcon.bg:SetWidth(ceil(f.CastBar.bg:GetHeight() + f.bg:GetHeight() + CASTBAR_SPACING))
     end
-    local function CastBarSetColour(castbar,colour,glow_too)
+    local function CastBarSetColour(castbar,colour)
         -- set colour, assuming colour is a 3/4-length table,
         -- and set alpha depending on detach-combine/spell icon settings
         castbar:SetStatusBarColor(unpack(colour))
 
-        if glow_too then
-            -- glow inherits colour
-            castbar.top:SetVertexColor(unpack(colour))
-            castbar.bottom:SetVertexColor(unpack(colour))
-        elseif GLOW_AS_SHADOW then
-            castbar.top:SetVertexColor(0,0,0,.2)
-            castbar.bottom:SetVertexColor(0,0,0,.2)
-        else
-            castbar.top:SetVertexColor(0,0,0,0)
-            castbar.bottom:SetVertexColor(0,0,0,0)
-        end
-
         if CASTBAR_DETACH_COMBINE and CASTBAR_SHOW_ICON then
-            -- reduce alpha when combined
+            -- reduced alpha for spell icon
             castbar:GetStatusBarTexture():SetAlpha(.7)
         else
             castbar:GetStatusBarTexture():SetAlpha(1)
@@ -1057,7 +1045,7 @@ do
                 f.SpellShield:Hide()
             end
         else
-            CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR,true)
+            CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR)
 
             if f.elements.SpellShield then
                 f.SpellShield:Show()
@@ -1378,25 +1366,6 @@ do
 
         castbar.bg = bg
 
-        -- XXX glow
-        local top = castbar:CreateTexture(nil,'BACKGROUND',nil,-5)
-        top:SetTexture(MEDIA..'target-glow')
-        top:SetTexCoord(1,0,1,0)
-        top:SetPoint('BOTTOMLEFT',bg,'TOPLEFT',0,0)
-        top:SetPoint('BOTTOMRIGHT',bg,'TOPRIGHT',0,0)
-        top:SetHeight(6)
-        top:SetVertexColor(0,0,0,.2)
-        castbar.top = top
-
-        local bottom = castbar:CreateTexture(nil,'BACKGROUND',nil,-5)
-        bottom:SetTexture(MEDIA..'target-glow')
-        bottom:SetPoint('TOPLEFT',bg,'BOTTOMLEFT',0,0)
-        bottom:SetPoint('TOPRIGHT',bg,'BOTTOMRIGHT',0,0)
-        bottom:SetHeight(6)
-        bottom:SetVertexColor(0,0,0,.2)
-        castbar.bottom = bottom
-
-        -- register base elements
         f.handler:RegisterElement('CastBar', castbar)
 
         CreateOptionalElementsMaybe(f)
