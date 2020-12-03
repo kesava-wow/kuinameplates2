@@ -1073,6 +1073,12 @@ do
 
         if CASTBAR_SHOW_ICON and f.SpellIcon then
             f.SpellIcon:Show()
+
+            if CASTBAR_DETACH then
+                f.SpellIcon.bg:Hide()
+            else
+                f.SpellIcon.bg:Show()
+            end
         end
 
         if CASTBAR_SHOW_NAME and f.SpellName then
@@ -1109,6 +1115,7 @@ do
             end
             if f.SpellIcon then
                 f.SpellIcon:Hide()
+                f.SpellIcon.bg:Hide()
             end
             if f.SpellShield then
                 f.SpellShield:Hide()
@@ -1290,14 +1297,11 @@ do
     local function CreateSpellIcon(f)
         local icon = f.CastBar:CreateTexture(nil, 'BACKGROUND', nil, 2)
         f.handler:RegisterElement('SpellIcon', icon)
-        return icon
-    end
-    local function CreateSpellIconBackground(f)
+
         local bg = f.CastBar:CreateTexture(nil,'BACKGROUND',nil,1)
         bg:SetTexture(kui.m.t.solid)
         bg:SetVertexColor(0,0,0,.9)
-        f.SpellIcon.bg = bg
-        return bg
+        icon.bg = bg
     end
     local function CreateSpellShield(f)
         -- cast shield
@@ -1308,7 +1312,6 @@ do
         shield:Hide()
 
         f.handler:RegisterElement('SpellShield', shield)
-        return shield
     end
     local function CreateSpellName(f)
         local spellname = CreateFontString(f.CastBar,FONT_SIZE_SMALL)
@@ -1316,7 +1319,6 @@ do
         spellname:Hide()
 
         f.handler:RegisterElement('SpellName', spellname)
-        return spellname
     end
     local function CreateAnimGroup(f)
         -- bar highlight texture
@@ -1359,9 +1361,6 @@ do
         end
         if CASTBAR_SHOW_ICON and not f.SpellIcon then
             CreateSpellIcon(f)
-        end
-        if CASTBAR_SHOW_ICON and not CASTBAR_DETACH and not f.SpellIcon.bg then
-            CreateSpellIconBackground(f)
         end
         if CASTBAR_SHOW_SHIELD and not f.SpellShield then
             CreateSpellShield(f)
@@ -1452,29 +1451,6 @@ do
                     f.SpellShield:SetSize(SHIELD_SIZE,SHIELD_SIZE)
                 else
                     f.handler:DisableElement('SpellShield')
-                end
-            end
-
-            if f.SpellIcon then
-                -- determine spell icon visibility...
-                if CASTBAR_SHOW_ICON then
-                    f.SpellIcon:Show()
-
-                    -- determine icon background visibility...
-                    if f.SpellIcon.bg then
-                        if CASTBAR_DETACH then
-                            f.SpellIcon.bg:Hide()
-                        else
-                            f.SpellIcon.bg:Show()
-                        end
-                    end
-                else
-                    -- hide icon and background
-                    f.SpellIcon:Hide()
-
-                    if f.SpellIcon.bg then
-                        f.SpellIcon.bg:Hide()
-                    end
                 end
             end
 
