@@ -1001,7 +1001,7 @@ do
     local CASTBAR_ENABLED,CASTBAR_HEIGHT,CASTBAR_COLOUR,CASTBAR_UNIN_COLOUR,
           CASTBAR_SHOW_ICON,CASTBAR_SHOW_NAME,CASTBAR_SHOW_SHIELD,
           CASTBAR_NAME_VERTICAL_OFFSET,CASTBAR_ANIMATE,
-          CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,SHIELD_H,SHIELD_W,
+          CASTBAR_ANIMATE_CHANGE_COLOUR,CASTBAR_SPACING,SHIELD_SIZE,
           CASTBAR_DETACH_HEIGHT,CASTBAR_DETACH_WIDTH,
           CASTBAR_DETACH_OFFSET,CASTBAR_DETACH_COMBINE,CASTBAR_DETACH_NAMEONLY,
           CASTBAR_RATIO,CASTBAR_ICON_SIDE
@@ -1233,6 +1233,13 @@ do
                     end
                 end
             end
+
+            if CASTBAR_SHOW_SHIELD and f.SpellShield then
+                f.SpellShield:ClearAllPoints()
+                f.SpellShield:SetPoint('TOPLEFT',f.CastBar.bg,
+                    1-floor(SHIELD_SIZE/2),
+                    -floor((CASTBAR_DETACH_HEIGHT-SHIELD_SIZE)/2))
+            end
         else
             -- move spell icon to left side of health bar,
             -- attach castbar to bottom of health bar background
@@ -1242,6 +1249,21 @@ do
 
             f.CastBar:SetPoint('TOPLEFT',f.CastBar.bg,1,-1)
             f.CastBar:SetPoint('BOTTOMRIGHT',f.CastBar.bg,-1,1)
+
+            if CASTBAR_SHOW_SHIELD and f.SpellShield then
+                f.SpellShield:ClearAllPoints()
+
+                if CASTBAR_SHOW_ICON and f.SpellIcon and CASTBAR_ICON_SIDE == 2 then
+                    -- anchor to right, with spellicon
+                    f.SpellShield:SetPoint('TOPRIGHT',f.CastBar.bg,
+                        1+floor(SHIELD_SIZE/2),
+                        -floor((CASTBAR_HEIGHT-SHIELD_SIZE)/2))
+                else
+                    f.SpellShield:SetPoint('TOPLEFT',f.CastBar.bg,
+                        1-floor(SHIELD_SIZE/2),
+                        -floor((CASTBAR_HEIGHT-SHIELD_SIZE)/2))
+                end
+            end
 
             if CASTBAR_SHOW_ICON and f.SpellIcon then
                 f.SpellIcon:ClearAllPoints()
@@ -1280,11 +1302,9 @@ do
     local function CreateSpellShield(f)
         -- cast shield
         local shield = f.CastBar:CreateTexture(nil, 'ARTWORK', nil, 3)
-        shield:SetTexture(MEDIA..'Shield')
-        shield:SetTexCoord(0, .84375, 0, 1)
-        shield:SetSize(SHIELD_W,SHIELD_H)
-        shield:SetPoint('LEFT', f.CastBar.bg, -7, 0)
-        shield:SetVertexColor(.5, .5, .7)
+        shield:SetTexture(MEDIA..'shield3')
+        shield:SetSize(SHIELD_SIZE,SHIELD_SIZE)
+        shield:SetVertexColor(.8, .8, 1)
         shield:Hide()
 
         f.handler:RegisterElement('SpellShield', shield)
@@ -1412,8 +1432,7 @@ do
         CASTBAR_ANIMATE = self.profile.castbar_animate
         CASTBAR_ANIMATE_CHANGE_COLOUR = self.profile.castbar_animate_change_colour
         CASTBAR_SPACING = self.profile.castbar_spacing
-        SHIELD_H = self:Scale(self.profile.castbar_shield_size)
-        SHIELD_W = SHIELD_H * .84375
+        SHIELD_SIZE = self:Scale(self.profile.castbar_shield_size)
 
         CASTBAR_DETACH = self.profile.castbar_detach
         CASTBAR_DETACH_HEIGHT = self:Scale(self.profile.castbar_detach_height)
@@ -1430,7 +1449,7 @@ do
             if f.SpellShield then
                 if CASTBAR_SHOW_SHIELD then
                     f.handler:EnableElement('SpellShield')
-                    f.SpellShield:SetSize(SHIELD_W,SHIELD_H)
+                    f.SpellShield:SetSize(SHIELD_SIZE,SHIELD_SIZE)
                 else
                     f.handler:DisableElement('SpellShield')
                 end
