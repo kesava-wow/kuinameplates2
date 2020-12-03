@@ -1218,6 +1218,11 @@ do
                 f.CastBar.bg:SetPoint('TOP',f.bg,'BOTTOM',0,-CASTBAR_DETACH_OFFSET)
             end
 
+            if CASTBAR_SHOW_SHIELD and f.SpellShield then
+                f.SpellShield:ClearAllPoints()
+                f.SpellShield:SetPoint('CENTER',f.CastBar.bg,'LEFT',-1,0)
+            end
+
             if CASTBAR_SHOW_ICON and f.SpellIcon then
                 if CASTBAR_DETACH_COMBINE then
                     -- overlay spell icon on bar
@@ -1240,13 +1245,6 @@ do
                     end
                 end
             end
-
-            if CASTBAR_SHOW_SHIELD and f.SpellShield then
-                f.SpellShield:ClearAllPoints()
-                f.SpellShield:SetPoint('TOPLEFT',f.CastBar.bg,
-                    1-floor(SHIELD_SIZE/2),
-                    -floor((CASTBAR_DETACH_HEIGHT-SHIELD_SIZE)/2))
-            end
         else
             -- move spell icon to left side of health bar,
             -- attach castbar to bottom of health bar background
@@ -1261,14 +1259,9 @@ do
                 f.SpellShield:ClearAllPoints()
 
                 if CASTBAR_SHOW_ICON and f.SpellIcon and CASTBAR_ICON_SIDE == 2 then
-                    -- anchor to right, with spellicon
-                    f.SpellShield:SetPoint('TOPRIGHT',f.CastBar.bg,
-                        1+floor(SHIELD_SIZE/2),
-                        -floor((CASTBAR_HEIGHT-SHIELD_SIZE)/2))
+                    f.SpellShield:SetPoint('CENTER',f.CastBar.bg,'RIGHT',1,0)
                 else
-                    f.SpellShield:SetPoint('TOPLEFT',f.CastBar.bg,
-                        1-floor(SHIELD_SIZE/2),
-                        -floor((CASTBAR_HEIGHT-SHIELD_SIZE)/2))
+                    f.SpellShield:SetPoint('CENTER',f.CastBar.bg,'LEFT',1,0)
                 end
             end
 
