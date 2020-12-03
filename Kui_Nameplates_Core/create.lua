@@ -935,21 +935,8 @@ do
         self.r:SetAlpha(1)
     end
     local function Arrows_UpdatePosition(self)
-        if not CASTBAR_DETACH and
-            self.parent.state.casting and
-            self.parent.SpellIcon and
-            self.parent.SpellIcon:IsVisible()
-        then
-            -- move for non-detached cast bar spell icon
-            self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
-                TARGET_ARROWS_INSET-self.parent.SpellIcon.bg:GetWidth(),0)
-        else
-            self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',
-                TARGET_ARROWS_INSET,0)
-        end
-
-        self.r:SetPoint('LEFT',self.parent.bg,'RIGHT',
-            -TARGET_ARROWS_INSET,0)
+        self.l:SetPoint('RIGHT',self.parent.bg,'LEFT',TARGET_ARROWS_INSET,0)
+        self.r:SetPoint('LEFT',self.parent.bg,'RIGHT',-TARGET_ARROWS_INSET,0)
     end
     local function Arrows_SetSize(self,size)
         self.l:SetSize(size,size)
@@ -968,9 +955,7 @@ do
             f.TargetArrows.r:SetTexture(TARGET_ARROWS_TEXTURE)
             f.TargetArrows:SetVertexColor(unpack(TARGET_GLOW_COLOUR))
             f.TargetArrows:SetSize(TARGET_ARROWS_SIZE)
-
             f.TargetArrows:Show()
-            f.TargetArrows:UpdatePosition()
         else
             f.TargetArrows:Hide()
         end
@@ -1080,10 +1065,6 @@ do
         if FADE_AVOID_CASTING then
             plugin_fading:UpdateFrame(f)
         end
-
-        if TARGET_ARROWS then
-            f:UpdateTargetArrows()
-        end
     end
     local function HideCastBar(f,hide_cause,force)
         if f.CastBar.spark then
@@ -1145,10 +1126,6 @@ do
 
         if FADE_AVOID_CASTING then
             plugin_fading:UpdateFrame(f)
-        end
-
-        if TARGET_ARROWS then
-            f:UpdateTargetArrows()
         end
     end
     local function UpdateCastBar(f)
