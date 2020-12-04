@@ -1,14 +1,19 @@
 BETA
 
+* reduce bar spark frame level
 * re-enable castbar shield by default
 * increase default castbar shield size slightly
-* increase default (attached) castbar height slightly
-* reduce bar spark frame level
+* increase default castbar height slightly
+* change default spell text vertical offset
+* bottom component of target glow now ignores alpha
+* target arrows now ignore alpha
+* target arrows no longer avoid the spell icon
+* change castbar shield texture
+* change target arrows texture
 
 * add classpowers vertical offset option
 * add castbar_shield_size (not exposed)
 * revert remove castbar shield
-* people who read changelogs are my favourite, hmu
 
 * add option bar_spark (not exposed)
 * on first run, disable frame target size on profiles with a larger normal size
