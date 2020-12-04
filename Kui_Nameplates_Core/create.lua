@@ -965,10 +965,10 @@ do
 
         local left = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
         left:SetBlendMode('BLEND')
-        left:SetTexCoord(1,0,0,1)
 
         local right = f.HealthBar:CreateTexture(nil,'ARTWORK',nil,4)
         right:SetBlendMode('BLEND')
+        right:SetTexCoord(1,0,0,1)
 
         local arrows = {
             Hide = Arrows_Hide,
