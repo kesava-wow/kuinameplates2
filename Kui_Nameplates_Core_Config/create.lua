@@ -361,7 +361,7 @@ function text:Initialise()
         return p.name_text and not p.class_colour_enemy_names
     end
 
-    nc_sep:SetPoint('TOP',0,-375)
+    nc_sep:SetPoint('TOP',0,-350)
     nc_wb:SetPoint('TOP',nc_sep,'BOTTOM',0,-10)
     nc_wb:SetPoint('LEFT',10,0)
     nc_nh:SetPoint('TOPLEFT',nc_wb,'BOTTOMLEFT',4,0)
