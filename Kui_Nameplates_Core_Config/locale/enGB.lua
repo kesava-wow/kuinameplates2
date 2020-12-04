@@ -181,7 +181,6 @@ L.titles = {
     health_text_friend_dmg = 'Damaged friend',
     health_text_hostile_max = 'Max. health hostile',
     health_text_hostile_dmg = 'Damaged hostile',
-    health_text_percent_symbol = 'Show percent symbol',
     dd_health_text_current = 'Current',
     dd_health_text_maximum = 'Maximum',
     dd_health_text_percent = 'Percent',

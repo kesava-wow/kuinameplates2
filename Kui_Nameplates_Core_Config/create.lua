@@ -318,7 +318,6 @@ function text:Initialise()
     local health_text_friend_dmg = text:CreateDropDown('health_text_friend_dmg')
     local health_text_hostile_max = text:CreateDropDown('health_text_hostile_max')
     local health_text_hostile_dmg = text:CreateDropDown('health_text_hostile_dmg')
-    local health_text_percent_symbol = text:CreateCheckBox('health_text_percent_symbol',true)
 
     health_text_friend_max.SelectTable = health_text_SelectTable
     health_text_friend_dmg.SelectTable = health_text_SelectTable
@@ -331,13 +330,11 @@ function text:Initialise()
     health_text_friend_dmg:SetPoint('LEFT',health_text_friend_max,'RIGHT',10,0)
     health_text_hostile_max:SetPoint('TOPLEFT',health_text_friend_max,'BOTTOMLEFT')
     health_text_hostile_dmg:SetPoint('LEFT',health_text_hostile_max,'RIGHT',10,0)
-    health_text_percent_symbol:SetPoint('TOPLEFT',health_text_hostile_max,'BOTTOMLEFT',0,-5)
 
     health_text_friend_max.enabled = function(p) return p.health_text end
     health_text_friend_dmg.enabled = health_text_friend_max.enabled
     health_text_hostile_max.enabled = health_text_friend_max.enabled
     health_text_hostile_dmg.enabled = health_text_friend_max.enabled
-    health_text_percent_symbol.enabled = health_text_friend_max.enabled
 
     local nc_sep = self:CreateSeparator('name_colour_sep')
     local nc_wb = self:CreateCheckBox('name_colour_white_in_bar_mode')
