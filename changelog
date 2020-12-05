@@ -10,32 +10,8 @@ BETA
 * target arrows no longer avoid the spell icon
 * change castbar shield texture
 * change target arrows texture
+* increase default target_arrows_inset
 
 * add classpowers vertical offset option
 * add castbar_shield_size (not exposed)
-* revert remove castbar shield
-
-* add option bar_spark (not exposed)
-* on first run, disable frame target size on profiles with a larger normal size
-
-* add quest icon
-* add option to resize the current target
-* add option to disable resizing of frames flagged as minus
-* add options for raid icon size and position
-* add options for frame clickbox padding
-* add options to show/hide class powers on friendly or hostile targets
-* add options to resize frame glow for target and threat
-* add classpowers_y,classpowers_y_nameonly,classpowers_y_personal (not exposed)
-* add spark to healthbar
-* move classpowers on personal to bottom by default
-* move name text slightly
-* change default frame sizes
-* normal frames with hidden names no longer use frame_height_minus
-* update locales, add esES
-* fix combo points aren't shown in cat form
-* fix use_blizzard_powers is inconsistent (maybe)
-* correctly update level/health text position on threat change
-* remove castbar_shield
-* remove cvar_max_distance (disabled on client)
-* bump toc
 
