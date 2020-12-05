@@ -1016,6 +1016,7 @@ function core:InitialiseConfig()
     -- XXX TEMP 2.27
     KuiNameplatesCoreSaved['226_AURAS_TRANSITION'] = true
     KuiNameplatesCoreSaved['226_TARGET_SIZE'] = true
+    KuiNameplatesCoreSaved['226_CLASSPOWERS_Y'] = true
 
     -- run config loaded functions
     for k,f in pairs(configLoaded) do
