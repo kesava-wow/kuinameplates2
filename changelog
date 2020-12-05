@@ -1,5 +1,7 @@
 BETA
 
+* (beta) fix classpowers y gets reset on profiles which show classpowers on the personal frame
+
 * reduce bar spark frame level
 * re-enable castbar shield by default
 * increase default castbar shield size slightly
@@ -10,8 +12,8 @@ BETA
 * target arrows no longer avoid the spell icon
 * change castbar shield texture
 * change target arrows texture
-* increase default target_arrows_inset
+* increase default target arrows inset
 
 * add classpowers vertical offset option
-* add castbar_shield_size (not exposed)
+* add castbar shield size option (not exposed)
 
