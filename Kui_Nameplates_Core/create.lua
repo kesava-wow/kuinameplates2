@@ -1189,7 +1189,7 @@ do
 
             if CASTBAR_SHOW_SHIELD and f.SpellShield then
                 f.SpellShield:ClearAllPoints()
-                f.SpellShield:SetPoint('CENTER',f.CastBar.bg,'LEFT',-1,0)
+                f.SpellShield:SetPoint('CENTER',f.CastBar.bg,'LEFT',1,0)
             end
 
             if CASTBAR_SHOW_ICON and f.SpellIcon then
