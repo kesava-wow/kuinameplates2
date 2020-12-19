@@ -130,8 +130,8 @@ end
 function mod:HealthColourChange(f,caller)
     if caller and caller == self then return end
     if not UnitIsTapDenied(f.unit) and
-       f.state.health_cur > 0 and
-       (f.state.health_per <= execute_range or f.state.health_per >= execute_range_upper)
+       f.state.health_cur > 0 and 
+       (f.state.health_per <= execute_range or (f.state.health_per >= execute_range_upper and f.state.combat))
     then
         if CanOverwriteHealthColor(f) then
             f.state.execute_range_coloured = true
@@ -168,6 +168,9 @@ end
 function mod:UNIT_HEALTH(_,f)
     self:HealthColourChange(f)
 end
+function mod:UNIT_THREAT_LIST_UPDATE(_,f)
+    self:HealthColourChange(f)
+end
 function mod:PLAYER_SPECIALIZATION_CHANGED()
     execute_range = GetExecuteRange()
     execute_range_upper = GetExecuteRangeUpper()
@@ -190,6 +193,7 @@ function mod:OnEnable()
     self:RegisterUnitEvent(kui.UNIT_HEALTH,'UNIT_HEALTH')
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('Show','HealthColourChange')
+    self:RegisterUnitEvent('UNIT_THREAT_LIST_UPDATE','UNIT_THREAT_LIST_UPDATE')
 
     self:SetExecuteRange()
 end
