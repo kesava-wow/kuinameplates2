@@ -3,7 +3,7 @@ local addon = KuiNameplates
 local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('Execute',4,nil,false)
 
-local EquipScanQueue,class,execute_range
+local EquipScanQueue,class,execute_range,execute_range_upper
 
 local specs = {
     ['DRUID'] = {
@@ -31,7 +31,7 @@ local talents = {
     },
     ['WARRIOR'] = {
         [22380] = 35, -- Arms Massacre
-        [22393] = 35, -- Fury Massacre
+        [22379] = 35, -- Fury Massacre
     },
 }
 local pvp_talents = {
@@ -41,10 +41,12 @@ local pvp_talents = {
     }
 }
 local items = {}
-
 -- local functions #############################################################
 local function IsTalentKnown(id,pvp)
     return pvp and select(10,GetPvpTalentInfoByID(id)) or select(10,GetTalentInfoByID(id))
+end
+local function IsVenthyr()
+    return C_Covenants.GetActiveCovenantID() == 2
 end
 local function GetExecuteRange()
     -- return execute range depending on class/spec/talents
@@ -84,8 +86,13 @@ local function GetExecuteRange()
             end
         end
     end
-
     return (not r or r < 0) and 20 or r
+end
+local function GetExecuteRangeUpper()
+    if class == 'WARRIOR' and IsVenthyr() then
+        return 80
+    end
+    return 101
 end
 local function CanOverwriteHealthColor(f)
     return not f.state.health_colour_priority or
@@ -94,6 +101,7 @@ end
 local function EquipScanQueue_Update()
     EquipScanQueue:Hide()
     execute_range = GetExecuteRange()
+    execute_range_upper = GetExecuteRangeUpper()
 end
 -- mod functions ###############################################################
 function mod:SetExecuteRange(to)
@@ -102,25 +110,28 @@ function mod:SetExecuteRange(to)
         self:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
         self:UnregisterEvent('PLAYER_FLAGS_CHANGED')
         self:UnregisterEvent('PLAYER_EQUIPMENT_CHANGED')
+        self:UnregisterEvent('PLAYER_TALENT_UPDATE')
         execute_range = to
+        execute_range_upper = 101
     elseif not kui.CLASSIC then
         -- force immediate auto-detect
         self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
         self:RegisterEvent('PLAYER_FLAGS_CHANGED','PLAYER_SPECIALIZATION_CHANGED')
         self:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
+        self:RegisterEvent('PLAYER_TALENT_UPDATE')
         self:PLAYER_SPECIALIZATION_CHANGED()
     else
         -- default (only for classic)
         execute_range = 20
+        execute_range_upper = 101
     end
 end
 -- messages ####################################################################
 function mod:HealthColourChange(f,caller)
     if caller and caller == self then return end
-
     if not UnitIsTapDenied(f.unit) and
        f.state.health_cur > 0 and
-       f.state.health_per <= execute_range
+       (f.state.health_per <= execute_range or f.state.health_per >= execute_range_upper)
     then
         if CanOverwriteHealthColor(f) then
             f.state.execute_range_coloured = true
@@ -159,9 +170,14 @@ function mod:UNIT_HEALTH(_,f)
 end
 function mod:PLAYER_SPECIALIZATION_CHANGED()
     execute_range = GetExecuteRange()
+    execute_range_upper = GetExecuteRangeUpper()
 end
 function mod:PLAYER_EQUIPMENT_CHANGED()
     EquipScanQueue:Show()
+end
+function mod:PLAYER_TALENT_UPDATE()
+    execute_range = GetExecuteRange()
+    execute_range_upper = GetExecuteRangeUpper()
 end
 -- register ####################################################################
 function mod:OnEnable()
