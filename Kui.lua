@@ -1,4 +1,4 @@
-local MAJOR, MINOR = 'Kui-1.0', 49
+local MAJOR, MINOR = 'Kui-1.0', 50
 local kui = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not kui then
@@ -6,9 +6,11 @@ if not kui then
     return
 end
 
---luacheck:globals WOW_PROJECT_ID WOW_PROJECT_CLASSIC
+--luacheck:globals WOW_PROJECT_ID WOW_PROJECT_CLASSIC WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 local CLASSIC = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
-kui.CLASSIC = CLASSIC
+local BURNING_CRUSADE = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+kui.CLASSIC = CLASSIC or BURNING_CRUSADE
+kui.BURNING_CRUSADE = BURNING_CRUSADE
 
 -- XXX 8X -> 90 compatibility helper
 local SHADOWLANDS = select(4,GetBuildInfo()) >= 90000
@@ -264,7 +266,7 @@ kui.GetUnitColour = function(unit, str)
 end
 kui.UnitLevel = function(unit, long, real)
     local level
-    if CLASSIC then
+    if kui.CLASSIC then
         level = UnitLevel(unit) or 0
     else
         level = real and UnitLevel(unit) or UnitEffectiveLevel(unit)
