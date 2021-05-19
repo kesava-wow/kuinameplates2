@@ -1,12 +1,6 @@
-#@retail@
 ## Interface: 90005
-#@end-retail@
-#@version-classic@
-# ## Interface: 11307
-#@end-version-classic@
-#@version-bcc@
-# ## Interface: 20501
-#@end-version-bcc@
+## Interface-Classic: 11307
+## Interface-BCC: 20501
 
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates
