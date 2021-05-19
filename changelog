@@ -1,14 +1,3 @@
-BETA
-
-* add castbar uninterruptible shield (with a new texture)
-* add option for classpowers vertical offset
-* add option for castbar shield size (not exposed)
-* change target arrows texture again
-* increase default target arrows inset
-* target arrows no longer avoid the spell icon
-* target arrows now ignore alpha
-* bottom component of target glow now ignores alpha
-* increase default spell text vertical offset
-* increase default castbar size slightly
-* reduce bar spark frame level
-
+* (tbc) TBC compatibility
+* (classic) update libclassicdurations
+* (classic) update libclassiccasterino
