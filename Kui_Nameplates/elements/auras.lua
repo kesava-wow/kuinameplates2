@@ -882,7 +882,7 @@ function ele:Initialise()
     self:RegisterCallback('PostUpdateAuraFrame')
     self:RegisterCallback('DisplayAura',true)
 
-    if kui.CLASSIC then
+    if kui.CLASSIC and not kui.BURNING_CRUSADE then
         AuraLib = LibStub('LibClassicDurations',true)
         if not AuraLib then return end
 

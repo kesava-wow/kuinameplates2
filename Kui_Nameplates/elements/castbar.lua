@@ -132,7 +132,8 @@ function ele:CastStart(event,f,unit)
     f.cast_state.name          = text or name
     f.cast_state.icon          = texture
     f.cast_state.guid          = guid
-    f.cast_state.interruptible = not notInterruptible
+    f.cast_state.interruptible = not (notInterruptible == true)
+    -- (we check not == true because this var doesn't exist on classic)
     f.cast_state.channel       = event == 'UNIT_SPELLCAST_CHANNEL_START'
     f.cast_state.start_time    = startTime / 1000
     f.cast_state.end_time      = endTime / 1000
@@ -212,7 +213,7 @@ local function LibCC_ChannelStop(...)
 end
 -- register ####################################################################
 function ele:Initialise()
-    if kui.CLASSIC then
+    if kui.CLASSIC and not kui.BURNING_CRUSADE then
         LibCC = LibStub('LibClassicCasterino',true)
         if not LibCC then return end
 
@@ -236,7 +237,7 @@ function ele:OnDisable()
     end
 end
 function ele:OnEnable()
-    if not kui.CLASSIC then
+    if not kui.CLASSIC or kui.BURNING_CRUSADE then
         self:RegisterUnitEvent('UNIT_SPELLCAST_START','CastStart')
         self:RegisterUnitEvent('UNIT_SPELLCAST_STOP','CastStop')
         self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
@@ -244,8 +245,10 @@ function ele:OnEnable()
         self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED','CastStop')
         self:RegisterUnitEvent('UNIT_SPELLCAST_FAILED','CastStop')
 
-        self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTIBLE','CastInterruptible')
-        self:RegisterUnitEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE','CastNotInterruptible')
+        if not kui.BURNING_CRUSADE then
+            self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTIBLE','CastInterruptible')
+            self:RegisterUnitEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE','CastNotInterruptible')
+        end
 
         self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_START','CastStart')
         self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_STOP')
