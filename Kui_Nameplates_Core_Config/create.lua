@@ -199,7 +199,7 @@ function healthbars:Initialise()
 
     local decimals_sep = self:CreateSeparator('decimals_sep')
     local decimals_enable = self:CreateCheckBox('decimals_enable')
-    local decimals_nr = self:CreateSlider('decimals_nr',0,3)
+    local decimals_nr = self:CreateSlider('decimals_nr',1,3)
 
     bar_animation.SelectTable = {
         L.titles.dd_font_style_none,
