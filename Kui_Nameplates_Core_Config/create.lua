@@ -198,8 +198,8 @@ function healthbars:Initialise()
     local colour_enemy_pet = self:CreateColourPicker('colour_enemy_pet')
 
     local decimals_sep = self:CreateSeparator('decimals_sep')
-    local decimals_enable = self:CreateCheckBox('decimals_enable')
-    local decimals_nr = self:CreateSlider('decimals_nr',1,3)
+    local decimals_enabled = self:CreateCheckBox('decimals_enabled')
+    local decimals_amount = self:CreateSlider('decimals_amount',1,3)
 
     bar_animation.SelectTable = {
         L.titles.dd_font_style_none,
@@ -238,8 +238,8 @@ function healthbars:Initialise()
     colour_self:SetPoint('TOPLEFT',colour_self_class,'BOTTOMLEFT',4,0)
 
     decimals_sep:SetPoint('TOP', 0, -500)
-    decimals_enable:SetPoint('TOPLEFT',decimals_sep,'BOTTOMLEFT',0,-5)
-    decimals_nr:SetPoint('LEFT',decimals_enable,'RIGHT',180,-5)
+    decimals_enabled:SetPoint('TOPLEFT',decimals_sep,'BOTTOMLEFT',0,-5)
+    decimals_amount:SetPoint('LEFT',decimals_enabled,'RIGHT',180,-5)
 
     absorb_striped.enabled = function(p) return p.absorb_enable end
     colour_absorb.enabled = function(p) return p.absorb_enable end
@@ -252,7 +252,7 @@ function healthbars:Initialise()
     execute_colour.enabled = execute_auto.enabled
     execute_percent.enabled = function(p) return p.execute_enabled and not p.execute_auto end
 
-    decimals_nr.enabled = function(p) return p.decimals_enable end
+    decimals_amount.enabled = function(p) return p.decimals_enabled end
 
     function bar_texture:initialize()
         local list = {}

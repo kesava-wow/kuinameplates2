@@ -151,7 +151,7 @@ L.titles = {
 
     decimals_sep = 'Decimals',
     decimals_enabled = 'Show decimals',
-    decimals_nr = 'How many?',
+    decimals_amount = 'How many?',
 
     font_face = 'Font face',
     font_style = 'Font style',
