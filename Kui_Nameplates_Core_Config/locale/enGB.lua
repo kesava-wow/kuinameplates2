@@ -149,8 +149,8 @@ L.titles = {
     execute_colour = 'Execute colour',
     execute_percent = 'Execute range',
 
-    decimals_sep = 'Decimals',
-    decimals_enabled = 'Show decimals',
+    decimals_sep = 'Decimal Points',
+    decimals_enabled = 'Show decimal points',
     decimals_amount = 'How many?',
 
     font_face = 'Font face',
