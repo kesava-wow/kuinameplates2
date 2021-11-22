@@ -751,16 +751,8 @@ end
 do
     local function HealthDisplay_Percent(s)
         if DECIMALS_ENABLE and DECIMALS_NR > 0 then
-            -- not sure if there is some other way something like `%.${DECIMALS_NR}f`
-            if DECIMALS_NR == 1 then
-                return format('%.1f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
-            elseif DECIMALS_NR == 2 then
-                return format('%.2f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
-            elseif DECIMALS_NR == 3 then
-                return format('%.3f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
-            else 
-                return ceil(s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL 
-            end
+            if DECIMALS_ENABLE and DECIMALS_NR > 0 then
+                return format('%.'..DECIMALS_NR..'f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
         elseif s.health_per < 1 then
             return format('%.1f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
         else
