@@ -149,6 +149,10 @@ L.titles = {
     execute_colour = 'Execute colour',
     execute_percent = 'Execute range',
 
+    decimals_sep = 'Decimals',
+    decimals_enabled = 'Show decimals',
+	decimals_nr = 'How many?',
+
     font_face = 'Font face',
     font_style = 'Font style',
     dd_font_style_none = 'None',
