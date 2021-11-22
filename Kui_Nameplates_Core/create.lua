@@ -235,6 +235,8 @@ do
         FONT_SIZE_SMALL = core:Scale(core.profile.font_size_small)
 
         BAR_SPARK = core.profile.bar_spark
+        DECIMALS_ENABLE = core.profile.decimals_enable
+        DECIMALS_NR = core.profile.decimals_nr
     end
     local function p2()
         FADE_UNTRACKED = core.profile.fade_untracked
@@ -748,7 +750,18 @@ end
 -- health text #################################################################
 do
     local function HealthDisplay_Percent(s)
-        if s.health_per < 1 then
+        if DECIMALS_ENABLE and DECIMALS_NR > 0 then
+            -- not sure if there is some other way something like `%.${DECIMALS_NR}f`
+            if DECIMALS_NR == 1 then
+                return format('%.1f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
+            elseif DECIMALS_NR == 2 then
+                return format('%.2f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
+            elseif DECIMALS_NR == 3 then
+                return format('%.3f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
+            else 
+                return ceil(s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL 
+            end
+        elseif s.health_per < 1 then
             return format('%.1f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
         else
             return ceil(s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
