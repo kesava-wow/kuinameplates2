@@ -213,7 +213,7 @@ local function LibCC_ChannelStop(...)
 end
 -- register ####################################################################
 function ele:Initialise()
-    if kui.CLASSIC and not kui.BURNING_CRUSADE then
+    if kui.VANILLA then
         LibCC = LibStub('LibClassicCasterino',true)
         if not LibCC then return end
 
@@ -237,7 +237,7 @@ function ele:OnDisable()
     end
 end
 function ele:OnEnable()
-    if not kui.CLASSIC or kui.BURNING_CRUSADE then
+    if kui.RETAIL or not kui.VANILLA then
         self:RegisterUnitEvent('UNIT_SPELLCAST_START','CastStart')
         self:RegisterUnitEvent('UNIT_SPELLCAST_STOP','CastStop')
         self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
@@ -245,7 +245,7 @@ function ele:OnEnable()
         self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED','CastStop')
         self:RegisterUnitEvent('UNIT_SPELLCAST_FAILED','CastStop')
 
-        if not kui.BURNING_CRUSADE then
+        if kui.RETAIL then
             self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTIBLE','CastInterruptible')
             self:RegisterUnitEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE','CastNotInterruptible')
         end
