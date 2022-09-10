@@ -1,0 +1,49 @@
+name: CI-PR
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 200
+
+      - name: Install and run Luacheck
+        uses: nebularg/actions-luacheck@v1
+        with:
+          args: "--no-default-config --no-color -qo '011'"
+          annotate: warning
+
+      - name: Create Retail Package
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -d -z -g retail -m .pkgmeta.yml
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: KNP-PR${{ github.event.number }}
+          path: .release/
+
+      - name: Create Classic Package
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -d -z -g wrath -m .pkgmeta-classic.yml
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: KNP-PR${{ github.event.number }}-classic
+          path: .release/
+
+      - name: Create Classic Era Package
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -d -z -g classic -m .pkgmeta-classic.yml
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: KNP-PR${{ github.event.number }}-classic-era
+          path: .release/
+
