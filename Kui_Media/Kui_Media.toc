@@ -1,6 +1,7 @@
 ## Interface: 90005
 ## Interface-Classic: 11307
 ## Interface-BCC: 20501
+## Interface-Wrath: 30400
 
 ## Author: Kesava
 ## Title: Kui |cff9966ffMedia
