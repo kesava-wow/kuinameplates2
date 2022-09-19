@@ -185,7 +185,14 @@ function mod:OnEnable()
     if not kui.CLASSIC then
         self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','SpecUpdate')
     end
-    self:SpecUpdate()
+    if kui.WRATH then
+        self:RegisterEvent('PLAYER_ROLES_ASSIGNED','SpecUpdate')
+        self:RegisterEvent('PLAYER_TALENT_UPDATE', 'SpecUpdate')
+        self:RegisterEvent('TALENT_GROUP_ROLE_CHANGED', 'SpecUpdate')
+    end
+
+    self:SpecUpdate()	
+    
 end
 function mod:OnDisable()
     UpdateFrames()
