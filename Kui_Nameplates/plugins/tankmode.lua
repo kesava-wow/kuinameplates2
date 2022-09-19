@@ -135,7 +135,7 @@ function mod:SpecUpdate()
     if not self.enabled then return end
     if kui.CLASSIC then
         role_enabled = UnitGroupRolesAssigned('player') == 'TANK'
-        return
+        return 
     end -- XXX no spec data on classic
     local was_enabled = spec_enabled
     local spec = GetSpecialization()
@@ -187,12 +187,10 @@ function mod:OnEnable()
     end
     if kui.WRATH then
         self:RegisterEvent('PLAYER_ROLES_ASSIGNED','SpecUpdate')
-        self:RegisterEvent('PLAYER_TALENT_UPDATE', 'SpecUpdate')
-        self:RegisterEvent('TALENT_GROUP_ROLE_CHANGED', 'SpecUpdate')
     end
 
-    self:SpecUpdate()	
-    
+    self:SpecUpdate()
+
 end
 function mod:OnDisable()
     UpdateFrames()
