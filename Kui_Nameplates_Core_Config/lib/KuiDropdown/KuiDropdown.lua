@@ -116,7 +116,7 @@ local function CreateListButton(parent)
     --luacheck:globals GameFontHighlightSmallLeft
     label:SetFont((GameFontHighlightSmallLeft:GetFont()), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT)
     label:SetJustifyH("LEFT")
-    label:SetWordWrap()
+    label:SetWordWrap(false)
     button:SetFontString(label)
     button.label = label
 
