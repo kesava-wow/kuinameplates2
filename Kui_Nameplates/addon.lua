@@ -216,12 +216,16 @@ local function OnEvent(self,event,...)
             ClassNameplateBarWindwalkerMonkFrame:UnregisterAllEvents()
             --luacheck:globals ClassNameplateBarPaladinFrame
             ClassNameplateBarPaladinFrame:UnregisterAllEvents()
-            --luacheck:globals ClassNameplateBarRogueDruidFrame
-            ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
+            --luacheck:globals ClassNameplateBarRogueFrame
+            ClassNameplateBarRogueFrame:UnregisterAllEvents()
+            --luacheck:globals ClassNameplateBarDruidFrame
+            ClassNameplateBarDruidFrame:UnregisterAllEvents()
             --luacheck:globals ClassNameplateBarWarlockFrame
             ClassNameplateBarWarlockFrame:UnregisterAllEvents()
             --luacheck:globals ClassNameplateBrewmasterBarFrame
             ClassNameplateBrewmasterBarFrame:UnregisterAllEvents()
+            --luacheck:globals ClassNameplateBarDracthyrFrame
+            ClassNameplateBarDracthyrFrame:UnregisterAllEvents()
         end
     end
     -- hide default unit frames
