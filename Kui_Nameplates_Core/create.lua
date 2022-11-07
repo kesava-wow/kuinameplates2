@@ -64,7 +64,7 @@ do
         local val,max = bar:GetValue(),select(2,bar:GetMinMaxValues())
         local show_val = (max / 100) * 80
 
-        if val == 0 or val == max then
+        if val <= 0 or val >= max then
             bar.spark:Hide()
         elseif val < show_val then
             bar.spark:SetAlpha(1)
