@@ -217,7 +217,8 @@ local function OnEvent(self,event,...)
             --luacheck:globals ClassNameplateBarPaladinFrame
             ClassNameplateBarPaladinFrame:UnregisterAllEvents()
             --luacheck:globals ClassNameplateBarRogueDruidFrame
-            ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
+            --TODO
+            --ClassNameplateBarRogueDruidFrame:UnregisterAllEvents()
             --luacheck:globals ClassNameplateBarWarlockFrame
             ClassNameplateBarWarlockFrame:UnregisterAllEvents()
             --luacheck:globals ClassNameplateBrewmasterBarFrame
