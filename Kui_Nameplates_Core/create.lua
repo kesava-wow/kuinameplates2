@@ -159,7 +159,7 @@ end
 local function CreateFontString(parent,small)
     local f = parent:CreateFontString(nil,'OVERLAY')
     f.fontobject_small = small
-    f:SetWordWrap()
+    f:SetWordWrap(false)
 
     UpdateFontObject(f)
 
@@ -1277,7 +1277,7 @@ do
     end
     local function CreateSpellName(f)
         local spellname = CreateFontString(f.CastBar,FONT_SIZE_SMALL)
-        spellname:SetWordWrap()
+        spellname:SetWordWrap(false)
         spellname:Hide()
 
         f.handler:RegisterElement('SpellName', spellname)
