@@ -216,7 +216,7 @@ do
         SlashCmdList.KUINAMEPLATES_LOD = lod_Slash
 
         -- create options category
-        opt = CreateFrame('Frame','KuiNameplatesCoreConfig',SettingsPanel.Container)
+        opt = CreateFrame('Frame','KuiNameplatesCoreConfig',InterfaceOptionsFramePanelContainer)
         opt:Hide()
         opt.name = 'Kui |cff9966ffNameplates Core'
 
