@@ -31,7 +31,7 @@
     -   Tell the nameplate addon to restore friendly or hostile nameplate
         visibility to whatever it was before _Enable was called, and enable
         automatic handling such as combat toggling.
-    -   Can be called during combat; the insutruction will be delayed until
+    -   Can be called during combat; the instruction will be delayed until
         combat ends.
     -   Also immediately hides all auras.
 
@@ -404,7 +404,7 @@ do
             end
         end
 
-        -- doesn't mmake sense to only disable friendly or hostile since we
+        -- doesn't make sense to only disable friendly or hostile since we
         -- can't do it in combat anyway:
         registered_hostile = nil
         registered_friendly = nil

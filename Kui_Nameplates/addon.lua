@@ -140,7 +140,7 @@ function addon:UI_SCALE_CHANGED()
             self.uiscale = 768 / screen_size[2]
         end
     else
-        -- inherit from uiparent
+        -- inherit from UIParent
         self.uiscale = UIParent:GetScale()
     end
 
