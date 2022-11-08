@@ -36,7 +36,7 @@ end
 local function CreateNameText(f)
     local text = f:CreateFontString(nil,'OVERLAY')
     text:SetFont('fonts/frizqt__.ttf',11,'OUTLINE',0,-1)
-    text:SetWordWrap()
+    text:SetWordWrap(false)
 
     text:SetPoint('BOTTOMLEFT',f.HealthBar,'TOPLEFT')
     text:SetPoint('BOTTOMRIGHT',f.HealthBar,'TOPRIGHT')
@@ -47,7 +47,7 @@ end
 local function CreateHealthText(f)
     local text = f:CreateFontString(nil,'OVERLAY')
     text:SetFont('fonts/frizqt__.ttf',10,'OUTLINE')
-    text:SetWordWrap()
+    text:SetWordWrap(false)
     text:Hide()
 
     text:SetPoint('CENTER',f.HealthBar,'BOTTOM',0,1.5)
