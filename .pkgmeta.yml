@@ -17,6 +17,7 @@ ignore:
     - Kui_Nameplates/lib/LibClassicDurations
     - Kui_Nameplates/lib/LibClassicCasterino
     - Kui_Nameplates/lib/LibThreatClassic2
+    - .editorconfig
     - .gitignore
     - .luacheckrc
     - .externals
@@ -24,3 +25,4 @@ ignore:
     - README.md
     - examples
     - dev
+    - cspell.json

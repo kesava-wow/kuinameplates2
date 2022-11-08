@@ -14,6 +14,7 @@ move-folders:
     Kui_Nameplates/Kui_Nameplates: Kui_Nameplates
 
 ignore:
+    - .editorconfig
     - .gitignore
     - .luacheckrc
     - .externals
@@ -21,3 +22,4 @@ ignore:
     - README.md
     - examples
     - dev
+    - cspell.json
