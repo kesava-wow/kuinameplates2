@@ -1032,7 +1032,11 @@ function core:InitialiseConfig()
     QueueClickboxUpdate()
 
     -- also update upon closing interface options
-    SettingsPanel:HookScript('OnHide',QueueClickboxUpdate)
+    if SettingsPanel then
+        SettingsPanel:HookScript('OnHide',QueueClickboxUpdate)
+    elseif InterfaceOptionsFrame then
+        InterfaceOptionsFrame:HookScript('OnHide',QueueClickboxUpdate)
+    end
 
     -- listen for LSM media updates
     LSM.RegisterCallback(self, 'LibSharedMedia_Registered', 'LSMMediaRegistered')
