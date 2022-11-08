@@ -190,7 +190,6 @@ function mod:OnEnable()
     end
 
     self:SpecUpdate()
-
 end
 function mod:OnDisable()
     UpdateFrames()
