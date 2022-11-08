@@ -102,7 +102,7 @@ end
 -- events ######################################################################
 function mod:UNIT_THREAT_LIST_UPDATE(_,f,unit)
     if not self.enabled then return end
-    if  unit == 'player' or
+    if unit == 'player' or
         UnitIsUnit('player',unit) or
         UnitIsFriend('player',unit)
     then
