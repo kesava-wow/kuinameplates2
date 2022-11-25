@@ -961,10 +961,7 @@ function core:InitialiseConfig()
     --luacheck:globals KuiNameplatesCoreSaved KuiNameplatesCoreConfig
     --@alpha@
     if not KuiNameplatesCoreSaved or not KuiNameplatesCoreSaved.SHUT_UP then
-        addon:ui_print('You are using an alpha release;')
-        print('    Please report issues to www.github.com/kesava-wow/kuinameplates2')
-        print('    And include the output of: /knp dump')
-        print('    Thanks!')
+        addon:ui_print('Alpha version - Report issues to github.com/kesava-wow/kuinameplates2 and include the output of: /knp dump -- Thanks!')
     end
     --@end-alpha@
 
