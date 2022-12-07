@@ -1,9 +1,5 @@
 package-as: Kui_Nameplates
 
-manual-changelog:
-    filename: changelog
-    markup-type: markdown
-
 enable-nolib-creation:
     no
 
