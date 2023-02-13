@@ -234,6 +234,7 @@ L.titles = {
     castbar_showpersonal = 'On personal',
     castbar_icon = 'Spell icon',
     castbar_name = 'Spell name',
+    castbar_hide = 'Hide uninterruptible',
     castbar_shield = 'Uninterruptible shield',
     castbar_showall = 'On all nameplates',
     castbar_showfriend = 'Friendly',
@@ -385,6 +386,7 @@ L.tooltips = {
 
     castbar_enable = 'Enable the cast bar element',
     castbar_showpersonal = 'Show the cast bar on the personal nameplate',
+    castbar_hide = 'Hide the cast bar during casts which cannot be interrupted',
     castbar_shield = 'Show a shield icon on the cast bar during casts which cannot be interrupted',
     castbar_showall = 'Show cast bars on all nameplates, rather than on just the current target',
     castbar_showfriend = 'Show cast bars on friendly nameplates (note that cast bars are not shown on frames which have name-only mode active)',

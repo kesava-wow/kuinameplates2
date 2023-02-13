@@ -1034,6 +1034,7 @@ do
                 f.SpellShield:Hide()
             end
         else
+            if CASTBAR_HIDE_UNINTERRUPTIBLE then return end
             CastBarSetColour(f.CastBar,CASTBAR_UNIN_COLOUR)
 
             if f.elements.SpellShield then
@@ -1369,6 +1370,7 @@ do
         CASTBAR_UNIN_COLOUR = self.profile.castbar_unin_colour
         CASTBAR_SHOW_ICON = self.profile.castbar_icon
         CASTBAR_SHOW_NAME = self.profile.castbar_name
+        CASTBAR_HIDE_UNINTERRUPTIBLE = self.profile.castbar_hide
         CASTBAR_SHOW_SHIELD = self.profile.castbar_shield
         CASTBAR_NAME_VERTICAL_OFFSET = ScaleTextOffset(self.profile.castbar_name_vertical_offset)
         CASTBAR_ANIMATE = self.profile.castbar_animate

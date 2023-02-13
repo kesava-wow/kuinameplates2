@@ -632,6 +632,7 @@ function castbars:Initialise()
     local castbar_personal = self:CreateCheckBox('castbar_showpersonal')
     local castbar_icon = self:CreateCheckBox('castbar_icon')
     local castbar_name = self:CreateCheckBox('castbar_name')
+    local castbar_hide = self:CreateCheckBox('castbar_hide')
     local castbar_shield = self:CreateCheckBox('castbar_shield')
     local castbar_all = self:CreateCheckBox('castbar_showall')
     local castbar_friend = self:CreateCheckBox('castbar_showfriend',true)
@@ -653,9 +654,10 @@ function castbars:Initialise()
 
     castbar_enable:SetPoint('TOPLEFT',10,-10)
     castbar_name:SetPoint('TOPLEFT',castbar_enable,'BOTTOMLEFT')
-    castbar_shield:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
+    castbar_hide:SetPoint('TOPLEFT',castbar_name,'BOTTOMLEFT')
+    castbar_shield:SetPoint('LEFT',castbar_hide,'RIGHT',190,0)
 
-    castbar_icon:SetPoint('TOPLEFT',castbar_shield,'BOTTOMLEFT',0,0)
+    castbar_icon:SetPoint('TOPLEFT',castbar_hide,'BOTTOMLEFT',0,0)
 
     castbar_personal:SetPoint('TOPLEFT',castbar_icon,'BOTTOMLEFT',0,-10)
     castbar_all:SetPoint('TOPLEFT',castbar_personal,'BOTTOMLEFT')
@@ -686,14 +688,15 @@ function castbars:Initialise()
     name_v_offset:SetPoint('LEFT',castbar_height,'RIGHT',20,0)
 
     castbar_colour.enabled = function(p) return p.castbar_enable end
-    castbar_unin_colour.enabled = castbar_colour.enabled
     castbar_personal.enabled = castbar_colour.enabled
     castbar_icon.enabled = castbar_colour.enabled
     castbar_icon_side.enabled = function(p)
         return p.castbar_icon and (not p.castbar_detach or not p.castbar_detach_combine)
     end
     castbar_name.enabled = castbar_colour.enabled
-    castbar_shield.enabled = castbar_colour.enabled
+    castbar_hide.enabled = castbar_colour.enabled
+    castbar_shield.enabled = function(p) return p.castbar_enable and not p.castbar_hide end
+    castbar_unin_colour.enabled = castbar_shield.enabled
     castbar_all.enabled = castbar_colour.enabled
     castbar_height.enabled = function(p) return p.castbar_enable and not p.castbar_detach end
     castbar_friend.enabled = function(p) return p.castbar_enable and p.castbar_showall end
