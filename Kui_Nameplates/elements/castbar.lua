@@ -112,6 +112,7 @@ function ele:Show(f)
 
     if UnitChannelInfo(f.unit) then
         self:CastStart('UNIT_SPELLCAST_CHANNEL_START',f,f.unit)
+        self:CastStart('UNIT_SPELLCAST_EMPOWER_START',f,f.unit)
         return
     end
 end
@@ -121,8 +122,8 @@ end
 -- events ######################################################################
 function ele:CastStart(event,f,unit)
     local name,text,texture,startTime,endTime,guid,notInterruptible
-    if event == 'UNIT_SPELLCAST_CHANNEL_START' then
-        name,text,texture,startTime,endTime,_,notInterruptible = UnitChannelInfo(unit)
+    if event == 'UNIT_SPELLCAST_CHANNEL_START' or event == 'UNIT_SPELLCAST_EMPOWER_START' then
+        name,text,texture,startTime,endTime,_,notInterruptible_,numStages = UnitChannelInfo(unit)
     else
         name,text,texture,startTime,endTime,_,guid,notInterruptible = UnitCastingInfo(unit)
     end
@@ -134,6 +135,7 @@ function ele:CastStart(event,f,unit)
     f.cast_state.guid          = guid
     f.cast_state.interruptible = not (notInterruptible == true)
     -- (we check not == true because this var doesn't exist on classic)
+    f.cast_state.num_stages    = not (numStages == true)
     f.cast_state.channel       = event == 'UNIT_SPELLCAST_CHANNEL_START'
     f.cast_state.start_time    = startTime / 1000
     f.cast_state.end_time      = endTime / 1000
@@ -240,6 +242,9 @@ function ele:OnEnable()
     if not kui.CLASSIC or kui.WRATH then
         self:RegisterUnitEvent('UNIT_SPELLCAST_START','CastStart')
         self:RegisterUnitEvent('UNIT_SPELLCAST_STOP','CastStop')
+        self:RegisterUnitEvent('UNIT_SPELLCAST_EMPOWER_START','CastStart')
+        self:RegisterUnitEvent('UNIT_SPELLCAST_EMPOWER_STOP','CastStop')
+        self:RegisterUnitEvent('UNIT_SPELLCAST_EMPOWER_UPDATE','CastUpdate')
         self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
         self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastStop')
         self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED','CastStop')
