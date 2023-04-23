@@ -247,6 +247,11 @@ local function UpdateIcons()
         power_max = UnitPowerMax('player',power_type)
     end
 
+    -- hack: for some reason UnitPowerMax returns 0 for DK runes in Wrath classic
+    if kui.WRATH and power_type == 5 then
+        power_max = 6
+    end
+
     if bar_powers and bar_powers[power_type] then
         -- create/update power bar
         if cpf.icons then
@@ -784,7 +789,7 @@ function ele:Initialise()
     self:RegisterCallback('PostPositionFrame')
 
     -- initialise powers
-    if kui.CLASSIC then
+    if kui.CLASSIC and not kui.WRATH then
         -- power types by class/spec
         powers = {
             DRUID = Enum.PowerType.ComboPoints,
@@ -793,6 +798,16 @@ function ele:Initialise()
         -- tags returned by the UNIT_POWER and UNIT_MAXPOWER events
         power_tags = {
             [Enum.PowerType.ComboPoints] = 'COMBO_POINTS',
+        }
+    elseif kui.WRATH then
+        powers = {
+            DEATHKNIGHT = Enum.PowerType.Runes,
+            DRUID       = { [2] = Enum.PowerType.ComboPoints },
+            ROGUE       = Enum.PowerType.ComboPoints,
+        }
+        power_tags = {
+            [Enum.PowerType.Runes]         = 'RUNES',
+            [Enum.PowerType.ComboPoints]   = 'COMBO_POINTS',
         }
     else
         powers = {
