@@ -242,9 +242,6 @@ function ele:OnEnable()
     if not kui.CLASSIC or kui.WRATH then
         self:RegisterUnitEvent('UNIT_SPELLCAST_START','CastStart')
         self:RegisterUnitEvent('UNIT_SPELLCAST_STOP','CastStop')
-        self:RegisterUnitEvent('UNIT_SPELLCAST_EMPOWER_START','CastStart')
-        self:RegisterUnitEvent('UNIT_SPELLCAST_EMPOWER_STOP','CastStop')
-        self:RegisterUnitEvent('UNIT_SPELLCAST_EMPOWER_UPDATE','CastUpdate')
         self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')
         self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED','CastStop')
         self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED','CastStop')
@@ -253,6 +250,9 @@ function ele:OnEnable()
         if not kui.WRATH then
             self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTIBLE','CastInterruptible')
             self:RegisterUnitEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE','CastNotInterruptible')
+            self:RegisterUnitEvent('UNIT_SPELLCAST_EMPOWER_START','CastStart')
+            self:RegisterUnitEvent('UNIT_SPELLCAST_EMPOWER_STOP','CastStop')
+            self:RegisterUnitEvent('UNIT_SPELLCAST_EMPOWER_UPDATE','CastUpdate')
         end
 
         self:RegisterUnitEvent('UNIT_SPELLCAST_CHANNEL_START','CastStart')
