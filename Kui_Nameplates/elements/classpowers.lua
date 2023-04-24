@@ -82,6 +82,7 @@ local powers,power_tags,bar_powers
 local colours = {
     DEATHKNIGHT = { 1, .2, .3 },
     DRUID       = { 1, 1, .1 },
+    EVOKER      = { .4, 1, 7 },
     PALADIN     = { 1, 1, .1 },
     ROGUE       = { 1, 1, .1 },
     MAGE        = { .5, .5, 1 },
@@ -822,6 +823,7 @@ function ele:Initialise()
         powers = {
             DEATHKNIGHT = Enum.PowerType.Runes,
             DRUID       = { [2] = Enum.PowerType.ComboPoints },
+            EVOKER      = Enum.PowerType.Essence,
             PALADIN     = Enum.PowerType.HolyPower,
             ROGUE       = Enum.PowerType.ComboPoints,
             MAGE        = { [1] = Enum.PowerType.ArcaneCharges },
@@ -830,6 +832,7 @@ function ele:Initialise()
         }
         power_tags = {
             [Enum.PowerType.Runes]         = 'RUNES',
+            [Enum.PowerType.Essence]       = 'ESSENCE',
             [Enum.PowerType.ComboPoints]   = 'COMBO_POINTS',
             [Enum.PowerType.HolyPower]     = 'HOLY_POWER',
             [Enum.PowerType.ArcaneCharges] = 'ARCANE_CHARGES',
