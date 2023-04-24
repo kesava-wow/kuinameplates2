@@ -314,7 +314,13 @@ local function UpdateIcons()
 end
 local function PowerUpdate()
     -- toggle icons based on current power
-    local cur = UnitPower('player',power_type,true)
+    local cur
+
+    if kui.WRATH and power_type == 14 then
+        cur = GetComboPoints('player','target')
+    else
+        cur = UnitPower('player',power_type,true)
+    end
 
     if power_mod and power_mod > 1 then
         cur = cur / power_mod
@@ -523,6 +529,9 @@ end
 -- messages ####################################################################
 function ele:TargetUpdate()
     PositionFrame()
+    if kui.WRATH then
+        PowerUpdate()
+    end
 end
 -- events ######################################################################
 function ele:PLAYER_ENTERING_WORLD()
