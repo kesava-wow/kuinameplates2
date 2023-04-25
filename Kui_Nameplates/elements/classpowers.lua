@@ -536,7 +536,7 @@ end
 -- messages ####################################################################
 function ele:TargetUpdate()
     PositionFrame()
-    if kui.WRATH then
+    if kui.WRATH and class ~= 'DEATHKNIGHT' then
         PowerUpdate()
     end
 end
