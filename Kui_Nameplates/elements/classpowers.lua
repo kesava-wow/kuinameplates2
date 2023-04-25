@@ -324,7 +324,7 @@ local function PowerUpdate()
         cur = UnitPower('player',power_type,true)
     end
 
-    if kui.WRATH and form ~= 3 then
+    if kui.WRATH and class == 'DRUID' and form ~= 3 then
         cpf:Hide()
         return
     end
