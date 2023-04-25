@@ -315,12 +315,18 @@ local function UpdateIcons()
 end
 local function PowerUpdate()
     -- toggle icons based on current power
+    local form = GetShapeshiftForm()
     local cur
 
     if kui.WRATH and power_type == 14 then
         cur = GetComboPoints('player','target')
     else
         cur = UnitPower('player',power_type,true)
+    end
+
+    if kui.WRATH and form ~= 3 then
+        cpf:Hide()
+        return
     end
 
     if power_mod and power_mod > 1 then
@@ -575,6 +581,15 @@ function ele:PowerInit()
                 power_type = Enum.PowerType.ComboPoints
             end
         end
+    elseif kui.WRATH and class == 'DRUID' then
+        -- watch for shapeshifts into cat form
+        self:RegisterEvent('UPDATE_SHAPESHIFT_FORM')
+        local form = GetShapeshiftForm()
+        if form and form == 3 then
+            power_type = Enum.PowerType.ComboPoints
+        else
+            power_type = powers[class]
+        end
     else
         power_type = powers[class]
     end
@@ -704,6 +719,9 @@ function ele:PowerEvent(event,_,power_type_rcv)
 end
 function ele:UPDATE_SHAPESHIFT_FORM()
     self:PowerInit()
+    if kui.WRATH then
+        PowerUpdate()
+    end
 end
 function ele:Paladin_WatchFiresOfJustice(_,unit)
     -- TODO it would definitely be more efficient to watch the combat log for this
@@ -812,7 +830,7 @@ function ele:Initialise()
     elseif kui.WRATH then
         powers = {
             DEATHKNIGHT = Enum.PowerType.Runes,
-            DRUID       = { [2] = Enum.PowerType.ComboPoints },
+            DRUID       = Enum.PowerType.ComboPoints,
             ROGUE       = Enum.PowerType.ComboPoints,
         }
         power_tags = {
