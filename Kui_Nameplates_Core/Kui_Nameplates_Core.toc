@@ -1,11 +1,12 @@
 ## Interface: 100100
 ## Interface-Classic: 11403
 ## Interface-BCC: 20501
-## Interface-Wrath: 30400
+## Interface-Wrath: 30401
 
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates:|r |cffffffffCore|r
 ## Notes: The official layout for Kui Nameplates.
+## IconTexture: 132177
 ## Dependencies: Kui_Nameplates
 ## SavedVariables: KuiNameplatesCoreSaved
 ## SavedVariablesPerCharacter: KuiNameplatesCoreCharacterSaved
