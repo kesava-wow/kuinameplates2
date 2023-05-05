@@ -111,8 +111,12 @@ function ele:Show(f)
     end
 
     if UnitChannelInfo(f.unit) then
-        self:CastStart('UNIT_SPELLCAST_CHANNEL_START',f,f.unit)
-        self:CastStart('UNIT_SPELLCAST_EMPOWER_START',f,f.unit)
+        local _,_,_,_,_,_,_,_,_,numStages = UnitChannelInfo(f.unit)
+        if numStages then
+            self:CastStart('UNIT_SPELLCAST_EMPOWER_START',f,f.unit)
+        else
+            self:CastStart('UNIT_SPELLCAST_CHANNEL_START',f,f.unit)
+        end
         return
     end
 end
@@ -135,7 +139,8 @@ function ele:CastStart(event,f,unit)
     f.cast_state.guid          = guid
     f.cast_state.interruptible = not (notInterruptible == true)
     -- (we check not == true because this var doesn't exist on classic)
-    f.cast_state.num_stages    = not (numStages == true)
+    f.cast_state.num_stages    = numStages == true
+    f.cast_state.empowered     = event == 'UNIT_SPELLCAST_EMPOWER_START'
     f.cast_state.channel       = event == 'UNIT_SPELLCAST_CHANNEL_START'
     f.cast_state.start_time    = startTime / 1000
     f.cast_state.end_time      = endTime / 1000
