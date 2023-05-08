@@ -112,7 +112,7 @@ function ele:Show(f)
 
     if UnitChannelInfo(f.unit) then
         local _,_,_,_,_,_,_,_,_,numStages = UnitChannelInfo(f.unit)
-        if numStages then
+        if numStages > 0 then
             self:CastStart('UNIT_SPELLCAST_EMPOWER_START',f,f.unit)
         else
             self:CastStart('UNIT_SPELLCAST_CHANNEL_START',f,f.unit)
