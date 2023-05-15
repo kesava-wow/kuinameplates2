@@ -156,10 +156,14 @@ local default_config = {
     frame_height_personal = 16,
     frame_width_target = 128,
     frame_height_target = 16,
+    frame_width_friendly = 100,
+    frame_height_friendly = 14,
     frame_target_size = true,
     frame_minus_size = true,
     frame_padding_x = 10,
     frame_padding_y = 20,
+    frame_padding_x_friendly = 10,
+    frame_padding_y_friendly = 20,
     powerbar_height = 3,
     global_scale = 1,
 
@@ -315,14 +319,18 @@ local function UpdateClickboxSize()
     if kui.CLASSIC then return end -- XXX functions exist, but break display
     local x_pad = core:Scale(core.profile.frame_padding_x)
     local y_pad = core:Scale(core.profile.frame_padding_y)
+    local x_pad_friendly = core:Scale(core.profile.frame_padding_x_friendly)
+    local y_pad_friendly = core:Scale(core.profile.frame_padding_y_friendly)
 
     local o_width = (core:Scale(core.profile.frame_width) * addon.uiscale) + x_pad
     local o_height = (core:Scale(core.profile.frame_height) * addon.uiscale) + y_pad
+    local o_width_friendly = (core:Scale(core.profile.frame_width_friendly) * addon.uiscale) + x_pad_friendly
+    local o_height_friendly = (core:Scale(core.profile.frame_height_friendly) * addon.uiscale) + y_pad_friendly
 
     if C_NamePlate.SetNamePlateOtherSize then
         C_NamePlate.SetNamePlateOtherSize(o_width,o_height)
     else
-        C_NamePlate.SetNamePlateFriendlySize(o_width,o_height)
+        C_NamePlate.SetNamePlateFriendlySize(o_width_friendly,o_height_friendly)
         C_NamePlate.SetNamePlateEnemySize(o_width,o_height)
     end
 
@@ -510,12 +518,16 @@ local function configChangedFrameSize()
 end
 configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize
+configChanged.frame_width_friendly = configChangedFrameSize
+configChanged.frame_height_friendly = configChangedFrameSize
 configChanged.frame_width_minus = configChangedFrameSize
 configChanged.frame_height_minus = configChangedFrameSize
 configChanged.frame_width_target = configChangedFrameSize
 configChanged.frame_height_target = configChangedFrameSize
 configChanged.frame_padding_x = configChangedFrameSize
 configChanged.frame_padding_y = configChangedFrameSize
+configChanged.frame_padding_x_friendly = configChangedFrameSize
+configChanged.frame_padding_y_friendly = configChangedFrameSize
 
 local function configChangedFontOption()
     core:configChangedFontOption()
