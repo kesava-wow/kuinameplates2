@@ -8,7 +8,7 @@ local UnitIsPlayer,UnitIsOtherPlayersPet,GetGuildInfo=
 
 local tooltip = CreateFrame('GameTooltip','KNPNPCTitleTooltip',nil,'GameTooltipTemplate')
 local cb_tooltips
-local pattern,pattern_type,pattern_class,pattern_class_type
+local pattern,pattern_type
 
 -- messages ####################################################################
 function mod:Show(f)
@@ -33,9 +33,7 @@ function mod:Show(f)
         -- ignore strings matching TOOLTIP_UNIT_LEVEL
         if not gtext or
            gtext:find(pattern) or
-           gtext:find(pattern_type) or
-           gtext:find(pattern_class) or
-           gtext:find(pattern_class_type)
+           gtext:find(pattern_type)
         then
             return
         end
@@ -56,8 +54,6 @@ function mod:Initialise()
     end
     pattern = FixPattern(TOOLTIP_UNIT_LEVEL)
     pattern_type = FixPattern(TOOLTIP_UNIT_LEVEL_TYPE)
-    pattern_class = FixPattern(TOOLTIP_UNIT_LEVEL_CLASS)
-    pattern_class_type = FixPattern(TOOLTIP_UNIT_LEVEL_CLASS_TYPE)
 end
 function mod:OnEnable()
     self:RegisterMessage('Show')
