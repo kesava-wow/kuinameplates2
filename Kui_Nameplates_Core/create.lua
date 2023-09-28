@@ -37,7 +37,8 @@ local MEDIA = 'interface/addons/kui_nameplates_core/media/'
 
 local FRAME_WIDTH,FRAME_HEIGHT,FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS,
       FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL,FRAME_WIDTH_TARGET,
-      FRAME_HEIGHT_TARGET,POWER_BAR_HEIGHT,FONT,FONT_STYLE,FONT_SHADOW,
+      FRAME_HEIGHT_TARGET,FRAME_WIDTH_FRIENDLY,
+      FRAME_HEIGHT_FRIENDLY,POWER_BAR_HEIGHT,FONT,FONT_STYLE,FONT_SHADOW,
       FONT_SIZE_NORMAL,FONT_SIZE_SMALL,NAME_VERTICAL_OFFSET,
       BOT_VERTICAL_OFFSET,BAR_TEXTURE,BAR_ANIMATION,
       SHOW_HEALTH_TEXT,SHOW_NAME_TEXT,SHOW_ARENA_ID,GUILD_TEXT_NPCS,
@@ -213,6 +214,8 @@ do
         FRAME_HEIGHT_PERSONAL = core:Scale(core.profile.frame_height_personal)
         FRAME_WIDTH_TARGET = core:Scale(core.profile.frame_width_target)
         FRAME_HEIGHT_TARGET = core:Scale(core.profile.frame_height_target)
+		FRAME_WIDTH_FRIENDLY = core:Scale(core.profile.frame_width_friendly)
+        FRAME_HEIGHT_FRIENDLY = core:Scale(core.profile.frame_height_friendly)
         POWER_BAR_HEIGHT = core:Scale(core.profile.powerbar_height)
         FRAME_VERTICAL_OFFSET = core.profile.frame_vertical_offset
         FRAME_TARGET_SIZE = core.profile.frame_target_size
@@ -381,6 +384,13 @@ end
 -- create/update functions #####################################################
 -- frame background ############################################################
 local function UpdateFrameSize(f)
+	for index, data in ipairs(f) do
+		print(index)
+
+		for key, value in pairs(data) do
+			print('\t', key, value)
+		end
+	end
     -- set frame size and position
     if f.state.personal then
         f:SetSize(FRAME_WIDTH_PERSONAL,FRAME_HEIGHT_PERSONAL)
@@ -388,6 +398,8 @@ local function UpdateFrameSize(f)
         f:SetSize(FRAME_WIDTH_TARGET,FRAME_HEIGHT_TARGET)
     elseif FRAME_MINUS_SIZE and f.state.minus then
         f:SetSize(FRAME_WIDTH_MINUS,FRAME_HEIGHT_MINUS)
+    elseif f.state.friend then
+        f:SetSize(FRAME_WIDTH_FRIENDLY,FRAME_HEIGHT_FRIENDLY)
     else
         f:SetSize(FRAME_WIDTH,FRAME_HEIGHT)
     end
