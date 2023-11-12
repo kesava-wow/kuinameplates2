@@ -78,6 +78,7 @@ local power_mod,power_display_partial
 local on_target
 local orig_SetVertexColor
 local powers,power_tags,bar_powers
+local spec = GetSpecialization()
 -- icon config
 local colours = {
     DEATHKNIGHT = { 1, .2, .3 },
@@ -239,6 +240,8 @@ local function CreateBar()
     return bar
 end
 local function UpdateIcons()
+    local spec_is_augmentation = class == "EVOKER" and spec == 3
+
     -- create/destroy icons based on player power max
     local power_max
     if power_type == 'stagger' then
@@ -253,7 +256,7 @@ local function UpdateIcons()
         power_max = 6
     end
 
-    if bar_powers and bar_powers[power_type] then
+    if bar_powers and bar_powers[power_type] or spec_is_augmentation then
         -- create/update power bar
         if cpf.icons then
             -- destroy existing icons
@@ -560,8 +563,9 @@ function ele:PowerInit()
     cpf:UnregisterAllEvents()
     self.UNIT_AURA_func = nil
 
+    local spec = GetSpecialization()
+
     if type(powers[class]) == 'table' then
-        local spec = GetSpecialization()
         power_type = powers[class][spec]
 
         if class == 'PALADIN' then
@@ -629,12 +633,14 @@ function ele:PowerInit()
         self:RegisterMessage('HealthColourChange','TargetUpdate')
 
         UpdateIcons()
-
         -- set initial state
         if power_type == 'stagger' then
             self:StaggerUpdate()
         elseif class == 'DEATHKNIGHT' then
             self:RuneUpdate()
+        elseif class == "EVOKER" and spec == 3 then
+            cpf:RegisterUnitEvent('UNIT_AURA','player')
+            self.UNIT_AURA_func = self.EbonMightUpdate
         else
             -- icon/generic bar powers
             PowerUpdate()
@@ -706,6 +712,30 @@ function ele:StaggerUpdate()
 
         cpf.bar:Show()
     end
+end
+function ele:EbonMightUpdate()
+    if not cpf.bar then return end
+
+    local _,_,_,_,duration,expiration = AuraUtil.FindAuraByName("Ebon Might", "player");
+    local expiration_time = GetTime()
+    local max = duration
+
+    local cur = expiration - expiration_time
+    local per = (max == 0 or cur == 0 and 0) or (cur / max)
+
+
+    print(max,cur,per)
+
+    if per == 0 then
+        cpf.bar:Hide()
+    else
+        cpf.bar:SetMinMaxValues(0,max)
+        cpf.bar:SetValue(cur)
+
+        cpf.bar:Show()
+    end
+
+    PowerUpdate()
 end
 function ele:PowerEvent(event,_,power_type_rcv)
     -- validate power events + passthrough to PowerUpdate
