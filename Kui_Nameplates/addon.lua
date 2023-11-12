@@ -210,22 +210,34 @@ local function OnEvent(self,event,...)
             NamePlateDriverFrame:SetClassNameplateBar(nil)
             --luacheck:globals DeathKnightResourceOverlayFrame
             DeathKnightResourceOverlayFrame:UnregisterAllEvents()
+            DeathKnightResourceOverlayFrame:HookScript("OnShow", DeathKnightResourceOverlayFrame.Hide)
             --luacheck:globals ClassNameplateBarMageFrame
             ClassNameplateBarMageFrame:UnregisterAllEvents()
+            ClassNameplateBarMageFrame:HookScript("OnShow", ClassNameplateBarMageFrame.Hide)
             --luacheck:globals ClassNameplateBarWindwalkerMonkFrame
             ClassNameplateBarWindwalkerMonkFrame:UnregisterAllEvents()
+            ClassNameplateBarWindwalkerMonkFrame:HookScript("OnShow", ClassNameplateBarWindwalkerMonkFrame.Hide)
             --luacheck:globals ClassNameplateBarPaladinFrame
             ClassNameplateBarPaladinFrame:UnregisterAllEvents()
+            ClassNameplateBarPaladinFrame:HookScript("OnShow", ClassNameplateBarPaladinFrame.Hide)
             --luacheck:globals ClassNameplateBarRogueFrame
             ClassNameplateBarRogueFrame:UnregisterAllEvents()
+            ClassNameplateBarRogueFrame:HookScript("OnShow", ClassNameplateBarRogueFrame.Hide)
             --luacheck:globals ClassNameplateBarFeralDruidFrame
             ClassNameplateBarFeralDruidFrame:UnregisterAllEvents()
+            ClassNameplateBarFeralDruidFrame:HookScript("OnShow", ClassNameplateBarFeralDruidFrame.Hide)
             --luacheck:globals ClassNameplateBarWarlockFrame
             ClassNameplateBarWarlockFrame:UnregisterAllEvents()
+            ClassNameplateBarWarlockFrame:HookScript("OnShow", ClassNameplateBarWarlockFrame.Hide)
             --luacheck:globals ClassNameplateBrewmasterBarFrame
             ClassNameplateBrewmasterBarFrame:UnregisterAllEvents()
+            ClassNameplateBrewmasterBarFrame:HookScript("OnShow", ClassNameplateBrewmasterBarFrame.Hide)
             --luacheck:globals ClassNameplateBarDracthyrFrame
             ClassNameplateBarDracthyrFrame:UnregisterAllEvents()
+            ClassNameplateBarDracthyrFrame:HookScript("OnShow", ClassNameplateBarDracthyrFrame.Hide)
+            --luacheck:globals ClassNameplateEbonMightBarFrame
+            ClassNameplateEbonMightBarFrame:UnregisterAllEvents()
+            ClassNameplateEbonMightBarFrame:HookScript("OnShow", ClassNameplateEbonMightBarFrame.Hide)
         end
     end
     -- hide default unit frames
