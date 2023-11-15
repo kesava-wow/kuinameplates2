@@ -696,9 +696,9 @@ function ele:StaggerUpdate()
         cpf.bar:SetMinMaxValues(0,max)
         cpf.bar:SetValue(cur)
 
-        if per > STAGGER_RED_TRANSITION then
+        if per > STAGGER_STATES["RED"].threshold then
             cpf.bar:SetStatusBarColor(unpack(STAGGER_RED))
-        elseif per > STAGGER_YELLOW_TRANSITION then
+        elseif per > STAGGER_STATES["YELLOW"].threshold then
             cpf.bar:SetStatusBarColor(unpack(STAGGER_YELLOW))
         else
             cpf.bar:SetStatusBarColor(unpack(STAGGER_GREEN))
