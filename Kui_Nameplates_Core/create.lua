@@ -2338,6 +2338,8 @@ function core:InitialiseElements()
         colours = {
             overflow = self.profile.classpowers_colour_overflow,
             inactive = self.profile.classpowers_colour_inactive,
+            animacharged = self.profile.classpowers_colour_animacharged,
+            animacharged_active = self.profile.classpowers_colour_animacharged_active,
         }
     }
 

@@ -247,6 +247,8 @@ local default_config = {
     classpowers_colour_warlock     = {.9,.6,1},
     classpowers_colour_overflow    = {1,.3,.3},
     classpowers_colour_inactive    = {.5,.5,.5,.7},
+    classpowers_colour_animacharged    = {0,.874,1,1},
+    classpowers_colour_animacharged_active    = {1,0,0,1},
 
     bossmod_enable = true,
     bossmod_control_visibility = true,
@@ -659,6 +661,8 @@ local function configChangedClassPowersColour()
 
     core.ClassPowers.colours.overflow = core.profile.classpowers_colour_overflow
     core.ClassPowers.colours.inactive = core.profile.classpowers_colour_inactive
+    core.ClassPowers.colours.animacharged = core.profile.classpowers_colour_animacharged
+    core.ClassPowers.colours.animacharged_active = core.profile.classpowers_colour_animacharged_active
 
     if addon:GetPlugin('ClassPowers').enabled then
         addon:GetPlugin('ClassPowers'):UpdateConfig()
@@ -673,6 +677,8 @@ configChanged.classpowers_colour_monk = configChangedClassPowersColour
 configChanged.classpowers_colour_warlock = configChangedClassPowersColour
 configChanged.classpowers_colour_overflow = configChangedClassPowersColour
 configChanged.classpowers_colour_inactive = configChangedClassPowersColour
+configChanged.classpowers_colour_animacharged = configChangedClassPowersColour
+configChanged.classpowers_colour_animacharged_active = configChangedClassPowersColour
 
 function configChanged.execute_enabled(v)
     if v then
