@@ -380,6 +380,20 @@ end
 do
     --luacheck:globals ColorPickerFrame OpacitySliderFrame
     local CLICKED_ENV,CLICKED_HAS_ALPHA
+    -- old api
+    local function ColorPickerFrame_func(previous)
+        local r,g,b,a
+        if previous then
+            r,g,b,a=unpack(previous)
+        else
+            r,g,b=ColorPickerFrame:GetColorRGB()
+            if CLICKED_HAS_ALPHA then
+                a=1-OpacitySliderFrame:GetValue()
+            end
+        end
+        opt.config:SetKey(CLICKED_ENV,{r,g,b,a})
+    end
+    -- new api
     local function ColorPickerFrame_swatch_func(previous)
         local r,g,b,a
         r, g, b = ColorPickerFrame:GetColorRGB()
@@ -413,16 +427,27 @@ do
         local val = opt.profile[self.env]
         CLICKED_ENV = self.env
         CLICKED_HAS_ALPHA = #val==4
-        local info = {}
-        info.swatchFunc = ColorPickerFrame_swatch_func
-        info.cancelFunc = ColorPickerFrame_cancel_func
-        info.hasOpacity = CLICKED_HAS_ALPHA
-        info.opacity = CLICKED_HAS_ALPHA and (val[4]) or 1
-        info.previousValues = {unpack(val)}
-        info.r = val[1]
-        info.g = val[2]
-        info.b = val[3]
-        ColorPickerFrame:SetupColorPickerAndShow(info)
+        if(ColorPickerFrame.SetupColorPickerAndShow == nil) then
+            ColorPickerFrame.func = ColorPickerFrame_func
+            ColorPickerFrame.opacityFunc = ColorPickerFrame_func
+            ColorPickerFrame.cancelFunc = ColorPickerFrame_func
+            ColorPickerFrame.hasOpacity = CLICKED_HAS_ALPHA
+            ColorPickerFrame.opacity = CLICKED_HAS_ALPHA and (1-val[4]) or 1
+            ColorPickerFrame.previousValues = {unpack(val)}
+            ColorPickerFrame:SetColorRGB(val[1],val[2],val[3])
+            ColorPickerFrame:Show()
+        else
+            local info = {}
+            info.swatchFunc = ColorPickerFrame_swatch_func
+            info.cancelFunc = ColorPickerFrame_cancel_func
+            info.hasOpacity = CLICKED_HAS_ALPHA
+            info.opacity = CLICKED_HAS_ALPHA and (val[4]) or 1
+            info.previousValues = {unpack(val)}
+            info.r = val[1]
+            info.g = val[2]
+            info.b = val[3]
+            ColorPickerFrame:SetupColorPickerAndShow(info)
+        end
     end
 
     function opt.CreateColourPicker(parent,name,small,common_name)
