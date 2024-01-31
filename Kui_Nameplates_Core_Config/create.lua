@@ -766,6 +766,8 @@ function classpowers:Initialise()
     local classpowers_colour = self:CreateColourPicker('classpowers_colour')
     local classpowers_colour_overflow = self:CreateColourPicker('classpowers_colour_overflow')
     local classpowers_colour_inactive = self:CreateColourPicker('classpowers_colour_inactive')
+    local classpowers_colour_animacharged = self:CreateColourPicker('classpowers_colour_animacharged')
+    local classpowers_colour_animacharged_active = self:CreateColourPicker('classpowers_colour_animacharged_active')
     local on_friends = self:CreateCheckBox('classpowers_on_friends',true)
     local on_enemies = self:CreateCheckBox('classpowers_on_enemies',true)
     local classpowers_y = self:CreateSlider('classpowers_y',-50,50,nil,'offset_y')
@@ -778,8 +780,10 @@ function classpowers:Initialise()
     classpowers_colour:SetPoint('LEFT',classpowers_enable,220,-22)
     classpowers_colour_overflow:SetPoint('TOP',classpowers_colour,'BOTTOM')
     classpowers_colour_inactive:SetPoint('TOP',classpowers_colour_overflow,'BOTTOM')
+    classpowers_colour_animacharged:SetPoint('TOP',classpowers_colour_inactive,'BOTTOM')
+    classpowers_colour_animacharged_active:SetPoint('TOP',classpowers_colour_animacharged,'BOTTOM')
 
-    classpowers_size:SetPoint('TOPLEFT',10,-140)
+    classpowers_size:SetPoint('TOPLEFT',10,-190)
     classpowers_y:SetPoint('LEFT',classpowers_size,'RIGHT',20,0)
 
     function classpowers_colour:Get()
@@ -828,6 +832,8 @@ function classpowers:Initialise()
     classpowers_colour.enabled = classpowers_colour_enabled
     classpowers_colour_overflow.enabled = classpowers_enabled
     classpowers_colour_inactive.enabled = classpowers_enabled
+    classpowers_colour_animacharged.enabled = classpowers_enabled
+    classpowers_colour_animacharged_active.enabled = classpowers_enabled
 
     if select(2,UnitClass('player')) == 'MONK' then
         local classpowers_bar_width = self:CreateSlider('classpowers_bar_width',10,100)

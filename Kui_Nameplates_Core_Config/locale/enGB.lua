@@ -270,6 +270,8 @@ L.titles = {
     classpowers_colour = 'Icon colour',
     classpowers_colour_overflow = 'Overflow colour',
     classpowers_colour_inactive = 'Inactive colour',
+    classpowers_colour_animacharged = 'Anima charged colour',
+    classpowers_colour_animacharged_active = 'Anima charged colour active',
 
     bossmod_enable = 'Enable boss mod communication',
     bossmod_control_visibility = 'Allow boss mods to control nameplate visibility',
