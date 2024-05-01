@@ -185,7 +185,7 @@ function mod:OnEnable()
     if not kui.CLASSIC then
         self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','SpecUpdate')
     end
-    if kui.WRATH then
+    if kui.CATA then
         self:RegisterEvent('PLAYER_ROLES_ASSIGNED','SpecUpdate')
     end
 
