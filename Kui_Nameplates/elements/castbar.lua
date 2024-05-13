@@ -113,7 +113,7 @@ function ele:Show(f)
     if UnitChannelInfo(f.unit) then
         local _,_,_,_,_,_,_,_,_,numStages = UnitChannelInfo(f.unit)
         if numStages and numStages > 0 then
-            if KUI.CLASSIC then return end
+            if kui.CLASSIC then return end
             self:CastStart('UNIT_SPELLCAST_EMPOWER_START',f,f.unit)
         else
             self:CastStart('UNIT_SPELLCAST_CHANNEL_START',f,f.unit)
