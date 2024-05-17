@@ -384,7 +384,7 @@ local function PowerUpdate()
                     icon:Active()
                 end
                 icon:GraduateFill(1)
-                
+
                 if icon.glow then
                     icon.glow:Show()
                 end
@@ -876,6 +876,7 @@ function ele:Initialise()
             DEATHKNIGHT = Enum.PowerType.Runes,
             DRUID       = Enum.PowerType.ComboPoints,
             ROGUE       = Enum.PowerType.ComboPoints,
+            PALADIN     = Enum.PowerType.HolyPower,
         }
         power_tags = {
             [Enum.PowerType.Runes]         = 'RUNES',
