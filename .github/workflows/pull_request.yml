@@ -30,7 +30,7 @@ jobs:
       - name: Create Classic Package
         uses: BigWigsMods/packager@v2
         with:
-          args: -d -z -g wrath -m .pkgmeta-classic.yml
+          args: -d -z -g cata -m .pkgmeta-classic.yml
 
       - uses: actions/upload-artifact@v3
         with:
