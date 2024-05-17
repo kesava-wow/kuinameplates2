@@ -191,6 +191,8 @@ L.titles = {
 
     frame_width_personal = 'Personal width',
     frame_height_personal = 'Personal height',
+    frame_width_friendly = 'Friendly width',
+    frame_height_friendly = 'Friendly height',
     frame_target_size = 'Target size',
     frame_minus_size = 'Minus size',
     powerbar_height = 'Power bar height',
@@ -200,6 +202,8 @@ L.titles = {
     frame_glow_size_threat = 'Threat glow size',
     frame_padding_x = 'Clickbox padding width',
     frame_padding_y = 'Clickbox padding height',
+    frame_padding_x_friendly = 'Clickbox friendly padding width',
+    frame_padding_y_friendly = 'Clickbox friendly padding height',
 
     auras_enabled = 'Show auras',
     auras_on_personal = 'Show on personal frame',
