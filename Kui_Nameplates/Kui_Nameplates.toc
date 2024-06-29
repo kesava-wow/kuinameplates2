@@ -13,6 +13,7 @@
 ## X-Website: https://github.com/kesava-wow/kuinameplates2
 ## X-Curse-Project-ID: 35095
 ## X-WoWI-ID: 19390
+## X-Wago-ID: kNMd8qGz
 ## OptionalDeps: BigWigs, DBM-Core, RealMobHealth, ThreatClassic-1.0, LibThreatClassic2
 
 lib\embeds.xml
