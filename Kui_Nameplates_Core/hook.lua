@@ -17,6 +17,9 @@ if not core then
     return
 end
 
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local LoadAddOn = C_AddOns and C_AddOns.LoadAddOn or LoadAddOn
+
 local plugin_fading
 -- messages ####################################################################
 function core:Create(f)
@@ -223,7 +226,13 @@ do
         opt:SetScript('OnShow',lod_OnShow)
         opt:SetScript('OnEvent',lod_OnEvent)
 
-        InterfaceOptions_AddCategory(opt)
+        if InterfaceOptions_AddCategory then
+            InterfaceOptions_AddCategory(opt)
+        else
+            local category, _ = Settings.RegisterCanvasLayoutCategory(opt, opt.name)
+            category.ID = opt.name
+            Settings.RegisterAddOnCategory(category)
+        end
     end
 end
 -- fade rules ##################################################################
