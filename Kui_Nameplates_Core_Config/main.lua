@@ -13,6 +13,8 @@ local knp = KuiNameplates
 local core = KuiNameplatesCore --luacheck:globals KuiNameplatesCore
 local config -- set when layout is loaded
 
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+
 -- reuse category container created by core:Initialise
 local opt = KuiNameplatesCoreConfig --luacheck:globals KuiNameplatesCoreConfig
 assert(opt)
@@ -174,8 +176,12 @@ function command_func.config(...)
         opt:ShowPage(found)
     end
 
-    InterfaceOptionsFrame_OpenToCategory(opt.name)
-    InterfaceOptionsFrame_OpenToCategory(opt.name)
+    if InterfaceOptionsFrame_OpenToCategory then
+        InterfaceOptionsFrame_OpenToCategory(opt.name)
+        InterfaceOptionsFrame_OpenToCategory(opt.name)
+    else
+        Settings.OpenToCategory(opt.name)
+    end
 end
 function command_func.debug(arg,...)
     -- luacheck:globals KuiNameplatesPlayerAnchor
