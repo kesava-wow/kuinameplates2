@@ -148,6 +148,9 @@ local default_config = {
     execute_percent = 20,
     execute_colour = {1,1,1},
 
+    decimals_enabled = false,
+    decimals_amount = 1,
+
     frame_width = 100,
     frame_height = 14,
     frame_width_minus = 72,
