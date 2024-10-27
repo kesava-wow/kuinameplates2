@@ -91,6 +91,7 @@ function addon:NAME_PLATE_CREATED(frame)
     end
 end
 function addon:NAME_PLATE_UNIT_ADDED(unit)
+    if UnitIsUnit(unit, 'softinteract') then return end
     local f = C_NamePlate.GetNamePlateForUnit(unit)
     if not f or not f.kui then return end
 
