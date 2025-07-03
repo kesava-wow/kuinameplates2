@@ -3,6 +3,7 @@
 ## Interface-BCC: 20501
 ## Interface-Wrath: 30402
 ## Interface-Cata: 40400
+## Interface-Mists: 50500
 
 ## Author: Kesava
 ## Title: Kui |cff9966ffNameplates
