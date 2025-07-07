@@ -34,7 +34,7 @@ jobs:
       - name: Create Classic Package
         uses: BigWigsMods/packager@v2
         with:
-          args: -g cata -m .pkgmeta-classic.yml
+          args: -g mists -m .pkgmeta.yml
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
