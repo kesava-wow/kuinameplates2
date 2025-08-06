@@ -104,7 +104,7 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
         return
     end
 
-    if UnitNameplateShowsWidgetsOnly(unit) then
+    if UnitNameplateShowsWidgetsOnly and UnitNameplateShowsWidgetsOnly(unit) then
         return
     end
 
