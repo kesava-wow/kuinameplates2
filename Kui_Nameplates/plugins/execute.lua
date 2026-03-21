@@ -119,8 +119,8 @@ function mod:HealthColourChange(f,caller)
     if caller and caller == self then return end
 
     if not UnitIsTapDenied(f.unit) and
-       f.state.health_cur > 0 and
-       f.state.health_per <= execute_range
+       f.state.health_cur and f.state.health_cur > 0 and
+       f.state.health_per and f.state.health_per <= execute_range
     then
         if CanOverwriteHealthColor(f) then
             f.state.execute_range_coloured = true
@@ -143,7 +143,7 @@ function mod:HealthColourChange(f,caller)
         if CanOverwriteHealthColor(f) then
             f.state.health_colour_priority = nil
 
-            if f.elements.HealthBar then
+            if f.elements.HealthBar and f.state.healthColour then
                 f.HealthBar:SetStatusBarColor(unpack(f.state.healthColour))
             end
 

@@ -1,4 +1,4 @@
-## Interface: 100207, 110000, 110002
+## Interface: 120001
 ## Interface-Classic: 11501
 ## Interface-BCC: 20501
 ## Interface-Wrath: 30402
@@ -9,4 +9,3 @@
 ## Title: Kui |cff9966ffMedia
 ## Notes: This doesn't need to be enabled.
 ## IconTexture: 132177
-

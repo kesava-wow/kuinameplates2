@@ -70,25 +70,47 @@ function addon.Nameplate.UpdateHealthColour(f,show)
         addon:DispatchMessage('HealthColourChange', f)
     end
 end
-function addon.Nameplate.UpdateHealth(f,show)
+function addon.Nameplate.UpdateHealth(f, show)
     f = f.parent
 
+    local cur, max
     if RMH then
-        f.state.health_cur, f.state.health_max = RMH.GetUnitHealth(f.unit)
+        cur, max = RMH.GetUnitHealth(f.unit)
     else
-        f.state.health_cur = UnitHealth(f.unit)
-        f.state.health_max = UnitHealthMax(f.unit)
+        cur = UnitHealth(f.unit)
+        max = UnitHealthMax(f.unit)
     end
 
-    f.state.health_deficit = f.state.health_max - f.state.health_cur
-    f.state.health_per =
-        f.state.health_cur > 0 and f.state.health_max > 0 and
-        (f.state.health_cur / f.state.health_max) * 100 or
-        0
-
+    -- Always allow the actual bar to update.
     if f.elements.HealthBar then
-        f.HealthBar:SetMinMaxValues(0,f.state.health_max)
-        f.HealthBar:SetValue(f.state.health_cur)
+        f.HealthBar:SetMinMaxValues(0, max)
+        f.HealthBar:SetValue(cur)
+    end
+
+    -- Store raw values only if they are safe to use in Lua arithmetic.
+    local ok_deficit, deficit = pcall(function()
+        return max - cur
+    end)
+
+    local ok_percent, percent = pcall(function()
+        if cur > 0 and max > 0 then
+            return (cur / max) * 100
+        else
+            return 0
+        end
+    end)
+
+    if ok_deficit and ok_percent then
+        f.state.health_cur = cur
+        f.state.health_max = max
+        f.state.health_deficit = deficit
+        f.state.health_per = percent
+    else
+        -- Secret / protected values, so disable derived text logic safely.
+        f.state.health_cur = nil
+        f.state.health_max = nil
+        f.state.health_deficit = 0
+        f.state.health_per = nil
     end
 
     if not show then

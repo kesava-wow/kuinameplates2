@@ -61,7 +61,8 @@ local CLASSPOWERS_ON_FRIENDS,CLASSPOWERS_ON_ENEMIES,CLASSPOWERS_Y
 local CreateStatusBar
 do
     local function FadeSpark(bar)
-        local val,max = bar:GetValue(),select(2,bar:GetMinMaxValues())
+    local ok = pcall(function()
+        local val, max = bar:GetValue(), select(2, bar:GetMinMaxValues())
         local show_val = (max / 100) * 80
 
         if val <= 0 or val >= max then
@@ -73,7 +74,13 @@ do
             bar.spark:SetAlpha(1 - ((val - show_val) / (max - show_val)))
             bar.spark:Show()
         end
+    end)
+
+    if not ok and bar.spark then
+        -- secret/protected values in Midnight, so just hide spark safely
+        bar.spark:Hide()
     end
+end
 
     local function FilledBar_SetStatusBarColor(self,r,g,b,a)
         self:orig_SetStatusBarColor(r,g,b,a)
@@ -748,21 +755,33 @@ end
 -- health text #################################################################
 do
     local function HealthDisplay_Percent(s)
-        if s.health_per < 1 then
-            return format('%.1f',s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
-        else
-            return ceil(s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
-        end
+    if s.health_per == nil then
+        return ''
+    elseif s.health_per < 1 then
+        return format('%.1f', s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
+    else
+        return ceil(s.health_per)..HEALTH_TEXT_PERCENT_SYMBOL
     end
+end
     local health_display_funcs = {
-        function() return '' end,
-        function(s) return kui.num(s.health_cur) end,
-        function(s) return kui.num(s.health_max) end,
-        HealthDisplay_Percent,
-        function(s) return '-'..kui.num(s.health_deficit) end,
-        function(s) return kui.num(s.health_cur)..'  '..HealthDisplay_Percent(s) end,
-        function(s) return kui.num(s.health_cur)..'  -'..kui.num(s.health_deficit) end,
-    }
+    function() return '' end,
+    function(s) return s.health_cur and kui.num(s.health_cur) or '' end,
+    function(s) return s.health_max and kui.num(s.health_max) or '' end,
+    HealthDisplay_Percent,
+    function(s) return s.health_deficit and ('-'..kui.num(s.health_deficit)) or '' end,
+    function(s)
+        if not s.health_cur then return '' end
+        local p = HealthDisplay_Percent(s)
+        if p == '' then
+            return kui.num(s.health_cur)
+        end
+        return kui.num(s.health_cur)..'  '..p
+    end,
+    function(s)
+        if not s.health_cur or not s.health_deficit then return '' end
+        return kui.num(s.health_cur)..'  -'..kui.num(s.health_deficit)
+    end,
+}
     local function GetHealthDisplay(f,key)
         return type(key) == 'number' and
             health_display_funcs[key] and
@@ -2254,7 +2273,7 @@ do
                 end
             end
             -- disable on damaged friends
-            if not NAMEONLY_DAMAGED_FRIENDS and f.state.health_deficit > 0 then
+            if not NAMEONLY_DAMAGED_FRIENDS and (f.state.health_deficit or 0) > 0 then
                 return
             end
         else
@@ -2284,7 +2303,7 @@ do
             end
             -- neutral & hostile;
             -- disable on damaged enemies
-            if not NAMEONLY_DAMAGED_ENEMIES and f.state.health_deficit > 0 then
+            if not NAMEONLY_DAMAGED_ENEMIES and (f.state.health_deficit or 0) > 0 then
                 return
             end
             if f.state.combat then

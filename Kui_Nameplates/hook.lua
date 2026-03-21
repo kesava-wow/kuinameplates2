@@ -18,10 +18,15 @@ end
 local function FrameOnHide(self)
     self.kui.handler:OnHide()
 end
-function addon.NamePlateDriverFrame_AcquireUnitFrame(_,frame)
-    if not frame.UnitFrame:IsForbidden() and not frame.UnitFrame.kui then
-        frame.UnitFrame.kui = true
-        frame.UnitFrame:HookScript('OnShow',UnitFrame_OnShow)
+function addon.NamePlateDriverFrame_AcquireUnitFrame(_, frame)
+    local unitFrame = frame.UnitFrame
+    if not unitFrame then
+        return
+    end
+
+    if not unitFrame:IsForbidden() and not unitFrame.kui then
+        unitFrame.kui = true
+        unitFrame:HookScript('OnShow', UnitFrame_OnShow)
     end
 end
 function addon:HookNameplate(parent)
