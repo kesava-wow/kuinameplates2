@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 200
 
@@ -22,9 +22,10 @@ jobs:
         with:
           args: -d -z -g retail -m .pkgmeta.yml
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: KNP-PR${{ github.event.number }}
+          archive: false
           path: .release/
 
       - name: Create Classic Package
@@ -42,7 +43,7 @@ jobs:
         with:
           args: -d -z -g classic -m .pkgmeta-classic.yml
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: KNP-PR${{ github.event.number }}-classic-era
           path: .release/
