@@ -25,6 +25,18 @@ local font_support = locale ~= 'zhCN' and locale ~= 'zhTW' and locale ~= 'koKR'
 local DEFAULT_FONT = font_support and 'Roboto Condensed Bold' or
                      LSM:GetDefault(LSM.MediaType.FONT)
 local DEFAULT_BAR = 'Kui status bar'
+-- Several nameplate CVars no longer exist on classic era clients (1.15.9
+-- removed the inset CVars, among others). GetCVarDefault returns NO values
+-- for an unknown CVar, and tonumber() with no argument is an error, so
+-- capture to a local first and fall back to the retail default.
+local function CVarDefaultNumber(name,fallback)
+    local v = GetCVarDefault(name)
+    return tonumber(v) or fallback
+end
+-- SetCVar errors on CVars this client flavour doesn't have
+local function TrySetCVar(name,v)
+    pcall(SetCVar,name,v)
+end
 -- default configuration #######################################################
 local default_config = {
     bar_texture = DEFAULT_BAR,
@@ -263,15 +275,15 @@ local default_config = {
     cvar_personal_show_always = GetCVarDefault('nameplatePersonalShowAlways')=="1",
     cvar_personal_show_combat = GetCVarDefault('nameplatePersonalShowInCombat')=="1",
     cvar_personal_show_target = GetCVarDefault('nameplatePersonalShowWithTarget')=="1",
-    cvar_clamp_top = tonumber(GetCVarDefault('nameplateOtherTopInset')),
-    cvar_clamp_bottom = tonumber(GetCVarDefault('nameplateOtherBottomInset')),
-    cvar_self_clamp_top = tonumber(GetCVarDefault('nameplateSelfTopInset')),
-    cvar_self_clamp_bottom = tonumber(GetCVarDefault('nameplateSelfBottomInset')),
-    cvar_overlap_v = tonumber(GetCVarDefault('nameplateOverlapV')),
+    cvar_clamp_top = CVarDefaultNumber('nameplateOtherTopInset',.08),
+    cvar_clamp_bottom = CVarDefaultNumber('nameplateOtherBottomInset',.1),
+    cvar_self_clamp_top = CVarDefaultNumber('nameplateSelfTopInset',.5),
+    cvar_self_clamp_bottom = CVarDefaultNumber('nameplateSelfBottomInset',.2),
+    cvar_overlap_v = CVarDefaultNumber('nameplateOverlapV',1.1),
     cvar_disable_scale = true,
     cvar_disable_alpha = true,
     cvar_self_alpha = 1,
-    cvar_occluded_mult = tonumber(GetCVarDefault('nameplateOccludedAlphaMult')),
+    cvar_occluded_mult = CVarDefaultNumber('nameplateOccludedAlphaMult',.4),
 
     -- XXX legacy aura variables; kept for transition
     -- transition logic: p=px*py;x=ox;y=oy.
@@ -744,28 +756,28 @@ configChanged.bossmod_y_offset = configChangedBossMod
 configChanged.bossmod_clickthrough = configChangedBossMod
 
 local function UpdateCVars()
-    SetCVar('nameplateShowFriendlyNPCs',core.profile.cvar_show_friendly_npcs)
-    SetCVar('nameplateShowOnlyNames',core.profile.cvar_name_only)
-    SetCVar('nameplatePersonalShowAlways',core.profile.cvar_personal_show_always)
-    SetCVar('nameplatePersonalShowInCombat',core.profile.cvar_personal_show_combat)
-    SetCVar('nameplatePersonalShowWithTarget',core.profile.cvar_personal_show_target)
-    SetCVar('nameplateOtherTopInset',core.profile.cvar_clamp_top)
-    SetCVar('nameplateLargeTopInset',core.profile.cvar_clamp_top)
-    SetCVar('nameplateOtherBottomInset',core.profile.cvar_clamp_bottom)
-    SetCVar('nameplateLargeBottomInset',core.profile.cvar_clamp_bottom)
-    SetCVar('nameplateSelfTopInset',core.profile.cvar_self_clamp_top)
-    SetCVar('nameplateSelfBottomInset',core.profile.cvar_self_clamp_bottom)
-    SetCVar('nameplateOverlapV',core.profile.cvar_overlap_v)
+    TrySetCVar('nameplateShowFriendlyNPCs',core.profile.cvar_show_friendly_npcs)
+    TrySetCVar('nameplateShowOnlyNames',core.profile.cvar_name_only)
+    TrySetCVar('nameplatePersonalShowAlways',core.profile.cvar_personal_show_always)
+    TrySetCVar('nameplatePersonalShowInCombat',core.profile.cvar_personal_show_combat)
+    TrySetCVar('nameplatePersonalShowWithTarget',core.profile.cvar_personal_show_target)
+    TrySetCVar('nameplateOtherTopInset',core.profile.cvar_clamp_top)
+    TrySetCVar('nameplateLargeTopInset',core.profile.cvar_clamp_top)
+    TrySetCVar('nameplateOtherBottomInset',core.profile.cvar_clamp_bottom)
+    TrySetCVar('nameplateLargeBottomInset',core.profile.cvar_clamp_bottom)
+    TrySetCVar('nameplateSelfTopInset',core.profile.cvar_self_clamp_top)
+    TrySetCVar('nameplateSelfBottomInset',core.profile.cvar_self_clamp_bottom)
+    TrySetCVar('nameplateOverlapV',core.profile.cvar_overlap_v)
 
-    SetCVar('nameplateOccludedAlphaMult',core.profile.cvar_occluded_mult)
-    SetCVar('nameplateSelfAlpha',core.profile.cvar_self_alpha)
+    TrySetCVar('nameplateOccludedAlphaMult',core.profile.cvar_occluded_mult)
+    TrySetCVar('nameplateSelfAlpha',core.profile.cvar_self_alpha)
 
     if core.profile.cvar_disable_scale then
-        SetCVar('nameplateMinScale',1)
-        SetCVar('nameplateMaxScale',1)
-        SetCVar('nameplateLargerScale',1)
-        SetCVar('nameplateSelectedScale',1)
-        SetCVar('nameplateSelfScale',1)
+        TrySetCVar('nameplateMinScale',1)
+        TrySetCVar('nameplateMaxScale',1)
+        TrySetCVar('nameplateLargerScale',1)
+        TrySetCVar('nameplateSelectedScale',1)
+        TrySetCVar('nameplateSelfScale',1)
     elseif GetCVar('nameplateMinScale') == '1' and
            GetCVar('nameplateMaxScale') == '1' and
            GetCVar('nameplateLargerScale') == '1' and
@@ -774,25 +786,25 @@ local function UpdateCVars()
     then
         -- reset to defaults if the current values match ours,
         -- since i haven't provided a way to set them directly.
-        SetCVar('nameplateMinScale',GetCVarDefault('nameplateMinScale'))
-        SetCVar('nameplateMaxScale',GetCVarDefault('nameplateMaxScale'))
-        SetCVar('nameplateLargerScale',GetCVarDefault('nameplateLargerScale'))
-        SetCVar('nameplateSelectedScale',GetCVarDefault('nameplateSelectedScale'))
-        SetCVar('nameplateSelfScale',GetCVarDefault('nameplateSelfScale'))
+        TrySetCVar('nameplateMinScale',GetCVarDefault('nameplateMinScale'))
+        TrySetCVar('nameplateMaxScale',GetCVarDefault('nameplateMaxScale'))
+        TrySetCVar('nameplateLargerScale',GetCVarDefault('nameplateLargerScale'))
+        TrySetCVar('nameplateSelectedScale',GetCVarDefault('nameplateSelectedScale'))
+        TrySetCVar('nameplateSelfScale',GetCVarDefault('nameplateSelfScale'))
     end
 
     if core.profile.cvar_disable_alpha then
-        SetCVar('nameplateMinAlpha',1)
-        SetCVar('nameplateMaxAlpha',1)
-        SetCVar('nameplateSelectedAlpha',1)
+        TrySetCVar('nameplateMinAlpha',1)
+        TrySetCVar('nameplateMaxAlpha',1)
+        TrySetCVar('nameplateSelectedAlpha',1)
     elseif GetCVar('nameplateMinAlpha') == '1' and
            GetCVar('nameplateMaxAlpha') == '1' and
            GetCVar('nameplateSelectedAlpha') == '1'
     then
         -- reset to defaults
-        SetCVar('nameplateMinAlpha',GetCVarDefault('nameplateMinAlpha'))
-        SetCVar('nameplateMaxAlpha',GetCVarDefault('nameplateMaxAlpha'))
-        SetCVar('nameplateSelectedAlpha',GetCVarDefault('nameplateSelectedAlpha'))
+        TrySetCVar('nameplateMinAlpha',GetCVarDefault('nameplateMinAlpha'))
+        TrySetCVar('nameplateMaxAlpha',GetCVarDefault('nameplateMaxAlpha'))
+        TrySetCVar('nameplateSelectedAlpha',GetCVarDefault('nameplateSelectedAlpha'))
     end
 end
 local function configChangedCVar()
