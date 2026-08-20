@@ -44,6 +44,9 @@ local items = {}
 
 -- local functions #############################################################
 local function IsTalentKnown(id,pvp)
+    -- talent APIs vary by client flavour; treat missing ones as not-known
+    if pvp and not GetPvpTalentInfoByID then return end
+    if not GetTalentInfoByID then return end
     return pvp and select(10,GetPvpTalentInfoByID(id)) or select(10,GetTalentInfoByID(id))
 end
 local function GetExecuteRange()

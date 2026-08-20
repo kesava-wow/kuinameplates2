@@ -889,7 +889,12 @@ function ele:Initialise()
     self:RegisterCallback('PostUpdateAuraFrame')
     self:RegisterCallback('DisplayAura',true)
 
-    if kui.CLASSIC and not kui.CATA then
+    -- 1.15.9: C_UnitAuras is available natively (with durations) and the
+    -- old UnitAura/IsPlayerSpell globals LibClassicDurations relies on were
+    -- removed, so only fall back to the lib on clients without it.
+    if kui.CLASSIC and not kui.CATA and
+       not (C_UnitAuras and C_UnitAuras.GetAuraDataByIndex)
+    then
         AuraLib = LibStub('LibClassicDurations',true)
         if not AuraLib then return end
 

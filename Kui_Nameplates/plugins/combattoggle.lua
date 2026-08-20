@@ -13,6 +13,7 @@
         Element will not initialise if this is missing or not a table.
 ]]
 local addon = KuiNameplates
+local kui = LibStub('Kui-1.0')
 local mod = addon:NewPlugin('CombatToggle',nil,nil,false)
 
 -- actions cached upon entering combat and inverted upon leaving
@@ -32,7 +33,7 @@ function mod:PLAYER_REGEN_DISABLED()
         SetCVar('nameplateShowEnemies',ati_hostile == 3 and 1 or 0)
     end
     if ati_friendly and ati_friendly > 1 then
-        SetCVar('nameplateShowFriends',ati_friendly == 3 and 1 or 0)
+        SetCVar(kui.ShowFriendsCVar(),ati_friendly == 3 and 1 or 0)
     end
 end
 function mod:PLAYER_REGEN_ENABLED()
@@ -40,7 +41,7 @@ function mod:PLAYER_REGEN_ENABLED()
         SetCVar('nameplateShowEnemies',ati_hostile == 2 and 1 or 0)
     end
     if ati_friendly and ati_friendly > 1 then
-        SetCVar('nameplateShowFriends',ati_friendly == 2 and 1 or 0)
+        SetCVar(kui.ShowFriendsCVar(),ati_friendly == 2 and 1 or 0)
     end
 end
 -- register ####################################################################

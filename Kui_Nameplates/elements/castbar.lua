@@ -221,7 +221,10 @@ local function LibCC_ChannelStop(...)
 end
 -- register ####################################################################
 function ele:Initialise()
-    if kui.CLASSIC and not kui.CATA then
+    -- 1.15.9: UnitCastingInfo/UnitChannelInfo work natively (and the
+    -- CastingInfo/ChannelInfo globals LibClassicCasterino relies on were
+    -- removed), so only fall back to the lib on clients without them.
+    if kui.CLASSIC and not kui.CATA and not _G['UnitCastingInfo'] then
         LibCC = LibStub('LibClassicCasterino',true)
         if not LibCC then return end
 
@@ -245,7 +248,7 @@ function ele:OnDisable()
     end
 end
 function ele:OnEnable()
-    if not kui.CLASSIC or kui.CATA then
+    if not kui.CLASSIC or kui.CATA or _G['UnitCastingInfo'] then
         self:RegisterUnitEvent('UNIT_SPELLCAST_START','CastStart')
         self:RegisterUnitEvent('UNIT_SPELLCAST_STOP','CastStop')
         self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED','CastUpdate')

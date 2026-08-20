@@ -305,7 +305,7 @@ do
             enabled_hostile = nil
         end
         if enabled_friendly then
-            SetCVar('nameplateShowFriends',prev_show_friends)
+            SetCVar(kui.ShowFriendsCVar(),prev_show_friends)
             enabled_friendly = nil
         end
 
@@ -355,7 +355,7 @@ do
                 prev_show_enemies = GetCVarBool('nameplateShowEnemies')
                 enabled_hostile = true
             elseif not hostile and not enabled_friendly then
-                prev_show_friends = GetCVarBool('nameplateShowFriends')
+                prev_show_friends = GetCVarBool(kui.ShowFriendsCVar())
                 enabled_friendly = true
             end
 
@@ -366,7 +366,7 @@ do
                 if hostile then
                     SetCVar('nameplateShowEnemies',true)
                 else
-                    SetCVar('nameplateShowFriends',true)
+                    SetCVar(kui.ShowFriendsCVar(),true)
                 end
 
                 if CLICKTHROUGH then
@@ -547,7 +547,9 @@ function mod:UpdateConfig()
         ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or ICON_X_OFFSET
         ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_Y_OFFSET
         CONTROL_VISIBILITY = addon.layout.BossModIcon.control_visibility
+        -- clickthrough APIs don't exist on classic era clients
         CLICKTHROUGH = addon.layout.BossModIcon.clickthrough
+            and C_NamePlate.SetNamePlateEnemyClickThrough ~= nil
     end
 
     for _,f in addon:Frames() do

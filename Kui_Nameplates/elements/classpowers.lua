@@ -326,9 +326,10 @@ local function PowerUpdate()
     local form = GetShapeshiftForm()
     local cur
     local animacharged = false
-    local isKnownAnimaCharged = IsSpellKnown(385616,false)
+    -- IsSpellKnown/GetUnitChargedPowerPoints don't exist on classic clients
+    local isKnownAnimaCharged = IsSpellKnown and IsSpellKnown(385616,false)
     if(isKnownAnimaCharged) then
-        animacharged = GetUnitChargedPowerPoints('player')
+        animacharged = GetUnitChargedPowerPoints and GetUnitChargedPowerPoints('player')
     end
 
     if kui.CATA and power_type == 14 then
@@ -656,7 +657,7 @@ function ele:PowerInit()
             power_mod = UnitPowerDisplayMod(power_type)
             power_type_tag = power_tags[power_type]
 
-            if  class == 'WARLOCK' and
+            if  class == 'WARLOCK' and GetSpecialization and
                 GetSpecialization() == SPEC_WARLOCK_DESTRUCTION
             then
                 power_display_partial = true

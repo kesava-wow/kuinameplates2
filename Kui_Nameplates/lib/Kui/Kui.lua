@@ -17,6 +17,19 @@ local SHADOWLANDS = select(4,GetBuildInfo()) >= 90000
 kui.SHADOWLANDS = SHADOWLANDS
 kui.UNIT_HEALTH = SHADOWLANDS and 'UNIT_HEALTH' or 'UNIT_HEALTH_FREQUENT'
 
+-- friendly nameplate cvar name; classic era (1.15.9) and current retail use
+-- nameplateShowFriendlyPlayers, older clients used nameplateShowFriends.
+-- SetCVar raises an error on a name the client doesn't have, so resolve it
+-- (lazily, since cvars aren't guaranteed loaded when this lib is).
+local show_friends_cvar
+function kui.ShowFriendsCVar()
+    if not show_friends_cvar then
+        show_friends_cvar = (GetCVar('nameplateShowFriends') ~= nil) and
+            'nameplateShowFriends' or 'nameplateShowFriendlyPlayers'
+    end
+    return show_friends_cvar
+end
+
 -- media # XXX LEGACY #########################################################
 local media = "Interface\\AddOns\\Kui_Media\\"
 kui.m = {
