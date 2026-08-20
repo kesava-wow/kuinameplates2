@@ -720,6 +720,8 @@ function configChanged.ignore_uiscale(v)
 end
 
 local function ClickthroughUpdate()
+    -- clickthrough APIs don't exist on classic era clients
+    if not C_NamePlate.SetNamePlateSelfClickThrough then return end
     C_NamePlate.SetNamePlateSelfClickThrough(core.profile.clickthrough_self)
     C_NamePlate.SetNamePlateFriendlyClickThrough(core.profile.clickthrough_friend)
     C_NamePlate.SetNamePlateEnemyClickThrough(core.profile.clickthrough_enemy)

@@ -657,7 +657,7 @@ function ele:PowerInit()
             power_mod = UnitPowerDisplayMod(power_type)
             power_type_tag = power_tags[power_type]
 
-            if  class == 'WARLOCK' and
+            if  class == 'WARLOCK' and GetSpecialization and
                 GetSpecialization() == SPEC_WARLOCK_DESTRUCTION
             then
                 power_display_partial = true

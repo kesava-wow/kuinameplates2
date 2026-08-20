@@ -305,7 +305,7 @@ do
             enabled_hostile = nil
         end
         if enabled_friendly then
-            SetCVar('nameplateShowFriends',prev_show_friends)
+            SetCVar(kui.ShowFriendsCVar(),prev_show_friends)
             enabled_friendly = nil
         end
 
@@ -355,7 +355,7 @@ do
                 prev_show_enemies = GetCVarBool('nameplateShowEnemies')
                 enabled_hostile = true
             elseif not hostile and not enabled_friendly then
-                prev_show_friends = GetCVarBool('nameplateShowFriends')
+                prev_show_friends = GetCVarBool(kui.ShowFriendsCVar())
                 enabled_friendly = true
             end
 
@@ -366,7 +366,7 @@ do
                 if hostile then
                     SetCVar('nameplateShowEnemies',true)
                 else
-                    SetCVar('nameplateShowFriends',true)
+                    SetCVar(kui.ShowFriendsCVar(),true)
                 end
 
                 if CLICKTHROUGH then
