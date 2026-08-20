@@ -19,9 +19,16 @@ local function FrameOnHide(self)
     self.kui.handler:OnHide()
 end
 function addon.NamePlateDriverFrame_AcquireUnitFrame(_,frame)
-    if not frame.UnitFrame:IsForbidden() and not frame.UnitFrame.kui then
-        frame.UnitFrame.kui = true
-        frame.UnitFrame:HookScript('OnShow',UnitFrame_OnShow)
+    -- NamePlateBaseMixin:AcquireUnitFrame assigns frame.UnitFrame from the
+    -- *return* of the driver's AcquireUnitFrame, which is the function we
+    -- hook -- so on current clients the unit frame doesn't exist yet when
+    -- this runs. NAME_PLATE_UNIT_ADDED calls us again once it does.
+    local unitframe = frame and frame.UnitFrame
+    if not unitframe then return end
+
+    if not unitframe:IsForbidden() and not unitframe.kui then
+        unitframe.kui = true
+        unitframe:HookScript('OnShow',UnitFrame_OnShow)
     end
 end
 function addon:HookNameplate(parent)

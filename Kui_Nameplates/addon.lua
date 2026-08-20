@@ -109,6 +109,11 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
     end
 
     if f.UnitFrame then
+        -- the AcquireUnitFrame hook fires before the unit frame is assigned
+        -- (see hook.lua), so install its OnShow hook here instead, where the
+        -- frame is guaranteed to exist. no-op once hooked.
+        self.NamePlateDriverFrame_AcquireUnitFrame(nil,f)
+
         f.UnitFrame:Hide()
 
         if f.UnitFrame.WidgetContainer then
