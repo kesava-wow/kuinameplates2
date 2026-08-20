@@ -326,9 +326,10 @@ local function PowerUpdate()
     local form = GetShapeshiftForm()
     local cur
     local animacharged = false
-    local isKnownAnimaCharged = IsSpellKnown(385616,false)
+    -- IsSpellKnown/GetUnitChargedPowerPoints don't exist on classic clients
+    local isKnownAnimaCharged = IsSpellKnown and IsSpellKnown(385616,false)
     if(isKnownAnimaCharged) then
-        animacharged = GetUnitChargedPowerPoints('player')
+        animacharged = GetUnitChargedPowerPoints and GetUnitChargedPowerPoints('player')
     end
 
     if kui.CATA and power_type == 14 then

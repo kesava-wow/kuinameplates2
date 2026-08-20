@@ -1,5 +1,5 @@
 ## Interface: 100207, 110000, 110002
-## Interface-Classic: 11501
+## Interface-Classic: 11509
 ## Interface-BCC: 20501
 ## Interface-Wrath: 30402
 ## Interface-Cata: 40400

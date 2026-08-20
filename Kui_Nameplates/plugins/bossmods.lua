@@ -547,7 +547,9 @@ function mod:UpdateConfig()
         ICON_X_OFFSET = addon.layout.BossModIcon.icon_x_offset or ICON_X_OFFSET
         ICON_Y_OFFSET = addon.layout.BossModIcon.icon_y_offset or ICON_Y_OFFSET
         CONTROL_VISIBILITY = addon.layout.BossModIcon.control_visibility
+        -- clickthrough APIs don't exist on classic era clients
         CLICKTHROUGH = addon.layout.BossModIcon.clickthrough
+            and C_NamePlate.SetNamePlateEnemyClickThrough ~= nil
     end
 
     for _,f in addon:Frames() do
