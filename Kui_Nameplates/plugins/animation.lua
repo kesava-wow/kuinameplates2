@@ -1,16 +1,16 @@
 -- provide status bar animations
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local mod = addon:NewPlugin('BarAnimation')
 
 local anims = {}
 
-local min,max,abs,pairs = math.min,math.max,math.abs,pairs
+local min, max, abs, pairs = math.min, math.max, math.abs, pairs
 local GetFramerate = GetFramerate
 -- local functions #############################################################
 -- cutaway #####################################################################
 do
-    local function SetValueCutaway(self,value)
+    local function SetValueCutaway(self, value)
         if not self:IsVisible() then
             -- passthrough initial calls
             self:orig_anim_SetValue(value)
@@ -21,7 +21,7 @@ do
             if not kui.frameIsFading(self.KuiFader) then
                 self.KuiFader:SetPoint(
                     'RIGHT', self, 'LEFT',
-                    (self:GetValue() / select(2,self:GetMinMaxValues())) * self:GetWidth(), 0
+                    (self:GetValue() / select(2, self:GetMinMaxValues())) * self:GetWidth(), 0
                 )
 
                 -- store original rightmost value
@@ -42,18 +42,18 @@ do
 
         self:orig_anim_SetValue(value)
     end
-    local function SetStatusBarColor(self,...)
+    local function SetStatusBarColor(self, ...)
         self:orig_anim_SetStatusBarColor(...)
         self.KuiFader:SetVertexColor(...)
     end
     local function SetAnimationCutaway(bar)
-        local fader = bar:CreateTexture(nil,'ARTWORK')
+        local fader = bar:CreateTexture(nil, 'ARTWORK')
         fader:SetTexture('interface/buttons/white8x8')
         fader:SetAlpha(0)
 
         fader:SetPoint('TOP')
         fader:SetPoint('BOTTOM')
-        fader:SetPoint('LEFT',bar:GetStatusBarTexture(),'RIGHT')
+        fader:SetPoint('LEFT', bar:GetStatusBarTexture(), 'RIGHT')
 
         bar.orig_anim_SetValue = bar.SetValue
         bar.SetValue = SetValueCutaway
@@ -80,16 +80,16 @@ do
         bar.KuiFader = nil
     end
     anims['cutaway'] = {
-        set   = SetAnimationCutaway,
-        clear = ClearAnimationCutaway,
+        set     = SetAnimationCutaway,
+        clear   = ClearAnimationCutaway,
         disable = DisableAnimationCutaway
     }
 end
 -- smooth ######################################################################
 do
-    local smoother,smoothing,num_smoothing = nil,{},0
+    local smoother, smoothing, num_smoothing = nil, {}, 0
 
-    local function SmoothBar(bar,val)
+    local function SmoothBar(bar, val)
         if not smoothing[bar] then
             num_smoothing = num_smoothing + 1
         end
@@ -109,7 +109,7 @@ do
         end
     end
 
-    local function SetValueSmooth(self,value)
+    local function SetValueSmooth(self, value)
         if not self:IsVisible() then
             self:orig_anim_SetValue(value)
             return
@@ -119,16 +119,16 @@ do
             ClearBar(self)
             self:orig_anim_SetValue(value)
         else
-            SmoothBar(self,value)
+            SmoothBar(self, value)
         end
     end
     local function SmootherOnUpdate()
-        local limit = 30/GetFramerate()
-        for bar,value in pairs(smoothing) do
+        local limit = 30 / GetFramerate()
+        for bar, value in pairs(smoothing) do
             local cur = bar:GetValue()
-            local new = cur + min((value-cur)/3, max(value-cur, limit))
+            local new = cur + min((value - cur) / 3, max(value - cur, limit))
 
-            if cur == value or abs(new-value) < .005 then
+            if cur == value or abs(new - value) < .005 then
                 bar:orig_anim_SetValue(value)
                 ClearBar(bar)
             else
@@ -140,7 +140,7 @@ do
         if not smoother then
             smoother = CreateFrame('Frame')
             smoother:Hide()
-            smoother:SetScript('OnUpdate',SmootherOnUpdate)
+            smoother:SetScript('OnUpdate', SmootherOnUpdate)
         end
 
         bar.orig_anim_SetValue = bar.SetValue
@@ -158,56 +158,61 @@ do
         bar.orig_anim_SetValue = nil
     end
     anims['smooth'] = {
-        set   = SetAnimationSmooth,
-        clear = ClearAnimationSmooth,
+        set     = SetAnimationSmooth,
+        clear   = ClearAnimationSmooth,
         disable = DisableAnimationSmooth
     }
 end
 -- prototype additions #########################################################
-function addon.Nameplate.SetBarAnimation(f,bar,anim_id)
-    if not bar then return end
-    f = f.parent
+function addon.Nameplate.SetBarAnimation(f, bar, anim_id)
+    -- TODO: midnight
+    return
+    -- if not bar then return end
+    -- f = f.parent
 
-    if bar.animation and anims[bar.animation] then
-        -- disable current animation
-        anims[bar.animation].disable(bar)
-    end
+    -- if bar.animation and anims[bar.animation] then
+    --     -- disable current animation
+    --     anims[bar.animation].disable(bar)
+    -- end
 
-    if anim_id and anims[anim_id] then
-        anims[anim_id].set(bar)
-    else
-        -- no animation; remove from animated bars
-        if f.animated_bars and #f.animated_bars > 0 then
-            for i,a_bar in ipairs(f.animated_bars) do
-                if bar == a_bar then
-                    tremove(f.animated_bars,i)
-                end
-            end
-        end
+    -- if anim_id and anims[anim_id] then
+    --     anims[anim_id].set(bar)
+    -- else
+    --     -- no animation; remove from animated bars
+    --     if f.animated_bars and #f.animated_bars > 0 then
+    --         for i, a_bar in ipairs(f.animated_bars) do
+    --             if bar == a_bar then
+    --                 tremove(f.animated_bars, i)
+    --             end
+    --         end
+    --     end
 
-        return
-    end
+    --     return
+    -- end
 
-    if not f.animated_bars then
-        f.animated_bars = {}
-    end
+    -- if not f.animated_bars then
+    --     f.animated_bars = {}
+    -- end
 
-    if not bar.animation then
-        tinsert(f.animated_bars, bar)
-    end
+    -- if not bar.animation then
+    --     tinsert(f.animated_bars, bar)
+    -- end
 
-    bar.animation = anim_id
+    -- bar.animation = anim_id
 end
+
 -- messages ####################################################################
 function mod:Hide(f)
     -- clear animations
     if type(f.animated_bars) == 'table' then
-        for _,bar in ipairs(f.animated_bars) do
+        for _, bar in ipairs(f.animated_bars) do
             anims[bar.animation].clear(bar)
         end
     end
 end
+
 -- register ####################################################################
 function mod:OnEnable()
-    self:RegisterMessage('Hide')
+    -- TODO: midnight
+    --self:RegisterMessage('Hide')
 end

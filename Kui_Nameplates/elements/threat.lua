@@ -10,7 +10,7 @@
 -- provides message: GlowColourChange
 --   GlowColourChange = threat state changed
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local ele = addon:NewElement('Threat',1)
 ele.colours = {
     { 1,0,0 }, -- tanking

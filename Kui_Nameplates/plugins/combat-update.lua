@@ -6,7 +6,7 @@
 --   Combat = combat state changed
 --   FactionUpdate = UNIT_FACTION event, or attackable state changed
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local mod = addon:NewPlugin('CombatUpdate',0)
 
 local INTERVAL = 1

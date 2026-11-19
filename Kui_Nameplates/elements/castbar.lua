@@ -37,7 +37,7 @@
             True upon frame hiding or element being disabled.
 ]]
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local ele = addon:NewElement('CastBar')
 local _,LibCC,UnitCastingInfo,UnitChannelInfo
 

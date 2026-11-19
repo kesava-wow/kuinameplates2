@@ -1,7 +1,7 @@
 local folder,ns=...
 local addon = KuiNameplates
 local layout = KuiNameplatesPreLegion
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 
 local MEDIA='interface/addons/kui_nameplates_prelegion/media/'
 local SCALE = 1

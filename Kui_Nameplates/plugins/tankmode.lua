@@ -1,17 +1,17 @@
 -- change colour of health bar when tanking
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local mod = addon:NewPlugin('TankMode')
 mod.colours = {
-    { 0,1,0 },  -- player is tanking
-    { 1,1,0 },  -- player is gaining/losing threat
-    { .6,0,1 }  -- other tank is tanking
+    { 0,  1, 0 }, -- player is tanking
+    { 1,  1, 0 }, -- player is gaining/losing threat
+    { .6, 0, 1 } -- other tank is tanking
 }
-local force_enable,force_offtank,spec_enabled,offtank_enable,role_enabled
+local force_enable, force_offtank, spec_enabled, offtank_enable, role_enabled
 -- local functions #############################################################
 local function UpdateFrames()
     -- update threat colour on currently visible frames
-    for _,f in addon:Frames() do
+    for _, f in addon:Frames() do
         if f:IsShown() then
             if offtank_enable then
                 mod:Show(f)
@@ -24,7 +24,7 @@ local function UpdateFrames()
 end
 local function CanOverwriteHealthColor(f)
     return not f.state.health_colour_priority or
-           f.state.health_colour_priority <= mod.priority
+        f.state.health_colour_priority <= mod.priority
 end
 local function ColourHealthBar(f)
     if CanOverwriteHealthColor(f) then
@@ -61,24 +61,28 @@ function mod:SetForceEnable(b)
     force_enable = b == true
     self:SpecUpdate()
 end
+
 function mod:SetForceOffTank(b)
     if not self.enabled then return end
     force_offtank = b == true
-    self:GroupUpdate(nil,true)
+    self:GroupUpdate(nil, true)
     UpdateFrames()
 end
+
 -- messages ####################################################################
 function mod:Show(f)
     if not UnitIsPlayer(f.unit) and not UnitPlayerControlled(f.unit) then
-        self:UNIT_THREAT_LIST_UPDATE(nil,f,f.unit)
+        self:UNIT_THREAT_LIST_UPDATE(nil, f, f.unit)
     end
 end
-function mod:HealthColourChange(f,caller)
+
+function mod:HealthColourChange(f, caller)
     if caller and caller == self then return end
     self:GlowColourChange(f)
 end
+
 function mod:GlowColourChange(f)
-    if  UnitIsPlayer(f.unit) or
+    if UnitIsPlayer(f.unit) or
         UnitPlayerControlled(f.unit) or
         UnitIsTapDenied(f.unit)
     then
@@ -88,8 +92,8 @@ function mod:GlowColourChange(f)
 
     -- tank mode health bar colours
     if self.enabled and (force_enable or spec_enabled or role_enabled) and
-        ( (f.state.threat and f.state.threat > 0) or
-          f.state.tank_mode_offtank
+        ((f.state.threat and f.state.threat > 0) or
+            f.state.tank_mode_offtank
         )
     then
         -- mod is enabled and frame has an active threat state
@@ -99,26 +103,27 @@ function mod:GlowColourChange(f)
         UncolourHealthBar(f)
     end
 end
+
 -- events ######################################################################
-function mod:UNIT_THREAT_LIST_UPDATE(_,f,unit)
+function mod:UNIT_THREAT_LIST_UPDATE(_, f, unit)
     if not self.enabled then return end
     if unit == 'player' or
-        UnitIsUnit('player',unit) or
-        UnitIsFriend('player',unit)
+        UnitIsUnit('player', unit) or
+        UnitIsFriend('player', unit)
     then
         return
     end
 
     f.state.tank_mode_offtank = nil
 
-    local status = UnitThreatSituation('player',unit)
+    local status = UnitThreatSituation('player', unit)
     if not status or status < 3 then
         -- player isn't tanking; get current target
-        local tank_unit = unit..'target'
+        local tank_unit = unit .. 'target'
 
-        if UnitExists(tank_unit) and not UnitIsUnit(tank_unit,'player') then
+        if UnitExists(tank_unit) and not UnitIsUnit(tank_unit, 'player') then
             if ((UnitInParty(tank_unit) or UnitInRaid(tank_unit)) and
-                UnitGroupRolesAssigned(tank_unit) == 'TANK') or
+                    UnitGroupRolesAssigned(tank_unit) == 'TANK') or
                 (not UnitIsPlayer(tank_unit) and UnitPlayerControlled(tank_unit))
             then
                 -- unit is attacking another group tank,
@@ -131,23 +136,25 @@ function mod:UNIT_THREAT_LIST_UPDATE(_,f,unit)
     -- force update bar colour
     self:GlowColourChange(f)
 end
+
 function mod:SpecUpdate()
     if not self.enabled then return end
     if kui.CLASSIC then
         role_enabled = UnitGroupRolesAssigned('player') == 'TANK'
-        return 
+        return
     end -- XXX no spec data on classic
     local was_enabled = spec_enabled
-    local spec = GetSpecialization()
+    local spec = C_SpecializationInfo.GetSpecialization()
     local role = spec and GetSpecializationRole(spec) or nil
 
     spec_enabled = role == 'TANK'
     if spec_enabled ~= was_enabled then
-        self:GroupUpdate(nil,true)
+        self:GroupUpdate(nil, true)
         UpdateFrames()
     end
 end
-function mod:GroupUpdate(_,no_update)
+
+function mod:GroupUpdate(_, no_update)
     -- enable/disable off-tank detection
     if not self.enabled then return end
 
@@ -173,6 +180,7 @@ function mod:GroupUpdate(_,no_update)
         end
     end
 end
+
 -- register ####################################################################
 function mod:OnEnable()
     spec_enabled = false
@@ -180,17 +188,18 @@ function mod:OnEnable()
 
     self:RegisterMessage('HealthColourChange')
     self:RegisterMessage('GlowColourChange')
-    self:RegisterEvent('GROUP_ROSTER_UPDATE','GroupUpdate')
-    self:RegisterEvent('PLAYER_ENTERING_WORLD','SpecUpdate')
+    self:RegisterEvent('GROUP_ROSTER_UPDATE', 'GroupUpdate')
+    self:RegisterEvent('PLAYER_ENTERING_WORLD', 'SpecUpdate')
     if not kui.CLASSIC then
-        self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED','SpecUpdate')
+        self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED', 'SpecUpdate')
     end
     if kui.CATA then
-        self:RegisterEvent('PLAYER_ROLES_ASSIGNED','SpecUpdate')
+        self:RegisterEvent('PLAYER_ROLES_ASSIGNED', 'SpecUpdate')
     end
 
     self:SpecUpdate()
 end
+
 function mod:OnDisable()
     UpdateFrames()
 end

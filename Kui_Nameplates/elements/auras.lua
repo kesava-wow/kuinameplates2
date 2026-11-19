@@ -109,7 +109,7 @@
 
 ]]
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local ele = addon:NewElement('Auras',1)
 local AuraLib
 

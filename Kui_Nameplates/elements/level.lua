@@ -1,7 +1,7 @@
 -- get unit name and provide to LevelText element
 local addon = KuiNameplates
 local ele = addon:NewElement('LevelText')
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local instanced_pvp
 -- prototype additions #########################################################
 function addon.Nameplate.UpdateLevel(f)

@@ -2,7 +2,7 @@ local opt = KuiNameplatesCoreConfig -- luacheck:globals KuiNameplatesCoreConfig
 local core = KuiNameplatesCore -- luacheck:globals KuiNameplatesCore
 local frame_name = 'KuiNameplatesCoreConfig'
 local ddlib = LibStub('KuiDropdown')
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local L = opt:GetLocale()
 
 local S_CHECKBOX_ON = 856

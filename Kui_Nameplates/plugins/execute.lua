@@ -1,9 +1,9 @@
 -- recolour health bars in execute range
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
-local mod = addon:NewPlugin('Execute',4,nil,false)
+local kui = LibStub('Kui-1.1')
+local mod = addon:NewPlugin('Execute', 4, nil, false)
 
-local EquipScanQueue,class,execute_range
+local EquipScanQueue, class, execute_range
 
 local specs = {
     ['DRUID'] = {
@@ -43,8 +43,8 @@ local pvp_talents = {
 local items = {}
 
 -- local functions #############################################################
-local function IsTalentKnown(id,pvp)
-    return pvp and select(10,GetPvpTalentInfoByID(id)) or select(10,GetTalentInfoByID(id))
+local function IsTalentKnown(id, pvp)
+    return pvp and select(10, GetPvpTalentInfoByID(id)) or select(10, GetTalentInfoByID(id))
 end
 local function GetExecuteRange()
     -- return execute range depending on class/spec/talents
@@ -60,7 +60,7 @@ local function GetExecuteRange()
     end
 
     if talents[class] then
-        for id,v in pairs(talents[class]) do
+        for id, v in pairs(talents[class]) do
             if IsTalentKnown(id) then
                 r = v
             end
@@ -68,8 +68,8 @@ local function GetExecuteRange()
     end
 
     if UnitIsPVP('player') and pvp_talents[class] then
-        for id,v in pairs(pvp_talents[class]) do
-            if IsTalentKnown(id,true) then
+        for id, v in pairs(pvp_talents[class]) do
+            if IsTalentKnown(id, true) then
                 r = v
             end
         end
@@ -77,8 +77,8 @@ local function GetExecuteRange()
 
     if #items > 0 then
         -- check equipped items
-        for slot_id=1,18 do
-            local item_id = GetInventoryItemID('player',slot_id)
+        for slot_id = 1, 18 do
+            local item_id = GetInventoryItemID('player', slot_id)
             if item_id and items[item_id] then
                 r = items[item_id]
             end
@@ -89,7 +89,7 @@ local function GetExecuteRange()
 end
 local function CanOverwriteHealthColor(f)
     return not f.state.health_colour_priority or
-           f.state.health_colour_priority <= mod.priority
+        f.state.health_colour_priority <= mod.priority
 end
 local function EquipScanQueue_Update()
     EquipScanQueue:Hide()
@@ -106,7 +106,7 @@ function mod:SetExecuteRange(to)
     elseif not kui.CLASSIC then
         -- force immediate auto-detect
         self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED')
-        self:RegisterEvent('PLAYER_FLAGS_CHANGED','PLAYER_SPECIALIZATION_CHANGED')
+        self:RegisterEvent('PLAYER_FLAGS_CHANGED', 'PLAYER_SPECIALIZATION_CHANGED')
         self:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
         self:PLAYER_SPECIALIZATION_CHANGED()
     else
@@ -114,13 +114,14 @@ function mod:SetExecuteRange(to)
         execute_range = 20
     end
 end
+
 -- messages ####################################################################
-function mod:HealthColourChange(f,caller)
+function mod:HealthColourChange(f, caller)
     if caller and caller == self then return end
 
     if not UnitIsTapDenied(f.unit) and
-       f.state.health_cur > 0 and
-       f.state.health_per <= execute_range
+        f.state.health_cur > 0 and
+        f.state.health_per <= execute_range
     then
         if CanOverwriteHealthColor(f) then
             f.state.execute_range_coloured = true
@@ -133,9 +134,8 @@ function mod:HealthColourChange(f,caller)
 
         if not f.state.in_execute_range then
             f.state.in_execute_range = true
-            addon:DispatchMessage('ExecuteUpdate',f,true)
+            addon:DispatchMessage('ExecuteUpdate', f, true)
         end
-
     elseif f.state.in_execute_range then
         f.state.execute_range_coloured = nil
         f.state.in_execute_range = nil
@@ -150,34 +150,43 @@ function mod:HealthColourChange(f,caller)
             addon:DispatchMessage('HealthColourChange', f, mod)
         end
 
-        addon:DispatchMessage('ExecuteUpdate',f,false)
+        addon:DispatchMessage('ExecuteUpdate', f, false)
     end
 end
+
 -- events ######################################################################
-function mod:UNIT_HEALTH(_,f)
+function mod:UNIT_HEALTH(_, f)
     self:HealthColourChange(f)
 end
+
 function mod:PLAYER_SPECIALIZATION_CHANGED()
     execute_range = GetExecuteRange()
 end
+
 function mod:PLAYER_EQUIPMENT_CHANGED()
     EquipScanQueue:Show()
 end
+
 -- register ####################################################################
 function mod:OnEnable()
-    if not EquipScanQueue then
-        EquipScanQueue = CreateFrame('Frame')
-        EquipScanQueue:Hide()
-        EquipScanQueue:SetScript('OnUpdate',EquipScanQueue_Update)
-    end
+    -- TODO: midnight
+    return
+    -- if not EquipScanQueue then
+    --     EquipScanQueue = CreateFrame('Frame')
+    --     EquipScanQueue:Hide()
+    --     EquipScanQueue:SetScript('OnUpdate', EquipScanQueue_Update)
+    -- end
 
-    self:RegisterUnitEvent(kui.UNIT_HEALTH,'UNIT_HEALTH')
-    self:RegisterMessage('HealthColourChange')
-    self:RegisterMessage('Show','HealthColourChange')
+    -- self:RegisterUnitEvent('UNIT_HEALTH')
+    -- self:RegisterMessage('HealthColourChange')
+    -- self:RegisterMessage('Show', 'HealthColourChange')
 
-    self:SetExecuteRange()
+    -- self:SetExecuteRange()
 end
+
 function mod:Initialise()
-    class = select(2,UnitClass('player'))
-    self.colour = {1,1,1}
+    -- TODO: midnight
+    return
+    -- class = select(2, UnitClass('player'))
+    -- self.colour = { 1, 1, 1 }
 end

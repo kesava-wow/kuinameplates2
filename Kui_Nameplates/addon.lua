@@ -7,11 +7,11 @@
 --------------------------------------------------------------------------------
 _G['KuiNameplates'] = CreateFrame('Frame')
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
-addon.MAJOR,addon.MINOR = 2,5
+local kui = LibStub('Kui-1.1')
+addon.MAJOR, addon.MINOR = 3, 0
 
 --@debug@
-addon.debug = true
+--addon.debug = true
 --addon.debug_config = true
 --addon.debug_units = true
 --addon.debug_messages = true
@@ -47,59 +47,66 @@ local framelist = {}
 -- plugin & element vars
 local sort, tinsert = table.sort, tinsert
 local UnitIsUnit = UnitIsUnit
-local function PluginSort(a,b)
+local function PluginSort(a, b)
     return a.priority < b.priority
 end
 addon.plugins = {}
 --------------------------------------------------------------------------------
 function addon:print(...)
     if not addon.debug then return end
-    print('KNP2','|cff666666'..GetTime()..'|r',...)
+    print('KNP2', '|cff666666' .. GetTime() .. '|r', ...)
 end
+
 function addon:ui_print(...)
-    print('|cffbb99ffKui Nameplates|r',...)
+    print('|cffbb99ffKui Nameplates|r', ...)
 end
+
 function addon:Frames()
     return ipairs(framelist)
 end
+
 function addon:GetNameplateForUnit(unit)
     -- return nameplate.kui for unit if it exists
     assert(unit)
     local f = C_NamePlate.GetNamePlateForUnit(unit)
     if f and f.kui then return f.kui end
 end
+
 function addon:GetActiveNameplateForUnit(unit)
     -- return nameplate.kui for unit, if extant, visible and maybe functional
     assert(unit)
     local f = self:GetNameplateForUnit(unit)
     if f and f.unit and f:IsShown() then return f end
 end
+
 function addon:GetNameplateForGuid(guid)
     assert(guid)
-    for _,f in self:Frames() do
+    for _, f in self:Frames() do
         if f.unit and f.guid == guid and f:IsShown() then
             return f
         end
     end
 end
+
 --------------------------------------------------------------------------------
 function addon:NAME_PLATE_CREATED(frame)
     self:HookNameplate(frame)
 
     if frame.kui then
-        tinsert(framelist,frame.kui)
+        tinsert(framelist, frame.kui)
     end
 end
+
 function addon:NAME_PLATE_UNIT_ADDED(unit)
     if UnitIsUnit(unit, 'softinteract') then return end
     local f = C_NamePlate.GetNamePlateForUnit(unit)
     if not f or not f.kui then return end
 
     if addon.debug_units then
-        self:print('unit |cff88ff88added|r: '..unit..' ('..UnitName(unit)..')')
+        self:print('unit |cff88ff88added|r: ' .. unit .. ' (' .. UnitName(unit) .. ')')
     end
 
-    if self.USE_BLIZZARD_PERSONAL and UnitIsUnit(unit,'player') then
+    if self.USE_BLIZZARD_PERSONAL and UnitIsUnit(unit, 'player') then
         -- don't process anything for the personal nameplate if disabled
         return
     end
@@ -119,47 +126,53 @@ function addon:NAME_PLATE_UNIT_ADDED(unit)
 
     f.kui.handler:OnUnitAdded(unit)
 end
+
 function addon:NAME_PLATE_UNIT_REMOVED(unit)
     local f = self:GetActiveNameplateForUnit(unit)
     if not f then return end
 
     if addon.debug_units then
-        self:print('unit |cffff8888removed|r: '..unit..' ('..f.state.name..')')
+        self:print('unit |cffff8888removed|r: ' .. unit .. ' (' .. f.state.name .. ')')
     end
     f.handler:OnHide()
 end
+
 function addon:PLAYER_LEAVING_WORLD()
     if #framelist > 0 then
-        for _,f in self:Frames() do
+        for _, f in self:Frames() do
             if f:IsShown() then
                 f.handler:OnHide()
             end
         end
     end
 end
+
 function addon:UI_SCALE_CHANGED()
-    if self.IGNORE_UISCALE then
-        -- set 1:1 scale from screen width
-        local screen_size = {GetPhysicalScreenSize()}
-        if screen_size and screen_size[2] then
-            self.uiscale = 768 / screen_size[2]
-        end
-    else
-        -- inherit from UIParent
-        self.uiscale = UIParent:GetScale()
-    end
+    -- TODO: midnight
+    -- if self.IGNORE_UISCALE then
+    --     -- set 1:1 scale from screen width
+    --     local screen_size = { GetPhysicalScreenSize() }
+    --     if screen_size and screen_size[2] then
+    --         self.uiscale = 768 / screen_size[2]
+    --     end
+    -- else
+    --     -- inherit from UIParent
+    --     self.uiscale = 1
+    -- end
+    self.uiscale = 1
 
     if #framelist > 0 then
-        for _,f in self:Frames() do
+        for _, f in self:Frames() do
             f:SetScale(self.uiscale)
         end
     end
 end
+
 --------------------------------------------------------------------------------
-local function OnEvent(self,event,...)
+local function OnEvent(self, event, ...)
     if event ~= 'PLAYER_LOGIN' then
         if self[event] then
-            self[event](self,...)
+            self[event](self, ...)
         end
         return
     end
@@ -178,7 +191,7 @@ local function OnEvent(self,event,...)
         -- sort to be initialised by order of priority
         sort(self.plugins, PluginSort)
 
-        for _,plugin in ipairs(self.plugins) do
+        for _, plugin in ipairs(self.plugins) do
             if type(plugin.Initialise) == 'function' then
                 plugin:Initialise()
             end
@@ -197,61 +210,18 @@ local function OnEvent(self,event,...)
 
     -- fire layout initialised to plugins
     -- for plugins to fetch values from the layout, etc
-    for _,plugin in ipairs(self.plugins) do
+    for _, plugin in ipairs(self.plugins) do
         if type(plugin.Initialised) == 'function' then
             plugin:Initialised()
         end
     end
-
-    -- disable the default class resource bars
-    --luacheck:globals NamePlateDriverFrame
-    if NamePlateDriverFrame and not kui.CLASSIC then
-        if not self.USE_BLIZZARD_PERSONAL then
-            NamePlateDriverFrame:SetClassNameplateManaBar(nil)
-            --luacheck:globals ClassNameplateManaBarFrame
-            ClassNameplateManaBarFrame:UnregisterAllEvents()
-        end
-        if not self.USE_BLIZZARD_PERSONAL and not self.USE_BLIZZARD_POWERS then
-            NamePlateDriverFrame:SetClassNameplateBar(nil)
-            --luacheck:globals DeathKnightResourceOverlayFrame
-            DeathKnightResourceOverlayFrame:UnregisterAllEvents()
-            DeathKnightResourceOverlayFrame:HookScript("OnShow", DeathKnightResourceOverlayFrame.Hide)
-            --luacheck:globals ClassNameplateBarMageFrame
-            ClassNameplateBarMageFrame:UnregisterAllEvents()
-            ClassNameplateBarMageFrame:HookScript("OnShow", ClassNameplateBarMageFrame.Hide)
-            --luacheck:globals ClassNameplateBarWindwalkerMonkFrame
-            ClassNameplateBarWindwalkerMonkFrame:UnregisterAllEvents()
-            ClassNameplateBarWindwalkerMonkFrame:HookScript("OnShow", ClassNameplateBarWindwalkerMonkFrame.Hide)
-            --luacheck:globals ClassNameplateBarPaladinFrame
-            ClassNameplateBarPaladinFrame:UnregisterAllEvents()
-            ClassNameplateBarPaladinFrame:HookScript("OnShow", ClassNameplateBarPaladinFrame.Hide)
-            --luacheck:globals ClassNameplateBarRogueFrame
-            ClassNameplateBarRogueFrame:UnregisterAllEvents()
-            ClassNameplateBarRogueFrame:HookScript("OnShow", ClassNameplateBarRogueFrame.Hide)
-            --luacheck:globals ClassNameplateBarFeralDruidFrame
-            ClassNameplateBarFeralDruidFrame:UnregisterAllEvents()
-            ClassNameplateBarFeralDruidFrame:HookScript("OnShow", ClassNameplateBarFeralDruidFrame.Hide)
-            --luacheck:globals ClassNameplateBarWarlockFrame
-            ClassNameplateBarWarlockFrame:UnregisterAllEvents()
-            ClassNameplateBarWarlockFrame:HookScript("OnShow", ClassNameplateBarWarlockFrame.Hide)
-            --luacheck:globals ClassNameplateBrewmasterBarFrame
-            ClassNameplateBrewmasterBarFrame:UnregisterAllEvents()
-            ClassNameplateBrewmasterBarFrame:HookScript("OnShow", ClassNameplateBrewmasterBarFrame.Hide)
-            --luacheck:globals ClassNameplateBarDracthyrFrame
-            ClassNameplateBarDracthyrFrame:UnregisterAllEvents()
-            ClassNameplateBarDracthyrFrame:HookScript("OnShow", ClassNameplateBarDracthyrFrame.Hide)
-            --luacheck:globals ClassNameplateEbonMightBarFrame
-            ClassNameplateEbonMightBarFrame:UnregisterAllEvents()
-            ClassNameplateEbonMightBarFrame:HookScript("OnShow", ClassNameplateEbonMightBarFrame.Hide)
-        end
-    end
-    -- hide default unit frames
-    if NamePlateDriverFrame and NamePlateDriverFrame.AcquireUnitFrame then
-        hooksecurefunc(NamePlateDriverFrame,'AcquireUnitFrame',self.NamePlateDriverFrame_AcquireUnitFrame)
-    end
+    -- TODO: midnight hide default unit frames
+    --if NamePlateDriverFrame and NamePlateDriverFrame.AcquireUnitFrame then
+    --    hooksecurefunc(NamePlateDriverFrame, 'AcquireUnitFrame', self.NamePlateDriverFrame_AcquireUnitFrame)
+    --end
 end
 ------------------------------------------- initialise addon scripts & events --
-addon:SetScript('OnEvent',OnEvent)
+addon:SetScript('OnEvent', OnEvent)
 addon:RegisterEvent('PLAYER_LOGIN')
 addon:RegisterEvent('PLAYER_LEAVING_WORLD')
 addon:RegisterEvent('NAME_PLATE_CREATED')

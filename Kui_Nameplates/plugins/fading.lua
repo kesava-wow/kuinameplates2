@@ -13,7 +13,7 @@
 -- priority 20 and 100, as per the default fade rules set in :ResetFadeRules.
 -- ]]
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local mod = addon:NewPlugin('Fading')
 
 local abs,pairs,ipairs,type,tinsert = math.abs,pairs,ipairs,type,tinsert

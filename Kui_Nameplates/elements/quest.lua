@@ -1,7 +1,7 @@
 -- scan tooltip to provide quest state
 local addon = KuiNameplates
 local mod = addon:NewPlugin('Quest')
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 if not mod then return end
 
 Mixin(mod,kui.FrameLockMixin)

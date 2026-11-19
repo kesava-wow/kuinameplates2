@@ -6,7 +6,7 @@
 -- Handle frame event listeners, dispatch messages, init plugins/elements/layout
 --------------------------------------------------------------------------------
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 
 local type,strsub,pairs,ipairs,unpack,tinsert,tremove=
       type,strsub,pairs,ipairs,unpack,tinsert,tremove

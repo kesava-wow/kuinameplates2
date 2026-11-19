@@ -41,7 +41,7 @@
     - bugginess when more than max icons are created.
 ]]
 local addon = KuiNameplates
-local kui = LibStub('Kui-1.0')
+local kui = LibStub('Kui-1.1')
 local mod = addon:NewPlugin('BossMods',nil,nil,false)
 
 -- XXX placeholders for l11n-compatibility
