@@ -42,8 +42,8 @@ FRAME_HEIGHT_TARGET, POWER_BAR_HEIGHT, FONT, FONT_STYLE, FONT_SHADOW,
 FONT_SIZE_NORMAL, FONT_SIZE_SMALL, NAME_VERTICAL_OFFSET,
 BOT_VERTICAL_OFFSET, BAR_TEXTURE, BAR_ANIMATION,
 SHOW_HEALTH_TEXT, SHOW_NAME_TEXT, SHOW_ARENA_ID, GUILD_TEXT_NPCS,
-GUILD_TEXT_PLAYERS, TITLE_TEXT_PLAYERS, HEALTH_TEXT_FRIEND_MAX,
-HEALTH_TEXT_FRIEND_DMG, HEALTH_TEXT_HOSTILE_MAX, HEALTH_TEXT_HOSTILE_DMG,
+GUILD_TEXT_PLAYERS, TITLE_TEXT_PLAYERS,
+HEALTH_TEXT_FRIEND_DMG, HEALTH_TEXT_HOSTILE_DMG,
 HIDE_NAMES, FRAME_VERTICAL_OFFSET,
 MOUSEOVER_HIGHLIGHT, HIGHLIGHT_OPACITY, LEVEL_TEXT, LEVEL_NAMEONLY,
 HEALTH_TEXT_PERCENT_SYMBOL, FRAME_TARGET_SIZE,
@@ -256,9 +256,7 @@ do
         SHOW_ARENA_ID = core.profile.show_arena_id
         HIDE_NAMES = core.profile.hide_names
 
-        HEALTH_TEXT_FRIEND_MAX = core.profile.health_text_friend_max
         HEALTH_TEXT_FRIEND_DMG = core.profile.health_text_friend_dmg
-        HEALTH_TEXT_HOSTILE_MAX = core.profile.health_text_hostile_max
         HEALTH_TEXT_HOSTILE_DMG = core.profile.health_text_hostile_dmg
         HEALTH_TEXT_PERCENT_SYMBOL = core.profile.health_text_percent_symbol and '%' or ''
 
@@ -784,7 +782,6 @@ do
         else
             local disp
 
-            -- TODO: HEALTH_TEXT_FRIEND_MAX and HEALTH_TEXT_ENEMY_MAX removed
             if f.state.friend then
                 disp = GetHealthDisplay(f, HEALTH_TEXT_FRIEND_DMG)
             else
@@ -2080,7 +2077,7 @@ end
 
 -- nameonly ####################################################################
 do
-    local NAMEONLY_ENABLED, NAMEONLY_NO_FONT_STYLE, NAMEONLY_HEALTH_COLOUR
+    local NAMEONLY_ENABLED, NAMEONLY_NO_FONT_STYLE,
     local NAMEONLY_TARGET, NAMEONLY_ALL_ENEMIES, NAMEONLY_ON_NEUTRAL,
     NAMEONLY_HOSTILE_NPCS, NAMEONLY_DAMAGED_ENEMIES, NAMEONLY_FRIENDLY_NPCS,
     NAMEONLY_DAMAGED_FRIENDS, NAMEONLY_COMBAT_HOSTILE,
@@ -2090,7 +2087,6 @@ do
     function core:configChangedNameOnly()
         NAMEONLY_ENABLED = self.profile.nameonly
         NAMEONLY_NO_FONT_STYLE = self.profile.nameonly_no_font_style
-        NAMEONLY_HEALTH_COLOUR = self.profile.nameonly_health_colour
 
         NAMEONLY_TARGET = self.profile.nameonly_target
         NAMEONLY_ALL_ENEMIES = self.profile.nameonly_all_enemies
@@ -2210,19 +2206,6 @@ do
         if not f.IN_NAMEONLY then return end
 
         local text
-        if NAMEONLY_HEALTH_COLOUR then
-            if f.state.health_cur and f.state.health_cur > 0 and
-                f.state.health_max and f.state.health_max > 0
-            then
-                local health_len =
-                    strlen(f.state.name) *
-                    (f.state.health_cur / f.state.health_max)
-                -- name w/grey health deficit
-                text = kui.utf8sub(f.state.name, 0, health_len) ..
-                    '|cff666666' .. kui.utf8sub(f.state.name, health_len + 1)
-            end
-        end
-
         if LEVEL_NAMEONLY then
             local r, g, b = f.LevelText:GetTextColor()
             text = string.format('|cff%02x%02x%02x', r * 255, g * 255, b * 255) ..

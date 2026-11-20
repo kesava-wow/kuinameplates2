@@ -53,7 +53,7 @@ local default_config = {
 
     nameonly                               = true,
     nameonly_no_font_style                 = false,
-    nameonly_health_colour                 = true,
+    nameonly_health_colour                 = true, -- TODO: midnight removed
     nameonly_target                        = true,
     nameonly_all_enemies                   = false,
     nameonly_neutral                       = false,
@@ -114,9 +114,9 @@ local default_config = {
     name_colour_npc_neutral                = { 1, .97, .7 },
     name_colour_npc_hostile                = { 1, .7, .7 },
 
-    health_text_friend_max                 = 1,
+    health_text_friend_max                 = 1,     -- TODO: midnight removed
     health_text_friend_dmg                 = 5,
-    health_text_hostile_max                = 1,
+    health_text_hostile_max                = 1,     -- TODO: midnight removed
     health_text_hostile_dmg                = 4,
     health_text_percent_symbol             = false, -- NEX
 
