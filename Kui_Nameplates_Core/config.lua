@@ -38,7 +38,7 @@ local default_config = {
     frame_glow_size_shadow                 = 3,
     frame_glow_size_target                 = 8,
     frame_glow_size_threat                 = 8,
-    target_arrows                          = false,
+    target_arrows                          = true,
     target_arrows_size                     = 28,
     target_arrows_inset                    = 3,                                                          -- NEX
     target_arrows_texture                  = 'interface/addons/kui_nameplates_core/media/targetarrows3', -- NEX
@@ -292,9 +292,9 @@ local default_config = {
     quest_icon_y                           = 0,
     show_raid_icon                         = true,
     raid_icon_size                         = 26,
-    raid_icon_point                        = 8,
-    raid_icon_x                            = 31,
-    raid_icon_y                            = 0,
+    raid_icon_point                        = 5,
+    raid_icon_x                            = 0,
+    raid_icon_y                            = 28,
 }
 -- global scale helper #########################################################
 -- for frame/texture sizes; apply global scale to given value
