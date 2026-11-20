@@ -257,6 +257,8 @@ function command_func.trace(command, ...)
     elseif script_profile then
         knp.profiling = not knp.profiling
         knp:print('Profiling ' .. (knp.profiling and 'started' or 'stopped'))
+    else
+        knp:print('/knp trace t to enable script profiling')
     end
     --@end-debug@
     return
