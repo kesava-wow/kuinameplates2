@@ -758,26 +758,22 @@ do
 end
 -- health text #################################################################
 do
-    local function HealthDisplay_Percent(s)
-        if s.health_per < 1 then
-            return format('%.1f', s.health_per) .. HEALTH_TEXT_PERCENT_SYMBOL
-        else
-            return ceil(s.health_per) .. HEALTH_TEXT_PERCENT_SYMBOL
-        end
+    local function HealthDisplay_Percent(u)
+        return string.format('%d', UnitHealthPercent(u, true, CurveConstants.ScaleTo100))
     end
     local health_display_funcs = {
         function() return '' end,
-        function(s) return kui.num(s.health_cur) end,
-        function(s) return kui.num(s.health_max) end,
-        HealthDisplay_Percent,
-        function(s) return '-' .. kui.num(s.health_deficit) end,
-        function(s) return kui.num(s.health_cur) .. '  ' .. HealthDisplay_Percent(s) end,
-        function(s) return kui.num(s.health_cur) .. '  -' .. kui.num(s.health_deficit) end,
+        function() return 'NYI' end, -- TODO: current
+        function() return 'NYI' end, -- TODO: max
+        HealthDisplay_Percent,       -- percent
+        function() return 'NYI' end, -- TODO: deficit
+        function() return 'NYI' end, -- TODO: current and percent
+        function() return 'NYI' end, -- TODO: current and deficit
     }
     local function GetHealthDisplay(f, key)
         return type(key) == 'number' and
             health_display_funcs[key] and
-            health_display_funcs[key](f.state) or
+            health_display_funcs[key](f.unit) or
             ''
     end
 
@@ -788,18 +784,11 @@ do
         else
             local disp
 
+            -- TODO: HEALTH_TEXT_FRIEND_MAX and HEALTH_TEXT_ENEMY_MAX removed
             if f.state.friend then
-                if f.state.health_cur ~= f.state.health_max then
-                    disp = GetHealthDisplay(f, HEALTH_TEXT_FRIEND_DMG)
-                else
-                    disp = GetHealthDisplay(f, HEALTH_TEXT_FRIEND_MAX)
-                end
+                disp = GetHealthDisplay(f, HEALTH_TEXT_FRIEND_DMG)
             else
-                if f.state.health_cur ~= f.state.health_max then
-                    disp = GetHealthDisplay(f, HEALTH_TEXT_HOSTILE_DMG)
-                else
-                    disp = GetHealthDisplay(f, HEALTH_TEXT_HOSTILE_MAX)
-                end
+                disp = GetHealthDisplay(f, HEALTH_TEXT_HOSTILE_DMG)
             end
 
             f.HealthText:SetText(disp)
