@@ -405,7 +405,7 @@ local function UpdateFrameSize(f)
 
     f:UpdateMainBars()
     f:SpellIconSetWidth()
-    f:UpdateAuras()
+    --f:UpdateAuras()
 
     if CASTBAR_MATCH_FRAME_WIDTH then
         f:UpdateCastbarSize()
@@ -1882,7 +1882,8 @@ do
         self.Auras.colour_long       = self.profile.auras_colour_long
         self.Auras.decimal_threshold = self.profile.auras_decimal_threshold
 
-        addon:GetPlugin('Auras'):UpdateConfig()
+        -- TODO: midnight
+        --addon:GetPlugin('Auras'):UpdateConfig()
 
         -- we don't want to actually disable the element as other plugins
         -- (such as bossmods) rely on it

@@ -29,7 +29,7 @@ elements/name.lua
 elements/level.lua
 elements/target.lua
 elements/threat.lua
-elements/auras.lua
+#elements/auras.lua
 elements/raidicon.lua
 elements/quest.lua
 
@@ -38,7 +38,7 @@ plugins/arenaid.lua
 plugins/bossmods.lua
 plugins/combattoggle.lua
 plugins/combat-update.lua
-plugins/execute.lua
+#plugins/execute.lua
 plugins/fading.lua
 plugins/guildtext.lua
 plugins/personal-anchor.lua

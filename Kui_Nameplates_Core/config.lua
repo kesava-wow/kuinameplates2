@@ -477,7 +477,6 @@ configChanged.tankmode_trans_glow_colour = configChangedTankColour
 
 local function configChangedFrameSize()
     core:configChangedFrameSize()
-    QueueClickboxUpdate()
 end
 configChanged.frame_width = configChangedFrameSize
 configChanged.frame_height = configChangedFrameSize
@@ -654,25 +653,28 @@ configChanged.classpowers_colour_animacharged = configChangedClassPowersColour
 configChanged.classpowers_colour_animacharged_active = configChangedClassPowersColour
 
 function configChanged.execute_enabled(v)
-    if v then
-        addon:GetPlugin('Execute'):Enable()
-        configChanged.execute_percent()
-    else
-        addon:GetPlugin('Execute'):Disable()
-    end
+    -- TODO: midnight
+    -- if v then
+    --     addon:GetPlugin('Execute'):Enable()
+    --     configChanged.execute_percent()
+    -- else
+    --     addon:GetPlugin('Execute'):Disable()
+    -- end
 end
 
 function configChanged.execute_colour(v)
-    addon:GetPlugin('Execute').colour = v
+    -- TODO: midnight
+    -- addon:GetPlugin('Execute').colour = v
 end
 
 function configChanged.execute_percent()
-    if core.profile.execute_auto then
-        -- revert to automatic
-        addon:GetPlugin('Execute'):SetExecuteRange()
-    else
-        addon:GetPlugin('Execute'):SetExecuteRange(core.profile.execute_percent)
-    end
+    -- TODO: midnight
+    -- if core.profile.execute_auto then
+    --     -- revert to automatic
+    --     addon:GetPlugin('Execute'):SetExecuteRange()
+    -- else
+    --     addon:GetPlugin('Execute'):SetExecuteRange(core.profile.execute_percent)
+    -- end
 end
 
 configChanged.execute_auto = configChanged.execute_percent
@@ -680,7 +682,6 @@ configChanged.execute_auto = configChanged.execute_percent
 function configChanged.ignore_uiscale(v)
     addon.IGNORE_UISCALE = v
     addon:UI_SCALE_CHANGED()
-    QueueClickboxUpdate()
 end
 
 local function ClickthroughUpdate()

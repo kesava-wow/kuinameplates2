@@ -35,17 +35,18 @@ function core:Create(f)
     self:CreateHealthText(f)
     self:CreateHighlight(f)
     self:CreateCastBar(f)
-    self:CreateAuras(f)
+    --self:CreateAuras(f)
     self:CreateThreatBrackets(f)
     self:CreateStateIcon(f)
     self:CreateRaidIcon(f)
     self:CreateNameOnlyGlow(f)
     self:CreateQuestIcon(f)
 end
+
 function core:Show(f)
     -- state helpers
-    f.state.friend = f.state.reaction > 4 or UnitIsFriend('player',f.unit)
-    f.state.class = select(2,UnitClass(f.unit))
+    f.state.friend = f.state.reaction > 4 or UnitIsFriend('player', f.unit)
+    f.state.class = select(2, UnitClass(f.unit))
     f.state.player = UnitIsPlayer(f.unit)
 
     -- go into nameonly mode if desired
@@ -83,23 +84,28 @@ function core:Show(f)
         f:UpdateTargetArrows()
     end
 end
+
 function core:Hide(f)
-    self:NameOnlyUpdate(f,true)
-    f:HideCastBar(nil,true)
+    self:NameOnlyUpdate(f, true)
+    f:HideCastBar(nil, true)
 end
+
 function core:HealthUpdate(f)
     f:UpdateHealthText()
 
     self:NameOnlyHealthUpdate(f)
 end
+
 function core:HealthColourChange(f)
     -- faction/reaction change
-    f.state.friend = f.state.reaction > 4 or UnitIsFriend('player',f.unit)
+    f.state.friend = f.state.reaction > 4 or UnitIsFriend('player', f.unit)
     self:NameOnlyCombatUpdate(f)
 end
+
 function core:PowerTypeUpdate(f)
     f:UpdatePowerBar()
 end
+
 function core:GlowColourChange(f)
     -- update nameonly upon threat state changes
     self:NameOnlyCombatUpdate(f)
@@ -112,12 +118,15 @@ function core:GlowColourChange(f)
     f:UpdateHealthText()
     f:UpdateLevelText()
 end
+
 function core:CastBarShow(f)
     f:ShowCastBar()
 end
-function core:CastBarHide(f,...)
+
+function core:CastBarHide(f, ...)
     f:HideCastBar(...)
 end
+
 function core:TargetUpdate(f)
     self:NameOnlyUpdate(f)
     self:ShowNameUpdate(f)
@@ -125,47 +134,58 @@ function core:TargetUpdate(f)
     f:UpdateLevelText()
     self:NameOnlyUpdateFunctions(f)
 end
+
 function core:GainedTarget(f)
     f.state.target = true
     self:TargetUpdate(f)
 end
+
 function core:LostTarget(f)
     f.state.target = nil
     self:TargetUpdate(f)
 end
+
 function core:ClassificationChanged(f)
     f:UpdateStateIcon()
 end
+
 function core:RaidIconUpdate(f)
     -- registered by configChanged, fade_avoid_raidicon
     plugin_fading:UpdateFrame(f)
 end
+
 function core:ExecuteUpdate(f)
     -- registered by configChanged, fade_avoid_execute_friend/hostile
     plugin_fading:UpdateFrame(f)
 end
+
 function core:OnEnter(f)
     f:UpdateHighlight()
 end
+
 function core:OnLeave(f)
     f:UpdateHighlight()
 end
+
 function core:Combat(f)
     -- enable/disable nameonly if enabled on enemies
     self:NameOnlyCombatUpdate(f)
 end
+
 function core:QuestUpdate(f)
     f:UpdateQuestIcon()
 end
+
 -- events ######################################################################
-function core:UNIT_NAME_UPDATE(_,f)
+function core:UNIT_NAME_UPDATE(_, f)
     -- update name text colour
     f:UpdateNameText()
 end
+
 -- #############################################################################
 local CreateLODHandler
 do
-    local opt,saved_command
+    local opt, saved_command
     local function LoadConfig()
         if IsAddOnLoaded('Kui_Nameplates_Core_Config') then return end
         if InCombatLockdown() then
@@ -174,8 +194,8 @@ do
             return
         end
 
-        opt:SetScript('OnShow',nil)
-        opt:SetScript('OnEvent',nil)
+        opt:SetScript('OnShow', nil)
+        opt:SetScript('OnEvent', nil)
         opt:UnregisterEvent('PLAYER_REGEN_ENABLED')
 
         SLASH_KUINAMEPLATES_LOD1 = nil
@@ -193,7 +213,7 @@ do
             self:Show()
         end
     end
-    local function lod_OnEvent(self,event)
+    local function lod_OnEvent(self, event)
         if event == 'PLAYER_REGEN_ENABLED' then
             if LoadConfig() then
                 SlashCmdList.KUINAMEPLATESCORE(saved_command)
@@ -219,12 +239,12 @@ do
         SlashCmdList.KUINAMEPLATES_LOD = lod_Slash
 
         -- create options category
-        opt = CreateFrame('Frame','KuiNameplatesCoreConfig',InterfaceOptionsFramePanelContainer)
+        opt = CreateFrame('Frame', 'KuiNameplatesCoreConfig', InterfaceOptionsFramePanelContainer)
         opt:Hide()
         opt.name = 'Kui |cff9966ffNameplates Core'
 
-        opt:SetScript('OnShow',lod_OnShow)
-        opt:SetScript('OnEvent',lod_OnEvent)
+        opt:SetScript('OnShow', lod_OnShow)
+        opt:SetScript('OnEvent', lod_OnEvent)
 
         if InterfaceOptions_AddCategory then
             InterfaceOptions_AddCategory(opt)
@@ -237,9 +257,9 @@ do
 end
 -- fade rules ##################################################################
 do
-    local avoid_cast_friend,avoid_cast_hostile,
-          avoid_cast_interrupt,avoid_cast_uninterrupt,
-          friendly_npc_exclude_titled
+    local avoid_cast_friend, avoid_cast_hostile,
+    avoid_cast_interrupt, avoid_cast_uninterrupt,
+    friendly_npc_exclude_titled
 
     -- table for simple rules where profile_key = {
     --   function,
@@ -258,11 +278,11 @@ do
     end, 1, function() core:RegisterMessage('RaidIconUpdate') end }
     fade_rules.fade_avoid_execute_friend = { function(f)
         return f.state.friend and
-               f.state.in_execute_range and 1
+            f.state.in_execute_range and 1
     end, 21, function() core:RegisterMessage('ExecuteUpdate') end }
     fade_rules.fade_avoid_execute_hostile = { function(f)
         return not f.state.friend and
-               f.state.in_execute_range and 1
+            f.state.in_execute_range and 1
     end, 21, function() core:RegisterMessage('ExecuteUpdate') end }
     fade_rules.fade_avoid_tracked = { function(f)
         return f.state.tracked and 1
@@ -272,16 +292,16 @@ do
     end, 23 }
     fade_rules.fade_neutral_enemy = { function(f)
         return f.state.reaction == 4 and
-               UnitCanAttack('player',f.unit) and -1
+            UnitCanAttack('player', f.unit) and -1
     end, 25 }
     fade_rules.fade_friendly_npc = { function(f)
-        if  f.state.reaction >= 4 and
+        if f.state.reaction >= 4 and
             not UnitIsPlayer(f.unit) and
             -- (^ this can't use the layout's state helper)
-            not UnitCanAttack('player',f.unit)
+            not UnitCanAttack('player', f.unit)
         then
             return (not friendly_npc_exclude_titled or
-                    not f.state.guild_text) and -1
+                not f.state.guild_text) and -1
         end
     end, 25 }
     fade_rules.fade_untracked = { function(f)
@@ -300,7 +320,7 @@ do
         end
     end
     local function FadeRule_Casting_CanAttack(f)
-        if UnitCanAttack('player',f.unit) then
+        if UnitCanAttack('player', f.unit) then
             return avoid_cast_hostile and FadeRule_Casting_Interruptible(f) or nil
         else
             return avoid_cast_friend and FadeRule_Casting_Interruptible(f) or nil
@@ -314,7 +334,7 @@ do
         friendly_npc_exclude_titled = self.profile.fade_friendly_npc_exclude_titled
 
         if self.profile.fade_avoid_casting_interruptible or
-           self.profile.fade_avoid_casting_uninterruptible
+            self.profile.fade_avoid_casting_uninterruptible
         then
             avoid_cast_friend = self.profile.fade_avoid_casting_friendly
             avoid_cast_hostile = self.profile.fade_avoid_casting_hostile
@@ -324,10 +344,10 @@ do
                 if f.state.casting then
                     return FadeRule_Casting_CanAttack(f)
                 end
-            end,24,'core_fade_avoid_casting')
+            end, 24, 'core_fade_avoid_casting')
         end
 
-        for rule_name,rule_tbl in pairs(fade_rules) do
+        for rule_name, rule_tbl in pairs(fade_rules) do
             if self.profile[rule_name] then
                 if type(rule_tbl) == 'function' then
                     -- simple function
@@ -337,7 +357,7 @@ do
                     plugin_fading:AddFadeRule(
                         rule_tbl[1],
                         rule_tbl[2],
-                        'core_'..rule_name)
+                        'core_' .. rule_name)
 
                     if rule_tbl[3] then
                         -- run post-add
@@ -376,12 +396,12 @@ function core:Initialise()
     self:RegisterUnitEvent('UNIT_NAME_UPDATE')
 
     -- register callbacks
-    self:AddCallback('Auras','PostCreateAuraButton',self.Auras_PostCreateAuraButton)
-    self:AddCallback('Auras','PostDisplayAuraButton',self.Auras_PostDisplayAuraButton)
-    self:AddCallback('Auras','PostUpdateAuraFrame',self.Auras_PostUpdateAuraFrame)
-    self:AddCallback('Auras','DisplayAura',self.Auras_DisplayAura)
-    self:AddCallback('ClassPowers','PostPositionFrame',self.ClassPowers_PostPositionFrame)
-    self:AddCallback('ClassPowers','CreateBar',self.ClassPowers_CreateBar)
+    self:AddCallback('Auras', 'PostCreateAuraButton', self.Auras_PostCreateAuraButton)
+    self:AddCallback('Auras', 'PostDisplayAuraButton', self.Auras_PostDisplayAuraButton)
+    self:AddCallback('Auras', 'PostUpdateAuraFrame', self.Auras_PostUpdateAuraFrame)
+    self:AddCallback('Auras', 'DisplayAura', self.Auras_DisplayAura)
+    self:AddCallback('ClassPowers', 'PostPositionFrame', self.ClassPowers_PostPositionFrame)
+    self:AddCallback('ClassPowers', 'CreateBar', self.ClassPowers_CreateBar)
 
     -- set element configuration tables
     self:InitialiseElements()
