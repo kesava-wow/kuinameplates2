@@ -1024,18 +1024,10 @@ do
             f.CastBar.AnimGroup:Stop()
         end
 
-        if f.cast_state.interruptible then
-            CastBarSetColour(f.CastBar, CASTBAR_COLOUR)
-
-            if f.elements.SpellShield then
-                f.SpellShield:Hide()
-            end
-        else
-            CastBarSetColour(f.CastBar, CASTBAR_UNIN_COLOUR)
-
-            if f.elements.SpellShield then
-                f.SpellShield:Show()
-            end
+        if f.elements.SpellShield then
+            -- TODO: castbar uninterruptible colour?
+            f.SpellShield:Show()
+            f.SpellShield:SetAlphaFromBoolean(f.cast_state.notInterruptible, 1, 0)
         end
 
         f.CastBar:Show()

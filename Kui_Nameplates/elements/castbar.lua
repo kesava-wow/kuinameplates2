@@ -21,10 +21,10 @@
         `cast_state` table, as such:
             name = The spell's name.
             icon = The spell's icon texture.
-            start_time = Time of cast start (in seconds)
-            end_time = Time of cast end.
+            start_time = Time of cast start (in milliseconds) (secret)
+            end_time = Time of cast end. (secret)
             guid = Cast event GUID.
-            interruptible = True if the cast can be interrupted.
+            notInterruptible = True if the cast can not be interrupted.
 
     CastBarHide(frame,hide_cause,force)
         Informs the layout that the cast bar should be hidden.
@@ -47,6 +47,8 @@ ele.HIDE_INTERRUPT = 1
 ele.HIDE_STOP = 2
 ele.HIDE_SUCCESS = 3
 
+local SMOOTHING = Enum.StatusBarInterpolation.Immediate
+
 -- cast bar update scripts #####################################################
 local function CastBarUpdate_Cast(self, elap)
     self.parent.CastBar:SetValue(self.parent.CastBar:GetValue() + elap)
@@ -59,18 +61,7 @@ function addon.Nameplate.CastBarShow(f)
     f = f.parent
 
     if f.elements.CastBar then
-        f.CastBar:SetMinMaxValues(0, f.cast_state.end_time - f.cast_state.start_time)
-
-        if f.cast_state.channel then
-            f.CastBar:SetValue((f.cast_state.end_time - f.cast_state.start_time) - (GetTime() - f.cast_state.start_time))
-            f.CastBarUpdateFrame:SetScript('OnUpdate', CastBarUpdate_Channel)
-        else
-            f.CastBar:SetValue(GetTime() - f.cast_state.start_time)
-            f.CastBarUpdateFrame:SetScript('OnUpdate', CastBarUpdate_Cast)
-        end
-
-        f.CastBarUpdateFrame.duration = nil
-        f.CastBarUpdateFrame:Show()
+        f.CastBar:SetTimerDuration(f.cast_state.duration, SMOOTHING, f.cast_state.direction)
     end
 
     if f.elements.SpellName then
@@ -88,9 +79,6 @@ function addon.Nameplate.CastBarHide(f, hide_cause, force)
     f = f.parent
     if not f.state.casting then return end
 
-    f.CastBarUpdateFrame:SetScript('OnUpdate', nil)
-    f.CastBarUpdateFrame:Hide()
-
     f.state.casting = nil
     wipe(f.cast_state)
 
@@ -98,15 +86,6 @@ function addon.Nameplate.CastBarHide(f, hide_cause, force)
 end
 
 -- messages ####################################################################
-function ele:Create(f)
-    if not f.CastBarUpdateFrame then
-        f.CastBarUpdateFrame = CreateFrame('Frame')
-        f.CastBarUpdateFrame:Hide()
-        f.CastBarUpdateFrame.parent = f
-        f.cast_state = {}
-    end
-end
-
 function ele:Show(f)
     if UnitCastingInfo(f.unit) then
         self:CastStart('UNIT_SPELLCAST_START', f, f.unit)
@@ -131,46 +110,68 @@ end
 
 -- events ######################################################################
 function ele:CastStart(event, f, unit)
-    local name, text, texture, startTime, endTime, guid, notInterruptible
+    local _, duration, direction, name, text, texture, startTime, endTime, isTradeSkill, notInterruptible, numStages, castBarId, spellId, isEmpowered
+
+    f.cast_state = f.cast_state or {}
+    wipe(f.cast_state)
+    direction = Enum.StatusBarTimerDirection.ElapsedTime
+
     if event == 'UNIT_SPELLCAST_CHANNEL_START' or event == 'UNIT_SPELLCAST_EMPOWER_START' then
-        name, text, texture, startTime, endTime, _, notInterruptible, _, numStages = UnitChannelInfo(unit)
+        name, text, texture, startTime, endTime, isTradeSkill, notInterruptible, spellId, isEmpowered, numStages, castBarId =
+            UnitChannelInfo(unit)
+
+        if isEmpowered or event == 'UNIT_SPELLCAST_EMPOWER_START' then
+            f.cast_state.empowered = true
+            duration = UnitEmpoweredChannelDuration(unit)
+        else
+            f.cast_state.channel = true
+            duration = UnitChannelDuration(unit)
+            direction = Enum.StatusBarTimerDirection.RemainingTime
+        end
     else
-        name, text, texture, startTime, endTime, _, guid, notInterruptible = UnitCastingInfo(unit)
+        name, text, texture, startTime, endTime, isTradeSkill, _, notInterruptible, spellId, castBarId = UnitCastingInfo(
+            unit)
+        duration = UnitCastingDuration(unit)
     end
     if not name then return end
 
-    f.state.casting            = true
-    f.cast_state.name          = text or name
-    f.cast_state.icon          = texture
-    f.cast_state.guid          = guid
-    f.cast_state.interruptible = not (notInterruptible == true)
-    -- (we check not == true because this var doesn't exist on classic)
-    f.cast_state.num_stages    = numStages == true
-    f.cast_state.empowered     = event == 'UNIT_SPELLCAST_EMPOWER_START'
-    f.cast_state.channel       = event == 'UNIT_SPELLCAST_CHANNEL_START'
-    f.cast_state.start_time    = startTime / 1000
-    f.cast_state.end_time      = endTime / 1000
+    f.state.casting               = true
+    f.cast_state.name             = text or name
+    f.cast_state.icon             = texture
+    f.cast_state.isTradeSkill     = notInterruptible
+    f.cast_state.notInterruptible = notInterruptible
+    f.cast_state.num_stages       = numStages == true
+    f.cast_state.start_time       = startTime
+    f.cast_state.end_time         = endTime
+    f.cast_state.duration         = duration
+    f.cast_state.direction        = direction
+    f.cast_state.spellId          = spellId
+    f.cast_state.castBarId        = castBarId
 
     f.handler:CastBarShow()
 end
 
-function ele:CastStop(event, f, _, guid)
-    if not f.state.casting or guid ~= f.cast_state.guid then return end
+function ele:CastStop(event, f, _, _, _, castBarId)
+    if not f.state.casting or castBarId ~= f.cast_state.castBarId then return end
     f.handler:CastBarHide(
         ((event == 'UNIT_SPELLCAST_INTERRUPTED' or event == 'UNIT_SPELLCAST_FAILED') and ele.HIDE_INTERRUPT) or
         (event == 'UNIT_SPELLCAST_SUCCEEDED' and ele.HIDE_SUCCESS) or
         ele.HIDE_STOP)
 end
 
+function ele:CastInterrupted(event, f, _, _, _, _, castBarId)
+    self:CastStop(event, f, _, _, _, castBarId)
+end
+
 function ele:CastInterruptible(_, f)
     if not f.state.casting then return end
-    f.cast_state.interruptible = true
+    f.cast_state.notInterruptible = false
     f.handler:CastBarShow()
 end
 
 function ele:CastNotInterruptible(_, f)
     if not f.state.casting then return end
-    f.cast_state.interruptible = false
+    f.cast_state.notInterruptible = true
     f.handler:CastBarShow()
 end
 
@@ -187,8 +188,8 @@ function ele:CastUpdate(_, f, unit)
         return
     end
 
-    f.cast_state.start_time = startTime / 1000
-    f.cast_state.end_time   = endTime / 1000
+    f.cast_state.start_time = startTime
+    f.cast_state.end_time   = endTime
 
     f.handler:CastBarShow()
 end
@@ -264,7 +265,7 @@ function ele:OnEnable()
         self:RegisterUnitEvent('UNIT_SPELLCAST_START', 'CastStart')
         self:RegisterUnitEvent('UNIT_SPELLCAST_STOP', 'CastStop')
         self:RegisterUnitEvent('UNIT_SPELLCAST_DELAYED', 'CastUpdate')
-        self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED', 'CastStop')
+        self:RegisterUnitEvent('UNIT_SPELLCAST_INTERRUPTED', 'CastInterrupted')
         self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED', 'CastStop')
         self:RegisterUnitEvent('UNIT_SPELLCAST_FAILED', 'CastStop')
 
@@ -293,7 +294,6 @@ function ele:OnEnable()
         return false
     end
 
-    self:RegisterMessage('Create')
     self:RegisterMessage('Show')
     self:RegisterMessage('Hide')
 
