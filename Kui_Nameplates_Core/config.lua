@@ -603,11 +603,12 @@ configChanged.castbar_detach_combine = configChangedCastBar
 configChanged.castbar_icon_side = configChangedCastBar
 
 function configChanged.classpowers_enable(v)
-    if v then
-        addon:GetPlugin('ClassPowers'):Enable()
-    else
-        addon:GetPlugin('ClassPowers'):Disable()
-    end
+    -- TODO: midnight
+    -- if v then
+    --     addon:GetPlugin('ClassPowers'):Enable()
+    -- else
+    --     addon:GetPlugin('ClassPowers'):Disable()
+    -- end
 end
 
 local function configChangedClassPowers()
@@ -616,7 +617,8 @@ local function configChangedClassPowers()
     core.ClassPowers.icon_size = core:Scale(core.profile.classpowers_size)
     core.ClassPowers.bar_width = core:Scale(core.profile.classpowers_bar_width)
     core.ClassPowers.bar_height = core:Scale(core.profile.classpowers_bar_height)
-    addon:GetPlugin('ClassPowers'):UpdateConfig()
+    -- TODO: midnight
+    --addon:GetPlugin('ClassPowers'):UpdateConfig()
 end
 configChanged.classpowers_size = configChangedClassPowers
 configChanged.classpowers_on_target = configChangedClassPowers
@@ -636,9 +638,10 @@ local function configChangedClassPowersColour()
     core.ClassPowers.colours.animacharged = core.profile.classpowers_colour_animacharged
     core.ClassPowers.colours.animacharged_active = core.profile.classpowers_colour_animacharged_active
 
-    if addon:GetPlugin('ClassPowers').enabled then
-        addon:GetPlugin('ClassPowers'):UpdateConfig()
-    end
+    -- TODO: midnight
+    -- if addon:GetPlugin('ClassPowers').enabled then
+    --     addon:GetPlugin('ClassPowers'):UpdateConfig()
+    -- end
 end
 configChanged.classpowers_colour_deathknight = configChangedClassPowersColour
 configChanged.classpowers_colour_druid = configChangedClassPowersColour
@@ -868,11 +871,12 @@ configLoaded.state_icons = configChanged.state_icons
 configLoaded.combat_hostile = configChangedCombatAction
 
 function configLoaded.classpowers_enable(v)
-    if v then
-        addon:GetPlugin('ClassPowers'):Enable()
-    else
-        addon:GetPlugin('ClassPowers'):Disable()
-    end
+    -- TODO: midnight
+    -- if v then
+    --     addon:GetPlugin('ClassPowers'):Enable()
+    -- else
+    --     addon:GetPlugin('ClassPowers'):Disable()
+    -- end
 end
 
 local function configLoadedFadeRule()
