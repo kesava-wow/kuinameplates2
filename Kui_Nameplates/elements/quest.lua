@@ -14,7 +14,7 @@ local function TooltipScanLines(func)
     for i = 3, tooltip:NumLines() do
         line = _G['KNPQuestTooltipTextLeft' .. i]
         text = line and line:GetText()
-        if not text then break end
+        if not text or issecretvalue(text) then break end
         -- quest progress text is indented, so...
         if floor((select(4, line:GetPoint(2)) or 0) + .5) == 28 then
             r = func(text)

@@ -31,7 +31,7 @@ function mod:Show(f)
             KNPNPCTitleTooltipTextLeft2:GetText()
 
         -- ignore strings matching TOOLTIP_UNIT_LEVEL
-        if not gtext or
+        if not gtext or issecretvalue(gtext) or
             (pattern and gtext:find(pattern)) or
             (pattern_type and gtext:find(pattern_type))
         then
