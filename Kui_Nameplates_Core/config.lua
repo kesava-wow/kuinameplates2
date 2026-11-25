@@ -230,7 +230,6 @@ local default_config = {
     classpowers_bar_width                  = 80,
     classpowers_bar_height                 = 5,
     classpowers_y                          = 1,
-    classpowers_y_personal                 = -8, -- XXX remove with 226_CLASSPOWERS_Y
 
     classpowers_colour_deathknight         = { 1, .2, .3 },
     classpowers_colour_druid               = { 1, 1, .1 },
@@ -961,56 +960,9 @@ function core:InitialiseConfig()
         'KNP will be moving from CurseForge. A future update will provide more detail. Thank you for your support. -- Kesava')
     --@end-alpha@
 
-
-    if KuiNameplatesCoreSaved then
-        -- XXX TEMP 2.27
-        if not KuiNameplatesCoreSaved['226_AURAS_TRANSITION'] then
-            -- rewrite old auras_cd/auras_count vars on all profiles where set
-            local function upd(prefix, profile)
-                local px = tonumber(profile[prefix .. '_point_x'] or default_config[prefix .. '_point_x'])
-                local py = tonumber(profile[prefix .. '_point_y'] or default_config[prefix .. '_point_y'])
-                profile[prefix .. '_point'] = px * py
-                profile[prefix .. '_x'] = tonumber(profile[prefix .. '_offset_x'])
-                profile[prefix .. '_y'] = tonumber(profile[prefix .. '_offset_y'])
-            end
-            for _, profile in pairs(KuiNameplatesCoreSaved.profiles) do
-                upd('auras_cd', profile)
-                upd('auras_count', profile)
-            end
-        end
-        if not KuiNameplatesCoreSaved['226_TARGET_SIZE'] then
-            -- disable frame_target_size on extant profiles if
-            -- frame_{width/height} is greater than the target size
-            for _, profile in pairs(KuiNameplatesCoreSaved.profiles) do
-                if (profile.frame_target_size or profile.frame_target_size == nil) and
-                    ((profile.frame_width and profile.frame_width > (profile.frame_width_target or default_config.frame_width_target)) or
-                        (profile.frame_height and profile.frame_height > (profile.frame_height_target or default_config.frame_height_target)))
-                then
-                    profile.frame_target_size = false
-                end
-            end
-        end
-        if not KuiNameplatesCoreSaved['226_CLASSPOWERS_Y'] then
-            -- i did a quick-fix so now i have to do more work to undo it yay
-            -- (on all profiles, if set, copy classpowers_y_personal to classpowers_y)
-            for _, profile in pairs(KuiNameplatesCoreSaved.profiles) do
-                local on_personal = profile.classpowers_on_target == false
-                local y_personal = profile.classpowers_y_personal or default_config.classpowers_y_personal
-                if on_personal and y_personal then
-                    profile.classpowers_y = y_personal
-                end
-            end
-        end
-    end
-
     self.config = kc:Initialise('KuiNameplatesCore', default_config)
     self.config:RegisterConfigChanged(self, 'ConfigChanged')
     UpdateProfile()
-
-    -- XXX TEMP 2.27
-    KuiNameplatesCoreSaved['226_AURAS_TRANSITION'] = true
-    KuiNameplatesCoreSaved['226_TARGET_SIZE'] = true
-    KuiNameplatesCoreSaved['226_CLASSPOWERS_Y'] = true
 
     -- run config loaded functions
     for k, f in pairs(configLoaded) do
