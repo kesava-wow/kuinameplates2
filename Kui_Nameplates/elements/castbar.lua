@@ -23,7 +23,6 @@
             icon = The spell's icon texture.
             start_time = Time of cast start (in milliseconds) (secret)
             end_time = Time of cast end. (secret)
-            guid = Cast event GUID.
             notInterruptible = True if the cast can not be interrupted.
 
     CastBarHide(frame,hide_cause,force)
@@ -47,7 +46,9 @@ ele.HIDE_INTERRUPT = 1
 ele.HIDE_STOP = 2
 ele.HIDE_SUCCESS = 3
 
+-- TODO: move to config
 local SMOOTHING = Enum.StatusBarInterpolation.Immediate
+local IGNORE_TRADE_SKILLS = true
 
 -- cast bar update scripts #####################################################
 local function CastBarUpdate_Cast(self, elap)
@@ -134,6 +135,7 @@ function ele:CastStart(event, f, unit)
         duration = UnitCastingDuration(unit)
     end
     if not name then return end
+    if isTradeSkill and IGNORE_TRADE_SKILLS then return end
 
     f.state.casting               = true
     f.cast_state.name             = text or name
